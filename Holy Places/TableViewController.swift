@@ -19,9 +19,11 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     var templeDescription = String()
     var templeLatitude = String()
     var templeLongitude = String()
-        
+    
+    var sections : [(index: Int, length :Int, title: String)] = Array()
+    
     func refreshTemples(){
-        
+        // grab list of temples from LDSCHurchTemples.kml file and parse the XML
         guard let myURL = NSURL(string: "http://dacworld.net/Files/LDSChurchTemples.kml") else {
             print("URL not defined properly")
             return
@@ -37,14 +39,29 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             print("Error Description:\(error.localizedDescription)")
             print("Line number: \(parser.lineNumber)")
         }
-
+        // Sort by 
+        //temples.sort { $0.templeOrder < $1.templeOrder }
+        
+        //create index for array
+        var index = 0;
+        for i in (0 ..< temples.count ) {
+            let commonPrefix = temples[i].templeName.commonPrefix(with: temples[index].templeName, options: .caseInsensitive)
+            if ( commonPrefix.isEmpty ) {
+                let string = temples[index].templeName.uppercased();
+                let firstCharacter = string[string.startIndex]
+                let title = "\(firstCharacter)"
+                let newSection = (index: index, length: i - index, title: title)
+                sections.append(newSection)
+                index = i;
+            }
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshTemples()
-        tableView.contentInset.top = 20
-        tableView.scrollIndicatorInsets.top = 20
+        //tableView.contentInset.top = 20
+        //tableView.scrollIndicatorInsets.top = 20
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -61,22 +78,34 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return temples.count
+        return sections[section].length
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        let temple = temples[indexPath.row]
+        let temple = temples[sections[indexPath.section].index + indexPath.row]
         
         cell.textLabel?.text = temple.templeName
         cell.detailTextLabel?.text = temple.templeSnippet
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].title
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections.map {$0.title}
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
@@ -116,6 +145,24 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             temple.templeLatitude = templeLatitude
             temple.templeLongitude = templeLongitude
             
+            // Determine Order
+            let digits = CharacterSet.decimalDigits
+            
+            var number = String()
+            
+            for uni in temple.templeSnippet.unicodeScalars {
+                if digits.contains(uni) {
+                    number += uni.escaped(asASCII: true)
+                } else {
+                    if (number == ""){
+                        number = "1000"
+                    }
+                    break
+                }
+            }
+            print(number)
+            temple.templeOrder = Int16(number)!
+            
             temples.append(temple)
         }
     }
@@ -127,7 +174,7 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let temple = temples[indexPath.row]
+                let temple = temples[sections[indexPath.section].index + indexPath.row]
                 let controller = (segue.destination as! DetailViewController)
                 controller.detailItem = temple
                 controller.navigationItem.leftItemsSupplementBackButton = true

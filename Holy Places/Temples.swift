@@ -16,5 +16,6 @@ class Temple: NSObject {
     var templeDescription = String()
     var templeLatitude = String()
     var templeLongitude = String()
+    var templeOrder = Int16()
     
 }
