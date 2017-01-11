@@ -39,14 +39,18 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             print("Error Description:\(error.localizedDescription)")
             print("Line number: \(parser.lineNumber)")
         }
-        // Sort by 
+        // Sort by
         //temples.sort { $0.templeOrder < $1.templeOrder }
         
         //create index for array
-        var index = 0;
-        for i in (0 ..< temples.count ) {
-            let commonPrefix = temples[i].templeName.commonPrefix(with: temples[index].templeName, options: .caseInsensitive)
-            if ( commonPrefix.isEmpty ) {
+        var index = 0
+        var commonPrefix = ""
+        for i in (0 ..< (temples.count + 1) ) {
+            if (temples.count != i){
+                commonPrefix = temples[i].templeName.commonPrefix(with: temples[index].templeName, options: .caseInsensitive)
+            }
+            //print(temples.count)
+            if ( commonPrefix.isEmpty || temples.count == i) {
                 let string = temples[index].templeName.uppercased();
                 let firstCharacter = string[string.startIndex]
                 let title = "\(firstCharacter)"
@@ -60,8 +64,6 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshTemples()
-        //tableView.contentInset.top = 20
-        //tableView.scrollIndicatorInsets.top = 20
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -160,7 +162,7 @@ class TableViewController: UITableViewController, XMLParserDelegate {
                     break
                 }
             }
-            print(number)
+            //print(number)
             temple.templeOrder = Int16(number)!
             
             temples.append(temple)
