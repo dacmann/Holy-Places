@@ -5,13 +5,12 @@
         <attribute name="cityState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lctIMG" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lctURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="snippet" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="visit" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Visit" inverseName="place" inverseEntity="Visit" syncable="YES"/>
     </entity>
     <entity name="Visit" representedClassName="Visit" syncable="YES" codeGenerationType="class">
         <attribute name="baptisms" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -22,10 +21,9 @@
         <attribute name="holyPlace" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="initiatories" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="place" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Place" inverseName="visit" inverseEntity="Place" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Visit" positionX="232" positionY="-99" width="128" height="178"/>
-        <element name="Place" positionX="-36" positionY="-75" width="128" height="208"/>
+        <element name="Visit" positionX="232" positionY="-99" width="128" height="163"/>
+        <element name="Place" positionX="-36" positionY="-75" width="128" height="193"/>
     </elements>
 </model>

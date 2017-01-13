@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		642B345B1E27CDB700A56C77 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* CoreData.xcdatamodeld */; };
+		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
 		642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* UIImageView.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		642B345A1E27CDB700A56C77 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
 				64FDE6FC1E21863A00951A58 /* Info.plist */,
-				642B34591E27CDB700A56C77 /* CoreData.xcdatamodeld */,
+				642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */,
 			);
 			path = "Holy Places";
 			sourceTree = "<group>";
@@ -162,7 +162,7 @@
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */,
 				64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */,
-				642B345B1E27CDB700A56C77 /* CoreData.xcdatamodeld in Sources */,
+				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,13 +329,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		642B34591E27CDB700A56C77 /* CoreData.xcdatamodeld */ = {
+		642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				642B345A1E27CDB700A56C77 /* CoreData.xcdatamodel */,
+				642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */,
 			);
-			currentVersion = 642B345A1E27CDB700A56C77 /* CoreData.xcdatamodel */;
-			path = CoreData.xcdatamodeld;
+			currentVersion = 642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */;
+			path = HolyData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

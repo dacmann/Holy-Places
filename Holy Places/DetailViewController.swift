@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
             if let label = self.templeName {
                 label.text = detail.templeName
                 //let templeURL: String = detail.templeName.folding(options: .diacriticInsensitive, locale: .current)
-                print(detail.templePictureURL)
+                //print(detail.templePictureURL)
                 templeSnippet.text = detail.templeSnippet
                 templeImage.downloadedFrom(link: detail.templePictureURL)
                 templeAddress.text = detail.templeAddress
