@@ -11,6 +11,10 @@
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="snippet" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PlaceVersions" representedClassName="PlaceVersions" syncable="YES" codeGenerationType="class">
+        <attribute name="versionNum" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Visit" representedClassName="Visit" syncable="YES" codeGenerationType="class">
         <attribute name="baptisms" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -23,7 +27,8 @@
         <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Place" positionX="-36" positionY="-75" width="128" height="210"/>
+        <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
         <element name="Visit" positionX="232" positionY="-99" width="128" height="163"/>
-        <element name="Place" positionX="-36" positionY="-75" width="128" height="193"/>
     </elements>
 </model>

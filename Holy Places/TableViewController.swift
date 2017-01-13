@@ -24,6 +24,8 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     var templeLatitude = String()
     var templeLongitude = String()
     var templePictureURL = String()
+    var templeType = String()
+    var placeDataVersion = String()
     
     var sections : [(index: Int, length :Int, title: String)] = Array()
     
@@ -44,9 +46,8 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             print("Could not delete \(error), \(error.userInfo)")
         }
         
-        //retrieve the entity that we just created
+        //retrieve the entity
         let entity =  NSEntityDescription.entity(forEntityName: "Place", in: context)
-        //entity?.managedObjectModel.entities.removeAll()
         
         //set the entity values
         for temple in temples {
@@ -60,6 +61,7 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             place.setValue(temple.templeLongitude, forKey: "longitude")
             place.setValue(temple.templePhone, forKey: "phone")
             place.setValue(temple.templePictureURL, forKey: "pictureURL")
+            place.setValue(temple.templeType, forKey: "type")
             place.setValue(temple.templeOrder, forKey: "order")
             //save the object
             do {
@@ -70,6 +72,56 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             } catch {
                 
             }
+        }
+
+    }
+    
+    func savePlaceVersion () {
+        let context = getContext()
+        
+        //retrieve the entity
+        let entity =  NSEntityDescription.entity(forEntityName: "PlaceVersions", in: context)
+        
+        // Delete the existing data
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PlaceVersions")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            try context.execute(request)
+            print("deleting saved PlaceVersions")
+        } catch let error as NSError {
+            print("Could not delete \(error), \(error.userInfo)")
+        }
+        
+        //set the entity values
+        let version = NSManagedObject(entity: entity!, insertInto: context)
+        version.setValue(placeDataVersion, forKey: "versionNum")
+        //save the object
+        do {
+            try context.save()
+            print("saved version")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        } catch {}
+        
+    }
+    
+    func getPlaceVersion () {
+        let fetchRequest: NSFetchRequest<PlaceVersions> = PlaceVersions.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try getContext().fetch(fetchRequest)
+            
+            //I like to check the size of the returned results!
+            print ("num of results = \(searchResults.count)")
+            
+            //You need to convert to NSManagedObject to use 'for' loops
+            for version in searchResults as [NSManagedObject] {
+                placeDataVersion = version.value(forKey: "versionNum") as! String
+                print("Place Data Version: " + placeDataVersion)
+            }
+        } catch {
+            print("Error with request: \(error)")
         }
 
     }
@@ -97,9 +149,10 @@ class TableViewController: UITableViewController, XMLParserDelegate {
                 temple.templeLatitude = place.value(forKey: "latitude") as! String
                 temple.templeLongitude = place.value(forKey: "longitude") as! String
                 temple.templePictureURL = place.value(forKey: "pictureURL") as! String
+                temple.templeType = place.value(forKey: "type") as! String
                 temple.templeOrder = place.value(forKey: "order") as! Int16
                 temples.append(temple)
-                print("\(place.value(forKey: "order"))")
+                //print("\(place.value(forKey: "order"))")
             }
         } catch {
             print("Error with request: \(error)")
@@ -107,6 +160,9 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     }
     
     func refreshTemples(){
+        
+        // Get version of saved data
+        getPlaceVersion()
         
         // grab list of temples from LDSCHurchTemples.kml file and parse the XML
         guard let myURL = NSURL(string: "http://dacworld.net/Files/HolyPlaces.xml") else {
@@ -123,13 +179,12 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             // Save updated places to CoreData
             storePlaces()
         } else {
-            print("Data Errors Exist:")
+            print("Data parsing aborted")
             let error = parser.parserError!
             print("Error Description:\(error.localizedDescription)")
             print("Line number: \(parser.lineNumber)")
             getPlaces()
         }
-        
         
         // Sort by
         //temples.sort { $0.templeOrder < $1.templeOrder }
@@ -215,6 +270,7 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             templeLatitude = String()
             templeLongitude = String()
             templePictureURL = String()
+            templeType = String()
         }
     }
     
@@ -230,6 +286,16 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             case "latitude": templeLatitude += string
             case "longitude": templeLongitude += string
             case "lct_img": templePictureURL += string
+            case "type": templeType += string
+            case "Version":
+                if (string == placeDataVersion) {
+                    print("XML Data Version has not changed")
+                    parser.abortParsing()
+                    break
+                } else {
+                    placeDataVersion += string
+                    savePlaceVersion()
+                }
             default: return
             }
         }
@@ -247,6 +313,7 @@ class TableViewController: UITableViewController, XMLParserDelegate {
             temple.templeLatitude = templeLatitude
             temple.templeLongitude = templeLongitude
             temple.templePictureURL = templePictureURL
+            temple.templeType = templeType
             
             // Determine Order
             let digits = CharacterSet.decimalDigits

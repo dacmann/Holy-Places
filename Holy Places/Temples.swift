@@ -20,5 +20,6 @@ class Temple: NSObject {
     var templeLongitude = String()
     var templeOrder = Int16()
     var templePictureURL = String()
+    var templeType = String()
     
 }
