@@ -13,9 +13,12 @@ class Temple: NSObject {
     var templeName = String()
     var templeAddress = String()
     var templeSnippet = String()
-    var templeDescription = String()
+    var templeCityState = String()
+    var templeCountry = String()
+    var templePhone = String()
     var templeLatitude = String()
     var templeLongitude = String()
     var templeOrder = Int16()
+    var templePictureURL = String()
     
 }

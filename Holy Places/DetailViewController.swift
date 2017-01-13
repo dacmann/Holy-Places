@@ -12,17 +12,25 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var templeSnippet: UILabel!
-    @IBOutlet weak var templeDescription: UIWebView!
+    @IBOutlet weak var templeImage: UIImageView!
+    @IBOutlet weak var templeAddress: UILabel!
+    @IBOutlet weak var templeCityState: UILabel!
+    @IBOutlet weak var templePhone: UILabel!
+    @IBOutlet weak var templeCountry: UILabel!
     
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
             if let label = self.templeName {
                 label.text = detail.templeName
-                let templeURL: String = detail.templeName.folding(options: .diacriticInsensitive, locale: .current)
-                print(templeURL)
-                templeDescription.loadHTMLString(detail.templeDescription, baseURL: nil)
+                //let templeURL: String = detail.templeName.folding(options: .diacriticInsensitive, locale: .current)
+                print(detail.templePictureURL)
                 templeSnippet.text = detail.templeSnippet
+                templeImage.downloadedFrom(link: detail.templePictureURL)
+                templeAddress.text = detail.templeAddress
+                templeCityState.text = detail.templeCityState
+                templeCountry.text = detail.templeCountry
+                templePhone.text = detail.templePhone
             }
         }
     }

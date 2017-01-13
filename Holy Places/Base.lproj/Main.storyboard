@@ -137,11 +137,8 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
-                                <rect key="frame" x="28" y="49" width="331" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="ykG-gK-qsN"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
+                                <rect key="frame" x="28" y="257" width="331" height="36"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeName">
                                         <attributes>
@@ -151,8 +148,8 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
-                                <rect key="frame" x="28" y="93" width="331" height="26"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
+                                <rect key="frame" x="28" y="301" width="317" height="21"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeSnippet">
                                         <attributes>
@@ -163,29 +160,94 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="80G-TR-b95">
-                                <rect key="frame" x="16" y="211" width="343" height="335"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4c-FT-uXD">
+                                <rect key="frame" x="28" y="366" width="317" height="21"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="templeAddress">
+                                        <attributes>
+                                            <font key="NSFont" size="16" name="Baskerville"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJ3-89-f69">
+                                <rect key="frame" x="28" y="395" width="317" height="21"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="templeCityState">
+                                        <attributes>
+                                            <font key="NSFont" size="16" name="Baskerville"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oB9-rE-KRQ">
+                                <rect key="frame" x="28" y="424" width="331" height="21"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="templeCountry">
+                                        <attributes>
+                                            <font key="NSFont" size="16" name="Baskerville"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
+                                <rect key="frame" x="0.0" y="5" width="375" height="232"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="232" id="kkx-Nw-lau"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6QY-hG-sQ5">
+                                <rect key="frame" x="28" y="470" width="331" height="21"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="templePhone">
+                                        <attributes>
+                                            <font key="NSFont" size="16" name="Baskerville"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" id="6BA-U2-q5i"/>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="SYy-Ur-5T4" secondAttribute="bottom" constant="49" id="7FX-pH-7iY"/>
-                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="8" symbolic="YES" id="Aoh-pn-1WN"/>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="leading" secondItem="XIJ-sk-hj8" secondAttribute="leading" id="DgX-VC-cCe"/>
-                            <constraint firstItem="80G-TR-b95" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" priority="999" constant="92" id="HtL-Cv-Aim"/>
-                            <constraint firstItem="80G-TR-b95" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" id="die-J3-pI1"/>
-                            <constraint firstItem="xaJ-yQ-ey3" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" priority="999" constant="435" id="hAF-S0-UOY"/>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="trailing" secondItem="XIJ-sk-hj8" secondAttribute="trailing" id="l11-SG-9Jr"/>
-                            <constraint firstItem="xaJ-yQ-ey3" firstAttribute="top" secondItem="80G-TR-b95" secondAttribute="bottom" constant="8" symbolic="YES" id="oDz-d9-qja"/>
-                            <constraint firstItem="80G-TR-b95" firstAttribute="trailing" secondItem="XIJ-sk-hj8" secondAttribute="trailing" id="y54-Gq-i6Z"/>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="zeH-1Q-9s5"/>
+                            <constraint firstItem="k4c-FT-uXD" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="3ZT-2Y-69Y"/>
+                            <constraint firstItem="6QY-hG-sQ5" firstAttribute="top" secondItem="oB9-rE-KRQ" secondAttribute="bottom" constant="25" id="4TI-LZ-DWs"/>
+                            <constraint firstItem="oB9-rE-KRQ" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" constant="12" id="BYy-KT-UiF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XIJ-sk-hj8" secondAttribute="trailing" constant="12" id="Bsa-XR-Ybf"/>
+                            <constraint firstItem="oB9-rE-KRQ" firstAttribute="top" secondItem="MJ3-89-f69" secondAttribute="bottom" constant="8" id="Buf-sd-n7X"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k4c-FT-uXD" secondAttribute="trailing" constant="12" id="Ci6-vz-wXv"/>
+                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="14" id="Gmf-3Q-AvA"/>
+                            <constraint firstItem="MJ3-89-f69" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="HXk-nw-MuZ"/>
+                            <constraint firstItem="6QY-hG-sQ5" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" constant="12" id="Lr5-RR-4Gw"/>
+                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="hqj-pp-6Th" secondAttribute="bottom" constant="20" id="MCS-Kz-JGG"/>
+                            <constraint firstItem="6QY-hG-sQ5" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="MyO-f8-RWp"/>
+                            <constraint firstAttribute="trailing" secondItem="hqj-pp-6Th" secondAttribute="trailing" id="ReA-lv-ico"/>
+                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="hqj-pp-6Th" secondAttribute="bottom" constant="20" id="Sy6-GM-Zxh"/>
+                            <constraint firstItem="k4c-FT-uXD" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="UGu-Yq-s2w"/>
+                            <constraint firstItem="oB9-rE-KRQ" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="Vna-2j-tpB"/>
+                            <constraint firstItem="hqj-pp-6Th" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leading" id="Ywo-9O-4mc"/>
+                            <constraint firstItem="hqj-pp-6Th" firstAttribute="top" secondItem="SYy-Ur-5T4" secondAttribute="bottom" constant="5" id="dcB-PL-PCs"/>
+                            <constraint firstItem="MJ3-89-f69" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" constant="12" id="dvx-6F-3bR"/>
+                            <constraint firstItem="MJ3-89-f69" firstAttribute="top" secondItem="k4c-FT-uXD" secondAttribute="bottom" constant="8" id="mA4-HH-hdM"/>
+                            <constraint firstItem="k4c-FT-uXD" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" constant="44" id="tK6-Ik-LVx"/>
+                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="uXD-fg-AAd"/>
+                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="8" id="y8w-5a-CMF"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="templeDescription" destination="80G-TR-b95" id="0fy-r3-EBf"/>
+                        <outlet property="templeAddress" destination="k4c-FT-uXD" id="iuf-gy-O7C"/>
+                        <outlet property="templeCityState" destination="MJ3-89-f69" id="sBO-ib-MIF"/>
+                        <outlet property="templeCountry" destination="oB9-rE-KRQ" id="Kry-NJ-5W9"/>
+                        <outlet property="templeImage" destination="hqj-pp-6Th" id="pDo-nE-ukh"/>
                         <outlet property="templeName" destination="kBr-CG-1Lf" id="piT-sg-CsA"/>
+                        <outlet property="templePhone" destination="6QY-hG-sQ5" id="jcJ-iw-jwy"/>
                         <outlet property="templeSnippet" destination="XIJ-sk-hj8" id="0Qb-TQ-PPc"/>
                     </connections>
                 </viewController>

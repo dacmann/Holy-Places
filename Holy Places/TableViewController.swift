@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import CoreData
 
 class TableViewController: UITableViewController, XMLParserDelegate {
     
@@ -16,15 +18,18 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     var templeName = String()
     var templeAddress = String()
     var templeSnippet = String()
-    var templeDescription = String()
+    var templeCityState = String()
+    var templeCountry = String()
+    var templePhone = String()
     var templeLatitude = String()
     var templeLongitude = String()
+    var templePictureURL = String()
     
     var sections : [(index: Int, length :Int, title: String)] = Array()
     
     func refreshTemples(){
         // grab list of temples from LDSCHurchTemples.kml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/Files/LDSChurchTemples.kml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/Files/HolyPlaces.xml") else {
             print("URL not defined properly")
             return
         }
@@ -113,13 +118,16 @@ class TableViewController: UITableViewController, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
         eName = elementName
-        if elementName == "Placemark" {
+        if elementName == "Place" {
             templeName = String()
             templeAddress = String()
             templeSnippet = String()
-            templeDescription = String()
+            templeCityState = String()
+            templeCountry = String()
+            templePhone = String()
             templeLatitude = String()
             templeLongitude = String()
+            templePictureURL = String()
         }
     }
     
@@ -127,25 +135,31 @@ class TableViewController: UITableViewController, XMLParserDelegate {
         if (!string.isEmpty){
             switch eName {
             case "name": templeName += string
-            case "address": templeAddress += string
+            case "Address": templeAddress += string
             case "Snippet": templeSnippet += string
-            case "description": templeDescription += string
+            case "CityState": templeCityState += string
+            case "Country": templeCountry += string
+            case "Phone": templePhone += string
             case "latitude": templeLatitude += string
             case "longitude": templeLongitude += string
+            case "lct_img": templePictureURL += string
             default: return
             }
         }
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if (elementName == "Placemark"){
+        if (elementName == "Place"){
             let temple = Temple()
             temple.templeName = templeName
             temple.templeSnippet = templeSnippet
             temple.templeAddress = templeAddress
-            temple.templeDescription = templeDescription
+            temple.templeCityState = templeCityState
+            temple.templeCountry = templeCountry
+            temple.templePhone = templePhone
             temple.templeLatitude = templeLatitude
             temple.templeLongitude = templeLongitude
+            temple.templePictureURL = templePictureURL
             
             // Determine Order
             let digits = CharacterSet.decimalDigits
