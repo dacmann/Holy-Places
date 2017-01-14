@@ -17,14 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-//        let tabBarController = self.window!.rootViewController as! UITabBarController
-//        let navigationController = tabBarController.viewControllers[tabBarController.viewControllers.count-1] as! UINavigationController
-//        //tabBarController.delegate = self
-//        
-//        let masterNavigationController = tabBarController.viewControllers?[0] as! UINavigationController
-//        let controller = masterNavigationController.topViewController as! Master
-//        //let controller = UIApplication.shared.delegate as! AppDelegate
-//        controller.man
+
         
         return true
     }
