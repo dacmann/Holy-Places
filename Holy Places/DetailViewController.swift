@@ -34,7 +34,7 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -50,6 +50,14 @@ class DetailViewController: UIViewController {
         didSet {
             // Update the view.
             self.configureView()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "recordVisit" {
+            let temple = self.detailItem
+            let controller = (segue.destination as! VisitDetailVC)
+            controller.detailItem = temple
         }
     }
 

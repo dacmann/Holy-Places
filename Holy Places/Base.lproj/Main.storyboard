@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
-                                <rect key="frame" x="234" y="95" width="84" height="16"/>
+                                <rect key="frame" x="234" y="95" width="84" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="mqs-dw-xfm"/>
                                 </constraints>
@@ -34,7 +34,7 @@
                                     <fragment content="D&amp;C 87:8">
                                         <attributes>
                                             <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="13" name=".AppleSystemUIFont"/>
+                                            <font key="NSFont" size="13" name="Baskerville"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -50,7 +50,7 @@
                                     <fragment content="&quot;Stand ye in holy places, and be not moved...&quot;">
                                         <attributes>
                                             <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="17" name=".AppleSystemUIFont"/>
+                                            <font key="NSFont" size="18" name="Baskerville"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -138,18 +138,18 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RbI-7u-icV" id="GYw-jJ-H9T">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eyZ-RJ-h3g">
-                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
+                                            <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o19-lC-6w7">
-                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
+                                            <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -182,240 +182,292 @@
                         <viewControllerLayoutGuide type="bottom" id="JSm-a4-m8r"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MMP-iS-hw5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
-                                <rect key="frame" x="22" y="80" width="331" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="U6O-s3-6oH"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="templeName">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="iig-zf-6Sa">
-                                <rect key="frame" x="259" y="154" width="94" height="225"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="m4j-0g-Fyz">
+                                <rect key="frame" x="16" y="20" width="343" height="519"/>
                                 <subviews>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-vR-Qvd">
-                                        <rect key="frame" x="0.0" y="0.0" width="94" height="29"/>
-                                    </stepper>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-bT-KaZ">
-                                        <rect key="frame" x="0.0" y="49" width="94" height="29"/>
-                                    </stepper>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-26-FyD">
-                                        <rect key="frame" x="0.0" y="98" width="94" height="29"/>
-                                    </stepper>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Zc-GOQ">
-                                        <rect key="frame" x="0.0" y="147" width="94" height="29"/>
-                                    </stepper>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a00-JL-fMe">
-                                        <rect key="frame" x="0.0" y="196" width="94" height="29"/>
-                                    </stepper>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="23"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="templeName">
+                                                <attributes>
+                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p8J-fO-Rqo">
+                                        <rect key="frame" x="0.0" y="43" width="343" height="23"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="&lt;date&gt;">
+                                                <attributes>
+                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-Vg-Oqj">
+                                        <rect key="frame" x="0.0" y="86" width="343" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdR-9K-jsY">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Sealings">
+                                                        <attributes>
+                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YhJ-Hs-o8h">
+                                                <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="0">
+                                                        <attributes>
+                                                            <font key="NSFont" size="18" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                <connections>
+                                                    <action selector="sealingsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="qm7-UI-Joh"/>
+                                                </connections>
+                                            </textField>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-vR-Qvd">
+                                                <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="sealingsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="O19-5P-vGE"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vw8-vq-9DH">
+                                        <rect key="frame" x="0.0" y="135" width="343" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-sC-8Er">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Endowments">
+                                                        <attributes>
+                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lUz-zX-vOd">
+                                                <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="0">
+                                                        <attributes>
+                                                            <font key="NSFont" size="18" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="valueChanged" id="szP-tR-0ok"/>
+                                                    <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="ywU-hN-hgJ"/>
+                                                </connections>
+                                            </textField>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-bT-KaZ">
+                                                <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="endowmentStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="svj-2m-x9X"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ylt-FY-bVs">
+                                        <rect key="frame" x="0.0" y="184" width="343" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIg-0o-QBc">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Initiatories">
+                                                        <attributes>
+                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZP-za-oYJ">
+                                                <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="0">
+                                                        <attributes>
+                                                            <font key="NSFont" size="18" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="initiatoriesText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="3p6-H5-evU"/>
+                                                </connections>
+                                            </textField>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-26-FyD">
+                                                <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="initiatoriesStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="lqW-QZ-u4w"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="xny-Dq-GYy">
+                                        <rect key="frame" x="0.0" y="233" width="343" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y73-o3-K52">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Confirmations">
+                                                        <attributes>
+                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GeE-Q9-5H2">
+                                                <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="0">
+                                                        <attributes>
+                                                            <font key="NSFont" size="18" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="confirmationsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="hcs-Ye-WEG"/>
+                                                </connections>
+                                            </textField>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Zc-GOQ">
+                                                <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="confirmationStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="tSG-dz-BV9"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N4w-Wm-6to">
+                                        <rect key="frame" x="0.0" y="282" width="343" height="29"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA8-OB-40a">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Baptisms">
+                                                        <attributes>
+                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ix-oc-SjW">
+                                                <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="0">
+                                                        <attributes>
+                                                            <font key="NSFont" size="18" name="Baskerville"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="baptismsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="Jh6-he-oTy"/>
+                                                </connections>
+                                            </textField>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a00-JL-fMe">
+                                                <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="baptismsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="XyX-Tv-0Rg"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaE-gh-9rg">
+                                        <rect key="frame" x="0.0" y="331" width="88.5" height="23"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Comments">
+                                                <attributes>
+                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ErR-fz-a6a">
+                                        <rect key="frame" x="0.0" y="374" width="343" height="145"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Attended with ...">
+                                                <attributes>
+                                                    <font key="NSFont" size="14" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdR-9K-jsY">
-                                <rect key="frame" x="22" y="154" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Sealings">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-sC-8Er">
-                                <rect key="frame" x="22" y="202" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Endowments">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y73-o3-K52">
-                                <rect key="frame" x="22" y="303" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Confirmations">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIg-0o-QBc">
-                                <rect key="frame" x="22" y="252" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Initiatories">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA8-OB-40a">
-                                <rect key="frame" x="22" y="350" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Baptisms">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YhJ-Hs-o8h">
-                                <rect key="frame" x="199" y="154" width="52" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="52" id="Eki-Nc-n4V"/>
+                                    <constraint firstItem="W8A-Vv-BBw" firstAttribute="top" secondItem="m4j-0g-Fyz" secondAttribute="top" id="TCL-sC-Tmj"/>
+                                    <constraint firstAttribute="trailing" secondItem="N4w-Wm-6to" secondAttribute="trailing" id="UVY-Pf-1Hz"/>
+                                    <constraint firstAttribute="trailing" secondItem="ylt-FY-bVs" secondAttribute="trailing" id="dLI-XO-VlV"/>
+                                    <constraint firstAttribute="trailing" secondItem="ErR-fz-a6a" secondAttribute="trailing" id="ess-01-HLO"/>
+                                    <constraint firstAttribute="trailing" secondItem="fa8-Vg-Oqj" secondAttribute="trailing" id="gAU-T3-5bP"/>
+                                    <constraint firstAttribute="trailing" secondItem="Vw8-vq-9DH" secondAttribute="trailing" id="gNE-a0-mAa"/>
+                                    <constraint firstAttribute="trailing" secondItem="xny-Dq-GYy" secondAttribute="trailing" id="lMk-Qy-GMA"/>
+                                    <constraint firstAttribute="trailing" secondItem="W8A-Vv-BBw" secondAttribute="trailing" id="pSp-5u-qvs"/>
+                                    <constraint firstAttribute="trailing" secondItem="p8J-fO-Rqo" secondAttribute="trailing" id="ptw-eU-xPp"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="0">
-                                        <attributes>
-                                            <font key="NSFont" size="18" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lUz-zX-vOd">
-                                <rect key="frame" x="199" y="202" width="52" height="30"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="0">
-                                        <attributes>
-                                            <font key="NSFont" size="18" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZP-za-oYJ">
-                                <rect key="frame" x="199" y="252" width="52" height="30"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="0">
-                                        <attributes>
-                                            <font key="NSFont" size="18" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GeE-Q9-5H2">
-                                <rect key="frame" x="199" y="302" width="52" height="30"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="0">
-                                        <attributes>
-                                            <font key="NSFont" size="18" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ix-oc-SjW">
-                                <rect key="frame" x="199" y="350" width="52" height="30"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="0">
-                                        <attributes>
-                                            <font key="NSFont" size="18" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aQj-aG-Y5q">
-                                <rect key="frame" x="22" y="439" width="331" height="141"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <attributedString key="attributedText"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaE-gh-9rg">
-                                <rect key="frame" x="22" y="402" width="160" height="29"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Comments">
-                                        <attributes>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="centerY" secondItem="3ix-oc-SjW" secondAttribute="centerY" id="0QC-IR-qWj"/>
-                            <constraint firstItem="YhJ-Hs-o8h" firstAttribute="top" secondItem="iig-zf-6Sa" secondAttribute="top" id="15F-nC-fEN"/>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="leading" secondItem="iaE-gh-9rg" secondAttribute="leading" id="1Bg-Kr-YIl"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="leading" secondItem="lUz-zX-vOd" secondAttribute="trailing" constant="8" symbolic="YES" id="3V2-t7-R4H"/>
-                            <constraint firstItem="W8A-Vv-BBw" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" constant="6" id="4Dv-cv-zCn"/>
-                            <constraint firstItem="aZP-za-oYJ" firstAttribute="centerY" secondItem="iig-zf-6Sa" secondAttribute="centerY" id="51c-PB-xat"/>
-                            <constraint firstItem="qdR-9K-jsY" firstAttribute="top" secondItem="W8A-Vv-BBw" secondAttribute="bottom" constant="38" id="52E-4G-GUo"/>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="top" secondItem="3ix-oc-SjW" secondAttribute="top" id="5Qk-OB-0eQ"/>
-                            <constraint firstItem="AIg-0o-QBc" firstAttribute="centerY" secondItem="aZP-za-oYJ" secondAttribute="centerY" id="6QJ-Bm-aOJ"/>
-                            <constraint firstItem="Y73-o3-K52" firstAttribute="trailing" secondItem="vA8-OB-40a" secondAttribute="trailing" id="6ee-NZ-jot"/>
-                            <constraint firstItem="Y73-o3-K52" firstAttribute="centerY" secondItem="GeE-Q9-5H2" secondAttribute="centerY" id="7hl-gS-iTd"/>
-                            <constraint firstItem="Y73-o3-K52" firstAttribute="leading" secondItem="vA8-OB-40a" secondAttribute="leading" id="Byz-0s-y3b"/>
-                            <constraint firstItem="aZP-za-oYJ" firstAttribute="leading" secondItem="GeE-Q9-5H2" secondAttribute="leading" id="CC6-OA-vtz"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="leading" secondItem="aZP-za-oYJ" secondAttribute="trailing" constant="8" symbolic="YES" id="Fbs-gl-C8F"/>
-                            <constraint firstItem="AIg-0o-QBc" firstAttribute="trailing" secondItem="Y73-o3-K52" secondAttribute="trailing" id="Ggn-2f-UnX"/>
-                            <constraint firstItem="AIg-0o-QBc" firstAttribute="top" secondItem="aZP-za-oYJ" secondAttribute="top" id="Hja-Ct-9nw"/>
-                            <constraint firstItem="qdR-9K-jsY" firstAttribute="trailing" secondItem="k0J-sC-8Er" secondAttribute="trailing" id="LBc-08-Tai"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="leading" secondItem="3ix-oc-SjW" secondAttribute="trailing" constant="8" symbolic="YES" id="Mpf-Xo-Ok7"/>
-                            <constraint firstItem="AIg-0o-QBc" firstAttribute="leading" secondItem="Y73-o3-K52" secondAttribute="leading" id="P1C-8H-jQD"/>
-                            <constraint firstItem="W8A-Vv-BBw" firstAttribute="top" secondItem="rXq-Ox-wxf" secondAttribute="bottom" constant="16" id="QNj-pA-e7Q"/>
-                            <constraint firstItem="GeE-Q9-5H2" firstAttribute="leading" secondItem="3ix-oc-SjW" secondAttribute="leading" id="QZW-MG-jzd"/>
-                            <constraint firstItem="iaE-gh-9rg" firstAttribute="top" secondItem="vA8-OB-40a" secondAttribute="bottom" constant="23" id="RmV-QT-aY5"/>
-                            <constraint firstItem="lUz-zX-vOd" firstAttribute="leading" secondItem="aZP-za-oYJ" secondAttribute="leading" id="TVU-Qr-zfb"/>
-                            <constraint firstItem="W8A-Vv-BBw" firstAttribute="trailing" secondItem="iig-zf-6Sa" secondAttribute="trailing" id="UGs-Tq-Ft0"/>
-                            <constraint firstItem="lUz-zX-vOd" firstAttribute="top" secondItem="YhJ-Hs-o8h" secondAttribute="bottom" constant="18" id="USc-lU-vqf"/>
-                            <constraint firstItem="k0J-sC-8Er" firstAttribute="centerY" secondItem="lUz-zX-vOd" secondAttribute="centerY" id="Wmi-Mc-ulj"/>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="trailing" secondItem="iaE-gh-9rg" secondAttribute="trailing" id="bls-Gv-qre"/>
-                            <constraint firstItem="qdR-9K-jsY" firstAttribute="top" secondItem="YhJ-Hs-o8h" secondAttribute="top" id="d73-f1-ZrJ"/>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="top" secondItem="Y73-o3-K52" secondAttribute="bottom" constant="18" id="eGQ-jO-FH2"/>
-                            <constraint firstItem="qdR-9K-jsY" firstAttribute="centerY" secondItem="YhJ-Hs-o8h" secondAttribute="centerY" id="fK1-UA-HPJ"/>
-                            <constraint firstItem="k0J-sC-8Er" firstAttribute="top" secondItem="lUz-zX-vOd" secondAttribute="top" id="fOh-cI-Ubl"/>
-                            <constraint firstItem="aQj-aG-Y5q" firstAttribute="top" secondItem="3ix-oc-SjW" secondAttribute="bottom" constant="59" id="gZg-Yz-NZz"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="trailing" secondItem="aQj-aG-Y5q" secondAttribute="trailing" id="hMj-Sd-UtR"/>
-                            <constraint firstItem="aQj-aG-Y5q" firstAttribute="top" secondItem="iaE-gh-9rg" secondAttribute="bottom" constant="8" symbolic="YES" id="iIU-2a-ZF3"/>
-                            <constraint firstItem="qdR-9K-jsY" firstAttribute="leading" secondItem="k0J-sC-8Er" secondAttribute="leading" id="jcy-am-Rog"/>
-                            <constraint firstItem="W8A-Vv-BBw" firstAttribute="leading" secondItem="qdR-9K-jsY" secondAttribute="leading" id="jxh-r2-hjT"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="leading" secondItem="YhJ-Hs-o8h" secondAttribute="trailing" constant="8" symbolic="YES" id="l6p-QD-H3p"/>
-                            <constraint firstItem="Y73-o3-K52" firstAttribute="bottom" secondItem="GeE-Q9-5H2" secondAttribute="bottom" id="n9y-n0-sm5"/>
-                            <constraint firstItem="JSm-a4-m8r" firstAttribute="top" secondItem="aQj-aG-Y5q" secondAttribute="bottom" constant="38" id="nhp-eG-stH"/>
-                            <constraint firstItem="W8A-Vv-BBw" firstAttribute="centerX" secondItem="MMP-iS-hw5" secondAttribute="centerX" id="oZB-4i-PFP"/>
-                            <constraint firstItem="k0J-sC-8Er" firstAttribute="leading" secondItem="AIg-0o-QBc" secondAttribute="leading" id="rN9-5S-slI"/>
-                            <constraint firstItem="k0J-sC-8Er" firstAttribute="trailing" secondItem="AIg-0o-QBc" secondAttribute="trailing" id="s6Y-1s-oDK"/>
-                            <constraint firstItem="vA8-OB-40a" firstAttribute="bottom" secondItem="iig-zf-6Sa" secondAttribute="bottom" id="tDJ-uN-4WQ"/>
-                            <constraint firstItem="YhJ-Hs-o8h" firstAttribute="leading" secondItem="lUz-zX-vOd" secondAttribute="leading" id="uJ0-ur-EbD"/>
-                            <constraint firstItem="iig-zf-6Sa" firstAttribute="leading" secondItem="GeE-Q9-5H2" secondAttribute="trailing" constant="8" symbolic="YES" id="xF0-rH-9yq"/>
-                            <constraint firstItem="iaE-gh-9rg" firstAttribute="leading" secondItem="aQj-aG-Y5q" secondAttribute="leading" id="xOV-rY-Sbd"/>
-                            <constraint firstItem="YhJ-Hs-o8h" firstAttribute="leading" secondItem="qdR-9K-jsY" secondAttribute="trailing" constant="17" id="xfe-SR-aMP"/>
+                            <constraint firstItem="JSm-a4-m8r" firstAttribute="top" secondItem="m4j-0g-Fyz" secondAttribute="bottom" constant="20" id="CAw-ld-Thx"/>
+                            <constraint firstItem="m4j-0g-Fyz" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" id="GuF-dU-CXU"/>
+                            <constraint firstItem="m4j-0g-Fyz" firstAttribute="top" secondItem="rXq-Ox-wxf" secondAttribute="bottom" constant="20" id="hCM-XD-p6w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m4j-0g-Fyz" secondAttribute="trailing" id="pfO-us-BBe"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="baptisms" destination="3ix-oc-SjW" id="Cj3-my-M6I"/>
+                        <outlet property="baptismsStepO" destination="a00-JL-fMe" id="81d-sU-gaY"/>
+                        <outlet property="confirmations" destination="GeE-Q9-5H2" id="JP2-sM-W5C"/>
+                        <outlet property="confirmationsStepO" destination="qoh-Zc-GOQ" id="PUb-e5-IsJ"/>
+                        <outlet property="endowments" destination="lUz-zX-vOd" id="yQY-kW-FPq"/>
+                        <outlet property="endowmentsStepO" destination="m0I-bT-KaZ" id="DO8-7P-wYR"/>
+                        <outlet property="initiatories" destination="aZP-za-oYJ" id="0MM-Nq-kd1"/>
+                        <outlet property="initiatoriesStepO" destination="KPA-26-FyD" id="gcr-RE-8an"/>
+                        <outlet property="sealings" destination="YhJ-Hs-o8h" id="cpJ-AD-Ggq"/>
+                        <outlet property="sealingsStepO" destination="XDH-vR-Qvd" id="n8h-4d-MGt"/>
+                        <outlet property="templeName" destination="W8A-Vv-BBw" id="3yj-I2-N7b"/>
+                        <outlet property="visitDate" destination="p8J-fO-Rqo" id="vfa-4W-C3q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2381.5999999999999" y="1036.7316341829087"/>
+            <point key="canvasLocation" x="2380" y="1035.832083958021"/>
         </scene>
         <!--Visits-->
         <scene sceneID="IPy-Db-LGG">
@@ -447,7 +499,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
-                                <rect key="frame" x="28" y="255" width="331" height="23"/>
+                                <rect key="frame" x="28" y="260" width="331" height="23"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeName">
                                         <attributes>
@@ -458,7 +510,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
-                                <rect key="frame" x="30" y="286" width="317" height="19"/>
+                                <rect key="frame" x="30" y="291" width="317" height="19"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeSnippet">
                                         <attributes>
@@ -470,7 +522,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4c-FT-uXD">
-                                <rect key="frame" x="28" y="349" width="319" height="19"/>
+                                <rect key="frame" x="28" y="354" width="319" height="19"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeAddress">
                                         <attributes>
@@ -482,7 +534,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJ3-89-f69">
-                                <rect key="frame" x="28" y="376" width="343" height="19"/>
+                                <rect key="frame" x="28" y="381" width="343" height="19"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeCityState">
                                         <attributes>
@@ -494,7 +546,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oB9-rE-KRQ">
-                                <rect key="frame" x="28" y="403" width="343" height="19"/>
+                                <rect key="frame" x="28" y="408" width="343" height="19"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templeCountry">
                                         <attributes>
@@ -506,10 +558,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                <rect key="frame" x="0.0" y="5" width="375" height="230"/>
+                                <rect key="frame" x="0.0" y="5" width="375" height="235"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6QY-hG-sQ5">
-                                <rect key="frame" x="28" y="447" width="343" height="19"/>
+                                <rect key="frame" x="28" y="452" width="343" height="19"/>
                                 <attributedString key="attributedText">
                                     <fragment content="templePhone">
                                         <attributes>
@@ -520,9 +572,25 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
+                                <rect key="frame" x="143.5" y="505.5" width="90" height="32.5"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Record Visit">
+                                            <attributes>
+                                                <font key="NSFont" size="18" name="Baskerville"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <segue destination="rBL-9C-lIs" kind="show" identifier="recordVisit" id="RyY-bx-CRt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="xaJ-yQ-ey3" firstAttribute="top" secondItem="vK1-SH-HRa" secondAttribute="bottom" constant="21" id="3HV-sy-C4J"/>
                             <constraint firstItem="k4c-FT-uXD" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="3ZT-2Y-69Y"/>
                             <constraint firstItem="6QY-hG-sQ5" firstAttribute="top" secondItem="oB9-rE-KRQ" secondAttribute="bottom" constant="25" id="4TI-LZ-DWs"/>
                             <constraint firstItem="oB9-rE-KRQ" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" constant="12" id="BYy-KT-UiF"/>
@@ -530,6 +598,7 @@
                             <constraint firstItem="oB9-rE-KRQ" firstAttribute="top" secondItem="MJ3-89-f69" secondAttribute="bottom" constant="8" id="Buf-sd-n7X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="k4c-FT-uXD" secondAttribute="trailing" constant="12" id="Ci6-vz-wXv"/>
                             <constraint firstItem="kBr-CG-1Lf" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" id="Enl-Nd-Sqk"/>
+                            <constraint firstItem="vK1-SH-HRa" firstAttribute="centerX" secondItem="XIJ-sk-hj8" secondAttribute="centerX" id="Et2-9r-P2l"/>
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="14" id="Gmf-3Q-AvA"/>
                             <constraint firstItem="MJ3-89-f69" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leadingMargin" constant="12" id="HXk-nw-MuZ"/>
                             <constraint firstItem="6QY-hG-sQ5" firstAttribute="trailing" secondItem="cxh-cj-1bn" secondAttribute="trailingMargin" constant="12" id="Lr5-RR-4Gw"/>
@@ -547,6 +616,8 @@
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="8" id="y8w-5a-CMF"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="templeAddress" destination="k4c-FT-uXD" id="iuf-gy-O7C"/>
                         <outlet property="templeCityState" destination="MJ3-89-f69" id="sBO-ib-MIF"/>
@@ -605,4 +676,7 @@
         <image name="PCC" width="180" height="320"/>
         <image name="first" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="RyY-bx-CRt"/>
+    </inferredMetricsTieBreakers>
 </document>
