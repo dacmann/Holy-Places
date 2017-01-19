@@ -7,27 +7,79 @@
 //
 
 import UIKit
+import CoreData
 
-class VisitDetailVC: UIViewController {
-
+class VisitDetailVC: UIViewController, SendDateDelegate {
+    
+    func DateChanged(data: Date) {
+        dateOfVisit = data
+        setDate()
+    }
+    
+    var dateOfVisit: Date?
+    
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var sealings: UITextField!
     @IBOutlet weak var endowments: UITextField!
     @IBOutlet weak var initiatories: UITextField!
     @IBOutlet weak var confirmations: UITextField!
     @IBOutlet weak var baptisms: UITextField!
-    @IBOutlet weak var comments: UITextView!
     @IBOutlet weak var sealingsStepO: UIStepper!
     @IBOutlet weak var endowmentsStepO: UIStepper!
     @IBOutlet weak var initiatoriesStepO: UIStepper!
     @IBOutlet weak var confirmationsStepO: UIStepper!
     @IBOutlet weak var baptismsStepO: UIStepper!
-    @IBOutlet weak var visitDate: UILabel!
+    @IBOutlet weak var comments: UITextView!
+    @IBOutlet weak var visitDate: UIButton!
+    
+    func getContext () -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
+
+    @IBAction func setDate() {
+        //dateOfVisit = sender.date
+        if let button = self.visitDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit!))
+            button.setAttributedTitle(visitDateAtt, for: .normal)
+        }
+    }
+    
+    func saveVisit (_ sender: Any) {
+        let context = getContext()
+        
+        //retrieve the entity
+        let entity =  NSEntityDescription.entity(forEntityName: "Visit", in: context)
+        
+        //set the entity values
+        let visit = NSManagedObject(entity: entity!, insertInto: context)
+        visit.setValue(templeName.text, forKey: "holyPlace")
+        visit.setValue(Double(baptisms.text!), forKey: "baptisms")
+        visit.setValue(Double(confirmations.text!), forKey: "confirmations")
+        visit.setValue(Double(initiatories.text!), forKey: "initiatories")
+        visit.setValue(Double(endowments.text!), forKey: "endowments")
+        visit.setValue(Double(sealings.text!), forKey: "sealings")
+        visit.setValue(comments.text, forKey: "comments")
+        visit.setValue(dateOfVisit, forKey: "dateVisited")
+        
+        //save the object
+        do {
+            try context.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        } catch {}
+        print("Saving Visit completed")
+        navigationController?.popViewController(animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureView()
+        populateView()
+        setDate()
 
         // Do any additional setup after loading the view.
     }
@@ -82,16 +134,44 @@ class VisitDetailVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
             if let label = self.templeName {
                 label.text = detail.templeName
-                let date = Date()
-                let formatter = DateFormatter()
-                formatter.dateStyle = .medium
-                visitDate.text = formatter.string(from: date)
+                dateOfVisit = Date()
             }
+        }
+    }
+    
+    func populateView() {
+        // Update the user interface for the detail item.
+        if let detail = self.detailVisit {
+            if let label = self.templeName {
+                label.text = detail.holyPlace
+                dateOfVisit = detail.dateVisited as? Date
+                sealings.text = detail.sealings.description
+                endowments.text = detail.endowments.description
+                initiatories.text = detail.initiatories.description
+                confirmations.text = detail.confirmations.description
+                baptisms.text = detail.baptisms.description
+                comments.text = detail.comments
+                sealingsStepO.isHidden = true
+                endowmentsStepO.isHidden = true
+                initiatoriesStepO.isHidden = true
+                confirmationsStepO.isHidden = true
+                baptismsStepO.isHidden = true
+                comments.isEditable = false
+                
+            }
+        }
+    }
+    
+    var detailVisit: Visit? {
+        didSet {
+            // populate the view
+            self.populateView()
         }
     }
 
@@ -99,21 +179,26 @@ class VisitDetailVC: UIViewController {
         didSet {
             // Update the view.
             self.configureView()
+            let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveVisit(_:)))
+            self.navigationItem.rightBarButtonItem = saveButton
         }
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//        self.view.endEditing(true)
-//    }
-    /*
-    // MARK: - Navigation
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+        // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "changeDate" {
+            let controller: DateChangeVC = segue.destination as! DateChangeVC
+            controller.delegate = self
+            controller.dateOfVisit = dateOfVisit
+        }
     }
-    */
+    
 
 }

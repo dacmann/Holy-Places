@@ -15,6 +15,7 @@
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
+		64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */; };
 		64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FDE6EE1E21863A00951A58 /* AppDelegate.swift */; };
 		64FDE6F61E21863A00951A58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F41E21863A00951A58 /* Main.storyboard */; };
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateChangeVC.swift; sourceTree = "<group>"; };
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FDE6EE1E21863A00951A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64FDE6F51E21863A00951A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,6 +59,19 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		64F25D341E3121C6009FDEF3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				644243C61E2A6CB10097E924 /* HomeVC.swift */,
+				64CAEBEE1E2198C000F7C605 /* TableViewController.swift */,
+				64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */,
+				644243C41E298CA80097E924 /* VisitTableVC.swift */,
+				644243C21E2975810097E924 /* VisitDetailVC.swift */,
+				64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		64FDE6E21E21863A00951A58 = {
 			isa = PBXGroup;
 			children = (
@@ -76,15 +91,11 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
-				64CAEBF01E21B80900F7C605 /* Temples.swift */,
-				64CAEBEE1E2198C000F7C605 /* TableViewController.swift */,
-				644243C41E298CA80097E924 /* VisitTableVC.swift */,
+				64F25D341E3121C6009FDEF3 /* ViewControllers */,
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
-				642B345E1E28193600A56C77 /* Extensions */,
+				64CAEBF01E21B80900F7C605 /* Temples.swift */,
 				64FDE6F41E21863A00951A58 /* Main.storyboard */,
-				644243C61E2A6CB10097E924 /* HomeVC.swift */,
-				644243C21E2975810097E924 /* VisitDetailVC.swift */,
-				64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */,
+				642B345E1E28193600A56C77 /* Extensions */,
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
 				64FDE6FC1E21863A00951A58 /* Info.plist */,
@@ -168,6 +179,7 @@
 			files = (
 				64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */,
 				642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */,
+				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,
 				64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */,
