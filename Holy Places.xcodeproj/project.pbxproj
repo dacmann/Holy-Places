@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642565631E32F55C0020FA73 /* OptionsVC.swift */; };
 		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
 		642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* UIImageView.swift */; };
 		644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C21E2975810097E924 /* VisitDetailVC.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		642565631E32F55C0020FA73 /* OptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsVC.swift; sourceTree = "<group>"; };
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				644243C41E298CA80097E924 /* VisitTableVC.swift */,
 				644243C21E2975810097E924 /* VisitDetailVC.swift */,
 				64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */,
+				642565631E32F55C0020FA73 /* OptionsVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			files = (
 				64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */,
 				642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */,
+				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,

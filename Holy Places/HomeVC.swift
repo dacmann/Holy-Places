@@ -9,10 +9,15 @@
 import UIKit
 import Foundation
 import CoreData
+import CoreLocation
 
-var temples: [Temple] = []
+var allPlaces: [Temple] = []
+var activeTemples: [Temple] = []
+var historical: [Temple] = []
+var construction: [Temple] = []
+var visitors: [Temple] = []
 
-class HomeVC: UIViewController, XMLParserDelegate {
+class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
 
     var xmlParser: XMLParser!
     var eName: String = String()
@@ -22,11 +27,15 @@ class HomeVC: UIViewController, XMLParserDelegate {
     var templeCityState = String()
     var templeCountry = String()
     var templePhone = String()
-    var templeLatitude = String()
-    var templeLongitude = String()
+    var templeLatitude = Double()
+    var templeLongitude = Double()
     var templePictureURL = String()
     var templeType = String()
     var placeDataVersion = String()
+    var templeSiteURL = String()
+    
+    var locationManager: CLLocationManager!
+    var coordinateOfUser: CLLocation!
     
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -49,7 +58,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         let entity =  NSEntityDescription.entity(forEntityName: "Place", in: context)
         
         //set the entity values
-        for temple in temples {
+        for temple in allPlaces {
             let place = NSManagedObject(entity: entity!, insertInto: context)
             place.setValue(temple.templeName, forKey: "name")
             place.setValue(temple.templeSnippet, forKey: "snippet")
@@ -62,6 +71,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             place.setValue(temple.templePictureURL, forKey: "pictureURL")
             place.setValue(temple.templeType, forKey: "type")
             place.setValue(temple.templeOrder, forKey: "order")
+            place.setValue(temple.templeSiteURL, forKey: "siteURL")
             //save the object
             do {
                 try context.save()
@@ -123,6 +133,10 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        getPlaces()
+    }
+    
     func getPlaces () {
         //create a fetch request, telling it about the entity
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
@@ -136,21 +150,27 @@ class HomeVC: UIViewController, XMLParserDelegate {
             
             //You need to convert to NSManagedObject to use 'for' loops
             for place in searchResults as [NSManagedObject] {
-                let temple = Temple()
-                temple.templeName = place.value(forKey: "name") as! String
-                temple.templeSnippet = place.value(forKey: "snippet") as! String
-                temple.templeAddress = place.value(forKey: "address") as! String
-                temple.templeCityState = place.value(forKey: "cityState") as! String
-                temple.templeCountry = place.value(forKey: "country") as! String
-                temple.templePhone = place.value(forKey: "phone") as! String
-                temple.templeLatitude = place.value(forKey: "latitude") as! String
-                temple.templeLongitude = place.value(forKey: "longitude") as! String
-                temple.templePictureURL = place.value(forKey: "pictureURL") as! String
-                temple.templeType = place.value(forKey: "type") as! String
-                temple.templeOrder = place.value(forKey: "order") as! Int16
-                temples.append(temple)
+                let latitude = place.value(forKey: "latitude") as! Double
+                let longitude = place.value(forKey: "longitude") as! Double
+                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: latitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String, distance: CLLocation(latitude: latitude, longitude: longitude).distance(from: coordinateOfUser))
+                allPlaces.append(temple)
                 //print("\(place.value(forKey: "order"))")
+                switch temple.templeType {
+                case "T":
+                    activeTemples.append(temple)
+                case "H":
+                    historical.append(temple)
+                case "V":
+                    visitors.append(temple)
+                default:
+                    construction.append(temple)
+                }
             }
+            print("All places: " + allPlaces.count.description)
+            print("Active temples: " + activeTemples.count.description)
+            print("Historical sites: " + historical.count.description)
+            print("Visitors' Centers: " + visitors.count.description)
+            print("Under Construction: " + construction.count.description)
         } catch {
             print("Error with request: \(error)")
         }
@@ -187,6 +207,24 @@ class HomeVC: UIViewController, XMLParserDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startMonitoringSignificantLocationChanges()
+        
+        
+        // Check if the user allowed authorization
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
+            //print(locationManager.location!)
+            print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
+            print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
+            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        } else {
+            print("Location not authorized")
+            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
+        }
 
         // Do any additional setup after loading the view.
         refreshTemples()
@@ -207,8 +245,8 @@ class HomeVC: UIViewController, XMLParserDelegate {
             templeCityState = String()
             templeCountry = String()
             templePhone = String()
-            templeLatitude = String()
-            templeLongitude = String()
+            templeLatitude = Double()
+            templeLongitude = Double()
             templePictureURL = String()
             templeType = String()
         }
@@ -223,9 +261,9 @@ class HomeVC: UIViewController, XMLParserDelegate {
             case "CityState": templeCityState += string
             case "Country": templeCountry += string
             case "Phone": templePhone += string
-            case "latitude": templeLatitude += string
-            case "longitude": templeLongitude += string
-            case "lct_img": templePictureURL += string
+            case "latitude": templeLatitude += Double(string)!
+            case "longitude": templeLongitude += Double(string)!
+            case "image": templePictureURL += string
             case "type": templeType += string
             case "Version":
                 if (string == placeDataVersion) {
@@ -244,24 +282,12 @@ class HomeVC: UIViewController, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if (elementName == "Place"){
-            let temple = Temple()
-            temple.templeName = templeName
-            temple.templeSnippet = templeSnippet
-            temple.templeAddress = templeAddress
-            temple.templeCityState = templeCityState
-            temple.templeCountry = templeCountry
-            temple.templePhone = templePhone
-            temple.templeLatitude = templeLatitude
-            temple.templeLongitude = templeLongitude
-            temple.templePictureURL = templePictureURL
-            temple.templeType = templeType
-            
             // Determine Order
             let digits = CharacterSet.decimalDigits
             
             var number = String()
             
-            for uni in temple.templeSnippet.unicodeScalars {
+            for uni in templeSnippet.unicodeScalars {
                 if digits.contains(uni) {
                     number += uni.escaped(asASCII: true)
                 } else {
@@ -271,10 +297,19 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     break
                 }
             }
-            //print(number)
-            temple.templeOrder = Int16(number)!
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, distance: CLLocation( latitude: templeLatitude, longitude: templeLongitude).distance(from: coordinateOfUser))
             
-            temples.append(temple)
+            allPlaces.append(temple)
+            switch templeType {
+            case "T":
+                activeTemples.append(temple)
+            case "H":
+                historical.append(temple)
+            case "V":
+                visitors.append(temple)
+            default:
+                construction.append(temple)
+            }
         }
     }
     

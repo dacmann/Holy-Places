@@ -13,10 +13,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var templeSnippet: UILabel!
     @IBOutlet weak var templeImage: UIImageView!
-    @IBOutlet weak var templeAddress: UILabel!
-    @IBOutlet weak var templeCityState: UILabel!
-    @IBOutlet weak var templePhone: UILabel!
-    @IBOutlet weak var templeCountry: UILabel!
+    @IBOutlet weak var address: UITextView!
+    @IBOutlet weak var phoneNumber: UITextView!
+
     
     func configureView() {
         // Update the user interface for the detail item.
@@ -27,14 +26,20 @@ class DetailViewController: UIViewController {
                 //print(detail.templePictureURL)
                 templeSnippet.text = detail.templeSnippet
                 templeImage.downloadedFrom(link: detail.templePictureURL)
-                templeAddress.text = detail.templeAddress
-                templeCityState.text = detail.templeCityState
-                templeCountry.text = detail.templeCountry
-                templePhone.text = detail.templePhone
+                address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
+                phoneNumber.text = detail.templePhone
             }
         }
     }
     
+    @IBAction func webSite(_ sender: UIButton) {
+        if let url = URL(string: (self.detailItem?.templeSiteURL)!) {
+            UIApplication.shared.open(url, options: [:]) {
+                boolean in
+                // do something with the boolean
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

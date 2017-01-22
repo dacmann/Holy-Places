@@ -17,6 +17,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
     }
     
     var dateOfVisit: Date?
+    var placeType = String()
     
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var sealings: UITextField!
@@ -31,6 +32,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
     @IBOutlet weak var baptismsStepO: UIStepper!
     @IBOutlet weak var comments: UITextView!
     @IBOutlet weak var visitDate: UIButton!
+    @IBOutlet weak var templeView: UIStackView!
     
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -63,6 +65,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         visit.setValue(Double(sealings.text!), forKey: "sealings")
         visit.setValue(comments.text, forKey: "comments")
         visit.setValue(dateOfVisit, forKey: "dateVisited")
+        visit.setValue(placeType, forKey: "type")
         
         //save the object
         do {
@@ -71,7 +74,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
             print("Could not save \(error), \(error.userInfo)")
         } catch {}
         print("Saving Visit completed")
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
@@ -141,6 +144,10 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
             if let label = self.templeName {
                 label.text = detail.templeName
                 dateOfVisit = Date()
+                placeType = detail.templeType
+                if detail.templeType != "T" {
+                    templeView.isHidden = true
+                }
             }
         }
     }
@@ -157,13 +164,21 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
                 confirmations.text = detail.confirmations.description
                 baptisms.text = detail.baptisms.description
                 comments.text = detail.comments
-                sealingsStepO.isHidden = true
-                endowmentsStepO.isHidden = true
-                initiatoriesStepO.isHidden = true
-                confirmationsStepO.isHidden = true
-                baptismsStepO.isHidden = true
-                comments.isEditable = false
-                
+                if detail.type == "T" {
+                    sealingsStepO.isHidden = true
+                    endowmentsStepO.isHidden = true
+                    initiatoriesStepO.isHidden = true
+                    confirmationsStepO.isHidden = true
+                    baptismsStepO.isHidden = true
+                    comments.isEditable = false
+                    sealings.isEnabled = false
+                    endowments.isEnabled = false
+                    initiatories.isEnabled = false
+                    confirmations.isEnabled = false
+                    baptisms.isEnabled = false
+                } else {
+                    templeView.isHidden = true
+                }
             }
         }
     }
