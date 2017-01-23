@@ -147,7 +147,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         let temple = places[index]
         cell.textLabel?.text = temple.templeName
         if nearestEnabled {
-            cell.detailTextLabel?.text = Int((temple.distance)! * 0.000621371).description + " Miles"
+            cell.detailTextLabel?.text = Int((temple.distance)! * 0.000621371).description + " Mi - " + temple.templeSnippet
         } else {
             cell.detailTextLabel?.text = temple.templeSnippet
         }

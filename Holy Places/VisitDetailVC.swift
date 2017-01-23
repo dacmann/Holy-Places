@@ -43,7 +43,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         //dateOfVisit = sender.date
         if let button = self.visitDate {
             let formatter = DateFormatter()
-            formatter.dateStyle = .medium
+            formatter.dateFormat = "EEEE, MMMM dd YYYY"
             let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit!))
             button.setAttributedTitle(visitDateAtt, for: .normal)
         }
@@ -176,6 +176,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
                     initiatories.isEnabled = false
                     confirmations.isEnabled = false
                     baptisms.isEnabled = false
+                    visitDate.isEnabled = false
                 } else {
                     templeView.isHidden = true
                 }

@@ -96,7 +96,8 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
         cell.textLabel!.text = visit.holyPlace
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited as! Date)
     }
     

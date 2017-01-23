@@ -249,6 +249,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
             templeLongitude = Double()
             templePictureURL = String()
             templeType = String()
+            templeSiteURL = String()
         }
     }
     
@@ -265,6 +266,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
             case "longitude": templeLongitude += Double(string)!
             case "image": templePictureURL += string
             case "type": templeType += string
+            case "site_url": templeSiteURL += string
             case "Version":
                 if (string == placeDataVersion) {
                     print("XML Data Version has not changed")
