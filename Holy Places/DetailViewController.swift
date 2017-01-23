@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var templeImage: UIImageView!
     @IBOutlet weak var address: UITextView!
     @IBOutlet weak var phoneNumber: UITextView!
+    @IBOutlet weak var recordVisitBtn: UIButton!
+    @IBOutlet weak var websiteBtn: UIButton!
 
     
     func configureView() {
@@ -28,6 +30,8 @@ class DetailViewController: UIViewController {
                 templeImage.downloadedFrom(link: detail.templePictureURL)
                 address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
                 phoneNumber.text = detail.templePhone
+                recordVisitBtn.contentHorizontalAlignment = .center
+                websiteBtn.contentHorizontalAlignment = .center
             }
         }
     }
