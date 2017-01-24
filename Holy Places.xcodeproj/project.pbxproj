@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642565631E32F55C0020FA73 /* OptionsVC.swift */; };
 		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
-		642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* UIImageView.swift */; };
+		642B345D1E2818C200A56C77 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* Extensions.swift */; };
 		644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C21E2975810097E924 /* VisitDetailVC.swift */; };
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
+		64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D934581E368ACB008F9975 /* SummaryVC.swift */; };
 		64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */; };
 		64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FDE6EE1E21863A00951A58 /* AppDelegate.swift */; };
 		64FDE6F61E21863A00951A58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F41E21863A00951A58 /* Main.storyboard */; };
@@ -26,13 +27,14 @@
 /* Begin PBXFileReference section */
 		642565631E32F55C0020FA73 /* OptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsVC.swift; sourceTree = "<group>"; };
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
-		642B345C1E2818C200A56C77 /* UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		642B345C1E2818C200A56C77 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		64D934581E368ACB008F9975 /* SummaryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
 		64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateChangeVC.swift; sourceTree = "<group>"; };
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FDE6EE1E21863A00951A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,14 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		642B345E1E28193600A56C77 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				642B345C1E2818C200A56C77 /* UIImageView.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
 		64F25D341E3121C6009FDEF3 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +65,7 @@
 				644243C21E2975810097E924 /* VisitDetailVC.swift */,
 				64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */,
 				642565631E32F55C0020FA73 /* OptionsVC.swift */,
+				64D934581E368ACB008F9975 /* SummaryVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -98,7 +93,7 @@
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
 				64FDE6F41E21863A00951A58 /* Main.storyboard */,
-				642B345E1E28193600A56C77 /* Extensions */,
+				642B345C1E2818C200A56C77 /* Extensions.swift */,
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
 				64FDE6FC1E21863A00951A58 /* Info.plist */,
@@ -181,7 +176,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */,
-				642B345D1E2818C200A56C77 /* UIImageView.swift in Sources */,
+				64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */,
+				642B345D1E2818C200A56C77 /* Extensions.swift in Sources */,
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,

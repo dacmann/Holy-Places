@@ -32,6 +32,9 @@ class DetailViewController: UIViewController {
                 phoneNumber.text = detail.templePhone
                 recordVisitBtn.contentHorizontalAlignment = .center
                 websiteBtn.contentHorizontalAlignment = .center
+                if detail.templeType == "C" {
+                    recordVisitBtn.isHidden = true
+                }
             }
         }
     }
