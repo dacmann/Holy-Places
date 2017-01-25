@@ -110,13 +110,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             print("Location not authorized")
         }
         
-        //setup()
+        //self.navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "Baskerville", size: 20)!]
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -151,6 +146,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         } else {
             cell.detailTextLabel?.text = temple.templeSnippet
         }
+        cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
+        cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
 
         return cell
     }

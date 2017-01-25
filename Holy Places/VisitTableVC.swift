@@ -99,6 +99,8 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
         
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited as! Date)
+        cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
+        cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
     }
     
     // MARK: - Fetched results controller

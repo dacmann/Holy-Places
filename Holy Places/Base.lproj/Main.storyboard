@@ -90,302 +90,361 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="fSt-Gu-ud8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy">
-                                <rect key="frame" x="78.333333333333314" y="165.33333333333331" width="258.33333333333337" height="405.66666666666669"/>
+                                <rect key="frame" x="78" y="257.33333333333326" width="258" height="407.66666666666674"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amk-r4-eBR">
-                                        <rect key="frame" x="0.0" y="0.0" width="258.33333333333337" height="34.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="258" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="TBg-a0-GcG"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
-                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R">
-                                        <rect key="frame" x="0.33333333333334281" y="74.3333333333333" width="258" height="115.00000000000001"/>
+                                        <rect key="frame" x="0.0" y="75" width="258" height="115"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O06-E6-H8n">
-                                                <rect key="frame" x="0.0" y="0.0" width="130" height="115.00000000000003"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="115"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6G-zB-XAa">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="23.000000000000028"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="120" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="KaR-Tf-Yrj"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active Temples" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-JU-ttH">
-                                                        <rect key="frame" x="0.0" y="33.000000000000028" width="130" height="20.666666666666629"/>
+                                                        <rect key="frame" x="0.0" y="33" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="3Tc-GI-Ovw"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Sites" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-aP-3Ev">
-                                                        <rect key="frame" x="0.0" y="63.666666666666657" width="130" height="20.666666666666686"/>
+                                                        <rect key="frame" x="0.0" y="64" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="zRo-Jl-Sb9"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visitors' Centers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaS-6Y-xd7">
-                                                        <rect key="frame" x="0.0" y="94.333333333333343" width="130" height="20.666666666666686"/>
+                                                        <rect key="frame" x="0.0" y="95" width="120" height="20"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
+                                                <rect key="frame" x="140" y="0.0" width="60" height="115"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="pAz-py-hpb"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSb-lW-FXk">
+                                                        <rect key="frame" x="20" y="33" width="20" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="9Ax-zw-YPw"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D1-85-ebO">
+                                                        <rect key="frame" x="20" y="64" width="20" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="wlN-Hp-ACS"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-BB-SZN">
+                                                        <rect key="frame" x="20" y="95" width="20" height="20"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="130" id="PXO-u8-DP2"/>
+                                                    <constraint firstItem="CSb-lW-FXk" firstAttribute="leading" secondItem="EZ4-yY-jzO" secondAttribute="leading" constant="20" symbolic="YES" id="EHf-4t-W7N"/>
+                                                    <constraint firstAttribute="width" constant="60" id="Iyu-xc-O0k"/>
+                                                    <constraint firstItem="5D1-85-ebO" firstAttribute="leading" secondItem="JJY-BB-SZN" secondAttribute="leading" id="SZV-UG-8rT"/>
+                                                    <constraint firstItem="aWf-xN-dXN" firstAttribute="leading" secondItem="EZ4-yY-jzO" secondAttribute="leading" id="g19-U5-aw2"/>
+                                                    <constraint firstItem="CSb-lW-FXk" firstAttribute="leading" secondItem="5D1-85-ebO" secondAttribute="leading" id="pAn-2P-4la"/>
                                                 </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
-                                                <rect key="frame" x="150" y="0.0" width="50.000000000000028" height="115.00000000000003"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50.000000000000028" height="22.000000000000028"/>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSb-lW-FXk">
-                                                        <rect key="frame" x="20.666666666666686" y="32.000000000000028" width="8.9999999999999716" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="W8w-kT-tSV"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D1-85-ebO">
-                                                        <rect key="frame" x="20.666666666666686" y="63.000000000000028" width="8.9999999999999716" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="afi-Yf-dhu"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-BB-SZN">
-                                                        <rect key="frame" x="20.666666666666686" y="94.000000000000028" width="8.9999999999999716" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="Pcc-Qa-2Y4"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nng-pv-gNp">
-                                                <rect key="frame" x="220" y="0.0" width="38" height="115.00000000000003"/>
+                                                <rect key="frame" x="220" y="0.0" width="38" height="115"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh6-Hd-Q9S">
-                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="22.000000000000028"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="lL8-t3-eVq"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opp-7p-6cs">
-                                                        <rect key="frame" x="5.6666666666666288" y="32.000000000000028" width="27" height="21"/>
+                                                        <rect key="frame" x="5" y="33" width="28" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="nBK-1C-oiz"/>
+                                                            <constraint firstAttribute="height" constant="21" id="Y5G-bo-grT"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NiB-cx-ytZ">
-                                                        <rect key="frame" x="10" y="63.000000000000028" width="18" height="21"/>
+                                                        <rect key="frame" x="10" y="64" width="18" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="pFP-Q1-loM"/>
+                                                            <constraint firstAttribute="height" constant="21" id="l2m-ry-ooz"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suL-gb-mXA">
-                                                        <rect key="frame" x="10" y="94.000000000000028" width="18" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="K2y-nW-hIe"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="10" y="95" width="18" height="20"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="NiB-cx-ytZ" firstAttribute="leading" secondItem="suL-gb-mXA" secondAttribute="leading" id="9hJ-Fq-o3E"/>
+                                                    <constraint firstItem="Hh6-Hd-Q9S" firstAttribute="leading" secondItem="Nng-pv-gNp" secondAttribute="leading" id="I4h-GG-RMX"/>
+                                                    <constraint firstItem="NiB-cx-ytZ" firstAttribute="leading" secondItem="Nng-pv-gNp" secondAttribute="leading" constant="10" id="qcD-W6-LUY"/>
+                                                    <constraint firstItem="Opp-7p-6cs" firstAttribute="leading" secondItem="Nng-pv-gNp" secondAttribute="leading" constant="5" id="sd1-b5-gDf"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA">
-                                        <rect key="frame" x="0.0" y="229.33333333333334" width="258.33333333333337" height="176.33333333333329"/>
+                                        <rect key="frame" x="0.0" y="230.00000000000003" width="258" height="177.66666666666671"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
-                                                <rect key="frame" x="0.0" y="0.0" width="130" height="176.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="177.66666666666669"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Ordinances" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sC5-WV-R1f">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="120" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="8l8-yx-gKu"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Sealings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjI-3C-oej">
-                                                        <rect key="frame" x="0.0" y="33" width="130" height="20.666666666666629"/>
+                                                        <rect key="frame" x="0.0" y="33.000000000000057" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="QgP-mf-A1x"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Endowments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddC-fL-lky">
-                                                        <rect key="frame" x="0.0" y="63.666666666666629" width="130" height="20.666666666666686"/>
+                                                        <rect key="frame" x="0.0" y="64.000000000000057" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="iha-y8-deN"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initiatories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zg4-YK-Phs">
-                                                        <rect key="frame" x="0.0" y="94.333333333333314" width="130" height="20.666666666666686"/>
+                                                        <rect key="frame" x="0.0" y="95.000000000000057" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="1Gb-ef-L6w"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Confirmations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-FM-LmS">
-                                                        <rect key="frame" x="0.0" y="124.99999999999994" width="130" height="20.666666666666742"/>
+                                                        <rect key="frame" x="0.0" y="126.00000000000006" width="120" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="4Sb-fV-gWG"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Baptisms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dW-QX-oRE">
-                                                        <rect key="frame" x="0.0" y="155.66666666666669" width="130" height="20.666666666666629"/>
+                                                        <rect key="frame" x="0.0" y="157.00000000000006" width="120" height="20.666666666666629"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="130" id="yDJ-5l-mfl"/>
-                                                </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
-                                                <rect key="frame" x="150" y="0.0" width="50.333333333333343" height="176.33333333333331"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
+                                                <rect key="frame" x="140" y="0.0" width="60" height="177.66666666666669"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 mo." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50.333333333333343" height="21.333333333333314"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12 mo." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
+                                                        <rect key="frame" x="5" y="0.0" width="50.333333333333314" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="TSa-fD-mex"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgA-8y-90I">
-                                                        <rect key="frame" x="20.666666666666657" y="31.333333333333314" width="9" height="21"/>
+                                                        <rect key="frame" x="25.666666666666657" y="33.000000000000057" width="9" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="rTw-E4-WdM"/>
+                                                            <constraint firstAttribute="height" constant="21" id="9rZ-1z-bdY"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-IN-fJ4">
-                                                        <rect key="frame" x="20.666666666666657" y="62.333333333333314" width="9" height="21"/>
+                                                        <rect key="frame" x="25.666666666666657" y="64.000000000000057" width="9" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="a2s-d0-X7D"/>
+                                                            <constraint firstAttribute="height" constant="21" id="8T9-gr-o3J"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guf-H0-oCW">
-                                                        <rect key="frame" x="20.666666666666657" y="93.333333333333314" width="9" height="21"/>
+                                                        <rect key="frame" x="25.666666666666657" y="95.000000000000057" width="9" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="LfR-X8-znO"/>
+                                                            <constraint firstAttribute="height" constant="21" id="MHT-3W-bnQ"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-Gg-RFK">
-                                                        <rect key="frame" x="20.666666666666657" y="124.33333333333331" width="9" height="21"/>
+                                                        <rect key="frame" x="25.666666666666657" y="126.00000000000006" width="9" height="21"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="wZi-0c-VtF"/>
+                                                            <constraint firstAttribute="height" constant="21" id="bpa-82-WJ3"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntV-vp-auY">
-                                                        <rect key="frame" x="20.666666666666657" y="155.33333333333331" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="NA6-VJ-hCD"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="25.666666666666657" y="157.00000000000006" width="9" height="20.666666666666629"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
-                                                <rect key="frame" x="220.33333333333337" y="0.0" width="38" height="176.33333333333331"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
-                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="21.333333333333314"/>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
-                                                        <rect key="frame" x="14.666666666666629" y="31.333333333333314" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="t8C-Dz-6Rj"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
-                                                        <rect key="frame" x="14.666666666666629" y="62.333333333333314" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="5ts-nM-i6E"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
-                                                        <rect key="frame" x="14.666666666666629" y="93.333333333333314" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="dP5-jR-9Hy"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
-                                                        <rect key="frame" x="14.666666666666629" y="124.33333333333331" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="o5t-2j-SCK"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
-                                                        <rect key="frame" x="14.666666666666629" y="155.33333333333331" width="9" height="21"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="21" id="HQv-Hn-yxb"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="tsm-zM-ICM" firstAttribute="leading" secondItem="azS-05-5DM" secondAttribute="leading" id="Z9k-mA-wEP"/>
+                                                    <constraint firstItem="guf-H0-oCW" firstAttribute="leading" secondItem="Lwa-Gg-RFK" secondAttribute="leading" id="50j-fZ-p2n"/>
+                                                    <constraint firstItem="Lwa-Gg-RFK" firstAttribute="leading" secondItem="ntV-vp-auY" secondAttribute="leading" id="KgU-3A-adp"/>
+                                                    <constraint firstItem="cjd-IN-fJ4" firstAttribute="leading" secondItem="guf-H0-oCW" secondAttribute="leading" id="KwH-3w-eG8"/>
+                                                    <constraint firstAttribute="width" constant="60" id="O6y-6W-j5N"/>
+                                                    <constraint firstItem="vgA-8y-90I" firstAttribute="leading" secondItem="cjd-IN-fJ4" secondAttribute="leading" id="uLT-HN-Ldb"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
+                                                <rect key="frame" x="220" y="0.0" width="38" height="177.66666666666669"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
+                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="n5b-jF-LHa"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
+                                                        <rect key="frame" x="14" y="33.000000000000057" width="10" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="pji-pz-SUi"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
+                                                        <rect key="frame" x="14" y="64.000000000000057" width="10" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="AWa-JP-iW6"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
+                                                        <rect key="frame" x="14" y="95.000000000000057" width="10" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="zf4-hj-tJ6"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
+                                                        <rect key="frame" x="14" y="126.00000000000006" width="10" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="dwc-7D-Ycd"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
+                                                        <rect key="frame" x="14" y="157.00000000000006" width="10" height="20.666666666666629"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="fhO-HZ-5y6" firstAttribute="leading" secondItem="7jS-wP-Tjw" secondAttribute="leading" id="4P7-5t-VcB"/>
+                                                    <constraint firstItem="fhO-HZ-5y6" firstAttribute="leading" secondItem="azS-05-5DM" secondAttribute="leading" constant="14" id="KCM-eY-nrz"/>
+                                                    <constraint firstItem="lvd-xg-O8e" firstAttribute="leading" secondItem="4x8-xh-hK3" secondAttribute="leading" id="bkH-K2-kmr"/>
+                                                    <constraint firstItem="7jS-wP-Tjw" firstAttribute="leading" secondItem="ABo-TA-qto" secondAttribute="leading" id="fW8-Bq-CN5"/>
+                                                    <constraint firstItem="ABo-TA-qto" firstAttribute="leading" secondItem="lvd-xg-O8e" secondAttribute="leading" id="mbU-KO-t3j"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="azS-05-5DM" firstAttribute="leading" secondItem="JKq-eO-hwA" secondAttribute="leading" constant="220" id="PPN-Ye-5ID"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Amk-r4-eBR" firstAttribute="centerX" secondItem="CLj-4f-YGy" secondAttribute="centerX" id="wdj-E3-JDs"/>
+                                    <constraint firstItem="Amk-r4-eBR" firstAttribute="leading" secondItem="l92-Za-36R" secondAttribute="leading" id="4X3-cz-nQb"/>
+                                    <constraint firstItem="JKq-eO-hwA" firstAttribute="top" secondItem="CLj-4f-YGy" secondAttribute="top" constant="230" id="Edf-lb-oLZ"/>
+                                    <constraint firstItem="l92-Za-36R" firstAttribute="leading" secondItem="JKq-eO-hwA" secondAttribute="leading" id="xfE-Vl-ecE"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="CLj-4f-YGy" firstAttribute="centerY" secondItem="djT-hh-aiP" secondAttribute="centerYWithinMargins" id="07Z-bK-40p"/>
-                            <constraint firstItem="CLj-4f-YGy" firstAttribute="centerX" secondItem="djT-hh-aiP" secondAttribute="centerXWithinMargins" id="hMl-2B-62f"/>
+                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="top" secondItem="djT-hh-aiP" secondAttribute="top" id="2UM-nS-si2"/>
+                            <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="HZN-16-3yU" secondAttribute="bottom" priority="250" constant="239" id="6mt-pU-vYV"/>
+                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="leading" secondItem="djT-hh-aiP" secondAttribute="leading" id="8PF-eg-b4n"/>
+                            <constraint firstItem="Z2Z-YK-t8f" firstAttribute="top" secondItem="CLj-4f-YGy" secondAttribute="bottom" constant="22" id="Rlm-aG-mFy"/>
+                            <constraint firstAttribute="bottom" secondItem="fSt-Gu-ud8" secondAttribute="bottom" id="dpA-k9-xfe"/>
+                            <constraint firstAttribute="trailing" secondItem="fSt-Gu-ud8" secondAttribute="trailing" id="fbc-9X-mbH"/>
+                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="centerX" secondItem="CLj-4f-YGy" secondAttribute="centerX" id="gsa-sm-Mmu"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Summary" image="first" id="1yM-p4-5ih"/>
@@ -411,7 +470,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHc-lt-lqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1589.5999999999999" y="-322.48875562218893"/>
+            <point key="canvasLocation" x="1588.4057971014495" y="-322.82608695652175"/>
         </scene>
         <!--OptionsVC-->
         <scene sceneID="iFi-OT-1yX">
@@ -1092,9 +1151,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="J4n-4V-ruV" kind="relationship" relationship="viewControllers" id="CHY-Hr-j3F"/>
-                        <segue destination="Sa3-lG-QkB" kind="relationship" relationship="viewControllers" id="YYw-Fx-C2M"/>
-                        <segue destination="odm-0V-dAT" kind="relationship" relationship="viewControllers" id="yHh-xh-VhA"/>
+                        <segue destination="J4n-4V-ruV" kind="relationship" relationship="viewControllers" id="LiH-yd-sl7"/>
+                        <segue destination="Sa3-lG-QkB" kind="relationship" relationship="viewControllers" id="mgA-dP-r3h"/>
+                        <segue destination="odm-0V-dAT" kind="relationship" relationship="viewControllers" id="xk1-26-yiy"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -1122,7 +1181,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="PCC" width="240" height="426"/>
+        <image name="PCC" width="360" height="640"/>
+        <image name="Payson" width="360" height="640"/>
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
