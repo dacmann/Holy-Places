@@ -32,7 +32,21 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         pickerFilter.dataSource = self
         pickerFilter.delegate = self
         pickerFilter.selectRow(filterSelected!, inComponent: 0, animated: true)
+
         switchNearest.isOn = nearestEnabled!
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label = view as! UILabel!
+        if label == nil {
+            label = UILabel()
+        }
+        
+        let data = filterChoices[row]
+        let title = NSAttributedString(string: data, attributes: [NSFontAttributeName: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
+        label?.attributedText = title
+        label?.textAlignment = .center
+        return label!
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

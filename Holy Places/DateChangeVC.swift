@@ -25,6 +25,7 @@ class DateChangeVC: UIViewController {
 
         // Do any additional setup after loading the view.
         dateChange.date = dateOfVisit!
+        //dateChange.setValue(UIFont(name: "Baskerville", size: 20), forKey: NSFontAttributeName)
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
         dayOfWeek.text = formatter.string(from: dateOfVisit!)
@@ -36,6 +37,7 @@ class DateChangeVC: UIViewController {
         dayOfWeek.text = formatter.string(from: sender.date)
     }
 
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
