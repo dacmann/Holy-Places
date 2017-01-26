@@ -10,7 +10,7 @@ import UIKit
 
 protocol SendOptionsDelegate {
     func FilterOptions(row: Int)
-    func NearestEnabled(nearest: Bool)
+    func SortOptions(row: Int)
 }
 
 class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -18,12 +18,14 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var delegateOptions: SendOptionsDelegate? = nil
     
     var filterSelected: Int?
-    var nearestEnabled: Bool?
+    var sortSelected: Int?
+    //var nearestEnabled: Bool?
     var filterChoices = ["LDS Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
+    var sortOptions = ["Alphabetical", "Nearest", "Country"]
 
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerFilter: UIPickerView!
-    @IBOutlet weak var switchNearest: UISwitch!
+    @IBOutlet weak var pickerSort: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +34,9 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         pickerFilter.dataSource = self
         pickerFilter.delegate = self
         pickerFilter.selectRow(filterSelected!, inComponent: 0, animated: true)
-
-        switchNearest.isOn = nearestEnabled!
+        pickerSort.dataSource = self
+        pickerSort.delegate = self
+        pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -41,8 +44,10 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         if label == nil {
             label = UILabel()
         }
-        
-        let data = filterChoices[row]
+        var data = filterChoices[row]
+        if pickerView.tag == 1 {
+            data = sortOptions[row]
+        }
         let title = NSAttributedString(string: data, attributes: [NSFontAttributeName: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
         label?.attributedText = title
         label?.textAlignment = .center
@@ -50,34 +55,37 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return filterChoices.count
+        if pickerView.tag == 1 {
+            return sortOptions.count
+        } else {
+            return filterChoices.count
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return filterChoices[row]
+        if pickerView.tag == 1 {
+            return sortOptions[row]
+        } else {
+            return filterChoices[row]
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        filterSelected = row
+        if pickerView.tag == 1 {
+            sortSelected = row
+        } else {
+            filterSelected = row
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func nearestSwitch(_ sender: UISwitch) {
-        nearestEnabled = sender.isOn
-    }
-    
     @IBAction func goBack(_ sender: UIButton) {
         if delegateOptions != nil {
             delegateOptions?.FilterOptions(row: filterSelected!)
-            delegateOptions?.NearestEnabled(nearest: nearestEnabled!)
+            delegateOptions?.SortOptions(row: sortSelected!)
         }
         self.dismiss(animated: true, completion: nil)
     }

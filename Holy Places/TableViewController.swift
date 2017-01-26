@@ -13,7 +13,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     var places: [Temple] = []
     var placeType = Int()
+    var sortType = Int()
     var nearestEnabled = Bool()
+    var sortByCountry = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var locationManager: CLLocationManager!
     var coordinateOfUser: CLLocationCoordinate2D!
@@ -22,10 +24,16 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         placeType = row
     }
     
-    func NearestEnabled(nearest: Bool) {
-        nearestEnabled = nearest
+    func SortOptions(row: Int) {
+        sortType = row
+        nearestEnabled = false
+        sortByCountry = false
+        if sortType == 1 {
+            nearestEnabled = true
+        } else if sortType == 2 {
+            sortByCountry = true
+        }
     }
-    
     
     func setup () {
                 
@@ -55,20 +63,46 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         sections.removeAll()
         
         //create index for array
+        var index = 0
         if nearestEnabled {
             places.sort { Int($0.distance!) < Int($1.distance!) }
             let newSection = (index: 1, length: places.count, title: "")
             sections.append(newSection)
+        } else if sortByCountry {
+            // Sort by Country and then by Name
+            places.sort {
+                let countryComparisonResult = $0.templeCountry.compare($1.templeCountry)
+                if countryComparisonResult == .orderedSame {
+                    return $0.templeName < $1.templeName
+                }
+                return countryComparisonResult == .orderedAscending
+            }
+            // Create sections and index
+            for i in (0 ..< (places.count + 1) ) {
+                var commonCountry = ""
+                if places.count != i {
+                    if places[i].templeCountry.lowercased() == places[index].templeCountry.lowercased() {
+                        commonCountry = places[i].templeCountry.lowercased()
+                    }
+                }
+                if commonCountry.isEmpty || places.count == i {
+                    let string = places[index].templeCountry + " (" + (i - index).description + ")"
+                    let title = "\(string)"
+                    let newSection = (index: index, length: i - index, title: title)
+                    sections.append(newSection)
+                    index = i;
+                }
+            }
         } else {
-            var index = 0
+            // Create sections and index for default Alphabetical
             var commonPrefix = ""
             for i in (0 ..< (places.count + 1) ) {
                 if (places.count != i){
                     commonPrefix = places[i].templeName.commonPrefix(with: places[index].templeName, options: .caseInsensitive)
                 }
                 //print(temples.count)
-                if ( commonPrefix.isEmpty || places.count == i) {
-                    let string = places[index].templeName.uppercased();
+                if commonPrefix.isEmpty || places.count == i {
+                    let string = places[index].templeName.uppercased()
                     let firstCharacter = string[string.startIndex]
                     let title = "\(firstCharacter)"
                     let newSection = (index: index, length: i - index, title: title)
@@ -157,7 +191,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sections.map {$0.title}
+        if nearestEnabled {
+            return nil
+        }
+        return sections.map {$0.title[(title?.startIndex)!].description}
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -187,7 +224,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         if segue.identifier == "showOptions" {
             let controller: OptionsVC = segue.destination as! OptionsVC
             controller.delegateOptions = self
-            controller.nearestEnabled = nearestEnabled
+            controller.sortSelected = sortType
             controller.filterSelected = placeType
         }
     }

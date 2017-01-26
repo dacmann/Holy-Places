@@ -72,7 +72,7 @@
                             <constraint firstItem="k46-Yl-vx7" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="39" id="tdV-df-FDW"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -431,7 +431,7 @@
                             <constraint firstItem="fSt-Gu-ud8" firstAttribute="centerX" secondItem="CLj-4f-YGy" secondAttribute="centerX" id="gsa-sm-Mmu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Summary" image="first" id="1yM-p4-5ih"/>
+                    <tabBarItem key="tabBarItem" title="Summary" image="morningstar-bnw" id="1yM-p4-5ih"/>
                     <connections>
                         <outlet property="baptismsPerformedTotal" destination="4x8-xh-hK3" id="EDv-2X-YGb"/>
                         <outlet property="baptismsPerformedYr" destination="ntV-vp-auY" id="yu2-cV-qWg"/>
@@ -467,34 +467,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="IAy-eS-OMT">
-                                <rect key="frame" x="32" y="259" width="350" height="325"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IAy-eS-OMT">
+                                <rect key="frame" x="47" y="107" width="320" height="522.66666666666663"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCk-iQ-D9M">
+                                        <rect key="frame" x="98" y="0.0" width="124" height="25.333333333333343"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E24-ha-fDy">
-                                        <rect key="frame" x="15" y="0.0" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="25.333333333333329" width="320" height="216"/>
                                     </pickerView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="FGU-EL-WOX">
-                                        <rect key="frame" x="101.66666666666667" y="235" width="146.66666666666663" height="31"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nearest" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uD9-se-K2E">
-                                                <rect key="frame" x="0.0" y="0.0" width="67.666666666666686" height="31"/>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cv9-yv-OLJ">
-                                                <rect key="frame" x="97.666666666666686" y="0.0" width="50.999999999999972" height="31"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="49" id="fd1-Mt-eOI"/>
-                                                </constraints>
-                                                <connections>
-                                                    <action selector="nearestSwitch:" destination="8NJ-A8-ZaS" eventType="valueChanged" id="M0Q-aP-6Ls"/>
-                                                </connections>
-                                            </switch>
-                                        </subviews>
-                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uD9-se-K2E">
+                                        <rect key="frame" x="102.66666666666667" y="241.33333333333331" width="114.66666666666664" height="25.333333333333371"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjQ-EU-9tg">
+                                        <rect key="frame" x="0.0" y="266.66666666666663" width="320" height="215.99999999999994"/>
+                                    </pickerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31">
-                                        <rect key="frame" x="10" y="285" width="330" height="40"/>
+                                        <rect key="frame" x="10" y="482.66666666666663" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -506,22 +501,21 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="rR2-3t-G31" secondAttribute="trailing" constant="10" id="kG2-2p-Moc"/>
-                                    <constraint firstItem="rR2-3t-G31" firstAttribute="leading" secondItem="IAy-eS-OMT" secondAttribute="leading" constant="10" id="rRJ-yO-Jqt"/>
+                                    <constraint firstItem="rR2-3t-G31" firstAttribute="leading" secondItem="IAy-eS-OMT" secondAttribute="leading" constant="10" id="ISg-iQ-8rG"/>
+                                    <constraint firstAttribute="trailing" secondItem="rR2-3t-G31" secondAttribute="trailing" constant="10" id="o6k-oG-vUQ"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IAy-eS-OMT" firstAttribute="leading" secondItem="Otn-yD-yww" secondAttribute="leadingMargin" constant="12" id="Lhl-qp-aUy"/>
-                            <constraint firstItem="IAy-eS-OMT" firstAttribute="centerX" secondItem="Otn-yD-yww" secondAttribute="centerX" id="lH9-8H-lJZ"/>
-                            <constraint firstItem="4R3-4W-PEk" firstAttribute="top" secondItem="IAy-eS-OMT" secondAttribute="bottom" constant="152" id="ocF-dH-1BP"/>
+                            <constraint firstItem="IAy-eS-OMT" firstAttribute="centerY" secondItem="Otn-yD-yww" secondAttribute="centerY" id="BeC-mj-sAj"/>
+                            <constraint firstItem="IAy-eS-OMT" firstAttribute="centerX" secondItem="Otn-yD-yww" secondAttribute="centerX" id="WnZ-0B-YBk"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="doneButton" destination="rR2-3t-G31" id="9jA-ze-JpZ"/>
                         <outlet property="pickerFilter" destination="E24-ha-fDy" id="XcJ-vg-kpU"/>
-                        <outlet property="switchNearest" destination="cv9-yv-OLJ" id="MHq-xF-C6a"/>
+                        <outlet property="pickerSort" destination="fjQ-EU-9tg" id="nJs-kW-Qvc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9b5-zc-iGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -994,7 +988,7 @@
         <scene sceneID="IPy-Db-LGG">
             <objects>
                 <navigationController id="Sa3-lG-QkB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Visits" image="first" id="zql-gI-7ch"/>
+                    <tabBarItem key="tabBarItem" title="Visits" image="morningstar-bnw" id="zql-gI-7ch"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UUF-km-xOW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1147,7 +1141,7 @@
         <scene sceneID="vgd-4p-eS7">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J4n-4V-ruV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Places" image="first" id="XRl-bg-tEk"/>
+                    <tabBarItem key="tabBarItem" title="Places" image="morningstar-bnw" id="XRl-bg-tEk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="9J2-TF-e7y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1166,7 +1160,7 @@
     <resources>
         <image name="PCC" width="360" height="640"/>
         <image name="Payson" width="360" height="640"/>
-        <image name="first" width="30" height="30"/>
+        <image name="morningstar-bnw" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iRB-7e-lLt"/>
