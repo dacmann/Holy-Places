@@ -37,6 +37,8 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
     var coordinateOfUser: CLLocation!
     
+    @IBOutlet weak var info: UIButton!
+    
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext

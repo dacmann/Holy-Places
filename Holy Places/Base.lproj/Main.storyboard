@@ -23,60 +23,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
-                                <rect key="frame" x="269" y="95" width="84" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="84" id="mqs-dw-xfm"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="D&amp;C 87:8">
-                                        <attributes>
-                                            <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="13" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
-                                <rect key="frame" x="59" y="28" width="297" height="59"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="59" id="wEV-kd-re9"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="&quot;Stand ye in holy places, and be not moved...&quot;">
-                                        <attributes>
-                                            <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2qu-lT-uY6">
+                                <rect key="frame" x="20" y="60" width="369" height="100"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
+                                        <rect key="frame" x="0.0" y="0.0" width="369" height="23"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="&quot;Stand ye in holy places, and be not moved...&quot;">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
+                                        <rect key="frame" x="0.0" y="43" width="369" height="15"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="D&amp;C 87:8">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="13" name="Baskerville"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-B8-cmp">
+                                        <rect key="frame" x="0.0" y="78" width="369" height="22"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <segue destination="Xvp-4l-ctd" kind="presentation" id="JRP-qk-S21"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="pF0-Pf-K9x" secondAttribute="bottom" id="BES-oQ-YOu"/>
-                            <constraint firstItem="jOZ-q7-HPl" firstAttribute="top" secondItem="k46-Yl-vx7" secondAttribute="bottom" constant="8" symbolic="YES" id="dj2-7T-Wo6"/>
-                            <constraint firstItem="k46-Yl-vx7" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" symbolic="YES" id="f8q-My-Q9k"/>
-                            <constraint firstItem="pF0-Pf-K9x" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="fHo-N9-tYn"/>
-                            <constraint firstItem="k46-Yl-vx7" firstAttribute="centerX" secondItem="pF0-Pf-K9x" secondAttribute="centerX" id="fjF-0b-Mmt"/>
-                            <constraint firstAttribute="trailing" secondItem="pF0-Pf-K9x" secondAttribute="trailing" id="kEB-HS-AzW"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jOZ-q7-HPl" secondAttribute="trailing" constant="41" id="o9s-bh-myu"/>
-                            <constraint firstItem="pF0-Pf-K9x" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="ptB-ej-nlA"/>
-                            <constraint firstItem="k46-Yl-vx7" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="39" id="tdV-df-FDW"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="2qu-lT-uY6" secondAttribute="leading" id="POg-IN-ztL"/>
+                            <constraint firstItem="2qu-lT-uY6" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="40" id="Zqx-02-N7f"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2qu-lT-uY6" secondAttribute="trailing" constant="5" id="l5h-u4-2qE"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="info" destination="KgE-B8-cmp" id="cu8-2k-JMX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="748.125" y="-321.12676056338029"/>
+            <point key="canvasLocation" x="748" y="-516"/>
         </scene>
         <!--Summary-->
         <scene sceneID="6Ag-lf-C2L">
@@ -453,7 +457,139 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHc-lt-lqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1588.4057971014495" y="-322.82608695652175"/>
+            <point key="canvasLocation" x="44" y="-516"/>
+        </scene>
+        <!--InfoVC-->
+        <scene sceneID="LTs-MM-lVc">
+            <objects>
+                <viewController id="Xvp-4l-ctd" customClass="InfoVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HjG-4N-m9d"/>
+                        <viewControllerLayoutGuide type="bottom" id="zjw-oE-9UW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0j2-6m-asj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlH-pf-NG1">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Holy Places" id="L6u-Sz-fVm">
+                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="PIB-p0-rb0">
+                                            <connections>
+                                                <action selector="done:" destination="Xvp-4l-ctd" id="maj-aU-Csb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OGS-Pc-9li">
+                                <rect key="frame" x="20" y="143.66666666666663" width="374" height="449"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-do-8YX">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="199.00000000000003"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
+                                                <rect key="frame" x="0.0" y="0.0" width="208" height="199.00000000000003"/>
+                                                <string key="text">Greetings!  Thanks for checking out my app.  I love to visit holy places and am excited to have this app for myself to plan and track my visits and I hope you find it helpful as well. </string>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="WVw-h2-Ydz">
+                                                <rect key="frame" x="208" y="0.0" width="166" height="199.00000000000003"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="zfF-ET-kjr">
+                                                        <rect key="frame" x="0.0" y="0.0" width="166" height="166.00000000000003"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="166" id="VtD-m7-YR8"/>
+                                                            <constraint firstAttribute="width" constant="166" id="yFX-BM-dDn"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
+                                                        <rect key="frame" x="0.0" y="166.00000000000003" width="166" height="33"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <state key="normal" title="Contact Me"/>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="18" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
+                                        <rect key="frame" x="0.0" y="199.00000000000003" width="374" height="199.99999999999997"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS"/>
+                                        </constraints>
+                                        <string key="text">I didn't want a barrier to using the app for anyone interested so I am offering it as an ad-free, full-featured free download.  If you find it helpful and are feeling generous, I would appreciate your support.  I plan to add a number of additional enhancements and features and any support I get will allow me to devote more time to it. - Derek</string>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="uLx-Px-meG">
+                                        <rect key="frame" x="0.0" y="399" width="374" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08">
+                                                <rect key="frame" x="0.0" y="0.0" width="94" height="50"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="94" id="F2b-ux-1SW"/>
+                                                    <constraint firstAttribute="height" constant="50" id="oyG-bP-jsX"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <state key="normal" title="Tip $0.99">
+                                                    <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah">
+                                                <rect key="frame" x="140" y="0.0" width="94" height="50"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="5RB-HV-2Os"/>
+                                                    <constraint firstAttribute="width" constant="94" id="m61-Nq-N9P"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <state key="normal" title="Tip $2.99">
+                                                    <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj">
+                                                <rect key="frame" x="280" y="0.0" width="94" height="50"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="IOs-ws-dpM"/>
+                                                    <constraint firstAttribute="width" constant="94" id="rZy-pM-pQL"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <state key="normal" title="Tip $4.99">
+                                                    <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="hKm-g4-NbJ" firstAttribute="leading" secondItem="OGS-Pc-9li" secondAttribute="leading" id="gBg-vn-M4M"/>
+                                    <constraint firstAttribute="trailing" secondItem="hKm-g4-NbJ" secondAttribute="trailing" id="wPP-Of-weo"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZlH-pf-NG1" secondAttribute="trailing" id="1G3-4f-um8"/>
+                            <constraint firstItem="OGS-Pc-9li" firstAttribute="centerY" secondItem="0j2-6m-asj" secondAttribute="centerY" id="B06-FL-bJ8"/>
+                            <constraint firstItem="ZlH-pf-NG1" firstAttribute="leading" secondItem="0j2-6m-asj" secondAttribute="leading" id="SnW-7P-U40"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="OGS-Pc-9li" secondAttribute="trailing" id="a1u-pd-Cyi"/>
+                            <constraint firstItem="ZlH-pf-NG1" firstAttribute="top" secondItem="0j2-6m-asj" secondAttribute="top" constant="20" id="axN-cV-Gbf"/>
+                            <constraint firstItem="OGS-Pc-9li" firstAttribute="leading" secondItem="0j2-6m-asj" secondAttribute="leadingMargin" id="bBq-QG-dIY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="profile_picture" destination="zfF-ET-kjr" id="bAq-Tq-ywH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o1q-OP-Hgx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1591" y="-516"/>
         </scene>
         <!--OptionsVC-->
         <scene sceneID="iFi-OT-1yX">
@@ -520,7 +656,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9b5-zc-iGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="-322"/>
+            <point key="canvasLocation" x="2380" y="-516"/>
         </scene>
         <!--Places-->
         <scene sceneID="tVV-iv-ZMs">
@@ -535,18 +671,18 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V8F-P6-QvO" id="kmM-fd-RoD">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="txC-8l-y6Q">
-                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
+                                            <rect key="frame" x="15" y="5" width="33.333333333333336" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ve3-9U-eeu">
-                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
+                                            <rect key="frame" x="14.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -589,18 +725,18 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RbI-7u-icV" id="GYw-jJ-H9T">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eyZ-RJ-h3g">
-                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
+                                            <rect key="frame" x="15" y="5" width="33.333333333333336" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o19-lC-6w7">
-                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
+                                            <rect key="frame" x="14.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -622,7 +758,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L59-Wf-89W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1590" y="1037"/>
+            <point key="canvasLocation" x="1589" y="1227"/>
         </scene>
         <!--Visit DetailVC-->
         <scene sceneID="oFh-bY-d99">
@@ -919,7 +1055,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="1035.832083958021"/>
+            <point key="canvasLocation" x="2380" y="1227"/>
         </scene>
         <!--Date ChangeVC-->
         <scene sceneID="1W0-dA-PQU">
@@ -982,7 +1118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EuL-gL-GLF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3084" y="1037"/>
+            <point key="canvasLocation" x="3078" y="1227"/>
         </scene>
         <!--Visits-->
         <scene sceneID="IPy-Db-LGG">
@@ -999,7 +1135,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HH6-Yk-Lb4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="748" y="1037"/>
+            <point key="canvasLocation" x="748" y="1227"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="Nvi-RH-Mgy">
@@ -1161,6 +1297,7 @@
         <image name="PCC" width="360" height="640"/>
         <image name="Payson" width="360" height="640"/>
         <image name="morningstar-bnw" width="25" height="25"/>
+        <image name="profile" width="166" height="166"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iRB-7e-lLt"/>
