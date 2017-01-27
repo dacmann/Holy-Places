@@ -18,6 +18,7 @@
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
 		64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D934581E368ACB008F9975 /* SummaryVC.swift */; };
+		64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */; };
 		64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */; };
 		64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F7364A1E3AA84A00622CD5 /* InfoVC.swift */; };
 		64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FDE6EE1E21863A00951A58 /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		64D934581E368ACB008F9975 /* SummaryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
+		64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateChangeVC.swift; sourceTree = "<group>"; };
 		64F7364A1E3AA84A00622CD5 /* InfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
 				64FDE6F41E21863A00951A58 /* Main.storyboard */,
+				64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */,
 				642B345C1E2818C200A56C77 /* Extensions.swift */,
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
@@ -199,6 +202,7 @@
 				64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */,
 				642B345D1E2818C200A56C77 /* Extensions.swift in Sources */,
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
+				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,

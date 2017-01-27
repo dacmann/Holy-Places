@@ -23,15 +23,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2qu-lT-uY6">
-                                <rect key="frame" x="20" y="60" width="369" height="100"/>
+                                <rect key="frame" x="20" y="60" width="374" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
-                                        <rect key="frame" x="0.0" y="0.0" width="369" height="23"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
                                         <attributedString key="attributedText">
                                             <fragment content="&quot;Stand ye in holy places, and be not moved...&quot;">
                                                 <attributes>
@@ -44,7 +43,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
-                                        <rect key="frame" x="0.0" y="43" width="369" height="15"/>
+                                        <rect key="frame" x="0.0" y="43" width="374" height="15"/>
                                         <attributedString key="attributedText">
                                             <fragment content="D&amp;C 87:8">
                                                 <attributes>
@@ -57,7 +56,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-B8-cmp">
-                                        <rect key="frame" x="0.0" y="78" width="369" height="22"/>
+                                        <rect key="frame" x="0.0" y="78" width="374" height="22"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <segue destination="Xvp-4l-ctd" kind="presentation" id="JRP-qk-S21"/>
@@ -68,9 +67,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="leadingMargin" secondItem="2qu-lT-uY6" secondAttribute="leading" id="POg-IN-ztL"/>
-                            <constraint firstItem="2qu-lT-uY6" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="40" id="Zqx-02-N7f"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="2qu-lT-uY6" secondAttribute="trailing" constant="5" id="l5h-u4-2qE"/>
+                            <constraint firstItem="pF0-Pf-K9x" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="NR6-BY-BRQ"/>
+                            <constraint firstAttribute="bottom" secondItem="pF0-Pf-K9x" secondAttribute="bottom" id="P8A-nc-vme"/>
+                            <constraint firstAttribute="trailing" secondItem="pF0-Pf-K9x" secondAttribute="trailing" id="PMX-ig-bXm"/>
+                            <constraint firstItem="pF0-Pf-K9x" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="d8v-Nx-J76"/>
+                            <constraint firstItem="2qu-lT-uY6" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="dRr-9F-l0E"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2qu-lT-uY6" secondAttribute="trailing" id="rz7-4Z-MKw"/>
+                            <constraint firstItem="2qu-lT-uY6" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="40" id="umH-03-ONg"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
@@ -531,8 +534,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="uLx-Px-meG">
                                         <rect key="frame" x="0.0" y="399" width="374" height="50"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08">
-                                                <rect key="frame" x="0.0" y="0.33333333333325754" width="94" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="94" height="50"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="94" id="F2b-ux-1SW"/>
@@ -543,8 +546,8 @@
                                                     <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah">
-                                                <rect key="frame" x="140" y="0.33333333333325754" width="94" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <rect key="frame" x="140" y="0.0" width="94" height="50"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="5RB-HV-2Os"/>
@@ -555,8 +558,8 @@
                                                     <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj">
-                                                <rect key="frame" x="280" y="0.33333333333325754" width="94" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <rect key="frame" x="280" y="0.0" width="94" height="50"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="IOs-ws-dpM"/>
@@ -637,7 +640,7 @@
                                     <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjQ-EU-9tg">
                                         <rect key="frame" x="0.0" y="266.66666666666663" width="320" height="215.99999999999994"/>
                                     </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="482.66666666666663" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1100,7 +1103,7 @@
                                             <action selector="dateChanged:" destination="34m-OB-2N8" eventType="valueChanged" id="wIZ-lT-xTA"/>
                                         </connections>
                                     </datePicker>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="263.66666666666663" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
