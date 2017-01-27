@@ -16,6 +16,7 @@ var activeTemples: [Temple] = []
 var historical: [Temple] = []
 var construction: [Temple] = []
 var visitors: [Temple] = []
+var placeDataVersion = String()
 
 class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
 
@@ -31,7 +32,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
     var templeLongitude = Double()
     var templePictureURL = String()
     var templeType = String()
-    var placeDataVersion = String()
+    
     var templeSiteURL = String()
     
     var locationManager: CLLocationManager!
@@ -183,7 +184,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
         // Get version of saved data
         getPlaceVersion()
         
-        // grab list of temples from LDSCHurchTemples.kml file and parse the XML
+        // grab list of temples from HolyPlaces.xml file and parse the XML
         guard let myURL = NSURL(string: "http://dacworld.net/Files/HolyPlaces.xml") else {
             print("URL not defined properly")
             return

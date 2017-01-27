@@ -13,6 +13,7 @@
 		644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C21E2975810097E924 /* VisitDetailVC.swift */; };
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
+		6461BAE11E3BF7A200365698 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6461BAE01E3BF7A200365698 /* StoreKit.framework */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
@@ -32,6 +33,7 @@
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		6461BAE01E3BF7A200365698 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -51,12 +53,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6461BAE11E3BF7A200365698 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6461BADF1E3BF7A200365698 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6461BAE01E3BF7A200365698 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		64F25D341E3121C6009FDEF3 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +89,7 @@
 			children = (
 				64FDE6ED1E21863A00951A58 /* Holy Places */,
 				64FDE6EC1E21863A00951A58 /* Products */,
+				6461BADF1E3BF7A200365698 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +151,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3N7PM336W9;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
