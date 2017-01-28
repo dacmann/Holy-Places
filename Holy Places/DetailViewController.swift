@@ -39,14 +39,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @IBAction func webSite(_ sender: UIButton) {
-        if let url = URL(string: (self.detailItem?.templeSiteURL)!) {
-            UIApplication.shared.open(url, options: [:]) {
-                boolean in
-                // do something with the boolean
-            }
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -70,6 +63,10 @@ class DetailViewController: UIViewController {
             let temple = self.detailItem
             let controller = (segue.destination as! VisitDetailVC)
             controller.detailItem = temple
+        }
+        if segue.identifier == "showWebsite" {
+            let controller = (segue.destination as! WebsiteVC)
+            controller.urlPlace = self.detailItem?.templeSiteURL
         }
     }
 
