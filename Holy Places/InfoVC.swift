@@ -8,14 +8,21 @@
 
 import UIKit
 import MessageUI
+import StoreKit
 
 class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 
+    var alertController: UIAlertController?
     @IBOutlet weak var profile_picture: UIImageView!
     @IBOutlet weak var version: UILabel!
+    @IBOutlet weak var greatTipBtn: CustomButton!
+    @IBOutlet weak var greaterTipBtn: CustomButton!
+    @IBOutlet weak var greatestTipBtn: CustomButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //SKPaymentQueue.default().add(self)
         
         version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion
         
@@ -26,6 +33,10 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         profile_picture.layer.borderColor = UIColor.white.cgColor
 
         // Do any additional setup after loading the view.
+        greatTipBtn.setTitle(greatTip, for: .normal)
+        greaterTipBtn.setTitle(greaterTip, for: .normal)
+        greatestTipBtn.setTitle(greatestTip, for: .normal)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,6 +49,18 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     @IBAction func contactMe(_ sender: UIButton) {
         sendEmail()
+    }
+    @IBAction func tipGreat(_ sender: UIButton) {
+        let payment = SKPayment.init(product: greatTipPC)
+        SKPaymentQueue.default().add(payment)
+    }
+    @IBAction func tipGreater(_ sender: UIButton) {
+        let payment = SKPayment.init(product: greaterTipPC)
+        SKPaymentQueue.default().add(payment)
+    }
+    @IBAction func tipGreatest(_ sender: UIButton) {
+        let payment = SKPayment.init(product: greatestTipPC)
+        SKPaymentQueue.default().add(payment)
     }
 
     func sendEmail() {
@@ -63,6 +86,27 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
             // show failure alert
         }
     }
+    
+//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+//        
+//        for transaction in transactions {
+//            switch transaction.transactionState {
+//            case .purchased:
+//                // thanks for the purchase
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//                self.alertController = UIAlertController(title: "Thanks for tip", message: "I really appreciate your support.", preferredStyle: .alert)
+//                break
+//            case .failed:
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//                break
+//            default:
+//                break
+//            }
+//        }
+//        
+//    }
+    
+
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         

@@ -538,41 +538,50 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="uLx-Px-meG">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="94" height="40"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="94" id="F2b-ux-1SW"/>
                                                             <constraint firstAttribute="height" constant="40" id="oyG-bP-jsX"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="15"/>
                                                         <state key="normal" title="Tip $0.99">
                                                             <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="tipGreat:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="LWT-Z4-LeH"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="140" y="0.0" width="94" height="40"/>
-                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="5RB-HV-2Os"/>
                                                             <constraint firstAttribute="width" constant="94" id="m61-Nq-N9P"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="15"/>
                                                         <state key="normal" title="Tip $2.99">
-                                                            <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="tipGreater:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="Tqh-qj-RIf"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="40"/>
-                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="IOs-ws-dpM"/>
                                                             <constraint firstAttribute="width" constant="94" id="rZy-pM-pQL"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="15"/>
                                                         <state key="normal" title="Tip $4.99">
-                                                            <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="tipGreatest:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="bbn-G1-Wz7"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -615,6 +624,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="greatTipBtn" destination="qnl-rg-R08" id="tEc-eW-S7N"/>
+                        <outlet property="greaterTipBtn" destination="5E3-B2-zah" id="ep5-eA-KFn"/>
+                        <outlet property="greatestTipBtn" destination="GKs-FT-hUj" id="qjj-yA-Zre"/>
                         <outlet property="profile_picture" destination="zfF-ET-kjr" id="bAq-Tq-ywH"/>
                         <outlet property="version" destination="vYQ-7U-HOC" id="m9i-fg-AwA"/>
                     </connections>

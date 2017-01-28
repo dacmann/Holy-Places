@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import CoreData
 import CoreLocation
+import StoreKit
 
 var allPlaces: [Temple] = []
 var activeTemples: [Temple] = []
@@ -17,8 +18,15 @@ var historical: [Temple] = []
 var construction: [Temple] = []
 var visitors: [Temple] = []
 var placeDataVersion = String()
+var greatTip = String()
+var greaterTip = String()
+var greatestTip = String()
+var greatTipPC = SKProduct()
+var greaterTipPC = SKProduct()
+var greatestTipPC = SKProduct()
 
-class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
+
+class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SKProductsRequestDelegate {
 
     var xmlParser: XMLParser!
     var eName: String = String()
@@ -228,8 +236,13 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
             print("Location not authorized")
             coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
-
+        
         // Do any additional setup after loading the view.
+        
+        // Grab In-App purchase information
+        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
+        
+        // Update Places
         refreshTemples()
     }
 
@@ -318,14 +331,34 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate {
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    var productRequest: SKProductsRequest!
+    
+    // Fetch information about your products from the App Store.
+    func fetchProducts(matchingIdentifiers identifiers: [String]) {
+        // Create a set for your product identifiers.
+        let productIdentifiers = Set(identifiers)
+        // Initialize the product request with the above set.
+        productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
+        productRequest.delegate = self
+        
+        // Send the request to the App Store.
+        productRequest.start()
     }
-    */
+    
+    // Get the App Store's response
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        // No purchase will take place if there are no products available for sale.
+        // As a result, StoreKit won't prompt your customer to authenticate their purchase.
+        if response.products.count > 0 {
+            // Use availableProducts to populate your UI.
+            let availableProducts = response.products
+            greatTip = availableProducts[0].localizedTitle + "\n$" + availableProducts[0].price.description
+            greatTipPC = availableProducts[0]
+            greaterTip = availableProducts[1].localizedTitle + "\n$" + availableProducts[1].price.description
+            greaterTipPC = availableProducts[0]
+            greatestTip = availableProducts[2].localizedTitle + "\n$" + availableProducts[2].price.description
+            greatestTipPC = availableProducts[0]
+        }
+    }
 
 }

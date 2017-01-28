@@ -8,15 +8,18 @@
 
 import UIKit
 import CoreData
+import StoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        SKPaymentQueue.default().add(self)
         
         // Change the font and color for the navigation Bar text
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -49,7 +52,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        SKPaymentQueue.default().remove(self)
         self.saveContext()
+    }
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchased:
+                // thanks for the purchase
+                SKPaymentQueue.default().finishTransaction(transaction)
+                //self.alertController = UIAlertController(title: "Thanks for tip", message: "I really appreciate your support.", preferredStyle: .alert)
+                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
+                topWindow.rootViewController = UIViewController()
+                topWindow.windowLevel = UIWindowLevelAlert + 1
+                let alert: UIAlertController =  UIAlertController(title: "Thanks for tip!", message: "I really appreciate your support.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
+                    // continue your work
+                    // important to hide the window after work completed.
+                    // this also keeps a reference to the window until the action is invoked.
+                    topWindow.isHidden = true
+                }))
+                topWindow.makeKeyAndVisible()
+                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+                break
+            case .failed:
+                let message = transaction.error?.localizedDescription
+                SKPaymentQueue.default().finishTransaction(transaction)
+                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
+                topWindow.rootViewController = UIViewController()
+                topWindow.windowLevel = UIWindowLevelAlert + 1
+                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: "Thanks... " + (message)!, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
+                    // continue your work
+                    // important to hide the window after work completed.
+                    // this also keeps a reference to the window until the action is invoked.
+                    topWindow.isHidden = true
+                }))
+                topWindow.makeKeyAndVisible()
+                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+                break
+            default:
+                break
+            }
+        }
+        
     }
     
     // MARK: - Core Data stack
