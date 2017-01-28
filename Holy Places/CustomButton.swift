@@ -15,7 +15,7 @@ class CustomButton: UIButton {
         super.layoutSubviews();
         
         // Set border to specific float
-        self.layer.cornerRadius = 4.0;
+        self.layer.cornerRadius = 6.0;
         
     }
     

@@ -19,10 +19,11 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion
         
-//        profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 2
-//        profile_picture.clipsToBounds = true
-//        profile_picture.layer.borderWidth = 3
-//        profile_picture.layer.borderColor = UIColor.white.cgColor
+        //profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 2
+        profile_picture.layer.cornerRadius = 10.0
+        profile_picture.clipsToBounds = true
+        profile_picture.layer.borderWidth = 3
+        profile_picture.layer.borderColor = UIColor.white.cgColor
 
         // Do any additional setup after loading the view.
     }
@@ -32,12 +33,11 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func doneBtn(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func contactMe(_ sender: UIButton) {
         sendEmail()
-    }
-    
-    @IBAction func done(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
     }
 
     func sendEmail() {
