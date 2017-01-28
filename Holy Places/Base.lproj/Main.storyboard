@@ -527,7 +527,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS"/>
                                         </constraints>
-                                        <string key="text">I didn't want a barrier to using the app for anyone interested so I am offering it as an ad-free, full-featured free download.  If you find it helpful and are feeling generous, I would appreciate your support.  I plan to add a number of additional enhancements and features and any support I get will allow me to devote more time to it. - Derek</string>
+                                        <string key="text">I didn't want a barrier to using the app for anyone interested so I am offering it as an ad-free, full-featured, free download.  If you find it helpful and are feeling generous, I would appreciate your support.  I plan to add a number of additional enhancements and your support will allow me to devote more time to it.   - Derek</string>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>

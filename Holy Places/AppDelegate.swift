@@ -60,33 +60,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchased:
-                // thanks for the purchase
+                // Remove transaction from queue
                 SKPaymentQueue.default().finishTransaction(transaction)
-                //self.alertController = UIAlertController(title: "Thanks for tip", message: "I really appreciate your support.", preferredStyle: .alert)
+                // Alert the user
                 let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
                 topWindow.rootViewController = UIViewController()
                 topWindow.windowLevel = UIWindowLevelAlert + 1
                 let alert: UIAlertController =  UIAlertController(title: "Thanks for tip!", message: "I really appreciate your support.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-                    // continue your work
-                    // important to hide the window after work completed.
-                    // this also keeps a reference to the window until the action is invoked.
                     topWindow.isHidden = true
                 }))
                 topWindow.makeKeyAndVisible()
                 topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
                 break
             case .failed:
+                // Determine reason for failure
                 let message = transaction.error?.localizedDescription
+                // Remove transaction from queue
                 SKPaymentQueue.default().finishTransaction(transaction)
+                // Alert the user
                 let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
                 topWindow.rootViewController = UIViewController()
                 topWindow.windowLevel = UIWindowLevelAlert + 1
-                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: "Thanks... " + (message)!, preferredStyle: .alert)
+                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: (message)!, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-                    // continue your work
-                    // important to hide the window after work completed.
-                    // this also keeps a reference to the window until the action is invoked.
                     topWindow.isHidden = true
                 }))
                 topWindow.makeKeyAndVisible()
