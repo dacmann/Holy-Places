@@ -72,7 +72,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             var baptismsTotal = 0
             
             for temple in searchResults as [NSManagedObject] {
-                print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
+                //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
                 // check for ordinaces performed in the last year
                 if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < 366 {
                     sealings += temple.value(forKey: "sealings") as! Int

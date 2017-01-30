@@ -74,6 +74,11 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 50.0;//Choose your custom row height
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
@@ -115,6 +120,20 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited as! Date)
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
+        if let theType = visit.type {
+            switch theType {
+            case "T":
+                cell.textLabel?.textColor = UIColor.ocean()
+            case "H":
+                cell.textLabel?.textColor = UIColor.moss()
+            case "C":
+                cell.textLabel?.textColor = UIColor.mocha()
+            case "V":
+                cell.textLabel?.textColor = UIColor.asparagus()
+            default:
+                cell.textLabel?.textColor = UIColor.lead()
+            }
+        }
     }
     
     // MARK: - Fetched results controller

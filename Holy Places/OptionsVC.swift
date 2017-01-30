@@ -20,7 +20,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var filterSelected: Int?
     var sortSelected: Int?
     //var nearestEnabled: Bool?
-    var filterChoices = ["LDS Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
+    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
 
     @IBOutlet weak var doneButton: UIButton!
@@ -51,6 +51,19 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         let title = NSAttributedString(string: data, attributes: [NSFontAttributeName: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
         label?.attributedText = title
         label?.textAlignment = .center
+        
+        switch data {
+        case "Active Temples":
+            label?.textColor = UIColor.ocean()
+        case "Historical Sites":
+            label?.textColor = UIColor.moss()
+        case "Temples Under Construction":
+            label?.textColor = UIColor.mocha()
+        case "Visitors' Centers":
+            label?.textColor = UIColor.asparagus()
+        default:
+            label?.textColor = UIColor.lead()
+        }
         return label!
     }
     

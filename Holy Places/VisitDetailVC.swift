@@ -164,19 +164,19 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
                 confirmations.text = detail.confirmations.description
                 baptisms.text = detail.baptisms.description
                 comments.text = detail.comments
+                visitDate.isEnabled = false
+                comments.isEditable = false
                 if detail.type == "T" {
                     sealingsStepO.isHidden = true
                     endowmentsStepO.isHidden = true
                     initiatoriesStepO.isHidden = true
                     confirmationsStepO.isHidden = true
                     baptismsStepO.isHidden = true
-                    comments.isEditable = false
                     sealings.isEnabled = false
                     endowments.isEnabled = false
                     initiatories.isEnabled = false
                     confirmations.isEnabled = false
                     baptisms.isEnabled = false
-                    visitDate.isEnabled = false
                 } else {
                     templeView.isHidden = true
                 }

@@ -355,9 +355,9 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
             greatTip = availableProducts[0].localizedTitle + "\n$" + availableProducts[0].price.description
             greatTipPC = availableProducts[0]
             greaterTip = availableProducts[1].localizedTitle + "\n$" + availableProducts[1].price.description
-            greaterTipPC = availableProducts[0]
+            greaterTipPC = availableProducts[1]
             greatestTip = availableProducts[2].localizedTitle + "\n$" + availableProducts[2].price.description
-            greatestTipPC = availableProducts[0]
+            greatestTipPC = availableProducts[2]
         }
     }
 

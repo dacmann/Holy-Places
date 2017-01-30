@@ -37,10 +37,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     func setup () {
                 
-        print(placeType)
+        //print(placeType)
         switch placeType {
         case 0:
-            self.navigationItem.title = "LDS Holy Places"
+            self.navigationItem.title = "Holy Places"
             places = allPlaces
         case 1:
             self.navigationItem.title = "Active Temples"
@@ -148,15 +148,16 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
 
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 50.0;//Choose your custom row height
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,6 +183,20 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
+        
+        switch temple.templeType {
+        case "T":
+            cell.textLabel?.textColor = UIColor.ocean()
+        case "H":
+            cell.textLabel?.textColor = UIColor.moss()
+        case "C":
+            cell.textLabel?.textColor = UIColor.mocha()
+        case "V":
+            cell.textLabel?.textColor = UIColor.asparagus()
+        default:
+            cell.textLabel?.textColor = UIColor.lead()
+        }
+        
 
         return cell
     }
