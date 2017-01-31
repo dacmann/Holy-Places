@@ -85,7 +85,25 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         setDate()
 
         // Do any additional setup after loading the view.
+        //init toolbar
+        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
+        //create left side empty space so that done button set on right side
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(VisitDetailVC.doneButtonAction))
+        //array of BarButtonItems
+        var arr = [UIBarButtonItem]()
+        arr.append(flexSpace)
+        arr.append(doneBtn)
+        toolbar.setItems(arr, animated: false)
+        toolbar.sizeToFit()
+        //setting toolbar as inputAccessoryView
+        self.comments.inputAccessoryView = toolbar
     }
+    
+    func doneButtonAction(){
+        self.view.endEditing(true)
+    }
+    
     @IBAction func sealingsText(_ sender: UITextField) {
         if (sender.text?.isEmpty)!{
             sender.text = "0"
@@ -151,6 +169,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
             }
         }
     }
+    
     
     func populateView() {
         // Update the user interface for the detail item.

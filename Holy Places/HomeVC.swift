@@ -193,7 +193,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/Files/HolyPlaces.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
             print("URL not defined properly")
             return
         }
@@ -347,16 +347,21 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
     
     // Get the App Store's response
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        // No purchase will take place if there are no products available for sale.
-        // As a result, StoreKit won't prompt your customer to authenticate their purchase.
+        // Parse products retrieved from StoreKit
         if response.products.count > 0 {
-            // Use availableProducts to populate your UI.
+            // Use availableProducts to populate UI.
             let availableProducts = response.products
-            greatTip = availableProducts[0].localizedTitle + "\n$" + availableProducts[0].price.description
+            
+            // format price for local currency
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.locale = availableProducts[0].priceLocale
+            
+            greatTip = availableProducts[0].localizedTitle + "\n" + formatter.string(from: availableProducts[0].price)!
             greatTipPC = availableProducts[0]
-            greaterTip = availableProducts[1].localizedTitle + "\n$" + availableProducts[1].price.description
+            greaterTip = availableProducts[1].localizedTitle + "\n" + formatter.string(from: availableProducts[1].price)!
             greaterTipPC = availableProducts[1]
-            greatestTip = availableProducts[2].localizedTitle + "\n$" + availableProducts[2].price.description
+            greatestTip = availableProducts[2].localizedTitle + "\n" + formatter.string(from: availableProducts[2].price)!
             greatestTipPC = availableProducts[2]
         }
     }
