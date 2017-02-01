@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName:UIColor.ocean()]
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: barbuttonFont, NSForegroundColorAttributeName:UIColor.ocean()], for: UIControlState.normal)
         
+        UITabBar.appearance().tintColor = UIColor.ocean()
         return true
     }
 

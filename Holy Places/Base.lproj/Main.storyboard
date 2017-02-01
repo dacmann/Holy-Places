@@ -570,14 +570,14 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="40"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" red="0.91092067956924438" green="0.70529049634933472" blue="0.35662275552749634" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="IOs-ws-dpM"/>
                                                             <constraint firstAttribute="width" constant="94" id="rZy-pM-pQL"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="15"/>
                                                         <state key="normal" title="Tip $4.99">
-                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="tipGreatest:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="bbn-G1-Wz7"/>
