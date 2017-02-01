@@ -49,6 +49,59 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         }
     }
     
+    func editVisit (_ sender: Any) {
+        
+        sealingsStepO.isHidden = false
+        sealingsStepO.value = Double(sealings.text!)!
+        endowmentsStepO.isHidden = false
+        endowmentsStepO.value = Double(endowments.text!)!
+        initiatoriesStepO.isHidden = false
+        initiatoriesStepO.value = Double(initiatories.text!)!
+        confirmationsStepO.isHidden = false
+        confirmationsStepO.value = Double(confirmations.text!)!
+        baptismsStepO.isHidden = false
+        baptismsStepO.value = Double(baptisms.text!)!
+        comments.isEditable = true
+        visitDate.isEnabled = true
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEdit(_:)))
+        self.navigationItem.rightBarButtonItem = saveButton
+        keyboardDone()
+    }
+    
+    func saveEdit (_ sender: Any) {
+        let context = getContext()
+        
+        // save the updated values to the Visit object and disable the editable fields
+        if detailVisit?.type == "T" {
+            sealingsStepO.isHidden = true
+            endowmentsStepO.isHidden = true
+            initiatoriesStepO.isHidden = true
+            confirmationsStepO.isHidden = true
+            baptismsStepO.isHidden = true
+            detailVisit?.sealings = Int16(sealings.text!)!
+            detailVisit?.endowments = Int16(endowments.text!)!
+            detailVisit?.initiatories = Int16(initiatories.text!)!
+            detailVisit?.confirmations = Int16(confirmations.text!)!
+            detailVisit?.baptisms = Int16(baptisms.text!)!
+        }
+        detailVisit?.dateVisited = dateOfVisit as NSDate?
+        detailVisit?.comments = comments.text!
+        comments.isEditable = false
+        visitDate.isEnabled = false
+        
+        //save the object
+        do {
+            try context.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        } catch {}
+        print("Saving edited Visit completed")
+        
+        // change it back to edit button
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editVisit(_:)))
+        self.navigationItem.rightBarButtonItem = editButton
+    }
+    
     func saveVisit (_ sender: Any) {
         let context = getContext()
         
@@ -84,7 +137,9 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         populateView()
         setDate()
 
-        // Do any additional setup after loading the view.
+    }
+    
+    func keyboardDone() {
         //init toolbar
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         //create left side empty space so that done button set on right side
@@ -166,6 +221,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
                 if detail.templeType != "T" {
                     templeView.isHidden = true
                 }
+                keyboardDone()
             }
         }
     }
@@ -207,6 +263,8 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         didSet {
             // populate the view
             self.populateView()
+            let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editVisit(_:)))
+            self.navigationItem.rightBarButtonItem = editButton
         }
     }
 
