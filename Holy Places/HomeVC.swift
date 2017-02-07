@@ -48,6 +48,18 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
     
     @IBOutlet weak var info: UIButton!
     
+    @IBAction func shareHolyPlaces(_ sender: UIButton) {
+        let textToShare = "Holy Places is awesome!  Check it out!"
+        
+        if let myWebsite = NSURL(string: "https://itunes.apple.com/us/app/holy-places-lds-temples-historic/id1200184537?mt=8") {
+            let objectsToShare = [textToShare, myWebsite] as [Any]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            
+            activityVC.popoverPresentationController?.sourceView = sender
+            self.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -193,7 +205,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
             print("URL not defined properly")
             return
         }
