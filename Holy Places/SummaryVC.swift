@@ -17,7 +17,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var historicalTotal: UILabel!
     @IBOutlet weak var visitorsCentersVisited: UILabel!
     @IBOutlet weak var visitorsCentersTotal: UILabel!
-    
     @IBOutlet weak var sealingsPerformedYr: UILabel!
     @IBOutlet weak var sealingsPerformedTotal: UILabel!
     @IBOutlet weak var endowmentsPerformedYr: UILabel!
@@ -28,8 +27,9 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var confirmationsPerformedTotal: UILabel!
     @IBOutlet weak var baptismsPerformedYr: UILabel!
     @IBOutlet weak var baptismsPerformedTotal: UILabel!
-    @IBOutlet weak var summary: UILabel!
-
+    @IBOutlet weak var attendedTempleTotal: UILabel!
+    @IBOutlet weak var attendedTempleYr: UILabel!
+    
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -59,12 +59,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             var searchResults = try getContext().fetch(fetchRequest)
             // count ordinances for each temple visited
             
+            var attended = 0
             var sealings = 0
             var endowments = 0
             var initiatories = 0
             var confirmations = 0
             var baptisms = 0
             
+            var attendedTotal = 0
             var sealingsTotal = 0
             var endowmentsTotal = 0
             var initiatoriesTotal = 0
@@ -75,6 +77,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                 //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
                 // check for ordinaces performed in the last year
                 if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < 366 {
+                    attended += 1
                     sealings += temple.value(forKey: "sealings") as! Int
                     endowments += temple.value(forKey: "endowments") as! Int
                     initiatories += temple.value(forKey: "initiatories") as! Int
@@ -82,6 +85,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                     baptisms += temple.value(forKey: "baptisms") as! Int
                 }
                 // add to total counts
+                attendedTotal += 1
                 sealingsTotal += temple.value(forKey: "sealings") as! Int
                 endowmentsTotal += temple.value(forKey: "endowments") as! Int
                 initiatoriesTotal += temple.value(forKey: "initiatories") as! Int
@@ -90,6 +94,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             }
             
             // populate labels on view
+            attendedTempleYr.text = attended.description
+            attendedTempleTotal.text = attendedTotal.description
             sealingsPerformedTotal.text = sealingsTotal.description
             sealingsPerformedYr.text = sealings.description
             endowmentsPerformedTotal.text = endowmentsTotal.description
