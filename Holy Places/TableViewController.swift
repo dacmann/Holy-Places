@@ -18,12 +18,14 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var sortByCountry = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var locationManager: CLLocationManager!
-    var coordinateOfUser: CLLocationCoordinate2D!
+    var coordinateOfUser: CLLocation!
     
+    // Set variable based Filter Option selected on Options view
     func FilterOptions(row: Int) {
         placeType = row
     }
     
+    // Set variables based on Sort Option selected on Options view
     func SortOptions(row: Int) {
         sortType = row
         nearestEnabled = false
@@ -35,6 +37,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
     }
     
+    // Determine Filters and sort criteria and build indexes if required
     func setup () {
                 
         //print(placeType)
@@ -65,6 +68,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         //create index for array
         var index = 0
         if nearestEnabled {
+            updateDistance()
             places.sort { Int($0.distance!) < Int($1.distance!) }
             let newSection = (index: 1, length: places.count, title: "")
             sections.append(newSection)
@@ -118,10 +122,35 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         self.tableView.reloadData()
     }
     
+    // Update the Distance in the Place data arrays based on new location
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Location Update")
+        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        if nearestEnabled {
+            updateDistance()
+            self.tableView.reloadData()
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-            print(locationManager.location!)
-            coordinateOfUser = locationManager.location?.coordinate
+            //print(locationManager.location!)
+            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+            if nearestEnabled {
+                updateDistance()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    // Update the distances in the currently viewed array
+    func updateDistance() {
+        print("Update Distance")
+        //print(coordinateOfUser)
+        for place in places {
+            place.distance = place.cllocation.distance(from: coordinateOfUser!)
+            //print(place.templeName + " - " + (place.distance?.description)!)
+            //print(place.cllocation)
         }
     }
 
@@ -137,15 +166,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         // Check if the user allowed authorization
         if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
             //print(locationManager.location!)
-            print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
-            print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
-            coordinateOfUser = locationManager.location?.coordinate
+            //print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
+            //print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
+            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         } else {
             print("Location not authorized")
         }
-        
-        //self.navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "Baskerville", size: 20)!]
-
     }
 
 

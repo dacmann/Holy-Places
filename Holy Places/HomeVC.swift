@@ -49,6 +49,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
     @IBOutlet weak var info: UIButton!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
+        // Button to share Holy Places app
         let textToShare = "Holy Places is awesome!  Check it out!"
         
         if let myWebsite = NSURL(string: "https://itunes.apple.com/us/app/holy-places-lds-temples-historic/id1200184537?mt=8") {
@@ -60,11 +61,13 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         }
     }
     
+    // Required for CoreData
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }
     
+    // Save the Place data in CoreData
     func storePlaces () {
         let context = getContext()
         
@@ -106,6 +109,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         print("Saving Places completed")
     }
     
+    // Save the version from the HolyPlaces.xml in CoreData
     func savePlaceVersion () {
         let context = getContext()
         
@@ -135,6 +139,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         
     }
     
+    // Retrieve the version of the Place data from CoreData
     func getPlaceVersion () {
         let fetchRequest: NSFetchRequest<PlaceVersions> = PlaceVersions.fetchRequest()
         
@@ -156,10 +161,20 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         
     }
     
+    // Update the Distance in the Place data arrays based on new location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        getPlaces()
+        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            print("Authorization Granted!")
+            print(locationManager.location!)
+            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        }
+    }
+    
+    // Get the Place data from CoreData and build the various Place arrays
     func getPlaces () {
         //create a fetch request, telling it about the entity
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
@@ -170,12 +185,20 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
             
             //I like to check the size of the returned results!
             print ("num of results = \(searchResults.count)")
+            print(coordinateOfUser)
+            
+            // clear out arrays
+            activeTemples.removeAll()
+            historical.removeAll()
+            visitors.removeAll()
+            construction.removeAll()
+            allPlaces.removeAll()
             
             //You need to convert to NSManagedObject to use 'for' loops
             for place in searchResults as [NSManagedObject] {
                 let latitude = place.value(forKey: "latitude") as! Double
                 let longitude = place.value(forKey: "longitude") as! Double
-                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: latitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String, distance: CLLocation(latitude: latitude, longitude: longitude).distance(from: coordinateOfUser))
+                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: longitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String, distance: CLLocation(latitude: latitude, longitude: longitude).distance(from: coordinateOfUser))
                 allPlaces.append(temple)
                 //print("\(place.value(forKey: "order"))")
                 switch temple.templeType {
@@ -199,6 +222,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         }
     }
     
+    // Pull down the XML file from website and parse the data
     func refreshTemples(){
         
         // Get version of saved data
@@ -241,11 +265,12 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         // Check if the user allowed authorization
         if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
             //print(locationManager.location!)
-            print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
-            print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
+            //print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
+            //print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         } else {
             print("Location not authorized")
+            // Default location to Temple Square
             coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
         
@@ -263,6 +288,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         // Dispose of any resources that can be recreated.
     }
     
+    // didStartElement of parser
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
         eName = elementName
@@ -281,6 +307,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         }
     }
     
+    // foundCharacters of parser
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         if (!string.isEmpty){
             switch eName {
@@ -310,6 +337,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         }
     }
     
+    // didEndElement of parser
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if (elementName == "Place"){
             // Determine Order
