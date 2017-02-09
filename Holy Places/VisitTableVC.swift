@@ -9,7 +9,20 @@
 import UIKit
 import CoreData
 
-class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
+class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
+    
+    var placeType = Int()
+    var sortType = Int()
+    
+    // Set variable based on Filter Option selected on Options view
+    func FilterOptions(row: Int) {
+        placeType = row
+    }
+    
+    // Set variables based on Sort Option selected on Options view
+    func SortOptions(row: Int) {
+        sortType = row
+    }
     
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -20,22 +33,14 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-        
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-//        self.navigationItem.rightBarButtonItem = addButton
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        // Reload the data
+        _fetchedResultsController = nil
+        self.tableView.reloadData()
     }
-    
+
     func insertNewObject(_ sender: Any) {
         let context = self.fetchedResultsController.managedObjectContext
         let newVisit = Visit(context: context)
@@ -126,8 +131,6 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
                 cell.textLabel?.textColor = UIColor.ocean()
             case "H":
                 cell.textLabel?.textColor = UIColor.moss()
-            case "C":
-                cell.textLabel?.textColor = UIColor.mocha()
             case "V":
                 cell.textLabel?.textColor = UIColor.asparagus()
             default:
@@ -139,6 +142,8 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
     // MARK: - Fetched results controller
     
     var fetchedResultsController: NSFetchedResultsController<Visit> {
+        
+        var title = String()
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
@@ -154,9 +159,27 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
+        // Filter the request
+        switch placeType {
+        case 0:
+            title = "Holy Places Visits"
+        case 1:
+            title = "Active Temples Visits"
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+        case 2:
+            title = "Historical Sites Visits"
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+        case 3:
+            title = "Visitors' Centers Visits"
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
+        default:
+            title = "Visits"
+        }
+        
+        
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: "Master")
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
@@ -168,6 +191,9 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
+        
+        // Update title
+        self.navigationItem.title = title + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
         
         return _fetchedResultsController!
     }
@@ -214,51 +240,13 @@ class VisitTableVC: UITableViewController, NSFetchedResultsControllerDelegate {
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
+        if segue.identifier == "showVisitOptions" {
+            let controller: VisitOptionsVC = segue.destination as! VisitOptionsVC
+            controller.delegateOptions = self
+            controller.sortSelected = sortType
+            controller.filterSelected = placeType
+        }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
