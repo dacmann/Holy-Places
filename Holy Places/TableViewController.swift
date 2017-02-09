@@ -9,6 +9,12 @@
 import UIKit
 import CoreLocation
 
+extension TableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+}
+
 class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
     
     var places: [Temple] = []
@@ -37,81 +43,115 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
     }
     
-    // Determine Filters and sort criteria and build indexes if required
-    func setup () {
-                
-        //print(placeType)
+    // Search Controller Code
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredPlaces = [Temple]()
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        // Reset places to full array
         switch placeType {
         case 0:
-            self.navigationItem.title = "Holy Places"
             places = allPlaces
         case 1:
-            self.navigationItem.title = "Active Temples"
             places = activeTemples
         case 2:
-            self.navigationItem.title = "Historical Sites"
             places = historical
         case 3:
-            self.navigationItem.title = "Visitors' Centers"
             places = visitors
         default:
-            self.navigationItem.title = "Temples Under Construction"
             places = construction
         }
+        // Search on Place name, City or State
+        filteredPlaces = places.filter { place in
+            return place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased())
+        }
+        // Update table to reflect filtered results
+        setup()
+        tableView.reloadData()
+    }
+    
+    // Determine Filters and sort criteria and build indexes if required
+    func setup () {
+        var title = String()
         
+        switch placeType {
+        case 0:
+            title = "Holy Places"
+            places = allPlaces
+        case 1:
+            title = "Active Temples"
+            places = activeTemples
+        case 2:
+            title = "Historical Sites"
+            places = historical
+        case 3:
+            title = "Visitors' Centers"
+            places = visitors
+        default:
+            title = "Temples Under Construction"
+            places = construction
+        }
+
+        // If search bar is active use filteredPlaces instead
+        if searchController.isActive && searchController.searchBar.text != "" {
+            places = filteredPlaces
+        }
+        
+        self.navigationItem.title = title + " (" + (places.count.description) + ")"
         // Sort by
         //temples.sort { $0.templeOrder < $1.templeOrder }
         
         //reset sections array
         sections.removeAll()
         
-        //create index for array
-        var index = 0
-        if nearestEnabled {
-            updateDistance()
-            places.sort { Int($0.distance!) < Int($1.distance!) }
-            let newSection = (index: 1, length: places.count, title: "")
-            sections.append(newSection)
-        } else if sortByCountry {
-            // Sort by Country and then by Name
-            places.sort {
-                let countryComparisonResult = $0.templeCountry.compare($1.templeCountry)
-                if countryComparisonResult == .orderedSame {
-                    return $0.templeName < $1.templeName
+        if places.count > 0 {
+             //create index for array
+            var index = 0
+            if nearestEnabled {
+                updateDistance()
+                places.sort { Int($0.distance!) < Int($1.distance!) }
+                let newSection = (index: 1, length: places.count, title: "")
+                sections.append(newSection)
+            } else if sortByCountry {
+                // Sort by Country and then by Name
+                places.sort {
+                    let countryComparisonResult = $0.templeCountry.compare($1.templeCountry)
+                    if countryComparisonResult == .orderedSame {
+                        return $0.templeName < $1.templeName
+                    }
+                    return countryComparisonResult == .orderedAscending
                 }
-                return countryComparisonResult == .orderedAscending
-            }
-            // Create sections and index
-            for i in (0 ..< (places.count + 1) ) {
-                var commonCountry = ""
-                if places.count != i {
-                    if places[i].templeCountry.lowercased() == places[index].templeCountry.lowercased() {
-                        commonCountry = places[i].templeCountry.lowercased()
+                // Create sections and index
+                for i in (0 ..< (places.count + 1) ) {
+                    var commonCountry = ""
+                    if places.count != i {
+                        if places[i].templeCountry.lowercased() == places[index].templeCountry.lowercased() {
+                            commonCountry = places[i].templeCountry.lowercased()
+                        }
+                    }
+                    if commonCountry.isEmpty || places.count == i {
+                        let string = places[index].templeCountry + " (" + (i - index).description + ")"
+                        let title = "\(string)"
+                        let newSection = (index: index, length: i - index, title: title)
+                        sections.append(newSection)
+                        index = i;
                     }
                 }
-                if commonCountry.isEmpty || places.count == i {
-                    let string = places[index].templeCountry + " (" + (i - index).description + ")"
-                    let title = "\(string)"
-                    let newSection = (index: index, length: i - index, title: title)
-                    sections.append(newSection)
-                    index = i;
-                }
-            }
-        } else {
-            // Create sections and index for default Alphabetical
-            var commonPrefix = ""
-            for i in (0 ..< (places.count + 1) ) {
-                if (places.count != i){
-                    commonPrefix = places[i].templeName.commonPrefix(with: places[index].templeName, options: .caseInsensitive)
-                }
-                //print(temples.count)
-                if commonPrefix.isEmpty || places.count == i {
-                    let string = places[index].templeName.uppercased()
-                    let firstCharacter = string[string.startIndex]
-                    let title = "\(firstCharacter)"
-                    let newSection = (index: index, length: i - index, title: title)
-                    sections.append(newSection)
-                    index = i;
+            } else {
+                // Create sections and index for default Alphabetical
+                var commonPrefix = ""
+                for i in (0 ..< (places.count + 1) ) {
+                    if (places.count != i){
+                        commonPrefix = places[i].templeName.commonPrefix(with: places[index].templeName, options: .caseInsensitive)
+                    }
+                    //print(temples.count)
+                    if commonPrefix.isEmpty || places.count == i {
+                        let string = places[index].templeName.uppercased()
+                        let firstCharacter = string[string.startIndex]
+                        let title = "\(firstCharacter)"
+                        let newSection = (index: index, length: i - index, title: title)
+                        sections.append(newSection)
+                        index = i;
+                    }
                 }
             }
         }
@@ -145,7 +185,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     // Update the distances in the currently viewed array
     func updateDistance() {
-        print("Update Distance")
+        //print("Update Distance")
         //print(coordinateOfUser)
         for place in places {
             place.distance = place.cllocation.distance(from: coordinateOfUser!)
@@ -172,6 +212,14 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         } else {
             print("Location not authorized")
         }
+        
+        // Search Controller Stuff
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        extendedLayoutIncludesOpaqueBars = true
     }
 
 
@@ -200,7 +248,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         } else {
             index = sections[indexPath.section].index + indexPath.row
         }
+        
         let temple = places[index]
+//        if searchController.isActive && searchController.searchBar.text != "" {
+//            temple = filteredPlaces[index]
+//        }
+        
         cell.textLabel?.text = temple.templeName
         if nearestEnabled {
             cell.detailTextLabel?.text = Int((temple.distance)! * 0.000621371).description + " Mi - " + temple.templeSnippet
@@ -267,6 +320,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             controller.delegateOptions = self
             controller.sortSelected = sortType
             controller.filterSelected = placeType
+            searchController.isActive = false
         }
     }
 
