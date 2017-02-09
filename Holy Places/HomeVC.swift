@@ -24,6 +24,7 @@ var greatestTip = String()
 var greatTipPC = SKProduct()
 var greaterTipPC = SKProduct()
 var greatestTipPC = SKProduct()
+var changesMsg = String()
 
 
 class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SKProductsRequestDelegate {
@@ -281,6 +282,17 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         
         // Update Places
         refreshTemples()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // Check for update and pop message
+        //changesMsg = "You are going to love these latest updates!\n\nKeep those tips rolling in!"
+        if changesMsg != "" {
+            let alert = UIAlertController(title: "Holy Places Update", message: changesMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -332,6 +344,8 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
                     print("XML Data Version has changed - " + placeDataVersion)
                     savePlaceVersion()
                 }
+            case "Changes":
+                changesMsg = string
             default: return
             }
         }
