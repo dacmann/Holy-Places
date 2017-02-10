@@ -28,7 +28,7 @@ class Temple: NSObject {
     var distance : Double?
     var coordinate : CLLocationCoordinate2D
 
-    init(Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, distance:Double!){
+    init(Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!){
         self.templeName = Name
         self.templeAddress = Address
         self.templeSnippet = Snippet
@@ -42,7 +42,7 @@ class Temple: NSObject {
         self.templeType = Type
         self.cllocation = CLLocation(latitude: Latitude!, longitude: Longitude!)
         self.coordinate = CLLocationCoordinate2D(latitude: Latitude!, longitude: Longitude!)
-        self.distance = distance
+        //self.distance = distance
         self.templeSiteURL = SiteURL
     }
     

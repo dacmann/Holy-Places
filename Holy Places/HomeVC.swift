@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 import CoreData
-import CoreLocation
 import StoreKit
 
 var allPlaces: [Temple] = []
@@ -27,7 +26,7 @@ var greatestTipPC = SKProduct()
 var changesMsg = String()
 
 
-class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SKProductsRequestDelegate {
+class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
 
     var xmlParser: XMLParser!
     var eName: String = String()
@@ -43,9 +42,6 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
     var templeType = String()
     
     var templeSiteURL = String()
-    
-    var locationManager: CLLocationManager!
-    var coordinateOfUser: CLLocation!
     
     @IBOutlet weak var info: UIButton!
     
@@ -162,18 +158,6 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
         
     }
     
-    // Update the Distance in the Place data arrays based on new location
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            print("Authorization Granted!")
-            print(locationManager.location!)
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        }
-    }
     
     // Get the Place data from CoreData and build the various Place arrays
     func getPlaces () {
@@ -186,7 +170,6 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
             
             //I like to check the size of the returned results!
             print ("num of results = \(searchResults.count)")
-            print(coordinateOfUser)
             
             // clear out arrays
             activeTemples.removeAll()
@@ -199,7 +182,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
             for place in searchResults as [NSManagedObject] {
                 let latitude = place.value(forKey: "latitude") as! Double
                 let longitude = place.value(forKey: "longitude") as! Double
-                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: longitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String, distance: CLLocation(latitude: latitude, longitude: longitude).distance(from: coordinateOfUser))
+                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: longitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String)
                 allPlaces.append(temple)
                 //print("\(place.value(forKey: "order"))")
                 switch temple.templeType {
@@ -255,26 +238,6 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startMonitoringSignificantLocationChanges()
-        
-        
-        // Check if the user allowed authorization
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
-            //print(locationManager.location!)
-            //print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
-            //print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        } else {
-            print("Location not authorized")
-            // Default location to Temple Square
-            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-        }
-        
         // Do any additional setup after loading the view.
         
         // Grab In-App purchase information
@@ -369,7 +332,7 @@ class HomeVC: UIViewController, XMLParserDelegate, CLLocationManagerDelegate, SK
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, distance: CLLocation( latitude: templeLatitude, longitude: templeLongitude).distance(from: coordinateOfUser))
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType)
             
             allPlaces.append(temple)
             switch templeType {

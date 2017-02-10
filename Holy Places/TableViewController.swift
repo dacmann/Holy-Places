@@ -174,7 +174,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-            //print(locationManager.location!)
+            print("Location Authorized")
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
             if nearestEnabled {
                 updateDistance()
@@ -211,6 +211,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         } else {
             print("Location not authorized")
+            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
         
         // Search Controller Stuff
