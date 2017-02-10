@@ -9,10 +9,17 @@
 import UIKit
 import CoreData
 
+extension VisitTableVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+}
+
 class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
     
     var placeType = Int()
     var sortType = Int()
+    var titleHeader = String()
     
     // Set variable based on Filter Option selected on Options view
     func FilterOptions(row: Int) {
@@ -24,6 +31,25 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         sortType = row
     }
     
+    // Search Controller Code
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredVisits = [Visit]()
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        // Reset places to full array
+        let allVisits = fetchedResultsController.fetchedObjects
+        // Search on Place name, City or State
+        filteredVisits = allVisits!.filter { visit in
+            return (visit.holyPlace?.lowercased().contains(searchText.lowercased()))!
+        }
+        // Update title
+        if searchController.isActive && searchController.searchBar.text != "" {
+            self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
+        } else {
+            self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
+        }
+        tableView.reloadData()
+    }
+    
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
@@ -33,6 +59,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
+        // Search Controller Stuff
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        extendedLayoutIncludesOpaqueBars = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -85,13 +119,22 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section]
-        return sectionInfo.numberOfObjects
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredVisits.count
+        } else {
+            let sectionInfo = self.fetchedResultsController.sections![section]
+            return sectionInfo.numberOfObjects
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath)
-        let visit = self.fetchedResultsController.object(at: indexPath)
+        var visit = Visit()
+        if searchController.isActive && searchController.searchBar.text != "" {
+            visit = filteredVisits[indexPath.row]
+        } else {
+            visit = self.fetchedResultsController.object(at: indexPath)
+        }
         self.configureCell(cell, withVisit: visit)
         return cell
     }
@@ -143,7 +186,6 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     var fetchedResultsController: NSFetchedResultsController<Visit> {
         
-        var title = String()
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
@@ -162,18 +204,18 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Filter the request
         switch placeType {
         case 0:
-            title = "Holy Places Visits"
+            titleHeader = "Holy Places Visits"
         case 1:
-            title = "Active Temples Visits"
+            titleHeader = "Active Temples Visits"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
         case 2:
-            title = "Historical Sites Visits"
+            titleHeader = "Historical Sites Visits"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
         case 3:
-            title = "Visitors' Centers Visits"
+            titleHeader = "Visitors' Centers Visits"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
         default:
-            title = "Visits"
+            titleHeader = "Visits"
         }
         
         
@@ -193,7 +235,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         
         // Update title
-        self.navigationItem.title = title + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
+        if searchController.isActive && searchController.searchBar.text != "" {
+            self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
+        } else {
+            self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
+        }
+        
         
         return _fetchedResultsController!
     }
@@ -234,7 +281,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "visitDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let visit = self.fetchedResultsController.object(at: indexPath)
+                var visit = Visit()
+                if searchController.isActive && searchController.searchBar.text != "" {
+                    visit = filteredVisits[indexPath.row]
+                } else {
+                    visit = self.fetchedResultsController.object(at: indexPath)
+                }
                 let controller = (segue.destination as! VisitDetailVC)
                 controller.detailVisit = visit
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -245,6 +297,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             controller.delegateOptions = self
             controller.sortSelected = sortType
             controller.filterSelected = placeType
+            searchController.isActive = false
         }
     }
 
