@@ -25,17 +25,15 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         //SKPaymentQueue.default().add(self)
         
         version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion
-        
-        //profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 2
-        profile_picture.layer.cornerRadius = 10.0
-        profile_picture.clipsToBounds = true
-        profile_picture.layer.borderWidth = 3
-        profile_picture.layer.borderColor = UIColor.white.cgColor
 
         // Do any additional setup after loading the view.
         greatTipBtn.setTitle(greatTip, for: .normal)
         greaterTipBtn.setTitle(greaterTip, for: .normal)
         greatestTipBtn.setTitle(greatestTip, for: .normal)
+        
+        self.view.layoutIfNeeded()
+        profile_picture.layer.cornerRadius = 10.0
+        profile_picture.layer.masksToBounds = true
 
     }
 
@@ -86,27 +84,6 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
             // show failure alert
         }
     }
-    
-//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-//        
-//        for transaction in transactions {
-//            switch transaction.transactionState {
-//            case .purchased:
-//                // thanks for the purchase
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                self.alertController = UIAlertController(title: "Thanks for tip", message: "I really appreciate your support.", preferredStyle: .alert)
-//                break
-//            case .failed:
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                break
-//            default:
-//                break
-//            }
-//        }
-//        
-//    }
-    
-
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         

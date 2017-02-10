@@ -23,7 +23,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
-    var locationManager: CLLocationManager!
+    let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
     
     // Set variable based Filter Option selected on Options view
@@ -162,22 +162,25 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         self.tableView.reloadData()
     }
     
+    
     // Update the Distance in the Place data arrays based on new location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location Update")
         coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         if nearestEnabled {
             updateDistance()
+            setup()
             self.tableView.reloadData()
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
+        if status == .authorizedAlways {
             print("Location Authorized")
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
             if nearestEnabled {
                 updateDistance()
+                setup()
                 self.tableView.reloadData()
             }
         }
@@ -197,17 +200,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        //locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        //locationManager.startUpdatingLocation()
         locationManager.startMonitoringSignificantLocationChanges()
         
         // Check if the user allowed authorization
         if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
-            //print(locationManager.location!)
-            //print("Latitude: " + (locationManager.location?.coordinate.latitude.description)!)
-            //print("Longitude: " + (locationManager.location?.coordinate.longitude.description)!)
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         } else {
             print("Location not authorized")
@@ -251,9 +252,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
         
         let temple = places[index]
-//        if searchController.isActive && searchController.searchBar.text != "" {
-//            temple = filteredPlaces[index]
-//        }
         
         cell.textLabel?.text = temple.templeName
         if nearestEnabled {

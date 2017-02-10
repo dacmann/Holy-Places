@@ -47,7 +47,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
-        let textToShare = "Holy Places is awesome!  Check it out!"
+        let textToShare = "Holy Places - LDS Temples and Historic Sites by Derek Cordon"
         
         if let myWebsite = NSURL(string: "https://itunes.apple.com/us/app/holy-places-lds-temples-historic/id1200184537?mt=8") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
@@ -255,6 +255,8 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             let alert = UIAlertController(title: "Holy Places Update", message: changesMsg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alert, animated: true)
+            // clear out message now that it has been presented
+            changesMsg = ""
         }
     }
 
