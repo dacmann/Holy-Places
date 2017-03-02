@@ -22,6 +22,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var sortType = Int()
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
+    var sortByDedicationDate = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
@@ -36,10 +37,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         sortType = row
         nearestEnabled = false
         sortByCountry = false
+        sortByDedicationDate = false
         if sortType == 1 {
             nearestEnabled = true
         } else if sortType == 2 {
             sortByCountry = true
+        } else if sortType == 3 {
+            sortByDedicationDate = true
         }
     }
     
@@ -96,10 +100,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             places = filteredPlaces
         }
         
+        // Update title of View
         self.navigationItem.title = title + " (" + (places.count.description) + ")"
-        // Sort by
-        //temples.sort { $0.templeOrder < $1.templeOrder }
-        
+
         //reset sections array
         sections.removeAll()
         
@@ -109,6 +112,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             if nearestEnabled {
                 updateDistance()
                 places.sort { Int($0.distance!) < Int($1.distance!) }
+                let newSection = (index: 1, length: places.count, title: "")
+                sections.append(newSection)
+            } else if sortByDedicationDate {
+                places.sort { $0.templeOrder < $1.templeOrder }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
             } else if sortByCountry {
@@ -245,7 +252,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
 
         var index = Int()
 
-        if nearestEnabled {
+        if nearestEnabled || sortByDedicationDate {
             index = indexPath.row
         } else {
             index = sections[indexPath.section].index + indexPath.row
@@ -284,7 +291,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if nearestEnabled {
+        if nearestEnabled || sortByDedicationDate {
             return nil
         }
         return sections.map {$0.title[(title?.startIndex)!].description}
@@ -303,7 +310,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 var index = Int()
-                if nearestEnabled {
+                if nearestEnabled || sortByDedicationDate {
                     index = indexPath.row
                 } else {
                     index = sections[indexPath.section].index + indexPath.row

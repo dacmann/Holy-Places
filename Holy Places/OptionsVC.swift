@@ -22,6 +22,8 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     //var nearestEnabled: Bool?
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
+    var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date"]
+    var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
 
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerFilter: UIPickerView!
@@ -88,6 +90,12 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
             sortSelected = row
         } else {
             filterSelected = row
+            if (row == 1) {
+                sortOptions = sortOptionsTemple
+            } else {
+                sortOptions = sortOptionsAll
+            }
+            pickerSort.reloadAllComponents()
         }
     }
     
