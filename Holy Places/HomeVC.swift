@@ -27,7 +27,7 @@ var changesMsg = String()
 
 
 class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
-
+    //MARK: - Variables
     var xmlParser: XMLParser!
     var eName: String = String()
     var templeName = String()
@@ -42,7 +42,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     var templeType = String()
     
     var templeSiteURL = String()
-    
+    //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
@@ -57,7 +57,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             self.present(activityVC, animated: true, completion: nil)
         }
     }
-    
+    //MARK: - Core Data
     // Required for CoreData
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -206,6 +206,33 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         }
     }
     
+    //MARK: - Standard Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
+        // Grab In-App purchase information
+        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
+        
+        // Update Places
+        refreshTemples()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // Check for update and pop message
+        //changesMsg = "You are going to love these latest updates!\n\nKeep those tips rolling in!"
+        if changesMsg != "" {
+            let alert = UIAlertController(title: "Holy Places Update", message: changesMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true)
+            // clear out message now that it has been presented
+            changesMsg = ""
+        }
+    }
+    
+    
+    //MARK: - Update Data
     // Pull down the XML file from website and parse the data
     func refreshTemples(){
         
@@ -236,35 +263,6 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        // Grab In-App purchase information
-        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
-        
-        // Update Places
-        refreshTemples()
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Check for update and pop message
-        //changesMsg = "You are going to love these latest updates!\n\nKeep those tips rolling in!"
-        if changesMsg != "" {
-            let alert = UIAlertController(title: "Holy Places Update", message: changesMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-            self.present(alert, animated: true)
-            // clear out message now that it has been presented
-            changesMsg = ""
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // didStartElement of parser
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
@@ -349,7 +347,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             }
         }
     }
-    
+    //MARK: - In-App Purchases
     var productRequest: SKProductsRequest!
     
     // Fetch information about your products from the App Store.

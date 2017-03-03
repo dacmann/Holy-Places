@@ -8,15 +8,24 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
 extension TableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+    }
+}
+
+extension TableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
 }
 
 class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
-    
+    //MARK: - Variables
     var places: [Temple] = []
     var placeType = Int()
     var sortType = Int()
@@ -26,7 +35,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var sections : [(index: Int, length :Int, title: String)] = Array()
     let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
-    
+    var visits = [String]()
+
+    // MARK: - SendOptions
     // Set variable based Filter Option selected on Options view
     func FilterOptions(row: Int) {
         placeType = row
@@ -47,9 +58,37 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
     }
     
-    // Search Controller Code
+    //MARK: - CoreData
+    func getContext () -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
+    
+    // Retrieve the Visits data from CoreData
+    func getVisits () {
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try getContext().fetch(fetchRequest)
+            
+            //I like to check the size of the returned results!
+            print ("num of results = \(searchResults.count)")
+            
+            //You need to convert to NSManagedObject to use 'for' loops
+            for visit in searchResults as [NSManagedObject] {
+                visits.append(visit.value(forKey: "holyPlace") as! String)
+            }
+        } catch {
+            print("Error with request: \(error)")
+        }
+        
+    }
+    
+    //MARK: - Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
     var filteredPlaces = [Temple]()
+    
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
         switch placeType {
@@ -66,13 +105,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
         // Search on Place name, City or State
         filteredPlaces = places.filter { place in
-            return place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased())
+            let categoryMatch = (scope == "All") || (scope == "Visited" && visits.contains(place.templeName)) || (scope == "Not Visited" && !(visits.contains(place.templeName)))
+            return categoryMatch && (place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased()) || searchText.isEmpty)
         }
         // Update table to reflect filtered results
         setup()
         tableView.reloadData()
     }
     
+    //MARK: - Filters and Sort
     // Determine Filters and sort criteria and build indexes if required
     func setup () {
         var title = String()
@@ -164,12 +205,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setup()
-        self.tableView.reloadData()
-    }
-    
-    
+    // MARK: - Location Services
     // Update the Distance in the Place data arrays based on new location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location Update")
@@ -203,7 +239,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             //print(place.cllocation)
         }
     }
-
+    
+    //MARK: - Standard methods
+    override func viewWillAppear(_ animated: Bool) {
+        setup()
+        getVisits()
+        self.tableView.reloadData()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -226,9 +268,19 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.ocean()
+        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSFontAttributeName: searchBarFont, NSForegroundColorAttributeName:UIColor.ocean()], for: UIControlState.normal)
+        
+        let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         extendedLayoutIncludesOpaqueBars = true
+        
+        searchController.searchBar.scopeButtonTitles = ["All", "Visited", "Not Visited"]
+        searchController.searchBar.delegate = self
     }
 
 
@@ -284,6 +336,22 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        //Create label and autoresize it
+        let headerLabel = UILabel()
+        headerLabel.font = UIFont(name: "Baskerville", size: 22)
+        headerLabel.backgroundColor = UIColor.white
+        headerLabel.textColor = UIColor.ocean()
+        headerLabel.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+        headerLabel.sizeToFit()
+        
+        //Adding Label to existing headerView
+        let headerView = UIView()
+        headerView.addSubview(headerLabel)
+        
+        return headerView
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

@@ -64,6 +64,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         extendedLayoutIncludesOpaqueBars = true
@@ -129,11 +131,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath)
-        var visit = Visit()
+        var visit = self.fetchedResultsController.object(at: indexPath)
         if searchController.isActive && searchController.searchBar.text != "" {
             visit = filteredVisits[indexPath.row]
-        } else {
-            visit = self.fetchedResultsController.object(at: indexPath)
         }
         self.configureCell(cell, withVisit: visit)
         return cell

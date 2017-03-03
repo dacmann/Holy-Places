@@ -958,6 +958,7 @@
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="txC-8l-y6Q" detailTextLabel="ve3-9U-eeu" style="IBUITableViewCellStyleSubtitle" id="V8F-P6-QvO">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
@@ -982,6 +983,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="zKl-KP-iZp" kind="show" identifier="showDetail" id="0fv-2X-K2s"/>
                                 </connections>
