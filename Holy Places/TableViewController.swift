@@ -137,7 +137,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
 
         // If search bar is active use filteredPlaces instead
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive {
             places = filteredPlaces
         }
         
