@@ -14,25 +14,34 @@ protocol SendOptionsDelegate {
 }
 
 class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
+    //MARK: - Variables
     var delegateOptions: SendOptionsDelegate? = nil
-    
     var filterSelected: Int?
     var sortSelected: Int?
-    //var nearestEnabled: Bool?
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
     var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
-
+    
+    //MARK: - Outlets & Actions
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerFilter: UIPickerView!
     @IBOutlet weak var pickerSort: UIPickerView!
     
+    //MARK: - Standard Functions
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view
+        
+        // Determine which Sort array to use
+        if (filterSelected == 1) {
+            sortOptions = sortOptionsTemple
+        } else {
+            sortOptions = sortOptionsAll
+        }
+        
+        // Set up Picker views
         pickerFilter.dataSource = self
         pickerFilter.delegate = self
         pickerFilter.selectRow(filterSelected!, inComponent: 0, animated: true)
@@ -41,6 +50,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
     }
     
+    //MARK: - PickerView Functions
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var label = view as! UILabel!
         if label == nil {
@@ -103,6 +113,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         return 1
     }
 
+    // MARK: - Navigation
     @IBAction func goBack(_ sender: UIButton) {
         if delegateOptions != nil {
             delegateOptions?.FilterOptions(row: filterSelected!)
@@ -111,14 +122,5 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         self.dismiss(animated: true, completion: nil)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
