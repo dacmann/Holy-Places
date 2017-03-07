@@ -106,9 +106,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         else
         {
             let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text          = "Add Visits from the Place details page"
+            noDataLabel.text          = "Add Visits from the Place Details pages"
             noDataLabel.textColor     = UIColor.ocean()
             noDataLabel.textAlignment = .center
+            noDataLabel.font = UIFont(name: "Baskerville", size: 18)
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }

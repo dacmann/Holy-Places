@@ -51,6 +51,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         sortByDedicationDate = false
         if sortType == 1 {
             nearestEnabled = true
+            locationManager.requestAlwaysAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startMonitoringSignificantLocationChanges()
         } else if sortType == 2 {
             sortByCountry = true
         } else if sortType == 3 {
@@ -73,7 +76,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             let searchResults = try getContext().fetch(fetchRequest)
             
             //I like to check the size of the returned results!
-            print ("num of results = \(searchResults.count)")
+            //print ("num of results = \(searchResults.count)")
             
             //You need to convert to NSManagedObject to use 'for' loops
             for visit in searchResults as [NSManagedObject] {
@@ -226,6 +229,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 setup()
                 self.tableView.reloadData()
             }
+        } else {
+            print("Location not authorized")
+            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
     }
     
@@ -251,15 +257,20 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         
         locationManager.delegate = self
         //locationManager.requestWhenInUseAuthorization()
-        locationManager.requestAlwaysAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         //locationManager.startUpdatingLocation()
-        locationManager.startMonitoringSignificantLocationChanges()
+//        locationManager.requestAlwaysAuthorization()
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.startMonitoringSignificantLocationChanges()
         
         // Check if the user allowed authorization
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        } else {
+//        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
+//            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+//        } else {
+//            print("Location not authorized")
+//            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
+//        }
+        
+        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             print("Location not authorized")
             coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
@@ -314,7 +325,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         
         cell.textLabel?.text = temple.templeName
         if nearestEnabled {
-            cell.detailTextLabel?.text = Int((temple.distance)! * 0.000621371).description + " Mi - " + temple.templeSnippet
+            // convert distance from meters to miles
+            var distance = Int((temple.distance)! * 0.000621371).description
+            // When under a mile, show distance in feet instead
+            if distance == "0" {
+                distance = Int((temple.distance)! * 3.28084).description + " ft - "
+            } else {
+                distance.append(" mi. - ")
+            }
+            cell.detailTextLabel?.text = distance + temple.templeSnippet
         } else {
             cell.detailTextLabel?.text = temple.templeSnippet
         }
