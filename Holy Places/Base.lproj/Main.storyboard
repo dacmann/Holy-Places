@@ -734,6 +734,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
                                                         <rect key="frame" x="0.0" y="166" width="187" height="33"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="Contact Me"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -996,6 +997,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Holy Places" id="t7b-UJ-ssK">
                         <barButtonItem key="rightBarButtonItem" title="Options" id="flH-nR-voh">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="8NJ-A8-ZaS" kind="presentation" identifier="showOptions" id="GvK-mF-CCG"/>
                             </connections>
@@ -1069,11 +1071,11 @@
                         <viewControllerLayoutGuide type="bottom" id="JSm-a4-m8r"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MMP-iS-hw5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="m4j-0g-Fyz">
-                                <rect key="frame" x="20" y="84" width="374" height="583"/>
+                                <rect key="frame" x="20" y="20" width="374" height="588"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
@@ -1088,7 +1090,8 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpo-hi-8Mn">
-                                        <rect key="frame" x="0.0" y="23" width="374" height="39.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="23" width="374" height="39.333333333333329"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Apr 6, 1830">
@@ -1104,7 +1107,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="feb-1A-Stx">
-                                        <rect key="frame" x="0.0" y="62.333333333333343" width="374" height="295.66666666666663"/>
+                                        <rect key="frame" x="0.0" y="62.333333333333343" width="374" height="300.66666666666663"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaE-gh-9rg">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
@@ -1119,7 +1122,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Attended with ..." translatesAutoresizingMaskIntoConstraints="NO" id="ErR-fz-a6a">
-                                                <rect key="frame" x="0.0" y="23" width="374" height="272.66666666666663"/>
+                                                <rect key="frame" x="0.0" y="23" width="374" height="277.66666666666669"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1130,7 +1133,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hjd-Sm-8kS">
-                                        <rect key="frame" x="0.0" y="358" width="374" height="225"/>
+                                        <rect key="frame" x="0.0" y="363" width="374" height="225"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-Vg-Oqj">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
@@ -1164,6 +1167,7 @@
                                                     </textField>
                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-vR-Qvd">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="29"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
                                                             <action selector="sealingsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="O19-5P-vGE"/>
                                                         </connections>
@@ -1203,6 +1207,7 @@
                                                     </textField>
                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-bT-KaZ">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="29"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
                                                             <action selector="endowmentStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="svj-2m-x9X"/>
                                                         </connections>
@@ -1241,6 +1246,7 @@
                                                     </textField>
                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-26-FyD">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="29"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
                                                             <action selector="initiatoriesStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="lqW-QZ-u4w"/>
                                                         </connections>
@@ -1279,6 +1285,7 @@
                                                     </textField>
                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Zc-GOQ">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="29"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
                                                             <action selector="confirmationStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="tSG-dz-BV9"/>
                                                         </connections>
@@ -1317,6 +1324,7 @@
                                                     </textField>
                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a00-JL-fMe">
                                                         <rect key="frame" x="280" y="0.0" width="94" height="29"/>
+                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
                                                             <action selector="baptismsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="XyX-Tv-0Rg"/>
                                                         </connections>
@@ -1495,6 +1503,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
                                                 <rect key="frame" x="0.0" y="181.33333333333331" width="414" height="30"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Ep6-kk-NDJ"/>
                                                 </constraints>
@@ -1508,7 +1517,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
                                                         <rect key="frame" x="0.0" y="0.0" width="214.66666666666666" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <state key="normal" title="Record Visit"/>
+                                                        <state key="normal" title="Record Visit">
+                                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
                                                         <connections>
                                                             <segue destination="rBL-9C-lIs" kind="show" identifier="recordVisit" id="RyY-bx-CRt"/>
                                                         </connections>
@@ -1516,7 +1527,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx">
                                                         <rect key="frame" x="244.66666666666663" y="0.0" width="169.33333333333337" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <state key="normal" title="Website"/>
+                                                        <state key="normal" title="Website">
+                                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
                                                         <connections>
                                                             <segue destination="Dbn-TI-CH7" kind="presentation" identifier="showWebsite" id="V03-PG-qkc"/>
                                                         </connections>
@@ -1577,6 +1590,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1696,11 +1710,23 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cem-UL-jIT">
+                                <rect key="frame" x="20" y="20" width="89" height="32"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                <state key="normal" title="Export Visits">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="3AW-Dn-8Y2" kind="presentation" id="pp1-qs-NHq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Cem-UL-jIT" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leadingMargin" id="6FJ-aS-UUA"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="eP3-6R-M3G"/>
+                            <constraint firstItem="Cem-UL-jIT" firstAttribute="top" secondItem="i5l-UU-oNv" secondAttribute="bottom" id="elM-LI-iEc"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1711,7 +1737,90 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tOf-gd-BrL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="1966"/>
+            <point key="canvasLocation" x="2379.7101449275365" y="1965.4891304347827"/>
+        </scene>
+        <!--Visits Back UpVC-->
+        <scene sceneID="A7A-wc-R19">
+            <objects>
+                <viewController id="3AW-Dn-8Y2" customClass="VisitsBackUpVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CHX-L6-LaR"/>
+                        <viewControllerLayoutGuide type="bottom" id="465-hr-QMS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0TZ-dd-QWO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Dix-qY-hBo">
+                                <rect key="frame" x="80.666666666666686" y="288.66666666666674" width="253" height="160.33333333333331"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visits Export Options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNg-Rh-0ML">
+                                        <rect key="frame" x="0.0" y="0.0" width="253" height="25.333333333333314"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QTh-6o-qxM">
+                                        <rect key="frame" x="0.0" y="55.333333333333314" width="253" height="35"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                        <state key="normal" title="Export Visits To Plain Text File">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exportToNotes:" destination="3AW-Dn-8Y2" eventType="touchUpInside" id="Iu7-aj-be0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4B-eM-WY0">
+                                        <rect key="frame" x="0.0" y="120.33333333333331" width="253" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                        <state key="normal" title="Export Visits To XML File">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exportToXML:" destination="3AW-Dn-8Y2" eventType="touchUpInside" id="UuU-XQ-h1S"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nCL-VF-dZV" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="120.33333333333331" width="253" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goBack:" destination="3AW-Dn-8Y2" eventType="touchUpInside" id="9cp-cn-lDd"/>
+                                            <action selector="goBack:" destination="0kB-hC-xcd" eventType="touchUpInside" id="gkU-DD-V76"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="e4B-eM-WY0"/>
+                                    </mask>
+                                </variation>
+                            </stackView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-X8-fSO">
+                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <items/>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="AzP-X8-fSO" secondAttribute="trailing" id="6WX-hf-11u"/>
+                            <constraint firstItem="465-hr-QMS" firstAttribute="top" secondItem="AzP-X8-fSO" secondAttribute="bottom" id="X7W-FK-w45"/>
+                            <constraint firstItem="Dix-qY-hBo" firstAttribute="centerX" secondItem="0TZ-dd-QWO" secondAttribute="centerX" id="bSE-Ci-5fw"/>
+                            <constraint firstItem="AzP-X8-fSO" firstAttribute="leading" secondItem="0TZ-dd-QWO" secondAttribute="leading" id="jJS-sV-K5z"/>
+                            <constraint firstItem="Dix-qY-hBo" firstAttribute="centerY" secondItem="0TZ-dd-QWO" secondAttribute="centerY" id="w5U-C6-ail"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="toolBar" destination="AzP-X8-fSO" id="QHC-qf-zfz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WEK-oB-6hv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3076.811594202899" y="1964.6739130434785"/>
         </scene>
     </scenes>
     <resources>
@@ -1722,6 +1831,6 @@
         <image name="profile" width="166" height="166"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iRB-7e-lLt"/>
+        <segue reference="RyY-bx-CRt"/>
     </inferredMetricsTieBreakers>
 </document>

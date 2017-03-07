@@ -15,6 +15,7 @@
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
 		6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */; };
 		6461BAE11E3BF7A200365698 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6461BAE01E3BF7A200365698 /* StoreKit.framework */; };
+		64BDADA01E6DBC9600E7AC6F /* VisitsBackUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BDAD9F1E6DBC9600E7AC6F /* VisitsBackUpVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
@@ -38,6 +39,7 @@
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitOptionsVC.swift; sourceTree = "<group>"; };
 		6461BAE01E3BF7A200365698 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		64BDAD9F1E6DBC9600E7AC6F /* VisitsBackUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitsBackUpVC.swift; path = ../VisitsBackUpVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */,
 				64D934581E368ACB008F9975 /* SummaryVC.swift */,
 				64F7364A1E3AA84A00622CD5 /* InfoVC.swift */,
+				64BDAD9F1E6DBC9600E7AC6F /* VisitsBackUpVC.swift */,
 				64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */,
 			);
 			name = ViewControllers;
@@ -219,6 +222,7 @@
 				64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */,
 				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
 				64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */,
+				64BDADA01E6DBC9600E7AC6F /* VisitsBackUpVC.swift in Sources */,
 				644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
