@@ -256,19 +256,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         super.viewDidLoad()
         
         locationManager.delegate = self
-        //locationManager.requestWhenInUseAuthorization()
-        //locationManager.startUpdatingLocation()
-//        locationManager.requestAlwaysAuthorization()
-//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.startMonitoringSignificantLocationChanges()
-        
-        // Check if the user allowed authorization
-//        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
-//            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-//        } else {
-//            print("Location not authorized")
-//            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-//        }
+
         
         if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             print("Location not authorized")
