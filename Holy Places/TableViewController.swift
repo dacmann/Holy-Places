@@ -242,7 +242,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         //print("Update Distance")
         //print(coordinateOfUser)
         for place in places {
-            place.distance = place.cllocation.distance(from: coordinateOfUser!)
+            if locationSpecific {
+                place.distance = place.cllocation.distance(from: coordAltLocation!)
+            } else {
+                place.distance = place.cllocation.distance(from: coordinateOfUser!)
+            }
             //print(place.templeName + " - " + (place.distance?.description)!)
             //print(place.cllocation)
         }

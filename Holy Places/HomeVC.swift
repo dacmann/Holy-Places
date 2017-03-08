@@ -10,7 +10,9 @@ import UIKit
 import Foundation
 import CoreData
 import StoreKit
+import CoreLocation
 
+//MARK: - Global Variables
 var allPlaces: [Temple] = []
 var activeTemples: [Temple] = []
 var historical: [Temple] = []
@@ -27,7 +29,12 @@ var changesDate = String()
 var changesMsg1 = String()
 var changesMsg2 = String()
 var changesMsg3 = String()
-
+var coordAltLocation: CLLocation!
+var locationSpecific = Bool()
+var altLocStreet = String()
+var altLocCity = String()
+var altLocState = String()
+var altLocPostalCode = String()
 
 class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     //MARK: - Variables
