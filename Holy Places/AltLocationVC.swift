@@ -36,7 +36,7 @@ class AltLocationVC: UIViewController {
         self.postalCode.text = altLocPostalCode
         if coordAltLocation != nil {
             let coordinate = coordAltLocation.coordinate
-            self.addressResult.text = "lat: \(coordinate.latitude)\nlong: \(coordinate.longitude)"
+            self.addressResult.text = "latitude: \(coordinate.latitude)\nlongitude: \(coordinate.longitude)"
         } else {
             locationControl.isEnabled = false
         }
@@ -104,7 +104,7 @@ class AltLocationVC: UIViewController {
                 let placemark = placemarks?[0]
                 let location = placemark?.location
                 let coordinate = location?.coordinate
-                self.addressResult.text = "lat: \(coordinate!.latitude)\nlong: \(coordinate!.longitude)"
+                self.addressResult.text = "Success!\n\nlatitude: \(coordinate!.latitude)\nlongitude: \(coordinate!.longitude)"
                 print("\nlat: \(coordinate!.latitude), long: \(coordinate!.longitude)")
                 coordAltLocation = location
                 altLocStreet = self.street.text!

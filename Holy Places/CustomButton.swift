@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 class CustomButton: UIButton {
     
     override func layoutSubviews() {
