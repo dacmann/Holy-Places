@@ -25,7 +25,7 @@ extension TableViewController: UISearchBarDelegate {
 }
 
 class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
-    //MARK: - Variables
+    //MARK: - Variables and Outlets
     var places: [Temple] = []
     var placeType = Int()
     var sortType = Int()
@@ -37,6 +37,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var coordinateOfUser: CLLocation!
     var visits = [String]()
 
+    @IBOutlet weak var locationButton: UIBarButtonItem!
+    
     // MARK: - SendOptions
     // Set variable based Filter Option selected on Options view
     func FilterOptions(row: Int) {
@@ -135,7 +137,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             title = "Visitors' Centers"
             places = visitors
         default:
-            title = "Temples Under Construction"
+            title = "Construction"
             places = construction
         }
 
@@ -251,6 +253,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         setup()
         getVisits()
         self.tableView.reloadData()
+        
+        if nearestEnabled {
+            locationButton.title = "Location"
+        } else {
+            locationButton.title = ""
+        }
+        locationButton.isEnabled = nearestEnabled
     }
     override func viewDidLoad() {
         super.viewDidLoad()

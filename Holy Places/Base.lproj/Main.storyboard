@@ -951,6 +951,144 @@
             </objects>
             <point key="canvasLocation" x="2380" y="-516"/>
         </scene>
+        <!--Alt LocationVC-->
+        <scene sceneID="wzL-tM-6g7">
+            <objects>
+                <viewController id="wsr-r5-c1n" customClass="AltLocationVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DMO-iu-el7"/>
+                        <viewControllerLayoutGuide type="bottom" id="x3u-uo-Hqf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uLD-XH-Jpp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="lpX-Dx-XBO">
+                                <rect key="frame" x="55" y="82" width="303" height="571.33333333333337"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location to Use for Nearest Sort" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYu-lm-Pw6">
+                                        <rect key="frame" x="8" y="0.0" width="287" height="25.333333333333329"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="upn-hM-pcm">
+                                        <rect key="frame" x="24" y="55.333333333333343" width="255" height="29"/>
+                                        <segments>
+                                            <segment title="Current Location"/>
+                                            <segment title="Specified Location"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.0013271663337945938" green="0.3275567889213562" blue="0.57669931650161743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="locationChoice:" destination="wsr-r5-c1n" eventType="valueChanged" id="dph-gH-FgQ"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ARf-l5-uH7">
+                                        <rect key="frame" x="1.6666666666666572" y="113.33333333333334" width="300" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="TU4-gF-53H"/>
+                                            <constraint firstAttribute="width" constant="300" id="hjX-zc-yEh"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="18H-FV-kiO">
+                                        <rect key="frame" x="1.6666666666666572" y="179.33333333333331" width="300" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="b2g-d3-Ffd"/>
+                                            <constraint firstAttribute="width" constant="300" id="rm4-Uu-wx2"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="2xv-id-XK0">
+                                        <rect key="frame" x="0.0" y="245.33333333333331" width="303" height="36"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rx6-Vg-B93">
+                                                <rect key="frame" x="0.0" y="0.0" width="145" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="36" id="CBG-tY-fIk"/>
+                                                    <constraint firstAttribute="width" constant="145" id="tzb-W7-Kb5"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Postal Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fdh-yr-Oa5">
+                                                <rect key="frame" x="158" y="0.0" width="145" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="145" id="I6Y-Mc-Nye"/>
+                                                    <constraint firstAttribute="height" constant="36" id="Ue4-jB-cuA"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-05-MOt" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="311.33333333333331" width="283" height="40"/>
+                                        <color key="backgroundColor" red="0.0013271663337945938" green="0.3275567889213562" blue="0.57669931650161743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                        <state key="normal" title="Validate Address">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goBack:" destination="8NJ-A8-ZaS" eventType="touchUpInside" id="aiQ-h8-c50"/>
+                                            <action selector="validate:" destination="wsr-r5-c1n" eventType="touchUpInside" id="PFU-Qq-OdR"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0c-Sy-hQp">
+                                        <rect key="frame" x="1.6666666666666572" y="381.33333333333337" width="300" height="120.00000000000006"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="6jo-Yf-Qip"/>
+                                            <constraint firstAttribute="height" priority="750" constant="120" id="9ws-Vz-8zC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17A-u9-buV" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="531.33333333333337" width="283" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goBack:" destination="wsr-r5-c1n" eventType="touchUpInside" id="4Ae-nG-ywV"/>
+                                            <action selector="goBack:" destination="8NJ-A8-ZaS" eventType="touchUpInside" id="v5i-Zu-vLa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="TN5-05-MOt" firstAttribute="leading" secondItem="lpX-Dx-XBO" secondAttribute="leading" constant="10" id="OkA-5m-l3v"/>
+                                    <constraint firstItem="17A-u9-buV" firstAttribute="leading" secondItem="lpX-Dx-XBO" secondAttribute="leadingMargin" constant="10" id="eTy-qv-CrM"/>
+                                    <constraint firstAttribute="trailing" secondItem="TN5-05-MOt" secondAttribute="trailing" constant="10" id="oGB-o1-ssw"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="17A-u9-buV" secondAttribute="trailing" constant="10" id="zuh-2l-uvS"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerX" secondItem="uLD-XH-Jpp" secondAttribute="centerX" id="Nl9-Ec-Qck"/>
+                            <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerY" secondItem="uLD-XH-Jpp" secondAttribute="centerY" id="gGF-Fg-ocg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addressResult" destination="O0c-Sy-hQp" id="7Zp-CV-AFo"/>
+                        <outlet property="city" destination="18H-FV-kiO" id="60x-FB-sWD"/>
+                        <outlet property="postalCode" destination="fdh-yr-Oa5" id="sxq-vj-Fb8"/>
+                        <outlet property="state" destination="rx6-Vg-B93" id="LoN-g0-QGm"/>
+                        <outlet property="street" destination="ARf-l5-uH7" id="T4Y-7l-3uz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kx3-e9-p3K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3083" y="-508"/>
+        </scene>
         <!--Places-->
         <scene sceneID="tVV-iv-ZMs">
             <objects>
@@ -996,12 +1134,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Holy Places" id="t7b-UJ-ssK">
+                        <barButtonItem key="leftBarButtonItem" title="Location" id="gDV-mg-DnY">
+                            <connections>
+                                <segue destination="wsr-r5-c1n" kind="presentation" id="sSb-hg-4pk"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Options" id="flH-nR-voh">
                             <connections>
                                 <segue destination="8NJ-A8-ZaS" kind="presentation" identifier="showOptions" id="GvK-mF-CCG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="locationButton" destination="gDV-mg-DnY" id="8Bw-aq-1gL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vRb-R2-pBs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
