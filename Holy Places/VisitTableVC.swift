@@ -34,6 +34,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     // Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
     var filteredVisits = [Visit]()
+    
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
         let allVisits = fetchedResultsController.fetchedObjects

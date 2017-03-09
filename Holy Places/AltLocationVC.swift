@@ -93,6 +93,7 @@ class AltLocationVC: UIViewController {
         }
     }
     @IBAction func validate(_ sender: UIButton) {
+        self.view.endEditing(true)
         var address = String()
         address = "\(street.text!) \(city.text!) \(state.text!) \(postalCode.text!)"
         CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks, error) in
@@ -104,7 +105,7 @@ class AltLocationVC: UIViewController {
                 let placemark = placemarks?[0]
                 let location = placemark?.location
                 let coordinate = location?.coordinate
-                self.addressResult.text = "Success!\n\nlatitude: \(coordinate!.latitude)\nlongitude: \(coordinate!.longitude)"
+                self.addressResult.text = "Coordinates found!  Press Done to see what is nearest.\n\nlatitude: \(coordinate!.latitude)\nlongitude: \(coordinate!.longitude)"
                 print("\nlat: \(coordinate!.latitude), long: \(coordinate!.longitude)")
                 coordAltLocation = location
                 altLocStreet = self.street.text!

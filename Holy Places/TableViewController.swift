@@ -173,6 +173,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                     }
                     return countryComparisonResult == .orderedAscending
                 }
+//                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 // Create sections and index
                 for i in (0 ..< (places.count + 1) ) {
                     var commonCountry = ""
@@ -191,6 +192,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 }
             } else {
                 // Create sections and index for default Alphabetical
+//                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 var commonPrefix = ""
                 for i in (0 ..< (places.count + 1) ) {
                     if (places.count != i){
@@ -379,14 +381,28 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        
         if nearestEnabled || sortByDedicationDate {
             return nil
+        } else {
+            var titles = sections.map {$0.title[(title?.startIndex)!].description}
+            titles.insert(UITableViewIndexSearch, at: 0)
+            return titles
         }
-        return sections.map {$0.title[(title?.startIndex)!].description}
+//        return sections.map {$0.title[(title?.startIndex)!].description}
+        
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return index
+        if nearestEnabled || sortByDedicationDate {
+            return index
+        } else {
+            if index == 0 {
+                tableView.scrollRectToVisible((tableView.tableHeaderView?.frame)!, animated: false)
+                return NSNotFound
+            }
+            return index - 1
+        }
     }
     
     

@@ -140,15 +140,24 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     // Retrieve the Visits data from CoreData
     func getVisits () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        
+        // Sort by dateVisited
+        let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        
+        // Add title and date to visits string
+        visits = "My Holy Places Visits\n Exported on " + formatter.string(from: Date.init()) + "\n"
+        
         do {
             //go get the results
             let searchResults = try getContext().fetch(fetchRequest)
             
             //Check the size of the returned results
-            print ("num of results = \(searchResults.count)")
-            
+            //print ("num of results = \(searchResults.count)")
+            visits.append(" Total Number of Visits: \(searchResults.count)\n\n")
             
             //Loop through each
             for visit in searchResults as [NSManagedObject] {
@@ -182,6 +191,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 }
                 visits.append("\n\n")
             }
+            //print(visits)
         } catch {
             print("Error with request: \(error)")
         }
