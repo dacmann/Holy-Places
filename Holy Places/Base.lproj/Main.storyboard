@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -20,17 +20,17 @@
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2qu-lT-uY6">
-                                <rect key="frame" x="20" y="60" width="374" height="100"/>
+                                <rect key="frame" x="16" y="60" width="343" height="123"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="&quot;Stand ye in holy places, and be not moved...&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="46"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                         <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -39,7 +39,7 @@
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D&amp;C 87:8" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
-                                        <rect key="frame" x="0.0" y="43" width="374" height="15"/>
+                                        <rect key="frame" x="0.0" y="66" width="343" height="15"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="13"/>
                                         <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -48,7 +48,7 @@
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-B8-cmp">
-                                        <rect key="frame" x="0.0" y="78" width="374" height="22"/>
+                                        <rect key="frame" x="0.0" y="101" width="343" height="22"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <segue destination="Xvp-4l-ctd" kind="presentation" id="JRP-qk-S21"/>
@@ -57,7 +57,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-Nv-ABQ">
-                                <rect key="frame" x="20" y="625" width="374" height="32"/>
+                                <rect key="frame" x="16" y="556" width="343" height="32"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <state key="normal" title="Share Holy Places">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -102,15 +102,15 @@
                         <viewControllerLayoutGuide type="bottom" id="Z2Z-YK-t8f"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="djT-hh-aiP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="fSt-Gu-ud8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;The crowning blessings of the gospel are received in temples ... where only the faithful assemble.&quot; - Bruce R. McConkie" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
-                                <rect key="frame" x="20" y="40.000000000000007" width="374" height="68.666666666666686"/>
+                                <rect key="frame" x="16" y="40" width="343" height="69"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -119,7 +119,7 @@
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy">
-                                <rect key="frame" x="73" y="304" width="268" height="333"/>
+                                <rect key="frame" x="53.5" y="235" width="268" height="333"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R">
                                         <rect key="frame" x="0.0" y="0.0" width="268" height="107"/>
@@ -276,7 +276,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opp-7p-6cs">
-                                                        <rect key="frame" x="5.6666666666666856" y="33" width="27" height="18"/>
+                                                        <rect key="frame" x="5.5" y="33" width="27" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="Y5G-bo-grT">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -431,7 +431,7 @@
                                                 <rect key="frame" x="150" y="0.0" width="60" height="191"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12 mo." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
-                                                        <rect key="frame" x="5" y="0.0" width="50.333333333333314" height="23"/>
+                                                        <rect key="frame" x="5" y="0.0" width="50.5" height="23"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="23" id="TSa-fD-mex"/>
                                                         </constraints>
@@ -440,7 +440,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-QD-kzc">
-                                                        <rect key="frame" x="25.666666666666657" y="33" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="33" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="3oe-2G-EvV">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -454,7 +454,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgA-8y-90I">
-                                                        <rect key="frame" x="25.666666666666657" y="61" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="61" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="9rZ-1z-bdY">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -468,7 +468,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-IN-fJ4">
-                                                        <rect key="frame" x="25.666666666666657" y="89" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="89" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="8T9-gr-o3J">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -482,7 +482,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guf-H0-oCW">
-                                                        <rect key="frame" x="25.666666666666657" y="117" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="117" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="MHT-3W-bnQ">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -496,7 +496,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-Gg-RFK">
-                                                        <rect key="frame" x="25.666666666666657" y="145" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="145" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="bpa-82-WJ3">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -510,7 +510,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntV-vp-auY">
-                                                        <rect key="frame" x="25.666666666666657" y="173" width="9.0000000000000284" height="18"/>
+                                                        <rect key="frame" x="25.5" y="173" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="dyF-l9-Qvg">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -545,7 +545,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHD-aA-TvX">
-                                                        <rect key="frame" x="14.666666666666686" y="33" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="33" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="6pA-Ut-Plp">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -559,7 +559,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
-                                                        <rect key="frame" x="14.666666666666686" y="61" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="61" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="pji-pz-SUi">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -573,7 +573,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
-                                                        <rect key="frame" x="14.666666666666686" y="89" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="89" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="AWa-JP-iW6">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -587,7 +587,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
-                                                        <rect key="frame" x="14.666666666666686" y="117" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="117" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="zf4-hj-tJ6">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -601,7 +601,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
-                                                        <rect key="frame" x="14.666666666666686" y="145" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="145" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="dwc-7D-Ycd">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -615,7 +615,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
-                                                        <rect key="frame" x="14.666666666666686" y="173" width="9" height="18"/>
+                                                        <rect key="frame" x="14.5" y="173" width="9" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="waz-ja-dXM">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -686,20 +686,20 @@
                         <viewControllerLayoutGuide type="bottom" id="zjw-oE-9UW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0j2-6m-asj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OGS-Pc-9li">
-                                <rect key="frame" x="20" y="20" width="374" height="716"/>
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Mrt-An-MxL">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="197"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="133.5"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="morningstarmoroni" translatesAutoresizingMaskIntoConstraints="NO" id="B16-hn-te9">
-                                                <rect key="frame" x="0.0" y="0.0" width="187" height="197"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="133.5"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmA-Tn-qMd">
-                                                <rect key="frame" x="187" y="0.0" width="187" height="197"/>
+                                                <rect key="frame" x="171.5" y="0.0" width="171.5" height="133.5"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="27"/>
                                                 <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -710,10 +710,10 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-do-8YX">
-                                        <rect key="frame" x="0.0" y="197" width="374" height="199"/>
+                                        <rect key="frame" x="0.0" y="133.5" width="343" height="193.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
-                                                <rect key="frame" x="0.0" y="0.0" width="187" height="199"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="193.5"/>
                                                 <string key="text">Greetings!  Thanks for checking out my app.  I love to visit holy places and am excited to have this app to plan and track my visits and I hope you find it helpful as well. </string>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                 <nil key="textColor"/>
@@ -723,16 +723,16 @@
                                                 </variation>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="WVw-h2-Ydz">
-                                                <rect key="frame" x="187" y="0.0" width="187" height="199"/>
+                                                <rect key="frame" x="171.5" y="0.0" width="171.5" height="193.5"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="zfF-ET-kjr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="187" height="166"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="166"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="166" id="VtD-m7-YR8"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
-                                                        <rect key="frame" x="0.0" y="166" width="187" height="33"/>
+                                                        <rect key="frame" x="0.0" y="166" width="171.5" height="27.5"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="Contact Me"/>
@@ -748,7 +748,7 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
-                                        <rect key="frame" x="0.0" y="396" width="374" height="200"/>
+                                        <rect key="frame" x="0.0" y="327" width="343" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS"/>
                                         </constraints>
@@ -761,10 +761,10 @@
                                         </variation>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Na6-uH-Eb4">
-                                        <rect key="frame" x="0.0" y="596" width="374" height="90"/>
+                                        <rect key="frame" x="0.0" y="527" width="343" height="90"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="uLx-Px-meG">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="qnl-rg-R08" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="94" height="40"/>
@@ -789,7 +789,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5E3-B2-zah" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                                        <rect key="frame" x="140" y="0.0" width="94" height="40"/>
+                                                        <rect key="frame" x="124.5" y="0.0" width="94" height="40"/>
                                                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="5RB-HV-2Os">
@@ -811,7 +811,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="GKs-FT-hUj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="40"/>
+                                                        <rect key="frame" x="249" y="0.0" width="94" height="40"/>
                                                         <color key="backgroundColor" red="0.91092067956924438" green="0.70529049634933472" blue="0.35662275552749634" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="IOs-ws-dpM">
@@ -835,7 +835,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF8-YH-7Sj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="50" width="374" height="40"/>
+                                                <rect key="frame" x="0.0" y="50" width="343" height="40"/>
                                                 <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                                 <state key="normal" title="Done">
@@ -849,7 +849,7 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYQ-7U-HOC">
-                                        <rect key="frame" x="0.0" y="686" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="617" width="343" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="vap-FZ-1TU"/>
                                         </constraints>
@@ -893,32 +893,32 @@
                         <viewControllerLayoutGuide type="bottom" id="4R3-4W-PEk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Otn-yD-yww">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IAy-eS-OMT">
-                                <rect key="frame" x="47" y="106.66666666666669" width="320" height="522.66666666666674"/>
+                                <rect key="frame" x="27.5" y="72" width="320" height="523"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCk-iQ-D9M">
-                                        <rect key="frame" x="98" y="0.0" width="124" height="25.333333333333329"/>
+                                        <rect key="frame" x="98" y="0.0" width="124" height="25.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E24-ha-fDy">
-                                        <rect key="frame" x="0.0" y="25.333333333333314" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="25.5" width="320" height="216"/>
                                     </pickerView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uD9-se-K2E">
-                                        <rect key="frame" x="102.66666666666667" y="241.33333333333331" width="114.66666666666664" height="25.333333333333314"/>
+                                        <rect key="frame" x="103" y="241.5" width="114.5" height="25.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjQ-EU-9tg">
-                                        <rect key="frame" x="0.0" y="266.66666666666663" width="320" height="216.00000000000006"/>
+                                        <rect key="frame" x="0.0" y="267" width="320" height="216"/>
                                     </pickerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="482.66666666666669" width="300" height="40.000000000000057"/>
+                                        <rect key="frame" x="10" y="483" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -960,20 +960,20 @@
                         <viewControllerLayoutGuide type="bottom" id="x3u-uo-Hqf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uLD-XH-Jpp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="lpX-Dx-XBO">
-                                <rect key="frame" x="55" y="117" width="303" height="501.33333333333337"/>
+                                <rect key="frame" x="36" y="83" width="303" height="501.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location to Use for Nearest Sort" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYu-lm-Pw6">
-                                        <rect key="frame" x="8" y="0.0" width="287" height="25.333333333333343"/>
+                                        <rect key="frame" x="8" y="0.0" width="287" height="25.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="upn-hM-pcm">
-                                        <rect key="frame" x="24" y="45.333333333333343" width="255" height="29"/>
+                                        <rect key="frame" x="24" y="45.5" width="255" height="29"/>
                                         <segments>
                                             <segment title="Current Location"/>
                                             <segment title="Specified Location"/>
@@ -984,7 +984,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZNu-LH-1F3">
-                                        <rect key="frame" x="1.6666666666666572" y="93.333333333333343" width="300" height="36"/>
+                                        <rect key="frame" x="1.5" y="93.5" width="300" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="WQF-8i-M15"/>
                                             <constraint firstAttribute="height" constant="36" id="xNv-y2-UT2"/>
@@ -994,7 +994,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="P3Y-I2-mtn">
-                                        <rect key="frame" x="1.6666666666666572" y="149.33333333333331" width="300" height="36"/>
+                                        <rect key="frame" x="1.5" y="149.5" width="300" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="N6s-2s-xw4"/>
                                             <constraint firstAttribute="width" constant="300" id="VqO-oB-B0Q"/>
@@ -1004,7 +1004,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="2xv-id-XK0">
-                                        <rect key="frame" x="0.0" y="205.33333333333331" width="303" height="36"/>
+                                        <rect key="frame" x="0.0" y="205.5" width="303" height="36"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State/Country" textAlignment="natural" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rx6-Vg-B93">
                                                 <rect key="frame" x="0.0" y="0.0" width="145" height="36"/>
@@ -1029,7 +1029,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-05-MOt" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="261.33333333333331" width="283" height="40"/>
+                                        <rect key="frame" x="10" y="261.5" width="283" height="40"/>
                                         <color key="backgroundColor" red="0.0013271663337945938" green="0.3275567889213562" blue="0.57669931650161743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Validate Location">
@@ -1041,7 +1041,7 @@
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0c-Sy-hQp">
-                                        <rect key="frame" x="1.6666666666666572" y="321.33333333333337" width="300" height="120.00000000000006"/>
+                                        <rect key="frame" x="1.5" y="321.5" width="300" height="120"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="6jo-Yf-Qip"/>
@@ -1051,7 +1051,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17A-u9-buV" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="461.33333333333337" width="283" height="40"/>
+                                        <rect key="frame" x="10" y="461.5" width="283" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -1095,16 +1095,16 @@
             <objects>
                 <tableViewController storyboardIdentifier="PlacesTableVC" title="Places" modalTransitionStyle="crossDissolve" useStoryboardIdentifierAsRestorationIdentifier="YES" clearsSelectionOnViewWillAppear="NO" id="kRu-VE-YmJ" customClass="TableViewController" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zbV-3J-RzO">
-                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="txC-8l-y6Q" detailTextLabel="ve3-9U-eeu" style="IBUITableViewCellStyleSubtitle" id="V8F-P6-QvO">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V8F-P6-QvO" id="kmM-fd-RoD">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="txC-8l-y6Q">
@@ -1159,15 +1159,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="VisitTableVC" title="Visits" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lXC-AK-NFm" customClass="VisitTableVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ffK-aN-lds">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="visitCell" textLabel="eyZ-RJ-h3g" detailTextLabel="o19-lC-6w7" style="IBUITableViewCellStyleSubtitle" id="RbI-7u-icV">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RbI-7u-icV" id="GYw-jJ-H9T">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eyZ-RJ-h3g">
@@ -1217,14 +1217,14 @@
                         <viewControllerLayoutGuide type="bottom" id="JSm-a4-m8r"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MMP-iS-hw5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="m4j-0g-Fyz">
-                                <rect key="frame" x="20" y="84" width="374" height="583"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="m4j-0g-Fyz">
+                                <rect key="frame" x="16" y="20" width="343" height="519"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="23"/>
                                         <attributedString key="attributedText">
                                             <fragment content="templeName">
                                                 <attributes>
@@ -1236,7 +1236,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpo-hi-8Mn">
-                                        <rect key="frame" x="0.0" y="23" width="374" height="39.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="27" width="343" height="39.5"/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
@@ -1252,234 +1252,256 @@
                                             <segue destination="34m-OB-2N8" kind="presentation" identifier="changeDate" id="MEe-27-HAa"/>
                                         </connections>
                                     </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="feb-1A-Stx">
-                                        <rect key="frame" x="0.0" y="62.333333333333343" width="374" height="295.66666666666663"/>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ywA-2y-Td5">
+                                        <rect key="frame" x="0.0" y="70.5" width="343" height="448.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaE-gh-9rg">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="23"/>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="Notes">
-                                                        <attributes>
-                                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Attended with ..." translatesAutoresizingMaskIntoConstraints="NO" id="ErR-fz-a6a">
-                                                <rect key="frame" x="0.0" y="23" width="374" height="272.66666666666663"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="rBL-9C-lIs" id="uvo-Qm-qfJ"/>
-                                                </connections>
-                                            </textView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aee-uB-W0C" userLabel="Content View">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="428"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="feb-1A-Stx">
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="203"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaE-gh-9rg">
+                                                                <rect key="frame" x="0.0" y="0.0" width="343" height="23"/>
+                                                                <attributedString key="attributedText">
+                                                                    <fragment content="Notes">
+                                                                        <attributes>
+                                                                            <font key="NSFont" size="20" name="Baskerville"/>
+                                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                        </attributes>
+                                                                    </fragment>
+                                                                </attributedString>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Attended with ..." translatesAutoresizingMaskIntoConstraints="NO" id="ErR-fz-a6a">
+                                                                <rect key="frame" x="0.0" y="23" width="343" height="180"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="180" id="3SX-mi-ejy"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                <connections>
+                                                                    <outlet property="delegate" destination="rBL-9C-lIs" id="uvo-Qm-qfJ"/>
+                                                                </connections>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hjd-Sm-8kS">
+                                                        <rect key="frame" x="0.0" y="203" width="343" height="225"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-Vg-Oqj">
+                                                                <rect key="frame" x="0.0" y="0.0" width="343" height="29"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdR-9K-jsY">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="Sealings">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YhJ-Hs-o8h">
+                                                                        <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="0">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="18" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                                        <connections>
+                                                                            <action selector="sealingsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="qm7-UI-Joh"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-vR-Qvd">
+                                                                        <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="sealingsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="O19-5P-vGE"/>
+                                                                        </connections>
+                                                                    </stepper>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vw8-vq-9DH">
+                                                                <rect key="frame" x="0.0" y="49" width="343" height="29"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-sC-8Er">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="Endowments">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lUz-zX-vOd">
+                                                                        <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="0">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="18" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                                        <connections>
+                                                                            <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="valueChanged" id="szP-tR-0ok"/>
+                                                                            <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="ywU-hN-hgJ"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-bT-KaZ">
+                                                                        <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="endowmentStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="svj-2m-x9X"/>
+                                                                        </connections>
+                                                                    </stepper>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ylt-FY-bVs">
+                                                                <rect key="frame" x="0.0" y="98" width="343" height="29"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIg-0o-QBc">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="Initiatories">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZP-za-oYJ">
+                                                                        <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="0">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="18" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                                        <connections>
+                                                                            <action selector="initiatoriesText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="3p6-H5-evU"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-26-FyD">
+                                                                        <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="initiatoriesStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="lqW-QZ-u4w"/>
+                                                                        </connections>
+                                                                    </stepper>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="xny-Dq-GYy">
+                                                                <rect key="frame" x="0.0" y="147" width="343" height="29"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y73-o3-K52">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="Confirmations">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GeE-Q9-5H2">
+                                                                        <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="0">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="18" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                                        <connections>
+                                                                            <action selector="confirmationsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="hcs-Ye-WEG"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Zc-GOQ">
+                                                                        <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="confirmationStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="tSG-dz-BV9"/>
+                                                                        </connections>
+                                                                    </stepper>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N4w-Wm-6to">
+                                                                <rect key="frame" x="0.0" y="196" width="343" height="29"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA8-OB-40a">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="203.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="Baptisms">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="20" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ix-oc-SjW">
+                                                                        <rect key="frame" x="211.5" y="0.0" width="29.5" height="29"/>
+                                                                        <attributedString key="attributedText">
+                                                                            <fragment content="0">
+                                                                                <attributes>
+                                                                                    <font key="NSFont" size="18" name="Baskerville"/>
+                                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                                </attributes>
+                                                                            </fragment>
+                                                                        </attributedString>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                                                        <connections>
+                                                                            <action selector="baptismsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="Jh6-he-oTy"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a00-JL-fMe">
+                                                                        <rect key="frame" x="249" y="0.0" width="94" height="29"/>
+                                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="baptismsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="XyX-Tv-0Rg"/>
+                                                                        </connections>
+                                                                    </stepper>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hjd-Sm-8kS">
-                                        <rect key="frame" x="0.0" y="358" width="374" height="225"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-Vg-Oqj">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdR-9K-jsY">
-                                                        <rect key="frame" x="0.0" y="0.0" width="234.33333333333334" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="Sealings">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="20" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YhJ-Hs-o8h">
-                                                        <rect key="frame" x="242.33333333333329" y="0.0" width="29.666666666666714" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="0">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="18" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                                        <connections>
-                                                            <action selector="sealingsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="qm7-UI-Joh"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-vR-Qvd">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="29"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="sealingsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="O19-5P-vGE"/>
-                                                        </connections>
-                                                    </stepper>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vw8-vq-9DH">
-                                                <rect key="frame" x="0.0" y="49" width="374" height="29"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-sC-8Er">
-                                                        <rect key="frame" x="0.0" y="0.0" width="234.33333333333334" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="Endowments">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="20" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lUz-zX-vOd">
-                                                        <rect key="frame" x="242.33333333333329" y="0.0" width="29.666666666666714" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="0">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="18" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                                        <connections>
-                                                            <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="valueChanged" id="szP-tR-0ok"/>
-                                                            <action selector="endowmentsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="ywU-hN-hgJ"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-bT-KaZ">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="29"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="endowmentStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="svj-2m-x9X"/>
-                                                        </connections>
-                                                    </stepper>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ylt-FY-bVs">
-                                                <rect key="frame" x="0.0" y="98" width="374" height="29"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIg-0o-QBc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="234.33333333333334" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="Initiatories">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="20" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZP-za-oYJ">
-                                                        <rect key="frame" x="242.33333333333329" y="0.0" width="29.666666666666714" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="0">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="18" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                                        <connections>
-                                                            <action selector="initiatoriesText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="3p6-H5-evU"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="KPA-26-FyD">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="29"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="initiatoriesStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="lqW-QZ-u4w"/>
-                                                        </connections>
-                                                    </stepper>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="xny-Dq-GYy">
-                                                <rect key="frame" x="0.0" y="147" width="374" height="29"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y73-o3-K52">
-                                                        <rect key="frame" x="0.0" y="0.0" width="234.33333333333334" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="Confirmations">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="20" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GeE-Q9-5H2">
-                                                        <rect key="frame" x="242.33333333333329" y="0.0" width="29.666666666666714" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="0">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="18" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                                        <connections>
-                                                            <action selector="confirmationsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="hcs-Ye-WEG"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qoh-Zc-GOQ">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="29"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="confirmationStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="tSG-dz-BV9"/>
-                                                        </connections>
-                                                    </stepper>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="N4w-Wm-6to">
-                                                <rect key="frame" x="0.0" y="196" width="374" height="29"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vA8-OB-40a">
-                                                        <rect key="frame" x="0.0" y="0.0" width="234.33333333333334" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="Baptisms">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="20" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ix-oc-SjW">
-                                                        <rect key="frame" x="242.33333333333329" y="0.0" width="29.666666666666714" height="29"/>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="0">
-                                                                <attributes>
-                                                                    <font key="NSFont" size="18" name="Baskerville"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                                        <connections>
-                                                            <action selector="baptismsText:" destination="rBL-9C-lIs" eventType="editingDidEnd" id="Jh6-he-oTy"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="a00-JL-fMe">
-                                                        <rect key="frame" x="280" y="0.0" width="94" height="29"/>
-                                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="baptismsStep:" destination="rBL-9C-lIs" eventType="valueChanged" id="XyX-Tv-0Rg"/>
-                                                        </connections>
-                                                    </stepper>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
+                                        <constraints>
+                                            <constraint firstItem="aee-uB-W0C" firstAttribute="width" secondItem="ywA-2y-Td5" secondAttribute="width" id="FgY-c2-LTn"/>
+                                            <constraint firstItem="aee-uB-W0C" firstAttribute="top" secondItem="ywA-2y-Td5" secondAttribute="top" id="PlQ-lx-1HS"/>
+                                            <constraint firstItem="aee-uB-W0C" firstAttribute="leading" secondItem="ywA-2y-Td5" secondAttribute="leading" id="oDl-Im-GED"/>
+                                            <constraint firstAttribute="bottom" secondItem="aee-uB-W0C" secondAttribute="bottom" id="shK-4L-ZGq"/>
+                                            <constraint firstAttribute="trailing" secondItem="aee-uB-W0C" secondAttribute="trailing" id="yvC-d4-278"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="ywA-2y-Td5" firstAttribute="width" secondItem="m4j-0g-Fyz" secondAttribute="width" id="ss6-j2-fuU"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1509,7 +1531,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="1227"/>
+            <point key="canvasLocation" x="2380" y="1226.5367316341831"/>
         </scene>
         <!--Date ChangeVC-->
         <scene sceneID="1W0-dA-PQU">
@@ -1520,20 +1542,20 @@
                         <viewControllerLayoutGuide type="bottom" id="h0Q-eX-pBr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="IFK-3K-nM5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RKH-A0-GiO">
-                                <rect key="frame" x="47" y="216.33333333333331" width="320" height="303.66666666666669"/>
+                                <rect key="frame" x="27.5" y="182" width="320" height="303.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="day of week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWX-E6-kMT">
-                                        <rect key="frame" x="101.66666666666667" y="0.0" width="116.66666666666664" height="27.666666666666657"/>
+                                        <rect key="frame" x="101.5" y="0.0" width="117" height="27.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Tv5-g8-v0O">
-                                        <rect key="frame" x="0.0" y="37.666666666666657" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="37.5" width="320" height="216"/>
                                         <date key="date" timeIntervalSinceReferenceDate="506526215.951092">
                                             <!--2017-01-19 13:43:35 +0000-->
                                         </date>
@@ -1542,7 +1564,7 @@
                                         </connections>
                                     </datePicker>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="263.66666666666663" width="300" height="40"/>
+                                        <rect key="frame" x="10" y="263.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -1600,20 +1622,20 @@
                         <viewControllerLayoutGuide type="bottom" id="xaJ-yQ-ey3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="cxh-cj-1bn">
-                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="uGG-l0-cWb">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="618"/>
+                                <rect key="frame" x="4" y="0.0" width="367" height="549"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="235" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="351.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="367" height="282.5"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3N-nC-0P6">
-                                        <rect key="frame" x="0.0" y="361.66666666666674" width="414" height="256.33333333333326"/>
+                                        <rect key="frame" x="0.0" y="292.5" width="367" height="256.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="367" height="23"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="templeName">
                                                         <attributes>
@@ -1625,7 +1647,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
-                                                <rect key="frame" x="0.0" y="33" width="414" height="18.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="33" width="367" height="18.5"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="templeSnippet">
                                                         <attributes>
@@ -1637,7 +1659,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="248" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="251" editable="NO" text="address" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m2r-9T-8yH">
-                                                <rect key="frame" x="0.0" y="61.333333333333314" width="414" height="110"/>
+                                                <rect key="frame" x="0.0" y="61.5" width="367" height="110"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="110" id="eIW-tV-0Mc"/>
@@ -1647,7 +1669,7 @@
                                                 <dataDetectorType key="dataDetectorTypes" address="YES"/>
                                             </textView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
-                                                <rect key="frame" x="0.0" y="181.33333333333331" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="181.5" width="367" height="30"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -1657,11 +1679,11 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
                                             </textView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillProportionally" spacing="30" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62n-Nk-IjE">
-                                                <rect key="frame" x="0.0" y="221.33333333333331" width="414" height="35"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" spacing="30" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62n-Nk-IjE">
+                                                <rect key="frame" x="0.0" y="221.5" width="367" height="35"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
-                                                        <rect key="frame" x="0.0" y="0.0" width="214.66666666666666" height="35"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
+                                                        <rect key="frame" x="0.0" y="0.0" width="168.5" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                         <state key="normal" title="Record Visit">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1670,8 +1692,8 @@
                                                             <segue destination="rBL-9C-lIs" kind="show" identifier="recordVisit" id="RyY-bx-CRt"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx">
-                                                        <rect key="frame" x="244.66666666666663" y="0.0" width="169.33333333333337" height="35"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                                        <rect key="frame" x="198.5" y="0.0" width="168.5" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                         <state key="normal" title="Website">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1690,8 +1712,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xaJ-yQ-ey3" firstAttribute="top" secondItem="uGG-l0-cWb" secondAttribute="bottom" constant="10" id="cLv-h2-6lF"/>
-                            <constraint firstItem="uGG-l0-cWb" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leading" id="ga8-qD-Ddy"/>
-                            <constraint firstAttribute="trailing" secondItem="uGG-l0-cWb" secondAttribute="trailing" id="jDN-Nj-yR7"/>
+                            <constraint firstItem="uGG-l0-cWb" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leading" constant="4" id="ga8-qD-Ddy"/>
+                            <constraint firstAttribute="trailing" secondItem="uGG-l0-cWb" secondAttribute="trailing" constant="4" id="jDN-Nj-yR7"/>
                             <constraint firstItem="uGG-l0-cWb" firstAttribute="top" secondItem="SYy-Ur-5T4" secondAttribute="bottom" id="vc4-ue-Bf0"/>
                         </constraints>
                     </view>
@@ -1720,15 +1742,15 @@
                         <viewControllerLayoutGuide type="bottom" id="lHb-ML-26T"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tyw-VI-VfV">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rB4-yq-Esp">
-                                <rect key="frame" x="0.0" y="20" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPi-Ji-QVz">
-                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem title="Done" id="wOg-E5-ScR">
                                         <connections>
@@ -1807,20 +1829,20 @@
                         <viewControllerLayoutGuide type="bottom" id="7TZ-Gv-g7L"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MKd-em-rZT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wj5-Ce-glP">
-                                <rect key="frame" x="47" y="227.33333333333331" width="320" height="281.33333333333337"/>
+                                <rect key="frame" x="27.5" y="193" width="320" height="281.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gS6-dg-ok8">
-                                        <rect key="frame" x="98" y="0.0" width="124" height="25.333333333333314"/>
+                                        <rect key="frame" x="98" y="0.0" width="124" height="25.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdt-0O-3bp">
-                                        <rect key="frame" x="0.0" y="25.3333333333333" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="25.5" width="320" height="216"/>
                                     </pickerView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmp-wK-gbe">
                                         <rect key="frame" x="102.66666666666667" y="241.33333333333331" width="114.66666666666664" height="25.333333333333371"/>
@@ -1834,7 +1856,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </pickerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-uS-udJ" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="241.33333333333337" width="300" height="40"/>
+                                        <rect key="frame" x="10" y="241.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -1857,7 +1879,7 @@
                                 </variation>
                             </stackView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rT9-oL-2F5">
-                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="action" id="7Up-gE-uQ1">
                                         <connections>
@@ -1891,13 +1913,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="PCC" width="360" height="640"/>
-        <image name="Payson" width="360" height="640"/>
+        <image name="PCC" width="375" height="666"/>
+        <image name="Payson" width="375" height="666"/>
         <image name="morningstar-bnw" width="25" height="25"/>
-        <image name="morningstarmoroni" width="318" height="341"/>
-        <image name="profile" width="166" height="166"/>
+        <image name="morningstarmoroni" width="477" height="512"/>
+        <image name="profile" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iRB-7e-lLt"/>
+        <segue reference="RyY-bx-CRt"/>
     </inferredMetricsTieBreakers>
 </document>

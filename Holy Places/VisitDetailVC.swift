@@ -136,6 +136,7 @@ class VisitDetailVC: UIViewController, SendDateDelegate {
         configureView()
         populateView()
         setDate()
+//        self.comments.layer.borderWidth = 0.5
 
     }
     
