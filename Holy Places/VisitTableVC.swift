@@ -166,8 +166,32 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         cell.textLabel!.text = visit.holyPlace
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        var ordinances = "  ("
         
-        cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited as! Date)
+        // Determine Ordinances performed for summary
+        if visit.baptisms > 0 {
+            ordinances.append(" B")
+        }
+        if visit.confirmations > 0 {
+            ordinances.append(" C")
+        }
+        if visit.initiatories > 0 {
+            ordinances.append(" I")
+        }
+        if visit.endowments > 0 {
+            ordinances.append(" E")
+        }
+        if visit.sealings > 0 {
+            ordinances.append(" S")
+        }
+        // If no ordinaces appended, blank out the variable, otherwise add closing bracket
+        if ordinances == "  (" {
+            ordinances = ""
+        } else {
+            ordinances.append(" )")
+        }
+        
+        cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited as! Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
         if let theType = visit.type {
