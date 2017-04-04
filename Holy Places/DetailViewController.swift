@@ -61,7 +61,7 @@ class DetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "recordVisit" {
             let temple = self.detailItem
-            let controller = (segue.destination as! VisitDetailVC)
+            let controller = (segue.destination as! RecordVisitVC)
             controller.detailItem = temple
         }
         if segue.identifier == "showWebsite" {
