@@ -57,19 +57,18 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         let context = getContext()
         
         //retrieve the entity
-        let entity =  NSEntityDescription.entity(forEntityName: "Visit", in: context)
-        
+        let visit = Visit(context: context)
+
         //set the entity values
-        let visit = NSManagedObject(entity: entity!, insertInto: context)
-        visit.setValue(templeName.text, forKey: "holyPlace")
-        visit.setValue(Double(baptisms.text!), forKey: "baptisms")
-        visit.setValue(Double(confirmations.text!), forKey: "confirmations")
-        visit.setValue(Double(initiatories.text!), forKey: "initiatories")
-        visit.setValue(Double(endowments.text!), forKey: "endowments")
-        visit.setValue(Double(sealings.text!), forKey: "sealings")
-        visit.setValue(comments.text, forKey: "comments")
-        visit.setValue(dateOfVisit, forKey: "dateVisited")
-        visit.setValue(placeType, forKey: "type")
+        visit.holyPlace = templeName.text
+        visit.baptisms = Int16(baptisms.text!)!
+        visit.confirmations = Int16(confirmations.text!)!
+        visit.initiatories = Int16(initiatories.text!)!
+        visit.endowments = Int16(endowments.text!)!
+        visit.sealings = Int16(sealings.text!)!
+        visit.comments = comments.text
+        visit.dateVisited = dateOfVisit as NSDate?
+        visit.type = placeType
         
         //save the object
         do {
