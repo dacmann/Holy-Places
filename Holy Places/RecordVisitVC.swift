@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class RecordVisitVC: UIViewController, SendDateDelegate {
+class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func DateChanged(data: Date) {
         dateOfVisit = data
@@ -20,6 +20,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
     var dateOfVisit: Date?
     var placeType = String()
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var sealings: UITextField!
     @IBOutlet weak var endowments: UITextField!
@@ -56,8 +57,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
     func saveVisit (_ sender: Any) {
         let context = getContext()
         
-        //retrieve the entity
-        let visit = Visit(context: context)
+        //insert a new object in the Visit entity
+        let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
 
         //set the entity values
         visit.holyPlace = templeName.text
@@ -69,6 +70,15 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         visit.comments = comments.text
         visit.dateVisited = dateOfVisit as NSDate?
         visit.type = placeType
+        if pictureView.isHidden == false {
+            // create NSData from UIImage
+            guard let imageData = UIImageJPEGRepresentation(pictureView.image!, 1) else {
+                // handle failed conversion
+                print("jpg error")
+                return
+            }
+            visit.picture = imageData as NSData
+        }
         
         //save the object
         do {
@@ -83,7 +93,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
     func saveEdit (_ sender: Any) {
         let context = getContext()
         
-        // save the updated values to the Visit object and disable the editable fields
+        // save the updated values to the Visit object 
         if detailVisit?.type == "T" {
             templeView.isHidden = true
             sealingsStepO.isHidden = true
@@ -99,8 +109,17 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         }
         detailVisit?.dateVisited = dateOfVisit as NSDate?
         detailVisit?.comments = comments.text!
-        comments.isEditable = false
-        visitDate.isEnabled = false
+        if pictureView.isHidden == false {
+            // create NSData from UIImage
+            guard let imageData = UIImageJPEGRepresentation(pictureView.image!, 1) else {
+                // handle failed conversion
+                print("jpg error")
+                return
+            }
+            detailVisit?.picture = imageData as NSData
+        } else {
+            detailVisit?.picture = nil
+        }
         
         //save the object
         do {
@@ -111,10 +130,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         print("Saving edited Visit completed")
         _ = navigationController?.popViewController(animated: true)
 
-//        populateView()
-        // change it back to edit button
-//        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editVisit(_:)))
-//        self.navigationItem.rightBarButtonItem = editButton
     }
     
     //MARK:- Standard Functions
@@ -126,12 +141,18 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         setDate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.scrollView.reloadInputViews()
+        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
+
+    }
+    
     func keyboardDone() {
         //init toolbar
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         //create left side empty space so that done button set on right side
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(VisitDetailVC.doneButtonAction))
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(RecordVisitVC.doneButtonAction))
         //array of BarButtonItems
         var arr = [UIBarButtonItem]()
         arr.append(flexSpace)
@@ -143,6 +164,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
     }
     
     //MARK:- Actions
+    
+    
+    func doneButtonAction(){
+        self.view.endEditing(true)
+    }
+    
     @IBAction func sealingsText(_ sender: UITextField) {
         if (sender.text?.isEmpty)!{
             sender.text = "0"
@@ -190,10 +217,49 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
         self.baptisms.text = Int(sender.value).description
     }
     @IBAction func addPicture(_ sender: UIButton) {
-        pictureView.isHidden = false
-        addPictureBtn.isHidden = true
-        self.view.reloadInputViews()
+        if addPictureBtn.currentTitle == "Remove Picture" {
+            pictureView.image = nil
+            pictureView.isHidden = true
+            addPictureBtn.setTitle("Add Picture", for: UIControlState.normal)
+        } else {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
+//                imagePicker.mediaTypes = 
+                imagePicker.allowsEditing = true
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
+                    self.present(imagePicker, animated: true, completion: nil)
+                    let popoverPresentationController = imagePicker.popoverPresentationController
+                    popoverPresentationController?.sourceView = sender
+                } else {
+                    self.present(imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+//            imagePicker.allowsEditing = false
+//            self.present(imagePicker, animated: true, completion: nil)
+//        }
     }
+    
+
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        pictureView.isHidden = false
+        addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
+        pictureView.image = info[UIImagePickerControllerEditedImage] as? UIImage
+//        let image = info[UIImagePickerControllerEditedImage] as? UIImage
+//        print(image?.size as Any)
+//        pictureView.image = image?.scale(toSize: self.view.frame.size)
+//        print(pictureView.image?.size as Any)
+        self.dismiss(animated: true, completion: nil)
+    }
+
 
     //MARK:- Initial Set-up functions
     func configureView() {
@@ -225,6 +291,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
                 baptisms.text = detail.baptisms.description
                 comments.text = detail.comments
                 comments.sizeToFit()
+                if let imageData = detail.picture {
+                    let image = UIImage(data: imageData as Data)
+                    pictureView.image = image
+                    pictureView.isHidden = false
+                    addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
+                }
                 if detail.type != "T" {
                     templeView.isHidden = true
                 } else {
@@ -253,9 +325,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate {
             self.populateView()
             let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEdit(_:)))
             self.navigationItem.rightBarButtonItem = saveButton
-//
-//            let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editVisit(_:)))
-//            self.navigationItem.rightBarButtonItem = editButton
         }
     }
     

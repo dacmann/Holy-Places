@@ -249,8 +249,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             } else {
                 place.distance = place.cllocation.distance(from: coordinateOfUser!)
             }
-            //print(place.templeName + " - " + (place.distance?.description)!)
-            //print(place.cllocation)
+//            print(place.templeName + " - " + (place.distance?.description)!)
+//            print(place.cllocation)
         }
     }
     

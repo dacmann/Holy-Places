@@ -11,6 +11,7 @@ import CoreData
 
 class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
 
+    @IBOutlet weak var quote: UILabel!
     @IBOutlet weak var templesVisited: UILabel!
     @IBOutlet weak var templesTotal: UILabel!
     @IBOutlet weak var historicalVisited: UILabel!
@@ -48,6 +49,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        quote.text = "\"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God.\" \n- Thomas S. Monson"
         getTotals()
     }
 

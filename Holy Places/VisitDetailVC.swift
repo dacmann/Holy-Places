@@ -44,25 +44,7 @@ class VisitDetailVC: UIViewController {
         controller.detailVisit = visit
         controller.navigationItem.leftItemsSupplementBackButton = true
         navigationController?.pushViewController(controller, animated: true)
-//        self.present(controller, animated: true, completion: nil)
-        
-//        templeView.isHidden = false
-//        sealingsStepO.isHidden = false
-//        sealingsStepO.value = Double(sealings.text!)!
-//        endowmentsStepO.isHidden = false
-//        endowmentsStepO.value = Double(endowments.text!)!
-//        initiatoriesStepO.isHidden = false
-//        initiatoriesStepO.value = Double(initiatories.text!)!
-//        confirmationsStepO.isHidden = false
-//        confirmationsStepO.value = Double(confirmations.text!)!
-//        baptismsStepO.isHidden = false
-//        baptismsStepO.value = Double(baptisms.text!)!
-//        comments.text = detailVisit?.comments
-//        comments.isEditable = true
-//        visitDate.isEnabled = true
-//        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEdit(_:)))
-//        self.navigationItem.rightBarButtonItem = saveButton
-//        keyboardDone()
+
     }
     
     
@@ -77,10 +59,7 @@ class VisitDetailVC: UIViewController {
         setDate()
     }
 
-    
-    func doneButtonAction(){
-        self.view.endEditing(true)
-    }
+
 
 
     
@@ -117,6 +96,14 @@ class VisitDetailVC: UIViewController {
                 }
                 
                 comments.sizeToFit()
+                // load image
+                if let imageData = detail.picture {
+                    let image = UIImage(data: imageData as Data)
+                    pictureView.image = image
+                    pictureView.isHidden = false
+                } else {
+                    pictureView.isHidden = true
+                }
                 
             }
         }

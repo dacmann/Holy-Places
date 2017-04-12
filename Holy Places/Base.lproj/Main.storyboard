@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -110,8 +109,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;The crowning blessings of the gospel are received in temples ... where only the faithful assemble.&quot; - Bruce R. McConkie" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
-                                <rect key="frame" x="16" y="40" width="343" height="69"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
+                                <rect key="frame" x="16" y="40" width="343" height="92"/>
+                                <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."   - Thomas S. Monson</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -666,6 +666,7 @@
                         <outlet property="historicalVisited" destination="5D1-85-ebO" id="koD-uk-jVm"/>
                         <outlet property="initiatoriesPerformedTotal" destination="ABo-TA-qto" id="j34-AF-geM"/>
                         <outlet property="initiatoriesPerformedYr" destination="guf-H0-oCW" id="85U-pX-R26"/>
+                        <outlet property="quote" destination="Q1g-ZX-bhx" id="C6v-t8-nFm"/>
                         <outlet property="sealingsPerformedTotal" destination="fhO-HZ-5y6" id="veB-AC-vZR"/>
                         <outlet property="sealingsPerformedYr" destination="vgA-8y-90I" id="YRP-Eh-gYL"/>
                         <outlet property="templesTotal" destination="Opp-7p-6cs" id="Ux7-vx-25f"/>
@@ -1222,7 +1223,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="m4j-0g-Fyz">
-                                <rect key="frame" x="16" y="84" width="343" height="534"/>
+                                <rect key="frame" x="16" y="84" width="343" height="530"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-Vv-BBw">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="23"/>
@@ -1250,57 +1251,34 @@
                                             </attributedString>
                                         </state>
                                     </button>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ywA-2y-Td5">
-                                        <rect key="frame" x="0.0" y="70.5" width="343" height="463.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="aee-uB-W0C" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="70.5" width="343" height="459.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aee-uB-W0C" userLabel="Content View">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="687"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="feb-1A-Stx">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="21"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attended with..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cp-0s-Pla">
-                                                                <rect key="frame" x="0.0" y="0.0" width="343" height="21"/>
-                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="4dR-95-sM7">
-                                                        <rect key="frame" x="0.0" y="21" width="343" height="666"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="4dR-95-sM7" secondAttribute="bottom" id="fVY-0X-qSr"/>
-                                                </constraints>
-                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" text="Attended with..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cp-0s-Pla">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="255.5"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="G9t-XK-3vU">
+                                                <rect key="frame" x="0.0" y="259.5" width="343" height="200"/>
+                                            </imageView>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstItem="aee-uB-W0C" firstAttribute="width" secondItem="ywA-2y-Td5" secondAttribute="width" id="FgY-c2-LTn"/>
-                                            <constraint firstItem="aee-uB-W0C" firstAttribute="top" secondItem="ywA-2y-Td5" secondAttribute="top" id="PlQ-lx-1HS"/>
-                                            <constraint firstItem="aee-uB-W0C" firstAttribute="leading" secondItem="ywA-2y-Td5" secondAttribute="leading" id="oDl-Im-GED"/>
-                                            <constraint firstAttribute="bottom" secondItem="aee-uB-W0C" secondAttribute="bottom" id="shK-4L-ZGq"/>
-                                            <constraint firstAttribute="trailing" secondItem="aee-uB-W0C" secondAttribute="trailing" id="yvC-d4-278"/>
-                                        </constraints>
-                                    </scrollView>
+                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="ywA-2y-Td5" firstAttribute="width" secondItem="m4j-0g-Fyz" secondAttribute="width" id="ss6-j2-fuU"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="m4j-0g-Fyz" firstAttribute="top" secondItem="rXq-Ox-wxf" secondAttribute="bottom" constant="20" id="6PI-UX-teM"/>
-                            <constraint firstItem="JSm-a4-m8r" firstAttribute="top" secondItem="m4j-0g-Fyz" secondAttribute="bottom" id="AUy-mw-ZUX"/>
+                            <constraint firstItem="JSm-a4-m8r" firstAttribute="top" secondItem="m4j-0g-Fyz" secondAttribute="bottom" constant="4" id="AUy-mw-ZUX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="m4j-0g-Fyz" secondAttribute="trailing" id="J2E-LY-yMr"/>
                             <constraint firstItem="m4j-0g-Fyz" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" id="v2Q-aG-z1I"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="comments" destination="6Cp-0s-Pla" id="7Zs-w3-eHz"/>
-                        <outlet property="pictureView" destination="4dR-95-sM7" id="ZE2-Vl-eZr"/>
+                        <outlet property="pictureView" destination="G9t-XK-3vU" id="rge-oU-K3o"/>
                         <outlet property="templeName" destination="W8A-Vv-BBw" id="3yj-I2-N7b"/>
                         <outlet property="visitDate" destination="lpo-hi-8Mn" id="qnn-iO-P8a"/>
                     </connections>
@@ -1731,11 +1709,11 @@
                                             <segue destination="34m-OB-2N8" kind="presentation" identifier="changeDate" id="848-FN-MSS"/>
                                         </connections>
                                     </button>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
                                         <rect key="frame" x="0.0" y="70.5" width="343" height="468.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="1129"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="875"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hiU-mT-8ee">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="203"/>
@@ -1755,7 +1733,7 @@
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Attended with ..." translatesAutoresizingMaskIntoConstraints="NO" id="eKF-HF-mL6">
                                                                 <rect key="frame" x="0.0" y="23" width="343" height="180"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="eKF-HF-mL6" secondAttribute="height" multiplier="343:180" priority="750" id="EgC-Be-4Rh"/>
+                                                                    <constraint firstAttribute="height" priority="750" constant="180" id="JMA-5L-NQ5"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1766,7 +1744,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2b4-F5-22H">
-                                                        <rect key="frame" x="0.0" y="203" width="343" height="225"/>
+                                                        <rect key="frame" x="0.0" y="207" width="343" height="225"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NqN-YP-xCG">
                                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="29"/>
@@ -1966,8 +1944,11 @@
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
+                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="400" translatesAutoresizingMaskIntoConstraints="NO" id="adB-6Q-Yn5">
+                                                        <rect key="frame" x="0.0" y="436" width="343" height="400"/>
+                                                    </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hco-1D-iCr">
-                                                        <rect key="frame" x="0.0" y="428" width="343" height="35"/>
+                                                        <rect key="frame" x="0.0" y="840" width="343" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                         <state key="normal" title="Add Picture">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1976,13 +1957,7 @@
                                                             <action selector="addPicture:" destination="Wm6-qc-lsd" eventType="touchUpInside" id="bcC-gg-zFb"/>
                                                         </connections>
                                                     </button>
-                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="adB-6Q-Yn5">
-                                                        <rect key="frame" x="0.0" y="463" width="343" height="666"/>
-                                                    </imageView>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="bottom" secondItem="adB-6Q-Yn5" secondAttribute="bottom" id="bU4-oh-GeN"/>
-                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
@@ -2019,6 +1994,7 @@
                         <outlet property="initiatories" destination="4m9-AR-4QV" id="ljm-rL-Hw9"/>
                         <outlet property="initiatoriesStepO" destination="ZjQ-kK-Vyl" id="Ka5-yr-TUY"/>
                         <outlet property="pictureView" destination="adB-6Q-Yn5" id="T03-ly-CLf"/>
+                        <outlet property="scrollView" destination="Gly-p2-QVA" id="9o2-jl-mRE"/>
                         <outlet property="sealings" destination="gqK-pF-ISd" id="bAv-fc-thj"/>
                         <outlet property="sealingsStepO" destination="k1L-6m-Xga" id="Hu1-iC-0oo"/>
                         <outlet property="templeName" destination="kWV-xR-Fsf" id="OdK-YD-6J8"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16C67" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityState" optional="YES" attributeType="String" syncable="YES"/>
@@ -25,12 +25,13 @@
         <attribute name="endowments" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="holyPlace" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="initiatories" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Place" positionX="-36" positionY="-75" width="128" height="225"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
-        <element name="Visit" positionX="232" positionY="-99" width="128" height="180"/>
+        <element name="Visit" positionX="232" positionY="-99" width="128" height="195"/>
     </elements>
 </model>

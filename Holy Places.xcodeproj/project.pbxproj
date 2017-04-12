@@ -86,6 +86,7 @@
 				64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */,
 				644243C41E298CA80097E924 /* VisitTableVC.swift */,
 				644243C21E2975810097E924 /* VisitDetailVC.swift */,
+				646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */,
 				64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */,
 				642565631E32F55C0020FA73 /* OptionsVC.swift */,
 				6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */,
@@ -93,7 +94,6 @@
 				64F7364A1E3AA84A00622CD5 /* InfoVC.swift */,
 				64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */,
 				64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */,
-				646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -349,6 +349,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				INFOPLIST_FILE = "Holy Places/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -367,6 +369,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				INFOPLIST_FILE = "Holy Places/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

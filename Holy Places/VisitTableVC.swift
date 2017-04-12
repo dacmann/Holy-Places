@@ -307,14 +307,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "visitDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                var visit = Visit()
-                if searchController.isActive && searchController.searchBar.text != "" {
-                    visit = filteredVisits[indexPath.row]
-                } else {
-                    visit = self.fetchedResultsController.object(at: indexPath)
-                }
                 let controller = (segue.destination as! VisitDetailVC)
-                controller.detailVisit = visit
+                if searchController.isActive && searchController.searchBar.text != "" {
+                    let visit = filteredVisits[indexPath.row]
+                    controller.detailVisit = visit
+                } else {
+                    let visit = self.fetchedResultsController.object(at: indexPath)
+                    controller.detailVisit = visit
+                }
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
