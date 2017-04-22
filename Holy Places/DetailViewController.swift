@@ -58,6 +58,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     func getVisits (templeName: String, startInt: Int) {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
         
         do {
             var x = startInt
