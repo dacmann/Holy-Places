@@ -16,7 +16,7 @@ class VisitDetailVC: UIViewController {
     var placeType = String()
     
     @IBOutlet weak var templeName: UILabel!
-    @IBOutlet weak var visitDate: UIButton!
+    @IBOutlet weak var visitDate: UILabel!
     @IBOutlet weak var pictureView: UIImageView!
     @IBOutlet weak var comments: UILabel!
     
@@ -27,13 +27,9 @@ class VisitDetailVC: UIViewController {
     }
 
     func setDate() {
-        //dateOfVisit = sender.date
-        if let button = self.visitDate {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE, MMMM dd YYYY"
-            let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit!))
-            button.setAttributedTitle(visitDateAtt, for: .normal)
-        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        visitDate.text = formatter.string(from: dateOfVisit!)
     }
     
     func editVisit (_ sender: Any) {
@@ -59,10 +55,6 @@ class VisitDetailVC: UIViewController {
         setDate()
     }
 
-
-
-
-    
     // function for read-only view of recorded visit
     func populateView() {
         // Update the user interface for the detail item.
@@ -70,7 +62,6 @@ class VisitDetailVC: UIViewController {
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
-                visitDate.isEnabled = false
                 var ordinances = "\n"
                 if detail.type == "T" {
                     if detail.sealings > 0 {

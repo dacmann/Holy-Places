@@ -11,6 +11,7 @@ import CoreData
 
 class DetailViewController: UIViewController, UIScrollViewDelegate {
 
+    //MARK:- Variables & Outlets
     @IBOutlet weak var dateOfVisit: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var pictureScrollView: UIScrollView!
@@ -28,52 +29,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     var visitCount = 0
     var visitDates = [String]()
     
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = self.detailItem {
-            if let label = self.templeName {
-                self.visitDates.append("")
-                label.text = detail.templeName
-                templeSnippet.text = detail.templeSnippet
-                address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
-                phoneNumber.text = detail.templePhone
-                recordVisitBtn.contentHorizontalAlignment = .center
-                websiteBtn.contentHorizontalAlignment = .center
-                if detail.templeType == "C" {
-                    recordVisitBtn.isHidden = true
-                }
-                // Get picture from URL and any pictures from Visits
-                let catPictureURL = URL(string: detail.templePictureURL)!
-                URLSession.shared.dataTask(with: catPictureURL) { (data, response, error) in
-                    guard
-                        let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                        let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                        let data = data, error == nil,
-                        let image = UIImage(data: data)
-                        else {
-                            self.getVisits(templeName: detail.templeName, startInt: 0)
-                            return
-                    }
-                    DispatchQueue.main.async() { () -> Void in
-                        let imageView = UIImageView()
-                        imageView.contentMode = .scaleAspectFit
-                        imageView.image = image
-                        imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
-                        self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
-                        self.pictureScrollView.addSubview(imageView)
-                        self.getVisits(templeName: detail.templeName, startInt: 1)
-                        self.visitDates.append("")
-                    }
-                    }.resume()
-                
-//                templeImage.downloadedFrom(link: detail.templePictureURL)
-//                templeImage.frame = CGRect(x: 0, y: 0, width: self.stackView.frame.width, height: self.pictureScrollView.frame.height)
-//                pictureScrollView.frame = templeImage.frame
-
-            }
-        }
-    }
-    
+    //MARK: - ScrollView functions
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Test the offset and calculate the current page after scrolling ends
         let pageWidth:CGFloat = scrollView.frame.width
@@ -153,6 +109,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         
     }
 
+    //MARK:- Standard Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -160,14 +117,11 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        visitDates.removeAll()
         self.configureView()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    //MARK: - Populate the view
     var detailItem: Temple? {
         didSet {
             // Update the view.
@@ -175,6 +129,53 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func configureView() {
+        // Update the user interface for the detail item.
+        if let detail = self.detailItem {
+            if let label = self.templeName {
+                self.visitDates.append("")
+                label.text = detail.templeName
+                templeSnippet.text = detail.templeSnippet
+                address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
+                phoneNumber.text = detail.templePhone
+                recordVisitBtn.contentHorizontalAlignment = .center
+                websiteBtn.contentHorizontalAlignment = .center
+                if detail.templeType == "C" {
+                    recordVisitBtn.isHidden = true
+                }
+                // Get picture from URL and any pictures from Visits
+                let catPictureURL = URL(string: detail.templePictureURL)!
+                URLSession.shared.dataTask(with: catPictureURL) { (data, response, error) in
+                    guard
+                        let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                        let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                        let data = data, error == nil,
+                        let image = UIImage(data: data)
+                        else {
+                            self.getVisits(templeName: detail.templeName, startInt: 0)
+                            return
+                    }
+                    DispatchQueue.main.async() { () -> Void in
+                        let imageView = UIImageView()
+                        imageView.contentMode = .scaleAspectFit
+                        imageView.image = image
+                        imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
+                        self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
+                        self.pictureScrollView.addSubview(imageView)
+                        self.getVisits(templeName: detail.templeName, startInt: 1)
+                        self.visitDates.append("")
+                    }
+                    }.resume()
+                
+                //                templeImage.downloadedFrom(link: detail.templePictureURL)
+                //                templeImage.frame = CGRect(x: 0, y: 0, width: self.stackView.frame.width, height: self.pictureScrollView.frame.height)
+                //                pictureScrollView.frame = templeImage.frame
+                
+            }
+        }
+    }
+    
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "recordVisit" {
             let temple = self.detailItem

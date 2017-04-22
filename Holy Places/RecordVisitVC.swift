@@ -142,8 +142,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.scrollView.reloadInputViews()
-        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
+//        self.scrollView.reloadInputViews()
+//        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
 
     }
     
@@ -226,8 +226,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
-//                imagePicker.mediaTypes = 
-                imagePicker.allowsEditing = true
+//                imagePicker.allowsEditing = true
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
                     self.present(imagePicker, animated: true, completion: nil)
@@ -247,17 +246,23 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
 //        }
     }
     
-
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         pictureView.isHidden = false
         addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
-        pictureView.image = info[UIImagePickerControllerEditedImage] as? UIImage
-//        let image = info[UIImagePickerControllerEditedImage] as? UIImage
+//        pictureView.image = info[UIImagePickerControllerEditedImage] as? UIImage
+        pictureView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+//        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
 //        print(image?.size as Any)
-//        pictureView.image = image?.scale(toSize: self.view.frame.size)
+//        let size = CGSize(width: (image?.size.width)! / 3, height: (image?.size.height)! / 3)
+//        pictureView.image = image?.scale(toSize: size)
 //        print(pictureView.image?.size as Any)
+//        pictureView.sizeThatFits(size)
+//        scrollView.sizeToFit()
+
         self.dismiss(animated: true, completion: nil)
+        self.scrollView.reloadInputViews()
+        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
     }
 
 
