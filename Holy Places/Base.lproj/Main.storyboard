@@ -652,7 +652,7 @@
                             <constraint firstItem="fSt-Gu-ud8" firstAttribute="centerX" secondItem="CLj-4f-YGy" secondAttribute="centerX" id="gsa-sm-Mmu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Summary" image="morningstar-bnw" id="1yM-p4-5ih"/>
+                    <tabBarItem key="tabBarItem" title="Summary" image="summary" id="1yM-p4-5ih"/>
                     <connections>
                         <outlet property="attendedTempleTotal" destination="iHD-aA-TvX" id="nG2-q8-l2v"/>
                         <outlet property="attendedTempleYr" destination="KRN-QD-kzc" id="PSt-7r-IXA"/>
@@ -1338,7 +1338,7 @@
         <scene sceneID="IPy-Db-LGG">
             <objects>
                 <navigationController id="Sa3-lG-QkB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Visits" image="morningstar-bnw" id="zql-gI-7ch"/>
+                    <tabBarItem key="tabBarItem" title="Visits" image="journal" id="zql-gI-7ch"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UUF-km-xOW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1596,7 +1596,7 @@
         <scene sceneID="vgd-4p-eS7">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J4n-4V-ruV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Places" image="morningstar-bnw" id="XRl-bg-tEk"/>
+                    <tabBarItem key="tabBarItem" title="Places" image="starOfMelchizedek" id="XRl-bg-tEk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="9J2-TF-e7y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -2057,8 +2057,11 @@
     <resources>
         <image name="PCC" width="375" height="666"/>
         <image name="Payson" width="375" height="666"/>
+        <image name="journal" width="25" height="25"/>
         <image name="morningstar-bnw" width="25" height="25"/>
         <image name="morningstarmoroni" width="477" height="512"/>
         <image name="profile" width="200" height="200"/>
+        <image name="starOfMelchizedek" width="25" height="25"/>
+        <image name="summary" width="25" height="25"/>
     </resources>
 </document>
