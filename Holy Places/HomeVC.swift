@@ -35,6 +35,11 @@ var altLocStreet = String()
 var altLocCity = String()
 var altLocState = String()
 var altLocPostalCode = String()
+var annualVisitGoal = Int()
+var placeFilterRow = Int()
+var placeSortRow = Int()
+var visitFilterRow = Int()
+var visitSortRow = Int()
 
 class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     //MARK: - Variables

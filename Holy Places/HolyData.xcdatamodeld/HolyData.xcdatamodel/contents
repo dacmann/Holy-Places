@@ -17,6 +17,21 @@
     <entity name="PlaceVersions" representedClassName="PlaceVersions" syncable="YES" codeGenerationType="class">
         <attribute name="versionNum" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="altLocation" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="altLocCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="altLocLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="altLocLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="altLocPostalCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="altLocState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="altLocStreet" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="placeFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="placeSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="tip" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="visitFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="visitSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Visit" representedClassName="Visit" syncable="YES" codeGenerationType="class">
         <attribute name="baptisms" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,5 +48,6 @@
         <element name="Place" positionX="-36" positionY="-75" width="128" height="225"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
         <element name="Visit" positionX="232" positionY="-99" width="128" height="195"/>
+        <element name="Settings" positionX="99" positionY="0" width="128" height="240"/>
     </elements>
 </model>

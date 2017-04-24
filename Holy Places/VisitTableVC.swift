@@ -17,18 +17,16 @@ extension VisitTableVC: UISearchResultsUpdating {
 
 class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
     
-    var placeType = Int()
-    var sortType = Int()
     var titleHeader = String()
     
     // Set variable based on Filter Option selected on Options view
     func FilterOptions(row: Int) {
-        placeType = row
+        visitFilterRow = row
     }
     
     // Set variables based on Sort Option selected on Options view
     func SortOptions(row: Int) {
-        sortType = row
+        visitSortRow = row
     }
     
     // Search Controller Code
@@ -228,7 +226,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         // Filter the request
-        switch placeType {
+        switch visitFilterRow {
         case 0:
             titleHeader = "Holy Places Visits"
         case 1:
@@ -321,8 +319,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if segue.identifier == "showVisitOptions" {
             let controller: VisitOptionsVC = segue.destination as! VisitOptionsVC
             controller.delegateOptions = self
-            controller.sortSelected = sortType
-            controller.filterSelected = placeType
+            controller.sortSelected = visitSortRow
+            controller.filterSelected = visitFilterRow
             searchController.isActive = false
         }
     }

@@ -27,8 +27,6 @@ extension TableViewController: UISearchBarDelegate {
 class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
     //MARK: - Variables and Outlets
     var places: [Temple] = []
-    var placeType = Int()
-    var sortType = Int()
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
     var sortByDedicationDate = Bool()
@@ -42,23 +40,23 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     // MARK: - SendOptions
     // Set variable based Filter Option selected on Options view
     func FilterOptions(row: Int) {
-        placeType = row
+        placeFilterRow = row
     }
     
     // Set variables based on Sort Option selected on Options view
     func SortOptions(row: Int) {
-        sortType = row
+        placeSortRow = row
         nearestEnabled = false
         sortByCountry = false
         sortByDedicationDate = false
-        if sortType == 1 {
+        if placeSortRow == 1 {
             nearestEnabled = true
             locationManager.requestAlwaysAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startMonitoringSignificantLocationChanges()
-        } else if sortType == 2 {
+        } else if placeSortRow == 2 {
             sortByCountry = true
-        } else if sortType == 3 {
+        } else if placeSortRow == 3 {
             sortByDedicationDate = true
         }
     }
@@ -96,7 +94,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
-        switch placeType {
+        switch placeFilterRow {
         case 0:
             places = allPlaces
         case 1:
@@ -123,7 +121,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     func setup () {
         var title = String()
         
-        switch placeType {
+        switch placeFilterRow {
         case 0:
             title = "Holy Places"
             places = allPlaces
@@ -295,6 +293,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         
         searchController.searchBar.scopeButtonTitles = ["All", "Visited", "Not Visited"]
         searchController.searchBar.delegate = self
+        SortOptions(row: placeSortRow)
+        FilterOptions(row: placeFilterRow)
     }
 
 
@@ -428,8 +428,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         if segue.identifier == "showOptions" {
             let controller: OptionsVC = segue.destination as! OptionsVC
             controller.delegateOptions = self
-            controller.sortSelected = sortType
-            controller.filterSelected = placeType
+            controller.sortSelected = placeSortRow
+            controller.filterSelected = placeFilterRow
             searchController.isActive = false
         }
     }

@@ -13,7 +13,6 @@ class VisitDetailVC: UIViewController {
     
     //MARK:- Variables & Outlets
     var dateOfVisit: Date?
-    var placeType = String()
     
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var visitDate: UILabel!

@@ -8,13 +8,14 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 import StoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
 
     var window: UIWindow?
-
+    var settings: Settings?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -29,6 +30,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: barbuttonFont, NSForegroundColorAttributeName:UIColor.ocean()], for: UIControlState.normal)
         UINavigationBar.appearance().tintColor = UIColor.ocean()
         UITabBar.appearance().tintColor = UIColor.ocean()
+        
+        //Load any saved settings
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try context.fetch(fetchRequest)
+            
+            if searchResults.count > 0 {
+                
+                for setting in searchResults as [Settings] {
+                    settings = setting
+                    altLocStreet = (settings?.altLocStreet)!
+                    altLocCity = (settings?.altLocCity)!
+                    altLocState = (settings?.altLocState)!
+                    altLocPostalCode = (settings?.altLocPostalCode)!
+                    locationSpecific = (settings?.altLocation)!
+                    coordAltLocation = CLLocation(latitude: (settings?.altLocLatitude)!, longitude: (settings?.altLocLongitude)!)
+                    placeSortRow = Int((settings?.placeSortRow)!)
+                    placeFilterRow = Int((settings?.placeFilterRow)!)
+                    visitSortRow = Int((settings?.visitSortRow)!)
+                    visitFilterRow = Int((settings?.visitFilterRow)!)
+                }
+            } else {
+                // nothing to do here
+            }
+        } catch {
+            print("Error with request: \(error)")
+        }
+        
         return true
     }
 
@@ -53,9 +85,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        
+        // Save settings
+        if settings == nil {
+            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: persistentContainer.viewContext) as? Settings
+        }
+        settings?.altLocation = locationSpecific
+        settings?.altLocStreet = altLocStreet
+        settings?.altLocCity = altLocCity
+        settings?.altLocState = altLocState
+        settings?.altLocPostalCode = altLocPostalCode
+        if coordAltLocation != nil {
+            settings?.altLocLatitude = coordAltLocation.coordinate.latitude
+            settings?.altLocLongitude = coordAltLocation.coordinate.longitude
+        }
+        settings?.annualVisitGoal = Int16(annualVisitGoal)
+        settings?.placeFilterRow = Int16(placeFilterRow)
+        settings?.placeSortRow = Int16(placeSortRow)
+        settings?.visitFilterRow = Int16(visitFilterRow)
+        settings?.visitSortRow = Int16(visitSortRow)
+        
         SKPaymentQueue.default().remove(self)
         self.saveContext()
     }
+    
+    //MARK:- Payment function
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         
         for transaction in transactions {
