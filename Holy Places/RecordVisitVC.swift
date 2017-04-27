@@ -251,13 +251,13 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         pictureView.isHidden = false
         addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
 //        pictureView.image = info[UIImagePickerControllerEditedImage] as? UIImage
-        pictureView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        print(image?.size as Any)
-//        let size = CGSize(width: (image?.size.width)! / 3, height: (image?.size.height)! / 3)
-//        pictureView.image = image?.scale(toSize: size)
-//        print(pictureView.image?.size as Any)
-//        pictureView.sizeThatFits(size)
+//        pictureView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        print(image?.size as Any)
+        let size = CGSize(width: (image?.size.width)! / 3, height: (image?.size.height)! / 3)
+        pictureView.image = image?.scale(toSize: size)
+        print(pictureView.image?.size as Any)
+        pictureView.sizeThatFits(size)
 //        scrollView.sizeToFit()
 
         self.dismiss(animated: true, completion: nil)

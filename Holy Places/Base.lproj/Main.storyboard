@@ -1456,12 +1456,6 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUH-q3-4KO">
-                                <rect key="frame" x="187.5" y="212" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-HS-RCa">
                                 <rect key="frame" x="168" y="228" width="39" height="37"/>
                             </pageControl>
@@ -1586,9 +1580,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MUH-q3-4KO" firstAttribute="top" secondItem="cbg-HS-RCa" secondAttribute="top" constant="-16" id="4eW-wB-Ll2"/>
                             <constraint firstItem="cbg-HS-RCa" firstAttribute="centerX" secondItem="cxh-cj-1bn" secondAttribute="centerX" id="6Zj-lN-RtC"/>
-                            <constraint firstItem="MUH-q3-4KO" firstAttribute="centerX" secondItem="cxh-cj-1bn" secondAttribute="centerX" id="C7g-T2-oi0"/>
                             <constraint firstItem="xaJ-yQ-ey3" firstAttribute="top" secondItem="uGG-l0-cWb" secondAttribute="bottom" constant="10" id="cLv-h2-6lF"/>
                             <constraint firstItem="uGG-l0-cWb" firstAttribute="leading" secondItem="cxh-cj-1bn" secondAttribute="leading" constant="4" id="ga8-qD-Ddy"/>
                             <constraint firstItem="cbg-HS-RCa" firstAttribute="bottom" secondItem="kBA-Zo-Zka" secondAttribute="bottom" constant="-16" id="ifX-fy-VTz"/>
@@ -1600,7 +1592,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="address" destination="m2r-9T-8yH" id="qb8-Aj-Cdy"/>
-                        <outlet property="dateOfVisit" destination="MUH-q3-4KO" id="F1e-aS-Llk"/>
                         <outlet property="pageControl" destination="cbg-HS-RCa" id="frD-e9-eW6"/>
                         <outlet property="phoneNumber" destination="DsF-Hv-V5B" id="8VR-Gd-FPp"/>
                         <outlet property="pictureScrollView" destination="kBA-Zo-Zka" id="yuk-uC-ump"/>

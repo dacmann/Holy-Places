@@ -12,7 +12,6 @@ import CoreData
 class DetailViewController: UIViewController, UIScrollViewDelegate {
 
     //MARK:- Variables & Outlets
-    @IBOutlet weak var dateOfVisit: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var pictureScrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
@@ -36,16 +35,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
         // Change the indicator
         self.pageControl.currentPage = Int(currentPage)
-        // Display date of visit
-        dateOfVisit.text = visitDates[Int(currentPage)]
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Test the offset and calculate the current page after scrolling ends
-        let pageWidth:CGFloat = scrollView.frame.width
-        let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
-        // Display date of visit
-        dateOfVisit.text = visitDates[Int(currentPage)]
     }
     
     //MARK: - CoreData
@@ -73,7 +66,16 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
             for visit in searchResults as [Visit] {
                 // load image
                 if let imageData = visit.picture {
-                    let image = UIImage(data: imageData as Data)
+                    var image = UIImage(data: imageData as Data)
+                    
+                    // Grab date of visit and attach to picture
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "EEEE, MMMM dd YYYY"
+                    let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
+//                    let point: CGPoint = CGPoint(x: 20, y: 60)
+                    image = textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
+//                    visitDates.append(formatter.string(from: visit.dateVisited! as Date))
+
                     let imageView = UIImageView()
                     imageView.contentMode = .scaleAspectFit
                     imageView.image = image
@@ -82,26 +84,20 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
                     pictureScrollView.addSubview(imageView)
                     
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "EEEE, MMMM dd YYYY"
-                    visitDates.append(formatter.string(from: visit.dateVisited! as Date))
                     x += 1
                 }
             }
             if visitCount > 0 {
                 totalVisits.text = "Visits: \(visitCount)"
+                totalVisits.isHidden = false
             } else {
                 totalVisits.isHidden = true
             }
             if x > 1 {
                 pageControl.numberOfPages = x
-                dateOfVisit.layer.zPosition = 1
                 pageControl.layer.zPosition = 2
                 pageControl.pageIndicatorTintColor = UIColor.aluminium()
                 pageControl.currentPageIndicatorTintColor = UIColor.ocean()
-            } else {
-                pageControl.isHidden = true
-                dateOfVisit.isHidden = true
             }
         } catch {
             print("Error with request: \(error)")
@@ -127,6 +123,39 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
             // Update the view.
             self.configureView()
         }
+    }
+    
+    func textToImage(drawText text: NSString, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+        
+        // Setup the font specific variables
+        let textColor = UIColor.white
+        let textFont = UIFont(name: "Baskerville", size: image.size.height/20)!
+        
+        print(image.size)
+        // Setup the image context using the passed image
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        
+        // Setup the font attributes that will be later used to dictate how the text should be drawn
+        let textFontAttributes = [
+            NSFontAttributeName: textFont,
+            NSForegroundColorAttributeName: textColor,
+            ] as [String : Any]
+        
+        // Put the image into a rectangle as large as the original image
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        // Create a point within the space that is as big as the image
+        let rect = CGRect(origin: point, size: image.size)
+        
+        // Draw the text into an image
+        text.draw(in: rect, withAttributes: textFontAttributes)
+        
+        // Create a new image out of the images we have created
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
     
     func configureView() {
