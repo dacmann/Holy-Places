@@ -90,7 +90,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
             }
             if visitCount > 0 {
                 totalVisits.text = "Visits: \(visitCount)"
-                totalVisits.layer.zPosition = 1
             } else {
                 totalVisits.isHidden = true
             }
@@ -98,7 +97,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 pageControl.numberOfPages = x
                 dateOfVisit.layer.zPosition = 1
                 pageControl.layer.zPosition = 2
-                pageControl.pageIndicatorTintColor = UIColor.white
+                pageControl.pageIndicatorTintColor = UIColor.aluminium()
                 pageControl.currentPageIndicatorTintColor = UIColor.ocean()
             } else {
                 pageControl.isHidden = true
@@ -144,6 +143,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 if detail.templeType == "C" {
                     recordVisitBtn.isHidden = true
                 }
+                // Delete any previously configured imageviews
+                self.pictureScrollView.subviews.forEach({ $0.removeFromSuperview() })
+                
                 // Get picture from URL and any pictures from Visits
                 let catPictureURL = URL(string: detail.templePictureURL)!
                 URLSession.shared.dataTask(with: catPictureURL) { (data, response, error) in

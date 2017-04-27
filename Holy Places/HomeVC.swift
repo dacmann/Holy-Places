@@ -55,10 +55,15 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     var templeLongitude = Double()
     var templePictureURL = String()
     var templeType = String()
+    var currentYear = String()
+    var attended = 0
     
     var templeSiteURL = String()
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
+    @IBOutlet weak var goal: UIButton!
+    @IBOutlet weak var goalTitle: UILabel!
+    
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
@@ -225,6 +230,9 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        currentYear = formatter.string(from: Date())
         
         // Grab In-App purchase information
         fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
@@ -254,8 +262,50 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             // clear out message now that it has been presented
             changesDate = ""
         }
+        
+//        goalTitle.text = "\(currentYear)  G o a l  P r o g r e s s"
+        goalTitle.text = "\(currentYear) Goal Progress"
+        // Adjust spacing of letters of Goal Progress
+        let attributedString = NSMutableAttributedString(string: goalTitle.text!)
+        attributedString.addAttribute(NSKernAttributeName, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
+        goalTitle.attributedText = attributedString
+        
+        if annualVisitGoal == 0 {
+            goal.setTitle("SET GOAL", for: .normal)
+        } else {
+            getVisits()
+            goal.setTitle("\(attended) of \(annualVisitGoal) Visits", for: .normal)
+        }
     }
     
+    func getVisits () {
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        do {
+            // get temple visits
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            let searchResults = try getContext().fetch(fetchRequest)
+            // count ordinances for each temple visited
+            
+            let userCalendar = Calendar.current
+            var currentYearStart = DateComponents()
+            currentYearStart.year = Int(currentYear)
+            currentYearStart.day = 1
+            currentYearStart.month = 1
+            let currentYearDate = userCalendar.date(from: currentYearStart)!
+            
+            attended = 0
+            for temple in searchResults as [NSManagedObject] {
+                //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
+                // check for ordinaces performed in the last year
+                if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < currentYearDate.daysBetweenDate(toDate: Date()) {
+                    attended += 1
+                }
+            }
+            
+        } catch {
+            print("Error with request: \(error)")
+        }
+    }
     
     //MARK: - Update Data
     // Pull down the XML file from website and parse the data

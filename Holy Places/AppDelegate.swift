@@ -53,8 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
                     placeFilterRow = Int((settings?.placeFilterRow)!)
                     visitSortRow = Int((settings?.visitSortRow)!)
                     visitFilterRow = Int((settings?.visitFilterRow)!)
+                    annualVisitGoal = Int((settings?.annualVisitGoal)!)
                 }
             } else {
+                annualVisitGoal = 0
                 // nothing to do here
             }
         } catch {
