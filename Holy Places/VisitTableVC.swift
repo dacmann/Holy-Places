@@ -189,6 +189,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             ordinances.append(" )")
         }
         
+        if visit.picture != nil {
+            ordinances.append("  📷")
+        }
+        
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
