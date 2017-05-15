@@ -317,7 +317,13 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             let searchResults = try getContext().fetch(fetchRequest)
-            // count ordinances for each temple visited
+            
+            // If entered a few visits, prompt for a rating
+            if searchResults.count > 2 {
+                if #available(iOS 10.3, *) {
+                    SKStoreReviewController.requestReview()
+                }
+            }
             
             let userCalendar = Calendar.current
             var currentYearStart = DateComponents()

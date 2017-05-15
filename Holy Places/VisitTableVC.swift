@@ -164,31 +164,31 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         cell.textLabel!.text = visit.holyPlace
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
-        var ordinances = " "
+        var ordinances = " ~"
         
         // Determine Ordinances performed for summary
         if visit.baptisms > 0 {
-            ordinances.append(" Ⓑ")
+            ordinances.append(" B")
         }
         if visit.confirmations > 0 {
-            ordinances.append(" Ⓒ")
+            ordinances.append(" C")
         }
         if visit.initiatories > 0 {
-            ordinances.append(" Ⓘ")
+            ordinances.append(" I")
         }
         if visit.endowments > 0 {
-            ordinances.append(" Ⓔ")
+            ordinances.append(" E")
         }
         if visit.sealings > 0 {
-            ordinances.append(" Ⓢ")
+            ordinances.append(" S")
         }
         // If no ordinaces appended, blank out the variable, otherwise add closing bracket
-        if ordinances == "  " {
+        if ordinances == " ~" {
             ordinances = ""
         }
         
         if visit.picture != nil {
-            ordinances.append(" 📷")
+            ordinances.append("  📷")
         }
         
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited! as Date) + ordinances
