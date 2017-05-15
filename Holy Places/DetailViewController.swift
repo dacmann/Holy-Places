@@ -26,7 +26,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
 
     var visitCount = 0
-    var visitDates = [String]()
     
     //MARK: - ScrollView functions
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -74,7 +73,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
 //                    let point: CGPoint = CGPoint(x: 20, y: 60)
                     image = textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
-//                    visitDates.append(formatter.string(from: visit.dateVisited! as Date))
 
                     let imageView = UIImageView()
                     imageView.contentMode = .scaleAspectFit
@@ -113,7 +111,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        visitDates.removeAll()
         self.configureView()
     }
     
@@ -160,9 +157,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     func configureView() {
         // Update the user interface for the detail item.
+        let context = getContext()
         if let detail = self.detailItem {
             if let label = self.templeName {
-                self.visitDates.append("")
                 label.text = detail.templeName
                 templeSnippet.text = detail.templeSnippet
                 address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
@@ -175,9 +172,36 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 // Delete any previously configured imageviews
                 self.pictureScrollView.subviews.forEach({ $0.removeFromSuperview() })
                 
+                // Check if Place picture is already saved locally
+                let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "name == %@", detail.templeName)
+                do {
+                    let searchResults = try context.fetch(fetchRequest)
+                    if searchResults.count > 0 {
+                        for picture in searchResults as [Place] {
+                            if let imageData = picture.pictureData {
+                                // Convert saved data to image and add to scrollview
+                                let image = UIImage(data: imageData as Data)
+                                let imageView = UIImageView()
+                                imageView.contentMode = .scaleAspectFit
+                                imageView.image = image
+                                imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
+                                self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
+                                self.pictureScrollView.addSubview(imageView)
+                                // Get other pictures from Visits
+                                self.getVisits(templeName: detail.templeName, startInt: 1)
+                                // No need to proceed with the rest of function so return
+                                return
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error with request: \(error)")
+                }
+                
                 // Get picture from URL and any pictures from Visits
-                let catPictureURL = URL(string: detail.templePictureURL)!
-                URLSession.shared.dataTask(with: catPictureURL) { (data, response, error) in
+                let pictureURL = URL(string: detail.templePictureURL)!
+                URLSession.shared.dataTask(with: pictureURL) { (data, response, error) in
                     guard
                         let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
                         let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
@@ -191,11 +215,35 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                         let imageView = UIImageView()
                         imageView.contentMode = .scaleAspectFit
                         imageView.image = image
+                        // Save image data to Pictures
+                        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "name == %@", detail.templeName)
+                        do {
+                            let searchResults = try context.fetch(fetchRequest)
+                            if searchResults.count > 0 {
+                                for place in searchResults as [Place] {
+                                   place.pictureData = data as NSData
+                                    do {
+                                        try context.save()
+                                    } catch let error as NSError  {
+                                        print("Could not save \(error), \(error.userInfo)")
+                                    } catch {}
+                                    print("Saving Place picture completed")
+                                }
+                            }
+                        } catch {
+                            print("Error with request: \(error)")
+                        }
+
+//                        let pictures = NSEntityDescription.insertNewObject(forEntityName: "Pictures", into: self.getContext()) as? Pictures
+//                        pictures?.url = detail.templePictureURL
+//                        pictures?.picture = data as NSData
+                        // Add image to Scrollview
                         imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                         self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
                         self.pictureScrollView.addSubview(imageView)
+                        // Get other pictures from Visits
                         self.getVisits(templeName: detail.templeName, startInt: 1)
-                        self.visitDates.append("")
                     }
                     }.resume()
                 

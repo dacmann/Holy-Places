@@ -120,6 +120,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     // Determine Filters and sort criteria and build indexes if required
     func setup () {
         var title = String()
+        var subTitle = ""
         
         switch placeFilterRow {
         case 0:
@@ -144,9 +145,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             places = filteredPlaces
         }
         
-        // Update title of View
-        self.navigationItem.title = title + " (" + (places.count.description) + ")"
-
         //reset sections array
         sections.removeAll()
         
@@ -154,15 +152,28 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
              //create index for array
             var index = 0
             if nearestEnabled {
+                if locationSpecific {
+                    if altLocState != "" || altLocCity != "" {
+                        subTitle = "Nearest to \(altLocCity) \(altLocState)"
+                    } else if altLocPostalCode != "" {
+                        subTitle = "Nearest to \(altLocPostalCode)"
+                    } else {
+                        subTitle = "Nearest to \(altLocStreet)"
+                    }
+                } else {
+                    subTitle = "Nearest to Current Location"
+                }
                 updateDistance()
                 places.sort { Int($0.distance!) < Int($1.distance!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
             } else if sortByDedicationDate {
+                subTitle = "by Dedication Date"
                 places.sort { $0.templeOrder < $1.templeOrder }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
             } else if sortByCountry {
+                subTitle = "by Country"
                 // Sort by Country and then by Name
                 places.sort {
                     let countryComparisonResult = $0.templeCountry.compare($1.templeCountry)
@@ -189,6 +200,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                     }
                 }
             } else {
+                // Sort by Name
+                places.sort {$0.templeName < $1.templeName}
                 // Create sections and index for default Alphabetical
 //                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 var commonPrefix = ""
@@ -208,6 +221,45 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 }
             }
         }
+        // Update title of View
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(places.count.description))", subtitle: subTitle)
+    }
+    
+    func setTitle(title:String, subtitle:String) -> UIView {
+        
+        // Replace titleView with custom version that includes sub title
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: -2, width: 0, height: 0))
+        let titleFont = UIFont(name: "Baskerville", size: 19) ?? UIFont.systemFont(ofSize: 19)
+        let subTitleFont = UIFont(name: "Baskerville", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = UIColor.ocean()
+        titleLabel.font = titleFont
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
+        subtitleLabel.textColor = UIColor.gray
+        subtitleLabel.font = subTitleFont
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff < 0 {
+            let newX = widthDiff / 2
+            subtitleLabel.frame.origin.x = abs(newX)
+        } else {
+            let newX = widthDiff / 2
+            titleLabel.frame.origin.x = newX
+        }
+        
+        return titleView
     }
     
     // MARK: - Location Services
@@ -405,6 +457,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
     }
     
+
     
     // MARK: - Navigation
 

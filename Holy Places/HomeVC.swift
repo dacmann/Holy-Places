@@ -88,40 +88,73 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     func storePlaces () {
         let context = getContext()
         
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
-        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        do {
-            try context.execute(request)
-            print("deleting saved Places")
-        } catch let error as NSError {
-            print("Could not delete \(error), \(error.userInfo)")
-        }
+//        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
+//        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+//        do {
+//            try context.execute(request)
+//            print("deleting saved Places")
+//        } catch let error as NSError {
+//            print("Could not delete \(error), \(error.userInfo)")
+//        }
         
         //retrieve the entity
-        let entity =  NSEntityDescription.entity(forEntityName: "Place", in: context)
+//
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
         
         //set the entity values
         for temple in allPlaces {
-            let place = NSManagedObject(entity: entity!, insertInto: context)
-            place.setValue(temple.templeName, forKey: "name")
-            place.setValue(temple.templeSnippet, forKey: "snippet")
-            place.setValue(temple.templeAddress, forKey: "address")
-            place.setValue(temple.templeCityState, forKey: "cityState")
-            place.setValue(temple.templeCountry, forKey: "country")
-            place.setValue(temple.templeLatitude, forKey: "latitude")
-            place.setValue(temple.templeLongitude, forKey: "longitude")
-            place.setValue(temple.templePhone, forKey: "phone")
-            place.setValue(temple.templePictureURL, forKey: "pictureURL")
-            place.setValue(temple.templeType, forKey: "type")
-            place.setValue(temple.templeOrder, forKey: "order")
-            place.setValue(temple.templeSiteURL, forKey: "siteURL")
-            //save the object
+//
+            // Check if Place picture is already saved locally
+            fetchRequest.predicate = NSPredicate(format: "name == %@", temple.templeName)
             do {
-                try context.save()
-                //print("saved " + temple.templeName)
-            } catch let error as NSError  {
-                print("Could not save \(error), \(error.userInfo)")
-            } catch {}
+                let searchResults = try context.fetch(fetchRequest)
+                if searchResults.count > 0 {
+                    for place in searchResults as [Place] {
+                        place.snippet = temple.templeSnippet
+                        place.address = temple.templeAddress
+                        place.cityState = temple.templeCityState
+                        place.country = temple.templeCountry
+                        place.latitude = temple.templeLatitude
+                        place.longitude = temple.templeLongitude
+                        place.phone = temple.templePhone
+                        if temple.templePictureURL != place.pictureURL {
+                            place.pictureURL = temple.templePictureURL
+                            // Delete saved picture if URL changed
+                            place.pictureData = nil
+                            print("Picture changed for \(temple.templeName)")
+                        }
+                        place.type = temple.templeType
+                        place.order = temple.templeOrder
+                        place.siteURL = temple.templeSiteURL
+                    }
+                } else {
+                    // Not found so add the new Place
+                    let entity =  NSEntityDescription.entity(forEntityName: "Place", in: context)
+                    let place = NSManagedObject(entity: entity!, insertInto: context)
+                    place.setValue(temple.templeName, forKey: "name")
+                    place.setValue(temple.templeSnippet, forKey: "snippet")
+                    place.setValue(temple.templeAddress, forKey: "address")
+                    place.setValue(temple.templeCityState, forKey: "cityState")
+                    place.setValue(temple.templeCountry, forKey: "country")
+                    place.setValue(temple.templeLatitude, forKey: "latitude")
+                    place.setValue(temple.templeLongitude, forKey: "longitude")
+                    place.setValue(temple.templePhone, forKey: "phone")
+                    place.setValue(temple.templePictureURL, forKey: "pictureURL")
+                    place.setValue(temple.templeType, forKey: "type")
+                    place.setValue(temple.templeOrder, forKey: "order")
+                    place.setValue(temple.templeSiteURL, forKey: "siteURL")
+                    print("Added \(temple.templeName)")
+                }
+                //save the object
+                do {
+                    try context.save()
+                } catch let error as NSError  {
+                    print("Could not save \(error), \(error.userInfo)")
+                } catch {}
+            } catch {
+                print("Error with request: \(error)")
+            }
+
         }
         print("Saving Places completed")
     }

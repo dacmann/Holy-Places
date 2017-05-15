@@ -164,38 +164,37 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         cell.textLabel!.text = visit.holyPlace
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
-        var ordinances = "  ("
+        var ordinances = " "
         
         // Determine Ordinances performed for summary
         if visit.baptisms > 0 {
-            ordinances.append(" B")
+            ordinances.append(" Ⓑ")
         }
         if visit.confirmations > 0 {
-            ordinances.append(" C")
+            ordinances.append(" Ⓒ")
         }
         if visit.initiatories > 0 {
-            ordinances.append(" I")
+            ordinances.append(" Ⓘ")
         }
         if visit.endowments > 0 {
-            ordinances.append(" E")
+            ordinances.append(" Ⓔ")
         }
         if visit.sealings > 0 {
-            ordinances.append(" S")
+            ordinances.append(" Ⓢ")
         }
         // If no ordinaces appended, blank out the variable, otherwise add closing bracket
-        if ordinances == "  (" {
+        if ordinances == "  " {
             ordinances = ""
-        } else {
-            ordinances.append(" )")
         }
         
         if visit.picture != nil {
-            ordinances.append("  📷")
+            ordinances.append(" 📷")
         }
         
         cell.detailTextLabel?.text = formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
+        cell.detailTextLabel?.textColor = UIColor.lead()
         if let theType = visit.type {
             switch theType {
             case "T":
