@@ -201,6 +201,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 }
             } else {
                 // Sort by Name
+                subTitle = "Alphabetical Order"
                 places.sort {$0.templeName < $1.templeName}
                 // Create sections and index for default Alphabetical
 //                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
