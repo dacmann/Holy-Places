@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import StoreKit
 
 class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
 
@@ -59,6 +60,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             var searchResults = try getContext().fetch(fetchRequest)
+            
+            // If entered a few temple visits, prompt for a rating
+            if searchResults.count > 2 {
+                if #available(iOS 10.3, *) {
+                    SKStoreReviewController.requestReview()
+                }
+            }
+            
             // count ordinances for each temple visited
             
             var attended = 0

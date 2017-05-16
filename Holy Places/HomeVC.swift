@@ -339,13 +339,6 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             let searchResults = try getContext().fetch(fetchRequest)
             
-            // If entered a few visits, prompt for a rating
-            if searchResults.count > 2 {
-                if #available(iOS 10.3, *) {
-                    SKStoreReviewController.requestReview()
-                }
-            }
-            
             let userCalendar = Calendar.current
             var currentYearStart = DateComponents()
             currentYearStart.year = Int(currentYear)
