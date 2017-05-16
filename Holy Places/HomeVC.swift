@@ -151,10 +151,31 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
                 } catch let error as NSError  {
                     print("Could not save \(error), \(error.userInfo)")
                 } catch {}
+                
+                
             } catch {
                 print("Error with request: \(error)")
             }
-
+        
+        }
+        // Check for orphans
+        let fetchRequest2: NSFetchRequest<Place> = Place.fetchRequest()
+        do {
+            //go get the results
+            let searchResults2 = try getContext().fetch(fetchRequest2)
+            
+            // If there are more records saved than in the array populated from the xml, look for orphans
+            if searchResults2.count > allPlaces.count {
+                for place in searchResults2 as [Place] {
+                    if !allPlaces.contains(where: { $0.templeName == place.name }) {
+                        // Delete the orphan
+                        print("Deleting orphaned entry of \(String(describing: place.name))")
+                        context.delete(place)
+                    }
+                }
+            }
+        } catch {
+            print("Error with request: \(error)")
         }
         print("Saving Places completed")
     }
