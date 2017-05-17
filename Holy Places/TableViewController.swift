@@ -389,9 +389,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             } else {
                 distance.append(" mi. - ")
             }
-            cell.detailTextLabel?.text = distance + temple.templeSnippet
+            cell.detailTextLabel?.text = "· " + distance + temple.templeSnippet
         } else {
-            cell.detailTextLabel?.text = temple.templeSnippet
+            cell.detailTextLabel?.text = "· " + temple.templeSnippet
         }
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
