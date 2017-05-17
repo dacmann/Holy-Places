@@ -171,6 +171,12 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
                         // Delete the orphan
                         print("Deleting orphaned entry of \(String(describing: place.name))")
                         context.delete(place)
+                        //save the delete
+                        do {
+                            try context.save()
+                        } catch let error as NSError  {
+                            print("Could not save \(error), \(error.userInfo)")
+                        } catch {}
                     }
                 }
             }

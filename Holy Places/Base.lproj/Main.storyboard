@@ -1463,13 +1463,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-HS-RCa">
-                                <rect key="frame" x="168" y="228" width="39" height="37"/>
+                                <rect key="frame" x="168" y="227.5" width="39" height="37"/>
                             </pageControl>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="uGG-l0-cWb">
                                 <rect key="frame" x="4" y="0.0" width="367" height="549"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBA-Zo-Zka">
-                                        <rect key="frame" x="0.0" y="0.0" width="367" height="281"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="367" height="280.5"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="235" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
@@ -1496,7 +1496,7 @@
                                         </variation>
                                     </scrollView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="a3N-nC-0P6">
-                                        <rect key="frame" x="0.0" y="291" width="367" height="258"/>
+                                        <rect key="frame" x="0.0" y="290.5" width="367" height="258.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
                                                 <rect key="frame" x="0.0" y="0.0" width="367" height="23"/>
@@ -1511,7 +1511,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
-                                                <rect key="frame" x="0.0" y="33" width="367" height="18"/>
+                                                <rect key="frame" x="0.0" y="33" width="367" height="18.5"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="templeSnippet">
                                                         <attributes>
@@ -1523,7 +1523,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="248" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="251" editable="NO" text="address" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m2r-9T-8yH">
-                                                <rect key="frame" x="0.0" y="61" width="367" height="110"/>
+                                                <rect key="frame" x="0.0" y="61.5" width="367" height="110"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="110" id="eIW-tV-0Mc"/>
                                                 </constraints>
@@ -1532,7 +1532,7 @@
                                                 <dataDetectorType key="dataDetectorTypes" address="YES"/>
                                             </textView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
-                                                <rect key="frame" x="0.0" y="181" width="367" height="32"/>
+                                                <rect key="frame" x="0.0" y="181.5" width="367" height="32"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -1544,7 +1544,7 @@
                                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
                                             </textView>
                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62n-Nk-IjE">
-                                                <rect key="frame" x="0.0" y="223" width="367" height="35"/>
+                                                <rect key="frame" x="0.0" y="223.5" width="367" height="35"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
                                                         <rect key="frame" x="0.0" y="0.0" width="122.5" height="35"/>
@@ -1578,6 +1578,7 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="kBA-Zo-Zka" secondAttribute="trailing" id="3hX-ph-MBl"/>
                                     <constraint firstItem="kBA-Zo-Zka" firstAttribute="top" secondItem="uGG-l0-cWb" secondAttribute="top" id="Cn6-cE-oCg"/>
                                     <constraint firstItem="kBA-Zo-Zka" firstAttribute="leading" secondItem="uGG-l0-cWb" secondAttribute="leading" id="fba-LI-WlS"/>
                                     <constraint firstItem="a3N-nC-0P6" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" constant="10" id="gKV-cC-ah6"/>
