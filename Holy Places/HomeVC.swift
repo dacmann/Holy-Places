@@ -57,6 +57,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     var templeType = String()
     var currentYear = String()
     var attended = 0
+    var checkedForUpdate: Date?
     
     var templeSiteURL = String()
     //MARK: - Outlets & Actions
@@ -88,22 +89,11 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     func storePlaces () {
         let context = getContext()
         
-//        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
-//        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-//        do {
-//            try context.execute(request)
-//            print("deleting saved Places")
-//        } catch let error as NSError {
-//            print("Could not delete \(error), \(error.userInfo)")
-//        }
-        
         //retrieve the entity
-//
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
         
         //set the entity values
         for temple in allPlaces {
-//
             // Check if Place picture is already saved locally
             fetchRequest.predicate = NSPredicate(format: "name == %@", temple.templeName)
             do {
@@ -303,6 +293,13 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        // Determine if check hasn't occurred today
+        print(checkedForUpdate?.daysBetweenDate(toDate: Date()) as Any)
+        if (checkedForUpdate?.daysBetweenDate(toDate: Date()))! > 0 {
+            refreshTemples()
+        }
+        
         // Check for update and pop message
         if changesDate != "" {
             var changesMsg = changesMsg1
@@ -374,7 +371,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
             print("URL not defined properly")
             return
         }
@@ -394,7 +391,8 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             print("Line number: \(parser.lineNumber)")
             getPlaces()
         }
-        
+//        checkedForUpdate = Date()
+        checkedForUpdate = Date().addingTimeInterval(-86401.0)
     }
 
     // didStartElement of parser

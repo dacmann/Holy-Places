@@ -348,6 +348,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         searchController.searchBar.delegate = self
         SortOptions(row: placeSortRow)
         FilterOptions(row: placeFilterRow)
+        // Add done button to keyboard
+        keyboardDone()
     }
 
 
@@ -462,6 +464,26 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     // MARK: - Navigation
 
+    func keyboardDone() {
+        //init toolbar
+        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
+        //create left side empty space so that done button set on right side
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        //array of BarButtonItems
+        var arr = [UIBarButtonItem]()
+        arr.append(flexSpace)
+        arr.append(doneBtn)
+        toolbar.setItems(arr, animated: false)
+        toolbar.sizeToFit()
+        //setting toolbar as inputAccessoryView
+        self.searchController.searchBar.inputAccessoryView = toolbar
+    }
+    
+    func doneButtonAction(){
+        self.searchController.searchBar.endEditing(true)
+    }
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

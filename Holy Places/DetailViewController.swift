@@ -26,6 +26,8 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
 
     var visitCount = 0
+    var imageCount = 0
+    var visitsAdded = false
     
     //MARK: - ScrollView functions
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -115,7 +117,16 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.configurePics()
+        // Determine number of visits and add any pictures found to the image scrollView
+        self.getVisits(templeName: (detailItem?.templeName)!, startInt: imageCount)
+        visitsAdded = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        // Moved the stock picture download to this method so it isn't waiting for the visits to load
+        if !visitsAdded {
+            imageCount = self.configureImageView()
+        }
     }
     
     //MARK: - Populate the view
@@ -176,8 +187,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func configurePics() {
+    func configureImageView() -> Int {
         // Update the user interface for the detail item.
+        var pictureNum = 0
         let context = getContext()
         if let detail = self.detailItem {
             // Delete any previously configured imageviews
@@ -201,9 +213,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                             self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
                             self.pictureScrollView.addSubview(imageView)
                             // Get other pictures from Visits
-                            self.getVisits(templeName: detail.templeName, startInt: 1)
+                            pictureNum = 1
+//                            self.getVisits(templeName: detail.templeName, startInt: 1)
                             // No need to proceed with the rest of function so return
-                            return
+                            return pictureNum
                         }
                     }
                 }
@@ -220,7 +233,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let data = data, error == nil,
                     let image = UIImage(data: data)
                     else {
-                        self.getVisits(templeName: detail.templeName, startInt: 0)
+//                        self.getVisits(templeName: detail.templeName, startInt: 0)
                         return
                 }
                 DispatchQueue.main.async() { () -> Void in
@@ -253,10 +266,12 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
                     self.pictureScrollView.addSubview(imageView)
                     // Get other pictures from Visits
-                    self.getVisits(templeName: detail.templeName, startInt: 1)
+                    pictureNum = 1
+//                    self.getVisits(templeName: detail.templeName, startInt: 1)
                 }
                 }.resume()
         }
+        return pictureNum
     }
     
     //MARK: - Navigation
