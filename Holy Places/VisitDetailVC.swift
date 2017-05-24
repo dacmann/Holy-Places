@@ -46,13 +46,23 @@ class VisitDetailVC: UIViewController {
     //MARK:- Standard Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(VisitDetailVC.imageClicked))
+        pictureView.addGestureRecognizer(tap)
+        pictureView.isUserInteractionEnabled = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         populateView()
         setDate()
     }
+    
+    func imageClicked()
+    {
+        print("Tapped on Image")
+        // navigate to another
+        self.performSegue(withIdentifier: "viewImage", sender: self)
+    }
+    
 
     // function for read-only view of recorded visit
     func populateView() {
@@ -111,6 +121,15 @@ class VisitDetailVC: UIViewController {
         // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewImage" {
+            
+            let destViewController: VisitImageVC = segue.destination as! VisitImageVC
+            
+            destViewController.img = pictureView.image // pass your imageview
+        }
+    }
 
     
 

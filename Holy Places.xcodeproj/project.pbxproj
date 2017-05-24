@@ -23,6 +23,7 @@
 		64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D934581E368ACB008F9975 /* SummaryVC.swift */; };
 		64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */; };
 		64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */; };
+		64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */; };
 		64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */; };
 		64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F7364A1E3AA84A00622CD5 /* InfoVC.swift */; };
 		64F9313E1E6F57B500F053F3 /* AltLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */; };
@@ -49,6 +50,7 @@
 		64D934581E368ACB008F9975 /* SummaryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
 		64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebsiteVC.swift; sourceTree = "<group>"; };
+		64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitImageVC.swift; sourceTree = "<group>"; };
 		64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateChangeVC.swift; sourceTree = "<group>"; };
 		64F7364A1E3AA84A00622CD5 /* InfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
 		64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltLocationVC.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */,
 				64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */,
 				6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */,
+				64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
+				64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */,
 				646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,

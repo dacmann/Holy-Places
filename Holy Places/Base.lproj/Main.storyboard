@@ -130,9 +130,9 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-JN-b2N">
-                                <rect key="frame" x="100" y="453" width="175" height="47"/>
+                                <rect key="frame" x="145" y="453" width="85" height="47"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
-                                <state key="normal" title="12 of 24 Visits">
+                                <state key="normal" title="GOAL">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -1364,11 +1364,72 @@
                         <outlet property="pictureView" destination="G9t-XK-3vU" id="rge-oU-K3o"/>
                         <outlet property="templeName" destination="W8A-Vv-BBw" id="3yj-I2-N7b"/>
                         <outlet property="visitDate" destination="7ld-pR-BuH" id="2C7-U3-RYA"/>
+                        <segue destination="ycp-V5-fYb" kind="presentation" identifier="viewImage" id="rRd-SC-EqT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2380" y="1227"/>
+        </scene>
+        <!--Visit ImageVC-->
+        <scene sceneID="XTB-5i-aa0">
+            <objects>
+                <viewController id="ycp-V5-fYb" customClass="VisitImageVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FtP-t1-mOi"/>
+                        <viewControllerLayoutGuide type="bottom" id="DYu-PI-tgK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LQP-mr-7hb" userLabel="Main View">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="3" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MpG-Ru-SBp" userLabel="Scroll View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="1000" placeholderIntrinsicHeight="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vl0-Gf-4Us">
+                                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="vl0-Gf-4Us" secondAttribute="bottom" id="5VI-U5-Ixg"/>
+                                    <constraint firstItem="vl0-Gf-4Us" firstAttribute="leading" secondItem="MpG-Ru-SBp" secondAttribute="leading" id="W3O-qt-xPB"/>
+                                    <constraint firstItem="vl0-Gf-4Us" firstAttribute="top" secondItem="MpG-Ru-SBp" secondAttribute="top" id="YIY-X2-jnO"/>
+                                    <constraint firstAttribute="trailing" secondItem="vl0-Gf-4Us" secondAttribute="trailing" id="bvm-IS-7bF"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="ycp-V5-fYb" id="86K-Sr-jLY"/>
+                                </connections>
+                            </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yAg-50-aHf">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="done" id="Fkm-zl-xw0">
+                                        <connections>
+                                            <action selector="done:" destination="ycp-V5-fYb" id="LK2-ha-BA8"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MpG-Ru-SBp" firstAttribute="centerY" secondItem="LQP-mr-7hb" secondAttribute="centerY" id="2Nw-D1-v3c"/>
+                            <constraint firstAttribute="trailing" secondItem="yAg-50-aHf" secondAttribute="trailing" id="Q9W-kb-j1C"/>
+                            <constraint firstItem="MpG-Ru-SBp" firstAttribute="leading" secondItem="LQP-mr-7hb" secondAttribute="leading" id="SeK-RQ-cYM"/>
+                            <constraint firstItem="yAg-50-aHf" firstAttribute="leading" secondItem="LQP-mr-7hb" secondAttribute="leading" id="gxi-zN-XfB"/>
+                            <constraint firstItem="DYu-PI-tgK" firstAttribute="top" secondItem="yAg-50-aHf" secondAttribute="bottom" id="huB-Ql-ptc"/>
+                            <constraint firstItem="MpG-Ru-SBp" firstAttribute="top" secondItem="LQP-mr-7hb" secondAttribute="top" id="neT-kh-E7I"/>
+                            <constraint firstItem="MpG-Ru-SBp" firstAttribute="trailing" secondItem="LQP-mr-7hb" secondAttribute="trailing" id="wvQ-k6-Sr9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="vl0-Gf-4Us" id="XW8-a6-H7k"/>
+                        <outlet property="scrollView" destination="MpG-Ru-SBp" id="aWs-xq-CA4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fvE-Lz-U1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3269.5999999999999" y="1226.5367316341831"/>
         </scene>
         <!--Date ChangeVC-->
         <scene sceneID="1W0-dA-PQU">
