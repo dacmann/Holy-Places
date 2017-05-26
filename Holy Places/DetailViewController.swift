@@ -28,6 +28,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     var visitCount = 0
     var imageCount = 0
     var visitsAdded = false
+    var stockImageAdded = false
     
     //MARK: - ScrollView functions
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -50,6 +51,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     // Retrieve the Visits data from CoreData
     func getVisits (templeName: String, startInt: Int) {
+//        print("getVisits")
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
@@ -82,50 +84,62 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let xPosition = self.pictureScrollView.frame.width * CGFloat(x)
                     imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
-                    pictureScrollView.addSubview(imageView)
+                    OperationQueue.main.addOperation() {
+                        self.pictureScrollView.addSubview(imageView)
+                    }
                     
                     x += 1
                 }
             }
-            if visitCount > 0 {
-                totalVisits.text = "Visits: \(visitCount)"
-                totalVisits.isHidden = false
-            } else {
-                totalVisits.isHidden = true
-            }
-            if x > 1 {
-                pageControl.numberOfPages = x
-                pageControl.layer.zPosition = 2
-                pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+            OperationQueue.main.addOperation() {
+                if self.visitCount > 0 {
+                    self.totalVisits.text = "Visits: \(self.visitCount)"
+                    self.totalVisits.isHidden = false
+                } else {
+                    self.totalVisits.isHidden = true
+                }
+                if x > 1 {
+                    self.pageControl.numberOfPages = x
+                    self.pageControl.layer.zPosition = 2
+                    self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                    self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                }
             }
         } catch {
             print("Error with request: \(error)")
         }
-        
+        visitsAdded = true
     }
 
-    //MARK:- Standard Functions
+    //MARK:- Standard Event Functions
     override func viewDidLoad() {
+//        print("viewDidLoad")
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         pictureScrollView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
+//        print("viewWillAppear")
         self.configureView()
+        visitsAdded = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
+//        print("viewDidAppear")
         // Determine number of visits and add any pictures found to the image scrollView
-        self.getVisits(templeName: (detailItem?.templeName)!, startInt: imageCount)
-        visitsAdded = true
+        if stockImageAdded {
+            self.getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
+        } else {
+            downloadImage()
+        }
     }
     
     override func viewDidLayoutSubviews() {
+//        print("viewDidLayoutSubviews")
         // Moved the stock picture download to this method so it isn't waiting for the visits to load
-        if !visitsAdded {
-            imageCount = self.configureImageView()
+        if !(visitsAdded) {
+            GetSavedImage()
         }
     }
     
@@ -143,7 +157,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         let textColor = UIColor.white
         let textFont = UIFont(name: "Baskerville", size: image.size.height/20)!
         
-        print(image.size)
+//        print(image.size)
         // Setup the image context using the passed image
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
@@ -187,9 +201,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func configureImageView() -> Int {
+    func GetSavedImage() {
+//        print("GetSavedImage")
         // Update the user interface for the detail item.
-        var pictureNum = 0
         let context = getContext()
         if let detail = self.detailItem {
             // Delete any previously configured imageviews
@@ -205,24 +219,31 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                         if let imageData = picture.pictureData {
                             // Convert saved data to image and add to scrollview
                             let image = UIImage(data: imageData as Data)
-                            print("Stock Image saved size: \(image?.size as Any)")
+//                            print("Stock Image saved size: \(image?.size as Any)")
                             let imageView = UIImageView()
                             imageView.contentMode = .scaleAspectFit
                             imageView.image = image
                             imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                             self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
                             self.pictureScrollView.addSubview(imageView)
-                            // Get other pictures from Visits
-                            pictureNum = 1
-//                            self.getVisits(templeName: detail.templeName, startInt: 1)
-                            // No need to proceed with the rest of function so return
-                            return pictureNum
+                            stockImageAdded = true
                         }
                     }
                 }
             } catch {
                 print("Error with request: \(error)")
             }
+        }
+        return
+    }
+    
+    func downloadImage() {
+//        print("downloadImage")
+        // Update the user interface for the detail item.
+        let context = getContext()
+        if let detail = self.detailItem {
+            // Delete any previously configured imageviews
+            self.pictureScrollView.subviews.forEach({ $0.removeFromSuperview() })
             
             // Get picture from URL and any pictures from Visits
             let pictureURL = URL(string: detail.templePictureURL)!
@@ -233,7 +254,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let data = data, error == nil,
                     let image = UIImage(data: data)
                     else {
-//                        self.getVisits(templeName: detail.templeName, startInt: 0)
+                        self.getVisits(templeName: detail.templeName, startInt: 0)
                         return
                 }
                 DispatchQueue.main.async() { () -> Void in
@@ -266,12 +287,12 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
                     self.pictureScrollView.addSubview(imageView)
                     // Get other pictures from Visits
-                    pictureNum = 1
-//                    self.getVisits(templeName: detail.templeName, startInt: 1)
+                    self.getVisits(templeName: detail.templeName, startInt: 1)
+                    self.stockImageAdded = true
                 }
                 }.resume()
         }
-        return pictureNum
+        return
     }
     
     //MARK: - Navigation

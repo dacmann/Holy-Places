@@ -295,7 +295,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
     override func viewDidAppear(_ animated: Bool) {
         
         // Determine if check hasn't occurred today
-        print(checkedForUpdate?.daysBetweenDate(toDate: Date()) as Any)
+//        print(checkedForUpdate?.daysBetweenDate(toDate: Date()) as Any)
         if (checkedForUpdate?.daysBetweenDate(toDate: Date()))! > 0 {
             refreshTemples()
         }
@@ -320,7 +320,6 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             changesDate = ""
         }
         
-//        goalTitle.text = "\(currentYear)  G o a l  P r o g r e s s"
         goalTitle.text = "\(currentYear) Goal Progress"
         // Adjust spacing of letters of Goal Progress
         let attributedString = NSMutableAttributedString(string: goalTitle.text!)
@@ -391,8 +390,8 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
             print("Line number: \(parser.lineNumber)")
             getPlaces()
         }
-//        checkedForUpdate = Date()
-        checkedForUpdate = Date().addingTimeInterval(-86401.0)
+        checkedForUpdate = Date()
+//        checkedForUpdate = Date().addingTimeInterval(-86401.0)
     }
 
     // didStartElement of parser
