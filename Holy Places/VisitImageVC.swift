@@ -62,7 +62,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
             }
             else {
                 //(I divide by 3.0 since I don't wan't to zoom to the max upon the double tap)
-                let zoomRect = self.zoomRectForScale(scale: scrollV.maximumZoomScale / 2.0, center: recognizer.location(in: recognizer.view))
+                let zoomRect = self.zoomRectForScale(scale: scrollV.maximumZoomScale / 3.0, center: recognizer.location(in: recognizer.view))
                 self.scrollView?.zoom(to: zoomRect, animated: true)
             }
         }
