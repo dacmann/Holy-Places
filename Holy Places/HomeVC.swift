@@ -370,7 +370,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test2.xml") else {
             print("URL not defined properly")
             return
         }
@@ -437,6 +437,13 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
                     placeDataVersion = string
                     print("XML Data Version has changed - " + placeDataVersion)
                     savePlaceVersion()
+                    
+                    // Reset arrays
+                    activeTemples.removeAll()
+                    historical.removeAll()
+                    visitors.removeAll()
+                    construction.removeAll()
+                    allPlaces.removeAll()
                 }
             case "ChangesDate":
                 changesDate = string
