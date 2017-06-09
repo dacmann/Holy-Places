@@ -36,9 +36,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
         let allVisits = fetchedResultsController.fetchedObjects
-        // Search on Place name, City or State
+        // Search on Place name or comments
         filteredVisits = allVisits!.filter { visit in
-            return (visit.holyPlace?.lowercased().contains(searchText.lowercased()))!
+            return ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))!)
         }
         // Update title
         if searchController.isActive && searchController.searchBar.text != "" {

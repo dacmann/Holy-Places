@@ -29,8 +29,19 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     var imageCount = 0
     var visitsAdded = false
     var stockImageAdded = false
+    var currentPhoto = 0
+    
     
     //MARK: - ScrollView functions
+    
+    @IBAction func changePage(_ sender: UIPageControl) {
+        let page = sender.currentPage
+        var frame = pictureScrollView.frame
+        frame.origin.x = frame.size.width * CGFloat(page)
+        frame.origin.y = 0
+        pictureScrollView.scrollRectToVisible(frame, animated: true)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Test the offset and calculate the current page after scrolling ends
         let pageWidth:CGFloat = scrollView.frame.width
@@ -84,10 +95,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let xPosition = self.pictureScrollView.frame.width * CGFloat(x)
                     imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                    imageView.addGestureRecognizer(tap)
+                    imageView.isUserInteractionEnabled = true
+                    imageView.tag = x + 1
                     OperationQueue.main.addOperation() {
                         self.pictureScrollView.addSubview(imageView)
                     }
-                    
+                    imageCount += 1
                     x += 1
                 }
             }
@@ -141,6 +156,18 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         if !(visitsAdded) {
             GetSavedImage()
         }
+        // Reposition scroll view to last viewed photo
+        var frame = pictureScrollView.frame
+        frame.origin.x = frame.size.width * CGFloat(currentPhoto)
+        frame.origin.y = 0
+        pictureScrollView.scrollRectToVisible(frame, animated: true)
+    }
+    
+    func imageClicked()
+    {
+        print("Tapped on Image")
+        // navigate to another
+        self.performSegue(withIdentifier: "viewImage2", sender: self)
     }
     
     //MARK: - Populate the view
@@ -225,8 +252,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                             imageView.image = image
                             imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                             self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                            imageView.addGestureRecognizer(tap)
+                            imageView.isUserInteractionEnabled = true
+                            imageView.tag = 1
+//                            print(imageView.tag)
                             self.pictureScrollView.addSubview(imageView)
                             stockImageAdded = true
+                            imageCount = 1
                         }
                     }
                 }
@@ -285,17 +318,24 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     // Add image to Scrollview
                     imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                    imageView.addGestureRecognizer(tap)
+                    imageView.isUserInteractionEnabled = true
+                    imageView.tag = 1
                     self.pictureScrollView.addSubview(imageView)
                     // Get other pictures from Visits
                     self.getVisits(templeName: detail.templeName, startInt: 1)
                     self.stockImageAdded = true
+                    self.imageCount = 1
                 }
                 }.resume()
         }
         return
     }
     
+    
     //MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "recordVisit" {
             let temple = self.detailItem
@@ -305,6 +345,20 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         if segue.identifier == "showWebsite" {
             let controller = (segue.destination as! WebsiteVC)
             controller.urlPlace = self.detailItem?.templeSiteURL
+        }
+        if segue.identifier == "viewImage2" {
+            
+            let destViewController: VisitImageVC = segue.destination as! VisitImageVC
+            var tagNo = 1
+            if imageCount > 1 {
+                tagNo = pageControl.currentPage + 1
+                currentPhoto = pageControl.currentPage
+            }
+            if let theImageView = self.pictureScrollView.viewWithTag(tagNo) as? UIImageView {
+                print("Found image")
+                destViewController.img =  theImageView.image
+            } 
+
         }
     }
 

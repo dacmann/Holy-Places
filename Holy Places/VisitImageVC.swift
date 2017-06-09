@@ -34,21 +34,23 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLayoutSubviews() {
         // Configure the Image view
-        imageView.image = img
-        imageView.frame = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
-        scrollView.contentSize = img!.size
-        print(scrollView.contentSize)
-        print(scrollView.frame.size)
-        scrollView.clipsToBounds = false
-        let scrollViewFrame = scrollView.frame
-        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-        minScale = min(scaleWidth, scaleHeight);
-        scrollView.minimumZoomScale = minScale;
-        print(minScale)
-        scrollView.maximumZoomScale = 2.0
-        scrollView.zoomScale = minScale
-        centerImage()
+        if img != nil {
+            imageView.image = img
+            imageView.frame = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+            scrollView.contentSize = img!.size
+            print(scrollView.contentSize)
+            print(scrollView.frame.size)
+            scrollView.clipsToBounds = false
+            let scrollViewFrame = scrollView.frame
+            let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+            let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+            minScale = min(scaleWidth, scaleHeight);
+            scrollView.minimumZoomScale = minScale;
+            print(minScale)
+            scrollView.maximumZoomScale = 2.0
+            scrollView.zoomScale = minScale
+            centerImage()
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
