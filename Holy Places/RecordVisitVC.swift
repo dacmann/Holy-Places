@@ -276,6 +276,18 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                     templeView.isHidden = true
                 }
                 keyboardDone()
+                switch detail.templeType {
+                case "T":
+                    templeName.textColor = UIColor.ocean()
+                case "H":
+                    templeName.textColor = UIColor.moss()
+                case "C":
+                    templeName.textColor = UIColor.mocha()
+                case "V":
+                    templeName.textColor = UIColor.asparagus()
+                default:
+                    templeName.textColor = UIColor.lead()
+                }
             }
         }
     }
@@ -308,6 +320,20 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                     initiatoriesStepO.value = Double(initiatories.text!)!
                     confirmationsStepO.value = Double(confirmations.text!)!
                     baptismsStepO.value = Double(baptisms.text!)!
+                }
+                if let theType = detail.type {
+                    switch theType {
+                    case "T":
+                        templeName.textColor = UIColor.ocean()
+                    case "H":
+                        templeName.textColor = UIColor.moss()
+                    case "C":
+                        templeName.textColor = UIColor.mocha()
+                    case "V":
+                        templeName.textColor = UIColor.asparagus()
+                    default:
+                        templeName.textColor = UIColor.lead()
+                    }
                 }
             }
         }

@@ -95,6 +95,20 @@ class VisitDetailVC: UIViewController {
                     comments.text = detail.comments
                 }
                 
+                if let theType = detail.type {
+                    switch theType {
+                    case "T":
+                        templeName.textColor = UIColor.ocean()
+                    case "H":
+                        templeName.textColor = UIColor.moss()
+                    case "C":
+                        templeName.textColor = UIColor.mocha()
+                    case "V":
+                        templeName.textColor = UIColor.asparagus()
+                    default:
+                        templeName.textColor = UIColor.lead()
+                    }
+                }
                 comments.sizeToFit()
                 // load image
                 if let imageData = detail.picture {

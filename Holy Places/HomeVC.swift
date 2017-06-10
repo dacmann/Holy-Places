@@ -370,7 +370,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test2.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
             print("URL not defined properly")
             return
         }

@@ -115,7 +115,8 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if x > 1 {
                     self.pageControl.numberOfPages = x
-                    self.pageControl.layer.zPosition = 2
+                    self.view.setNeedsDisplay()
+//                    self.pageControl.layer.zPosition = 2
                     self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
                     self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
                 }
@@ -223,6 +224,18 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 websiteBtn.contentHorizontalAlignment = .center
                 if detail.templeType == "C" {
                     recordVisitBtn.isHidden = true
+                }
+                switch detail.templeType {
+                case "T":
+                    templeName.textColor = UIColor.ocean()
+                case "H":
+                    templeName.textColor = UIColor.moss()
+                case "C":
+                    templeName.textColor = UIColor.mocha()
+                case "V":
+                    templeName.textColor = UIColor.asparagus()
+                default:
+                    templeName.textColor = UIColor.lead()
                 }
             }
         }
