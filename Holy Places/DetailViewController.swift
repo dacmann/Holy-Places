@@ -39,7 +39,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         var frame = pictureScrollView.frame
         frame.origin.x = frame.size.width * CGFloat(page)
         frame.origin.y = 0
-        pictureScrollView.scrollRectToVisible(frame, animated: true)
+        pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -115,8 +115,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if x > 1 {
                     self.pageControl.numberOfPages = x
-                    self.view.setNeedsDisplay()
-//                    self.pageControl.layer.zPosition = 2
+//                    self.pageControl.layer.zPosition = 1
+                    self.view.bringSubview(toFront: self.pageControl)
+//                    self.view.setNeedsDisplay()
                     self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
                     self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
                 }
@@ -161,7 +162,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         var frame = pictureScrollView.frame
         frame.origin.x = frame.size.width * CGFloat(currentPhoto)
         frame.origin.y = 0
-        pictureScrollView.scrollRectToVisible(frame, animated: true)
+        pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
     }
     
     func imageClicked()
