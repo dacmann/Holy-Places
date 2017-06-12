@@ -150,6 +150,11 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         } else {
             downloadImage()
         }
+        // Reposition scroll view to last viewed photo
+        var frame = pictureScrollView.frame
+        frame.origin.x = frame.size.width * CGFloat(currentPhoto)
+        frame.origin.y = 0
+        pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,11 +163,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         if !(visitsAdded) {
             GetSavedImage()
         }
-        // Reposition scroll view to last viewed photo
-        var frame = pictureScrollView.frame
-        frame.origin.x = frame.size.width * CGFloat(currentPhoto)
-        frame.origin.y = 0
-        pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
     }
     
     func imageClicked()
