@@ -29,6 +29,7 @@ class VisitDetailVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
         visitDate.text = formatter.string(from: dateOfVisit!)
+        visitDate.textColor = UIColor.lead()
     }
     
     func editVisit (_ sender: Any) {
@@ -98,13 +99,13 @@ class VisitDetailVC: UIViewController {
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor.ocean()
+                        templeName.textColor = UIColor.darkRed()
                     case "H":
-                        templeName.textColor = UIColor.moss()
+                        templeName.textColor = UIColor.darkLimeGreen()
                     case "C":
-                        templeName.textColor = UIColor.mocha()
+                        templeName.textColor = UIColor.darkOrange()
                     case "V":
-                        templeName.textColor = UIColor.asparagus()
+                        templeName.textColor = UIColor.strongYellow()
                     default:
                         templeName.textColor = UIColor.lead()
                     }

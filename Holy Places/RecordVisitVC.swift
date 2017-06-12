@@ -278,13 +278,13 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 keyboardDone()
                 switch detail.templeType {
                 case "T":
-                    templeName.textColor = UIColor.ocean()
+                    templeName.textColor = UIColor.darkRed()
                 case "H":
-                    templeName.textColor = UIColor.moss()
+                    templeName.textColor = UIColor.darkLimeGreen()
                 case "C":
-                    templeName.textColor = UIColor.mocha()
+                    templeName.textColor = UIColor.darkOrange()
                 case "V":
-                    templeName.textColor = UIColor.asparagus()
+                    templeName.textColor = UIColor.strongYellow()
                 default:
                     templeName.textColor = UIColor.lead()
                 }
@@ -324,13 +324,13 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor.ocean()
+                        templeName.textColor = UIColor.darkRed()
                     case "H":
-                        templeName.textColor = UIColor.moss()
+                        templeName.textColor = UIColor.darkLimeGreen()
                     case "C":
-                        templeName.textColor = UIColor.mocha()
+                        templeName.textColor = UIColor.darkOrange()
                     case "V":
-                        templeName.textColor = UIColor.asparagus()
+                        templeName.textColor = UIColor.strongYellow()
                     default:
                         templeName.textColor = UIColor.lead()
                     }

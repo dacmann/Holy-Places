@@ -66,13 +66,13 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         
         switch data {
         case "Active Temples":
-            label?.textColor = UIColor.ocean()
+            label?.textColor = UIColor.darkRed()
         case "Historical Sites":
-            label?.textColor = UIColor.moss()
+            label?.textColor = UIColor.darkLimeGreen()
         case "Temples Under Construction":
-            label?.textColor = UIColor.mocha()
+            label?.textColor = UIColor.darkOrange()
         case "Visitors' Centers":
-            label?.textColor = UIColor.asparagus()
+            label?.textColor = UIColor.strongYellow()
         default:
             label?.textColor = UIColor.lead()
         }

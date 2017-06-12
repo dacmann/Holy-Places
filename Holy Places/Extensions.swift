@@ -209,4 +209,22 @@ extension UIColor {
     class func nickel() -> UIColor {
         return UIColor(red:128/255, green:128/255, blue:128/255, alpha:1.0)
     }
+    class func royalPurple() -> UIColor {
+        return UIColor(red:83/255, green:56/255, blue:117/255, alpha:1.0)
+    }
+    class func darkRed() -> UIColor {
+        return UIColor(red:114/255, green:0/255, blue:0/255, alpha:1.0)
+    }
+    class func strongYellow() -> UIColor {
+        return UIColor(red:179/255, green:151/255, blue:0/255, alpha:1.0)
+    }
+    class func pureYellow() -> UIColor {
+        return UIColor(red:230/255, green:194/255, blue:0/255, alpha:1.0)
+    }
+    class func darkOrange() -> UIColor {
+        return UIColor(red:114/255, green:57/255, blue:0/255, alpha:1.0)
+    }
+    class func darkLimeGreen() -> UIColor {
+        return UIColor(red:0/255, green:114/255, blue:0/255, alpha:1.0)
+    }
 }

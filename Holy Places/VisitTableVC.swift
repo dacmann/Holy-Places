@@ -46,6 +46,20 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         } else {
             self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
         }
+        
+        switch visitFilterRow {
+        case 1:
+            self.navigationItem.titleView?.tintColor = UIColor.darkRed()
+        case 2:
+            self.navigationItem.titleView?.tintColor = UIColor.darkLimeGreen()
+        case 4:
+            self.navigationItem.titleView?.tintColor = UIColor.darkOrange()
+        case 3:
+            self.navigationItem.titleView?.tintColor = UIColor.strongYellow()
+        default:
+            self.navigationItem.titleView?.tintColor = UIColor.lead()
+        }
+        
         tableView.reloadData()
     }
     
@@ -198,11 +212,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if let theType = visit.type {
             switch theType {
             case "T":
-                cell.textLabel?.textColor = UIColor.ocean()
+                cell.textLabel?.textColor = UIColor.darkRed()
             case "H":
-                cell.textLabel?.textColor = UIColor.moss()
+                cell.textLabel?.textColor = UIColor.darkLimeGreen()
             case "V":
-                cell.textLabel?.textColor = UIColor.asparagus()
+                cell.textLabel?.textColor = UIColor.strongYellow()
             default:
                 cell.textLabel?.textColor = UIColor.lead()
             }
@@ -268,7 +282,24 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
         }
         
-        
+        var titleDict = NSDictionary()
+        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+
+        switch visitFilterRow {
+        case 1:
+            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkRed()]
+        case 2:
+            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkLimeGreen()]
+        case 4:
+            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkOrange()]
+        case 3:
+            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.strongYellow()]
+        default:
+            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.lead()]
+        }
+
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+
         return _fetchedResultsController!
     }
     var _fetchedResultsController: NSFetchedResultsController<Visit>? = nil

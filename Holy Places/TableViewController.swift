@@ -223,10 +223,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             }
         }
         // Update title of View
-        self.navigationItem.titleView = setTitle(title: "\(title) (\(places.count.description))", subtitle: subTitle)
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(places.count.description))", subtitle: subTitle, type: placeFilterRow)
     }
     
-    func setTitle(title:String, subtitle:String) -> UIView {
+    func setTitle(title:String, subtitle:String, type:Int) -> UIView {
         
         // Replace titleView with custom version that includes sub title
         let titleLabel = UILabel(frame: CGRect(x: 0, y: -2, width: 0, height: 0))
@@ -234,7 +234,18 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         let subTitleFont = UIFont(name: "Baskerville", size: 15) ?? UIFont.systemFont(ofSize: 15)
         
         titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = UIColor.ocean()
+        switch type {
+        case 1:
+            titleLabel.textColor = UIColor.darkRed()
+        case 2:
+            titleLabel.textColor = UIColor.darkLimeGreen()
+        case 4:
+            titleLabel.textColor = UIColor.darkOrange()
+        case 3:
+            titleLabel.textColor = UIColor.strongYellow()
+        default:
+            titleLabel.textColor = UIColor.lead()
+        }
         titleLabel.font = titleFont
         titleLabel.text = title
         titleLabel.sizeToFit()
@@ -400,13 +411,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         
         switch temple.templeType {
         case "T":
-            cell.textLabel?.textColor = UIColor.ocean()
+            cell.textLabel?.textColor = UIColor.darkRed()
         case "H":
-            cell.textLabel?.textColor = UIColor.moss()
+            cell.textLabel?.textColor = UIColor.darkLimeGreen()
         case "C":
-            cell.textLabel?.textColor = UIColor.mocha()
+            cell.textLabel?.textColor = UIColor.darkOrange()
         case "V":
-            cell.textLabel?.textColor = UIColor.asparagus()
+            cell.textLabel?.textColor = UIColor.strongYellow()
         default:
             cell.textLabel?.textColor = UIColor.lead()
         }
