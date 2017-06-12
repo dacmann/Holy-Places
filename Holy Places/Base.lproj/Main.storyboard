@@ -1328,19 +1328,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="April 6, 1830" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ld-pR-BuH">
-                                <rect key="frame" x="26" y="114" width="323" height="27.5"/>
+                                <rect key="frame" x="26" y="114" width="323" height="28"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                <color key="textColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-sK-urp" userLabel="Line">
+                                <rect key="frame" x="16" y="151" width="343" height="1"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="tRv-Vf-cB9"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Attended with..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cp-0s-Pla">
-                                <rect key="frame" x="16" y="151.5" width="343" height="21"/>
+                                <rect key="frame" x="16" y="160" width="343" height="21"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="G9t-XK-3vU">
-                                <rect key="frame" x="5" y="182.5" width="365" height="425.5"/>
+                                <rect key="frame" x="5" y="191" width="365" height="417"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1351,14 +1358,17 @@
                             <constraint firstItem="6Cp-0s-Pla" firstAttribute="trailing" secondItem="MMP-iS-hw5" secondAttribute="trailingMargin" id="81L-9o-gLt"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="centerX" secondItem="MMP-iS-hw5" secondAttribute="centerX" id="IVu-Li-pYX"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="top" secondItem="rXq-Ox-wxf" secondAttribute="bottom" constant="10" id="JO8-Mh-MBm"/>
+                            <constraint firstItem="d6U-sK-urp" firstAttribute="trailing" secondItem="6Cp-0s-Pla" secondAttribute="trailing" id="LlL-9G-XgH"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" id="SHP-fs-45u"/>
                             <constraint firstItem="G9t-XK-3vU" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leading" constant="5" id="Xy5-UD-MaC"/>
+                            <constraint firstItem="d6U-sK-urp" firstAttribute="leading" secondItem="6Cp-0s-Pla" secondAttribute="leading" id="XyL-nH-EHK"/>
                             <constraint firstItem="7ld-pR-BuH" firstAttribute="top" secondItem="W8A-Vv-BBw" secondAttribute="bottom" constant="10" id="cWJ-Rf-EkA"/>
+                            <constraint firstItem="d6U-sK-urp" firstAttribute="top" secondItem="7ld-pR-BuH" secondAttribute="bottom" constant="9" id="cmN-PJ-pJb"/>
                             <constraint firstItem="6Cp-0s-Pla" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" id="izW-zt-V2E"/>
                             <constraint firstItem="7ld-pR-BuH" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" constant="10" id="t9l-OY-lar"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W8A-Vv-BBw" secondAttribute="trailing" id="wP9-Qv-O1p"/>
                             <constraint firstAttribute="trailing" secondItem="G9t-XK-3vU" secondAttribute="trailing" constant="5" id="z5Z-3k-IYx"/>
-                            <constraint firstItem="6Cp-0s-Pla" firstAttribute="top" secondItem="7ld-pR-BuH" secondAttribute="bottom" constant="10" id="ze2-pg-jCL"/>
+                            <constraint firstItem="6Cp-0s-Pla" firstAttribute="top" secondItem="7ld-pR-BuH" secondAttribute="bottom" constant="18" id="ze2-pg-jCL"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1371,7 +1381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="1227"/>
+            <point key="canvasLocation" x="2380" y="1226.5367316341831"/>
         </scene>
         <!--Visit ImageVC-->
         <scene sceneID="XTB-5i-aa0">
@@ -1900,7 +1910,7 @@
                                             <segue destination="34m-OB-2N8" kind="presentation" identifier="changeDate" id="848-FN-MSS"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zq1-Yo-qle">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zq1-Yo-qle" userLabel="Line">
                                         <rect key="frame" x="0.0" y="77.5" width="343" height="1"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -2142,7 +2152,7 @@
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
-                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="adB-6Q-Yn5">
+                                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="adB-6Q-Yn5">
                                                         <rect key="frame" x="0.0" y="436" width="343" height="200"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="XTG-BU-pkd"/>
