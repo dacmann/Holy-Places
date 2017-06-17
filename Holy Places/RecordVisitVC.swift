@@ -321,6 +321,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                     confirmationsStepO.value = Double(confirmations.text!)!
                     baptismsStepO.value = Double(baptisms.text!)!
                 }
+                keyboardDone()
                 if let theType = detail.type {
                     switch theType {
                     case "T":
