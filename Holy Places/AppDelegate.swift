@@ -9,10 +9,11 @@
 import UIKit
 import CoreData
 import CoreLocation
-import StoreKit
+//import StoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
+//class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var settings: Settings?
@@ -20,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        SKPaymentQueue.default().add(self)
+//        SKPaymentQueue.default().add(self)
         
         // Change the font and color for the navigation Bar text
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -93,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
         settings?.visitFilterRow = Int16(visitFilterRow)
         settings?.visitSortRow = Int16(visitSortRow)
         
-        SKPaymentQueue.default().remove(self)
+//        SKPaymentQueue.default().remove(self)
         self.saveContext()
     }
 
@@ -113,46 +114,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObser
     }
     
     //MARK:- Payment function
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchased:
-                // Remove transaction from queue
-                SKPaymentQueue.default().finishTransaction(transaction)
-                // Alert the user
-                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
-                topWindow.rootViewController = UIViewController()
-                topWindow.windowLevel = UIWindowLevelAlert + 1
-                let alert: UIAlertController =  UIAlertController(title: "Thanks for tip!", message: "I really appreciate your support.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-                    topWindow.isHidden = true
-                }))
-                topWindow.makeKeyAndVisible()
-                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
-                break
-            case .failed:
-                // Determine reason for failure
-                let message = transaction.error?.localizedDescription
-                // Remove transaction from queue
-                SKPaymentQueue.default().finishTransaction(transaction)
-                // Alert the user
-                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
-                topWindow.rootViewController = UIViewController()
-                topWindow.windowLevel = UIWindowLevelAlert + 1
-                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: (message)!, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-                    topWindow.isHidden = true
-                }))
-                topWindow.makeKeyAndVisible()
-                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
-                break
-            default:
-                break
-            }
-        }
-        
-    }
+//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+//        
+//        for transaction in transactions {
+//            switch transaction.transactionState {
+//            case .purchased:
+//                // Remove transaction from queue
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//                // Alert the user
+//                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
+//                topWindow.rootViewController = UIViewController()
+//                topWindow.windowLevel = UIWindowLevelAlert + 1
+//                let alert: UIAlertController =  UIAlertController(title: "Thanks for tip!", message: "I really appreciate your support.", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
+//                    topWindow.isHidden = true
+//                }))
+//                topWindow.makeKeyAndVisible()
+//                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+//                break
+//            case .failed:
+//                // Determine reason for failure
+//                let message = transaction.error?.localizedDescription
+//                // Remove transaction from queue
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//                // Alert the user
+//                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
+//                topWindow.rootViewController = UIViewController()
+//                topWindow.windowLevel = UIWindowLevelAlert + 1
+//                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: (message)!, preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
+//                    topWindow.isHidden = true
+//                }))
+//                topWindow.makeKeyAndVisible()
+//                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
+//                break
+//            default:
+//                break
+//            }
+//        }
+//        
+//    }
     
     // MARK: - Core Data stack
     

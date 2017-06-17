@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 import CoreData
-import StoreKit
+//import StoreKit
 import CoreLocation
 
 //MARK: - Global Variables
@@ -22,9 +22,9 @@ var placeDataVersion = String()
 var greatTip = String()
 var greaterTip = String()
 var greatestTip = String()
-var greatTipPC = SKProduct()
-var greaterTipPC = SKProduct()
-var greatestTipPC = SKProduct()
+//var greatTipPC = SKProduct()
+//var greaterTipPC = SKProduct()
+//var greatestTipPC = SKProduct()
 var changesDate = String()
 var changesMsg1 = String()
 var changesMsg2 = String()
@@ -41,7 +41,8 @@ var placeSortRow = Int()
 var visitFilterRow = Int()
 var visitSortRow = Int()
 
-class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
+//class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
+class HomeVC: UIViewController, XMLParserDelegate {
     //MARK: - Variables
     var xmlParser: XMLParser!
     var eName: String = String()
@@ -285,7 +286,7 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         currentYear = formatter.string(from: Date())
         
         // Grab In-App purchase information
-        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
+//        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
         
         // Update Places
         refreshTemples()
@@ -492,39 +493,39 @@ class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
         }
     }
     //MARK: - In-App Purchases
-    var productRequest: SKProductsRequest!
-    
-    // Fetch information about your products from the App Store.
-    func fetchProducts(matchingIdentifiers identifiers: [String]) {
-        // Create a set for your product identifiers.
-        let productIdentifiers = Set(identifiers)
-        // Initialize the product request with the above set.
-        productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
-        productRequest.delegate = self
-        
-        // Send the request to the App Store.
-        productRequest.start()
-    }
-    
-    // Get the App Store's response
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        // Parse products retrieved from StoreKit
-        if response.products.count > 0 {
-            // Use availableProducts to populate UI.
-            let availableProducts = response.products
-            
-            // format price for local currency
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = availableProducts[0].priceLocale
-            
-            greatTip = availableProducts[0].localizedTitle + "\n" + formatter.string(from: availableProducts[0].price)!
-            greatTipPC = availableProducts[0]
-            greaterTip = availableProducts[1].localizedTitle + "\n" + formatter.string(from: availableProducts[1].price)!
-            greaterTipPC = availableProducts[1]
-            greatestTip = availableProducts[2].localizedTitle + "\n" + formatter.string(from: availableProducts[2].price)!
-            greatestTipPC = availableProducts[2]
-        }
-    }
+//    var productRequest: SKProductsRequest!
+//    
+//    // Fetch information about your products from the App Store.
+//    func fetchProducts(matchingIdentifiers identifiers: [String]) {
+//        // Create a set for your product identifiers.
+//        let productIdentifiers = Set(identifiers)
+//        // Initialize the product request with the above set.
+//        productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
+//        productRequest.delegate = self
+//        
+//        // Send the request to the App Store.
+//        productRequest.start()
+//    }
+//    
+//    // Get the App Store's response
+//    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+//        // Parse products retrieved from StoreKit
+//        if response.products.count > 0 {
+//            // Use availableProducts to populate UI.
+//            let availableProducts = response.products
+//            
+//            // format price for local currency
+//            let formatter = NumberFormatter()
+//            formatter.numberStyle = .currency
+//            formatter.locale = availableProducts[0].priceLocale
+//            
+//            greatTip = availableProducts[0].localizedTitle + "\n" + formatter.string(from: availableProducts[0].price)!
+//            greatTipPC = availableProducts[0]
+//            greaterTip = availableProducts[1].localizedTitle + "\n" + formatter.string(from: availableProducts[1].price)!
+//            greaterTipPC = availableProducts[1]
+//            greatestTip = availableProducts[2].localizedTitle + "\n" + formatter.string(from: availableProducts[2].price)!
+//            greatestTipPC = availableProducts[2]
+//        }
+//    }
 
 }

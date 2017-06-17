@@ -8,16 +8,17 @@
 
 import UIKit
 import MessageUI
-import StoreKit
+import SafariServices
+//import StoreKit
 
 class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 
     var alertController: UIAlertController?
     @IBOutlet weak var profile_picture: UIImageView!
     @IBOutlet weak var version: UILabel!
-    @IBOutlet weak var greatTipBtn: CustomButton!
-    @IBOutlet weak var greaterTipBtn: CustomButton!
-    @IBOutlet weak var greatestTipBtn: CustomButton!
+//    @IBOutlet weak var greatTipBtn: CustomButton!
+//    @IBOutlet weak var greaterTipBtn: CustomButton!
+//    @IBOutlet weak var greatestTipBtn: CustomButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +28,12 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion
 
         // Do any additional setup after loading the view.
-        greatTipBtn.setTitle(greatTip, for: .normal)
-        greaterTipBtn.setTitle(greaterTip, for: .normal)
-        greatestTipBtn.setTitle(greatestTip, for: .normal)
+//        greatTipBtn.setTitle(greatTip, for: .normal)
+//        greaterTipBtn.setTitle(greaterTip, for: .normal)
+//        greatestTipBtn.setTitle(greatestTip, for: .normal)
         
         self.view.layoutIfNeeded()
-        profile_picture.layer.cornerRadius = 10.0
+        profile_picture.layer.cornerRadius = 20
         profile_picture.layer.masksToBounds = true
 
     }
@@ -48,18 +49,18 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func contactMe(_ sender: UIButton) {
         sendEmail()
     }
-    @IBAction func tipGreat(_ sender: UIButton) {
-        let payment = SKPayment.init(product: greatTipPC)
-        SKPaymentQueue.default().add(payment)
-    }
-    @IBAction func tipGreater(_ sender: UIButton) {
-        let payment = SKPayment.init(product: greaterTipPC)
-        SKPaymentQueue.default().add(payment)
-    }
-    @IBAction func tipGreatest(_ sender: UIButton) {
-        let payment = SKPayment.init(product: greatestTipPC)
-        SKPaymentQueue.default().add(payment)
-    }
+//    @IBAction func tipGreat(_ sender: UIButton) {
+//        let payment = SKPayment.init(product: greatTipPC)
+//        SKPaymentQueue.default().add(payment)
+//    }
+//    @IBAction func tipGreater(_ sender: UIButton) {
+//        let payment = SKPayment.init(product: greaterTipPC)
+//        SKPaymentQueue.default().add(payment)
+//    }
+//    @IBAction func tipGreatest(_ sender: UIButton) {
+//        let payment = SKPayment.init(product: greatestTipPC)
+//        SKPaymentQueue.default().add(payment)
+//    }
 
     func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
@@ -89,6 +90,13 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func fairMormonLink(_ sender: UIButton) {
+        if let url = URL(string: "https://www.fairmormon.org/answers/Mormonism_and_temples/Inverted_Stars_on_LDS_Temples") {
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            present(vc, animated: true)
+        }
     }
     
 }

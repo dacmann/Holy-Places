@@ -14,7 +14,6 @@
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
 		6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */; };
-		6461BAE11E3BF7A200365698 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6461BAE01E3BF7A200365698 /* StoreKit.framework */; };
 		646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */; };
 		6476CA3D1EB0C6A700BA6565 /* GoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
@@ -41,7 +40,6 @@
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitOptionsVC.swift; sourceTree = "<group>"; };
-		6461BAE01E3BF7A200365698 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordVisitVC.swift; sourceTree = "<group>"; };
 		6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6461BAE11E3BF7A200365698 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +74,6 @@
 		6461BADF1E3BF7A200365698 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6461BAE01E3BF7A200365698 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -174,7 +170,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};

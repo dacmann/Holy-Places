@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SafariServices
 
 class DetailViewController: UIViewController, UIScrollViewDelegate {
 
@@ -350,15 +351,17 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     //MARK: - Navigation
     
+    @IBAction func launchWebsite(_ sender: Any) {
+        if let url = URL(string: (self.detailItem?.templeSiteURL)!) {
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            present(vc, animated: true)
+        }
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "recordVisit" {
             let temple = self.detailItem
             let controller = (segue.destination as! RecordVisitVC)
             controller.detailItem = temple
-        }
-        if segue.identifier == "showWebsite" {
-            let controller = (segue.destination as! WebsiteVC)
-            controller.urlPlace = self.detailItem?.templeSiteURL
         }
         if segue.identifier == "viewImage2" {
             
