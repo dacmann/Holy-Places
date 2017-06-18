@@ -1265,12 +1265,18 @@
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                 <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
+                                </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="April 6, 1830" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ld-pR-BuH">
                                 <rect key="frame" x="26" y="114" width="323" height="28"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
+                                </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-sK-urp" userLabel="Line">
                                 <rect key="frame" x="16" y="151" width="343" height="1"/>
@@ -1284,6 +1290,9 @@
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="G9t-XK-3vU">
                                 <rect key="frame" x="5" y="191" width="365" height="417"/>
@@ -1521,18 +1530,18 @@
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                                 <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
+                                                </variation>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="templeSnippet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
                                                 <rect key="frame" x="0.0" y="60" width="367" height="74"/>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="templeSnippet">
-                                                        <attributes>
-                                                            <font key="NSFont" size="16" name="Baskerville"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
+                                                <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                </variation>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="248" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="251" editable="NO" text="address" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m2r-9T-8yH">
                                                 <rect key="frame" x="0.0" y="134" width="367" height="100"/>
@@ -1542,6 +1551,9 @@
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" address="YES"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                </variation>
                                             </textView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
                                                 <rect key="frame" x="0.0" y="234" width="367" height="32"/>
@@ -1554,6 +1566,9 @@
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                </variation>
                                             </textView>
                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62n-Nk-IjE" userLabel="Buttons Stack View">
                                                 <rect key="frame" x="0.0" y="266" width="367" height="35"/>
@@ -1564,6 +1579,9 @@
                                                         <state key="normal" title="Record Visit">
                                                             <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                        </variation>
                                                         <connections>
                                                             <segue destination="Wm6-qc-lsd" kind="show" identifier="recordVisit" id="Znc-r7-aaw"/>
                                                         </connections>
@@ -1573,6 +1591,9 @@
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
+                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                        </variation>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                                         <rect key="frame" x="244.5" y="0.0" width="122.5" height="35"/>
@@ -1580,6 +1601,9 @@
                                                         <state key="normal" title="Website">
                                                             <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                        </variation>
                                                         <connections>
                                                             <action selector="launchWebsite:" destination="zKl-KP-iZp" eventType="touchUpInside" id="sg3-QB-Ue1"/>
                                                         </connections>
@@ -1773,62 +1797,51 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
                                 <rect key="frame" x="16" y="10" width="343" height="549"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
-                                        <attributedString key="attributedText">
-                                            <fragment content="templeName">
-                                                <attributes>
-                                                    <font key="NSFont" size="26" name="Baskerville"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="truncatingTail" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                        <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
+                                        </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-Lj-g5Z">
-                                        <rect key="frame" x="0.0" y="34" width="343" height="39.5"/>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-Lj-g5Z">
+                                        <rect key="frame" x="0.0" y="34" width="343" height="40"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="Apr 6, 1830">
-                                                    <attributes>
-                                                        <font key="NSFont" size="24" name="Baskerville"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
+                                        <state key="normal" title="Apr 6, 1830"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
+                                        </variation>
                                         <connections>
                                             <segue destination="34m-OB-2N8" kind="presentation" identifier="changeDate" id="848-FN-MSS"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zq1-Yo-qle" userLabel="Line">
-                                        <rect key="frame" x="0.0" y="77.5" width="343" height="1"/>
+                                        <rect key="frame" x="0.0" y="78" width="343" height="1"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="HA2-Sv-bhf"/>
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="82.5" width="343" height="466.5"/>
+                                        <rect key="frame" x="0.0" y="83" width="343" height="466"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="471"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="675"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hiU-mT-8ee">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="203"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DP8-AO-kr3">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DP8-AO-kr3">
                                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="23"/>
-                                                                <attributedString key="attributedText">
-                                                                    <fragment content="Notes">
-                                                                        <attributes>
-                                                                            <font key="NSFont" size="20" name="Baskerville"/>
-                                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                        </attributes>
-                                                                    </fragment>
-                                                                </attributedString>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
                                                             </label>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Attended with ..." translatesAutoresizingMaskIntoConstraints="NO" id="eKF-HF-mL6">
                                                                 <rect key="frame" x="0.0" y="23" width="343" height="180"/>
@@ -1837,6 +1850,9 @@
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                                                </variation>
                                                                 <connections>
                                                                     <outlet property="delegate" destination="Wm6-qc-lsd" id="pJY-Wr-8co"/>
                                                                 </connections>
@@ -2045,13 +2061,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="999" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="adB-6Q-Yn5">
-                                                        <rect key="frame" x="0.0" y="434" width="343" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="436" width="343" height="200"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="XTG-BU-pkd"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hco-1D-iCr">
-                                                        <rect key="frame" x="0.0" y="436" width="343" height="35"/>
+                                                        <rect key="frame" x="0.0" y="640" width="343" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                         <state key="normal" title="Add Picture">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -2121,6 +2137,6 @@
         <image name="summary" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QNJ-qY-fxt"/>
+        <segue reference="rRd-SC-EqT"/>
     </inferredMetricsTieBreakers>
 </document>

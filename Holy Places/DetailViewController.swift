@@ -221,7 +221,11 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 label.text = detail.templeName
                 templeSnippet.text = detail.templeSnippet
                 address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
-                phoneNumber.text = detail.templePhone
+                if detail.templePhone == "" {
+                    phoneNumber.isHidden = true
+                } else {
+                    phoneNumber.text = detail.templePhone
+                }
                 recordVisitBtn.contentHorizontalAlignment = .center
                 websiteBtn.contentHorizontalAlignment = .center
                 if detail.templeType == "C" {
