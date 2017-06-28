@@ -853,7 +853,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS"/>
                                         </constraints>
-                                        <string key="text">The Holy Places logo, created by my fifteen-year-old daughter, contains the Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.  The FairMormon website has a good article regarding the inverted five-pointed star and its use on temples.</string>
+                                        <string key="text">The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.  The FairMormon website has a good article regarding the inverted five-pointed star and its use on temples.</string>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
