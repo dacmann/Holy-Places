@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import SafariServices
+import MapKit
 
 class DetailViewController: UIViewController, UIScrollViewDelegate {
 
@@ -135,6 +136,8 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         pictureScrollView.delegate = self
+        let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
+        self.navigationItem.rightBarButtonItem = button
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -354,6 +357,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     
     //MARK: - Navigation
+    
+    func goMap(_ sender: Any) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
+        mapPoints.removeAll()
+        mapPoints.append(MapPoint(title: (self.detailItem?.templeName)!, coordinate: CLLocationCoordinate2D(latitude: (self.detailItem?.cllocation.coordinate.latitude)!, longitude: (self.detailItem?.cllocation.coordinate.longitude)!), type: (self.detailItem?.templeType)!))
+        navigationController?.pushViewController(controller, animated: true)
+    }
     
     @IBAction func launchWebsite(_ sender: Any) {
         if let url = URL(string: (self.detailItem?.templeSiteURL)!) {

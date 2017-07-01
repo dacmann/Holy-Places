@@ -1130,6 +1130,41 @@
             </objects>
             <point key="canvasLocation" x="3083" y="-508"/>
         </scene>
+        <!--MapVC-->
+        <scene sceneID="Vkk-8P-Sml">
+            <objects>
+                <viewController storyboardIdentifier="MapVC" id="t8f-CG-eMm" customClass="MapVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Nvy-xb-BMd"/>
+                        <viewControllerLayoutGuide type="bottom" id="8zW-MO-aG4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dOV-8W-jBv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IpT-qR-qTj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <outlet property="delegate" destination="t8f-CG-eMm" id="64K-9c-2Og"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IpT-qR-qTj" firstAttribute="top" secondItem="dOV-8W-jBv" secondAttribute="top" id="168-L7-Eav"/>
+                            <constraint firstItem="IpT-qR-qTj" firstAttribute="leading" secondItem="dOV-8W-jBv" secondAttribute="leading" id="OJb-vw-ACe"/>
+                            <constraint firstAttribute="trailing" secondItem="IpT-qR-qTj" secondAttribute="trailing" id="Qav-pE-ghl"/>
+                            <constraint firstItem="8zW-MO-aG4" firstAttribute="top" secondItem="IpT-qR-qTj" secondAttribute="bottom" id="ufb-lN-Zpz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="IpT-qR-qTj" id="MR3-kr-S9o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cis-Ja-ZQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3920.8000000000002" y="-416.0419790104948"/>
+        </scene>
         <!--Places-->
         <scene sceneID="tVV-iv-ZMs">
             <objects>
@@ -2137,6 +2172,6 @@
         <image name="summary" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rRd-SC-EqT"/>
+        <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
 </document>

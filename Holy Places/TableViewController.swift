@@ -26,7 +26,6 @@ extension TableViewController: UISearchBarDelegate {
 
 class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
     //MARK: - Variables and Outlets
-    var places: [Temple] = []
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
     var sortByDedicationDate = Bool()

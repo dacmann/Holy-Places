@@ -13,6 +13,7 @@ import CoreData
 import CoreLocation
 
 //MARK: - Global Variables
+var places: [Temple] = []
 var allPlaces: [Temple] = []
 var activeTemples: [Temple] = []
 var historical: [Temple] = []
@@ -40,6 +41,7 @@ var placeFilterRow = Int()
 var placeSortRow = Int()
 var visitFilterRow = Int()
 var visitSortRow = Int()
+var mapPoints: [MapPoint] = []
 
 //class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate {
