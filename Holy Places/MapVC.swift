@@ -81,21 +81,29 @@ class MapVC: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var view : MKPinAnnotationView
         guard let annotation = annotation as? MapPoint else {return nil}
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.title!) as? MKPinAnnotationView {
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: "pin") as? MKPinAnnotationView {
             view = dequeuedView
         } else { //make a new view
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotation.title)
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         }
+        let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 120,height: 30))
+        leftAccessory.text = annotation.title
+        leftAccessory.numberOfLines = 2
+        leftAccessory.minimumScaleFactor = 0.5
+        leftAccessory.adjustsFontSizeToFitWidth = true
+        leftAccessory.textColor = pinColor(type: annotation.type)
+        leftAccessory.font = UIFont(name: "Baskerville", size: 16)
+        view.leftCalloutAccessoryView = leftAccessory
         // Right accessory view
-        //        let image = UIImage(#imageLiteral(resourceName: "nav"))
         let button = UIButton(type: .custom)
         button.setTitle("⤴️", for: .normal)
-        //        button.setImage(UIImage.init(named: "nav"), for: UIControlState())
-        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//      button.setImage(UIImage.init(named: "nav"), for: UIControlState())
+        button.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
         view.rightCalloutAccessoryView = button
         view.isEnabled = true
         view.canShowCallout = true
         view.pinTintColor = pinColor(type: annotation.type)
+        annotation.title = " "
         return view
     }
 
@@ -106,7 +114,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // The map item is the place location
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = (view.annotation?.title)!
-        print(view.annotation?.title as Any)
+//        print(view.annotation?.title as Any)
         let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
         mapItem.openInMaps(launchOptions: launchOptions)
     }
