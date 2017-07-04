@@ -1272,6 +1272,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Visits" id="lL4-nU-PFd">
+                        <barButtonItem key="backBarButtonItem" title="Visits" id="oxp-WO-I8O"/>
                         <barButtonItem key="rightBarButtonItem" title="Options" id="e40-Ed-Hjr">
                             <connections>
                                 <segue destination="0kB-hC-xcd" kind="presentation" identifier="showVisitOptions" id="ImW-8S-f9R"/>
@@ -1571,6 +1572,9 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="templeSnippet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
                                                 <rect key="frame" x="0.0" y="60" width="367" height="74"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="250" constant="40" id="vPU-HV-zmB"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>

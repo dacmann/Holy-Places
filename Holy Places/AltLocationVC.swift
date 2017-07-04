@@ -96,27 +96,31 @@ class AltLocationVC: UIViewController {
         self.view.endEditing(true)
         var address = String()
         address = "\(street.text!) \(city.text!) \(state.text!) \(postalCode.text!)"
-        CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks, error) in
-            if error != nil {
-                self.addressResult.text = error?.localizedDescription
-                return
-            }
-            if (placemarks?.count)! > 0 {
-                let placemark = placemarks?[0]
-                let location = placemark?.location
-                let coordinate = location?.coordinate
-                self.addressResult.text = "Coordinates found!  Press Done to see what is nearest.\n\nlatitude: \(coordinate!.latitude)\nlongitude: \(coordinate!.longitude)"
-                print("\nlat: \(coordinate!.latitude), long: \(coordinate!.longitude)")
-                coordAltLocation = location
-                altLocStreet = self.street.text!
-                altLocCity = self.city.text!
-                altLocState = self.state.text!
-                altLocPostalCode = self.postalCode.text!
-                self.locationControl.isEnabled = true
-                self.locationControl.selectedSegmentIndex = 1
-                locationSpecific = true
-            }
-        })
+        if address.trimmingCharacters(in: .whitespaces).isEmpty {
+            self.addressResult.text = "Enter city, state or postal code"
+        } else {
+            CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks, error) in
+                if error != nil {
+                    self.addressResult.text = error?.localizedDescription
+                    return
+                }
+                if (placemarks?.count)! > 0 {
+                    let placemark = placemarks?[0]
+                    let location = placemark?.location
+                    let coordinate = location?.coordinate
+                    self.addressResult.text = "Coordinates found!  Press Done to see what is nearest.\n\nlatitude: \(coordinate!.latitude)\nlongitude: \(coordinate!.longitude)"
+                    print("\nlat: \(coordinate!.latitude), long: \(coordinate!.longitude)")
+                    coordAltLocation = location
+                    altLocStreet = self.street.text!
+                    altLocCity = self.city.text!
+                    altLocState = self.state.text!
+                    altLocPostalCode = self.postalCode.text!
+                    self.locationControl.isEnabled = true
+                    self.locationControl.selectedSegmentIndex = 1
+                    locationSpecific = true
+                }
+            })
+        }
     }
     
     // MARK: - Navigation

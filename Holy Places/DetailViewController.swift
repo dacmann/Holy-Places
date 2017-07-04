@@ -159,6 +159,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         frame.origin.x = frame.size.width * CGFloat(currentPhoto)
         frame.origin.y = 0
         pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
+        
+        // Change the back button on the Record Visit VC to Cancel
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -364,6 +368,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         mapPoints.removeAll()
         mapPoints.append(MapPoint(title: (self.detailItem?.templeName)!, coordinate: CLLocationCoordinate2D(latitude: (self.detailItem?.cllocation.coordinate.latitude)!, longitude: (self.detailItem?.cllocation.coordinate.longitude)!), type: (self.detailItem?.templeType)!))
         navigationController?.pushViewController(controller, animated: true)
+        
+        // Change the back button on the Map VC to Cancel
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
+
     }
     
     @IBAction func launchWebsite(_ sender: Any) {

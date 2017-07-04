@@ -12,6 +12,7 @@ import MapKit
 class MapVC: UIViewController, MKMapViewDelegate {
 
     var mapCenter = CLLocationCoordinate2D()
+    var placeName = String()
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -81,10 +82,10 @@ class MapVC: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var view : MKPinAnnotationView
         guard let annotation = annotation as? MapPoint else {return nil}
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: "pin") as? MKPinAnnotationView {
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.title!) as? MKPinAnnotationView {
             view = dequeuedView
         } else { //make a new view
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotation.title)
         }
         let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 120,height: 30))
         leftAccessory.text = annotation.title
@@ -103,6 +104,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         view.isEnabled = true
         view.canShowCallout = true
         view.pinTintColor = pinColor(type: annotation.type)
+        placeName = annotation.title!
         annotation.title = " "
         return view
     }
@@ -113,7 +115,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
         // The map item is the place location
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = (view.annotation?.title)!
+        mapItem.name = placeName
 //        print(view.annotation?.title as Any)
         let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
         mapItem.openInMaps(launchOptions: launchOptions)

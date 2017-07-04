@@ -139,6 +139,9 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         configureView()
         populateView()
         setDate()
+        
+        // Disable the swipe to make sure you get your chance to save
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {

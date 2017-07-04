@@ -50,6 +50,10 @@ class VisitDetailVC: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(VisitDetailVC.imageClicked))
         pictureView.addGestureRecognizer(tap)
         pictureView.isUserInteractionEnabled = true
+        
+        // Change the back button on the Edit Visit VC to Cancel
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
