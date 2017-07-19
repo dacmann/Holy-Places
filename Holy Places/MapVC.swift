@@ -80,15 +80,17 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let identifier = "pin"
         var view : MKPinAnnotationView
         guard let annotation = annotation as? MapPoint else {return nil}
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.title!) as? MKPinAnnotationView {
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
             view = dequeuedView
         } else { //make a new view
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotation.title)
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
         let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 120,height: 30))
-        leftAccessory.text = annotation.title
+        leftAccessory.text = annotation.name
         leftAccessory.numberOfLines = 2
         leftAccessory.minimumScaleFactor = 0.5
         leftAccessory.adjustsFontSizeToFitWidth = true
@@ -104,7 +106,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         view.isEnabled = true
         view.canShowCallout = true
         view.pinTintColor = pinColor(type: annotation.type)
-        placeName = annotation.title!
+        placeName = annotation.name!
         annotation.title = " "
         return view
     }
