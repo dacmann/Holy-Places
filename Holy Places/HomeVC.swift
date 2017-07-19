@@ -42,6 +42,7 @@ var placeSortRow = Int()
 var visitFilterRow = Int()
 var visitSortRow = Int()
 var mapPoints: [MapPoint] = []
+var detailItem: Temple?
 
 //class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate {

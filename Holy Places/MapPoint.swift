@@ -13,7 +13,7 @@ class MapPoint: NSObject, MKAnnotation {
     var title: String?
     var coordinate: CLLocationCoordinate2D
     var type: String
-    var name: String?
+    var name: String
     
     init(title: String, coordinate: CLLocationCoordinate2D, type: String) {
         self.title = title

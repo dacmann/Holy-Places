@@ -89,24 +89,27 @@ class MapVC: UIViewController, MKMapViewDelegate {
         } else { //make a new view
             view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
-        let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 120,height: 30))
-        leftAccessory.text = annotation.name
-        leftAccessory.numberOfLines = 2
-        leftAccessory.minimumScaleFactor = 0.5
-        leftAccessory.adjustsFontSizeToFitWidth = true
-        leftAccessory.textColor = pinColor(type: annotation.type)
-        leftAccessory.font = UIFont(name: "Baskerville", size: 16)
+        
+        // Left accessory view
+        let leftAccessory = UIButton(frame: CGRect(x: 0,y: 0,width: 120,height: 38))
+        leftAccessory.setTitle(annotation.name, for: .normal)
+        leftAccessory.titleLabel?.numberOfLines = 2
+        leftAccessory.titleLabel?.minimumScaleFactor = 0.5
+        leftAccessory.titleLabel?.adjustsFontSizeToFitWidth = true
+        leftAccessory.setTitleColor(pinColor(type: annotation.type), for: .normal)
+        leftAccessory.titleLabel?.font = UIFont(name: "Baskerville", size: 16)
         view.leftCalloutAccessoryView = leftAccessory
+        
         // Right accessory view
-        let button = UIButton(type: .custom)
-        button.setTitle("⤴️", for: .normal)
-//      button.setImage(UIImage.init(named: "nav"), for: UIControlState())
-        button.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
-        view.rightCalloutAccessoryView = button
+        let rightAccessory = UIButton(type: .custom)
+        rightAccessory.setTitle("⤴️", for: .normal)
+        rightAccessory.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
+        view.rightCalloutAccessoryView = rightAccessory
+        
+        // Additional settings for the annotation
         view.isEnabled = true
         view.canShowCallout = true
         view.pinTintColor = pinColor(type: annotation.type)
-        placeName = annotation.name!
         annotation.title = " "
         return view
     }
@@ -114,13 +117,26 @@ class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Navigation
 
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
-        // The map item is the place location
-        let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = placeName
-//        print(view.annotation?.title as Any)
-        let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
-        mapItem.openInMaps(launchOptions: launchOptions)
+        // Find details for selected pin
+        if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+            let place = allPlaces[found]
+            print(place.templeName)
+            placeName = place.templeName
+            if (control == view.rightCalloutAccessoryView) {
+                // Launch Apple Maps with the selected Map location
+                let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
+                // The map item is the place location
+                let mapItem = MKMapItem(placemark: placemark)
+                mapItem.name = placeName
+                let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
+                mapItem.openInMaps(launchOptions: launchOptions)
+            }
+            if (control == view.leftCalloutAccessoryView) {
+                // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
+                detailItem = place
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
 
 }

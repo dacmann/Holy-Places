@@ -32,7 +32,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     var visitsAdded = false
     var stockImageAdded = false
     var currentPhoto = 0
-    
+    var originalPlace = String()
     
     //MARK: - ScrollView functions
     
@@ -142,6 +142,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
 //        print("viewWillAppear")
+        if (originalPlace != detailItem?.templeName) {
+            stockImageAdded = false
+        }
         self.configureView()
         visitsAdded = false
     }
@@ -180,14 +183,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         self.performSegue(withIdentifier: "viewImage2", sender: self)
     }
     
-    //MARK: - Populate the view
-    var detailItem: Temple? {
-        didSet {
-            // Update the view.
-            self.configureView()
-        }
-    }
-    
     func textToImage(drawText text: NSString, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
         
         // Setup the font specific variables
@@ -223,9 +218,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
 
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = self.detailItem {
+        if let detail = detailItem {
             if let label = self.templeName {
                 label.text = detail.templeName
+                originalPlace = detail.templeName
                 templeSnippet.text = detail.templeSnippet
                 address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
                 if detail.templePhone == "" {
@@ -258,7 +254,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
 //        print("GetSavedImage")
         // Update the user interface for the detail item.
         let context = getContext()
-        if let detail = self.detailItem {
+        if let detail = detailItem {
             // Delete any previously configured imageviews
             self.pictureScrollView.subviews.forEach({ $0.removeFromSuperview() })
             
@@ -300,7 +296,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
 //        print("downloadImage")
         // Update the user interface for the detail item.
         let context = getContext()
-        if let detail = self.detailItem {
+        if let detail = detailItem {
             // Delete any previously configured imageviews
             self.pictureScrollView.subviews.forEach({ $0.removeFromSuperview() })
             
@@ -366,7 +362,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
         mapPoints.removeAll()
-        mapPoints.append(MapPoint(title: (self.detailItem?.templeName)!, coordinate: CLLocationCoordinate2D(latitude: (self.detailItem?.cllocation.coordinate.latitude)!, longitude: (self.detailItem?.cllocation.coordinate.longitude)!), type: (self.detailItem?.templeType)!))
+        mapPoints.append(MapPoint(title: (detailItem?.templeName)!, coordinate: CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!), type: (detailItem?.templeType)!))
         navigationController?.pushViewController(controller, animated: true)
         
         // Change the back button on the Map VC to Cancel
@@ -375,14 +371,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func launchWebsite(_ sender: Any) {
-        if let url = URL(string: (self.detailItem?.templeSiteURL)!) {
+        if let url = URL(string: (detailItem?.templeSiteURL)!) {
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "recordVisit" {
-            let temple = self.detailItem
+            let temple = detailItem
             let controller = (segue.destination as! RecordVisitVC)
             controller.detailItem = temple
         }
