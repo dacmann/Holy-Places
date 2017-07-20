@@ -321,7 +321,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let imageView = UIImageView()
                     imageView.contentMode = .scaleAspectFit
                     imageView.image = image
-                    print("Stock Image downloaded size: \(image.size)")
+//                    print("Stock Image downloaded size: \(image.size)")
                     // Save image data to Pictures
                     let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
                     fetchRequest.predicate = NSPredicate(format: "name == %@", detail.templeName)
@@ -335,7 +335,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                                 } catch let error as NSError  {
                                     print("Could not save \(error), \(error.userInfo)")
                                 } catch {}
-                                print("Saving Place picture completed")
+//                                print("Saving Place picture completed")
                             }
                         }
                     } catch {
@@ -403,7 +403,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 currentPhoto = pageControl.currentPage
             }
             if let theImageView = self.pictureScrollView.viewWithTag(tagNo) as? UIImageView {
-                print("Found image")
+//                print("Found image")
                 destViewController.img =  theImageView.image
             } 
 

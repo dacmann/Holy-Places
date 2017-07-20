@@ -171,7 +171,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Find details for selected pin
         if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
             let place = allPlaces[found]
-            print(place.templeName)
+//            print(place.templeName)
             placeName = place.templeName
             if (control == view.rightCalloutAccessoryView) {
                 // Launch Apple Maps with the selected Map location
