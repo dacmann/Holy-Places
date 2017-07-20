@@ -222,7 +222,7 @@ extension UIColor {
         return UIColor(red:230/255, green:194/255, blue:0/255, alpha:1.0)
     }
     class func darkOrange() -> UIColor {
-        return UIColor(red:114/255, green:57/255, blue:0/255, alpha:1.0)
+        return UIColor(red:166/255, green:83/255, blue:0/255, alpha:1.0)
     }
     class func darkLimeGreen() -> UIColor {
         return UIColor(red:0/255, green:114/255, blue:0/255, alpha:1.0)
