@@ -33,6 +33,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     var stockImageAdded = false
     var currentPhoto = 0
     var originalPlace = String()
+    var switchedPlaces = false
     
     //MARK: - ScrollView functions
     
@@ -138,12 +139,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         pictureScrollView.delegate = self
         let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
         self.navigationItem.rightBarButtonItem = button
+        originalPlace = (detailItem?.templeName)!
     }
     
     override func viewWillAppear(_ animated: Bool) {
 //        print("viewWillAppear")
         if (originalPlace != detailItem?.templeName) {
             stockImageAdded = false
+            switchedPlaces = true
         }
         self.configureView()
         visitsAdded = false
@@ -178,7 +181,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     func imageClicked()
     {
-        print("Tapped on Image")
+//        print("Tapped on Image")
         // navigate to another
         self.performSegue(withIdentifier: "viewImage2", sender: self)
     }
@@ -361,11 +364,18 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     func goMap(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
-        mapPoints.removeAll()
-        mapPoints.append(MapPoint(title: (detailItem?.templeName)!, coordinate: CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!), type: (detailItem?.templeType)!))
+        let coordinate = CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!)
+        mapPoint = MapPoint(title: (detailItem?.templeName)!, coordinate: coordinate, type: (detailItem?.templeType)!)
+        if !switchedPlaces{
+            // Set the map point just for this one place
+            mapPoints.removeAll()
+            mapPoints.append(mapPoint)
+            mapZoomLevel = 4000
+        }
+        mapCenter = coordinate
         navigationController?.pushViewController(controller, animated: true)
         
-        // Change the back button on the Map VC to Cancel
+        // Change the back button on the Map VC to Back
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
 
     }

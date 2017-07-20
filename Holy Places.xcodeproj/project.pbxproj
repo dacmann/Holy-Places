@@ -19,6 +19,7 @@
 		6479E5EB1F05733D0087E013 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EA1F05733D0087E013 /* MapVC.swift */; };
 		6479E5ED1F0576D70087E013 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6479E5EC1F0576D70087E013 /* MapKit.framework */; };
 		6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EE1F0579B50087E013 /* MapPoint.swift */; };
+		64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
 		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
@@ -48,6 +49,7 @@
 		6479E5EA1F05733D0087E013 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		6479E5EC1F0576D70087E013 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6479E5EE1F0579B50087E013 /* MapPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
+		64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapOptionsVC.swift; path = ../MapOptionsVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
 		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */,
 				6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */,
 				64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */,
+				64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */,
 				6479E5EA1F05733D0087E013 /* MapVC.swift */,
 			);
 			name = ViewControllers;
@@ -246,6 +249,7 @@
 				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
 				64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */,
 				644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */,
+				64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */,
 				6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

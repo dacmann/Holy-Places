@@ -11,10 +11,11 @@ import MapKit
 
 class MapVC: UIViewController, MKMapViewDelegate {
 
-    var mapCenter = CLLocationCoordinate2D()
     var placeName = String()
+    var optionSelected = false
     
     @IBOutlet weak var mapView: MKMapView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Do any additional setup after loading the view.
         self.configureView()
         // Add Show All button on right side of navigation bar
-        let button = UIBarButtonItem(title: "Show All", style: .plain, target: self, action: #selector(showAll(_:)))
+        let button = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(options(_:)))
         let options = ["Map", "Sat"]
         self.navigationItem.rightBarButtonItem = button
         let mapOptions = UISegmentedControl(items: options)
@@ -35,6 +36,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         mapView.showsUserLocation = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if optionSelected {
+            mapThePlaces()
+        }
+    }
+    
     func changeMap(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
@@ -44,22 +51,52 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func showAll(_ sender: Any) {
-        mapPoints.removeAll()
-        for place in allPlaces {
+    func mapThePlaces() {
+        var mapPlaces: [Temple] = []
+        // Filter the request
+        switch mapFilterRow {
+        case 0:
+            mapPlaces = allPlaces
+        case 1:
+            // Active Temples
+            mapPlaces = activeTemples
+        case 2:
+            // Historical Sites
+            mapPlaces = historical
+        case 3:
+            // Visitors' Centers
+            mapPlaces = visitors
+        default:
+            // Under Construction
+            mapPlaces = construction
+        }
+        
+        // Filter the places by Visited filter
+        let filteredPlaces = mapPlaces.filter { place in
+            let categoryMatch = (mapVisitedFilter == 0) || (mapVisitedFilter == 1 && visits.contains(place.templeName)) || (mapVisitedFilter == 2 && !(visits.contains(place.templeName)))
+            return categoryMatch
+        }
+        
+        mapView.removeAnnotations(mapPoints)
+        mapPoints.removeAll()                                                                                                                                                                                                   
+        for place in filteredPlaces {
             mapPoints.append(MapPoint(title: (place.templeName), coordinate: CLLocationCoordinate2D(latitude: (place.cllocation.coordinate.latitude), longitude: (place.cllocation.coordinate.longitude)), type: (place.templeType)))
         }
         mapView.addAnnotations(mapPoints)
-        self.navigationItem.rightBarButtonItem?.title = nil
+        if let found = mapPoints.index(where:{$0.name == mapPoint.name}) {
+            mapView.selectAnnotation(mapPoints[found], animated: true)
+        }
     }
     
     func configureView() {
         if self.mapView != nil {
             mapView.addAnnotations(mapPoints)
-            mapCenter = mapPoints[0].coordinate
             mapView.setCenter(mapCenter, animated: false)
-            mapView.selectAnnotation(mapPoints[0], animated: true)
-            let mapCamera = MKMapCamera(lookingAtCenter: mapCenter, fromEyeCoordinate: mapCenter, eyeAltitude: 4000)
+            // Determine the current 
+            if let found = mapPoints.index(where:{$0.name == mapPoint.name}) {
+                mapView.selectAnnotation(mapPoints[found], animated: true)
+            }
+            let mapCamera = MKMapCamera(lookingAtCenter: mapCenter, fromEyeCoordinate: mapCenter, eyeAltitude: mapZoomLevel)
             mapView.setCamera(mapCamera, animated: false)
         }
     }
@@ -115,7 +152,21 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
 
     // MARK: - Navigation
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+            let place = allPlaces[found]
+//            print(place.templeName)
+            placeName = place.templeName
+            mapPoint = MapPoint(title: placeName, coordinate: view.annotation!.coordinate, type: place.templeType)
+        }
+    }
 
+    func options(_ sender: Any) {
+        optionSelected = true
+        self.performSegue(withIdentifier: "viewMapOptions", sender: self)
+    }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // Find details for selected pin
         if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
@@ -134,6 +185,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
             if (control == view.leftCalloutAccessoryView) {
                 // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
                 detailItem = place
+                // Save the current Camera altitude
+                mapZoomLevel = mapView.camera.altitude
                 self.navigationController?.popViewController(animated: true)
             }
         }

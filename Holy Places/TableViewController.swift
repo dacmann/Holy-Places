@@ -32,7 +32,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var sections : [(index: Int, length :Int, title: String)] = Array()
     let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
-    var visits = [String]()
+    
 
     @IBOutlet weak var locationButton: UIBarButtonItem!
     

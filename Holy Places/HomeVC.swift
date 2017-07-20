@@ -41,8 +41,14 @@ var placeFilterRow = Int()
 var placeSortRow = Int()
 var visitFilterRow = Int()
 var visitSortRow = Int()
+var mapFilterRow = Int()
 var mapPoints: [MapPoint] = []
 var detailItem: Temple?
+var mapVisitedFilter = Int()
+var visits = [String]()
+var mapCenter = CLLocationCoordinate2D()
+var mapPoint = MapPoint(title: "", coordinate: mapCenter, type: "")
+var mapZoomLevel = Double()
 
 //class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate {

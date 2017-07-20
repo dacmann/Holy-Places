@@ -1159,11 +1159,84 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="IpT-qR-qTj" id="MR3-kr-S9o"/>
+                        <segue destination="Rs3-1P-nLQ" kind="presentation" identifier="viewMapOptions" id="QHt-bp-WkA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cis-Ja-ZQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3920.8000000000002" y="-416.0419790104948"/>
+        </scene>
+        <!--Map OptionsVC-->
+        <scene sceneID="91A-bK-oi6">
+            <objects>
+                <viewController id="Rs3-1P-nLQ" customClass="MapOptionsVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rhn-jC-c2J"/>
+                        <viewControllerLayoutGuide type="bottom" id="DKv-Jv-psR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OiN-QX-JnL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ygw-xb-uzw">
+                                <rect key="frame" x="27" y="148.5" width="321" height="369.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show On Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHY-jD-KCY">
+                                        <rect key="frame" x="94.5" y="0.0" width="132.5" height="25.5"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4Z-A3-rWc">
+                                        <rect key="frame" x="0.0" y="45.5" width="321" height="216"/>
+                                    </pickerView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UgY-gC-RVB">
+                                        <rect key="frame" x="38" y="281.5" width="245" height="29"/>
+                                        <segments>
+                                            <segment title="All"/>
+                                            <segment title="Visited"/>
+                                            <segment title="Not Visited"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="visitedFilterChanged:" destination="Rs3-1P-nLQ" eventType="valueChanged" id="Ui8-Y4-gMj"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dr-73-TbO" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="329.5" width="301" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="done:" destination="Rs3-1P-nLQ" eventType="touchUpInside" id="zRH-De-yUt"/>
+                                            <action selector="goBack:" destination="0kB-hC-xcd" eventType="touchUpInside" id="6A3-Cd-JJu"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="3dr-73-TbO" secondAttribute="trailing" constant="10" id="axb-B8-B4A"/>
+                                    <constraint firstItem="3dr-73-TbO" firstAttribute="leading" secondItem="ygw-xb-uzw" secondAttribute="leading" constant="10" id="moA-xM-CUi"/>
+                                    <constraint firstItem="E4Z-A3-rWc" firstAttribute="leading" secondItem="ygw-xb-uzw" secondAttribute="leading" id="vHq-8n-IwT"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ygw-xb-uzw" firstAttribute="centerX" secondItem="OiN-QX-JnL" secondAttribute="centerX" id="3zE-nZ-4th"/>
+                            <constraint firstItem="ygw-xb-uzw" firstAttribute="centerY" secondItem="OiN-QX-JnL" secondAttribute="centerY" id="SFF-zh-iLj"/>
+                            <constraint firstItem="ygw-xb-uzw" firstAttribute="leading" secondItem="OiN-QX-JnL" secondAttribute="leadingMargin" constant="11" id="vF2-Wn-wQW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="filterPicker" destination="E4Z-A3-rWc" id="Hj8-7K-M6T"/>
+                        <outlet property="visitedFilter" destination="UgY-gC-RVB" id="g4E-Hw-3Cq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ryi-Mu-62U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4626" y="-416"/>
         </scene>
         <!--Places-->
         <scene sceneID="tVV-iv-ZMs">
