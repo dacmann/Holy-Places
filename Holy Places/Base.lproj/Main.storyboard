@@ -1179,19 +1179,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ygw-xb-uzw">
-                                <rect key="frame" x="27" y="148.5" width="321" height="369.5"/>
+                                <rect key="frame" x="27.5" y="148.5" width="320" height="369.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show On Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHY-jD-KCY">
-                                        <rect key="frame" x="94.5" y="0.0" width="132.5" height="25.5"/>
+                                        <rect key="frame" x="94" y="0.0" width="132.5" height="25.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4Z-A3-rWc">
-                                        <rect key="frame" x="0.0" y="45.5" width="321" height="216"/>
+                                        <rect key="frame" x="0.0" y="45.5" width="320" height="216"/>
                                     </pickerView>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UgY-gC-RVB">
-                                        <rect key="frame" x="38" y="281.5" width="245" height="29"/>
+                                        <rect key="frame" x="37.5" y="281.5" width="245" height="29"/>
                                         <segments>
                                             <segment title="All"/>
                                             <segment title="Visited"/>
@@ -1203,7 +1203,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dr-73-TbO" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="329.5" width="301" height="40"/>
+                                        <rect key="frame" x="10" y="329.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -1218,7 +1218,6 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="3dr-73-TbO" secondAttribute="trailing" constant="10" id="axb-B8-B4A"/>
                                     <constraint firstItem="3dr-73-TbO" firstAttribute="leading" secondItem="ygw-xb-uzw" secondAttribute="leading" constant="10" id="moA-xM-CUi"/>
-                                    <constraint firstItem="E4Z-A3-rWc" firstAttribute="leading" secondItem="ygw-xb-uzw" secondAttribute="leading" id="vHq-8n-IwT"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -1226,7 +1225,6 @@
                         <constraints>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerX" secondItem="OiN-QX-JnL" secondAttribute="centerX" id="3zE-nZ-4th"/>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerY" secondItem="OiN-QX-JnL" secondAttribute="centerY" id="SFF-zh-iLj"/>
-                            <constraint firstItem="ygw-xb-uzw" firstAttribute="leading" secondItem="OiN-QX-JnL" secondAttribute="leadingMargin" constant="11" id="vF2-Wn-wQW"/>
                         </constraints>
                     </view>
                     <connections>
