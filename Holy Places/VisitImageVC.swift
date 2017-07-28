@@ -44,8 +44,8 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
             let scrollViewFrame = scrollView.frame
             let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
             let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-            minScale = min(scaleWidth, scaleHeight);
-            scrollView.minimumZoomScale = minScale;
+            minScale = min(scaleWidth, scaleHeight)
+            scrollView.minimumZoomScale = minScale
             print(minScale)
             scrollView.maximumZoomScale = 2.0
             scrollView.zoomScale = minScale
@@ -59,7 +59,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
     
     func doubleTapped(recognizer:  UITapGestureRecognizer) {
         if let scrollV = self.scrollView {
-            if (scrollV.zoomScale > scrollV.minimumZoomScale) {
+            if scrollV.zoomScale > scrollV.minimumZoomScale {
                 scrollV.setZoomScale(scrollV.minimumZoomScale, animated: true)
             }
             else {
@@ -79,7 +79,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
             zoomRect.origin.x = newCenter.x - ((zoomRect.size.width / 2.0))
             zoomRect.origin.y = newCenter.y - ((zoomRect.size.height / 2.0))
         }
-        return zoomRect;
+        return zoomRect
     }
     
     func centerImage() {

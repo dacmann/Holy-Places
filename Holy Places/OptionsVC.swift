@@ -35,7 +35,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         // Do any additional setup after loading the view
         
         // Determine which Sort array to use
-        if (filterSelected == 1) {
+        if filterSelected == 1 {
             sortOptions = sortOptionsTemple
         } else {
             sortOptions = sortOptionsAll
@@ -100,7 +100,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
             sortSelected = row
         } else {
             filterSelected = row
-            if (row == 1) {
+            if row == 1 {
                 sortOptions = sortOptionsTemple
             } else {
                 sortOptions = sortOptionsAll

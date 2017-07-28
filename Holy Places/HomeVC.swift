@@ -425,7 +425,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     
     // foundCharacters of parser
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if (!string.isEmpty){
+        if !string.isEmpty {
             switch eName {
             case "name": templeName += string
             case "Address": templeAddress += string
@@ -439,7 +439,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             case "type": templeType += string
             case "site_url": templeSiteURL += string
             case "Version":
-                if (string == placeDataVersion) {
+                if string == placeDataVersion {
                     print("XML Data Version has not changed")
                     parser.abortParsing()
                     break
@@ -470,7 +470,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     
     // didEndElement of parser
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if (elementName == "Place"){
+        if elementName == "Place" {
             // Determine Order
             let digits = CharacterSet.decimalDigits
             
@@ -480,7 +480,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                 if digits.contains(uni) {
                     number += uni.escaped(asASCII: true)
                 } else {
-                    if (number == ""){
+                    if number == "" {
                         number = "200"
                     }
                     break

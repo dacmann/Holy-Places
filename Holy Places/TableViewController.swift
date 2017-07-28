@@ -195,7 +195,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                         let title = "\(string)"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
-                        index = i;
+                        index = i
                     }
                 }
             } else {
@@ -206,7 +206,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
 //                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 var commonPrefix = ""
                 for i in (0 ..< (places.count + 1) ) {
-                    if (places.count != i){
+                    if places.count != i {
                         commonPrefix = places[i].templeName.commonPrefix(with: places[index].templeName, options: .caseInsensitive)
                     }
                     //print(temples.count)
@@ -216,7 +216,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                         let title = "\(firstCharacter)"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
-                        index = i;
+                        index = i
                     }
                 }
             }
@@ -334,7 +334,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         locationManager.delegate = self
 
         
-        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse {
             print("Location not authorized")
             coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
         }
@@ -371,7 +371,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 50.0;//Choose your custom row height
+        return 50.0 //Choose your custom row height
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

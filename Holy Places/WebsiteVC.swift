@@ -19,7 +19,7 @@ class WebsiteVC: UIViewController, UIWebViewDelegate {
         
         webView.delegate = self
         
-        if (self.webView) != nil {
+        if self.webView != nil {
             if let url = URL(string: urlPlace!) {
                 let request = URLRequest(url: url)
                 webView.loadRequest(request)

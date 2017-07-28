@@ -173,7 +173,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             let place = allPlaces[found]
 //            print(place.templeName)
             placeName = place.templeName
-            if (control == view.rightCalloutAccessoryView) {
+            if control == view.rightCalloutAccessoryView {
                 // Launch Apple Maps with the selected Map location
                 let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
                 // The map item is the place location
@@ -182,7 +182,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
                 mapItem.openInMaps(launchOptions: launchOptions)
             }
-            if (control == view.leftCalloutAccessoryView) {
+            if control == view.leftCalloutAccessoryView {
                 // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
                 detailItem = place
                 // Save the current Camera altitude

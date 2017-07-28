@@ -144,7 +144,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
 //        print("viewWillAppear")
-        if (originalPlace != detailItem?.templeName) {
+        if originalPlace != detailItem?.templeName {
             stockImageAdded = false
             switchedPlaces = true
         }

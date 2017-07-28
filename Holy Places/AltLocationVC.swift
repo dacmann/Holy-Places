@@ -68,11 +68,11 @@ class AltLocationVC: UIViewController {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        let nextTage=textField.tag+1;
+        let nextTage=textField.tag+1
         // Try to find next responder
         let nextResponder=textField.superview?.viewWithTag(nextTage) as UIResponder!
         
-        if (nextResponder != nil){
+        if nextResponder != nil {
             // Found next responder, so set it.
             nextResponder?.becomeFirstResponder()
         }

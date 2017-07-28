@@ -111,7 +111,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if (self.fetchedResultsController.fetchedObjects?.count != 0)
+        if self.fetchedResultsController.fetchedObjects?.count != 0
         {
             tableView.separatorStyle = .singleLine
             tableView.backgroundView = nil
@@ -131,7 +131,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 50.0;//Choose your custom row height
+        return 50.0 //Choose your custom row height
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

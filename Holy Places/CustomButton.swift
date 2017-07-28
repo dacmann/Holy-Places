@@ -12,10 +12,10 @@ import UIKit
 class CustomButton: UIButton {
     
     override func layoutSubviews() {
-        super.layoutSubviews();
+        super.layoutSubviews()
         
         // Set border to specific float
-        self.layer.cornerRadius = 6.0;
+        self.layer.cornerRadius = 6.0
         
     }
     
