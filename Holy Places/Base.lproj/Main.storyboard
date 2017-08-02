@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -794,51 +795,51 @@
                                 <rect key="frame" x="16" y="20" width="343" height="647"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Mrt-An-MxL">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="130.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="136"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="morningstarmoroni" translatesAutoresizingMaskIntoConstraints="NO" id="B16-hn-te9">
-                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="130.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="136"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmA-Tn-qMd">
-                                                <rect key="frame" x="171.5" y="0.0" width="171.5" height="130.5"/>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="27"/>
+                                                <rect key="frame" x="171.5" y="0.0" width="171.5" height="136"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                                 <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="heightClass=regular-widthClass=regular">
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="40"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="70"/>
                                                 </variation>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-do-8YX">
-                                        <rect key="frame" x="0.0" y="134.5" width="343" height="193.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-do-8YX">
+                                        <rect key="frame" x="0.0" y="140" width="343" height="188"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
-                                                <rect key="frame" x="0.0" y="0.0" width="171.5" height="193.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
+                                                <rect key="frame" x="0.0" y="0.0" width="169.5" height="188"/>
                                                 <string key="text">Greetings!  Thanks for checking out my app.  I love to visit holy places and am excited to have this app to plan and track my visits and I hope you find it helpful as well.  - Derek</string>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="heightClass=regular-widthClass=regular">
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="36"/>
                                                 </variation>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="WVw-h2-Ydz">
-                                                <rect key="frame" x="171.5" y="0.0" width="171.5" height="193.5"/>
+                                                <rect key="frame" x="173.5" y="0.0" width="169.5" height="188"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="zfF-ET-kjr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="166"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="169.5" height="169.5"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="166" id="VtD-m7-YR8"/>
+                                                            <constraint firstAttribute="width" secondItem="zfF-ET-kjr" secondAttribute="height" multiplier="1:1" id="m3P-eW-qC3"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
-                                                        <rect key="frame" x="0.0" y="166" width="171.5" height="27.5"/>
+                                                        <rect key="frame" x="0.0" y="169.5" width="169.5" height="18.5"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="Contact Me"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                                         </variation>
                                                         <connections>
                                                             <action selector="contactMe:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="Ypn-22-Y9y"/>
@@ -847,18 +848,21 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
+                                        <variation key="heightClass=regular-widthClass=regular" spacing="20"/>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
                                         <rect key="frame" x="0.0" y="332" width="343" height="200"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS"/>
+                                            <constraint firstAttribute="height" constant="200" id="XUE-Iw-olS">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="300"/>
+                                            </constraint>
                                         </constraints>
                                         <string key="text">The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.  The FairMormon website has a good article regarding the inverted five-pointed star and its use on temples.</string>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="36"/>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-6x-LFb">
@@ -2242,7 +2246,7 @@
         <image name="journal" width="25" height="25"/>
         <image name="morningstar-bnw" width="25" height="25"/>
         <image name="morningstarmoroni" width="477" height="512"/>
-        <image name="profile" width="200" height="200"/>
+        <image name="profile" width="300" height="300"/>
         <image name="starOfMelchizedek" width="25" height="25"/>
         <image name="summary" width="25" height="25"/>
     </resources>

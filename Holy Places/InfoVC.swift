@@ -33,7 +33,8 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 //        greatestTipBtn.setTitle(greatestTip, for: .normal)
         
         self.view.layoutIfNeeded()
-        profile_picture.layer.cornerRadius = 20
+        profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 3
+        
         profile_picture.layer.masksToBounds = true
 
     }
@@ -69,16 +70,10 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
             mail.mailComposeDelegate = self
             
             // determine device
-            var systemInfo = utsname()
-            uname(&systemInfo)
-            let machineMirror = Mirror(reflecting: systemInfo.machine)
-            let identifier = machineMirror.children.reduce("") { identifier, element in
-                guard let value = element.value as? Int8, value != 0 else { return identifier }
-                return identifier + String(UnicodeScalar(UInt8(value)))
-            }
+            let identifier = UIDevice.current.modelName
             mail.setToRecipients(["dacmann@icloud.com"])
             mail.setSubject("Holy Places App Feedback")
-            mail.setMessageBody("<br><br><br><p>----------------------</p><p>Device: " + (identifier) + "</p><p>" + (version.text)! + "</p><p>----------------------</p>", isHTML: true)
+            mail.setMessageBody("<br><br><br><p>----------------------</p><p>Device: \(identifier) </p><p> " + (version.text)! + " </p><p>----------------------</p>", isHTML: true)
             
             present(mail, animated: true, completion: nil)
         } else {
