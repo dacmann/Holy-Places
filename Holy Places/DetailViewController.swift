@@ -118,6 +118,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if x > 1 {
                     self.pageControl.numberOfPages = x
+                    self.pageControl.isHidden = false
 //                    self.pageControl.layer.zPosition = 1
                     self.view.bringSubview(toFront: self.pageControl)
 //                    self.view.setNeedsDisplay()
@@ -147,6 +148,8 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         if originalPlace != detailItem?.templeName {
             stockImageAdded = false
             switchedPlaces = true
+            pageControl.numberOfPages = 1
+            pageControl.isHidden = true
         }
         self.configureView()
         visitsAdded = false

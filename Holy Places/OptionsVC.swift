@@ -102,10 +102,16 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
             filterSelected = row
             if row == 1 {
                 sortOptions = sortOptionsTemple
+                pickerSort.reloadAllComponents()
             } else {
                 sortOptions = sortOptionsAll
+                pickerSort.reloadAllComponents()
+                // ensure the Temple-only sort options aren't selected
+                if sortSelected == 3 {
+                    sortSelected = 0
+                    pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
+                }
             }
-            pickerSort.reloadAllComponents()
         }
     }
     
