@@ -65,6 +65,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     var templeLongitude = Double()
     var templePictureURL = String()
     var templeType = String()
+    var readerView = Bool()
     var currentYear = String()
     var attended = 0
     var checkedForUpdate: Date?
@@ -126,23 +127,24 @@ class HomeVC: UIViewController, XMLParserDelegate {
                         place.type = temple.templeType
                         place.order = temple.templeOrder
                         place.siteURL = temple.templeSiteURL
+                        place.readerView = temple.readerView
                     }
                 } else {
                     // Not found so add the new Place
-                    let entity =  NSEntityDescription.entity(forEntityName: "Place", in: context)
-                    let place = NSManagedObject(entity: entity!, insertInto: context)
-                    place.setValue(temple.templeName, forKey: "name")
-                    place.setValue(temple.templeSnippet, forKey: "snippet")
-                    place.setValue(temple.templeAddress, forKey: "address")
-                    place.setValue(temple.templeCityState, forKey: "cityState")
-                    place.setValue(temple.templeCountry, forKey: "country")
-                    place.setValue(temple.templeLatitude, forKey: "latitude")
-                    place.setValue(temple.templeLongitude, forKey: "longitude")
-                    place.setValue(temple.templePhone, forKey: "phone")
-                    place.setValue(temple.templePictureURL, forKey: "pictureURL")
-                    place.setValue(temple.templeType, forKey: "type")
-                    place.setValue(temple.templeOrder, forKey: "order")
-                    place.setValue(temple.templeSiteURL, forKey: "siteURL")
+                    let place =  NSEntityDescription.insertNewObject(forEntityName: "Place", into: context) as! Place
+                    place.name = temple.templeName
+                    place.snippet = temple.templeSnippet
+                    place.address = temple.templeAddress
+                    place.cityState = temple.templeCityState
+                    place.country = temple.templeCountry
+                    place.latitude = temple.templeLatitude
+                    place.longitude = temple.templeLongitude
+                    place.phone = temple.templePhone
+                    place.pictureURL = temple.templePictureURL
+                    place.type = temple.templeType
+                    place.order = temple.templeOrder
+                    place.siteURL = temple.templeSiteURL
+                    place.readerView = temple.readerView
                     print("Added \(temple.templeName)")
                 }
                 //save the object
@@ -258,13 +260,9 @@ class HomeVC: UIViewController, XMLParserDelegate {
             construction.removeAll()
             allPlaces.removeAll()
             
-            //You need to convert to NSManagedObject to use 'for' loops
-            for place in searchResults as [NSManagedObject] {
-                let latitude = place.value(forKey: "latitude") as! Double
-                let longitude = place.value(forKey: "longitude") as! Double
-                let temple = Temple(Name: place.value(forKey: "name") as! String, Address: place.value(forKey: "address") as! String, Snippet: place.value(forKey: "snippet") as! String, CityState: place.value(forKey: "cityState") as! String, Country: place.value(forKey: "country") as! String, Phone: place.value(forKey: "phone") as! String, Latitude: latitude, Longitude: longitude, Order: place.value(forKey: "order") as! Int16, PictureURL: place.value(forKey: "pictureURL") as! String, SiteURL: place.value(forKey: "siteURL") as! String, Type: place.value(forKey: "type") as! String)
+            for place in searchResults {
+                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView)
                 allPlaces.append(temple)
-                //print("\(place.value(forKey: "order"))")
                 switch temple.templeType {
                 case "T":
                     activeTemples.append(temple)
@@ -438,6 +436,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             case "image": templePictureURL += string
             case "type": templeType += string
             case "site_url": templeSiteURL += string
+            case "readerView": readerView = Bool(string)!
             case "Version":
                 if string == placeDataVersion {
                     print("XML Data Version has not changed")
@@ -486,7 +485,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType)
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView)
             
             allPlaces.append(temple)
             switch templeType {

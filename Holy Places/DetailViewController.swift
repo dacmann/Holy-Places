@@ -387,7 +387,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func launchWebsite(_ sender: Any) {
         if let url = URL(string: (detailItem?.templeSiteURL)!) {
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
             present(vc, animated: true)
         }
     }
