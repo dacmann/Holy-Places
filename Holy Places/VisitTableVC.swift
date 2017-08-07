@@ -215,6 +215,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 cell.textLabel?.textColor = UIColor.darkRed()
             case "H":
                 cell.textLabel?.textColor = UIColor.darkLimeGreen()
+            case "C":
+                cell.textLabel?.textColor = UIColor.darkOrange()
             case "V":
                 cell.textLabel?.textColor = UIColor.strongYellow()
             default:
@@ -255,6 +257,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 3:
             titleHeader = "Visitors' Centers Visits"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
+        case 4:
+            titleHeader = "Construction Visits"
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "C")
         default:
             titleHeader = "Visits"
         }

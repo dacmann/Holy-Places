@@ -237,11 +237,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 }
                 recordVisitBtn.contentHorizontalAlignment = .center
                 websiteBtn.contentHorizontalAlignment = .center
-                if detail.templeType == "C" {
-                    recordVisitBtn.isHidden = true
-                } else {
-                    recordVisitBtn.isHidden = false
-                }
                 switch detail.templeType {
                 case "T":
                     templeName.textColor = UIColor.darkRed()

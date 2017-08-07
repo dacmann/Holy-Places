@@ -22,7 +22,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var filterSelected: Int?
     var sortSelected: Int?
     //var nearestEnabled: Bool?
-    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers" ]
+    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction"  ]
     var sortOptions = ["Latest Visit", "Group by Place"]
     // UIDocumentInteractionController instance is a class property
     var docController:UIDocumentInteractionController!
@@ -70,6 +70,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             label?.textColor = UIColor.darkLimeGreen()
         case "Visitors' Centers":
             label?.textColor = UIColor.strongYellow()
+        case "Temples Under Construction":
+            label?.textColor = UIColor.darkOrange()
         default:
             label?.textColor = UIColor.lead()
         }
