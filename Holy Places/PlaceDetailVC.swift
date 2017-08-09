@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  laceDetailVC.swift
 //  Holy Places
 //
 //  Created by Derek Cordon on 1/10/17.
@@ -11,7 +11,7 @@ import CoreData
 import SafariServices
 import MapKit
 
-class DetailViewController: UIViewController, UIScrollViewDelegate {
+class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
 
     //MARK:- Variables & Outlets
     @IBOutlet weak var pictureScrollView: UIScrollView!
@@ -24,6 +24,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var websiteBtn: UIButton!
     @IBOutlet weak var totalVisits: UILabel!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var websiteBtn2: UIButton!
     
 
     var visitCount = 0
@@ -97,7 +98,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     let xPosition = self.pictureScrollView.frame.width * CGFloat(x)
                     imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
-                    let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
                     imageView.addGestureRecognizer(tap)
                     imageView.isUserInteractionEnabled = true
                     imageView.tag = x + 1
@@ -234,11 +235,19 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                 } else {
                     phoneNumber.text = detail.templePhone
                 }
-                recordVisitBtn.contentHorizontalAlignment = .center
-                websiteBtn.contentHorizontalAlignment = .center
+//                recordVisitBtn.contentHorizontalAlignment = .center
+//                websiteBtn.contentHorizontalAlignment = .center
+                
+                if detail.infoURL == "" {
+                    websiteBtn.isHidden = true
+                } else {
+                    websiteBtn.isHidden = false
+                }
+                
                 switch detail.templeType {
                 case "T":
                     templeName.textColor = UIColor.darkRed()
+                    websiteBtn2.setTitle("Schedule", for: .normal)
                 case "H":
                     templeName.textColor = UIColor.darkLimeGreen()
                 case "C":
@@ -276,7 +285,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                             imageView.image = image
                             imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                             self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
                             imageView.addGestureRecognizer(tap)
                             imageView.isUserInteractionEnabled = true
                             imageView.tag = 1
@@ -342,7 +351,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
                     // Add image to Scrollview
                     imageView.frame = CGRect(x: 0, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width
-                    let tap = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.imageClicked))
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
                     imageView.addGestureRecognizer(tap)
                     imageView.isUserInteractionEnabled = true
                     imageView.tag = 1
@@ -378,10 +387,16 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
 
     }
-    
-    @IBAction func launchWebsite(_ sender: Any) {
+    @IBAction func LaunchWebsite2(_ sender: UIButton) {
         if let url = URL(string: (detailItem?.templeSiteURL)!) {
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
+            present(vc, animated: true)
+        }
+    }
+    
+    @IBAction func launchWebsite(_ sender: Any) {
+        if let url = URL(string: (detailItem?.infoURL)!) {
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         }
     }

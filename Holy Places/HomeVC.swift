@@ -69,7 +69,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     var currentYear = String()
     var attended = 0
     var checkedForUpdate: Date?
-    
+    var infoURL = String()
     var templeSiteURL = String()
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
@@ -128,6 +128,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                         place.order = temple.templeOrder
                         place.siteURL = temple.templeSiteURL
                         place.readerView = temple.readerView
+                        place.infoURL = temple.infoURL
                     }
                 } else {
                     // Not found so add the new Place
@@ -145,6 +146,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     place.order = temple.templeOrder
                     place.siteURL = temple.templeSiteURL
                     place.readerView = temple.readerView
+                    place.infoURL = temple.infoURL
                     print("Added \(temple.templeName)")
                 }
                 //save the object
@@ -261,7 +263,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             allPlaces.removeAll()
             
             for place in searchResults {
-                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView)
+                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!)
                 allPlaces.append(temple)
                 switch temple.templeType {
                 case "T":
@@ -378,7 +380,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         getPlaceVersion()
         
         // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -418,6 +420,8 @@ class HomeVC: UIViewController, XMLParserDelegate {
             templePictureURL = String()
             templeType = String()
             templeSiteURL = String()
+            readerView = Bool()
+            infoURL = String()
         }
     }
     
@@ -437,6 +441,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             case "type": templeType += string
             case "site_url": templeSiteURL += string
             case "readerView": readerView = Bool(string)!
+            case "infoURL": infoURL += string
             case "Version":
                 if string == placeDataVersion {
                     print("XML Data Version has not changed")
@@ -485,7 +490,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView)
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL)
             
             allPlaces.append(temple)
             switch templeType {

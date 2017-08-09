@@ -506,7 +506,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                     index = sections[indexPath.section].index + indexPath.row
                 }
                 let temple = places[index]
-                let controller = (segue.destination as! DetailViewController)
+                let controller = (segue.destination as! PlaceDetailVC)
                 detailItem = temple
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

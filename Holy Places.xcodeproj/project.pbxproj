@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64228E0F1F3A04F3009ADCFD /* PlaceDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64228E0E1F3A04F3009ADCFD /* PlaceDetailVC.swift */; };
 		642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642565631E32F55C0020FA73 /* OptionsVC.swift */; };
 		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
 		642B345D1E2818C200A56C77 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* Extensions.swift */; };
@@ -22,7 +23,6 @@
 		64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
-		64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */; };
 		64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D934581E368ACB008F9975 /* SummaryVC.swift */; };
 		64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */; };
 		64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */; };
@@ -37,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64228E0E1F3A04F3009ADCFD /* PlaceDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailVC.swift; sourceTree = "<group>"; };
 		642565631E32F55C0020FA73 /* OptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsVC.swift; sourceTree = "<group>"; };
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -52,7 +53,6 @@
 		64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapOptionsVC.swift; path = ../MapOptionsVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
-		64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		64D934581E368ACB008F9975 /* SummaryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
 		64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebsiteVC.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 			children = (
 				644243C61E2A6CB10097E924 /* HomeVC.swift */,
 				64CAEBEE1E2198C000F7C605 /* TableViewController.swift */,
-				64CAEBF21E255A0F00F7C605 /* DetailViewController.swift */,
+				64228E0E1F3A04F3009ADCFD /* PlaceDetailVC.swift */,
 				644243C41E298CA80097E924 /* VisitTableVC.swift */,
 				644243C21E2975810097E924 /* VisitDetailVC.swift */,
 				646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */,
@@ -233,6 +233,7 @@
 				64F9313E1E6F57B500F053F3 /* AltLocationVC.swift in Sources */,
 				642B345D1E2818C200A56C77 /* Extensions.swift in Sources */,
 				6479E5EB1F05733D0087E013 /* MapVC.swift in Sources */,
+				64228E0F1F3A04F3009ADCFD /* PlaceDetailVC.swift in Sources */,
 				6476CA3D1EB0C6A700BA6565 /* GoalVC.swift in Sources */,
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
@@ -243,7 +244,6 @@
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,
 				6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */,
 				64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */,
-				64CAEBF31E255A0F00F7C605 /* DetailViewController.swift in Sources */,
 				644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */,
 				64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */,
 				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
