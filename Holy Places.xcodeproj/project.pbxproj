@@ -14,6 +14,7 @@
 		644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C21E2975810097E924 /* VisitDetailVC.swift */; };
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
+		644D96601F69F77A00E9D502 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 644D965F1F69F77A00E9D502 /* Main.storyboard */; };
 		6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */; };
 		646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */; };
 		6476CA3D1EB0C6A700BA6565 /* GoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */; };
@@ -31,7 +32,6 @@
 		64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F7364A1E3AA84A00622CD5 /* InfoVC.swift */; };
 		64F9313E1E6F57B500F053F3 /* AltLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */; };
 		64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FDE6EE1E21863A00951A58 /* AppDelegate.swift */; };
-		64FDE6F61E21863A00951A58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F41E21863A00951A58 /* Main.storyboard */; };
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -44,6 +44,7 @@
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		644D965F1F69F77A00E9D502 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitOptionsVC.swift; sourceTree = "<group>"; };
 		646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordVisitVC.swift; sourceTree = "<group>"; };
 		6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalVC.swift; sourceTree = "<group>"; };
@@ -62,7 +63,6 @@
 		64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltLocationVC.swift; sourceTree = "<group>"; };
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FDE6EE1E21863A00951A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		64FDE6F51E21863A00951A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FDE6FA1E21863A00951A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,10 +132,10 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
+				644D965F1F69F77A00E9D502 /* Main.storyboard */,
 				64F25D341E3121C6009FDEF3 /* ViewControllers */,
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
-				64FDE6F41E21863A00951A58 /* Main.storyboard */,
 				6479E5EE1F0579B50087E013 /* MapPoint.swift */,
 				64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */,
 				642B345C1E2818C200A56C77 /* Extensions.swift */,
@@ -174,12 +174,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Derek Cordon";
 				TargetAttributes = {
 					64FDE6EA1E21863A00951A58 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3N7PM336W9;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -215,9 +216,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				644D96601F69F77A00E9D502 /* Main.storyboard in Resources */,
 				64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */,
 				64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */,
-				64FDE6F61E21863A00951A58 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,14 +258,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		64FDE6F41E21863A00951A58 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64FDE6F51E21863A00951A58 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,7 +278,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -293,7 +288,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -334,7 +333,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -342,7 +343,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -382,7 +387,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -401,7 +407,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -57,7 +57,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
         return imageView
     }
     
-    func doubleTapped(recognizer:  UITapGestureRecognizer) {
+    @objc func doubleTapped(recognizer:  UITapGestureRecognizer) {
         if let scrollV = self.scrollView {
             if scrollV.zoomScale > scrollV.minimumZoomScale {
                 scrollV.setZoomScale(scrollV.minimumZoomScale, animated: true)

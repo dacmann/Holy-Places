@@ -182,7 +182,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func imageClicked()
+    @objc func imageClicked()
     {
 //        print("Tapped on Image")
         // navigate to another
@@ -202,9 +202,9 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         
         // Setup the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSFontAttributeName: textFont,
-            NSForegroundColorAttributeName: textColor,
-            ] as [String : Any]
+            NSAttributedStringKey.font: textFont,
+            NSAttributedStringKey.foregroundColor: textColor,
+            ] as [NSAttributedStringKey : Any]
         
         // Put the image into a rectangle as large as the original image
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
@@ -369,7 +369,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     //MARK: - Navigation
     
-    func goMap(_ sender: Any) {
+    @objc func goMap(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
         let coordinate = CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!)

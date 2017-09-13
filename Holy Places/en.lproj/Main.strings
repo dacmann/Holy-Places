@@ -1,0 +1,321 @@
+
+/* Class = "UILabel"; text = "12 mo."; ObjectID = "0Vq-qz-Pn0"; */
+"0Vq-qz-Pn0.text" = "12 mo.";
+
+/* Class = "UILabel"; text = "Baptisms"; ObjectID = "0dW-QX-oRE"; */
+"0dW-QX-oRE.text" = "Baptisms";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "17A-u9-buV"; */
+"17A-u9-buV.normalTitle" = "Done";
+
+/* Class = "UITabBarItem"; title = "Summary"; ObjectID = "1yM-p4-5ih"; */
+"1yM-p4-5ih.title" = "Summary";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "2ne-I9-rXM"; */
+"2ne-I9-rXM.normalTitle" = "Done";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "3dr-73-TbO"; */
+"3dr-73-TbO.normalTitle" = "Done";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "4x8-xh-hK3"; */
+"4x8-xh-hK3.text" = "0";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "5D1-85-ebO"; */
+"5D1-85-ebO.text" = "0";
+
+/* Class = "UILabel"; text = "Confirmations"; ObjectID = "5gJ-FM-LmS"; */
+"5gJ-FM-LmS.text" = "Confirmations";
+
+/* Class = "UILabel"; text = "Attended with..."; ObjectID = "6Cp-0s-Pla"; */
+"6Cp-0s-Pla.text" = "Attended with...";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "7jS-wP-Tjw"; */
+"7jS-wP-Tjw.text" = "0";
+
+/* Class = "UILabel"; text = "April 6, 1830"; ObjectID = "7ld-pR-BuH"; */
+"7ld-pR-BuH.text" = "April 6, 1830";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "ABo-TA-qto"; */
+"ABo-TA-qto.text" = "0";
+
+/* Class = "UILabel"; text = "Show On Map"; ObjectID = "AHY-jD-KCY"; */
+"AHY-jD-KCY.text" = "Show On Map";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "CSb-lW-FXk"; */
+"CSb-lW-FXk.text" = "0";
+
+/* Class = "UILabel"; text = "Visitors' Centers"; ObjectID = "CaS-6Y-xd7"; */
+"CaS-6Y-xd7.text" = "Visitors' Centers";
+
+/* Class = "UIButton"; normalTitle = "Website"; ObjectID = "CbP-Sh-Wss"; */
+"CbP-Sh-Wss.normalTitle" = "Website";
+
+/* Class = "UILabel"; text = "Notes"; ObjectID = "DP8-AO-kr3"; */
+"DP8-AO-kr3.text" = "Notes";
+
+/* Class = "UITextView"; text = "704-234-3456"; ObjectID = "DsF-Hv-V5B"; */
+"DsF-Hv-V5B.text" = "704-234-3456";
+
+/* Class = "UIButton"; normalTitle = "Contact Me"; ObjectID = "Ert-qH-9pi"; */
+"Ert-qH-9pi.normalTitle" = "Contact Me";
+
+/* Class = "UILabel"; text = "Total"; ObjectID = "Hh6-Hd-Q9S"; */
+"Hh6-Hd-Q9S.text" = "Total";
+
+/* Class = "UILabel"; text = "Holy Places"; ObjectID = "J6G-zB-XAa"; */
+"J6G-zB-XAa.text" = "Holy Places";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "JJY-BB-SZN"; */
+"JJY-BB-SZN.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "More Info"; ObjectID = "JNk-hK-mtx"; */
+"JNk-hK-mtx.normalTitle" = "More Info";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "KRN-QD-kzc"; */
+"KRN-QD-kzc.text" = "0";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "Lwa-Gg-RFK"; */
+"Lwa-Gg-RFK.text" = "0";
+
+/* Class = "UILabel"; text = "Location to Use for Nearest Sort"; ObjectID = "NYu-lm-Pw6"; */
+"NYu-lm-Pw6.text" = "Location to Use for Nearest Sort";
+
+/* Class = "UILabel"; text = "22"; ObjectID = "NiB-cx-ytZ"; */
+"NiB-cx-ytZ.text" = "22";
+
+/* Class = "UIButton"; normalTitle = "GOAL"; ObjectID = "OYw-JN-b2N"; */
+"OYw-JN-b2N.normalTitle" = "GOAL";
+
+/* Class = "UILabel"; text = "150"; ObjectID = "Opp-7p-6cs"; */
+"Opp-7p-6cs.text" = "150";
+
+/* Class = "UITextField"; placeholder = "City"; ObjectID = "P3Y-I2-mtn"; */
+"P3Y-I2-mtn.placeholder" = "City";
+
+/* Class = "UILabel"; text = "\"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God.\"   - Thomas S. Monson"; ObjectID = "Q1g-ZX-bhx"; */
+"Q1g-ZX-bhx.text" = "\"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God.\"   - Thomas S. Monson";
+
+/* Class = "UIButton"; normalTitle = "Validate Location"; ObjectID = "TN5-05-MOt"; */
+"TN5-05-MOt.normalTitle" = "Validate Location";
+
+/* Class = "UISegmentedControl"; UgY-gC-RVB.segmentTitles[0] = "All"; ObjectID = "UgY-gC-RVB"; */
+"UgY-gC-RVB.segmentTitles[0]" = "All";
+
+/* Class = "UISegmentedControl"; UgY-gC-RVB.segmentTitles[1] = "Visited"; ObjectID = "UgY-gC-RVB"; */
+"UgY-gC-RVB.segmentTitles[1]" = "Visited";
+
+/* Class = "UISegmentedControl"; UgY-gC-RVB.segmentTitles[2] = "Not Visited"; ObjectID = "UgY-gC-RVB"; */
+"UgY-gC-RVB.segmentTitles[2]" = "Not Visited";
+
+/* Class = "UILabel"; text = "templeName"; ObjectID = "W8A-Vv-BBw"; */
+"W8A-Vv-BBw.text" = "templeName";
+
+/* Class = "UILabel"; text = "Annual Temple Visits"; ObjectID = "Wbp-VY-5FJ"; */
+"Wbp-VY-5FJ.text" = "Annual Temple Visits";
+
+/* Class = "UIViewController"; title = "Edit Visit"; ObjectID = "Wm6-qc-lsd"; */
+"Wm6-qc-lsd.title" = "Edit Visit";
+
+/* Class = "UILabel"; text = "templeSnippet"; ObjectID = "XIJ-sk-hj8"; */
+"XIJ-sk-hj8.text" = "templeSnippet";
+
+/* Class = "UITabBarItem"; title = "Places"; ObjectID = "XRl-bg-tEk"; */
+"XRl-bg-tEk.title" = "Places";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "Xy1-uS-udJ"; */
+"Xy1-uS-udJ.normalTitle" = "Done";
+
+/* Class = "UILabel"; text = "Filter Options"; ObjectID = "YCk-iQ-D9M"; */
+"YCk-iQ-D9M.text" = "Filter Options";
+
+/* Class = "UILabel"; text = "Greetings!  Thanks for checking out my app.  I love to visit holy places and am excited to have this app to plan and track my visits and I hope you find it helpful as well.  - Derek"; ObjectID = "Ylh-b0-nbh"; */
+"Ylh-b0-nbh.text" = "Greetings!  Thanks for checking out my app.  I love to visit holy places and am excited to have this app to plan and track my visits and I hope you find it helpful as well.  - Derek";
+
+/* Class = "UITextField"; placeholder = "Street"; ObjectID = "ZNu-LH-1F3"; */
+"ZNu-LH-1F3.placeholder" = "Street";
+
+/* Class = "UILabel"; text = "Visited"; ObjectID = "aWf-xN-dXN"; */
+"aWf-xN-dXN.text" = "Visited";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "Home";
+
+/* Class = "UILabel"; text = "Holy Places"; ObjectID = "bmA-Tn-qMd"; */
+"bmA-Tn-qMd.text" = "Holy Places";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "c1N-1f-s3E"; */
+"c1N-1f-s3E.normalTitle" = "Done";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "cjd-IN-fJ4"; */
+"cjd-IN-fJ4.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "Share Holy Places"; ObjectID = "d0U-Nv-ABQ"; */
+"d0U-Nv-ABQ.normalTitle" = "Share Holy Places";
+
+/* Class = "UILabel"; text = "Historical Sites"; ObjectID = "dNK-aP-3Ev"; */
+"dNK-aP-3Ev.text" = "Historical Sites";
+
+/* Class = "UILabel"; text = "Endowments"; ObjectID = "ddC-fL-lky"; */
+"ddC-fL-lky.text" = "Endowments";
+
+/* Class = "UIBarButtonItem"; title = "Options"; ObjectID = "e40-Ed-Hjr"; */
+"e40-Ed-Hjr.title" = "Options";
+
+/* Class = "UITextView"; text = "Attended with ..."; ObjectID = "eKF-HF-mL6"; */
+"eKF-HF-mL6.text" = "Attended with ...";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "eyZ-RJ-h3g"; */
+"eyZ-RJ-h3g.text" = "Title";
+
+/* Class = "UIBarButtonItem"; title = "< Export Visits"; ObjectID = "fOP-jf-efo"; */
+"fOP-jf-efo.title" = "< Export Visits";
+
+/* Class = "UILabel"; text = "Visits: 0"; ObjectID = "fQH-3G-9ma"; */
+"fQH-3G-9ma.text" = "Visits: 0";
+
+/* Class = "UITextField"; placeholder = "Postal Code"; ObjectID = "fdh-yr-Oa5"; */
+"fdh-yr-Oa5.placeholder" = "Postal Code";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "fhO-HZ-5y6"; */
+"fhO-HZ-5y6.text" = "0";
+
+/* Class = "UIBarButtonItem"; title = "Options"; ObjectID = "flH-nR-voh"; */
+"flH-nR-voh.title" = "Options";
+
+/* Class = "UILabel"; text = "Active Temples"; ObjectID = "gBd-JU-ttH"; */
+"gBd-JU-ttH.text" = "Active Temples";
+
+/* Class = "UIBarButtonItem"; title = "Location"; ObjectID = "gDV-mg-DnY"; */
+"gDV-mg-DnY.title" = "Location";
+
+/* Class = "UILabel"; text = "Filter Options"; ObjectID = "gS6-dg-ok8"; */
+"gS6-dg-ok8.text" = "Filter Options";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "guf-H0-oCW"; */
+"guf-H0-oCW.text" = "0";
+
+/* Class = "UILabel"; text = "Set Goal for Number of Visits this Year"; ObjectID = "hFX-V6-5lK"; */
+"hFX-V6-5lK.text" = "Set Goal for Number of Visits this Year";
+
+/* Class = "UILabel"; text = "The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.  The FairMormon website has a good article regarding the inverted five-pointed star and its use on temples."; ObjectID = "hKm-g4-NbJ"; */
+"hKm-g4-NbJ.text" = "The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.  The FairMormon website has a good article regarding the inverted five-pointed star and its use on temples.";
+
+/* Class = "UIButton"; normalTitle = "Add Picture"; ObjectID = "hco-1D-iCr"; */
+"hco-1D-iCr.normalTitle" = "Add Picture";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "iHD-aA-TvX"; */
+"iHD-aA-TvX.text" = "0";
+
+/* Class = "UILabel"; text = "D&C 87:8"; ObjectID = "jOZ-q7-HPl"; */
+"jOZ-q7-HPl.text" = "D&C 87:8";
+
+/* Class = "UILabel"; text = "Sort Options"; ObjectID = "jmp-wK-gbe"; */
+"jmp-wK-gbe.text" = "Sort Options";
+
+/* Class = "UILabel"; text = "\"Stand ye in holy places, and be not moved...\""; ObjectID = "k46-Yl-vx7"; */
+"k46-Yl-vx7.text" = "\"Stand ye in holy places, and be not moved...\"";
+
+/* Class = "UILabel"; text = "templeName"; ObjectID = "kBr-CG-1Lf"; */
+"kBr-CG-1Lf.text" = "templeName";
+
+/* Class = "UITableViewController"; title = "Places"; ObjectID = "kRu-VE-YmJ"; */
+"kRu-VE-YmJ.title" = "Places";
+
+/* Class = "UILabel"; text = "templeName"; ObjectID = "kWV-xR-Fsf"; */
+"kWV-xR-Fsf.text" = "templeName";
+
+/* Class = "UINavigationItem"; title = "Visits"; ObjectID = "lL4-nU-PFd"; */
+"lL4-nU-PFd.title" = "Visits";
+
+/* Class = "UITableViewController"; title = "Visits"; ObjectID = "lXC-AK-NFm"; */
+"lXC-AK-NFm.title" = "Visits";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "lvd-xg-O8e"; */
+"lvd-xg-O8e.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "FairMormon Article on Inverted Star"; ObjectID = "mWD-6x-LFb"; */
+"mWD-6x-LFb.normalTitle" = "FairMormon Article on Inverted Star";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "ntV-vp-auY"; */
+"ntV-vp-auY.text" = "0";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "o19-lC-6w7"; */
+"o19-lC-6w7.text" = "Subtitle";
+
+/* Class = "UIBarButtonItem"; title = "Visits"; ObjectID = "oxp-WO-I8O"; */
+"oxp-WO-I8O.title" = "Visits";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "pF8-YH-7Sj"; */
+"pF8-YH-7Sj.normalTitle" = "Done";
+
+/* Class = "UILabel"; text = "address"; ObjectID = "qAS-fV-C3U"; */
+"qAS-fV-C3U.text" = "address";
+
+/* Class = "UILabel"; text = "day of week"; ObjectID = "qWX-E6-kMT"; */
+"qWX-E6-kMT.text" = "day of week";
+
+/* Class = "UIViewController"; title = "Visit Details"; ObjectID = "rBL-9C-lIs"; */
+"rBL-9C-lIs.title" = "Visit Details";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "rR2-3t-G31"; */
+"rR2-3t-G31.normalTitle" = "Done";
+
+/* Class = "UITextField"; placeholder = "State/Country"; ObjectID = "rx6-Vg-B93"; */
+"rx6-Vg-B93.placeholder" = "State/Country";
+
+/* Class = "UILabel"; text = "Temple Visits"; ObjectID = "sC5-WV-R1f"; */
+"sC5-WV-R1f.text" = "Temple Visits";
+
+/* Class = "UILabel"; text = "15"; ObjectID = "suL-gb-mXA"; */
+"suL-gb-mXA.text" = "15";
+
+/* Class = "UINavigationItem"; title = "Holy Places"; ObjectID = "t7b-UJ-ssK"; */
+"t7b-UJ-ssK.title" = "Holy Places";
+
+/* Class = "UILabel"; text = "Total"; ObjectID = "tsm-zM-ICM"; */
+"tsm-zM-ICM.text" = "Total";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "txC-8l-y6Q"; */
+"txC-8l-y6Q.text" = "Title";
+
+/* Class = "UILabel"; text = "Sort Options"; ObjectID = "uD9-se-K2E"; */
+"uD9-se-K2E.text" = "Sort Options";
+
+/* Class = "UISegmentedControl"; upn-hM-pcm.segmentTitles[0] = "Current Location"; ObjectID = "upn-hM-pcm"; */
+"upn-hM-pcm.segmentTitles[0]" = "Current Location";
+
+/* Class = "UISegmentedControl"; upn-hM-pcm.segmentTitles[1] = "Specified Location"; ObjectID = "upn-hM-pcm"; */
+"upn-hM-pcm.segmentTitles[1]" = "Specified Location";
+
+/* Class = "UIButton"; normalTitle = "Record Visit"; ObjectID = "vK1-SH-HRa"; */
+"vK1-SH-HRa.normalTitle" = "Record Visit";
+
+/* Class = "UILabel"; text = "v1.0"; ObjectID = "vYQ-7U-HOC"; */
+"vYQ-7U-HOC.text" = "v1.0";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "ve3-9U-eeu"; */
+"ve3-9U-eeu.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "vgA-8y-90I"; */
+"vgA-8y-90I.text" = "0";
+
+/* Class = "UILabel"; text = "2 0 1 7  G o a l  P r o g r e s s"; ObjectID = "vwg-46-s45"; */
+"vwg-46-s45.text" = "2 0 1 7  G o a l  P r o g r e s s";
+
+/* Class = "UILabel"; text = "Sealings"; ObjectID = "wjI-3C-oej"; */
+"wjI-3C-oej.text" = "Sealings";
+
+/* Class = "UIButton"; normalTitle = "Apr 6, 1830"; ObjectID = "yUY-Lj-g5Z"; */
+"yUY-Lj-g5Z.normalTitle" = "Apr 6, 1830";
+
+/* Class = "UIViewController"; title = "Place Details"; ObjectID = "zKl-KP-iZp"; */
+"zKl-KP-iZp.title" = "Place Details";
+
+/* Class = "UILabel"; text = "Attended"; ObjectID = "zP6-U3-LoV"; */
+"zP6-U3-LoV.text" = "Attended";
+
+/* Class = "UILabel"; text = "Initiatories"; ObjectID = "zg4-YK-Phs"; */
+"zg4-YK-Phs.text" = "Initiatories";
+
+/* Class = "UITabBarItem"; title = "Visits"; ObjectID = "zql-gI-7ch"; */
+"zql-gI-7ch.title" = "Visits";

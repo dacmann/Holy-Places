@@ -32,7 +32,7 @@ class VisitDetailVC: UIViewController {
         visitDate.textColor = UIColor.lead()
     }
     
-    func editVisit (_ sender: Any) {
+    @objc func editVisit (_ sender: Any) {
         
         let visit = self.detailVisit
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -61,7 +61,7 @@ class VisitDetailVC: UIViewController {
         setDate()
     }
     
-    func imageClicked()
+    @objc func imageClicked()
     {
         print("Tapped on Image")
         // navigate to another

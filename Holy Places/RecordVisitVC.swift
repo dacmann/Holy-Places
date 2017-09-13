@@ -54,7 +54,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         }
     }
     
-    func saveVisit (_ sender: Any) {
+    @objc func saveVisit (_ sender: Any) {
         let context = getContext()
         
         //insert a new object in the Visit entity
@@ -90,7 +90,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         _ = navigationController?.popViewController(animated: true)
     }
     
-    func saveEdit (_ sender: Any) {
+    @objc func saveEdit (_ sender: Any) {
         let context = getContext()
         
         // save the updated values to the Visit object 
@@ -169,7 +169,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     //MARK:- Actions
     
     
-    func doneButtonAction(){
+    @objc func doneButtonAction(){
         self.view.endEditing(true)
     }
     

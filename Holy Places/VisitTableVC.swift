@@ -292,18 +292,18 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         switch visitFilterRow {
         case 1:
-            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkRed()]
+            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkRed()]
         case 2:
-            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkLimeGreen()]
+            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkLimeGreen()]
         case 4:
-            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.darkOrange()]
+            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkOrange()]
         case 3:
-            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.strongYellow()]
+            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.strongYellow()]
         default:
-            titleDict = [NSFontAttributeName: navbarFont, NSForegroundColorAttributeName: UIColor.lead()]
+            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.lead()]
         }
 
-        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedStringKey : AnyObject]
 
         return _fetchedResultsController!
     }

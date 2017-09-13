@@ -345,7 +345,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.ocean()
         let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSFontAttributeName: searchBarFont, NSForegroundColorAttributeName:UIColor.ocean()], for: UIControlState.normal)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey.font.rawValue: searchBarFont, NSAttributedStringKey.foregroundColor.rawValue:UIColor.ocean()], for: UIControlState.normal)
         
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
@@ -490,7 +490,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         self.searchController.searchBar.inputAccessoryView = toolbar
     }
     
-    func doneButtonAction(){
+    @objc func doneButtonAction(){
         self.searchController.searchBar.endEditing(true)
     }
     

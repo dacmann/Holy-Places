@@ -333,7 +333,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         goalTitle.text = "\(currentYear) Goal Progress"
         // Adjust spacing of letters of Goal Progress
         let attributedString = NSMutableAttributedString(string: goalTitle.text!)
-        attributedString.addAttribute(NSKernAttributeName, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
+        attributedString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
         goalTitle.attributedText = attributedString
         
         if annualVisitGoal == 0 {

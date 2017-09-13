@@ -62,7 +62,7 @@ class AltLocationVC: UIViewController {
         self.postalCode.inputAccessoryView = toolbar
     }
     
-    func doneButtonAction(){
+    @objc func doneButtonAction(){
         self.view.endEditing(true)
     }
     

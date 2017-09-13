@@ -29,7 +29,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let mapOptions = UISegmentedControl(items: options)
         mapOptions.selectedSegmentIndex = 0
         mapOptions.addTarget(self, action: #selector(changeMap(_:)), for: .valueChanged)
-        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSFontAttributeName as NSCopying)
+        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedStringKey.font as NSCopying)
         mapOptions.setTitleTextAttributes(attr as? [AnyHashable : Any], for: .normal)
         self.navigationItem.titleView = mapOptions
         // Show the user current location
@@ -42,7 +42,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func changeMap(_ sender: UISegmentedControl) {
+    @objc func changeMap(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
             mapView.mapType = .satellite
@@ -162,7 +162,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
 
-    func options(_ sender: Any) {
+    @objc func options(_ sender: Any) {
         optionSelected = true
         self.performSegue(withIdentifier: "viewMapOptions", sender: self)
     }
