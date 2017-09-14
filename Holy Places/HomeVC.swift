@@ -49,6 +49,7 @@ var visits = [String]()
 var mapCenter = CLLocationCoordinate2D()
 var mapPoint = MapPoint(title: "", coordinate: mapCenter, type: "")
 var mapZoomLevel = Double()
+var versionChecked = false
 
 //class HomeVC: UIViewController, XMLParserDelegate, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate {
@@ -378,26 +379,47 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         // Get version of saved data
         getPlaceVersion()
-        
-        // grab list of temples from HolyPlaces.xml file and parse the XML
-        guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+
+        // determine latest version from hpVersion.xml file
+        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
-        guard let parser = XMLParser(contentsOf: myURL as URL) else {
+        guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
             print("Cannot Read Data")
             getPlaces()
             return
         }
-        parser.delegate = self
-        if parser.parse() {
-            // Save updated places to CoreData
-            storePlaces()
+        
+        parserVersion.delegate = self
+        if parserVersion.parse() {
+            // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
+            versionChecked = true
+            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+                print("URL not defined properly")
+                return
+            }
+            guard let parser = XMLParser(contentsOf: myURL as URL) else {
+                print("Cannot Read Data")
+                getPlaces()
+                return
+            }
+            parser.delegate = self
+            if parser.parse() {
+                // Save updated places to CoreData
+                storePlaces()
+            } else {
+                print("Data parsing aborted")
+                let error = parser.parserError!
+                print("Error Description:\(error.localizedDescription)")
+                print("Line number: \(parser.lineNumber)")
+                getPlaces()
+            }
         } else {
             print("Data parsing aborted")
-            let error = parser.parserError!
+            let error = parserVersion.parserError!
             print("Error Description:\(error.localizedDescription)")
-            print("Line number: \(parser.lineNumber)")
+            print("Line number: \(parserVersion.lineNumber)")
             getPlaces()
         }
         checkedForUpdate = Date()
@@ -450,14 +472,17 @@ class HomeVC: UIViewController, XMLParserDelegate {
                 } else {
                     placeDataVersion = string
                     print("XML Data Version has changed - " + placeDataVersion)
-                    savePlaceVersion()
-                    
-                    // Reset arrays
-                    activeTemples.removeAll()
-                    historical.removeAll()
-                    visitors.removeAll()
-                    construction.removeAll()
-                    allPlaces.removeAll()
+                    if versionChecked {
+                        savePlaceVersion()
+                        // Reset arrays
+                        activeTemples.removeAll()
+                        historical.removeAll()
+                        visitors.removeAll()
+                        construction.removeAll()
+                        allPlaces.removeAll()
+                    } else {
+                        break
+                    }
                 }
             case "ChangesDate":
                 changesDate = string
