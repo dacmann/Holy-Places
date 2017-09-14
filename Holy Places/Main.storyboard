@@ -1500,6 +1500,10 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="vl0-Gf-4Us" id="XW8-a6-H7k"/>
+                        <outlet property="imageViewBottomConstraint" destination="5VI-U5-Ixg" id="4tC-4i-hSF"/>
+                        <outlet property="imageViewLeadingConstraint" destination="W3O-qt-xPB" id="DRJ-t8-9Gb"/>
+                        <outlet property="imageViewTopConstraint" destination="YIY-X2-jnO" id="PW0-bg-OwC"/>
+                        <outlet property="imageViewTrailingConstraint" destination="bvm-IS-7bF" id="ad0-Iq-efh"/>
                         <outlet property="scrollView" destination="MpG-Ru-SBp" id="aWs-xq-CA4"/>
                     </connections>
                 </viewController>

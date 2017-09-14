@@ -15,6 +15,10 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
     
     @IBAction func done(_ sender: Any) {
         scrollView.zoomScale = minScale
@@ -31,30 +35,47 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
     }
+    
+    fileprivate func updateMinZoomScaleForSize(_ size: CGSize) {
+        let widthScale = size.width / imageView.bounds.width
+        let heightScale = size.height / imageView.bounds.height
+        let minScale = min(widthScale, heightScale)
+        
+        scrollView.minimumZoomScale = minScale
+        scrollView.zoomScale = minScale
+    }
 
-    override func viewDidLayoutSubviews() {
-        // Configure the Image view
-        if img != nil {
-            imageView.image = img
-            imageView.frame = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
-            scrollView.contentSize = img!.size
-            print(scrollView.contentSize)
-            print(scrollView.frame.size)
-            scrollView.clipsToBounds = false
-            let scrollViewFrame = scrollView.frame
-            let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-            let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-            minScale = min(scaleWidth, scaleHeight)
-            scrollView.minimumZoomScale = minScale
-            print(minScale)
-            scrollView.maximumZoomScale = 2.0
-            scrollView.zoomScale = minScale
-            centerImage()
-        }
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateMinZoomScaleForSize(view.bounds.size)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        updateConstraintsForSize(view.bounds.size)
+    }
+    
+    fileprivate func updateConstraintsForSize(_ size: CGSize) {
+        
+        let yOffset = max(0, (size.height - imageView.frame.height) / 2)
+        imageViewTopConstraint.constant = yOffset
+        imageViewBottomConstraint.constant = yOffset
+        
+        let xOffset = max(0, (size.width - imageView.frame.width) / 2)
+        imageViewLeadingConstraint.constant = xOffset
+        imageViewTrailingConstraint.constant = xOffset
+        
+        view.layoutIfNeeded()
+    }
+    
+    @objc override func viewDidLayoutSubviews() {
+        // Configure the Image view
+        if img != nil {
+            imageView.image = img
+        }
     }
     
     @objc func doubleTapped(recognizer:  UITapGestureRecognizer) {
@@ -70,7 +91,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func zoomRectForScale(scale : CGFloat, center : CGPoint) -> CGRect {
+    @objc func zoomRectForScale(scale : CGFloat, center : CGPoint) -> CGRect {
         var zoomRect = CGRect.zero
         if let imageV = self.imageView {
             zoomRect.size.height = imageV.frame.size.height / scale
@@ -81,24 +102,5 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
         }
         return zoomRect
     }
-    
-    func centerImage() {
-        if let image = imageView.image {
-            
-            let ratioW = imageView.frame.width / image.size.width
-            let ratioH = imageView.frame.height / image.size.height
-            
-            let ratio = ratioW < ratioH ? ratioW:ratioH
-            
-            let newWidth = image.size.width*ratio
-            let newHeight = image.size.height*ratio
-            
-            let left = 0.5 * (newWidth * scrollView.zoomScale > imageView.frame.width ? (newWidth - imageView.frame.width) : (scrollView.frame.width - scrollView.contentSize.width))
-            let top = 0.5 * (newHeight * scrollView.zoomScale > imageView.frame.height ? (newHeight - imageView.frame.height) : (scrollView.frame.height - scrollView.contentSize.height))
-            
-            scrollView.contentInset = UIEdgeInsetsMake(top, left, top, left)
-        }
-    }
-    
 
 }

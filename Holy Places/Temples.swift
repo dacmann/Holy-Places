@@ -24,7 +24,7 @@ class Temple: NSObject {
     var templeType = String()
     var templeSiteURL = String()
     var readerView = Bool()
-    var infoURL = String()
+    var infoURL = String?("")
     
     var cllocation: CLLocation
     var distance : Double?
