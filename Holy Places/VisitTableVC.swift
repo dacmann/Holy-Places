@@ -80,7 +80,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
+        if #available(iOS 11.0, *) {
+            // New in iOS 11, the searchbar is part of the navigationItem
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            // Fallback on earlier versions
+            tableView.tableHeaderView = searchController.searchBar
+        }
         extendedLayoutIncludesOpaqueBars = true
     }
 

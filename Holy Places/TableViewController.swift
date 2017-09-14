@@ -351,7 +351,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         
         definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
+        if #available(iOS 11.0, *) {
+            // New in iOS 11, the searchbar is part of the navigationItem
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            // Fallback on earlier versions
+            tableView.tableHeaderView = searchController.searchBar
+        }
+        
         extendedLayoutIncludesOpaqueBars = true
         
         searchController.searchBar.scopeButtonTitles = ["All", "Visited", "Not Visited"]
@@ -450,8 +458,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         if nearestEnabled || sortByDedicationDate {
             return nil
         } else {
-            var titles = sections.map {$0.title[(title?.startIndex)!].description}
-            titles.insert(UITableViewIndexSearch, at: 0)
+            let titles = sections.map {$0.title[(title?.startIndex)!].description}
+//            titles.insert(UITableViewIndexSearch, at: 0)
             return titles
         }
 //        return sections.map {$0.title[(title?.startIndex)!].description}
@@ -459,15 +467,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        if nearestEnabled || sortByDedicationDate {
+//        if nearestEnabled || sortByDedicationDate {
             return index
-        } else {
-            if index == 0 {
-                tableView.scrollRectToVisible((tableView.tableHeaderView?.frame)!, animated: false)
-                return NSNotFound
-            }
-            return index - 1
-        }
+//        } else {
+//            if index == 0 {
+//                tableView.scrollRectToVisible((tableView.tableHeaderView?.frame)!, animated: false)
+//                return NSNotFound
+//            }
+//            return index - 1
+//        }
     }
     
 
