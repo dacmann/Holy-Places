@@ -12,7 +12,7 @@ class GoalVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var goalPicker: UIPickerView!
     
-    let goalNumbers = ["1", "2", "3", "4", "6", "12", "18", "24", "36", "48", "52", "104", "156", "208", "260"]
+    let goalNumbers = ["1", "2", "3", "4", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "39", "42", "48", "52", "64", "72", "84", "96", "104", "156", "208", "260"]
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return goalNumbers.count

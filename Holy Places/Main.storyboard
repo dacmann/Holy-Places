@@ -2050,7 +2050,7 @@
                                                                             <action selector="sealingsText:" destination="Wm6-qc-lsd" eventType="editingDidEnd" id="Qvw-Eh-szt"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="k1L-6m-Xga">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="k1L-6m-Xga">
                                                                         <rect key="frame" x="249" y="0.0" width="94" height="29"/>
                                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <connections>
@@ -2090,7 +2090,7 @@
                                                                             <action selector="endowmentsText:" destination="Wm6-qc-lsd" eventType="valueChanged" id="FWb-xN-sve"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Oi5-5e-i7B">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="99" translatesAutoresizingMaskIntoConstraints="NO" id="Oi5-5e-i7B">
                                                                         <rect key="frame" x="249" y="0.0" width="94" height="29"/>
                                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <connections>
@@ -2129,7 +2129,7 @@
                                                                             <action selector="initiatoriesText:" destination="Wm6-qc-lsd" eventType="editingDidEnd" id="ht0-El-lpk"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="40" translatesAutoresizingMaskIntoConstraints="NO" id="ZjQ-kK-Vyl">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="ZjQ-kK-Vyl">
                                                                         <rect key="frame" x="249" y="0.0" width="94" height="29"/>
                                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <connections>
@@ -2168,7 +2168,7 @@
                                                                             <action selector="confirmationsText:" destination="Wm6-qc-lsd" eventType="editingDidEnd" id="1Zs-Fg-l8P"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="O0k-Ym-OYD">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="O0k-Ym-OYD">
                                                                         <rect key="frame" x="249" y="0.0" width="94" height="29"/>
                                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <connections>
@@ -2207,7 +2207,7 @@
                                                                             <action selector="baptismsText:" destination="Wm6-qc-lsd" eventType="editingDidEnd" id="buT-X3-2g5"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="V91-ZP-Ofy">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="V91-ZP-Ofy">
                                                                         <rect key="frame" x="249" y="0.0" width="94" height="29"/>
                                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <connections>

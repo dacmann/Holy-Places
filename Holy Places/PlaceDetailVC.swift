@@ -68,7 +68,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
 //        print("getVisits")
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
         
         do {
             var x = startInt
@@ -234,6 +234,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     phoneNumber.isHidden = true
                 } else {
                     phoneNumber.text = detail.templePhone
+                    phoneNumber.isHidden = false
                 }
 //                recordVisitBtn.contentHorizontalAlignment = .center
 //                websiteBtn.contentHorizontalAlignment = .center
@@ -244,10 +245,15 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     websiteBtn.isHidden = false
                 }
                 
+                if detail.templeType == "T" {
+                    websiteBtn2.setTitle("Schedule", for: .normal)
+                } else {
+                    websiteBtn2.setTitle("Web Site", for: .normal)
+                }
+                
                 switch detail.templeType {
                 case "T":
                     templeName.textColor = UIColor.darkRed()
-                    websiteBtn2.setTitle("Schedule", for: .normal)
                 case "H":
                     templeName.textColor = UIColor.darkLimeGreen()
                 case "C":

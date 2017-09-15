@@ -50,6 +50,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         sortByDedicationDate = false
         if placeSortRow == 1 {
             nearestEnabled = true
+            
             locationManager.requestAlwaysAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startMonitoringSignificantLocationChanges()
@@ -277,22 +278,26 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     // Update the Distance in the Place data arrays based on new location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location Update")
-        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        if nearestEnabled {
-            updateDistance()
-            setup()
-            self.tableView.reloadData()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedAlways {
-            print("Location Authorized")
+        if locationManager.location != nil {
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
             if nearestEnabled {
                 updateDistance()
                 setup()
                 self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            print("Location Authorized")
+            if locationManager.location != nil {
+                coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+                if nearestEnabled {
+                    updateDistance()
+                    setup()
+                    self.tableView.reloadData()
+                }
             }
         } else {
             print("Location not authorized")
@@ -308,6 +313,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             if locationSpecific {
                 place.distance = place.cllocation.distance(from: coordAltLocation!)
             } else {
+                if coordinateOfUser == nil {
+                    if locationManager.location != nil {
+                        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+                    } else {
+                        coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
+                    }
+                }
                 place.distance = place.cllocation.distance(from: coordinateOfUser!)
             }
 //            print(place.templeName + " - " + (place.distance?.description)!)
