@@ -341,7 +341,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                         let searchResults = try context.fetch(fetchRequest)
                         if searchResults.count > 0 {
                             for place in searchResults as [Place] {
-                                place.pictureData = data as NSData
+                                place.pictureData = data as Data
                                 do {
                                     try context.save()
                                 } catch let error as NSError  {

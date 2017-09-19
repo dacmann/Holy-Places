@@ -102,7 +102,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let newVisit = Visit(context: context)
         
         // If appropriate, configure the new managed object.
-        newVisit.dateVisited = NSDate()
+        newVisit.dateVisited = Date()
         
         // Save the context.
         do {

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     func DateChanged(data: Date) {
         dateOfVisit = data
@@ -19,6 +19,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     //MARK:- Variables & Outlets
     var dateOfVisit: Date?
     var placeType = String()
+    var activeField: UITextField?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
@@ -68,7 +69,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.endowments = Int16(endowments.text!)!
         visit.sealings = Int16(sealings.text!)!
         visit.comments = comments.text
-        visit.dateVisited = dateOfVisit as NSDate?
+        visit.dateVisited = dateOfVisit as Date?
         visit.type = placeType
         if pictureView.isHidden == false {
             // create NSData from UIImage
@@ -77,7 +78,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 print("jpg error")
                 return
             }
-            visit.picture = imageData as NSData
+            visit.picture = imageData as Data
         }
         
         //save the object
@@ -107,7 +108,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             detailVisit?.confirmations = Int16(confirmations.text!)!
             detailVisit?.baptisms = Int16(baptisms.text!)!
         }
-        detailVisit?.dateVisited = dateOfVisit as NSDate?
+        detailVisit?.dateVisited = dateOfVisit as Date?
         detailVisit?.comments = comments.text!
         if pictureView.isHidden == false {
             // create NSData from UIImage
@@ -116,7 +117,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 print("jpg error")
                 return
             }
-            detailVisit?.picture = imageData as NSData
+            detailVisit?.picture = imageData as Data
         } else {
             detailVisit?.picture = nil
         }
@@ -164,6 +165,11 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         toolbar.sizeToFit()
         //setting toolbar as inputAccessoryView
         self.comments.inputAccessoryView = toolbar
+        self.sealings.inputAccessoryView = toolbar
+        self.endowments.inputAccessoryView = toolbar
+        self.initiatories.inputAccessoryView = toolbar
+        self.confirmations.inputAccessoryView = toolbar
+        self.baptisms.inputAccessoryView = toolbar
     }
     
     //MARK:- Actions
