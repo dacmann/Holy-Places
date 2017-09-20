@@ -28,13 +28,15 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var docController:UIDocumentInteractionController!
     var visits = String()
     let visitFile = "HolyPlacesVisits.txt"
+    let visitXmlFile = "HolyPlacesVisits.xml"
     //var fileURL = NSURL()
     
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerFilter: UIPickerView!
     @IBOutlet weak var pickerSort: UIPickerView!
-    @IBOutlet weak var exportButton: UIBarButtonItem!
+    @IBOutlet weak var txtExport: UIBarButtonItem!
+    @IBOutlet weak var xmlExport: UIBarButtonItem!
     
     //MARK: - Standard Functions
     override func viewDidLoad() {
@@ -108,15 +110,23 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //MARK: - Export Functions
     @IBAction func exportAction(_ sender: UIBarButtonItem) {
-        getVisits()
+        getVisits(type: "txt")
         do {
-            try export(visits, title: "MyHolyPlaces")
+            try exportTXT(visits, title: "MyHolyPlaces")
+        } catch {
+            print("Error with export: \(error)")
+        }
+    }
+    @IBAction func exportXmlAction(_ sender: UIBarButtonItem) {
+        getVisits(type: "xml")
+        do {
+            try exportXML(visits, title: "MyHolyPlaces")
         } catch {
             print("Error with export: \(error)")
         }
     }
     
-    func export(_ string: String, title: String) throws {
+    func exportTXT(_ string: String, title: String) throws {
         // create a file path in a temporary directory
         let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(visitFile)
         
@@ -124,13 +134,26 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         try string.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
         
         // open share dialog
-        
         // Initialize Document Interaction Controller
         self.docController = UIDocumentInteractionController(url: URL(fileURLWithPath: filePath))
         // Configure Document Interaction Controller
-        //self.docController!.delegate = self
         // Present Open In Menu
-        self.docController!.presentOptionsMenu(from: exportButton, animated: true) // create an outlet from an Export bar button outlet, then use it as the `from` argument
+        self.docController!.presentOptionsMenu(from: txtExport, animated: true) // create an outlet from an Export bar button outlet, then use it as the `from` argument
+    }
+    
+    func exportXML(_ string: String, title: String) throws {
+        // create a file path in a temporary directory
+        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(visitXmlFile)
+        
+        // save the string to the file
+        try string.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
+        
+        // open share dialog
+        // Initialize Document Interaction Controller
+        self.docController = UIDocumentInteractionController(url: URL(fileURLWithPath: filePath))
+        // Configure Document Interaction Controller
+        // Present Open In Menu
+        self.docController!.presentOptionsMenu(from: xmlExport, animated: true) // create an outlet from an Export bar button outlet, then use it as the `from` argument
     }
     
     //MARK: - CoreData Functions
@@ -140,7 +163,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     // Retrieve the Visits data from CoreData
-    func getVisits () {
+    func getVisits (type: String) {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         
         // Sort by dateVisited
@@ -150,8 +173,12 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
         
-        // Add title and date to visits string
-        visits = "My Holy Places Visits\n Exported on " + formatter.string(from: Date.init()) + "\n"
+        if type == "txt" {
+            // Add title and date to visits string
+            visits = "My Holy Places Visits\n Exported on \(formatter.string(from: Date.init()))\n"
+        } else {
+            visits = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(Date.init())</ExportDate>"
+        }
         
         do {
             //go get the results
@@ -159,41 +186,65 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             
             //Check the size of the returned results
             //print ("num of results = \(searchResults.count)")
-            visits.append(" Total Number of Visits: \(searchResults.count)\n\n")
+            if type == "txt" {
+                visits.append(" Total Number of Visits: \(searchResults.count)\n\n")
+            } else {
+                visits.append("<TotalVisits>\(searchResults.count)</TotalVisits><Visits>")
+            }
             
             //Loop through each
-            for visit in searchResults as [NSManagedObject] {
-                visits.append(visit.value(forKey: "holyPlace") as! String)
-                visits.append("\n ")
-                visits.append(formatter.string(from: visit.value(forKey: "dateVisited") as! Date))
-                visits.append("\n ")
-                visits.append(visit.value(forKey: "comments") as! String)
+            for visit in searchResults as [Visit] {
+                if type == "txt" {
+                    visits.append("\(visit.holyPlace!)\n")
+                    visits.append("\(formatter.string(from: visit.dateVisited!))\n")
+                    visits.append(visit.comments!)
+                } else {
+                    visits.append("<Visit><holyPlace>\(visit.holyPlace!)</holyPlace>")
+                    visits.append("<type>\(visit.type!)</type>")
+                    visits.append("<dateVisited>\(visit.dateVisited!)</dateVisited>")
+                    visits.append("<comments>\(visit.comments!)</comments>")
+                }
                 
                 if visit.value(forKey: "type") as! String == "T" {
-                    if visit.value(forKey: "sealings") as! Int > 0 {
-                        visits.append("\n Sealings: ")
-                        visits.append(((visit.value(forKey: "sealings") as? Int)?.description)!)
-                    }
-                    if visit.value(forKey: "endowments") as! Int > 0 {
-                        visits.append("\n Endowments: ")
-                        visits.append(((visit.value(forKey: "endowments") as? Int)?.description)!)
-                    }
-                    if visit.value(forKey: "initiatories") as! Int > 0 {
-                        visits.append("\n Initiatories: ")
-                        visits.append(((visit.value(forKey: "initiatories") as? Int)?.description)!)
-                    }
-                    if visit.value(forKey: "confirmations") as! Int > 0 {
-                        visits.append("\n Confirmations: ")
-                        visits.append(((visit.value(forKey: "confirmations") as? Int)?.description)!)
-                    }
-                    if visit.value(forKey: "baptisms") as! Int > 0 {
-                        visits.append("\n Baptisms: ")
-                        visits.append(((visit.value(forKey: "baptisms") as? Int)?.description)!)
+                    if type == "txt" {
+                        if visit.sealings > 0 {
+                            visits.append("\n Sealings: \(visit.sealings)")
+                        }
+                        if visit.endowments > 0 {
+                            visits.append("\n Endowments: \(visit.endowments)")
+                        }
+                        if visit.initiatories > 0 {
+                            visits.append("\n Initiatories: \(visit.initiatories)")
+                        }
+                        if visit.confirmations > 0 {
+                            visits.append("\n Confirmations: \(visit.confirmations)")
+                        }
+                        if visit.baptisms > 0 {
+                            visits.append("\n Baptisms: \(visit.baptisms)")
+                        }
+                    } else {
+                        visits.append("<sealings>\(visit.sealings)</sealings>")
+                        visits.append("<endowments>\(visit.endowments)</endowments>")
+                        visits.append("<initiatories>\(visit.initiatories)</initiatories>")
+                        visits.append("<confirmations>\(visit.confirmations)</confirmations>")
+                        visits.append("<baptisms>\(visit.baptisms)</baptisms>")
                     }
                 }
-                visits.append("\n\n")
+                if type == "txt" {
+                    visits.append("\n\n")
+                } else {
+                    // include picture binary data
+//                    if visit.picture != nil {
+//                        visits.append("<picture>\(visit.picture?.base64EncodedString() ?? "")</picture>")
+//                    }
+                    visits.append("</Visit>")
+                }
             }
-            //print(visits)
+            if type == "xml" {
+                // Add closing tags
+                visits.append("</Visits></Document>")
+            }
+            print(visits)
         } catch {
             print("Error with request: \(error)")
         }

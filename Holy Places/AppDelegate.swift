@@ -26,9 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Change the font and color for the navigation Bar text
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let tabBarItemFont = UIFont(name: "Baskerville", size: 12) ?? UIFont.systemFont(ofSize: 12)
         
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor:UIColor.lead()]
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: barbuttonFont, NSAttributedStringKey.foregroundColor:UIColor.ocean()], for: UIControlState.normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: barbuttonFont, NSAttributedStringKey.foregroundColor:UIColor.ocean()], for: UIControlState.highlighted)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: tabBarItemFont], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: tabBarItemFont], for: .selected)
+
         UINavigationBar.appearance().tintColor = UIColor.ocean()
         UITabBar.appearance().tintColor = UIColor.ocean()
         

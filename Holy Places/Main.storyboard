@@ -1907,33 +1907,46 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Export Visits as plain text or XML files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-g6-EGk">
+                                <rect key="frame" x="16" y="593" width="266.5" height="19.5"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rT9-oL-2F5">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
-                                    <barButtonItem systemItem="action" id="7Up-gE-uQ1">
+                                    <barButtonItem title="txt" id="7Up-gE-uQ1">
                                         <connections>
                                             <action selector="exportAction:" destination="0kB-hC-xcd" id="ny3-Xw-Wsm"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="&lt; Export Visits" id="fOP-jf-efo"/>
+                                    <barButtonItem title="xml" id="SxY-sH-asr">
+                                        <connections>
+                                            <action selector="exportXmlAction:" destination="0kB-hC-xcd" id="sQb-g5-m10"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ThY-g6-EGk" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leadingMargin" id="EVU-Yt-wJC"/>
                             <constraint firstItem="rT9-oL-2F5" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leading" id="MqA-4r-WXL"/>
                             <constraint firstAttribute="trailing" secondItem="rT9-oL-2F5" secondAttribute="trailing" id="RIw-lT-mYG"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="eP3-6R-M3G"/>
+                            <constraint firstItem="rT9-oL-2F5" firstAttribute="top" secondItem="ThY-g6-EGk" secondAttribute="bottom" constant="10" id="x7C-9L-Lrr"/>
                             <constraint firstItem="7TZ-Gv-g7L" firstAttribute="top" secondItem="rT9-oL-2F5" secondAttribute="bottom" id="zYL-xU-QZC"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="doneButton" destination="Xy1-uS-udJ" id="TCV-mH-xVd"/>
-                        <outlet property="exportButton" destination="7Up-gE-uQ1" id="Goi-D6-agt"/>
                         <outlet property="pickerFilter" destination="vdt-0O-3bp" id="BvC-VD-qpQ"/>
                         <outlet property="pickerSort" destination="0OA-ps-uhf" id="hjl-QW-FNr"/>
+                        <outlet property="txtExport" destination="7Up-gE-uQ1" id="Goi-D6-agt"/>
+                        <outlet property="xmlExport" destination="SxY-sH-asr" id="dex-Gs-aWW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tOf-gd-BrL" userLabel="First Responder" sceneMemberID="firstResponder"/>
