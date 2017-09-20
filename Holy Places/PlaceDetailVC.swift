@@ -31,7 +31,6 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var imageCount = 0
     var visitsAdded = false
     var stockImageAdded = false
-    var currentPhoto = 0
     var originalPlace = String()
     var switchedPlaces = false
     
@@ -156,18 +155,13 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        print("viewDidAppear")
+        
         // Determine number of visits and add any pictures found to the image scrollView
         if stockImageAdded {
             self.getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
         } else {
             downloadImage()
         }
-        // Reposition scroll view to last viewed photo
-        var frame = pictureScrollView.frame
-        frame.origin.x = frame.size.width * CGFloat(currentPhoto)
-        frame.origin.y = 0
-        pictureScrollView.setContentOffset(CGPoint(x:frame.origin.x, y:frame.origin.y), animated: true)
         
         // Change the back button on the Record Visit VC to Cancel
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
@@ -236,8 +230,6 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     phoneNumber.text = detail.templePhone
                     phoneNumber.isHidden = false
                 }
-//                recordVisitBtn.contentHorizontalAlignment = .center
-//                websiteBtn.contentHorizontalAlignment = .center
                 
                 if detail.infoURL == "" {
                     websiteBtn.isHidden = true
@@ -418,7 +410,6 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             var tagNo = 1
             if imageCount > 1 {
                 tagNo = pageControl.currentPage + 1
-                currentPhoto = pageControl.currentPage
             }
             if let theImageView = self.pictureScrollView.viewWithTag(tagNo) as? UIImageView {
 //                print("Found image")
