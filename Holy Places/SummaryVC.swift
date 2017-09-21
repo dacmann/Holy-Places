@@ -56,17 +56,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
 
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        var visitCnt = 0
         do {
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             var searchResults = try getContext().fetch(fetchRequest)
-            
-            // If entered a few temple visits, prompt for a rating
-            if searchResults.count > 2 {
-                if #available(iOS 10.3, *) {
-                    SKStoreReviewController.requestReview()
-                }
-            }
             
             // count ordinances for each temple visited
             
@@ -123,19 +117,28 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             searchResults = try getContext().fetch(fetchRequest)
             var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             templesVisited.text = distinct.count.description
+            visitCnt = searchResults.count
 
             // get number of Historical sites visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             historicalVisited.text = distinct.count.description
+            visitCnt += searchResults.count
             
-            // get number of temple visits
+            // get number of Visitors' Centers visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             visitorsCentersVisited.text = distinct.count.description
+            visitCnt += searchResults.count
 
+            // If entered a couple of visits, prompt for a rating
+            if visitCnt > 1 {
+                if #available(iOS 10.3, *) {
+                    SKStoreReviewController.requestReview()
+                }
+            }
           
         } catch {
             print("Error with request: \(error)")
