@@ -1907,8 +1907,8 @@
                                     </mask>
                                 </variation>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Export Visits as plain text or XML files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-g6-EGk">
-                                <rect key="frame" x="16" y="593" width="266.5" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Export Visits as plain text, XML or CSV files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-g6-EGk">
+                                <rect key="frame" x="16" y="593" width="309" height="19.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1924,6 +1924,11 @@
                                     <barButtonItem title="xml" id="SxY-sH-asr">
                                         <connections>
                                             <action selector="exportXmlAction:" destination="0kB-hC-xcd" id="sQb-g5-m10"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="csv" id="qTb-ZT-q79">
+                                        <connections>
+                                            <action selector="exportCsvAction:" destination="0kB-hC-xcd" id="wCS-7b-TkR"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -1954,6 +1959,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="csvExport" destination="qTb-ZT-q79" id="o5V-bG-f1b"/>
                         <outlet property="doneButton" destination="Xy1-uS-udJ" id="TCV-mH-xVd"/>
                         <outlet property="pickerFilter" destination="vdt-0O-3bp" id="BvC-VD-qpQ"/>
                         <outlet property="pickerSort" destination="0OA-ps-uhf" id="hjl-QW-FNr"/>

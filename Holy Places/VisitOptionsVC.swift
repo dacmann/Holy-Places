@@ -28,8 +28,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     // UIDocumentInteractionController instance is a class property
     var docController:UIDocumentInteractionController!
     var visits = String()
-    let visitFile = "HolyPlacesVisits.txt"
-    let visitXmlFile = "HolyPlacesVisits.xml"
     var eName: String = String()
     var holyPlace = String()
     var comments = String()
@@ -49,6 +47,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var pickerSort: UIPickerView!
     @IBOutlet weak var txtExport: UIBarButtonItem!
     @IBOutlet weak var xmlExport: UIBarButtonItem!
+    @IBOutlet weak var csvExport: UIBarButtonItem!
     
     //MARK: - Standard Functions
     override func viewDidLoad() {
@@ -126,7 +125,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func exportAction(_ sender: UIBarButtonItem) {
         getVisits(type: "txt")
         do {
-            try exportTXT(visits, title: "MyHolyPlaces")
+            try exportFile(visits, title: "HolyPlacesVisits", type: "txt")
         } catch {
             print("Error with export: \(error)")
         }
@@ -134,7 +133,15 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func exportXmlAction(_ sender: UIBarButtonItem) {
         getVisits(type: "xml")
         do {
-            try exportXML(visits, title: "MyHolyPlaces")
+            try exportFile(visits, title: "HolyPlacesVisits", type: "xml")
+        } catch {
+            print("Error with export: \(error)")
+        }
+    }
+    @IBAction func exportCsvAction(_ sender: UIBarButtonItem) {
+        getVisits(type: "csv")
+        do {
+            try exportFile(visits, title: "HolyPlacesVisits", type: "csv")
         } catch {
             print("Error with export: \(error)")
         }
@@ -146,9 +153,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.present(importMenu, animated: true, completion: nil)
     }
     
-    func exportTXT(_ string: String, title: String) throws {
+    func exportFile(_ string: String, title: String, type: String) throws {
         // create a file path in a temporary directory
-        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(visitFile)
+        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent("\(title).\(type)")
         
         // save the string to the file
         try string.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
@@ -158,22 +165,16 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.docController = UIDocumentInteractionController(url: URL(fileURLWithPath: filePath))
         // Configure Document Interaction Controller
         // Present Open In Menu
-        self.docController!.presentOptionsMenu(from: txtExport, animated: true) // create an outlet from an Export bar button outlet, then use it as the `from` argument
-    }
-    
-    func exportXML(_ string: String, title: String) throws {
-        // create a file path in a temporary directory
-        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(visitXmlFile)
         
-        // save the string to the file
-        try string.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
-        
-        // open share dialog
-        // Initialize Document Interaction Controller
-        self.docController = UIDocumentInteractionController(url: URL(fileURLWithPath: filePath))
-        // Configure Document Interaction Controller
-        // Present Open In Menu
-        self.docController!.presentOptionsMenu(from: xmlExport, animated: true) // create an outlet from an Export bar button outlet, then use it as the `from` argument
+        // create an outlet from an Export bar button outlet, then use it as the `from` argument
+        switch type {
+        case "txt":
+            self.docController!.presentOptionsMenu(from: txtExport, animated: true)
+        case "csv":
+            self.docController!.presentOptionsMenu(from: csvExport, animated: true)
+        default: // xml
+            self.docController!.presentOptionsMenu(from: xmlExport, animated: true)
+        }
     }
     
     //MARK: - CoreData Functions
@@ -203,19 +204,28 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             
             //Check the size of the returned results
             //print ("num of results = \(searchResults.count)")
-            if type == "txt" {
+            
+            switch type {
+            case "txt":
                 visits.append(" Total Number of Visits: \(searchResults.count)\n\n")
-            } else {
+            case "csv":
+                visits = "holyPlace,type,dateVisited,comments,sealings,endowments,initiatories,confirmations,baptisms\n"
+            default: // xml
                 visits.append("<TotalVisits>\(searchResults.count)</TotalVisits><Visits>")
             }
             
             //Loop through each
             for visit in searchResults as [Visit] {
-                if type == "txt" {
+                switch type {
+                case "txt":
                     visits.append("\(visit.holyPlace!)\n")
                     visits.append("\(dateFormatter.string(from: visit.dateVisited!))\n")
                     visits.append(visit.comments!)
-                } else {
+                case "csv":
+                    let dateFormatter2 = DateFormatter()
+                    dateFormatter2.dateStyle = .short
+                    visits.append("\(visit.holyPlace!),\(visit.type!),\(dateFormatter2.string(from: visit.dateVisited!)),\"\(visit.comments!)\"")
+                default: // xml
                     visits.append("<Visit><holyPlace>\(visit.holyPlace!)</holyPlace>")
                     visits.append("<type>\(visit.type!)</type>")
                     visits.append("<dateVisited>\(dateFormatter.string(from: visit.dateVisited!))</dateVisited>")
@@ -223,7 +233,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 }
                 
                 if visit.value(forKey: "type") as! String == "T" {
-                    if type == "txt" {
+                    switch type {
+                    case "txt":
                         if visit.sealings > 0 {
                             visits.append("\n Sealings: \(visit.sealings)")
                         }
@@ -239,7 +250,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         if visit.baptisms > 0 {
                             visits.append("\n Baptisms: \(visit.baptisms)")
                         }
-                    } else {
+                    case "csv":
+                        visits.append(",\(visit.sealings),\(visit.endowments),\(visit.initiatories),\(visit.confirmations),\(visit.baptisms)")
+                    default: //xml
                         visits.append("<sealings>\(visit.sealings)</sealings>")
                         visits.append("<endowments>\(visit.endowments)</endowments>")
                         visits.append("<initiatories>\(visit.initiatories)</initiatories>")
@@ -247,13 +260,16 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                         visits.append("<baptisms>\(visit.baptisms)</baptisms>")
                     }
                 }
-                if type == "txt" {
+                switch type {
+                case "txt":
                     visits.append("\n\n")
-                } else {
+                case "csv":
+                    visits.append("\n")
+                default: // xml
                     // include picture binary data
-//                    if visit.picture != nil {
-//                        visits.append("<picture>\(visit.picture?.base64EncodedString() ?? "")</picture>")
-//                    }
+                    //                    if visit.picture != nil {
+                    //                        visits.append("<picture>\(visit.picture?.base64EncodedString() ?? "")</picture>")
+                    //                    }
                     visits.append("</Visit>")
                 }
             }
