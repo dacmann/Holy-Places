@@ -8,13 +8,14 @@
 
 import UIKit
 import CoreData
+import MobileCoreServices
 
 protocol SendVisitOptionsDelegate {
     func FilterOptions(row: Int)
     func SortOptions(row: Int)
 }
 
-class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIDocumentPickerDelegate, UINavigationControllerDelegate, XMLParserDelegate {
     
     //MARK: - Variables
     var delegateOptions: SendVisitOptionsDelegate? = nil
@@ -29,7 +30,18 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var visits = String()
     let visitFile = "HolyPlacesVisits.txt"
     let visitXmlFile = "HolyPlacesVisits.xml"
-    //var fileURL = NSURL()
+    var eName: String = String()
+    var holyPlace = String()
+    var comments = String()
+    var visitDate = Date()
+    var sealings = Int16()
+    var endowments = Int16()
+    var initiatories = Int16()
+    var confirmations = Int16()
+    var baptisms = Int16()
+    var type = String()
+    let dateFormatter = DateFormatter()
+    var importCount = 0
     
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
@@ -49,6 +61,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerSort.dataSource = self
         pickerSort.delegate = self
         pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
+        
+        dateFormatter.dateStyle = .full
     }
     
     //MARK: - PickerView Functions
@@ -125,6 +139,12 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print("Error with export: \(error)")
         }
     }
+    @IBAction func importVisits(_ sender: UIButton) {
+        let importMenu = UIDocumentPickerViewController(documentTypes: [kUTTypeXML as String], in: .import)
+        importMenu.delegate = self
+        importMenu.modalPresentationStyle = .formSheet
+        self.present(importMenu, animated: true, completion: nil)
+    }
     
     func exportTXT(_ string: String, title: String) throws {
         // create a file path in a temporary directory
@@ -170,12 +190,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd YYYY"
-        
         if type == "txt" {
             // Add title and date to visits string
-            visits = "My Holy Places Visits\n Exported on \(formatter.string(from: Date.init()))\n"
+            visits = "My Holy Places Visits\n Exported on \(dateFormatter.string(from: Date.init()))\n"
         } else {
             visits = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(Date.init())</ExportDate>"
         }
@@ -196,12 +213,12 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             for visit in searchResults as [Visit] {
                 if type == "txt" {
                     visits.append("\(visit.holyPlace!)\n")
-                    visits.append("\(formatter.string(from: visit.dateVisited!))\n")
+                    visits.append("\(dateFormatter.string(from: visit.dateVisited!))\n")
                     visits.append(visit.comments!)
                 } else {
                     visits.append("<Visit><holyPlace>\(visit.holyPlace!)</holyPlace>")
                     visits.append("<type>\(visit.type!)</type>")
-                    visits.append("<dateVisited>\(visit.dateVisited!)</dateVisited>")
+                    visits.append("<dateVisited>\(dateFormatter.string(from: visit.dateVisited!))</dateVisited>")
                     visits.append("<comments>\(visit.comments!)</comments>")
                 }
                 
@@ -244,9 +261,111 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 // Add closing tags
                 visits.append("</Visits></Document>")
             }
-            print(visits)
+//            print(visits)
         } catch {
             print("Error with request: \(error)")
+        }
+    }
+    
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        
+        let myURL = url as URL
+//        print("The Url is : \(myURL)")
+        guard let parser = XMLParser(contentsOf: myURL as URL) else {
+            print("Cannot Read Data")
+            return
+        }
+        
+        parser.delegate = self
+        if parser.parse() {
+            let alert = UIAlertController(title: "Import Successful", message: "Successfully imported \(importCount) visits", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+        } else {
+            print("Data parsing aborted")
+            let error = parser.parserError!
+            print("Error Description:\(error.localizedDescription)")
+            print("Line number: \(parser.lineNumber)")
+            let alert = UIAlertController(title: "Import Failure", message: "The XML file selected isn't formatted properly", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true)
+        }
+        
+        
+    }
+    public func documentMenu(_ documentMenu:     UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+        
+    }
+    
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        
+        eName = elementName
+        if elementName == "Visit" {
+            holyPlace = String()
+            comments = String()
+            visitDate = Date()
+            sealings = Int16()
+            endowments = Int16()
+            initiatories = Int16()
+            confirmations = Int16()
+            baptisms = Int16()
+            type = String()
+        }
+    }
+    
+    // foundCharacters of parser
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if !string.isEmpty {
+            switch eName {
+            case "holyPlace": holyPlace = string
+            case "comments": comments = string
+            case "dateVisited":
+                if dateFormatter.date(from: string) == nil {
+                    parser.abortParsing()
+                    break
+                }
+                visitDate = dateFormatter.date(from: string)!
+            case "sealings": sealings = Int16(string)!
+            case "endowments": endowments = Int16(string)!
+            case "initiatories": initiatories = Int16(string)!
+            case "confirmations": confirmations = Int16(string)!
+            case "baptisms": baptisms = Int16(string)!
+            case "type": type = string
+            default: return
+            }
+        }
+    }
+    
+    // didEndElement of parser
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "Visit" {
+            let context = getContext()
+            
+            //insert a new object in the Visit entity
+            let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
+            
+            //set the entity values
+            visit.holyPlace = holyPlace
+            visit.baptisms = baptisms
+            visit.confirmations = confirmations
+            visit.initiatories = initiatories
+            visit.endowments = endowments
+            visit.sealings = sealings
+            visit.comments = comments
+            visit.dateVisited = visitDate
+            visit.type = type
+            
+            //save the object
+            do {
+                try context.save()
+            } catch let error as NSError  {
+                print("Could not save \(error), \(error.userInfo)")
+            } catch {}
+//            print("Saving Visit completed")
+            importCount += 1
         }
     }
 

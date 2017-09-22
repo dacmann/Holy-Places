@@ -1929,14 +1929,26 @@
                                 </items>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
+                                <rect key="frame" x="137" y="549" width="100" height="34"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                <state key="normal" title="Import Visits">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="importVisits:" destination="0kB-hC-xcd" eventType="touchUpInside" id="i1G-Gt-Djb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ThY-g6-EGk" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leadingMargin" id="EVU-Yt-wJC"/>
                             <constraint firstItem="rT9-oL-2F5" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leading" id="MqA-4r-WXL"/>
                             <constraint firstAttribute="trailing" secondItem="rT9-oL-2F5" secondAttribute="trailing" id="RIw-lT-mYG"/>
+                            <constraint firstItem="ThY-g6-EGk" firstAttribute="top" secondItem="0qc-JX-cSe" secondAttribute="bottom" constant="10" id="Zcb-hE-6Dk"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="eP3-6R-M3G"/>
+                            <constraint firstItem="0qc-JX-cSe" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="ifU-jm-dnX"/>
                             <constraint firstItem="rT9-oL-2F5" firstAttribute="top" secondItem="ThY-g6-EGk" secondAttribute="bottom" constant="10" id="x7C-9L-Lrr"/>
                             <constraint firstItem="7TZ-Gv-g7L" firstAttribute="top" secondItem="rT9-oL-2F5" secondAttribute="bottom" id="zYL-xU-QZC"/>
                         </constraints>
@@ -1951,7 +1963,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tOf-gd-BrL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1590" y="2006"/>
+            <point key="canvasLocation" x="1589.5999999999999" y="2005.5472263868066"/>
         </scene>
         <!--Record Visit-->
         <scene sceneID="z4A-yb-bFs">
