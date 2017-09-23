@@ -25,12 +25,13 @@ class Temple: NSObject {
     var templeSiteURL = String()
     var readerView = Bool()
     var infoURL = String?("")
+    var templeSqFt = Int32?(0)
     
     var cllocation: CLLocation
     var distance : Double?
     var coordinate : CLLocationCoordinate2D
 
-    init(Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String){
+    init(Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32){
         templeName = Name
         templeAddress = Address
         templeSnippet = Snippet
@@ -47,6 +48,7 @@ class Temple: NSObject {
         templeSiteURL = SiteURL
         readerView = ReaderView
         infoURL = InfoURL
+        templeSqFt = SqFt
     }
     
     

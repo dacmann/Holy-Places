@@ -72,6 +72,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     var checkedForUpdate: Date?
     var infoURL = String()
     var templeSiteURL = String()
+    var templeSqFt = Int32()
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
     @IBOutlet weak var goal: UIButton!
@@ -130,6 +131,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                         place.siteURL = temple.templeSiteURL
                         place.readerView = temple.readerView
                         place.infoURL = temple.infoURL
+                        place.sqFt = temple.templeSqFt!
                     }
                 } else {
                     // Not found so add the new Place
@@ -148,6 +150,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     place.siteURL = temple.templeSiteURL
                     place.readerView = temple.readerView
                     place.infoURL = temple.infoURL
+                    place.sqFt = temple.templeSqFt!
                     print("Added \(temple.templeName)")
                 }
                 //save the object
@@ -264,7 +267,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             allPlaces.removeAll()
             
             for place in searchResults {
-                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!)
+                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!, SqFt: place.sqFt)
                 allPlaces.append(temple)
                 switch temple.templeType {
                 case "T":
@@ -381,7 +384,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         getPlaceVersion()
 
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -395,7 +398,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -444,6 +447,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             templeSiteURL = String()
             readerView = Bool()
             infoURL = String()
+            templeSqFt = Int32(0)
         }
     }
     
@@ -464,15 +468,16 @@ class HomeVC: UIViewController, XMLParserDelegate {
             case "site_url": templeSiteURL += string
             case "readerView": readerView = Bool(string)!
             case "infoURL": infoURL += string
+            case "SqFt": templeSqFt += Int32(string)!
             case "Version":
                 if string == placeDataVersion {
                     print("XML Data Version has not changed")
                     parser.abortParsing()
                     break
                 } else {
-                    placeDataVersion = string
-                    print("XML Data Version has changed - " + placeDataVersion)
+                    print("XML Data Version has changed - \(string)")
                     if versionChecked {
+                        placeDataVersion = string
                         savePlaceVersion()
                         // Reset arrays
                         activeTemples.removeAll()
@@ -515,7 +520,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL)
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL, SqFt: templeSqFt)
             
             allPlaces.append(temple)
             switch templeType {

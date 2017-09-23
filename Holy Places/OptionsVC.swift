@@ -20,7 +20,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var sortSelected: Int?
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
-    var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date"]
+    var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
     
     //MARK: - Outlets & Actions
@@ -107,7 +107,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
                 sortOptions = sortOptionsAll
                 pickerSort.reloadAllComponents()
                 // ensure the Temple-only sort options aren't selected
-                if sortSelected == 3 {
+                if Double(sortSelected!) > 2 {
                     sortSelected = 0
                     pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
                 }

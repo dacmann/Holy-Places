@@ -29,6 +29,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
     var sortByDedicationDate = Bool()
+    var sortBySize = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
@@ -48,6 +49,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         nearestEnabled = false
         sortByCountry = false
         sortByDedicationDate = false
+        sortBySize = false
         if placeSortRow == 1 {
             nearestEnabled = true
             
@@ -58,6 +60,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             sortByCountry = true
         } else if placeSortRow == 3 {
             sortByDedicationDate = true
+        } else if placeSortRow == 4 {
+            sortBySize = true
         }
     }
     
@@ -170,6 +174,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             } else if sortByDedicationDate {
                 subTitle = "by Dedication Date"
                 places.sort { $0.templeOrder < $1.templeOrder }
+                let newSection = (index: 1, length: places.count, title: "")
+                sections.append(newSection)
+            } else if sortBySize {
+                subTitle = "by Size"
+                places.sort { Double($0.templeSqFt!) > Double($1.templeSqFt!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
             } else if sortByCountry {
@@ -403,7 +412,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
 
         var index = Int()
 
-        if nearestEnabled || sortByDedicationDate {
+        if nearestEnabled || sortByDedicationDate || sortBySize {
             index = indexPath.row
         } else {
             index = sections[indexPath.section].index + indexPath.row
@@ -422,6 +431,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 distance.append(" mi. - ")
             }
             cell.detailTextLabel?.text = "· " + distance + temple.templeSnippet
+        } else if sortBySize {
+            // include sq ft in label text
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            let formattedNumber = numberFormatter.string(from: NSNumber(value:temple.templeSqFt!))
+            cell.detailTextLabel?.text = "· \(formattedNumber ?? "") sq ft - \(temple.templeSnippet)"
         } else {
             cell.detailTextLabel?.text = "· " + temple.templeSnippet
         }
@@ -467,7 +482,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         
-        if nearestEnabled || sortByDedicationDate {
+        if nearestEnabled || sortByDedicationDate || sortBySize {
             return nil
         } else {
             let titles = sections.map {$0.title[(title?.startIndex)!].description}
@@ -520,7 +535,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 var index = Int()
-                if nearestEnabled || sortByDedicationDate {
+                if nearestEnabled || sortByDedicationDate || sortBySize {
                     index = indexPath.row
                 } else {
                     index = sections[indexPath.section].index + indexPath.row
