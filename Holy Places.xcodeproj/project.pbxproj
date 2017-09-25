@@ -15,6 +15,7 @@
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
 		644D96601F69F77A00E9D502 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 644D965F1F69F77A00E9D502 /* Main.storyboard */; };
+		6453044E1F79443500667F7D /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6453044D1F79443500667F7D /* CopyableLabel.swift */; };
 		6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */; };
 		646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */; };
 		6476CA3D1EB0C6A700BA6565 /* GoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */; };
@@ -45,6 +46,7 @@
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		644D965F1F69F77A00E9D502 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		6453044D1F79443500667F7D /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitOptionsVC.swift; sourceTree = "<group>"; };
 		646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordVisitVC.swift; sourceTree = "<group>"; };
 		6476CA3C1EB0C6A700BA6565 /* GoalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalVC.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				6479E5EE1F0579B50087E013 /* MapPoint.swift */,
 				64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */,
 				642B345C1E2818C200A56C77 /* Extensions.swift */,
+				6453044D1F79443500667F7D /* CopyableLabel.swift */,
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
 				64FDE6FC1E21863A00951A58 /* Info.plist */,
@@ -234,6 +237,7 @@
 				64F9313E1E6F57B500F053F3 /* AltLocationVC.swift in Sources */,
 				642B345D1E2818C200A56C77 /* Extensions.swift in Sources */,
 				6479E5EB1F05733D0087E013 /* MapVC.swift in Sources */,
+				6453044E1F79443500667F7D /* CopyableLabel.swift in Sources */,
 				64228E0F1F3A04F3009ADCFD /* PlaceDetailVC.swift in Sources */,
 				6476CA3D1EB0C6A700BA6565 /* GoalVC.swift in Sources */,
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
