@@ -89,6 +89,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PCC" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-Pf-K9x">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <variation key="heightClass=regular-widthClass=regular" image="PCCW"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="&quot;Stand ye in holy places, and be not moved...&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
                                 <rect key="frame" x="20" y="40" width="335" height="46"/>
@@ -2317,6 +2318,7 @@
     </scenes>
     <resources>
         <image name="PCC" width="375" height="666"/>
+        <image name="PCCW" width="834" height="1112"/>
         <image name="Payson" width="375" height="666"/>
         <image name="journal" width="25" height="25"/>
         <image name="morningstar-bnw" width="25" height="25"/>
