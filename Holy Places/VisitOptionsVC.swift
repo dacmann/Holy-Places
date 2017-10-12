@@ -229,7 +229,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     visits.append("<Visit><holyPlace>\(visit.holyPlace!)</holyPlace>")
                     visits.append("<type>\(visit.type!)</type>")
                     visits.append("<dateVisited>\(dateFormatter.string(from: visit.dateVisited!))</dateVisited>")
-                    visits.append("<comments>\(visit.comments!)</comments>")
+                    visits.append("<comments><![CDATA[\(visit.comments!)]]></comments>")
                 }
                 
                 if visit.value(forKey: "type") as! String == "T" {
