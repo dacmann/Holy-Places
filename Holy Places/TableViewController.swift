@@ -33,7 +33,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     var sections : [(index: Int, length :Int, title: String)] = Array()
     let locationManager = CLLocationManager()
     var coordinateOfUser: CLLocation!
-    
+    var randomPlace = false
 
     @IBOutlet weak var locationButton: UIBarButtonItem!
     
@@ -337,7 +337,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     }
     
     //MARK: - Standard methods
-    override func viewWillAppear(_ animated: Bool) {
+    fileprivate func updateView() {
+        SortOptions(row: placeSortRow)
         setup()
         getVisits()
         self.tableView.reloadData()
@@ -349,6 +350,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         }
         locationButton.isEnabled = nearestEnabled
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -508,6 +514,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
 
     
     // MARK: - Navigation
+    
+    func openForPlace(shortcutIdentifier: ShortcutIdentifier) -> Bool {
+        updateView()
+        if shortcutIdentifier == .OpenRandomPlace {
+            randomPlace = true
+            performSegue(withIdentifier: "showDetail", sender: nil)
+        }
+        return true
+    }
 
     func keyboardDone() {
         //init toolbar
@@ -532,19 +547,20 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var index = Int()
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                var index = Int()
                 if nearestEnabled || sortByDedicationDate || sortBySize {
                     index = indexPath.row
                 } else {
                     index = sections[indexPath.section].index + indexPath.row
                 }
-                let temple = places[index]
-                let controller = (segue.destination as! PlaceDetailVC)
-                detailItem = temple
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                detailItem = places[index]
+            } else if randomPlace {
+                detailItem = allPlaces[Int(arc4random_uniform(UInt32(allPlaces.count)))]
             }
+            let controller = (segue.destination as! PlaceDetailVC)
+            controller.navigationItem.leftItemsSupplementBackButton = true
         }
         if segue.identifier == "showOptions" {
             let controller: OptionsVC = segue.destination as! OptionsVC

@@ -11,6 +11,19 @@ import CoreData
 import CoreLocation
 //import StoreKit
 
+enum ShortcutIdentifier: String {
+    case ShowNearest
+    case OpenRandomPlace
+    
+    init?(identifier: String) {
+        guard let shortIdentifier = identifier.components(separatedBy: ".").last else {
+            return nil
+        }
+        self.init(rawValue: shortIdentifier)
+    }
+}
+
+
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -71,7 +84,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    
+    // MARK: - Quick Launch
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        completionHandler(shouldPerformActionFor(shortcutItem: shortcutItem))
+    }
+    
+    private func shouldPerformActionFor(shortcutItem: UIApplicationShortcutItem) -> Bool {
+        let shortcutType = shortcutItem.type
+        guard let shortcutIdentifier = ShortcutIdentifier(identifier: shortcutType) else {
+            return false
+        }
+        return selectTabBarItemFor(shortcutIdentifier: shortcutIdentifier)
+    }
+    
+    private func selectTabBarItemFor(shortcutIdentifier: ShortcutIdentifier) -> Bool {
+        guard let myTabBar = self.window?.rootViewController as? UITabBarController else {
+            return false
+        }
+        
+        switch shortcutIdentifier {
+        case .ShowNearest:
+            placeSortRow = 1
+            placeFilterRow = 0
+            locationSpecific = false
+            myTabBar.selectedIndex = 1
+            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
+                return false
+            }
+            guard let vc = nvc.viewControllers.first as? TableViewController else {
+                return false
+            }
+            nvc.popToRootViewController(animated: false)
+            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+        case .OpenRandomPlace:
+            myTabBar.selectedIndex = 1
+            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
+                return false
+            }
+            guard let vc = nvc.viewControllers.first as? TableViewController else {
+                return false
+            }
+            nvc.popToRootViewController(animated: false)
+            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+        }
+    }
 
+    // MARK: - Standard Events
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

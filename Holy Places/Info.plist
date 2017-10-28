@@ -47,6 +47,39 @@
 	<string>To determine nearest Holy Place</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To add a picture of a Holy Place</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>nearMe</string>
+            <key>UIApplicationShortcutItemSubtitle</key>
+			<string> to Current Location</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Nearest Places</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).ShowNearest</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>version</key>
+				<string>${APP_VERSION}</string>
+			</dict>
+		</dict>
+		<dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>globe</string>
+            <key>UIApplicationShortcutItemSubtitle</key>
+			<string></string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Random Place</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).OpenRandomPlace</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>version</key>
+				<string>${APP_VERSION}</string>
+			</dict>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
