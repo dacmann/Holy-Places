@@ -24,16 +24,15 @@ extension TableViewController: UISearchBarDelegate {
     }
 }
 
-class TableViewController: UITableViewController, SendOptionsDelegate, CLLocationManagerDelegate {
+class TableViewController: UITableViewController, SendOptionsDelegate {
     //MARK: - Variables and Outlets
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
     var sortByDedicationDate = Bool()
     var sortBySize = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
-    let locationManager = CLLocationManager()
-    var coordinateOfUser: CLLocation!
     var randomPlace = false
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var locationButton: UIBarButtonItem!
     
@@ -52,10 +51,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         sortBySize = false
         if placeSortRow == 1 {
             nearestEnabled = true
-            
-            locationManager.requestAlwaysAuthorization()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startMonitoringSignificantLocationChanges()
+            appDelegate.locationManager.requestAlwaysAuthorization()
+            appDelegate.locationServiceSetup()
         } else if placeSortRow == 2 {
             sortByCountry = true
         } else if placeSortRow == 3 {
@@ -167,7 +164,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
                 } else {
                     subTitle = "Nearest to Current Location"
                 }
-                updateDistance()
+                appDelegate.updateDistance(placesToUpdate: places)
                 places.sort { Int($0.distance!) < Int($1.distance!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
@@ -283,58 +280,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
         return titleView
     }
     
-    // MARK: - Location Services
-    // Update the Distance in the Place data arrays based on new location
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location Update")
-        if locationManager.location != nil {
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-            if nearestEnabled {
-                updateDistance()
-                setup()
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            print("Location Authorized")
-            if locationManager.location != nil {
-                coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-                if nearestEnabled {
-                    updateDistance()
-                    setup()
-                    self.tableView.reloadData()
-                }
-            }
-        } else {
-            print("Location not authorized")
-            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-        }
-    }
-    
-    // Update the distances in the currently viewed array
-    func updateDistance() {
-        //print("Update Distance")
-        //print(coordinateOfUser)
-        for place in places {
-            if locationSpecific {
-                place.distance = place.cllocation.distance(from: coordAltLocation!)
-            } else {
-                if coordinateOfUser == nil {
-                    if locationManager.location != nil {
-                        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-                    } else {
-                        coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-                    }
-                }
-                place.distance = place.cllocation.distance(from: coordinateOfUser!)
-            }
-//            print(place.templeName + " - " + (place.distance?.description)!)
-//            print(place.cllocation)
-        }
-    }
     
     //MARK: - Standard methods
     fileprivate func updateView() {
@@ -357,14 +302,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationManager.delegate = self
-
-        
-        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse {
-            print("Location not authorized")
-            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-        }
         
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
@@ -436,15 +373,15 @@ class TableViewController: UITableViewController, SendOptionsDelegate, CLLocatio
             } else {
                 distance.append(" mi. - ")
             }
-            cell.detailTextLabel?.text = "· " + distance + temple.templeSnippet
+            cell.detailTextLabel?.text = " " + distance + temple.templeSnippet
         } else if sortBySize {
             // include sq ft in label text
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let formattedNumber = numberFormatter.string(from: NSNumber(value:temple.templeSqFt!))
-            cell.detailTextLabel?.text = "· \(formattedNumber ?? "") sq ft - \(temple.templeSnippet)"
+            cell.detailTextLabel?.text = " \(formattedNumber ?? "") sq ft - \(temple.templeSnippet)"
         } else {
-            cell.detailTextLabel?.text = "· " + temple.templeSnippet
+            cell.detailTextLabel?.text = " " + temple.templeSnippet
         }
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)

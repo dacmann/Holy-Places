@@ -348,8 +348,18 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         self.tableView.endUpdates()
     }
     
+    //MARK: - Navigation
+    func quickAddVisit(shortcutIdentifier: ShortcutIdentifier) -> Bool {
+        if shortcutIdentifier == .RecordVisit {
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
+            performSegue(withIdentifier: "quickRecordVisit", sender: nil)
+        }
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "visitDetail" {
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! VisitDetailVC)
                 if searchController.isActive && searchController.searchBar.text != "" {
@@ -368,6 +378,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             controller.sortSelected = visitSortRow
             controller.filterSelected = visitFilterRow
             searchController.isActive = false
+        }
+        if segue.identifier == "quickRecordVisit" {
+            let temple = quickLaunchItem
+            let controller = (segue.destination as! RecordVisitVC)
+            controller.detailItem = temple
         }
     }
 

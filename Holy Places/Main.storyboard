@@ -1360,6 +1360,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Wm6-qc-lsd" kind="show" identifier="quickRecordVisit" id="ufl-Eb-Dlx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L59-Wf-89W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1981,11 +1984,11 @@
                         <viewControllerLayoutGuide type="bottom" id="J6g-h0-DtY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hdx-hg-WHC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
-                                <rect key="frame" x="16" y="10" width="343" height="500"/>
+                                <rect key="frame" x="16" y="74" width="343" height="544"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
@@ -2016,7 +2019,7 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="83" width="343" height="417"/>
+                                        <rect key="frame" x="0.0" y="83" width="343" height="461"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="471"/>
@@ -2328,6 +2331,7 @@
         <image name="summary" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QNJ-qY-fxt"/>
+        <segue reference="ufl-Eb-Dlx"/>
+        <segue reference="rRd-SC-EqT"/>
     </inferredMetricsTieBreakers>
 </document>
