@@ -64,6 +64,9 @@ var mapPoint = MapPoint(title: "", coordinate: mapCenter, type: "")
 var mapZoomLevel = Double()
 var versionChecked = false
 var checkedForUpdate: Date?
+var currentYear = String()
+var attended = 0
+var goalProgress = String()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -550,6 +553,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
+    }
+    
+    func getVisits () {
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        do {
+            // get temple visits
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            let searchResults = try getContext().fetch(fetchRequest)
+            
+            let userCalendar = Calendar.current
+            var currentYearStart = DateComponents()
+            currentYearStart.year = Int(currentYear)
+            currentYearStart.day = 1
+            currentYearStart.month = 1
+            let currentYearDate = userCalendar.date(from: currentYearStart)!
+            
+            attended = 0
+            for temple in searchResults as [NSManagedObject] {
+                //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
+                // check for ordinaces performed in the last year
+                if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < currentYearDate.daysBetweenDate(toDate: Date()) {
+                    attended += 1
+                }
+            }
+            
+            goalProgress = "\(attended) of \(annualVisitGoal) Visits"
+            // Update UserDefaults for Widget
+            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(goalProgress, forKey: "goalProgress")
+            
+        } catch {
+            print("Error with request: \(error)")
+        }
     }
     
     // Save the Place data in CoreData

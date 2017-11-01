@@ -20,6 +20,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     var dateOfVisit: Date?
     var placeType = String()
     var activeField: UITextField?
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
@@ -88,6 +89,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             print("Could not save \(error), \(error.userInfo)")
         } catch {}
         print("Saving Visit completed")
+        
+        // Update visit count for goal progress in Widget
+        appDelegate.getVisits()
+        
         _ = navigationController?.popViewController(animated: true)
     }
     

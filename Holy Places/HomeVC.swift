@@ -8,16 +8,12 @@
 
 import UIKit
 import Foundation
-import CoreData
 //import StoreKit
-import CoreLocation
 
 //class HomeVC: UIViewController, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate {
-
     
-    var currentYear = String()
-    var attended = 0
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
@@ -89,44 +85,12 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         if annualVisitGoal == 0 {
             goal.setTitle("SET GOAL", for: .normal)
+            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
         } else {
-            getVisits()
-            goal.setTitle("\(attended) of \(annualVisitGoal) Visits", for: .normal)
+            appDelegate.getVisits()
+            goal.setTitle(goalProgress, for: .normal)
         }
-    }
-    
-    // Required for CoreData
-    func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
-    }
-    
-    func getVisits () {
-        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-        do {
-            // get temple visits
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
-            let searchResults = try getContext().fetch(fetchRequest)
-            
-            let userCalendar = Calendar.current
-            var currentYearStart = DateComponents()
-            currentYearStart.year = Int(currentYear)
-            currentYearStart.day = 1
-            currentYearStart.month = 1
-            let currentYearDate = userCalendar.date(from: currentYearStart)!
-            
-            attended = 0
-            for temple in searchResults as [NSManagedObject] {
-                //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
-                // check for ordinaces performed in the last year
-                if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < currentYearDate.daysBetweenDate(toDate: Date()) {
-                    attended += 1
-                }
-            }
-            
-        } catch {
-            print("Error with request: \(error)")
-        }
+        
     }
     
 
