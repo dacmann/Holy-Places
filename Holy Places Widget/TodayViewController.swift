@@ -11,11 +11,14 @@ import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
         
-    @IBOutlet weak var goalTitle: UILabel!
-    @IBOutlet weak var goalProgress: UILabel!
+    @IBOutlet weak var goal: UILabel!
+    @IBOutlet weak var lastVisit: UILabel!
+    @IBOutlet weak var lastVisitDate: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        var latestTempleVisited = ""
+//        var dateLastVisited = ""
 //        var currentSize: CGSize = self.preferredContentSize
 //        currentSize.height = 40.0
 //        self.preferredContentSize = currentSize
@@ -24,13 +27,24 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         formatter.dateFormat = "yyyy"
         let currentYear = formatter.string(from: Date())
         
-        goalTitle.text = "\(currentYear) Goal Progress"
         if let goalFromApp = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "goalProgress") {
-            goalProgress.text = goalFromApp as? String
+            goal.text = "\(currentYear) Goal Progress: \(goalFromApp)"
         }
         
+        if let latestTempleVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "latestTempleVisited") {
+            lastVisit.text = latestTempleVisited as? String
+        }
+        if let dateLastVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "dateLastVisited") {
+            lastVisitDate.text = dateLastVisited as? String
+        }
     }
 
+    @IBAction func openApp(_ sender: UIButton) {
+        if let url = URL(string: "net.dacworld.holyplaces://")
+        {
+            self.extensionContext?.open(url, completionHandler: {success in print("called url complete handler: \(success)")})
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -43,10 +57,28 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        let currentYear = formatter.string(from: Date())
         if let goalFromApp = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "goalProgress") {
-            if goalFromApp as? String != goalProgress.text {
-                goalProgress.text = goalFromApp as? String
+            if goalFromApp as? String != lastVisit.text {
+                goal.text = "\(currentYear) Goal Progress: \(goalFromApp)"
+                completionHandler(NCUpdateResult.newData)
+            } else {
+                completionHandler(NCUpdateResult.noData)
+            }
+        }
+        if let latestTempleVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "latestTempleVisited") {
+            if latestTempleVisited as? String != lastVisit.text {
+                lastVisit.text = latestTempleVisited as? String
+                completionHandler(NCUpdateResult.newData)
+            } else {
+                completionHandler(NCUpdateResult.noData)
+            }
+        }
+        if let dateLastVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "dateLastVisited") {
+            if dateLastVisited as? String != lastVisitDate.text {
+                lastVisitDate.text = dateLastVisited as? String
                 completionHandler(NCUpdateResult.newData)
             } else {
                 completionHandler(NCUpdateResult.noData)

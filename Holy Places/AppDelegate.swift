@@ -556,10 +556,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     func getVisits () {
+        var latestTempleVisited = ""
+        var dateLastVisited = ""
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd, YYYY"
+        
         do {
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
             let searchResults = try getContext().fetch(fetchRequest)
             
             let userCalendar = Calendar.current
@@ -570,17 +577,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             let currentYearDate = userCalendar.date(from: currentYearStart)!
             
             attended = 0
-            for temple in searchResults as [NSManagedObject] {
+            for visit in searchResults as [Visit] {
                 //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
                 // check for ordinaces performed in the last year
-                if (temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()) < currentYearDate.daysBetweenDate(toDate: Date()) {
+                if (visit.dateVisited?.daysBetweenDate(toDate: Date()))! < currentYearDate.daysBetweenDate(toDate: Date()) {
                     attended += 1
+                }
+                if latestTempleVisited == "" {
+                    latestTempleVisited = visit.holyPlace!
+                    dateLastVisited = formatter.string(from: visit.dateVisited! as Date)
                 }
             }
             
             goalProgress = "\(attended) of \(annualVisitGoal) Visits"
             // Update UserDefaults for Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(goalProgress, forKey: "goalProgress")
+            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(latestTempleVisited, forKey: "latestTempleVisited")
+            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(dateLastVisited, forKey: "dateLastVisited")
             
         } catch {
             print("Error with request: \(error)")

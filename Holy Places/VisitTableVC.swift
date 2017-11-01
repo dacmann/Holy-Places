@@ -18,6 +18,7 @@ extension VisitTableVC: UISearchResultsUpdating {
 class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
     
     var titleHeader = String()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     // Set variable based on Filter Option selected on Options view
     func FilterOptions(row: Int) {
@@ -178,6 +179,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
+            // Update visit count for goal progress in Widget
+            appDelegate.getVisits()
         }
     }
 
