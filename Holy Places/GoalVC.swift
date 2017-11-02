@@ -48,7 +48,7 @@ class GoalVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
             annualVisitGoal = 12
         }
         quote.text = """
-        I encourage you to establish your own goal of how frequently you will avail yourself of the ordinances offered in our operating temples. What is there that is more important than attending and participating in the ordinances of the temple?
+        Set specific goals, considering your circumstances, of when you can and will participate in temple ordinances. Then do not allow anything to interfere with that plan. ... What is there that is more important than attending and participating in the ordinances of the temple?
            - Elder Richard G. Scott
         """
         goalPicker.selectRow(goalNumbers.index(of: String(annualVisitGoal))!, inComponent: 0, animated: true)
