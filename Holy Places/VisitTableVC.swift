@@ -187,7 +187,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
         cell.textLabel!.text = visit.holyPlace
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
         var ordinances = " ~"
         
         // Determine Ordinances performed for summary
@@ -215,7 +215,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             ordinances.append("  📷")
         }
         
-        cell.detailTextLabel?.text = "· " + formatter.string(from: visit.dateVisited! as Date) + ordinances
+        cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
         cell.detailTextLabel?.textColor = UIColor.lead()
