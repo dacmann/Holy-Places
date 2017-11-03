@@ -11,10 +11,11 @@ import UIKit
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let minutes = ["1", "15", "30", "45", "60", "90", "120", "150", "180", "240", "300"]
+    let minutes = ["1", "15", "30", "45", "60", "90", "120", "150", "180", "240", "360", "480", "600", "720", "1080", "1440"]
     
     @IBOutlet weak var minutesPicker: UIPickerView!
     @IBOutlet weak var enableSwitch: UISwitch!
+    @IBOutlet weak var minutesLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +58,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if Int16(minutes[row])! > 60 {
+            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row]) (\(Double(minutes[row])!/60) hrs)"
+        } else {
+            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row])"
+        }
         return minutes[row]
     }
     

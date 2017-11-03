@@ -16,6 +16,7 @@ enum ShortcutIdentifier: String {
     case ShowNearest
     case OpenRandomPlace
     case RecordVisit
+    case Reminder
     
     init?(identifier: String) {
         guard let shortIdentifier = identifier.components(separatedBy: ".").last else {
@@ -301,6 +302,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         })
         print("Notification requested for \(holyPlaceVisited?.templeName ?? "<holyPlaceName>")")
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        _ = selectTabBarItemFor(shortcutIdentifier: .Reminder)
+    }
 
     // MARK: - Quick Launch
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -344,7 +349,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             nvc.popToRootViewController(animated: false)
             return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
-        case .RecordVisit:
+        case .RecordVisit, .Reminder:
             myTabBar.selectedIndex = 2
             guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
                 return false

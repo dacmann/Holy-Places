@@ -18,6 +18,7 @@ extension VisitTableVC: UISearchResultsUpdating {
 class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
     
     var titleHeader = String()
+    var quickAddPlace: Temple?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     // Set variable based on Filter Option selected on Options view
@@ -354,9 +355,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     //MARK: - Navigation
     func quickAddVisit(shortcutIdentifier: ShortcutIdentifier) -> Bool {
         if shortcutIdentifier == .RecordVisit {
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
-            performSegue(withIdentifier: "quickRecordVisit", sender: nil)
+            quickAddPlace = quickLaunchItem
+        } else {
+            quickAddPlace = holyPlaceVisited
         }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
+        performSegue(withIdentifier: "quickRecordVisit", sender: nil)
         return true
     }
     
@@ -383,7 +387,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             searchController.isActive = false
         }
         if segue.identifier == "quickRecordVisit" {
-            let temple = quickLaunchItem
+            let temple = quickAddPlace
             let controller = (segue.destination as! RecordVisitVC)
             controller.detailItem = temple
         }
