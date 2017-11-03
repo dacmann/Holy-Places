@@ -69,7 +69,8 @@ var currentYear = String()
 var attended = 0
 var goalProgress = String()
 var notificationEnabled = Bool()
-var wasCloseToHolyPlace: Date?
+var dateHolyPlaceVisited: Date?
+var holyPlaceWasVisited = Bool()
 var holyPlaceVisited: Temple?
 var notificationDelayInMinutes = Int16(30)
 
@@ -128,6 +129,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
         
+        // Update Places
+        refreshTemples()
+        
         do {
             //go get the results
             let searchResults = try context.fetch(fetchRequest)
@@ -149,6 +153,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     annualVisitGoal = Int((settings?.annualVisitGoal)!)
                     notificationEnabled = (settings?.notificationEnabled)!
                     notificationDelayInMinutes = (settings?.notificationDelay)!
+                    if settings?.holyPlaceVisited != nil {
+                        if let found = allPlaces.first(where:{$0.templeName == (settings?.holyPlaceVisited)!}) {
+                            holyPlaceVisited  = found
+                            holyPlaceWasVisited = (settings?.holyPlaceWasVisited)!
+                            dateHolyPlaceVisited = (settings?.dateHolyPlaceVisited)!
+                        }
+                    }
                 }
             } else {
                 annualVisitGoal = 0
@@ -157,9 +168,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         } catch {
             print("Error with request: \(error)")
         }
-        
-        // Update Places
-        refreshTemples()
         
         locationServiceSetup()
         
@@ -210,22 +218,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             // Set QuickLaunch object to closest place
             quickLaunchItem = allPlaces[0]
 
+            // Check for notification criteria
             if notificationEnabled {
                 // Determine if closest place is less than 20 meters
                 if Int32((quickLaunchItem?.distance)!) < 20 {
                     holyPlaceVisited = allPlaces[0]
-                    wasCloseToHolyPlace = Date()
-                } else {
-                    if wasCloseToHolyPlace != nil {
-                        shouldNotify()
-                    }
+                    dateHolyPlaceVisited = Date()
+                    holyPlaceWasVisited = true
+                } else if holyPlaceWasVisited {
+                    holyPlaceWasVisited = false
+                    shouldNotify()
                 }
             }
-            
-//            holyPlaceVisited = allPlaces[0]
-//            wasCloseToHolyPlace = Date()
-//            notificationDelayInMinutes = 1
-//            shouldNotify()
             
             // Update the Dynamic Quick Launch
             print("Quick Launch updated to \(allPlaces[0].templeName) with a distance of \(allPlaces[0].distance ?? 0)")
@@ -274,8 +278,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     func shouldNotify() {
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd, YYYY"
-        let dateVisited = formatter.string(from: wasCloseToHolyPlace!)
+        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
+        let dateVisited = formatter.string(from: dateHolyPlaceVisited!)
         
         // Construct Notification
         let notifyContent = UNMutableNotificationContent()
@@ -295,7 +299,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
             print(error as Any)
         })
-        
+        print("Notification requested for \(holyPlaceVisited?.templeName ?? "<holyPlaceName>")")
     }
 
     // MARK: - Quick Launch
@@ -382,6 +386,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.visitSortRow = Int16(visitSortRow)
         settings?.notificationEnabled = notificationEnabled
         settings?.notificationDelay = notificationDelayInMinutes
+        if holyPlaceVisited != nil {
+            settings?.holyPlaceVisited = holyPlaceVisited?.templeName
+            settings?.holyPlaceWasVisited = holyPlaceWasVisited
+            settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
+        }
         
 //        SKPaymentQueue.default().remove(self)
         self.saveContext()

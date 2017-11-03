@@ -33,6 +33,9 @@
         <attribute name="altLocState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="altLocStreet" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateHolyPlaceVisited" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="holyPlaceVisited" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="holyPlaceWasVisited" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="notificationDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="notificationEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="placeFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -59,7 +62,7 @@
     <elements>
         <element name="Place" positionX="-36" positionY="-75" width="128" height="285"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
-        <element name="Settings" positionX="99" positionY="0" width="128" height="270"/>
+        <element name="Settings" positionX="99" positionY="0" width="128" height="315"/>
         <element name="Visit" positionX="232" positionY="-99" width="128" height="195"/>
     </elements>
 </model>
