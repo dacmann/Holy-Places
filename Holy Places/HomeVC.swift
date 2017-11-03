@@ -19,6 +19,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     @IBOutlet weak var info: UIButton!
     @IBOutlet weak var goal: UIButton!
     @IBOutlet weak var goalTitle: UILabel!
+    @IBOutlet weak var settings: UIButton!
     
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
@@ -45,6 +46,9 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         // Grab In-App purchase information
 //        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
+        
+        settings.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
+        
                 
     }
     

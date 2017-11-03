@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import CoreLocation
+import UserNotifications
 //import StoreKit
 
 enum ShortcutIdentifier: String {
@@ -67,10 +68,14 @@ var checkedForUpdate: Date?
 var currentYear = String()
 var attended = 0
 var goalProgress = String()
+var notificationEnabled = Bool()
+var wasCloseToHolyPlace: Date?
+var holyPlaceVisited: Temple?
+var notificationDelayInMinutes = Int16(30)
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
-class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
     //MARK: - Variables
     var xmlParser: XMLParser!
@@ -92,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var window: UIWindow?
     var settings: Settings?
     let locationManager = CLLocationManager()
+    let notificationManager = UNUserNotificationCenter.current()
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
     var shortcutAdded = false
@@ -102,6 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 //        SKPaymentQueue.default().add(self)
         
         locationManager.delegate = self
+        notificationManager.delegate = self
         
         // Change the font and color for the navigation Bar text
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -140,6 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     visitSortRow = Int((settings?.visitSortRow)!)
                     visitFilterRow = Int((settings?.visitFilterRow)!)
                     annualVisitGoal = Int((settings?.annualVisitGoal)!)
+                    notificationEnabled = (settings?.notificationEnabled)!
+                    notificationDelayInMinutes = (settings?.notificationDelay)!
                 }
             } else {
                 annualVisitGoal = 0
@@ -194,11 +203,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         print("Location Update")
         if locationManager.location != nil {
             coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-            
-            // Update the Dynamic Quick Launch
+
+            // Update distances for allPlaces array
             updateDistance(placesToUpdate: allPlaces)
             allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
+            // Set QuickLaunch object to closest place
             quickLaunchItem = allPlaces[0]
+
+            if notificationEnabled {
+                // Determine if closest place is less than 20 meters
+                if Int32((quickLaunchItem?.distance)!) < 20 {
+                    holyPlaceVisited = allPlaces[0]
+                    wasCloseToHolyPlace = Date()
+                } else {
+                    if wasCloseToHolyPlace != nil {
+                        shouldNotify()
+                    }
+                }
+            }
+            
+//            holyPlaceVisited = allPlaces[0]
+//            wasCloseToHolyPlace = Date()
+//            notificationDelayInMinutes = 1
+//            shouldNotify()
+            
+            // Update the Dynamic Quick Launch
             print("Quick Launch updated to \(allPlaces[0].templeName) with a distance of \(allPlaces[0].distance ?? 0)")
             let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
             let anExistingShortcutItem = existingShortcutItems[0]
@@ -239,6 +268,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 place.distance = place.cllocation.distance(from: coordinateOfUser!)
             }
         }
+    }
+    
+    // MARK: - Notifications
+    func shouldNotify() {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd, YYYY"
+        let dateVisited = formatter.string(from: wasCloseToHolyPlace!)
+        
+        // Construct Notification
+        let notifyContent = UNMutableNotificationContent()
+        notifyContent.title = "Record Visit Reminder"
+        notifyContent.body = """
+        You visited \(holyPlaceVisited?.templeName ?? "<holyPlaceName>") on \(dateVisited).
+        
+        Do you want to record your visit now?
+        """
+        notifyContent.categoryIdentifier = "recordVisitReminder"
+        notifyContent.sound = UNNotificationSound.default()
+        
+        
+        // Schedule delivery
+        let notifyTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(notificationDelayInMinutes*60), repeats: false)
+        let request = UNNotificationRequest(identifier: "visitReminder", content: notifyContent, trigger: notifyTrigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+            print(error as Any)
+        })
+        
     }
 
     // MARK: - Quick Launch
@@ -323,6 +380,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.placeSortRow = Int16(placeSortRow)
         settings?.visitFilterRow = Int16(visitFilterRow)
         settings?.visitSortRow = Int16(visitSortRow)
+        settings?.notificationEnabled = notificationEnabled
+        settings?.notificationDelay = notificationDelayInMinutes
         
 //        SKPaymentQueue.default().remove(self)
         self.saveContext()
