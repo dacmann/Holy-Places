@@ -33,6 +33,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var stockImageAdded = false
     var originalPlace = String()
     var switchedPlaces = false
+    var enlargePic = false
     
     //MARK: - ScrollView functions
     
@@ -144,27 +145,33 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
 //        print("viewWillAppear")
-        if originalPlace != detailItem?.templeName {
-            stockImageAdded = false
-            switchedPlaces = true
-            pageControl.numberOfPages = 1
-            pageControl.isHidden = true
+        if enlargePic == false {
+            if originalPlace != detailItem?.templeName {
+                stockImageAdded = false
+                switchedPlaces = true
+                pageControl.numberOfPages = 1
+                pageControl.isHidden = true
+            }
+            self.configureView()
+            visitsAdded = false
         }
-        self.configureView()
-        visitsAdded = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        // Determine number of visits and add any pictures found to the image scrollView
-        if stockImageAdded {
-            self.getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
+        if enlargePic == false {
+            // Determine number of visits and add any pictures found to the image scrollView
+            if stockImageAdded {
+                self.getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
+            } else {
+                downloadImage()
+            }
+            
+            // Change the back button on the Record Visit VC to Cancel
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
         } else {
-            downloadImage()
+            enlargePic = false
         }
-        
-        // Change the back button on the Record Visit VC to Cancel
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
 
     }
     
@@ -411,6 +418,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             if imageCount > 1 {
                 tagNo = pageControl.currentPage + 1
             }
+            enlargePic = true
             if let theImageView = self.pictureScrollView.viewWithTag(tagNo) as? UIImageView {
 //                print("Found image")
                 destViewController.img =  theImageView.image
