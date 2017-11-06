@@ -32,6 +32,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         } else {
             enableSwitch.isOn = false
         }
+        if notificationDelayInMinutes == 0 {
+            notificationDelayInMinutes = 30
+        }
         minutesPicker.selectRow(minutes.index(of: String(notificationDelayInMinutes))!, inComponent: 0, animated: true)
     }
     

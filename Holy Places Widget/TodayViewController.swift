@@ -35,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             lastVisit.text = latestTempleVisited as? String
         }
         if let dateLastVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "dateLastVisited") {
-            lastVisitDate.text = dateLastVisited as? String
+            lastVisitDate.text = "Last Temple Visit: \(dateLastVisited)"
         }
     }
 
@@ -78,7 +78,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         if let dateLastVisited = UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.value(forKey: "dateLastVisited") {
             if dateLastVisited as? String != lastVisitDate.text {
-                lastVisitDate.text = dateLastVisited as? String
+                lastVisitDate.text = "Last Temple Visit: \(dateLastVisited)"
                 completionHandler(NCUpdateResult.newData)
             } else {
                 completionHandler(NCUpdateResult.noData)

@@ -73,7 +73,7 @@ var notificationEnabled = Bool()
 var dateHolyPlaceVisited: Date?
 var holyPlaceWasVisited = Bool()
 var holyPlaceVisited: Temple?
-var notificationDelayInMinutes = Int16(30)
+var notificationDelayInMinutes = Int16()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -187,20 +187,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 locationManager.desiredAccuracy = kCLLocationAccuracyBest
                 locationManager.startMonitoringSignificantLocationChanges()
                 
-                if shortcutAdded == false {
-                    // Add Quick Launch Shortcut to record visit for nearest place
-                    updateDistance(placesToUpdate: allPlaces)
-                    allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
-                    quickLaunchItem = allPlaces[0]
-                    let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
-                                                                    localizedTitle: "Record Visit",
-                                                                    localizedSubtitle: quickLaunchItem?.templeName,
-                                                                    icon: UIApplicationShortcutIcon(type: .compose),
-                                                                    userInfo: nil
-                    )
-                    UIApplication.shared.shortcutItems = [shortcut]
-                    shortcutAdded = true
-                }
+                // Add Quick Launch Shortcut to record visit for nearest place
+                updateDistance(placesToUpdate: allPlaces)
+                allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
+                quickLaunchItem = allPlaces[0]
+                let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
+                                                                localizedTitle: "Record Visit",
+                                                                localizedSubtitle: quickLaunchItem?.templeName,
+                                                                icon: UIApplicationShortcutIcon(type: .compose),
+                                                                userInfo: nil
+                )
+                UIApplication.shared.shortcutItems = [shortcut]
+                shortcutAdded = true
             }
         } else {
             print("Location services are not enabled")

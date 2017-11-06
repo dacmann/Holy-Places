@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2</string>
+	<string>2.2.1</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -53,9 +53,9 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>To add a picture of a Holy Place</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To determine nearest Holy Place</string>
+	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>To determine nearest Holy Place</string>
+	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To determine nearest Holy Place</string>
 	<key>NSPhotoLibraryUsageDescription</key>
