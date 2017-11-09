@@ -357,7 +357,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if shortcutIdentifier == .RecordVisit {
             quickAddPlace = quickLaunchItem
         } else {
-            quickAddPlace = holyPlaceVisited
+            if holyPlaceVisited != nil {
+                quickAddPlace = holyPlaceVisited
+            } else {
+                return false
+            }
         }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
         performSegue(withIdentifier: "quickRecordVisit", sender: nil)

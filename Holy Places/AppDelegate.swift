@@ -185,7 +185,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Location Services Allowed")
                 locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.startMonitoringSignificantLocationChanges()
+                if notificationEnabled {
+                    locationManager.distanceFilter = 50
+                    locationManager.startUpdatingLocation()
+                } else {
+                    locationManager.startMonitoringSignificantLocationChanges()
+                }
                 
                 // Add Quick Launch Shortcut to record visit for nearest place
                 updateDistance(placesToUpdate: allPlaces)
@@ -219,12 +224,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 
             // Check for notification criteria
             if notificationEnabled {
-                // Determine if closest place is less than 20 meters
-                if Int32((quickLaunchItem?.distance)!) < 20 {
-                    holyPlaceVisited = allPlaces[0]
-                    dateHolyPlaceVisited = Date()
-                    holyPlaceWasVisited = true
-                } else if holyPlaceWasVisited {
+                // Determine if closest place is within 60 meters
+                if holyPlaceVisited == nil {
+                    if Int32((quickLaunchItem?.distance)!) < 60 {
+                        print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
+                        holyPlaceVisited = allPlaces[0]
+                        dateHolyPlaceVisited = Date()
+                        holyPlaceWasVisited = true
+                    }
+                } else if holyPlaceWasVisited && Int32((quickLaunchItem?.distance)!) > 59 {
                     holyPlaceWasVisited = false
                     shouldNotify()
                 }
@@ -467,7 +475,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -481,7 +489,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }

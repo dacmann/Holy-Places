@@ -36,6 +36,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             notificationDelayInMinutes = 30
         }
         minutesPicker.selectRow(minutes.index(of: String(notificationDelayInMinutes))!, inComponent: 0, animated: true)
+        if notificationDelayInMinutes > 60 {
+            minutesLabel.text = "Reminder after this number of minutes: \(notificationDelayInMinutes) (\(notificationDelayInMinutes/60) hrs)"
+        } else {
+            minutesLabel.text = "Reminder after this number of minutes: \(notificationDelayInMinutes)"
+        }
     }
     
     @IBAction func enable(_ sender: UISwitch) {
@@ -61,16 +66,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if Int16(minutes[row])! > 60 {
-            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row]) (\(Double(minutes[row])!/60) hrs)"
-        } else {
-            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row])"
-        }
         return minutes[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         notificationDelayInMinutes = Int16(minutes[row])!
+        if Int16(minutes[row])! > 60 {
+            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row]) (\(Double(minutes[row])!/60) hrs)"
+        } else {
+            minutesLabel.text = "Reminder after this number of minutes: \(minutes[row])"
+        }
     }
     
     // MARK: - Navigation
