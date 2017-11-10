@@ -155,8 +155,8 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ztb-f9-cLJ">
-                                <rect key="frame" x="26" y="77.5" width="323" height="176.5"/>
-                                <string key="text">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after you leave.  NOTE: You must allow both Location "Always" and Notifications services for this to work.</string>
+                                <rect key="frame" x="26" y="77.5" width="323" height="101"/>
+                                <string key="text">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after you leave.</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -201,6 +201,15 @@
                                     </switch>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE: You must allow both Location &quot;Always&quot; and Notifications services for this feature." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tas-Bl-3uw">
+                                <rect key="frame" x="26" y="198.5" width="323" height="37"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -209,7 +218,9 @@
                             <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="exM-kM-ctG" secondAttribute="trailing" constant="10" id="DpX-P5-zbN"/>
                             <constraint firstItem="exM-kM-ctG" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="10" id="GC6-UY-Sn1"/>
                             <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="yqH-xF-Uj1" secondAttribute="trailing" constant="26" id="Mqi-R7-Q5b"/>
-                            <constraint firstItem="ZQ7-gW-hfu" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ztb-f9-cLJ" secondAttribute="bottom" constant="10" id="TXo-gf-3fg"/>
+                            <constraint firstItem="tas-Bl-3uw" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="PFG-Jv-GZa"/>
+                            <constraint firstItem="ZQ7-gW-hfu" firstAttribute="top" relation="greaterThanOrEqual" secondItem="tas-Bl-3uw" secondAttribute="bottom" constant="10" id="TXo-gf-3fg"/>
+                            <constraint firstItem="tas-Bl-3uw" firstAttribute="top" secondItem="Ztb-f9-cLJ" secondAttribute="bottom" constant="20" id="Uor-iT-3rf"/>
                             <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="Ztb-f9-cLJ" secondAttribute="trailing" constant="26" id="ZAu-1q-d3V"/>
                             <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="QVv-GL-UCo" secondAttribute="trailing" constant="26" id="bKZ-rM-Ocw"/>
                             <constraint firstItem="QVv-GL-UCo" firstAttribute="top" secondItem="yqH-xF-Uj1" secondAttribute="bottom" constant="20" id="bNg-vG-agy"/>
@@ -218,6 +229,7 @@
                             <constraint firstItem="Ztb-f9-cLJ" firstAttribute="top" secondItem="exM-kM-ctG" secondAttribute="bottom" constant="20" id="owm-T8-HIs"/>
                             <constraint firstItem="ZQ7-gW-hfu" firstAttribute="centerX" secondItem="FXq-zM-9CL" secondAttribute="centerX" id="phb-e7-cPM"/>
                             <constraint firstItem="QVv-GL-UCo" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="uOi-aT-5MK"/>
+                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="tas-Bl-3uw" secondAttribute="trailing" constant="26" id="v5p-SP-8qn"/>
                             <constraint firstItem="Ztb-f9-cLJ" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="wBR-XY-9dr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FXq-zM-9CL"/>
@@ -230,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDf-xO-KJt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1551" y="-1225"/>
+            <point key="canvasLocation" x="1549.5999999999999" y="-1225.6371814092954"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">

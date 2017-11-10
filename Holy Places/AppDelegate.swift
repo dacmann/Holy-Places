@@ -71,9 +71,11 @@ var attended = 0
 var goalProgress = String()
 var notificationEnabled = Bool()
 var dateHolyPlaceVisited: Date?
-var holyPlaceWasVisited = Bool()
-var holyPlaceVisited: Temple?
+var holyPlaceVisited: String?
+var dateFromNotification: Date?
+var placeFromNotification: String?
 var notificationDelayInMinutes = Int16()
+var notificationData: NSDictionary?
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -103,6 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
     var shortcutAdded = false
+
+    // MARK: - Standard Events
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -154,13 +158,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     annualVisitGoal = Int((settings?.annualVisitGoal)!)
                     notificationEnabled = (settings?.notificationEnabled)!
                     notificationDelayInMinutes = (settings?.notificationDelay)!
-                    if settings?.holyPlaceVisited != nil {
-                        if let found = allPlaces.first(where:{$0.templeName == (settings?.holyPlaceVisited)!}) {
-                            holyPlaceVisited  = found
-                            holyPlaceWasVisited = (settings?.holyPlaceWasVisited)!
-                            dateHolyPlaceVisited = (settings?.dateHolyPlaceVisited)!
-                        }
-                    }
+                    holyPlaceVisited  = settings?.holyPlaceVisited
+                    dateHolyPlaceVisited = settings?.dateHolyPlaceVisited
                 }
             } else {
                 annualVisitGoal = 0
@@ -173,6 +172,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         locationServiceSetup()
         
         return true
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        // Save settings
+        if settings == nil {
+            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: persistentContainer.viewContext) as? Settings
+        }
+        settings?.altLocation = locationSpecific
+        settings?.altLocStreet = altLocStreet
+        settings?.altLocCity = altLocCity
+        settings?.altLocState = altLocState
+        settings?.altLocPostalCode = altLocPostalCode
+        if coordAltLocation != nil {
+            settings?.altLocLatitude = coordAltLocation.coordinate.latitude
+            settings?.altLocLongitude = coordAltLocation.coordinate.longitude
+        }
+        settings?.annualVisitGoal = Int16(annualVisitGoal)
+        settings?.placeFilterRow = Int16(placeFilterRow)
+        settings?.placeSortRow = Int16(placeSortRow)
+        settings?.visitFilterRow = Int16(visitFilterRow)
+        settings?.visitSortRow = Int16(visitSortRow)
+        settings?.notificationEnabled = notificationEnabled
+        settings?.notificationDelay = notificationDelayInMinutes
+        settings?.holyPlaceVisited = holyPlaceVisited
+        settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
+        
+        //        SKPaymentQueue.default().remove(self)
+        self.saveContext()
+        
+        // Add Quick Launch shortcut
+        locationServiceSetup()
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Saves changes in the application's managed object context before the application terminates.
     }
     
     // MARK: - Location Services
@@ -228,12 +278,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 if holyPlaceVisited == nil {
                     if Int32((quickLaunchItem?.distance)!) < 60 {
                         print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
-                        holyPlaceVisited = allPlaces[0]
+                        holyPlaceVisited = allPlaces[0].templeName
                         dateHolyPlaceVisited = Date()
-                        holyPlaceWasVisited = true
                     }
-                } else if holyPlaceWasVisited && Int32((quickLaunchItem?.distance)!) > 59 {
-                    holyPlaceWasVisited = false
+                } else if Int32((quickLaunchItem?.distance)!) > 59 {
                     shouldNotify()
                 }
             }
@@ -292,11 +340,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let notifyContent = UNMutableNotificationContent()
         notifyContent.title = "Record Visit Reminder"
         notifyContent.body = """
-        You visited \(holyPlaceVisited?.templeName ?? "<holyPlaceName>") on \(dateVisited).
+        You visited \(holyPlaceVisited ?? "<holyPlaceName>") on \(dateVisited).
         
         Do you want to record your visit now?
         """
         notifyContent.categoryIdentifier = "recordVisitReminder"
+        notifyContent.userInfo = ["place":holyPlaceVisited as Any, "dateVisited":dateHolyPlaceVisited as Any]
         notifyContent.sound = UNNotificationSound.default()
         
         
@@ -306,10 +355,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
             print(error as Any)
         })
-        print("Notification requested for \(holyPlaceVisited?.templeName ?? "<holyPlaceName>")")
+        print("Notification requested for \(holyPlaceVisited ?? "<holyPlaceName>")")
+        
+        // Reset notification variables
+        holyPlaceVisited = nil
+        dateHolyPlaceVisited = nil
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        notificationData = response.notification.request.content.userInfo as NSDictionary
         _ = selectTabBarItemFor(shortcutIdentifier: .Reminder)
     }
 
@@ -368,62 +422,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
 
-    // MARK: - Standard Events
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        // Save settings
-        if settings == nil {
-            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: persistentContainer.viewContext) as? Settings
-        }
-        settings?.altLocation = locationSpecific
-        settings?.altLocStreet = altLocStreet
-        settings?.altLocCity = altLocCity
-        settings?.altLocState = altLocState
-        settings?.altLocPostalCode = altLocPostalCode
-        if coordAltLocation != nil {
-            settings?.altLocLatitude = coordAltLocation.coordinate.latitude
-            settings?.altLocLongitude = coordAltLocation.coordinate.longitude
-        }
-        settings?.annualVisitGoal = Int16(annualVisitGoal)
-        settings?.placeFilterRow = Int16(placeFilterRow)
-        settings?.placeSortRow = Int16(placeSortRow)
-        settings?.visitFilterRow = Int16(visitFilterRow)
-        settings?.visitSortRow = Int16(visitSortRow)
-        settings?.notificationEnabled = notificationEnabled
-        settings?.notificationDelay = notificationDelayInMinutes
-        if holyPlaceVisited != nil {
-            settings?.holyPlaceVisited = holyPlaceVisited?.templeName
-            settings?.holyPlaceWasVisited = holyPlaceWasVisited
-            settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
-        }
-        
-//        SKPaymentQueue.default().remove(self)
-        self.saveContext()
-        
-        // Add Quick Launch shortcut
-        locationServiceSetup()
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-        
-
-    }
     
     //MARK:- Payment function
 //    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -475,7 +474,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -489,7 +488,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
                 print("URL not defined properly")
                 return
             }

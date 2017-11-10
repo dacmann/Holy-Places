@@ -284,13 +284,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         if let detail = self.detailItem {
             if let label = self.templeName {
                 label.text = detail.templeName
-                if detail == holyPlaceVisited {
+                if detail.templeName == placeFromNotification {
                     // Since this place is the same as recently visited place, set the date to saved date
-                    dateOfVisit = dateHolyPlaceVisited
+                    dateOfVisit = dateFromNotification
                     // Reset recently visited variables
-                    dateHolyPlaceVisited = nil
-                    holyPlaceVisited = nil
-                    holyPlaceWasVisited = false
+                    dateFromNotification = nil
+                    placeFromNotification = nil
                 } else {
                     dateOfVisit = Date()
                 }
@@ -298,6 +297,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 if detail.templeType != "T" {
                     templeView.isHidden = true
                 }
+                self.title = "Record Visit"
+                
                 keyboardDone()
                 switch detail.templeType {
                 case "T":
