@@ -8,6 +8,10 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let reload = Notification.Name("reload")
+}
+
 extension UIImageView {
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         contentMode = mode

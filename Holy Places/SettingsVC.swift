@@ -16,6 +16,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var minutesPicker: UIPickerView!
     @IBOutlet weak var enableSwitch: UISwitch!
     @IBOutlet weak var minutesLabel: UILabel!
+    @IBOutlet weak var filterSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +25,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         minutesPicker.delegate = self
         if notificationEnabled {
             enableSwitch.isOn = true
-            appDelegate.locationManager.requestAlwaysAuthorization()
-            appDelegate.notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
-                print(error as Any)
-            })
             minutesPicker.isUserInteractionEnabled = true
         } else {
             enableSwitch.isOn = false
         }
+        if notificationFilter {
+            filterSwitch.isOn = true
+        } else {
+            filterSwitch.isOn = false
+        }
+        
         if notificationDelayInMinutes == 0 {
             notificationDelayInMinutes = 30
         }
@@ -46,14 +49,18 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func enable(_ sender: UISwitch) {
         if sender.isOn {
             notificationEnabled = true
-            appDelegate.locationManager.requestAlwaysAuthorization()
-            appDelegate.notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
-                print(error as Any)
-                })
+            appDelegate.locationServiceSetup()
             minutesPicker.isUserInteractionEnabled = true
         } else {
             notificationEnabled = false
             minutesPicker.isUserInteractionEnabled = false
+        }
+    }
+    @IBAction func filterEnabled(_ sender: UISwitch) {
+        if sender.isOn {
+            notificationFilter = true
+        } else {
+            notificationFilter = false
         }
     }
     

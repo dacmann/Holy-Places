@@ -70,6 +70,7 @@ var currentYear = String()
 var attended = 0
 var goalProgress = String()
 var notificationEnabled = Bool()
+var notificationFilter = Bool()
 var dateHolyPlaceVisited: Date?
 var holyPlaceVisited: String?
 var dateFromNotification: Date?
@@ -104,7 +105,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     let notificationManager = UNUserNotificationCenter.current()
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
-    var shortcutAdded = false
 
     // MARK: - Standard Events
 
@@ -157,6 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     visitFilterRow = Int((settings?.visitFilterRow)!)
                     annualVisitGoal = Int((settings?.annualVisitGoal)!)
                     notificationEnabled = (settings?.notificationEnabled)!
+                    notificationFilter = (settings?.notificationFilter)!
                     notificationDelayInMinutes = (settings?.notificationDelay)!
                     holyPlaceVisited  = settings?.holyPlaceVisited
                     dateHolyPlaceVisited = settings?.dateHolyPlaceVisited
@@ -169,7 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             print("Error with request: \(error)")
         }
         
-        locationServiceSetup()
+        // Add Quick Launch shortcut when authorized
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            locationServiceSetup()
+        }
         
         return true
     }
@@ -201,6 +205,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.visitFilterRow = Int16(visitFilterRow)
         settings?.visitSortRow = Int16(visitSortRow)
         settings?.notificationEnabled = notificationEnabled
+        settings?.notificationFilter = notificationFilter
         settings?.notificationDelay = notificationDelayInMinutes
         settings?.holyPlaceVisited = holyPlaceVisited
         settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
@@ -208,8 +213,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()
         
-        // Add Quick Launch shortcut
-        locationServiceSetup()
+        // Add Quick Launch shortcut when authorized
+        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            locationServiceSetup()
+        }
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -229,31 +236,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func locationServiceSetup() {
         if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 print("No access")
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Location Services Allowed")
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
                 if notificationEnabled {
+                    notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
+                        print(error as Any)
+                    })
                     locationManager.distanceFilter = 50
                     locationManager.startUpdatingLocation()
                 } else {
                     locationManager.startMonitoringSignificantLocationChanges()
                 }
-                
                 // Add Quick Launch Shortcut to record visit for nearest place
-                updateDistance(placesToUpdate: allPlaces)
-                allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
-                quickLaunchItem = allPlaces[0]
-                let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
-                                                                localizedTitle: "Record Visit",
-                                                                localizedSubtitle: quickLaunchItem?.templeName,
-                                                                icon: UIApplicationShortcutIcon(type: .compose),
-                                                                userInfo: nil
-                )
-                UIApplication.shared.shortcutItems = [shortcut]
-                shortcutAdded = true
+                DetermineClosest()
             }
         } else {
             print("Location services are not enabled")
@@ -261,40 +261,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     // Update the Distance in the Place data arrays based on new location
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location Update")
-        if locationManager.location != nil {
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-
-            // Update distances for allPlaces array
+    fileprivate func DetermineClosest() {
+        // Update distances for allPlaces or activeTemples array based on filter
+        if notificationFilter {
+            updateDistance(placesToUpdate: activeTemples)
+            activeTemples.sort { Int($0.distance!) < Int($1.distance!) }
+            // Set QuickLaunch object to closest place
+            quickLaunchItem = activeTemples[0]
+        } else {
             updateDistance(placesToUpdate: allPlaces)
             allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
             // Set QuickLaunch object to closest place
             quickLaunchItem = allPlaces[0]
-
-            // Check for notification criteria
-            if notificationEnabled {
-                // Determine if closest place is within 60 meters
-                if holyPlaceVisited == nil {
-                    if Int32((quickLaunchItem?.distance)!) < 60 {
-                        print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
-                        holyPlaceVisited = allPlaces[0].templeName
-                        dateHolyPlaceVisited = Date()
-                    }
-                } else if Int32((quickLaunchItem?.distance)!) > 59 {
-                    shouldNotify()
+        }
+        
+        // Update Distance for currently viewed array in table
+        updateDistance(placesToUpdate: places)
+        places.sort { Int($0.distance!) < Int($1.distance!) }
+        NotificationCenter.default.post(name: .reload, object: nil)
+        
+        // Check for notification criteria
+        if notificationEnabled {
+            // Determine if closest place is within 60 meters
+            if holyPlaceVisited == nil {
+                if Int32((quickLaunchItem?.distance)!) < 60 {
+                    print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
+                    holyPlaceVisited = quickLaunchItem?.templeName
+                    dateHolyPlaceVisited = Date()
                 }
+            } else if Int32((quickLaunchItem?.distance)!) > 59 {
+                shouldNotify()
             }
-            
-            // Update the Dynamic Quick Launch
-            print("Quick Launch updated to \(allPlaces[0].templeName) with a distance of \(allPlaces[0].distance ?? 0)")
-            let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
-            let anExistingShortcutItem = existingShortcutItems[0]
-            var updatedShortcutItems = existingShortcutItems
-            let aMutableShortcutItem = anExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
-            aMutableShortcutItem.localizedSubtitle = quickLaunchItem?.templeName
-            updatedShortcutItems[0] = aMutableShortcutItem
-            UIApplication.shared.shortcutItems = updatedShortcutItems
+        }
+        
+        let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
+                                                        localizedTitle: "Record Visit",
+                                                        localizedSubtitle: quickLaunchItem?.templeName,
+                                                        icon: UIApplicationShortcutIcon(type: .compose),
+                                                        userInfo: nil
+        )
+        UIApplication.shared.shortcutItems = [shortcut]
+        print("Quick Launch updated to \(quickLaunchItem?.templeName ?? "<place name>") with a distance of \(quickLaunchItem?.distance ?? 0)")
+        
+        // Update the Dynamic Quick Launch
+//        let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
+//        let anExistingShortcutItem = existingShortcutItems[0]
+//        var updatedShortcutItems = existingShortcutItems
+//        let aMutableShortcutItem = anExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
+//        aMutableShortcutItem.localizedSubtitle = quickLaunchItem?.templeName
+//        updatedShortcutItems[0] = aMutableShortcutItem
+//        UIApplication.shared.shortcutItems = updatedShortcutItems
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Location Update")
+        if locationManager.location != nil {
+            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+            // Updated QuickLaunch shortcut
+            DetermineClosest()
         }
     }
     
@@ -474,7 +498,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "http://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -488,7 +512,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "http://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }

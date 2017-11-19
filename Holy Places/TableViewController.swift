@@ -51,7 +51,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         sortBySize = false
         if placeSortRow == 1 {
             nearestEnabled = true
-            appDelegate.locationManager.requestAlwaysAuthorization()
             appDelegate.locationServiceSetup()
         } else if placeSortRow == 2 {
             sortByCountry = true
@@ -332,6 +331,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         FilterOptions(row: placeFilterRow)
         // Add done button to keyboard
         keyboardDone()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData), name: .reload, object: nil)
+
+    }
+    
+    @objc func reloadTableData(_ notification: Notification) {
+        tableView.reloadData()
     }
 
 
