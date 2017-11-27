@@ -105,6 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     let notificationManager = UNUserNotificationCenter.current()
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
+    let distanceFilter = 200.0
 
     // MARK: - Standard Events
 
@@ -172,6 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         // Add Quick Launch shortcut when authorized
         if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            print("Location Services Authorized")
             locationServiceSetup()
         }
         
@@ -247,7 +249,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
                         print(error as Any)
                     })
-                    locationManager.distanceFilter = 50
+                    locationManager.distanceFilter = distanceFilter
                     locationManager.startUpdatingLocation()
                 } else {
                     locationManager.startMonitoringSignificantLocationChanges()
@@ -275,21 +277,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             quickLaunchItem = allPlaces[0]
         }
         
-        // Update Distance for currently viewed array in table
-        updateDistance(placesToUpdate: places)
-        places.sort { Int($0.distance!) < Int($1.distance!) }
-        NotificationCenter.default.post(name: .reload, object: nil)
-        
         // Check for notification criteria
         if notificationEnabled {
-            // Determine if closest place is within 60 meters
+            // Determine if closest place is within the number of meters specified in the distanceFilter constant
             if holyPlaceVisited == nil {
-                if Int32((quickLaunchItem?.distance)!) < 60 {
+                if (quickLaunchItem?.distance)! < distanceFilter + 10 {
                     print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
                     holyPlaceVisited = quickLaunchItem?.templeName
                     dateHolyPlaceVisited = Date()
                 }
-            } else if Int32((quickLaunchItem?.distance)!) > 59 {
+            } else if (quickLaunchItem?.distance)! > distanceFilter + 9 {
                 shouldNotify()
             }
         }
@@ -303,14 +300,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UIApplication.shared.shortcutItems = [shortcut]
         print("Quick Launch updated to \(quickLaunchItem?.templeName ?? "<place name>") with a distance of \(quickLaunchItem?.distance ?? 0)")
         
-        // Update the Dynamic Quick Launch
-//        let existingShortcutItems = UIApplication.shared.shortcutItems ?? []
-//        let anExistingShortcutItem = existingShortcutItems[0]
-//        var updatedShortcutItems = existingShortcutItems
-//        let aMutableShortcutItem = anExistingShortcutItem.mutableCopy() as! UIMutableApplicationShortcutItem
-//        aMutableShortcutItem.localizedSubtitle = quickLaunchItem?.templeName
-//        updatedShortcutItems[0] = aMutableShortcutItem
-//        UIApplication.shared.shortcutItems = updatedShortcutItems
+        // Update Distance for currently viewed array in table
+        updateDistance(placesToUpdate: places, true)
+        places.sort { Int($0.distance!) < Int($1.distance!) }
+        NotificationCenter.default.post(name: .reload, object: nil)
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -335,10 +329,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     // Update the distances in the currently viewed array
-    func updateDistance(placesToUpdate: [Temple]) {
-
+    func updateDistance(placesToUpdate: [Temple], _ placesInView: Bool = false) {
+        print("Specified Location Used: \(placesInView)")
         for place in placesToUpdate {
-            if locationSpecific {
+            if placesInView && locationSpecific {
                 place.distance = place.cllocation.distance(from: coordAltLocation!)
             } else {
                 if coordinateOfUser == nil {

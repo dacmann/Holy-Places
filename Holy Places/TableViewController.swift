@@ -163,7 +163,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 } else {
                     subTitle = "Nearest to Current Location"
                 }
-                appDelegate.updateDistance(placesToUpdate: places)
+                appDelegate.updateDistance(placesToUpdate: places, true)
                 places.sort { Int($0.distance!) < Int($1.distance!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
@@ -289,8 +289,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         
         if nearestEnabled {
             locationButton.title = "Location"
+            // Create Notification Observer ".reload" to trigger the table to refresh when the location changes
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData), name: .reload, object: nil)
         } else {
             locationButton.title = ""
+            // Remove Notification Observer ".reload"
+            NotificationCenter.default.removeObserver(self, name: .reload, object: nil)
         }
         locationButton.isEnabled = nearestEnabled
     }
@@ -332,7 +336,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // Add done button to keyboard
         keyboardDone()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData), name: .reload, object: nil)
+        
 
     }
     
