@@ -26,6 +26,7 @@
 		64A3CB6A1FA901CE00D37E6A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A3CB691FA901CE00D37E6A /* TodayViewController.swift */; };
 		64A3CB6D1FA901CE00D37E6A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64A3CB6B1FA901CE00D37E6A /* MainInterface.storyboard */; };
 		64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64B520FC1FD6FD6900E9B1EE /* Visits.gpx */; };
 		64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */; };
 		64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBEE1E2198C000F7C605 /* TableViewController.swift */; };
 		64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CAEBF01E21B80900F7C605 /* Temples.swift */; };
@@ -89,6 +90,7 @@
 		64A3CB6E1FA901CE00D37E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places Widget.entitlements"; sourceTree = "<group>"; };
 		64A3CB771FA9029700D37E6A /* Holy Places.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places.entitlements"; sourceTree = "<group>"; };
+		64B520FC1FD6FD6900E9B1EE /* Visits.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Visits.gpx; sourceTree = "<group>"; };
 		64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapOptionsVC.swift; path = ../MapOptionsVC.swift; sourceTree = "<group>"; };
 		64CAEBEE1E2198C000F7C605 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		64CAEBF01E21B80900F7C605 /* Temples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temples.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				644D965F1F69F77A00E9D502 /* Main.storyboard */,
 				64F25D341E3121C6009FDEF3 /* ViewControllers */,
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
+				64B520FC1FD6FD6900E9B1EE /* Visits.gpx */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
 				6479E5EE1F0579B50087E013 /* MapPoint.swift */,
 				64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */,
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				644D96601F69F77A00E9D502 /* Main.storyboard in Resources */,
+				64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */,
 				64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */,
 				64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */,
 			);

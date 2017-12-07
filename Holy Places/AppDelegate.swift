@@ -105,8 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     let notificationManager = UNUserNotificationCenter.current()
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
-    let distanceFilter = 200.0
-
+    let distanceFilter = 150.0
+    let visitLengthInSec = 600.0
+    var visitElapsedTime: TimeInterval?
+    
     // MARK: - Standard Events
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -227,6 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        DetermineClosest()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -236,9 +239,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // MARK: - Location Services
     
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        print("!! Location Visit Update !!")
+        print("visit arrival date \(visit.arrivalDate)")
+        print("visit departure date \(visit.departureDate)")
+        print("visit horizontal accuracy \(visit.horizontalAccuracy)")
+
+        if visit.departureDate == Date.distantFuture {
+            // A visit has begun, but not yet ended. User must still be at the place.
+        } else {
+            // The visit is complete, user has left the place.
+            visitElapsedTime = visit.departureDate.timeIntervalSince(visit.arrivalDate)
+            print("Visit elapsed time: \(Int(visitElapsedTime!/60)) min")
+        }
+        coordinateOfUser = manager.location
+        DetermineClosest()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Location Update")
+        coordinateOfUser = manager.location
+        // Updated QuickLaunch shortcut
+        DetermineClosest()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            print("Location Authorized")
+            coordinateOfUser = manager.location
+        } else {
+            print("Location not authorized")
+            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
+        }
+    }
+    
     func locationServiceSetup() {
         if CLLocationManager.locationServicesEnabled() {
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestAlwaysAuthorization()
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
@@ -249,9 +285,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
                         print(error as Any)
                     })
-                    locationManager.distanceFilter = distanceFilter
-                    locationManager.startUpdatingLocation()
+//                    locationManager.distanceFilter = distanceFilter
+//                    locationManager.startUpdatingLocation()
+                    locationManager.stopMonitoringSignificantLocationChanges()
+                    locationManager.startMonitoringVisits()
                 } else {
+                    locationManager.stopMonitoringVisits()
+                    locationManager.desiredAccuracy = kCLLocationAccuracyBest
                     locationManager.startMonitoringSignificantLocationChanges()
                 }
                 // Add Quick Launch Shortcut to record visit for nearest place
@@ -264,32 +304,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // Update the Distance in the Place data arrays based on new location
     fileprivate func DetermineClosest() {
-        // Update distances for allPlaces or activeTemples array based on filter
-        if notificationFilter {
-            updateDistance(placesToUpdate: activeTemples)
-            activeTemples.sort { Int($0.distance!) < Int($1.distance!) }
-            // Set QuickLaunch object to closest place
-            quickLaunchItem = activeTemples[0]
-        } else {
-            updateDistance(placesToUpdate: allPlaces)
-            allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
-            // Set QuickLaunch object to closest place
-            quickLaunchItem = allPlaces[0]
-        }
+
         
         // Check for notification criteria
         if notificationEnabled {
-            // Determine if closest place is within the number of meters specified in the distanceFilter constant
-            if holyPlaceVisited == nil {
-                if (quickLaunchItem?.distance)! < distanceFilter + 10 {
-                    print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(quickLaunchItem?.distance ?? 0) meters")
+            // Update distances for allPlaces or activeTemples array based on filter
+            if notificationFilter {
+                updateDistance(placesToUpdate: activeTemples)
+                activeTemples.sort { Int($0.distance!) < Int($1.distance!) }
+                // Set QuickLaunch object to closest place
+                quickLaunchItem = activeTemples[0]
+            } else {
+                updateDistance(placesToUpdate: allPlaces)
+                allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
+                // Set QuickLaunch object to closest place
+                quickLaunchItem = allPlaces[0]
+            }
+            if let timeElapsed = visitElapsedTime {
+                // check if the visit is close to a holy place and was at least a certain amount of time
+                print("Distance to \((quickLaunchItem?.templeName)!) is \(Int((quickLaunchItem?.distance)!))")
+                if ((quickLaunchItem?.distance)! < distanceFilter) && (timeElapsed > visitLengthInSec) {
+                    print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(Int(quickLaunchItem?.distance ?? 0)) meters for \(Int(timeElapsed/60)) minutes")
                     holyPlaceVisited = quickLaunchItem?.templeName
                     dateHolyPlaceVisited = Date()
+                    shouldNotify()
                 }
-            } else if (quickLaunchItem?.distance)! > distanceFilter + 9 {
-                shouldNotify()
             }
         }
+        
+        // Update Distance for currently viewed array in table
+        updateDistance(placesToUpdate: places, true)
+        places.sort { Int($0.distance!) < Int($1.distance!) }
+        
+        // Set QuickLaunch object to closest place based on current location of user
+        updateDistance(placesToUpdate: allPlaces)
+        allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
+        quickLaunchItem = allPlaces[0]
+        
+        NotificationCenter.default.post(name: .reload, object: nil)
         
         let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
                                                         localizedTitle: "Record Visit",
@@ -299,33 +351,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         )
         UIApplication.shared.shortcutItems = [shortcut]
         print("Quick Launch updated to \(quickLaunchItem?.templeName ?? "<place name>") with a distance of \(quickLaunchItem?.distance ?? 0)")
-        
-        // Update Distance for currently viewed array in table
-        updateDistance(placesToUpdate: places, true)
-        places.sort { Int($0.distance!) < Int($1.distance!) }
-        NotificationCenter.default.post(name: .reload, object: nil)
-        
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location Update")
-        if locationManager.location != nil {
-            coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-            // Updated QuickLaunch shortcut
-            DetermineClosest()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            print("Location Authorized")
-            if locationManager.location != nil {
-                coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-            }
-        } else {
-            print("Location not authorized")
-            coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-        }
+  
     }
     
     // Update the distances in the currently viewed array
@@ -334,14 +360,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         for place in placesToUpdate {
             if placesInView && locationSpecific {
                 place.distance = place.cllocation.distance(from: coordAltLocation!)
-            } else {
-                if coordinateOfUser == nil {
-                    if locationManager.location != nil {
-                        coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-                    } else {
-                        coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
-                    }
+            } else if placesInView || coordinateOfUser == nil {
+                if locationManager.location != nil {
+                    coordinateOfUser = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+                } else {
+                    // default to Temple Square
+                    coordinateOfUser = CLLocation(latitude: 40.7707425, longitude: -111.8932596)
                 }
+                place.distance = place.cllocation.distance(from: coordinateOfUser!)
+            } else {
                 place.distance = place.cllocation.distance(from: coordinateOfUser!)
             }
         }
@@ -358,7 +385,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let notifyContent = UNMutableNotificationContent()
         notifyContent.title = "Record Visit Reminder"
         notifyContent.body = """
-        You visited \(holyPlaceVisited ?? "<holyPlaceName>") on \(dateVisited).
+        You visited \(holyPlaceVisited ?? "<holyPlaceName>") on \(dateVisited) for ~\(Int(visitElapsedTime!/60)) minutes.
         
         Do you want to record your visit now?
         """
@@ -378,11 +405,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Reset notification variables
         holyPlaceVisited = nil
         dateHolyPlaceVisited = nil
+        visitElapsedTime = nil
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         notificationData = response.notification.request.content.userInfo as NSDictionary
         _ = selectTabBarItemFor(shortcutIdentifier: .Reminder)
+        completionHandler()
     }
 
     // MARK: - Quick Launch
@@ -899,17 +928,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let container = NSPersistentContainer(name: "HolyData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -924,8 +942,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             do {
                 try context.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
