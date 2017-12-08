@@ -18,6 +18,213 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Settings-->
+        <scene sceneID="US0-p0-yeH">
+            <objects>
+                <tableViewController title="Settings" id="Pqe-NT-UkW" userLabel="Settings" customClass="SettingsTableVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="COf-rm-lyQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="Ao3-oL-QR4">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="qIZ-PV-uDN">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qIZ-PV-uDN" id="6a0-kp-sWZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8d2-Q5-GEn">
+                                                    <rect key="frame" x="106" y="10.5" width="162.5" height="23"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                    <color key="textColor" red="0.91092067960000001" green="0.70529049629999996" blue="0.3566227555" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="8d2-Q5-GEn" firstAttribute="centerY" secondItem="6a0-kp-sWZ" secondAttribute="centerY" id="Jws-6q-j2f"/>
+                                                <constraint firstItem="8d2-Q5-GEn" firstAttribute="centerX" secondItem="6a0-kp-sWZ" secondAttribute="centerX" id="xHJ-2O-7LN"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Track Visit Reminder" id="IOQ-Cz-Ke0">
+                                <string key="footerTitle">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after you leave.  NOTE: You must allow both Location "Always" and Notification services for this feature.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hmt-mx-AEa">
+                                        <rect key="frame" x="0.0" y="142.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hmt-mx-AEa" id="FS1-mq-Otk">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gKK-16-9kt">
+                                                    <rect key="frame" x="308" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="enable:" destination="Pqe-NT-UkW" eventType="valueChanged" id="6f8-dI-MMb"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Visit Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehf-us-P9t">
+                                                    <rect key="frame" x="16" y="12" width="184.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="gKK-16-9kt" secondAttribute="trailing" constant="18" id="Bqr-Sk-vbT"/>
+                                                <constraint firstItem="ehf-us-P9t" firstAttribute="leading" secondItem="FS1-mq-Otk" secondAttribute="leading" constant="16" id="JEf-Ch-jHe"/>
+                                                <constraint firstItem="ehf-us-P9t" firstAttribute="centerY" secondItem="FS1-mq-Otk" secondAttribute="centerY" id="leH-9z-63z"/>
+                                                <constraint firstItem="gKK-16-9kt" firstAttribute="centerY" secondItem="FS1-mq-Otk" secondAttribute="centerY" id="w8F-ff-1aC"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MEi-ex-bak">
+                                        <rect key="frame" x="0.0" y="186.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MEi-ex-bak" id="CNd-lt-JUf">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Axd-EG-udR">
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="filterEnabled:" destination="Pqe-NT-UkW" eventType="valueChanged" id="BVO-Bw-L6N"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Only Notify for Temples" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eav-QA-97H">
+                                                    <rect key="frame" x="16" y="12" width="177" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="eav-QA-97H" firstAttribute="leading" secondItem="CNd-lt-JUf" secondAttribute="leading" constant="16" id="14Q-dY-Ts0"/>
+                                                <constraint firstItem="Axd-EG-udR" firstAttribute="centerY" secondItem="CNd-lt-JUf" secondAttribute="centerY" id="19c-P7-Lx4"/>
+                                                <constraint firstItem="eav-QA-97H" firstAttribute="centerY" secondItem="CNd-lt-JUf" secondAttribute="centerY" id="Bst-yM-Tht"/>
+                                                <constraint firstAttribute="trailing" secondItem="Axd-EG-udR" secondAttribute="trailing" constant="16" id="uuN-xz-EiR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="I6P-Mx-OGe">
+                                        <rect key="frame" x="0.0" y="230.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I6P-Mx-OGe" id="MWO-uT-NTs">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reminder Delay (in minutes)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly8-PG-Ur7">
+                                                    <rect key="frame" x="16" y="12" width="208" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="15" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EcK-We-uik">
+                                                    <rect key="frame" x="299" y="7" width="60" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="KsA-jS-x4b"/>
+                                                    </constraints>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="EcK-We-uik" secondAttribute="trailing" constant="16" id="U1v-h3-IQm"/>
+                                                <constraint firstItem="Ly8-PG-Ur7" firstAttribute="centerY" secondItem="MWO-uT-NTs" secondAttribute="centerY" id="aUi-vz-q63"/>
+                                                <constraint firstItem="EcK-We-uik" firstAttribute="centerY" secondItem="MWO-uT-NTs" secondAttribute="centerY" id="gYu-Tl-s69"/>
+                                                <constraint firstItem="Ly8-PG-Ur7" firstAttribute="leading" secondItem="MWO-uT-NTs" secondAttribute="leadingMargin" id="yXn-IB-fp9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Temple Goal" id="pLf-go-q16">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ikA-G5-oWN">
+                                        <rect key="frame" x="0.0" y="422.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ikA-G5-oWN" id="48d-OG-tbD">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Annual Temple Visits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iK8-82-HH1">
+                                                    <rect key="frame" x="16" y="12" width="156" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="12" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KB3-Sr-Df3">
+                                                    <rect key="frame" x="299" y="7" width="60" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="c24-am-nkV"/>
+                                                    </constraints>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="KB3-Sr-Df3" firstAttribute="centerY" secondItem="48d-OG-tbD" secondAttribute="centerY" id="Beq-Nq-6U4"/>
+                                                <constraint firstItem="iK8-82-HH1" firstAttribute="leading" secondItem="48d-OG-tbD" secondAttribute="leading" constant="16" id="YXi-oi-52c"/>
+                                                <constraint firstAttribute="trailing" secondItem="KB3-Sr-Df3" secondAttribute="trailing" constant="16" id="bal-Kc-WSR"/>
+                                                <constraint firstItem="iK8-82-HH1" firstAttribute="centerY" secondItem="48d-OG-tbD" secondAttribute="centerY" id="fSr-wk-5mZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="jZm-MJ-9Gx">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="BOU-k4-HgV">
+                                        <rect key="frame" x="0.0" y="502.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BOU-k4-HgV" id="LBq-bk-Fon">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCG-SS-3ZS">
+                                                    <rect key="frame" x="10" y="4.5" width="355" height="35"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                    <state key="normal" title="Save Settings">
+                                                        <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="done:" destination="Pqe-NT-UkW" eventType="touchUpInside" id="Igt-Lq-LI9"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="bCG-SS-3ZS" secondAttribute="trailing" constant="10" id="8fn-Ml-a8R"/>
+                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="leading" secondItem="LBq-bk-Fon" secondAttribute="leading" constant="10" id="cpg-hj-0dO"/>
+                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="centerX" secondItem="LBq-bk-Fon" secondAttribute="centerX" id="zAy-0v-rG6"/>
+                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="zi5-Dv-VCe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Pqe-NT-UkW" id="7Zd-Ny-s9N"/>
+                            <outlet property="delegate" destination="Pqe-NT-UkW" id="M30-cB-QD3"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
+                        <outlet property="filterSwitch" destination="Axd-EG-udR" id="0Pg-My-XZh"/>
+                        <outlet property="minutesDelay" destination="EcK-We-uik" id="TRj-R7-Bph"/>
+                        <outlet property="visitGoal" destination="KB3-Sr-Df3" id="4UY-0f-C8k"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JAA-1w-j9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-10.4" y="-1230.1349325337333"/>
+        </scene>
         <!--GoalVC-->
         <scene sceneID="wD6-6b-rz5">
             <objects>
@@ -125,136 +332,6 @@
             </objects>
             <point key="canvasLocation" x="748" y="-1224.737631184408"/>
         </scene>
-        <!--SettingsVC-->
-        <scene sceneID="a0a-qx-4b5">
-            <objects>
-                <viewController id="XYC-eS-IQA" customClass="SettingsVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="a3j-tV-TdW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVv-GL-UCo" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="26" y="607" width="323" height="40"/>
-                                <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="done:" destination="21t-8e-xhe" eventType="touchUpInside" id="q1E-k1-N1f"/>
-                                    <action selector="done:" destination="XYC-eS-IQA" eventType="touchUpInside" id="y9b-MK-IeN"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="exM-kM-ctG">
-                                <rect key="frame" x="10" y="30" width="355" height="27.5"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                <color key="textColor" red="0.91092067960000001" green="0.70529049629999996" blue="0.3566227555" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="42"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ztb-f9-cLJ" userLabel="Description">
-                                <rect key="frame" x="26" y="77.5" width="323" height="197.5"/>
-                                <string key="text">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after you leave.  NOTE: You must allow both Location "Always" and Notification services for this feature.</string>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="32"/>
-                                </variation>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ZQ7-gW-hfu" userLabel="Enable Stack">
-                                <rect key="frame" x="63.5" y="285" width="291.5" height="31"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LWC-i4-afC">
-                                        <rect key="frame" x="0.0" y="0.0" width="212.5" height="31"/>
-                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="CG6-4Y-VOa">
-                                        <rect key="frame" x="242.5" y="0.0" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="enable:" destination="XYC-eS-IQA" eventType="valueChanged" id="cdu-y4-K4q"/>
-                                        </connections>
-                                    </switch>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="moi-I8-frT" userLabel="Filter Stack">
-                                <rect key="frame" x="92.5" y="326" width="262.5" height="31"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Only for Temples" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zhF-xA-GJY">
-                                        <rect key="frame" x="0.0" y="0.0" width="183.5" height="31"/>
-                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wl7-Ia-es8">
-                                        <rect key="frame" x="213.5" y="0.0" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="filterEnabled:" destination="XYC-eS-IQA" eventType="valueChanged" id="o4V-Oo-5po"/>
-                                        </connections>
-                                    </switch>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="yqH-xF-Uj1" userLabel="Picker Stack">
-                                <rect key="frame" x="26" y="367" width="323" height="220"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reminder after this number of minutes:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="H3v-yR-42p">
-                                        <rect key="frame" x="0.0" y="0.0" width="153" height="220"/>
-                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="34"/>
-                                        </variation>
-                                    </label>
-                                    <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="NkH-4S-tQF">
-                                        <rect key="frame" x="183" y="0.0" width="140" height="220"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="K4g-dH-7xk"/>
-                                        </constraints>
-                                    </pickerView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="220" id="oEn-vL-Fkx"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="yqH-xF-Uj1" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="BjV-eh-ZSM"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="bottom" secondItem="QVv-GL-UCo" secondAttribute="bottom" constant="20" id="DVN-Xw-Vmf"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="exM-kM-ctG" secondAttribute="trailing" constant="10" id="DpX-P5-zbN"/>
-                            <constraint firstItem="exM-kM-ctG" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="10" id="GC6-UY-Sn1"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="moi-I8-frT" secondAttribute="trailing" constant="20" id="J5r-Y0-Tng"/>
-                            <constraint firstItem="moi-I8-frT" firstAttribute="top" secondItem="ZQ7-gW-hfu" secondAttribute="bottom" constant="10" id="KsQ-C9-7po"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="yqH-xF-Uj1" secondAttribute="trailing" constant="26" id="Mqi-R7-Q5b"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="ZQ7-gW-hfu" secondAttribute="trailing" constant="20" id="NVv-QL-Upz"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="Ztb-f9-cLJ" secondAttribute="trailing" constant="26" id="ZAu-1q-d3V"/>
-                            <constraint firstItem="FXq-zM-9CL" firstAttribute="trailing" secondItem="QVv-GL-UCo" secondAttribute="trailing" constant="26" id="bKZ-rM-Ocw"/>
-                            <constraint firstItem="QVv-GL-UCo" firstAttribute="top" secondItem="yqH-xF-Uj1" secondAttribute="bottom" constant="20" id="bNg-vG-agy"/>
-                            <constraint firstItem="exM-kM-ctG" firstAttribute="top" secondItem="FXq-zM-9CL" secondAttribute="top" constant="10" id="feX-Vm-Jci"/>
-                            <constraint firstItem="yqH-xF-Uj1" firstAttribute="top" secondItem="moi-I8-frT" secondAttribute="bottom" constant="10" id="kP0-Ia-1nS"/>
-                            <constraint firstItem="Ztb-f9-cLJ" firstAttribute="top" secondItem="exM-kM-ctG" secondAttribute="bottom" constant="20" id="owm-T8-HIs"/>
-                            <constraint firstItem="ZQ7-gW-hfu" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ztb-f9-cLJ" secondAttribute="bottom" constant="10" id="pL6-Jd-Axi"/>
-                            <constraint firstItem="QVv-GL-UCo" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="uOi-aT-5MK"/>
-                            <constraint firstItem="Ztb-f9-cLJ" firstAttribute="leading" secondItem="FXq-zM-9CL" secondAttribute="leading" constant="26" id="wBR-XY-9dr"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="FXq-zM-9CL"/>
-                    </view>
-                    <connections>
-                        <outlet property="enableSwitch" destination="CG6-4Y-VOa" id="NUF-qV-pSO"/>
-                        <outlet property="filterSwitch" destination="wl7-Ia-es8" id="QpT-ed-Uvh"/>
-                        <outlet property="minutesLabel" destination="H3v-yR-42p" id="ZY0-co-ITO"/>
-                        <outlet property="minutesPicker" destination="NkH-4S-tQF" id="HWW-WG-snU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lDf-xO-KJt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1549.5999999999999" y="-1225.6371814092954"/>
-        </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
@@ -347,7 +424,7 @@
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="O"/>
                                 <connections>
-                                    <segue destination="XYC-eS-IQA" kind="presentation" id="qkb-VZ-yQf"/>
+                                    <segue destination="Pqe-NT-UkW" kind="presentation" id="p9X-Kd-HGH"/>
                                 </connections>
                             </button>
                         </subviews>
