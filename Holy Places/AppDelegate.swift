@@ -282,6 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Location Services Allowed")
                 if notificationEnabled {
+                    // Request authorization for Notifcation alerts and sounds
                     notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
                         print(error as Any)
                     })
