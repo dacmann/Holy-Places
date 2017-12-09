@@ -19,7 +19,13 @@ class HomeVC: UIViewController, XMLParserDelegate {
     @IBOutlet weak var goal: UIButton!
     @IBOutlet weak var goalTitle: UILabel!
     @IBOutlet weak var settings: UIButton!
-    
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var holyPlaces: UILabel!
+    @IBOutlet weak var reference: UILabel!
+    @IBOutlet weak var topLine: UIView!
+    @IBOutlet weak var bottomLine: UIView!
+    @IBOutlet weak var share: UIButton!
+    @IBOutlet weak var visitDate: UILabel!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
@@ -51,6 +57,23 @@ class HomeVC: UIViewController, XMLParserDelegate {
                 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        goalTitle.text = "\(currentYear) Goal Progress"
+        // Adjust spacing of letters of Goal Progress
+        let attributedString = NSMutableAttributedString(string: goalTitle.text!)
+        attributedString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
+        goalTitle.attributedText = attributedString
+        
+        if annualVisitGoal == 0 {
+            goal.setTitle("SET GOAL", for: .normal)
+            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
+        } else {
+            appDelegate.getVisits()
+            goal.setTitle(goalProgress, for: .normal)
+        }
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         // Determine if check hasn't occurred today
@@ -80,22 +103,59 @@ class HomeVC: UIViewController, XMLParserDelegate {
             changesDate = ""
         }
         
-        goalTitle.text = "\(currentYear) Goal Progress"
-        // Adjust spacing of letters of Goal Progress
-        let attributedString = NSMutableAttributedString(string: goalTitle.text!)
-        attributedString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
-        goalTitle.attributedText = attributedString
-        
-        if annualVisitGoal == 0 {
-            goal.setTitle("SET GOAL", for: .normal)
-            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
+        // Home Screen Customizations
+        holyPlaces.textColor = UIColor.home()
+//        holyPlaces.shadowColor = .gray
+        reference.textColor = UIColor.home()
+//        reference.shadowColor = .gray
+        goalTitle.textColor = UIColor.home()
+//        goalTitle.shadowColor = .gray
+//        
+        info.tintColor = UIColor.home()
+////        info.layer.shadowColor = UIColor.gray.cgColor
+////        info.layer.shadowRadius = 5
+////        info.layer.shadowOpacity = 1.0
+//        
+        topLine.backgroundColor = UIColor.home()
+        bottomLine.backgroundColor = UIColor.home()
+        share.titleLabel?.textColor = UIColor.home()
+        goal.titleLabel?.textColor = UIColor.home()
+        settings.titleLabel?.textColor = UIColor.home()
+        visitDate.textColor = UIColor.home()
+
+        if homeDefaultPicture {
+            // Set background image to Provo City Center temple
+            if self.traitCollection.horizontalSizeClass == .regular {
+                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
+            } else {
+                backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
+            }
+            visitDate.isHidden = true
         } else {
-            appDelegate.getVisits()
-            goal.setTitle(goalProgress, for: .normal)
+            if homeVisitPicture {
+                if let imageData = homeVisitPictureData {
+                    backgroundImage.image = UIImage(data: imageData)
+                    visitDate.text = homeVisitDate
+                    visitDate.isHidden = false
+                }
+            } else {
+                if let imageData = homeAlternatePicture {
+                    backgroundImage.image = UIImage(data: imageData)
+                    visitDate.isHidden = true
+                }
+            }
+        }
+
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if homeTextColor == 0 {
+            return .lightContent
+        } else {
+            return .default
         }
         
     }
-    
 
     //MARK: - In-App Purchases
 //    var productRequest: SKProductsRequest!

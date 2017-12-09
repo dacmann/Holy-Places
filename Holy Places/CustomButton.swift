@@ -21,3 +21,28 @@ class CustomButton: UIButton {
     }
     
 }
+
+class ShadowButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Add gray Shadow
+//        self.tintColor = UIColor.home()
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowRadius = 5
+        self.layer.shadowOpacity = 1.0
+    }
+}
+
+class ShadowLabel: UILabel {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Add gray Shadow
+//        self.tintColor = UIColor.home()
+        self.shadowColor = UIColor.gray
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowRadius = 5
+        self.layer.shadowOpacity = 1.0
+    }
+}

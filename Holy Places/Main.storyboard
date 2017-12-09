@@ -180,31 +180,151 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="jZm-MJ-9Gx">
+                            <tableViewSection headerTitle="Customize Home Screen" id="jZm-MJ-9Gx">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="BOU-k4-HgV">
-                                        <rect key="frame" x="0.0" y="602" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="622" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BOU-k4-HgV" id="LBq-bk-Fon">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCG-SS-3ZS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Default Background Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Soy-IO-6XI">
+                                                    <rect key="frame" x="16" y="11" width="228.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8G-vJ-zkL">
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="defaultImageChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="AFw-fA-Z11"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="o8G-vJ-zkL" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="Wz3-8v-qaH"/>
+                                                <constraint firstAttribute="trailing" secondItem="o8G-vJ-zkL" secondAttribute="trailing" constant="16" id="hEy-gQ-Opg"/>
+                                                <constraint firstItem="Soy-IO-6XI" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="orf-4Q-Qw3"/>
+                                                <constraint firstItem="Soy-IO-6XI" firstAttribute="leading" secondItem="LBq-bk-Fon" secondAttribute="leading" constant="16" id="xDg-Vw-JA5"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rN1-jd-KI2">
+                                        <rect key="frame" x="0.0" y="666" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rN1-jd-KI2" id="aNr-0G-ooD">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Random Visit Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxJ-ZW-ssd">
+                                                    <rect key="frame" x="16" y="12" width="189.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-Bj-qdj">
+                                                    <rect key="frame" x="310" y="7" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="randomVisitChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="hTd-Cw-0L0"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="5kA-2h-naj"/>
+                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="UP6-zA-y4e"/>
+                                                <constraint firstAttribute="trailing" secondItem="Gec-Bj-qdj" secondAttribute="trailing" constant="16" id="jae-cT-XR5"/>
+                                                <constraint firstItem="Gec-Bj-qdj" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="kzi-6c-HSZ"/>
+                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="leading" secondItem="aNr-0G-ooD" secondAttribute="leading" constant="16" id="msU-Nj-WF9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HMj-NB-y59">
+                                        <rect key="frame" x="0.0" y="710" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ">
+                                                    <rect key="frame" x="10" y="4.5" width="355" height="35"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                    <state key="normal" title="Select Background Image">
+                                                        <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addPicture:" destination="Pqe-NT-UkW" eventType="touchUpInside" id="IrK-jN-YIe"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="btI-Gq-DnQ" firstAttribute="centerY" secondItem="8Ih-cM-gBZ" secondAttribute="centerY" id="3vE-Tw-8J0"/>
+                                                <constraint firstItem="btI-Gq-DnQ" firstAttribute="leading" secondItem="8Ih-cM-gBZ" secondAttribute="leading" constant="10" id="If5-O3-Upg"/>
+                                                <constraint firstItem="btI-Gq-DnQ" firstAttribute="centerX" secondItem="8Ih-cM-gBZ" secondAttribute="centerX" id="RXR-Kx-MBQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="btI-Gq-DnQ" secondAttribute="trailing" constant="10" id="hMN-S5-gMZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zU5-l1-Mp7">
+                                        <rect key="frame" x="0.0" y="754" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zU5-l1-Mp7" id="TpG-oX-TQK">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
+                                                    <rect key="frame" x="258" y="7.5" width="101" height="29"/>
+                                                    <segments>
+                                                        <segment title="White"/>
+                                                        <segment title="Black"/>
+                                                    </segments>
+                                                    <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="textColorChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="jcP-5Y-KfA"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
+                                                    <rect key="frame" x="16" y="12" width="79" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WyI-Fe-Eg6" firstAttribute="centerY" secondItem="TpG-oX-TQK" secondAttribute="centerY" id="A8J-lF-ydx"/>
+                                                <constraint firstAttribute="trailing" secondItem="9dI-CK-Mbb" secondAttribute="trailing" constant="16" id="gf3-lX-hvH"/>
+                                                <constraint firstItem="WyI-Fe-Eg6" firstAttribute="leading" secondItem="TpG-oX-TQK" secondAttribute="leading" constant="16" id="rFA-oX-crR"/>
+                                                <constraint firstItem="9dI-CK-Mbb" firstAttribute="centerY" secondItem="TpG-oX-TQK" secondAttribute="centerY" id="wLz-Ih-amo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="TJZ-nF-bxF" userLabel="Save Settings">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="syO-3Z-ycb">
+                                        <rect key="frame" x="0.0" y="834" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8f-95-3uL">
                                                     <rect key="frame" x="10" y="4.5" width="355" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                     <state key="normal" title="Save Settings">
                                                         <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="done:" destination="Pqe-NT-UkW" eventType="touchUpInside" id="Igt-Lq-LI9"/>
+                                                        <action selector="done:" destination="Pqe-NT-UkW" eventType="touchUpInside" id="W8Z-5z-8i8"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="bCG-SS-3ZS" secondAttribute="trailing" constant="10" id="8fn-Ml-a8R"/>
-                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="leading" secondItem="LBq-bk-Fon" secondAttribute="leading" constant="10" id="cpg-hj-0dO"/>
-                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="centerX" secondItem="LBq-bk-Fon" secondAttribute="centerX" id="zAy-0v-rG6"/>
-                                                <constraint firstItem="bCG-SS-3ZS" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="zi5-Dv-VCe"/>
+                                                <constraint firstItem="b8f-95-3uL" firstAttribute="leading" secondItem="yx6-PV-jFd" secondAttribute="leading" constant="10" id="QZY-Xn-Asl"/>
+                                                <constraint firstItem="b8f-95-3uL" firstAttribute="centerX" secondItem="yx6-PV-jFd" secondAttribute="centerX" id="XGh-Uv-24i"/>
+                                                <constraint firstItem="b8f-95-3uL" firstAttribute="centerY" secondItem="yx6-PV-jFd" secondAttribute="centerY" id="wg5-MJ-WHK"/>
+                                                <constraint firstAttribute="trailing" secondItem="b8f-95-3uL" secondAttribute="trailing" constant="10" id="yEO-rG-Tov"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -217,15 +337,18 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="defaultImage" destination="o8G-vJ-zkL" id="coc-Qf-gMy"/>
                         <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
                         <outlet property="filterSwitch" destination="Axd-EG-udR" id="0Pg-My-XZh"/>
                         <outlet property="minutesDelay" destination="EcK-We-uik" id="TRj-R7-Bph"/>
+                        <outlet property="randomVisit" destination="Gec-Bj-qdj" id="nr9-jN-rmB"/>
+                        <outlet property="textColor" destination="9dI-CK-Mbb" id="I7H-0x-yU6"/>
                         <outlet property="visitGoal" destination="KB3-Sr-Df3" id="4UY-0f-C8k"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAA-1w-j9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10.4" y="-1230.1349325337333"/>
+            <point key="canvasLocation" x="1549.5999999999999" y="-1214.8425787106448"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
@@ -239,17 +362,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <variation key="heightClass=regular-widthClass=regular" image="PCCW"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="&quot;Stand ye in holy places, and be not moved...&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7">
-                                <rect key="frame" x="20" y="40" width="335" height="46"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="&quot;Stand ye in holy places, and be not moved...&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k46-Yl-vx7" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="20" y="40" width="335" height="47"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D&amp;C 87:8" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl">
-                                <rect key="frame" x="294" y="96" width="55" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D&amp;C 87:8" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="294" y="97" width="55" height="15"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="13"/>
                                 <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -257,38 +381,39 @@
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-B8-cmp">
-                                <rect key="frame" x="16" y="136" width="22" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-B8-cmp" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="16" y="137" width="22" height="22"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="Xvp-4l-ctd" kind="presentation" id="JRP-qk-S21"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0NS-3P-XN1" userLabel="line">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0NS-3P-XN1">
                                 <rect key="frame" x="106" y="455.5" width="163" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="56t-N0-7Ya"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 0 1 7  G o a l  P r o g r e s s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vwg-46-s45">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 0 1 7  G o a l  P r o g r e s s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vwg-46-s45" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="106" y="457.5" width="163" height="17"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="14"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19M-tx-g3d" userLabel="line">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19M-tx-g3d">
                                 <rect key="frame" x="106" y="475.5" width="163" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="AXI-dr-VIs"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-JN-b2N">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-JN-b2N" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="145" y="474.5" width="85" height="47"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                 <state key="normal" title="GOAL">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <segue destination="Pqe-NT-UkW" kind="presentation" id="q9M-yB-c9Z"/>
@@ -296,15 +421,26 @@
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRa-Fz-Ssp" userLabel="spacer">
                                 <rect key="frame" x="87" y="522.5" width="200" height="33.5"/>
+                                <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date of visit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MgI-SP-iNW" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="57.5" y="6" width="85" height="21"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="5RK-fN-Jng"/>
+                                    <constraint firstItem="MgI-SP-iNW" firstAttribute="centerY" secondItem="fRa-Fz-Ssp" secondAttribute="centerY" id="Dr6-5n-7NI"/>
+                                    <constraint firstItem="MgI-SP-iNW" firstAttribute="centerX" secondItem="fRa-Fz-Ssp" secondAttribute="centerX" id="GoY-kp-vpz"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-Nv-ABQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-Nv-ABQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="16" y="556" width="343" height="32"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <state key="normal" title="Share Holy Places">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -313,8 +449,8 @@
                                     <action selector="shareHolyPlaces:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Yfj-v3-Pmt"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uec-Ci-Yhv">
-                                <rect key="frame" x="329" y="123" width="30" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uec-Ci-Yhv" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="329" y="124" width="30" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="O"/>
@@ -359,10 +495,17 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="backgroundImage" destination="pF0-Pf-K9x" id="E89-oD-njX"/>
+                        <outlet property="bottomLine" destination="19M-tx-g3d" id="1C3-jO-TdK"/>
                         <outlet property="goal" destination="OYw-JN-b2N" id="A1m-tE-qEL"/>
                         <outlet property="goalTitle" destination="vwg-46-s45" id="ZAA-hO-Wgc"/>
-                        <outlet property="info" destination="KgE-B8-cmp" id="cu8-2k-JMX"/>
+                        <outlet property="holyPlaces" destination="k46-Yl-vx7" id="jyt-4L-D5D"/>
+                        <outlet property="info" destination="KgE-B8-cmp" id="Fcd-qI-R0p"/>
+                        <outlet property="reference" destination="jOZ-q7-HPl" id="pJv-Fq-pUo"/>
                         <outlet property="settings" destination="Uec-Ci-Yhv" id="NlG-CA-Onj"/>
+                        <outlet property="share" destination="d0U-Nv-ABQ" id="Oxl-hr-IX7"/>
+                        <outlet property="topLine" destination="0NS-3P-XN1" id="to4-DK-7g6"/>
+                        <outlet property="visitDate" destination="MgI-SP-iNW" id="K3B-Lc-7Oe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -2511,6 +2654,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Znc-r7-aaw"/>
         <segue reference="QNJ-qY-fxt"/>
-        <segue reference="p9X-Kd-HGH"/>
+        <segue reference="q9M-yB-c9Z"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

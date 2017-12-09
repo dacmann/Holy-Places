@@ -145,6 +145,15 @@ public extension UIDevice {
 
 extension UIColor {
     
+    // home screen font color
+    class func home() -> UIColor {
+        if homeTextColor == 0 {
+            return UIColor.white
+        } else {
+            return UIColor.black
+        }
+    }
+    
     class func cantaloupe() -> UIColor {
         return UIColor(red:255/255, green:204/255, blue:102/255, alpha:1.0)
     }

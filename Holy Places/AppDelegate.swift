@@ -77,6 +77,12 @@ var dateFromNotification: Date?
 var placeFromNotification: String?
 var notificationDelayInMinutes = Int16()
 var notificationData: NSDictionary?
+var homeAlternatePicture: Data?
+var homeVisitPicture = false
+var homeVisitPictureData: Data?
+var homeDefaultPicture = true
+var homeTextColor = 0 as Int16
+var homeVisitDate: String?
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -164,6 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     notificationDelayInMinutes = (settings?.notificationDelay)!
                     holyPlaceVisited  = settings?.holyPlaceVisited
                     dateHolyPlaceVisited = settings?.dateHolyPlaceVisited
+                    homeTextColor = (settings?.homeTextColor)!
+                    homeDefaultPicture = (settings?.homeDefaultPicture)!
+                    homeAlternatePicture = settings?.homeAlternatePicture
+                    homeVisitPicture = (settings?.homeVisitPicture)!
                 }
             } else {
                 annualVisitGoal = 0
@@ -213,6 +223,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.notificationDelay = notificationDelayInMinutes
         settings?.holyPlaceVisited = holyPlaceVisited
         settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
+        settings?.homeTextColor = homeTextColor
+        settings?.homeDefaultPicture = homeDefaultPicture
+        settings?.homeAlternatePicture = homeAlternatePicture
+        settings?.homeVisitPicture = homeVisitPicture
         
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()
@@ -693,7 +707,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
             fetchRequest.sortDescriptors = [sortDescriptor]
-            let searchResults = try getContext().fetch(fetchRequest)
+            var searchResults = try getContext().fetch(fetchRequest)
             
             let userCalendar = Calendar.current
             var currentYearStart = DateComponents()
@@ -721,6 +735,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(latestTempleVisited, forKey: "latestTempleVisited")
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(dateLastVisited, forKey: "dateLastVisited")
             
+            // get random visit picture
+            fetchRequest.predicate = NSPredicate(format: "picture != nil")
+            searchResults = try getContext().fetch(fetchRequest)
+            if searchResults.count > 0 {
+                let randomIndex = Int(arc4random_uniform(UInt32(searchResults.count)))
+                let visit = searchResults[randomIndex] as Visit
+                homeVisitPictureData = visit.picture!
+                homeVisitDate = formatter.string(from: visit.dateVisited!)
+            }
         } catch {
             print("Error with request: \(error)")
         }

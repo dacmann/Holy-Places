@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsTableVC: UITableViewController {
+class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -17,22 +17,19 @@ class SettingsTableVC: UITableViewController {
     @IBOutlet weak var enableSwitch: UISwitch!
     @IBOutlet weak var filterSwitch: UISwitch!
     @IBOutlet weak var visitGoal: UITextField!
+    @IBOutlet weak var textColor: UISegmentedControl!
+    @IBOutlet weak var defaultImage: UISwitch!
+    @IBOutlet weak var randomVisit: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Settings"
         
-        if notificationEnabled {
-            enableSwitch.isOn = true
-        } else {
-            enableSwitch.isOn = false
-        }
-        if notificationFilter {
-            filterSwitch.isOn = true
-        } else {
-            filterSwitch.isOn = false
-        }
+        enableSwitch.isOn = notificationEnabled
+        filterSwitch.isOn = notificationFilter
+        filterSwitch.isEnabled = notificationEnabled
+        
         // default values
         if notificationDelayInMinutes == 0 {
             notificationDelayInMinutes = 30
@@ -41,10 +38,22 @@ class SettingsTableVC: UITableViewController {
             annualVisitGoal = 12
         }
         
+        defaultImage.isOn = homeDefaultPicture
+        textColor.selectedSegmentIndex = Int(homeTextColor)
+        
         visitGoal.text = String(annualVisitGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
+        randomVisit.isEnabled = !homeDefaultPicture
+        randomVisit.isOn = homeVisitPicture
         keyboardDone()
 
+    }
+    
+    @IBAction func textColorChange(_ sender: UISegmentedControl) {
+        homeTextColor = Int16(sender.selectedSegmentIndex)
+    }
+    @IBAction func randomVisitChange(_ sender: UISwitch) {
+        homeVisitPicture = sender.isOn
     }
     
     @IBAction func enable(_ sender: UISwitch) {
@@ -57,12 +66,18 @@ class SettingsTableVC: UITableViewController {
             minutesDelay.isEnabled = false
         }
     }
+    
     @IBAction func filterEnabled(_ sender: UISwitch) {
-        if sender.isOn {
-            notificationFilter = true
-        } else {
-            notificationFilter = false
+        notificationFilter = sender.isOn
+    }
+    
+    @IBAction func defaultImageChange(_ sender: UISwitch) {
+        homeDefaultPicture = sender.isOn
+        if homeDefaultPicture {
+            homeTextColor = 0
         }
+        textColor.selectedSegmentIndex = Int(homeTextColor)
+        randomVisit.isEnabled = !homeDefaultPicture
     }
     
     @IBAction func done(_ sender: UIButton) {
@@ -93,5 +108,37 @@ class SettingsTableVC: UITableViewController {
         //setting toolbar as inputAccessoryView
         self.minutesDelay.inputAccessoryView = toolbar
         self.visitGoal.inputAccessoryView = toolbar
+    }
+    
+    @IBAction func addPicture(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            //                imagePicker.allowsEditing = true
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
+                self.present(imagePicker, animated: true, completion: nil)
+                let popoverPresentationController = imagePicker.popoverPresentationController
+                popoverPresentationController?.sourceView = sender
+            } else {
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        print(image?.size as Any)
+
+        guard let imageData = UIImageJPEGRepresentation(image!, 1) else {
+            // handle failed conversion
+            print("jpg error")
+            return
+        }
+        homeAlternatePicture = imageData as Data
+        self.dismiss(animated: true, completion: nil)
     }
 }
