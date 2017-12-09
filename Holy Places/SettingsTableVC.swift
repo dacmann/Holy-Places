@@ -20,6 +20,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var textColor: UISegmentedControl!
     @IBOutlet weak var defaultImage: UISwitch!
     @IBOutlet weak var randomVisit: UISwitch!
+    @IBOutlet weak var selectedImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         
         defaultImage.isOn = homeDefaultPicture
         textColor.selectedSegmentIndex = Int(homeTextColor)
+        
+        if homeAlternatePicture != nil {
+            selectedImage.image = UIImage(data: homeAlternatePicture!)
+        }
         
         visitGoal.text = String(annualVisitGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
@@ -139,6 +144,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
             return
         }
         homeAlternatePicture = imageData as Data
+        selectedImage.image = UIImage(data: homeAlternatePicture!)
         self.dismiss(animated: true, completion: nil)
     }
 }
