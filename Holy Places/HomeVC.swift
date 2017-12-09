@@ -16,8 +16,8 @@ class HomeVC: UIViewController, XMLParserDelegate {
     
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
-    @IBOutlet weak var goal: UIButton!
     @IBOutlet weak var goalTitle: UILabel!
+    @IBOutlet weak var goal: UILabel!
     @IBOutlet weak var settings: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var holyPlaces: UILabel!
@@ -65,11 +65,12 @@ class HomeVC: UIViewController, XMLParserDelegate {
         goalTitle.attributedText = attributedString
         
         if annualVisitGoal == 0 {
-            goal.setTitle("SET GOAL", for: .normal)
+            goal.text = "SET GOAL"
+            // Update value for Today Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
         } else {
             appDelegate.getVisits()
-            goal.setTitle(goalProgress, for: .normal)
+            goal.text = goalProgress
         }
         
     }
@@ -105,21 +106,13 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         // Home Screen Customizations
         holyPlaces.textColor = UIColor.home()
-//        holyPlaces.shadowColor = .gray
         reference.textColor = UIColor.home()
-//        reference.shadowColor = .gray
         goalTitle.textColor = UIColor.home()
-//        goalTitle.shadowColor = .gray
-//        
+        goal.textColor = UIColor.home()
         info.tintColor = UIColor.home()
-////        info.layer.shadowColor = UIColor.gray.cgColor
-////        info.layer.shadowRadius = 5
-////        info.layer.shadowOpacity = 1.0
-//        
         topLine.backgroundColor = UIColor.home()
         bottomLine.backgroundColor = UIColor.home()
         share.titleLabel?.textColor = UIColor.home()
-        goal.titleLabel?.textColor = UIColor.home()
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 

@@ -89,7 +89,7 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Track Visit Reminder" id="IOQ-Cz-Ke0">
-                                <string key="footerTitle">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after you leave.  NOTE: You must allow both Location "Always" and Notification services for this feature.</string>
+                                <string key="footerTitle">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after your visit.  NOTE: You must allow both Location "Always" and Notifications for this feature.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hmt-mx-AEa">
                                         <rect key="frame" x="0.0" y="342" width="375" height="44"/>
@@ -389,36 +389,31 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0NS-3P-XN1">
-                                <rect key="frame" x="106" y="455.5" width="163" height="1"/>
+                                <rect key="frame" x="106" y="465" width="163" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="56t-N0-7Ya"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 0 1 7  G o a l  P r o g r e s s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vwg-46-s45" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="106" y="457.5" width="163" height="17"/>
+                                <rect key="frame" x="106" y="467" width="163" height="17"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="14"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19M-tx-g3d">
-                                <rect key="frame" x="106" y="475.5" width="163" height="1"/>
+                                <rect key="frame" x="106" y="485" width="163" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="AXI-dr-VIs"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-JN-b2N" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="145" y="474.5" width="85" height="47"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 of 12 Visits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="um1-Ns-NrD" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="107.5" y="488" width="159.5" height="34.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
-                                <state key="normal" title="GOAL">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="Pqe-NT-UkW" kind="presentation" id="q9M-yB-c9Z"/>
-                                </connections>
-                            </button>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRa-Fz-Ssp" userLabel="spacer">
                                 <rect key="frame" x="87" y="522.5" width="200" height="33.5"/>
                                 <subviews>
@@ -462,15 +457,15 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KgE-B8-cmp" firstAttribute="leading" secondItem="KB8-Og-jCU" secondAttribute="leading" constant="16" id="0da-6H-29x"/>
-                            <constraint firstItem="fRa-Fz-Ssp" firstAttribute="top" secondItem="OYw-JN-b2N" secondAttribute="bottom" constant="1" id="4zx-HG-PEd"/>
                             <constraint firstItem="fRa-Fz-Ssp" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="5oN-25-s4c"/>
+                            <constraint firstItem="fRa-Fz-Ssp" firstAttribute="top" secondItem="um1-Ns-NrD" secondAttribute="bottom" id="AXG-ap-Pnw"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="Uec-Ci-Yhv" secondAttribute="trailing" constant="16" id="CWf-Ph-eQL"/>
                             <constraint firstItem="0NS-3P-XN1" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="DPh-Eu-K2I"/>
+                            <constraint firstItem="um1-Ns-NrD" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="GFf-G2-NH1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d0U-Nv-ABQ" secondAttribute="trailing" id="INu-HH-HgK"/>
                             <constraint firstItem="d0U-Nv-ABQ" firstAttribute="top" secondItem="fRa-Fz-Ssp" secondAttribute="bottom" id="IjA-4t-Mx9"/>
                             <constraint firstItem="vwg-46-s45" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="Kqt-cc-ujc"/>
                             <constraint firstItem="pF0-Pf-K9x" firstAttribute="leading" secondItem="KB8-Og-jCU" secondAttribute="leading" id="NR6-BY-BRQ"/>
-                            <constraint firstItem="OYw-JN-b2N" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="OKd-5H-i8D"/>
                             <constraint firstItem="KgE-B8-cmp" firstAttribute="top" secondItem="k46-Yl-vx7" secondAttribute="bottom" constant="50" id="Ovv-nG-zoz"/>
                             <constraint firstAttribute="bottom" secondItem="pF0-Pf-K9x" secondAttribute="bottom" id="P8A-nc-vme"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="pF0-Pf-K9x" secondAttribute="trailing" id="PMX-ig-bXm"/>
@@ -480,8 +475,8 @@
                             <constraint firstItem="19M-tx-g3d" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="Umv-XT-5BC"/>
                             <constraint firstItem="d0U-Nv-ABQ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="XRn-Fj-knc"/>
                             <constraint firstItem="jOZ-q7-HPl" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" constant="-10" id="aDL-AM-5ss"/>
+                            <constraint firstItem="um1-Ns-NrD" firstAttribute="top" secondItem="19M-tx-g3d" secondAttribute="bottom" constant="2" id="cyc-bs-Yxw"/>
                             <constraint firstItem="pF0-Pf-K9x" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="d8v-Nx-J76"/>
-                            <constraint firstItem="OYw-JN-b2N" firstAttribute="top" secondItem="vwg-46-s45" secondAttribute="bottom" id="fV3-vl-12q"/>
                             <constraint firstItem="Uec-Ci-Yhv" firstAttribute="centerY" secondItem="KgE-B8-cmp" secondAttribute="centerY" id="hEC-d6-PDK"/>
                             <constraint firstItem="19M-tx-g3d" firstAttribute="width" secondItem="vwg-46-s45" secondAttribute="width" id="oZh-L4-uci"/>
                             <constraint firstItem="0NS-3P-XN1" firstAttribute="width" secondItem="vwg-46-s45" secondAttribute="width" id="p8E-Z3-1Zp"/>
@@ -497,7 +492,7 @@
                     <connections>
                         <outlet property="backgroundImage" destination="pF0-Pf-K9x" id="E89-oD-njX"/>
                         <outlet property="bottomLine" destination="19M-tx-g3d" id="1C3-jO-TdK"/>
-                        <outlet property="goal" destination="OYw-JN-b2N" id="A1m-tE-qEL"/>
+                        <outlet property="goal" destination="um1-Ns-NrD" id="hH8-pd-1hc"/>
                         <outlet property="goalTitle" destination="vwg-46-s45" id="ZAA-hO-Wgc"/>
                         <outlet property="holyPlaces" destination="k46-Yl-vx7" id="jyt-4L-D5D"/>
                         <outlet property="info" destination="KgE-B8-cmp" id="Fcd-qI-R0p"/>
@@ -2654,7 +2649,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Znc-r7-aaw"/>
         <segue reference="QNJ-qY-fxt"/>
-        <segue reference="q9M-yB-c9Z"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

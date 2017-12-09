@@ -50,7 +50,7 @@ var altLocStreet = String()
 var altLocCity = String()
 var altLocState = String()
 var altLocPostalCode = String()
-var annualVisitGoal = Int()
+var annualVisitGoal = 12 as Int
 var placeFilterRow = Int()
 var placeSortRow = Int()
 var visitFilterRow = Int()
@@ -400,7 +400,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let notifyContent = UNMutableNotificationContent()
         notifyContent.title = "Record Visit Reminder"
         notifyContent.body = """
-        You visited \(holyPlaceVisited ?? "<holyPlaceName>") on \(dateVisited) for ~\(Int(visitElapsedTime!/60)) minutes.
+        You visited \(holyPlaceVisited ?? "<holyPlaceName>") on \(dateVisited).
         
         Do you want to record your visit now?
         """

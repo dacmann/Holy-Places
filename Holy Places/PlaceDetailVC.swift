@@ -75,11 +75,14 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             //go get the results
             let searchResults = try getContext().fetch(fetchRequest)
             
-            //I like to check the size of the returned results!
+            // Check for the number of visits that have pictures
+            fetchRequest.predicate = NSPredicate(format: "picture != nil && holyPlace == %@", templeName)
+            let pictureResults = try getContext().fetch(fetchRequest)
+            print("Number of visits with pictures: \(pictureResults.count)")
+            
 //            print ("num of results = \(searchResults.count)")
             visitCount = searchResults.count
             
-            //You need to convert to NSManagedObject to use 'for' loops
             for visit in searchResults as [Visit] {
                 // load image
                 if let imageData = visit.picture {
@@ -89,12 +92,21 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     let formatter = DateFormatter()
                     formatter.dateFormat = "EEEE, MMMM dd YYYY"
                     let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
-//                    let point: CGPoint = CGPoint(x: 20, y: 60)
+
                     image = textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
 
                     let imageView = UIImageView()
                     imageView.contentMode = .scaleAspectFit
-                    imageView.image = image
+
+                    if image!.size.height > 1000 && pictureResults.count > 2 {
+                        // reduce size of picture when there are more than 2 visits with pictures so the control is more responsive
+                        let smallImage = self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3))
+                        imageView.image = smallImage
+                        print("reduced image to \(smallImage.size.height)")
+                    } else {
+                        imageView.image = image
+                    }
+                    
                     let xPosition = self.pictureScrollView.frame.width * CGFloat(x)
                     imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
                     pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
@@ -181,6 +193,15 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         if !(visitsAdded) {
             GetSavedImage()
         }
+    }
+    
+    func imageWithImage(image:UIImage ,scaledToSize newSize:CGSize)-> UIImage
+    {
+        UIGraphicsBeginImageContext( newSize )
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        return newImage
     }
     
     @objc func imageClicked()
