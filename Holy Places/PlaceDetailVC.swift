@@ -29,11 +29,13 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
 
     var visitCount = 0
     var imageCount = 0
+    var visitImageCount = 0
     var visitsAdded = false
     var stockImageAdded = false
     var originalPlace = String()
     var switchedPlaces = false
-    var enlargePic = false
+    var reloadPics = true
+    var picsLoading = true
     
     //MARK: - ScrollView functions
     
@@ -63,6 +65,14 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         return appDelegate.persistentContainer.viewContext
     }
     
+    func BG(_ block: @escaping ()->Void) {
+        DispatchQueue.global(qos: .default).async(execute: block)
+    }
+    
+    func UI(_ block: @escaping ()->Void) {
+        DispatchQueue.main.async(execute: block)
+    }
+    
     // Retrieve the Visits data from CoreData
     func getVisits (templeName: String, startInt: Int) {
 //        print("getVisits")
@@ -70,77 +80,93 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
         
-        do {
-            var x = startInt
+        var images = [(Date, UIImage)]()
+        
+        processVisits: do {
+            var imageCounter = startInt
             //go get the results
             let searchResults = try getContext().fetch(fetchRequest)
+            visitCount = searchResults.count
             
             // Check for the number of visits that have pictures
             fetchRequest.predicate = NSPredicate(format: "picture != nil && holyPlace == %@", templeName)
             let pictureResults = try getContext().fetch(fetchRequest)
-            print("Number of visits with pictures: \(pictureResults.count)")
+            
+            //  when returning from recording a visit and no new images have been added, don't continue with image processing
+            if originalPlace == detailItem?.templeName {
+                if visitImageCount == pictureResults.count {
+                    break processVisits
+                } else {
+                    // Reset scrollview
+                    GetSavedImage()
+                }
+            }
+            visitImageCount = pictureResults.count
+            print("Number of visits with pictures: \(visitImageCount)")
             
 //            print ("num of results = \(searchResults.count)")
-            visitCount = searchResults.count
             
-            for visit in searchResults as [Visit] {
+            for visit in pictureResults as [Visit] {
                 // load image
-                if let imageData = visit.picture {
+                BG { if let imageData = visit.picture {
                     var image = UIImage(data: imageData as Data)
                     
                     // Grab date of visit and attach to picture
                     let formatter = DateFormatter()
                     formatter.dateFormat = "EEEE, MMMM dd YYYY"
                     let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
-
-                    image = textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
-
-                    let imageView = UIImageView()
-                    imageView.contentMode = .scaleAspectFit
-
-                    if image!.size.height > 1000 && pictureResults.count > 2 {
-                        // reduce size of picture when there are more than 2 visits with pictures so the control is more responsive
-                        let smallImage = self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3))
-                        imageView.image = smallImage
-                        print("reduced image to \(smallImage.size.height)")
-                    } else {
-                        imageView.image = image
-                    }
                     
-                    let xPosition = self.pictureScrollView.frame.width * CGFloat(x)
-                    imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
-                    pictureScrollView.contentSize.width = pictureScrollView.frame.width * CGFloat(x + 1)
-                    let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
-                    imageView.addGestureRecognizer(tap)
-                    imageView.isUserInteractionEnabled = true
-                    imageView.tag = x + 1
-                    OperationQueue.main.addOperation() {
-                        self.pictureScrollView.addSubview(imageView)
+                    // embed date of visit in picture
+                    image = self.textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
+                    
+                    if image!.size.height > 1000 && pictureResults.count > 2 {
+                        // reduce size of picture when there are more than 2 visits with pictures so the scroll view control is more responsive
+                        let smallImage = (visit.dateVisited!, self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3)))
+                        images.append(smallImage)
+                        print("reduced image to \(smallImage.1.size.height)")
+                    } else {
+                        images.append((visit.dateVisited!, image!))
+                    }}
+                    if images.count == self.visitImageCount {
+                        // all pictures have been processed, go ahead and update the UI
+                        self.UI {
+                            // first reorder the images by date
+                            let sortedImages = images.sorted(by: { $0.0 > $1.0 })
+                            for (_, image) in sortedImages {
+                                let imageView = UIImageView()
+                                imageView.contentMode = .scaleAspectFit
+                                imageView.image = image
+                                let xPosition = self.pictureScrollView.frame.width * CGFloat(imageCounter)
+                                imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
+                                self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width * CGFloat(imageCounter + 1)
+                                let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
+                                imageView.addGestureRecognizer(tap)
+                                imageView.isUserInteractionEnabled = true
+                                imageView.tag = imageCounter + 1
+                                self.imageCount += 1
+                                imageCounter += 1
+                                self.pictureScrollView.addSubview(imageView)
+                            }
+                            self.pageControl.numberOfPages = imageCounter
+                            self.pageControl.isHidden = false
+                            self.view.bringSubview(toFront: self.pageControl)
+                            self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                            self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                            self.picsLoading = false
+                        }
                     }
-                    imageCount += 1
-                    x += 1
                 }
-            }
-            OperationQueue.main.addOperation() {
-                if self.visitCount > 0 {
-                    self.totalVisits.text = "Visits: \(self.visitCount)"
-                    self.totalVisits.isHidden = false
-                } else {
-                    self.totalVisits.isHidden = true
                 }
-                if x > 1 {
-                    self.pageControl.numberOfPages = x
-                    self.pageControl.isHidden = false
-//                    self.pageControl.layer.zPosition = 1
-                    self.view.bringSubview(toFront: self.pageControl)
-//                    self.view.setNeedsDisplay()
-                    self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                    self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
-                }
-            }
         } catch {
             print("Error with request: \(error)")
         }
+        UI {
+            if self.visitCount > 0 {
+                self.totalVisits.text = "Visits: \(self.visitCount)"
+                self.totalVisits.isHidden = false
+            } else {
+                self.totalVisits.isHidden = true
+            }}
         visitsAdded = true
     }
 
@@ -157,24 +183,25 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
 //        print("viewWillAppear")
-        if enlargePic == false {
-            if originalPlace != detailItem?.templeName {
-                stockImageAdded = false
-                switchedPlaces = true
-                pageControl.numberOfPages = 1
-                pageControl.isHidden = true
-            }
-            self.configureView()
-            visitsAdded = false
+        
+        if originalPlace != detailItem?.templeName {
+            stockImageAdded = false
+            switchedPlaces = true
+            pageControl.numberOfPages = 1
+            pageControl.isHidden = true
+            reloadPics = true
         }
+        configureView()
+        visitsAdded = false
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        if enlargePic == false {
+        if reloadPics {
             // Determine number of visits and add any pictures found to the image scrollView
             if stockImageAdded {
-                self.getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
+                getVisits(templeName: (detailItem?.templeName)!, startInt: 1)
             } else {
                 downloadImage()
             }
@@ -182,7 +209,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             // Change the back button on the Record Visit VC to Cancel
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
         } else {
-            enlargePic = false
+            reloadPics = true
         }
 
     }
@@ -406,6 +433,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             mapPoints.append(mapPoint)
             mapZoomLevel = 4000
         }
+        reloadPics = picsLoading
         mapCenter = coordinate
         navigationController?.pushViewController(controller, animated: true)
         
@@ -415,6 +443,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
     @IBAction func LaunchWebsite2(_ sender: UIButton) {
         if let url = URL(string: (detailItem?.templeSiteURL)!) {
+            reloadPics = picsLoading
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
             present(vc, animated: true)
         }
@@ -422,6 +451,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     @IBAction func launchWebsite(_ sender: Any) {
         if let url = URL(string: (detailItem?.infoURL)!) {
+            reloadPics = picsLoading
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         }
@@ -439,7 +469,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             if imageCount > 1 {
                 tagNo = pageControl.currentPage + 1
             }
-            enlargePic = true
+            reloadPics = picsLoading
             if let theImageView = self.pictureScrollView.viewWithTag(tagNo) as? UIImageView {
 //                print("Found image")
                 destViewController.img =  theImageView.image
