@@ -111,9 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     let notificationManager = UNUserNotificationCenter.current()
     var coordinateOfUser: CLLocation!
     var closestPlace = String()
-    let distanceFilter = 150.0
-    let visitLengthInSec = 600.0
+    let distanceFilter = 10000.0 // 10,000 meters
+    let visitLengthInSec = 600.0 // 10 minutes
     var visitElapsedTime: TimeInterval?
+    var monitoredRegions: Dictionary<String, NSDate> = [:]
     
     // MARK: - Standard Events
 
@@ -243,7 +244,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        DetermineClosest()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -252,23 +252,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     // MARK: - Location Services
-    
-    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
-        print("!! Location Visit Update !!")
-        print("visit arrival date \(visit.arrivalDate)")
-        print("visit departure date \(visit.departureDate)")
-        print("visit horizontal accuracy \(visit.horizontalAccuracy)")
-
-        if visit.departureDate == Date.distantFuture {
-            // A visit has begun, but not yet ended. User must still be at the place.
-        } else {
-            // The visit is complete, user has left the place.
-            visitElapsedTime = visit.departureDate.timeIntervalSince(visit.arrivalDate)
-            print("Visit elapsed time: \(Int(visitElapsedTime!/60)) min")
-        }
-        coordinateOfUser = manager.location
-        DetermineClosest()
-    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location Update")
@@ -287,9 +270,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // entered region
+        // Add entrance time
+        monitoredRegions[region.identifier] = NSDate()
+        print("Entered region for \(region.identifier) at \(Date())")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        // exited region
+        print("Exited region for \(region.identifier) at \(Date())")
+        // calculate visit time
+        if let timeEntered = monitoredRegions[region.identifier] {
+            visitElapsedTime = NSDate().timeIntervalSince(timeEntered as Date)
+            //Remove entrance time
+            monitoredRegions.removeValue(forKey: region.identifier)
+            
+            // create notification
+            print("Visited \(region.identifier) for \(Int(visitElapsedTime!/60)) minutes")
+            holyPlaceVisited = region.identifier
+            dateHolyPlaceVisited = Date()
+            shouldNotify()
+        }
+    }
+    
     func locationServiceSetup() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestAlwaysAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 print("No access")
@@ -300,15 +308,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
                         print(error as Any)
                     })
-//                    locationManager.distanceFilter = distanceFilter
-//                    locationManager.startUpdatingLocation()
-                    locationManager.stopMonitoringSignificantLocationChanges()
-                    locationManager.startMonitoringVisits()
-                } else {
-                    locationManager.stopMonitoringVisits()
-                    locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                    locationManager.startMonitoringSignificantLocationChanges()
                 }
+                locationManager.startMonitoringSignificantLocationChanges()
                 // Add Quick Launch Shortcut to record visit for nearest place
                 DetermineClosest()
             }
@@ -319,30 +320,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // Update the Distance in the Place data arrays based on new location
     fileprivate func DetermineClosest() {
+        let regionRadius = 100.0
 
-        
         // Check for notification criteria
         if notificationEnabled {
             // Update distances for allPlaces or activeTemples array based on filter
+            var placesForRegionMonitoring = allPlaces
+            
             if notificationFilter {
-                updateDistance(placesToUpdate: activeTemples)
-                activeTemples.sort { Int($0.distance!) < Int($1.distance!) }
-                // Set QuickLaunch object to closest place
-                quickLaunchItem = activeTemples[0]
-            } else {
-                updateDistance(placesToUpdate: allPlaces)
-                allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
-                // Set QuickLaunch object to closest place
-                quickLaunchItem = allPlaces[0]
+                // remove any non-temple regions being monitored since temple only notifications is enabled
+                for region in locationManager.monitoredRegions {
+                    // find region in array to determine if it is a temple
+                    if let found = placesForRegionMonitoring.index(where:{$0.templeName == region.identifier}) {
+                        if placesForRegionMonitoring[found].templeType != "T" {
+                            let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: placesForRegionMonitoring[found].coordinate.latitude, longitude: placesForRegionMonitoring[found].coordinate.longitude), radius: regionRadius, identifier: placesForRegionMonitoring[found].templeName)
+                            if locationManager.monitoredRegions.contains(region) {
+                                print("Removing region for \(placesForRegionMonitoring[found].templeName)")
+                                locationManager.stopMonitoring(for: region)
+                            }
+                        }
+                    }
+                }
+                // Change to only temples
+                placesForRegionMonitoring = activeTemples
             }
-            if let timeElapsed = visitElapsedTime {
-                // check if the visit is close to a holy place and was at least a certain amount of time
-                print("Distance to \((quickLaunchItem?.templeName)!) is \(Int((quickLaunchItem?.distance)!))")
-                if ((quickLaunchItem?.distance)! < distanceFilter) && (timeElapsed > visitLengthInSec) {
-                    print("Visited \(quickLaunchItem?.templeName ?? "<place name>") within a distance of \(Int(quickLaunchItem?.distance ?? 0)) meters for \(Int(timeElapsed/60)) minutes")
-                    holyPlaceVisited = quickLaunchItem?.templeName
-                    dateHolyPlaceVisited = Date()
-                    shouldNotify()
+            updateDistance(placesToUpdate: placesForRegionMonitoring)
+            placesForRegionMonitoring.sort { Int($0.distance!) < Int($1.distance!) }
+            
+            // remove any regions no longer close
+            for region in locationManager.monitoredRegions {
+                // find region in array to determine distance
+                
+                if let found = placesForRegionMonitoring.index(where:{$0.templeName == region.identifier}) {
+//                    print("region set for \(region.identifier) with a distance of \(placesForRegionMonitoring[found].distance!) meters")
+                    if placesForRegionMonitoring[found].distance! >= distanceFilter {
+                        // remove if further than distanceFilter
+                        let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: placesForRegionMonitoring[found].coordinate.latitude, longitude: placesForRegionMonitoring[found].coordinate.longitude), radius: regionRadius, identifier: placesForRegionMonitoring[found].templeName)
+                        if locationManager.monitoredRegions.contains(region) {
+                            print("Removing region for \(placesForRegionMonitoring[found].templeName)")
+                            locationManager.stopMonitoring(for: region)
+                        }
+                    }
+                }
+            }
+
+            // Update regions being monitored for up to 20 closest
+            var placeCount = 0
+            for place in placesForRegionMonitoring {
+                placeCount += 1
+                if placeCount > 20 {
+                    break
+                }
+                if place.distance! < distanceFilter {
+                    let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude), radius: regionRadius, identifier: place.templeName)
+                    if locationManager.monitoredRegions.contains(region) {
+                        print("Region already exists for \(place.templeName)")
+                    } else {
+                        print("Creating region \(placeCount) for \(place.templeName)")
+                        locationManager.startMonitoring(for: region)
+                    }
                 }
             }
         }
@@ -371,7 +407,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // Update the distances in the currently viewed array
     func updateDistance(placesToUpdate: [Temple], _ placesInView: Bool = false) {
-        print("Specified Location Used: \(placesInView)")
+//        print("Specified Location Used: \(placesInView)")
         for place in placesToUpdate {
             if placesInView && locationSpecific {
                 place.distance = place.cllocation.distance(from: coordAltLocation!)
@@ -411,7 +447,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         // Schedule delivery
         let notifyTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(notificationDelayInMinutes*60), repeats: false)
-        let request = UNNotificationRequest(identifier: "visitReminder", content: notifyContent, trigger: notifyTrigger)
+        let request = UNNotificationRequest(identifier: "visitReminder:\(holyPlaceVisited ?? "<holy place>")", content: notifyContent, trigger: notifyTrigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
             print(error as Any)
         })
