@@ -99,7 +99,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gKK-16-9kt">
-                                                    <rect key="frame" x="308" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="enable:" destination="Pqe-NT-UkW" eventType="valueChanged" id="6f8-dI-MMb"/>
                                                     </connections>
@@ -112,7 +112,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="gKK-16-9kt" secondAttribute="trailing" constant="18" id="Bqr-Sk-vbT"/>
+                                                <constraint firstAttribute="trailing" secondItem="gKK-16-9kt" secondAttribute="trailing" constant="16" id="Bqr-Sk-vbT"/>
                                                 <constraint firstItem="ehf-us-P9t" firstAttribute="leading" secondItem="FS1-mq-Otk" secondAttribute="leading" constant="16" id="JEf-Ch-jHe"/>
                                                 <constraint firstItem="ehf-us-P9t" firstAttribute="centerY" secondItem="FS1-mq-Otk" secondAttribute="centerY" id="leH-9z-63z"/>
                                                 <constraint firstItem="gKK-16-9kt" firstAttribute="centerY" secondItem="FS1-mq-Otk" secondAttribute="centerY" id="w8F-ff-1aC"/>
@@ -181,72 +181,43 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Customize Home Screen" id="jZm-MJ-9Gx">
+                                <string key="footerTitle">Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="BOU-k4-HgV">
-                                        <rect key="frame" x="0.0" y="622" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BOU-k4-HgV" id="LBq-bk-Fon">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Default Background Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Soy-IO-6XI">
-                                                    <rect key="frame" x="16" y="11" width="228.5" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8G-vJ-zkL">
-                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="defaultImageChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="AFw-fA-Z11"/>
-                                                    </connections>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="o8G-vJ-zkL" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="Wz3-8v-qaH"/>
-                                                <constraint firstAttribute="trailing" secondItem="o8G-vJ-zkL" secondAttribute="trailing" constant="16" id="hEy-gQ-Opg"/>
-                                                <constraint firstItem="Soy-IO-6XI" firstAttribute="centerY" secondItem="LBq-bk-Fon" secondAttribute="centerY" id="orf-4Q-Qw3"/>
-                                                <constraint firstItem="Soy-IO-6XI" firstAttribute="leading" secondItem="LBq-bk-Fon" secondAttribute="leading" constant="16" id="xDg-Vw-JA5"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rN1-jd-KI2">
-                                        <rect key="frame" x="0.0" y="666" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="629.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rN1-jd-KI2" id="aNr-0G-ooD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Random Visit Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxJ-ZW-ssd">
-                                                    <rect key="frame" x="16" y="12" width="189.5" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-Bj-qdj">
-                                                    <rect key="frame" x="310" y="7" width="51" height="31"/>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-fM-PKO">
+                                                    <rect key="frame" x="16" y="7" width="343" height="29"/>
+                                                    <segments>
+                                                        <segment title="Default Image"/>
+                                                        <segment title="Random Image"/>
+                                                        <segment title="Specific Image"/>
+                                                    </segments>
                                                     <connections>
-                                                        <action selector="randomVisitChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="hTd-Cw-0L0"/>
+                                                        <action selector="changeImageOption:" destination="Pqe-NT-UkW" eventType="valueChanged" id="UbB-Dh-nB1"/>
                                                     </connections>
-                                                </switch>
+                                                </segmentedControl>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="5kA-2h-naj"/>
-                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="UP6-zA-y4e"/>
-                                                <constraint firstAttribute="trailing" secondItem="Gec-Bj-qdj" secondAttribute="trailing" constant="16" id="jae-cT-XR5"/>
-                                                <constraint firstItem="Gec-Bj-qdj" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="kzi-6c-HSZ"/>
-                                                <constraint firstItem="WxJ-ZW-ssd" firstAttribute="leading" secondItem="aNr-0G-ooD" secondAttribute="leading" constant="16" id="msU-Nj-WF9"/>
+                                                <constraint firstItem="yFN-fM-PKO" firstAttribute="centerX" secondItem="aNr-0G-ooD" secondAttribute="centerX" id="ASv-NV-IPO"/>
+                                                <constraint firstAttribute="trailing" secondItem="yFN-fM-PKO" secondAttribute="trailing" constant="16" id="JEx-A9-qTT"/>
+                                                <constraint firstItem="yFN-fM-PKO" firstAttribute="leading" secondItem="aNr-0G-ooD" secondAttribute="leading" constant="16" id="KBe-Wl-AhW"/>
+                                                <constraint firstItem="yFN-fM-PKO" firstAttribute="centerY" secondItem="aNr-0G-ooD" secondAttribute="centerY" id="xMr-ig-GXx"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HMj-NB-y59">
-                                        <rect key="frame" x="0.0" y="710" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="673.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
+                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZAD-zY-ug5"/>
@@ -255,7 +226,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="4" width="355" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                    <state key="normal" title="Select Background Image">
+                                                    <state key="normal" title="Import Image">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
@@ -276,7 +247,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zU5-l1-Mp7">
-                                        <rect key="frame" x="0.0" y="754" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="717.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zU5-l1-Mp7" id="TpG-oX-TQK">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -313,7 +284,7 @@
                             <tableViewSection id="TJZ-nF-bxF" userLabel="Save Settings">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="syO-3Z-ycb">
-                                        <rect key="frame" x="0.0" y="834" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="857.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -347,11 +318,11 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="defaultImage" destination="o8G-vJ-zkL" id="coc-Qf-gMy"/>
                         <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
                         <outlet property="filterSwitch" destination="Axd-EG-udR" id="0Pg-My-XZh"/>
+                        <outlet property="imageOptions" destination="yFN-fM-PKO" id="Jt7-jY-wQ8"/>
+                        <outlet property="importBtn" destination="btI-Gq-DnQ" id="VqN-bF-FsJ"/>
                         <outlet property="minutesDelay" destination="EcK-We-uik" id="TRj-R7-Bph"/>
-                        <outlet property="randomVisit" destination="Gec-Bj-qdj" id="nr9-jN-rmB"/>
                         <outlet property="selectedImage" destination="n8V-64-8Vu" id="LP7-6m-09T"/>
                         <outlet property="textColor" destination="9dI-CK-Mbb" id="I7H-0x-yU6"/>
                         <outlet property="visitGoal" destination="KB3-Sr-Df3" id="4UY-0f-C8k"/>

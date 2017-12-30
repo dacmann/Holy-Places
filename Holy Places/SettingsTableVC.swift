@@ -11,16 +11,16 @@ import UIKit
 class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    var imageOptionSelected = 0
     
     @IBOutlet weak var minutesDelay: UITextField!
     @IBOutlet weak var enableSwitch: UISwitch!
     @IBOutlet weak var filterSwitch: UISwitch!
     @IBOutlet weak var visitGoal: UITextField!
     @IBOutlet weak var textColor: UISegmentedControl!
-    @IBOutlet weak var defaultImage: UISwitch!
-    @IBOutlet weak var randomVisit: UISwitch!
     @IBOutlet weak var selectedImage: UIImageView!
+    @IBOutlet weak var imageOptions: UISegmentedControl!
+    @IBOutlet weak var importBtn: ShadowButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,26 +39,64 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
             annualVisitGoal = 12
         }
         
-        defaultImage.isOn = homeDefaultPicture
+        if homeDefaultPicture {
+            imageOptionSelected = 0
+        } else if homeVisitPicture {
+            imageOptionSelected = 1
+        } else {
+            imageOptionSelected = 2
+        }
+        imageOptions.selectedSegmentIndex = imageOptionSelected
         textColor.selectedSegmentIndex = Int(homeTextColor)
         
         if homeAlternatePicture != nil {
             selectedImage.image = UIImage(data: homeAlternatePicture!)
+            importBtn.setTitle("Change Image", for: .normal)
+            importBtn.setTitleColor(UIColor.home(), for: .normal)
         }
         
         visitGoal.text = String(annualVisitGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
-        randomVisit.isEnabled = !homeDefaultPicture
-        randomVisit.isOn = homeVisitPicture
         keyboardDone()
 
     }
     
     @IBAction func textColorChange(_ sender: UISegmentedControl) {
         homeTextColor = Int16(sender.selectedSegmentIndex)
+        importBtn.setTitleColor(UIColor.home(), for: .normal)
     }
-    @IBAction func randomVisitChange(_ sender: UISwitch) {
-        homeVisitPicture = sender.isOn
+    
+    @IBAction func changeImageOption(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            homeDefaultPicture = true
+            homeVisitPicture = false
+            homeTextColor = 0
+            textColor.selectedSegmentIndex = Int(homeTextColor)
+            imageOptionSelected = 0
+        case 1:
+            if homeVisitPictureData == nil {
+                let alert = UIAlertController(title: "Not Available", message: "You haven't added any Visit images yet.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                self.present(alert, animated: true)
+                imageOptions.selectedSegmentIndex = imageOptionSelected
+            } else {
+                homeVisitPicture = true
+                homeDefaultPicture = false
+                imageOptionSelected = 1
+            }
+        default:
+            if homeAlternatePicture == nil {
+                let alert = UIAlertController(title: "Not Available", message: "You haven't imported an image below.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                self.present(alert, animated: true)
+                imageOptions.selectedSegmentIndex = imageOptionSelected
+            } else {
+                homeVisitPicture = false
+                homeDefaultPicture = false
+                imageOptionSelected = 2
+            }
+        }
     }
     
     @IBAction func enable(_ sender: UISwitch) {
@@ -74,15 +112,6 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func filterEnabled(_ sender: UISwitch) {
         notificationFilter = sender.isOn
-    }
-    
-    @IBAction func defaultImageChange(_ sender: UISwitch) {
-        homeDefaultPicture = sender.isOn
-        if homeDefaultPicture {
-            homeTextColor = 0
-        }
-        textColor.selectedSegmentIndex = Int(homeTextColor)
-        randomVisit.isEnabled = !homeDefaultPicture
     }
     
     @IBAction func done(_ sender: UIButton) {
@@ -145,6 +174,8 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         }
         homeAlternatePicture = imageData as Data
         selectedImage.image = UIImage(data: homeAlternatePicture!)
+        importBtn.setTitleColor(UIColor.home(), for: .normal)
+        importBtn.setTitle("Change Image", for: .normal)
         self.dismiss(animated: true, completion: nil)
     }
 }
