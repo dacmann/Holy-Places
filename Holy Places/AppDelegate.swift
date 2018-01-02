@@ -17,6 +17,7 @@ enum ShortcutIdentifier: String {
     case OpenRandomPlace
     case RecordVisit
     case Reminder
+    case ViewPlace
     
     init?(identifier: String) {
         guard let shortIdentifier = identifier.components(separatedBy: ".").last else {
@@ -517,6 +518,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             nvc.popToRootViewController(animated: false)
             return vc.quickAddVisit(shortcutIdentifier: shortcutIdentifier)
+        default:
+            return false
         }
     }
 
@@ -739,11 +742,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         formatter.dateFormat = "MMMM dd, YYYY"
         
         do {
+            // Get All visits
+            var searchResults = try getContext().fetch(fetchRequest)
+            for visit in searchResults as [Visit] {
+                visits.append(visit.holyPlace!)
+            }
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
             fetchRequest.sortDescriptors = [sortDescriptor]
-            var searchResults = try getContext().fetch(fetchRequest)
+            searchResults = try getContext().fetch(fetchRequest)
             
             let userCalendar = Calendar.current
             var currentYearStart = DateComponents()

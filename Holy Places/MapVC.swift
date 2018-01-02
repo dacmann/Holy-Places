@@ -13,6 +13,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
 
     var placeName = String()
     var optionSelected = false
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -20,9 +21,14 @@ class MapVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // When navigating to tab enable default options
+        if mapPoints.count == 0 {
+            optionSelected = true
+            mapCenter = CLLocationCoordinate2D(latitude: appDelegate.coordinateOfUser.coordinate.latitude, longitude: appDelegate.coordinateOfUser.coordinate.longitude)
+            mapZoomLevel = 10000000
+        }
         self.configureView()
-        // Add Show All button on right side of navigation bar
+        // Add Show Options button on right side of navigation bar
         let button = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(options(_:)))
         let options = ["Map", "Sat"]
         self.navigationItem.rightBarButtonItem = button
@@ -187,7 +193,16 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 detailItem = place
                 // Save the current Camera altitude
                 mapZoomLevel = mapView.camera.altitude
-                self.navigationController?.popViewController(animated: true)
+                if self.navigationController?.popViewController(animated: true) == nil {
+                    // navigate to the place details
+                    if let myTabBar = appDelegate.window?.rootViewController as? UITabBarController {
+                        myTabBar.selectedIndex = 1
+                        let nvc = myTabBar.selectedViewController as? UINavigationController
+                        let vc = nvc?.viewControllers.first as? TableViewController
+                        nvc?.popToRootViewController(animated: false)
+                        _ = vc!.openForPlace(shortcutIdentifier: .ViewPlace)
+                    }
+                }
             }
         }
     }

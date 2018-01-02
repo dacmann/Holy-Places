@@ -67,27 +67,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         return appDelegate.persistentContainer.viewContext
     }
     
-    // Retrieve the Visits data from CoreData
-    func getVisits () {
-        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-        
-        do {
-            //go get the results
-            let searchResults = try getContext().fetch(fetchRequest)
-            
-            //I like to check the size of the returned results!
-            //print ("num of results = \(searchResults.count)")
-            
-            //You need to convert to NSManagedObject to use 'for' loops
-            for visit in searchResults as [NSManagedObject] {
-                visits.append(visit.value(forKey: "holyPlace") as! String)
-            }
-        } catch {
-            print("Error with request: \(error)")
-        }
-        
-    }
-    
     //MARK: - Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
     var filteredPlaces = [Temple]()
@@ -284,7 +263,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     fileprivate func updateView() {
         SortOptions(row: placeSortRow)
         setup()
-        getVisits()
+//        appDelegate.getVisits()
         self.tableView.reloadData()
         
         if nearestEnabled {
@@ -466,6 +445,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         updateView()
         if shortcutIdentifier == .OpenRandomPlace {
             randomPlace = true
+            performSegue(withIdentifier: "showDetail", sender: nil)
+        }
+        if shortcutIdentifier == .ViewPlace {
             performSegue(withIdentifier: "showDetail", sender: nil)
         }
         return true
