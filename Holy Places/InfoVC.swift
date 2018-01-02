@@ -33,8 +33,7 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 //        greatestTipBtn.setTitle(greatestTip, for: .normal)
         
         self.view.layoutIfNeeded()
-        profile_picture.layer.cornerRadius = 6.0
-        
+        profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 10
         profile_picture.layer.masksToBounds = true
 
     }

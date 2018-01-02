@@ -191,7 +191,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-fM-PKO">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-fM-PKO">
                                                     <rect key="frame" x="16" y="7" width="343" height="29"/>
                                                     <segments>
                                                         <segment title="Default Image"/>
@@ -1211,7 +1211,7 @@
                             <constraint firstItem="ZGr-nK-lIr" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="Hd2-h4-ANk"/>
                             <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="vYQ-7U-HOC" secondAttribute="trailing" constant="16" id="JRt-nc-o6V"/>
                             <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="pF8-YH-7Sj" secondAttribute="trailing" constant="10" id="PAw-HK-YKa">
-                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="tbU-K5-ltw" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="UgV-Qy-773"/>
                             <constraint firstItem="tbU-K5-ltw" firstAttribute="width" secondItem="vDg-yG-O9s" secondAttribute="width" multiplier="0.5" id="Uvm-8n-SyC"/>
@@ -1228,7 +1228,7 @@
                             <constraint firstItem="mWD-6x-LFb" firstAttribute="top" secondItem="hKm-g4-NbJ" secondAttribute="bottom" constant="10" id="aKi-qD-Ufc"/>
                             <constraint firstItem="hKm-g4-NbJ" firstAttribute="top" secondItem="Ert-qH-9pi" secondAttribute="bottom" constant="2" id="aWK-0l-Eb2"/>
                             <constraint firstItem="pF8-YH-7Sj" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="10" id="d5G-eY-jHI">
-                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="mWD-6x-LFb" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="10" id="dcb-9f-aM7"/>
                             <constraint firstItem="Ert-qH-9pi" firstAttribute="top" secondItem="tbU-K5-ltw" secondAttribute="bottom" id="dju-sb-Sfl"/>
