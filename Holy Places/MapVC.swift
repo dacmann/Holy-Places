@@ -21,28 +21,40 @@ class MapVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // When navigating to tab enable default options
-        if mapPoints.count == 0 {
-            optionSelected = true
-            mapCenter = CLLocationCoordinate2D(latitude: appDelegate.coordinateOfUser.coordinate.latitude, longitude: appDelegate.coordinateOfUser.coordinate.longitude)
-            mapZoomLevel = 10000000
-        }
-        self.configureView()
         // Add Show Options button on right side of navigation bar
         let button = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(options(_:)))
-        let options = ["Map", "Sat"]
         self.navigationItem.rightBarButtonItem = button
+        
+        // Create Map or Satellite control
+        let options = ["Map", "Sat"]
         let mapOptions = UISegmentedControl(items: options)
         mapOptions.selectedSegmentIndex = 0
         mapOptions.addTarget(self, action: #selector(changeMap(_:)), for: .valueChanged)
         let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedStringKey.font as NSCopying)
         mapOptions.setTitleTextAttributes(attr as? [AnyHashable : Any], for: .normal)
         self.navigationItem.titleView = mapOptions
+        
         // Show the user current location
         mapView.showsUserLocation = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
+
+        if let navigationController = self.navigationController {
+            if navigationController.viewControllers.first == self {
+                optionSelected = true
+                if appDelegate.coordinateOfUser != nil {
+                    mapCenter = CLLocationCoordinate2D(latitude: appDelegate.coordinateOfUser.coordinate.latitude, longitude: appDelegate.coordinateOfUser.coordinate.longitude)
+                } else {
+                    // default to Temple Square
+                    mapCenter = CLLocationCoordinate2D(latitude: 40.7707425, longitude: -111.8932596)
+                }
+                
+                mapZoomLevel = 10000000
+            }
+        }
+        self.configureView()
+
         if optionSelected {
             mapThePlaces()
         }
