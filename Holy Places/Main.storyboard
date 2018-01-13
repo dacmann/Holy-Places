@@ -498,7 +498,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="fSt-Gu-ud8">
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="fSt-Gu-ud8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
@@ -512,581 +512,597 @@
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="36"/>
                                 </variation>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy">
-                                <rect key="frame" x="53.5" y="207" width="268" height="361"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kv4-qF-iXm">
+                                <rect key="frame" x="0.0" y="152" width="375" height="461"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R">
-                                        <rect key="frame" x="0.0" y="0.0" width="268" height="107"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
+                                        <rect key="frame" x="0.0" y="50" width="341" height="364"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O06-E6-H8n">
-                                                <rect key="frame" x="0.0" y="0.0" width="130" height="107"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R" userLabel="Holy Places SV">
+                                                <rect key="frame" x="34" y="0.0" width="307" height="107"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6G-zB-XAa">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O06-E6-H8n">
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="107"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6G-zB-XAa">
+                                                                <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="23" id="KaR-Tf-Yrj">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="35"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active Temples" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-JU-ttH">
+                                                                <rect key="frame" x="0.0" y="33" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="3Tc-GI-Ovw">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Sites" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-aP-3Ev">
+                                                                <rect key="frame" x="0.0" y="61" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="zRo-Jl-Sb9">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.0" green="0.44705882352941173" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visitors' Centers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaS-6Y-xd7">
+                                                                <rect key="frame" x="0.0" y="89" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="WEM-VI-vm9">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.70196078431372544" green="0.59215686274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="KaR-Tf-Yrj">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="35"/>
+                                                            <constraint firstAttribute="width" constant="130" id="FBI-t7-WmR">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="200"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="21"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active Temples" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-JU-ttH">
-                                                        <rect key="frame" x="0.0" y="33" width="130" height="18"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
+                                                        <rect key="frame" x="158.5" y="0.0" width="60" height="107"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
+                                                                <rect key="frame" x="2" y="0.0" width="56" height="23"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="23" id="pAz-py-hpb">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="35"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSb-lW-FXk">
+                                                                <rect key="frame" x="25.5" y="33" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="9Ax-zw-YPw">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D1-85-ebO">
+                                                                <rect key="frame" x="25.5" y="61" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="wlN-Hp-ACS">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.0" green="0.44705882349999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-BB-SZN">
+                                                                <rect key="frame" x="25.5" y="89" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="ECa-a5-Dwf">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.70196078429999997" green="0.59215686270000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="3Tc-GI-Ovw">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                            <constraint firstAttribute="width" constant="60" id="Iyu-xc-O0k">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Sites" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-aP-3Ev">
-                                                        <rect key="frame" x="0.0" y="61" width="130" height="18"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nng-pv-gNp">
+                                                        <rect key="frame" x="247" y="0.0" width="60" height="107"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh6-Hd-Q9S">
+                                                                <rect key="frame" x="9" y="0.0" width="42" height="23"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="23" id="lL8-t3-eVq">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="35"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opp-7p-6cs">
+                                                                <rect key="frame" x="16.5" y="33" width="27" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="Y5G-bo-grT">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NiB-cx-ytZ">
+                                                                <rect key="frame" x="21" y="61" width="18" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="l2m-ry-ooz">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.0" green="0.44705882349999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suL-gb-mXA">
+                                                                <rect key="frame" x="21" y="89" width="18" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="pP0-PL-w4i">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.70196078429999997" green="0.59215686270000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="zRo-Jl-Sb9">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                            <constraint firstAttribute="width" constant="60" id="bdz-At-QbV">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visitors' Centers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaS-6Y-xd7">
-                                                        <rect key="frame" x="0.0" y="89" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="WEM-VI-vm9">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
+                                                    </stackView>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="130" id="FBI-t7-WmR">
-                                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                                    </constraint>
-                                                </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
-                                                <rect key="frame" x="150" y="0.0" width="60" height="107"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA" userLabel="Temple Visits SV">
+                                                <rect key="frame" x="34" y="142" width="307" height="222"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="222"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Temple Visits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sC5-WV-R1f">
+                                                                <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="23" id="8l8-yx-gKu"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Attended" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP6-U3-LoV">
+                                                                <rect key="frame" x="0.0" y="33" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="XHX-Q1-E6t">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Sealings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjI-3C-oej">
+                                                                <rect key="frame" x="0.0" y="61" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="QgP-mf-A1x">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Endowments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddC-fL-lky">
+                                                                <rect key="frame" x="0.0" y="89" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="iha-y8-deN">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initiatories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zg4-YK-Phs">
+                                                                <rect key="frame" x="0.0" y="117" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="1Gb-ef-L6w">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Confirmations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-FM-LmS">
+                                                                <rect key="frame" x="0.0" y="145" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="4Sb-fV-gWG">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Baptisms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dW-QX-oRE">
+                                                                <rect key="frame" x="0.0" y="173" width="130" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="v8L-Ld-PGk">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Total Ordinances" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1A-FT-AQP">
+                                                                <rect key="frame" x="0.0" y="201" width="130" height="21"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="pAz-py-hpb">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="35"/>
+                                                            <constraint firstAttribute="width" constant="130" id="tSc-xU-3Cd">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="200"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSb-lW-FXk">
-                                                        <rect key="frame" x="20" y="33" width="20" height="18"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
+                                                        <rect key="frame" x="158.5" y="0.0" width="60" height="222"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12 mo." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
+                                                                <rect key="frame" x="2" y="0.0" width="56" height="26"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-QD-kzc">
+                                                                <rect key="frame" x="25.5" y="36" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="3oe-2G-EvV">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgA-8y-90I">
+                                                                <rect key="frame" x="25.5" y="64" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="9rZ-1z-bdY">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-IN-fJ4">
+                                                                <rect key="frame" x="25.5" y="92" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="8T9-gr-o3J">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guf-H0-oCW">
+                                                                <rect key="frame" x="25.5" y="120" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="MHT-3W-bnQ">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-Gg-RFK">
+                                                                <rect key="frame" x="25.5" y="148" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="bpa-82-WJ3">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntV-vp-auY">
+                                                                <rect key="frame" x="25.5" y="176" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="dyF-l9-Qvg">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7g-ta-lil">
+                                                                <rect key="frame" x="25.5" y="204" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="8SR-5z-8Hb">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="9Ax-zw-YPw">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                            <constraint firstAttribute="width" constant="60" id="O6y-6W-j5N">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D1-85-ebO">
-                                                        <rect key="frame" x="20" y="61" width="20" height="18"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
+                                                        <rect key="frame" x="247" y="0.0" width="60" height="222"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
+                                                                <rect key="frame" x="9" y="0.0" width="42" height="26"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHD-aA-TvX">
+                                                                <rect key="frame" x="25.5" y="36" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="6pA-Ut-Plp">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
+                                                                <rect key="frame" x="25.5" y="64" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="pji-pz-SUi">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
+                                                                <rect key="frame" x="25.5" y="92" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="AWa-JP-iW6">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
+                                                                <rect key="frame" x="25.5" y="120" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="zf4-hj-tJ6">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
+                                                                <rect key="frame" x="25.5" y="148" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="dwc-7D-Ycd">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
+                                                                <rect key="frame" x="25.5" y="176" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="waz-ja-dXM">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <color key="textColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlG-pa-iXb">
+                                                                <rect key="frame" x="25.5" y="204" width="9" height="18"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="18" id="HXI-xh-UOe">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                                    </constraint>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="wlN-Hp-ACS">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                                                            <constraint firstAttribute="width" constant="60" id="LbM-JO-k73">
+                                                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
                                                             </constraint>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJY-BB-SZN">
-                                                        <rect key="frame" x="20" y="89" width="20" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="ECa-a5-Dwf">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="CSb-lW-FXk" firstAttribute="leading" secondItem="EZ4-yY-jzO" secondAttribute="leading" constant="20" symbolic="YES" id="EHf-4t-W7N"/>
-                                                    <constraint firstAttribute="width" constant="60" id="Iyu-xc-O0k"/>
-                                                    <constraint firstItem="5D1-85-ebO" firstAttribute="leading" secondItem="JJY-BB-SZN" secondAttribute="leading" id="SZV-UG-8rT"/>
-                                                    <constraint firstItem="aWf-xN-dXN" firstAttribute="leading" secondItem="EZ4-yY-jzO" secondAttribute="leading" id="g19-U5-aw2"/>
-                                                    <constraint firstItem="CSb-lW-FXk" firstAttribute="leading" secondItem="5D1-85-ebO" secondAttribute="leading" id="pAn-2P-4la"/>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nng-pv-gNp">
-                                                <rect key="frame" x="230" y="0.0" width="38" height="107"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh6-Hd-Q9S">
-                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="23"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="lL8-t3-eVq">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="35"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opp-7p-6cs">
-                                                        <rect key="frame" x="5.5" y="33" width="27" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="Y5G-bo-grT">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NiB-cx-ytZ">
-                                                        <rect key="frame" x="10" y="61" width="18" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="l2m-ry-ooz">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suL-gb-mXA">
-                                                        <rect key="frame" x="10" y="89" width="18" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="pP0-PL-w4i">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA">
-                                        <rect key="frame" x="0.0" y="142" width="268" height="219"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
-                                                <rect key="frame" x="0.0" y="0.0" width="130" height="219"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Temple Visits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sC5-WV-R1f">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="8l8-yx-gKu"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Attended" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP6-U3-LoV">
-                                                        <rect key="frame" x="0.0" y="33" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="XHX-Q1-E6t">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Sealings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjI-3C-oej">
-                                                        <rect key="frame" x="0.0" y="61" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="QgP-mf-A1x">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Endowments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddC-fL-lky">
-                                                        <rect key="frame" x="0.0" y="89" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="iha-y8-deN">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initiatories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zg4-YK-Phs">
-                                                        <rect key="frame" x="0.0" y="117" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="1Gb-ef-L6w">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Confirmations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-FM-LmS">
-                                                        <rect key="frame" x="0.0" y="145" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="4Sb-fV-gWG">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Baptisms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dW-QX-oRE">
-                                                        <rect key="frame" x="0.0" y="173" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="v8L-Ld-PGk">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Total Ordinances" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1A-FT-AQP">
-                                                        <rect key="frame" x="0.0" y="201" width="130" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="7IO-IS-HZb">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="130" id="tSc-xU-3Cd">
-                                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                                    </constraint>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
-                                                <rect key="frame" x="150" y="0.0" width="60" height="219"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12 mo." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
-                                                        <rect key="frame" x="5" y="0.0" width="50.5" height="23"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="TSa-fD-mex"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-QD-kzc">
-                                                        <rect key="frame" x="25.5" y="33" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="3oe-2G-EvV">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgA-8y-90I">
-                                                        <rect key="frame" x="25.5" y="61" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="9rZ-1z-bdY">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-IN-fJ4">
-                                                        <rect key="frame" x="25.5" y="89" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="8T9-gr-o3J">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guf-H0-oCW">
-                                                        <rect key="frame" x="25.5" y="117" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="MHT-3W-bnQ">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-Gg-RFK">
-                                                        <rect key="frame" x="25.5" y="145" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="bpa-82-WJ3">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntV-vp-auY">
-                                                        <rect key="frame" x="25.5" y="173" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="dyF-l9-Qvg">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7g-ta-lil">
-                                                        <rect key="frame" x="25.5" y="201" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="8SR-5z-8Hb">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="guf-H0-oCW" firstAttribute="leading" secondItem="Lwa-Gg-RFK" secondAttribute="leading" id="50j-fZ-p2n"/>
-                                                    <constraint firstItem="Lwa-Gg-RFK" firstAttribute="leading" secondItem="ntV-vp-auY" secondAttribute="leading" id="KgU-3A-adp"/>
-                                                    <constraint firstItem="cjd-IN-fJ4" firstAttribute="leading" secondItem="guf-H0-oCW" secondAttribute="leading" id="KwH-3w-eG8"/>
-                                                    <constraint firstAttribute="width" constant="60" id="O6y-6W-j5N"/>
-                                                    <constraint firstItem="vgA-8y-90I" firstAttribute="leading" secondItem="cjd-IN-fJ4" secondAttribute="leading" id="uLT-HN-Ldb"/>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
-                                                <rect key="frame" x="230" y="0.0" width="38" height="219"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
-                                                        <rect key="frame" x="0.0" y="0.0" width="38" height="23"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="n5b-jF-LHa"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHD-aA-TvX">
-                                                        <rect key="frame" x="14.5" y="33" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="6pA-Ut-Plp">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
-                                                        <rect key="frame" x="14.5" y="61" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="pji-pz-SUi">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
-                                                        <rect key="frame" x="14.5" y="89" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="AWa-JP-iW6">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
-                                                        <rect key="frame" x="14.5" y="117" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="zf4-hj-tJ6">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
-                                                        <rect key="frame" x="14.5" y="145" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="dwc-7D-Ycd">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
-                                                        <rect key="frame" x="14.5" y="173" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="waz-ja-dXM">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlG-pa-iXb">
-                                                        <rect key="frame" x="14.5" y="201" width="9" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="HXI-xh-UOe">
-                                                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                                                            </constraint>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <variation key="heightClass=regular-widthClass=regular">
-                                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                                        </variation>
-                                                    </label>
+                                                    </stackView>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                            </stackView>
+                                <constraints>
+                                    <constraint firstItem="JKq-eO-hwA" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="3q4-Hw-dTB"/>
+                                    <constraint firstItem="l92-Za-36R" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="HGs-I8-4qI"/>
+                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="leading" secondItem="kv4-qF-iXm" secondAttribute="leading" id="MlR-Rc-nSI"/>
+                                    <constraint firstAttribute="trailing" secondItem="CLj-4f-YGy" secondAttribute="trailing" constant="33" id="Nnt-97-fj6">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="66"/>
+                                    </constraint>
+                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="kv4-qF-iXm" secondAttribute="top" constant="50" id="Y2o-da-uig"/>
+                                    <constraint firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="bottom" constant="40" id="qIh-gt-HVa"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fSt-Gu-ud8" firstAttribute="top" secondItem="djT-hh-aiP" secondAttribute="top" id="2UM-nS-si2"/>
                             <constraint firstItem="Q1g-ZX-bhx" firstAttribute="leading" secondItem="djT-hh-aiP" secondAttribute="leadingMargin" id="4XQ-2f-QmA"/>
                             <constraint firstItem="Q1g-ZX-bhx" firstAttribute="top" secondItem="FZn-fg-ace" secondAttribute="top" constant="20" id="57Q-Vs-TCd"/>
+                            <constraint firstItem="kv4-qF-iXm" firstAttribute="leading" secondItem="FZn-fg-ace" secondAttribute="leading" id="886-pN-WwZ"/>
                             <constraint firstItem="fSt-Gu-ud8" firstAttribute="leading" secondItem="FZn-fg-ace" secondAttribute="leading" id="8PF-eg-b4n"/>
-                            <constraint firstItem="CLj-4f-YGy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Q1g-ZX-bhx" secondAttribute="bottom" constant="20" id="NWZ-xB-x27"/>
-                            <constraint firstItem="FZn-fg-ace" firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="bottom" priority="749" constant="50" id="Rlm-aG-mFy">
-                                <variation key="heightClass=regular-widthClass=regular" constant="150"/>
-                            </constraint>
                             <constraint firstAttribute="trailingMargin" secondItem="Q1g-ZX-bhx" secondAttribute="trailing" id="U4k-NP-Uah"/>
+                            <constraint firstItem="kv4-qF-iXm" firstAttribute="top" secondItem="Q1g-ZX-bhx" secondAttribute="bottom" constant="20" id="VVk-9n-GY6"/>
+                            <constraint firstItem="CLj-4f-YGy" firstAttribute="width" secondItem="djT-hh-aiP" secondAttribute="width" constant="-34" id="dA6-IP-lQf"/>
                             <constraint firstAttribute="bottom" secondItem="fSt-Gu-ud8" secondAttribute="bottom" id="dpA-k9-xfe"/>
                             <constraint firstItem="FZn-fg-ace" firstAttribute="trailing" secondItem="fSt-Gu-ud8" secondAttribute="trailing" id="fbc-9X-mbH"/>
-                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="centerX" secondItem="CLj-4f-YGy" secondAttribute="centerX" id="gsa-sm-Mmu"/>
+                            <constraint firstItem="FZn-fg-ace" firstAttribute="bottom" secondItem="kv4-qF-iXm" secondAttribute="bottom" constant="5" id="kGp-qB-5Jc"/>
+                            <constraint firstItem="FZn-fg-ace" firstAttribute="trailing" secondItem="kv4-qF-iXm" secondAttribute="trailing" id="mcz-At-qp5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FZn-fg-ace"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="fSt-Gu-ud8"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Summary" image="summary" id="1yM-p4-5ih"/>
                     <connections>
