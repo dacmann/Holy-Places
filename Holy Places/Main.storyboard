@@ -498,10 +498,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Payson" translatesAutoresizingMaskIntoConstraints="NO" id="fSt-Gu-ud8">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
                                 <rect key="frame" x="16" y="40" width="343" height="92"/>
                                 <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."   - Thomas S. Monson</string>
@@ -515,11 +511,11 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kv4-qF-iXm">
                                 <rect key="frame" x="0.0" y="152" width="375" height="461"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="50" width="341" height="364"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
+                                        <rect key="frame" x="0.0" y="50" width="375" height="364"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R" userLabel="Holy Places SV">
-                                                <rect key="frame" x="34" y="0.0" width="307" height="107"/>
+                                                <rect key="frame" x="18.5" y="0.0" width="338" height="107"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O06-E6-H8n">
                                                         <rect key="frame" x="0.0" y="0.0" width="130" height="107"/>
@@ -588,7 +584,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
-                                                        <rect key="frame" x="158.5" y="0.0" width="60" height="107"/>
+                                                        <rect key="frame" x="174" y="0.0" width="60" height="107"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
                                                                 <rect key="frame" x="2" y="0.0" width="56" height="23"/>
@@ -653,7 +649,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nng-pv-gNp">
-                                                        <rect key="frame" x="247" y="0.0" width="60" height="107"/>
+                                                        <rect key="frame" x="278" y="0.0" width="60" height="107"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh6-Hd-Q9S">
                                                                 <rect key="frame" x="9" y="0.0" width="42" height="23"/>
@@ -720,7 +716,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA" userLabel="Temple Visits SV">
-                                                <rect key="frame" x="34" y="142" width="307" height="222"/>
+                                                <rect key="frame" x="18.5" y="142" width="338" height="222"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
                                                         <rect key="frame" x="0.0" y="0.0" width="130" height="222"/>
@@ -836,7 +832,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
-                                                        <rect key="frame" x="158.5" y="0.0" width="60" height="222"/>
+                                                        <rect key="frame" x="174" y="0.0" width="60" height="222"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12 mo." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
                                                                 <rect key="frame" x="2" y="0.0" width="56" height="26"/>
@@ -951,7 +947,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
-                                                        <rect key="frame" x="247" y="0.0" width="60" height="222"/>
+                                                        <rect key="frame" x="278" y="0.0" width="60" height="222"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
                                                                 <rect key="frame" x="9" y="0.0" width="42" height="26"/>
@@ -1068,41 +1064,32 @@
                                                 </subviews>
                                             </stackView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="l92-Za-36R" firstAttribute="width" secondItem="CLj-4f-YGy" secondAttribute="width" multiplier="0.9" id="JZG-ed-gVQ"/>
+                                            <constraint firstItem="JKq-eO-hwA" firstAttribute="width" secondItem="l92-Za-36R" secondAttribute="width" id="x4h-Id-9wR"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="JKq-eO-hwA" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="3q4-Hw-dTB"/>
-                                    <constraint firstItem="l92-Za-36R" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="HGs-I8-4qI"/>
-                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="leading" secondItem="kv4-qF-iXm" secondAttribute="leading" id="MlR-Rc-nSI"/>
-                                    <constraint firstAttribute="trailing" secondItem="CLj-4f-YGy" secondAttribute="trailing" constant="33" id="Nnt-97-fj6">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="66"/>
-                                    </constraint>
-                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="kv4-qF-iXm" secondAttribute="top" constant="50" id="Y2o-da-uig"/>
-                                    <constraint firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="bottom" constant="40" id="qIh-gt-HVa"/>
+                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="leading" secondItem="kv4-qF-iXm" secondAttribute="leading" id="5Mf-FG-NM7"/>
+                                    <constraint firstAttribute="trailing" secondItem="CLj-4f-YGy" secondAttribute="trailing" id="Ub7-o6-gJn"/>
+                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="kv4-qF-iXm" secondAttribute="top" constant="50" id="amG-IN-yoN"/>
+                                    <constraint firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="bottom" constant="47" id="c5g-b0-d7f"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="top" secondItem="djT-hh-aiP" secondAttribute="top" id="2UM-nS-si2"/>
                             <constraint firstItem="Q1g-ZX-bhx" firstAttribute="leading" secondItem="djT-hh-aiP" secondAttribute="leadingMargin" id="4XQ-2f-QmA"/>
                             <constraint firstItem="Q1g-ZX-bhx" firstAttribute="top" secondItem="FZn-fg-ace" secondAttribute="top" constant="20" id="57Q-Vs-TCd"/>
-                            <constraint firstItem="kv4-qF-iXm" firstAttribute="leading" secondItem="FZn-fg-ace" secondAttribute="leading" id="886-pN-WwZ"/>
-                            <constraint firstItem="fSt-Gu-ud8" firstAttribute="leading" secondItem="FZn-fg-ace" secondAttribute="leading" id="8PF-eg-b4n"/>
+                            <constraint firstItem="FZn-fg-ace" firstAttribute="bottom" secondItem="kv4-qF-iXm" secondAttribute="bottom" constant="5" id="Arl-5b-c3X"/>
+                            <constraint firstItem="kv4-qF-iXm" firstAttribute="centerX" secondItem="Q1g-ZX-bhx" secondAttribute="centerX" id="ByP-Qc-x5Y"/>
+                            <constraint firstItem="kv4-qF-iXm" firstAttribute="leading" secondItem="djT-hh-aiP" secondAttribute="leading" id="HIa-rr-zC1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Q1g-ZX-bhx" secondAttribute="trailing" id="U4k-NP-Uah"/>
-                            <constraint firstItem="kv4-qF-iXm" firstAttribute="top" secondItem="Q1g-ZX-bhx" secondAttribute="bottom" constant="20" id="VVk-9n-GY6"/>
-                            <constraint firstItem="CLj-4f-YGy" firstAttribute="width" secondItem="djT-hh-aiP" secondAttribute="width" constant="-34" id="dA6-IP-lQf"/>
-                            <constraint firstAttribute="bottom" secondItem="fSt-Gu-ud8" secondAttribute="bottom" id="dpA-k9-xfe"/>
-                            <constraint firstItem="FZn-fg-ace" firstAttribute="trailing" secondItem="fSt-Gu-ud8" secondAttribute="trailing" id="fbc-9X-mbH"/>
-                            <constraint firstItem="FZn-fg-ace" firstAttribute="bottom" secondItem="kv4-qF-iXm" secondAttribute="bottom" constant="5" id="kGp-qB-5Jc"/>
-                            <constraint firstItem="FZn-fg-ace" firstAttribute="trailing" secondItem="kv4-qF-iXm" secondAttribute="trailing" id="mcz-At-qp5"/>
+                            <constraint firstItem="kv4-qF-iXm" firstAttribute="top" secondItem="Q1g-ZX-bhx" secondAttribute="bottom" constant="20" id="dZa-wU-qZF"/>
+                            <constraint firstItem="CLj-4f-YGy" firstAttribute="width" secondItem="djT-hh-aiP" secondAttribute="width" id="yTW-D3-gul"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FZn-fg-ace"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="fSt-Gu-ud8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Summary" image="summary" id="1yM-p4-5ih"/>
                     <connections>
@@ -2647,7 +2634,6 @@
         <image name="BrighamCity" width="360" height="640"/>
         <image name="PCC" width="375" height="666"/>
         <image name="PCCW" width="834" height="1112"/>
-        <image name="Payson" width="375" height="666"/>
         <image name="journal" width="25" height="25"/>
         <image name="map" width="25" height="25"/>
         <image name="morningstar-bnw" width="25" height="25"/>
