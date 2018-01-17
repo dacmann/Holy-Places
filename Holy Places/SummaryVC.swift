@@ -51,12 +51,22 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var mostVisitedPlace3: UILabel!
     @IBOutlet weak var mostVisitedPlace4: UILabel!
     @IBOutlet weak var mostVisitedPlace5: UILabel!
+    @IBOutlet weak var mostVisitedPlace6: UILabel!
+    @IBOutlet weak var mostVisitedPlace7: UILabel!
+    @IBOutlet weak var mostVisitedPlace8: UILabel!
+    @IBOutlet weak var mostVisitedPlace9: UILabel!
+    @IBOutlet weak var mostVisitedPlace10: UILabel!
+    
     @IBOutlet weak var mostVisitedCount1: UILabel!
     @IBOutlet weak var mostVisitedCount2: UILabel!
     @IBOutlet weak var mostVisitedCount3: UILabel!
     @IBOutlet weak var mostVisitedCount4: UILabel!
     @IBOutlet weak var mostVisitedCount5: UILabel!
-
+    @IBOutlet weak var mostVisitedCount6: UILabel!
+    @IBOutlet weak var mostVisitedCount7: UILabel!
+    @IBOutlet weak var mostVisitedCount8: UILabel!
+    @IBOutlet weak var mostVisitedCount9: UILabel!
+    @IBOutlet weak var mostVisitedCount10: UILabel!
     
     var yearOffset = 0
     
@@ -241,17 +251,42 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                     mostVisitedCount5.text = placeCount
                     mostVisitedPlace5.textColor = textColor
                     mostVisitedCount5.textColor = textColor
+                case 6:
+                    mostVisitedPlace6.text = placeName
+                    mostVisitedCount6.text = placeCount
+                    mostVisitedPlace6.textColor = textColor
+                    mostVisitedCount6.textColor = textColor
+                case 7:
+                    mostVisitedPlace7.text = placeName
+                    mostVisitedCount7.text = placeCount
+                    mostVisitedPlace7.textColor = textColor
+                    mostVisitedCount7.textColor = textColor
+                case 8:
+                    mostVisitedPlace8.text = placeName
+                    mostVisitedCount8.text = placeCount
+                    mostVisitedPlace8.textColor = textColor
+                    mostVisitedCount8.textColor = textColor
+                case 9:
+                    mostVisitedPlace9.text = placeName
+                    mostVisitedCount9.text = placeCount
+                    mostVisitedPlace9.textColor = textColor
+                    mostVisitedCount9.textColor = textColor
+                case 10:
+                    mostVisitedPlace10.text = placeName
+                    mostVisitedCount10.text = placeCount
+                    mostVisitedPlace10.textColor = textColor
+                    mostVisitedCount10.textColor = textColor
                 default:
                     break
                 }
                 print("\(placeName) - \(placeCount)")
-                if counter == 5 {
+                if counter == 10 {
                     break
                 }
             }
 
-            // If entered a couple of visits, prompt for a rating
-            if visitCnt > 1 {
+            // If entered a few visits, prompt for a rating
+            if visitCnt > 2 {
                 if #available(iOS 10.3, *) {
                     SKStoreReviewController.requestReview()
                 }
