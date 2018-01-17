@@ -18,6 +18,7 @@ class VisitDetailVC: UIViewController {
     @IBOutlet weak var visitDate: UILabel!
     @IBOutlet weak var pictureView: UIImageView!
     @IBOutlet weak var comments: UILabel!
+    @IBOutlet weak var ordinancesPerformed: UILabel!
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
@@ -76,7 +77,7 @@ class VisitDetailVC: UIViewController {
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
-                var ordinances = "\n"
+                var ordinances = ""
                 if detail.type == "T" {
                     if detail.sealings > 0 {
                         ordinances.append("\nSealings: \(detail.sealings.description)")
@@ -94,11 +95,13 @@ class VisitDetailVC: UIViewController {
                         ordinances.append("\nBaptisms: \(detail.baptisms.description)")
                     }
                 }
-                if ordinances != "\n" {
-                    comments.text = detail.comments! + ordinances
+                if ordinances != "" {
+                    ordinancesPerformed.isHidden = false
                 } else {
-                    comments.text = detail.comments
+                    ordinancesPerformed.isHidden = true
                 }
+                ordinancesPerformed.text = ordinances
+                comments.text = detail.comments
                 
                 if let theType = detail.type {
                     switch theType {

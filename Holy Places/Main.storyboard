@@ -2076,20 +2076,32 @@
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                 </variation>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="ordinances" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMy-1u-hd0">
+                                <rect key="frame" x="16" y="181" width="343" height="21"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                </variation>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="G9t-XK-3vU">
-                                <rect key="frame" x="5" y="191" width="365" height="417"/>
+                                <rect key="frame" x="5" y="212" width="365" height="396"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="c4v-GY-6qn" firstAttribute="bottom" secondItem="G9t-XK-3vU" secondAttribute="bottom" constant="10" id="01i-Vm-E5I"/>
+                            <constraint firstItem="XMy-1u-hd0" firstAttribute="leading" secondItem="6Cp-0s-Pla" secondAttribute="leading" id="1NM-ij-ADU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7ld-pR-BuH" secondAttribute="trailing" constant="10" id="4Jx-yi-2BY"/>
-                            <constraint firstItem="G9t-XK-3vU" firstAttribute="top" secondItem="6Cp-0s-Pla" secondAttribute="bottom" constant="10" id="6Ui-xC-dL5"/>
+                            <constraint firstItem="G9t-XK-3vU" firstAttribute="top" secondItem="XMy-1u-hd0" secondAttribute="bottom" constant="10" id="6Ui-xC-dL5"/>
                             <constraint firstItem="6Cp-0s-Pla" firstAttribute="trailing" secondItem="MMP-iS-hw5" secondAttribute="trailingMargin" id="81L-9o-gLt"/>
+                            <constraint firstItem="XMy-1u-hd0" firstAttribute="trailing" secondItem="6Cp-0s-Pla" secondAttribute="trailing" id="FvR-XW-KNS"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="centerX" secondItem="c4v-GY-6qn" secondAttribute="centerX" id="IVu-Li-pYX"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="top" secondItem="c4v-GY-6qn" secondAttribute="top" constant="10" id="JO8-Mh-MBm"/>
                             <constraint firstItem="d6U-sK-urp" firstAttribute="trailing" secondItem="6Cp-0s-Pla" secondAttribute="trailing" id="LlL-9G-XgH"/>
                             <constraint firstItem="W8A-Vv-BBw" firstAttribute="leading" secondItem="MMP-iS-hw5" secondAttribute="leadingMargin" id="SHP-fs-45u"/>
+                            <constraint firstItem="XMy-1u-hd0" firstAttribute="top" secondItem="6Cp-0s-Pla" secondAttribute="bottom" id="WFv-Ab-nhM"/>
                             <constraint firstItem="G9t-XK-3vU" firstAttribute="leading" secondItem="c4v-GY-6qn" secondAttribute="leading" constant="5" id="Xy5-UD-MaC"/>
                             <constraint firstItem="d6U-sK-urp" firstAttribute="leading" secondItem="6Cp-0s-Pla" secondAttribute="leading" id="XyL-nH-EHK"/>
                             <constraint firstItem="7ld-pR-BuH" firstAttribute="top" secondItem="W8A-Vv-BBw" secondAttribute="bottom" constant="10" id="cWJ-Rf-EkA"/>
@@ -2104,6 +2116,7 @@
                     </view>
                     <connections>
                         <outlet property="comments" destination="6Cp-0s-Pla" id="7Zs-w3-eHz"/>
+                        <outlet property="ordinancesPerformed" destination="XMy-1u-hd0" id="3NG-gg-L4z"/>
                         <outlet property="pictureView" destination="G9t-XK-3vU" id="rge-oU-K3o"/>
                         <outlet property="templeName" destination="W8A-Vv-BBw" id="3yj-I2-N7b"/>
                         <outlet property="visitDate" destination="7ld-pR-BuH" id="2C7-U3-RYA"/>
