@@ -500,7 +500,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
                                 <rect key="frame" x="16" y="40" width="343" height="92"/>
-                                <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."   - Thomas S. Monson</string>
+                                <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."          - Thomas S. Monson</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -512,7 +512,7 @@
                                 <rect key="frame" x="0.0" y="152" width="375" height="461"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="515"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="577"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R" userLabel="Holy Places SV">
                                                 <rect key="frame" x="18.5" y="0.0" width="338" height="107"/>
@@ -1179,10 +1179,10 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="G8x-F0-WfJ" userLabel="Most Visited SV">
-                                                <rect key="frame" x="18.5" y="399" width="338" height="116"/>
+                                                <rect key="frame" x="18.5" y="399" width="338" height="178"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5iK-u2-WTb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="240" height="116"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="240" height="178"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Most Visited" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opv-IJ-Vd5">
                                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="23"/>
@@ -1216,13 +1216,29 @@
                                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                                                 </variation>
                                                             </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="---" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4BE-xw-lZI">
+                                                                <rect key="frame" x="0.0" y="126" width="240" height="21"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="---" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nRS-FC-pzt">
+                                                                <rect key="frame" x="0.0" y="157" width="240" height="21"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="kCo-FM-dQM"/>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A2a-qo-tbz">
-                                                        <rect key="frame" x="278" y="0.0" width="60" height="116"/>
+                                                        <rect key="frame" x="278" y="0.0" width="60" height="178"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visits" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8k-Jb-sFl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
@@ -1250,6 +1266,22 @@
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0qQ-jk-OSO">
                                                                 <rect key="frame" x="0.0" y="95" width="60" height="21"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Cs-Su-u8D">
+                                                                <rect key="frame" x="0.0" y="126" width="60" height="21"/>
+                                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZcT-WT-qet">
+                                                                <rect key="frame" x="0.0" y="157" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1314,9 +1346,13 @@
                         <outlet property="mostVisitedCount1" destination="Zdp-ar-lPj" id="PoW-qO-28O"/>
                         <outlet property="mostVisitedCount2" destination="lgb-HQ-7fi" id="Ig6-gW-aBK"/>
                         <outlet property="mostVisitedCount3" destination="0qQ-jk-OSO" id="F1z-dp-UGI"/>
+                        <outlet property="mostVisitedCount4" destination="5Cs-Su-u8D" id="J3u-OK-aVf"/>
+                        <outlet property="mostVisitedCount5" destination="ZcT-WT-qet" id="CTJ-Y2-CZF"/>
                         <outlet property="mostVisitedPlace1" destination="4oS-88-56E" id="PX1-Ah-w9M"/>
                         <outlet property="mostVisitedPlace2" destination="Atd-oQ-Cy3" id="DWa-3C-L7m"/>
                         <outlet property="mostVisitedPlace3" destination="zAM-5T-fCj" id="rxk-8s-IZl"/>
+                        <outlet property="mostVisitedPlace4" destination="4BE-xw-lZI" id="WEz-Op-Tfy"/>
+                        <outlet property="mostVisitedPlace5" destination="nRS-FC-pzt" id="ZIM-Mx-6Ad"/>
                         <outlet property="ordinancesPerformedTotal" destination="VlG-pa-iXb" id="tdi-Tk-wLK"/>
                         <outlet property="ordinancesPerformedYr" destination="S7g-ta-lil" id="Ef8-dp-1Tw"/>
                         <outlet property="ordinancesPerformedYr2" destination="AaC-XI-XuP" id="Orv-0j-fmu"/>

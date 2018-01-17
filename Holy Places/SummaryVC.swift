@@ -49,10 +49,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var mostVisitedPlace1: UILabel!
     @IBOutlet weak var mostVisitedPlace2: UILabel!
     @IBOutlet weak var mostVisitedPlace3: UILabel!
+    @IBOutlet weak var mostVisitedPlace4: UILabel!
+    @IBOutlet weak var mostVisitedPlace5: UILabel!
     @IBOutlet weak var mostVisitedCount1: UILabel!
     @IBOutlet weak var mostVisitedCount2: UILabel!
     @IBOutlet weak var mostVisitedCount3: UILabel!
-    
+    @IBOutlet weak var mostVisitedCount4: UILabel!
+    @IBOutlet weak var mostVisitedCount5: UILabel!
+
     
     var yearOffset = 0
     
@@ -142,6 +146,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             // Deteremine most visited places
             let fetchRequest2 = NSFetchRequest<NSDictionary>(entityName:"Visit")
             fetchRequest2.predicate = nil
+            fetchRequest2.sortDescriptors = [NSSortDescriptor(key: "holyPlace", ascending: true)]
             let nameExpr = NSExpression(forKeyPath: "holyPlace")
             let countExpr = NSExpressionDescription()
             
@@ -158,26 +163,58 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             let itemResult = searchResults2.sorted { $0.value(forKey: "count") as! Int > $1.value(forKey: "count") as! Int }
             
             var counter = 0
+            var textColor = UIColor()
             for place in itemResult {
                 let placeName = place.object(forKey: "holyPlace") as! String
                 let placeCount = String(format: "%@", place.object(forKey: "count") as! CVarArg)
                 
+                // Determine type
+                if let found = allPlaces.index(where:{$0.templeName == placeName}) {
+                    switch allPlaces[found].templeType {
+                    case "T":
+                        textColor = UIColor.darkRed()
+                    case "H":
+                        textColor = UIColor.darkLimeGreen()
+                    case "C":
+                        textColor = UIColor.darkOrange()
+                    case "V":
+                        textColor = UIColor.strongYellow()
+                    default:
+                        textColor = UIColor.lead()
+                    }
+                }
                 counter += 1
                 switch counter {
                 case 1:
                     mostVisitedPlace1.text = placeName
                     mostVisitedCount1.text = placeCount
+                    mostVisitedPlace1.textColor = textColor
+                    mostVisitedCount1.textColor = textColor
                 case 2:
                     mostVisitedPlace2.text = placeName
                     mostVisitedCount2.text = placeCount
+                    mostVisitedPlace2.textColor = textColor
+                    mostVisitedCount2.textColor = textColor
                 case 3:
                     mostVisitedPlace3.text = placeName
                     mostVisitedCount3.text = placeCount
+                    mostVisitedPlace3.textColor = textColor
+                    mostVisitedCount3.textColor = textColor
+                case 4:
+                    mostVisitedPlace4.text = placeName
+                    mostVisitedCount4.text = placeCount
+                    mostVisitedPlace4.textColor = textColor
+                    mostVisitedCount4.textColor = textColor
+                case 5:
+                    mostVisitedPlace5.text = placeName
+                    mostVisitedCount5.text = placeCount
+                    mostVisitedPlace5.textColor = textColor
+                    mostVisitedCount5.textColor = textColor
                 default:
                     break
                 }
                 print("\(placeName) - \(placeCount)")
-                if counter == 3 {
+                if counter == 5 {
                     break
                 }
             }
