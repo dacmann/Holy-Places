@@ -39,7 +39,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     @IBOutlet weak var templeView: UIStackView!
     @IBOutlet weak var addPictureBtn: UIButton!
     @IBOutlet weak var pictureView: UIImageView!
-
+    @IBOutlet weak var ordinanceWorkerSV: UIStackView!
+    @IBOutlet weak var hoursWorked: UITextField!
+    @IBOutlet weak var hoursWorkedStepO: UIStepper!
+    
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -72,6 +75,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.comments = comments.text
         visit.dateVisited = dateOfVisit as Date?
         visit.type = placeType
+        visit.shiftHrs = Double(hoursWorked.text!)!
         if pictureView.isHidden == false {
             // create NSData from UIImage
             guard let imageData = UIImageJPEGRepresentation(pictureView.image!, 1) else {
@@ -112,6 +116,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             detailVisit?.initiatories = Int16(initiatories.text!)!
             detailVisit?.confirmations = Int16(confirmations.text!)!
             detailVisit?.baptisms = Int16(baptisms.text!)!
+            detailVisit?.shiftHrs = Double(hoursWorked.text!)!
         }
         detailVisit?.dateVisited = dateOfVisit as Date?
         detailVisit?.comments = comments.text!
@@ -175,6 +180,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         self.initiatories.inputAccessoryView = toolbar
         self.confirmations.inputAccessoryView = toolbar
         self.baptisms.inputAccessoryView = toolbar
+        self.hoursWorked.inputAccessoryView = toolbar
     }
     
     //MARK:- Actions
@@ -184,6 +190,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         self.view.endEditing(true)
     }
     
+    @IBAction func hoursWorkedText(_ sender: UITextField) {
+        if (sender.text?.isEmpty)!{
+            sender.text = "0"
+        }
+        self.hoursWorkedStepO.value = Double(sender.text!)!
+    }
     @IBAction func sealingsText(_ sender: UITextField) {
         if (sender.text?.isEmpty)!{
             sender.text = "0"
@@ -215,6 +227,9 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         self.baptismsStepO.value = Double(sender.text!)!
     }
     
+    @IBAction func hoursWorkedStep(_ sender: UIStepper) {
+        self.hoursWorked.text = sender.value.description
+    }
     @IBAction func sealingsStep(_ sender: UIStepper) {
         self.sealings.text = Int(sender.value).description
     }
@@ -312,6 +327,9 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 default:
                     templeName.textColor = UIColor.lead()
                 }
+                
+                // enable the Hours worked stack view when needed
+                ordinanceWorkerSV.isHidden = !ordinanceWorker
             }
         }
     }
@@ -323,6 +341,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
+                hoursWorked.text = detail.shiftHrs.description
                 sealings.text = detail.sealings.description
                 endowments.text = detail.endowments.description
                 initiatories.text = detail.initiatories.description
@@ -339,6 +358,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 if detail.type != "T" {
                     templeView.isHidden = true
                 } else {
+                    hoursWorkedStepO.value = Double(hoursWorked.text!)!
                     sealingsStepO.value = Double(sealings.text!)!
                     endowmentsStepO.value = Double(endowments.text!)!
                     initiatoriesStepO.value = Double(initiatories.text!)!
@@ -360,6 +380,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                         templeName.textColor = UIColor.lead()
                     }
                 }
+                // enable the Hours worked stack view when needed
+                ordinanceWorkerSV.isHidden = !ordinanceWorker
             }
         }
     }

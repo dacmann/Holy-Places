@@ -19,9 +19,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var historicalTotal: UILabel!
     @IBOutlet weak var visitorsCentersVisited: UILabel!
     @IBOutlet weak var visitorsCentersTotal: UILabel!
+    @IBOutlet weak var hoursWorked: UILabel!
     
     @IBOutlet weak var titleYr1: UIButton!
     @IBOutlet weak var attendedTempleYr: UILabel!
+    @IBOutlet weak var hoursWorkedYr: UILabel!
     @IBOutlet weak var sealingsPerformedYr: UILabel!
     @IBOutlet weak var endowmentsPerformedYr: UILabel!
     @IBOutlet weak var initiatoriesPerformedYr: UILabel!
@@ -31,6 +33,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     @IBOutlet weak var titleYr2: UIButton!
     @IBOutlet weak var attendedTempleYr2: UILabel!
+    @IBOutlet weak var hoursWorkedYr2: UILabel!
     @IBOutlet weak var sealingsPerformedYr2: UILabel!
     @IBOutlet weak var endowmentsPerformedYr2: UILabel!
     @IBOutlet weak var initiatoriesPerformedYr2: UILabel!
@@ -38,6 +41,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var baptismsPerformedYr2: UILabel!
     @IBOutlet weak var ordinancesPerformedYr2: UILabel!
 
+    @IBOutlet weak var hoursWorkedTotal: UILabel!
     @IBOutlet weak var sealingsPerformedTotal: UILabel!
     @IBOutlet weak var attendedTempleTotal: UILabel!
     @IBOutlet weak var endowmentsPerformedTotal: UILabel!
@@ -139,15 +143,17 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             var confirmationsTotal = 0
             var baptismsTotal = 0
             var ordinancesTotal = 0
+            var shiftHoursTotal = 0.0
             
             for temple in searchResults as [Visit] {
                 // add to total counts
                 attendedTotal += 1
-                sealingsTotal += temple.value(forKey: "sealings") as! Int
-                endowmentsTotal += temple.value(forKey: "endowments") as! Int
-                initiatoriesTotal += temple.value(forKey: "initiatories") as! Int
-                confirmationsTotal += temple.value(forKey: "confirmations") as! Int
-                baptismsTotal += temple.value(forKey: "baptisms") as! Int
+                sealingsTotal += Int(temple.sealings)
+                endowmentsTotal += Int(temple.endowments)
+                initiatoriesTotal += Int(temple.initiatories)
+                confirmationsTotal += Int(temple.confirmations)
+                baptismsTotal += Int(temple.baptisms)
+                shiftHoursTotal += temple.shiftHrs
             }
             
             getYearTotals(visits: searchResults)
@@ -162,6 +168,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             confirmationsPerformedTotal.text = confirmationsTotal.description
             baptismsPerformedTotal.text = baptismsTotal.description
             ordinancesPerformedTotal.text = ordinancesTotal.description
+            hoursWorkedTotal.text = shiftHoursTotal.description
             
             // get number of Temples visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
@@ -284,6 +291,12 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                     break
                 }
             }
+            
+            // Hide Hours Worked row if not enabled
+            hoursWorked.isHidden = !ordinanceWorker
+            hoursWorkedYr.isHidden = !ordinanceWorker
+            hoursWorkedYr2.isHidden = !ordinanceWorker
+            hoursWorkedTotal.isHidden = !ordinanceWorker
 
             // If entered a few visits, prompt for a rating
             if visitCnt > 2 {
@@ -306,6 +319,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         var baptisms = 0
         var ordinances = 0
         var attended = 0
+        var shiftHrs = 0.0
         var sealings2 = 0
         var endowments2 = 0
         var initiatories2 = 0
@@ -313,6 +327,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         var baptisms2 = 0
         var ordinances2 = 0
         var attended2 = 0
+        var shiftHrs2 = 0.0
         
         let year1 = String(Int(currentYear)! + yearOffset)
         let year2 = String(Int(currentYear)! + yearOffset - 1)
@@ -337,6 +352,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                 initiatories += Int(temple.initiatories)
                 confirmations += Int(temple.confirmations)
                 baptisms += Int(temple.baptisms)
+                shiftHrs += temple.shiftHrs
             }
             if (yearVisited == year2) {
                 attended2 += 1
@@ -345,12 +361,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                 initiatories2 += Int(temple.initiatories)
                 confirmations2 += Int(temple.confirmations)
                 baptisms2 += Int(temple.baptisms)
+                shiftHrs2 += temple.shiftHrs
             }
         }
         
         ordinances = sealings + endowments + initiatories + confirmations + baptisms
         
         attendedTempleYr.text = attended.description
+        hoursWorkedYr.text = shiftHrs.description
         sealingsPerformedYr.text = sealings.description
         endowmentsPerformedYr.text = endowments.description
         initiatoriesPerformedYr.text = initiatories.description
@@ -361,6 +379,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         ordinances2 = sealings2 + endowments2 + initiatories2 + confirmations2 + baptisms2
         
         attendedTempleYr2.text = attended2.description
+        hoursWorkedYr2.text = shiftHrs2.description
         sealingsPerformedYr2.text = sealings2.description
         endowmentsPerformedYr2.text = endowments2.description
         initiatoriesPerformedYr2.text = initiatories2.description

@@ -207,6 +207,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if visit.sealings > 0 {
             ordinances.append(" S")
         }
+        if visit.shiftHrs > 0 {
+            ordinances.append(" \(visit.shiftHrs) hrs")
+        }
         // If no ordinaces appended, blank out the variable, otherwise add closing bracket
         if ordinances == " ~" {
             ordinances = ""

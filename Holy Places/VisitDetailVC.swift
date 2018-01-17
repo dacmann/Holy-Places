@@ -94,6 +94,9 @@ class VisitDetailVC: UIViewController {
                     if detail.baptisms > 0 {
                         ordinances.append("\nBaptisms: \(detail.baptisms.description)")
                     }
+                    if detail.shiftHrs > 0 {
+                        ordinances.append("\nHours Worked: \(detail.shiftHrs.description)")
+                    }
                 }
                 if ordinances != "" {
                     ordinancesPerformed.isHidden = false

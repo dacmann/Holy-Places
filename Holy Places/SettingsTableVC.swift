@@ -21,6 +21,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var imageOptions: UISegmentedControl!
     @IBOutlet weak var importBtn: ShadowButton!
+    @IBOutlet weak var hoursWorkedSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         enableSwitch.isOn = notificationEnabled
         filterSwitch.isOn = notificationFilter
         filterSwitch.isEnabled = notificationEnabled
+        hoursWorkedSwitch.isOn = ordinanceWorker
         
         // default values
         if notificationDelayInMinutes == 0 {
@@ -122,7 +124,11 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         // Dismiss view
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    @IBAction func hoursWorkedEnabled(_ sender: UISwitch) {
+        ordinanceWorker = sender.isOn
+    }
+    
     @objc func doneButtonAction(){
         self.view.endEditing(true)
     }

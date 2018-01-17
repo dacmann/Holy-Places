@@ -84,6 +84,7 @@ var homeVisitPictureData: Data?
 var homeDefaultPicture = true
 var homeTextColor = 0 as Int16
 var homeVisitDate: String?
+var ordinanceWorker = Bool()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -176,6 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     homeDefaultPicture = (settings?.homeDefaultPicture)!
                     homeAlternatePicture = settings?.homeAlternatePicture
                     homeVisitPicture = (settings?.homeVisitPicture)!
+                    ordinanceWorker = (settings?.ordinanceWorker)!
                 }
             } else {
                 annualVisitGoal = 0
@@ -229,6 +231,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.homeDefaultPicture = homeDefaultPicture
         settings?.homeAlternatePicture = homeAlternatePicture
         settings?.homeVisitPicture = homeVisitPicture
+        settings?.ordinanceWorker = ordinanceWorker
         
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()

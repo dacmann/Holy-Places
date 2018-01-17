@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C205" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityState" optional="YES" attributeType="String" syncable="YES"/>
@@ -42,6 +42,7 @@
         <attribute name="notificationDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="notificationEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="notificationFilter" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ordinanceWorker" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="placeFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="placeSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tip" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -58,6 +59,7 @@
         <attribute name="initiatories" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="shiftHrs" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <fetchIndex name="byHolyPlaceIndex">
             <fetchIndexElement property="holyPlace" type="Binary" order="ascending"/>
@@ -66,7 +68,7 @@
     <elements>
         <element name="Place" positionX="-36" positionY="-75" width="128" height="285"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
-        <element name="Settings" positionX="99" positionY="0" width="128" height="375"/>
-        <element name="Visit" positionX="232" positionY="-99" width="128" height="195"/>
+        <element name="Settings" positionX="99" positionY="0" width="128" height="390"/>
+        <element name="Visit" positionX="232" positionY="-99" width="128" height="210"/>
     </elements>
 </model>
