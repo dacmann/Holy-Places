@@ -512,7 +512,7 @@
                                 <rect key="frame" x="0.0" y="152" width="375" height="461"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="577"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="586"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R" userLabel="Holy Places SV">
                                                 <rect key="frame" x="18.5" y="0.0" width="338" height="107"/>
@@ -716,15 +716,15 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA" userLabel="Temple Visits SV">
-                                                <rect key="frame" x="18.5" y="142" width="338" height="222"/>
+                                                <rect key="frame" x="18.5" y="142" width="338" height="231"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="222"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="231"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Temple Visits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="sC5-WV-R1f">
-                                                                <rect key="frame" x="0.0" y="0.0" width="130" height="23"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="130" height="32"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="23" id="8l8-yx-gKu"/>
+                                                                    <constraint firstAttribute="height" constant="32" id="8l8-yx-gKu"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                 <nil key="highlightedColor"/>
@@ -733,7 +733,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Attended" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zP6-U3-LoV">
-                                                                <rect key="frame" x="0.0" y="33" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="42" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="XHX-Q1-E6t">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -747,7 +747,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Sealings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjI-3C-oej">
-                                                                <rect key="frame" x="0.0" y="61" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="70" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="QgP-mf-A1x">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -761,7 +761,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Endowments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddC-fL-lky">
-                                                                <rect key="frame" x="0.0" y="89" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="98" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="iha-y8-deN">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -775,7 +775,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initiatories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zg4-YK-Phs">
-                                                                <rect key="frame" x="0.0" y="117" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="126" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="1Gb-ef-L6w">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -789,7 +789,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Confirmations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-FM-LmS">
-                                                                <rect key="frame" x="0.0" y="145" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="154" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="4Sb-fV-gWG">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -803,7 +803,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Baptisms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dW-QX-oRE">
-                                                                <rect key="frame" x="0.0" y="173" width="130" height="18"/>
+                                                                <rect key="frame" x="0.0" y="182" width="130" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="v8L-Ld-PGk">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -817,7 +817,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Total Ordinances" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="K1A-FT-AQP">
-                                                                <rect key="frame" x="0.0" y="201" width="130" height="21"/>
+                                                                <rect key="frame" x="0.0" y="210" width="130" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -832,18 +832,23 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
-                                                        <rect key="frame" x="139.5" y="0.0" width="60" height="222"/>
+                                                        <rect key="frame" x="139.5" y="0.0" width="60" height="231"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="2018" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Vq-qz-Pn0">
-                                                                <rect key="frame" x="10" y="0.0" width="40" height="26"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHy-M0-6lK">
+                                                                <rect key="frame" x="10" y="0.0" width="40" height="35"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                                <nil key="highlightedColor"/>
+                                                                <state key="normal" title="2018">
+                                                                    <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
                                                                 <variation key="heightClass=regular-widthClass=regular">
                                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                                                 </variation>
-                                                            </label>
+                                                                <connections>
+                                                                    <action selector="titleYr1Btn:" destination="odm-0V-dAT" eventType="touchUpInside" id="7y4-SY-9W0"/>
+                                                                </connections>
+                                                            </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-QD-kzc">
-                                                                <rect key="frame" x="25.5" y="36" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="45" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="3oe-2G-EvV">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -857,7 +862,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgA-8y-90I">
-                                                                <rect key="frame" x="25.5" y="64" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="73" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="9rZ-1z-bdY">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -871,7 +876,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-IN-fJ4">
-                                                                <rect key="frame" x="25.5" y="92" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="101" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="8T9-gr-o3J">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -885,7 +890,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guf-H0-oCW">
-                                                                <rect key="frame" x="25.5" y="120" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="129" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="MHT-3W-bnQ">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -899,7 +904,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-Gg-RFK">
-                                                                <rect key="frame" x="25.5" y="148" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="157" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="bpa-82-WJ3">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -913,7 +918,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntV-vp-auY">
-                                                                <rect key="frame" x="25.5" y="176" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="185" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="dyF-l9-Qvg">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -927,7 +932,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7g-ta-lil">
-                                                                <rect key="frame" x="25.5" y="204" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="213" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="8SR-5z-8Hb">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -947,18 +952,23 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EiO-sR-use">
-                                                        <rect key="frame" x="208.5" y="0.0" width="60" height="222"/>
+                                                        <rect key="frame" x="208.5" y="0.0" width="60" height="231"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="2017" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTb-yM-XNW">
-                                                                <rect key="frame" x="10" y="0.0" width="40" height="26"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-my-4j4">
+                                                                <rect key="frame" x="3" y="0.0" width="54" height="35"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                                <nil key="highlightedColor"/>
+                                                                <state key="normal" title="2017&gt;">
+                                                                    <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                </state>
                                                                 <variation key="heightClass=regular-widthClass=regular">
                                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                                                 </variation>
-                                                            </label>
+                                                                <connections>
+                                                                    <action selector="titleYr2Btn:" destination="odm-0V-dAT" eventType="touchUpInside" id="x0g-R8-12O"/>
+                                                                </connections>
+                                                            </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZo-Pa-7ae">
-                                                                <rect key="frame" x="25.5" y="36" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="45" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="Cfh-cF-w6Z">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -972,7 +982,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="syz-V2-pGt">
-                                                                <rect key="frame" x="25.5" y="64" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="73" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="gCr-RB-hxp">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -986,7 +996,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U2x-EH-6rB">
-                                                                <rect key="frame" x="25.5" y="92" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="101" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="rFP-AY-FBQ">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1000,7 +1010,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGS-wt-bMW">
-                                                                <rect key="frame" x="25.5" y="120" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="129" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="3u8-ia-qHx">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1014,7 +1024,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ri2-dN-a5R">
-                                                                <rect key="frame" x="25.5" y="148" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="157" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="dO1-eM-73T">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1028,7 +1038,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEc-us-lfP">
-                                                                <rect key="frame" x="25.5" y="176" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="185" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="J5b-Il-c3j">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1042,7 +1052,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AaC-XI-XuP">
-                                                                <rect key="frame" x="25.5" y="204" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="213" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="UxM-mF-cKn">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1062,10 +1072,10 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
-                                                        <rect key="frame" x="278" y="0.0" width="60" height="222"/>
+                                                        <rect key="frame" x="278" y="0.0" width="60" height="231"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
-                                                                <rect key="frame" x="9" y="0.0" width="42" height="26"/>
+                                                                <rect key="frame" x="9" y="0.0" width="42" height="35"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1073,7 +1083,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHD-aA-TvX">
-                                                                <rect key="frame" x="25.5" y="36" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="45" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="6pA-Ut-Plp">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1087,7 +1097,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
-                                                                <rect key="frame" x="25.5" y="64" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="73" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="pji-pz-SUi">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1101,7 +1111,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
-                                                                <rect key="frame" x="25.5" y="92" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="101" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="AWa-JP-iW6">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1115,7 +1125,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
-                                                                <rect key="frame" x="25.5" y="120" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="129" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="zf4-hj-tJ6">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1129,7 +1139,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
-                                                                <rect key="frame" x="25.5" y="148" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="157" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="dwc-7D-Ycd">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1143,7 +1153,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
-                                                                <rect key="frame" x="25.5" y="176" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="185" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="waz-ja-dXM">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1157,7 +1167,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlG-pa-iXb">
-                                                                <rect key="frame" x="25.5" y="204" width="9" height="18"/>
+                                                                <rect key="frame" x="25.5" y="213" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="HXI-xh-UOe">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1179,7 +1189,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="G8x-F0-WfJ" userLabel="Most Visited SV">
-                                                <rect key="frame" x="18.5" y="399" width="338" height="178"/>
+                                                <rect key="frame" x="18.5" y="408" width="338" height="178"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5iK-u2-WTb">
                                                         <rect key="frame" x="0.0" y="0.0" width="240" height="178"/>
@@ -1362,8 +1372,8 @@
                         <outlet property="sealingsPerformedYr2" destination="syz-V2-pGt" id="tF2-MO-PN7"/>
                         <outlet property="templesTotal" destination="Opp-7p-6cs" id="Ux7-vx-25f"/>
                         <outlet property="templesVisited" destination="CSb-lW-FXk" id="lin-20-dDZ"/>
-                        <outlet property="titleYr1" destination="0Vq-qz-Pn0" id="o3d-hv-TIv"/>
-                        <outlet property="titleYr2" destination="eTb-yM-XNW" id="stD-29-Qbj"/>
+                        <outlet property="titleYr1" destination="HHy-M0-6lK" id="ZcL-PO-glV"/>
+                        <outlet property="titleYr2" destination="PDV-my-4j4" id="BXE-aQ-3e0"/>
                         <outlet property="visitorsCentersTotal" destination="suL-gb-mXA" id="uGN-sr-lKA"/>
                         <outlet property="visitorsCentersVisited" destination="JJY-BB-SZN" id="g3W-zj-sob"/>
                     </connections>

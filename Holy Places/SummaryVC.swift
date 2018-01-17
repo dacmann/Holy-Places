@@ -20,7 +20,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var visitorsCentersVisited: UILabel!
     @IBOutlet weak var visitorsCentersTotal: UILabel!
     
-    @IBOutlet weak var titleYr1: UILabel!
+    @IBOutlet weak var titleYr1: UIButton!
     @IBOutlet weak var attendedTempleYr: UILabel!
     @IBOutlet weak var sealingsPerformedYr: UILabel!
     @IBOutlet weak var endowmentsPerformedYr: UILabel!
@@ -29,7 +29,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var baptismsPerformedYr: UILabel!
     @IBOutlet weak var ordinancesPerformedYr: UILabel!
     
-    @IBOutlet weak var titleYr2: UILabel!
+    @IBOutlet weak var titleYr2: UIButton!
     @IBOutlet weak var attendedTempleYr2: UILabel!
     @IBOutlet weak var sealingsPerformedYr2: UILabel!
     @IBOutlet weak var endowmentsPerformedYr2: UILabel!
@@ -81,7 +81,38 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         getTotals()
         
     }
-
+    
+    @IBAction func titleYr1Btn(_ sender: UIButton) {
+        if yearOffset < 0 {
+            yearOffset += 1
+            // get temple visits
+            let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            do {
+                let searchResults = try getContext().fetch(fetchRequest)
+                getYearTotals(visits: searchResults)
+            } catch {
+                print("Error with request: \(error)")
+            }
+        }
+    }
+    
+    @IBAction func titleYr2Btn(_ sender: UIButton) {
+        
+        yearOffset -= 1
+        
+        // get temple visits
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+        do {
+            let searchResults = try getContext().fetch(fetchRequest)
+            getYearTotals(visits: searchResults)
+        } catch {
+            print("Error with request: \(error)")
+        }
+    }
+    
+    
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         var visitCnt = 0
@@ -250,8 +281,13 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         let year1 = String(Int(currentYear)! + yearOffset)
         let year2 = String(Int(currentYear)! + yearOffset - 1)
-        titleYr1.text = year1
-        titleYr2.text = year2
+        if yearOffset < 0 {
+            titleYr1.setTitle("<\(year1)", for: .normal)
+        } else {
+            titleYr1.setTitle(year1, for: .normal)
+        }
+        titleYr2.setTitle("\(year2)>", for: .normal)
+//        titleYr2.setTitle(year2, for: .normal)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy"
