@@ -87,8 +87,8 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     @IBAction func fairMormonLink(_ sender: UIButton) {
-        if let url = URL(string: "https://www.fairmormon.org/answers/Mormonism_and_temples/Inverted_Stars_on_LDS_Temples") {
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+        if let url = URL(string: "http://oneclimbs.com/2011/11/21/restoring-the-pentagram-to-its-proper-place/") {
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             present(vc, animated: true)
         }
     }
