@@ -775,7 +775,9 @@
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Temple Visits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="sC5-WV-R1f">
                                                                 <rect key="frame" x="0.0" y="0.0" width="130" height="32"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="32" id="8l8-yx-gKu"/>
+                                                                    <constraint firstAttribute="height" constant="32" id="8l8-yx-gKu">
+                                                                        <variation key="heightClass=regular-widthClass=regular" constant="40"/>
+                                                                    </constraint>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                 <nil key="highlightedColor"/>
