@@ -34,6 +34,7 @@
         <attribute name="altLocStreet" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dateHolyPlaceVisited" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="excludeNonOrdinanceVisits" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="holyPlaceVisited" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="homeAlternatePicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="homeDefaultPicture" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
@@ -68,7 +69,7 @@
     <elements>
         <element name="Place" positionX="-36" positionY="-75" width="128" height="285"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
-        <element name="Settings" positionX="99" positionY="0" width="128" height="390"/>
+        <element name="Settings" positionX="99" positionY="0" width="128" height="405"/>
         <element name="Visit" positionX="232" positionY="-99" width="128" height="210"/>
     </elements>
 </model>

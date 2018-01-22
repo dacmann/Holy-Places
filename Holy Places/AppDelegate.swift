@@ -85,6 +85,7 @@ var homeDefaultPicture = true
 var homeTextColor = 0 as Int16
 var homeVisitDate: String?
 var ordinanceWorker = Bool()
+var excludeNonOrdinanceVisits = Bool()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -178,6 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     homeAlternatePicture = settings?.homeAlternatePicture
                     homeVisitPicture = (settings?.homeVisitPicture)!
                     ordinanceWorker = (settings?.ordinanceWorker)!
+                    excludeNonOrdinanceVisits = (settings?.excludeNonOrdinanceVisits)!
                 }
             } else {
                 annualVisitGoal = 0
@@ -232,6 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.homeAlternatePicture = homeAlternatePicture
         settings?.homeVisitPicture = homeVisitPicture
         settings?.ordinanceWorker = ordinanceWorker
+        settings?.excludeNonOrdinanceVisits = excludeNonOrdinanceVisits
         
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()
@@ -289,9 +292,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             visitElapsedTime = NSDate().timeIntervalSince(timeEntered as Date)
             //Remove entrance time
             monitoredRegions.removeValue(forKey: region.identifier)
-            
-            // create notification
             print("Visited \(region.identifier) for \(Int(visitElapsedTime!/60)) minutes")
+        } else {
+            // No entry record - phone may have been turned off
+            visitElapsedTime = 999  // default value to greater than 10 minutes
+            print("Visited \(region.identifier) for undetermined amount of time")
+        }
+        // create notification if visited more than 10 minutes
+        if Int(visitElapsedTime!) > 599 {
             holyPlaceVisited = region.identifier
             dateHolyPlaceVisited = Date()
             shouldNotify()
@@ -768,7 +776,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
                 // check for ordinaces performed in the last year
                 if (visit.dateVisited?.daysBetweenDate(toDate: Date()))! < currentYearDate.daysBetweenDate(toDate: Date()) {
-                    attended += 1
+                    // check for ordinancs when excluded
+                    if excludeNonOrdinanceVisits {
+                        if visit.baptisms > 0 || visit.confirmations > 0 || visit.initiatories > 0 || visit.endowments > 0 || visit.sealings > 0 {
+                            attended += 1
+                        }
+                    } else {
+                        attended += 1
+                    }
                 }
                 if latestTempleVisited == "" {
                     latestTempleVisited = visit.holyPlace!

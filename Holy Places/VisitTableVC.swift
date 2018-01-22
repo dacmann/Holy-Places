@@ -20,6 +20,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     var titleHeader = String()
     var quickAddPlace: Temple?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let formatter = DateFormatter()
     
     // Set variable based on Filter Option selected on Options view
     func FilterOptions(row: Int) {
@@ -40,7 +41,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let allVisits = fetchedResultsController.fetchedObjects
         // Search on Place name or comments
         filteredVisits = allVisits!.filter { visit in
-            return ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))!)
+            return ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())))
         }
         // Update title
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -74,6 +75,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
         
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
@@ -187,8 +189,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
         cell.textLabel!.text = visit.holyPlace
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
+        
         var ordinances = " ~"
         
         // Determine Ordinances performed for summary

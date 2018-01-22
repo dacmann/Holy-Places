@@ -22,6 +22,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var imageOptions: UISegmentedControl!
     @IBOutlet weak var importBtn: ShadowButton!
     @IBOutlet weak var hoursWorkedSwitch: UISwitch!
+    @IBOutlet weak var excludeNonOrdinanceVisitsSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,9 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         enableSwitch.isOn = notificationEnabled
         filterSwitch.isOn = notificationFilter
         filterSwitch.isEnabled = notificationEnabled
+        minutesDelay.isEnabled = notificationEnabled
         hoursWorkedSwitch.isOn = ordinanceWorker
+        excludeNonOrdinanceVisitsSwitch.isOn = excludeNonOrdinanceVisits
         
         // default values
         if notificationDelayInMinutes == 0 {
@@ -102,14 +105,16 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     }
     
     @IBAction func enable(_ sender: UISwitch) {
-        if sender.isOn {
-            notificationEnabled = true
+        notificationEnabled = sender.isOn
+        if notificationEnabled {
             appDelegate.locationServiceSetup()
-            minutesDelay.isEnabled = true
-        } else {
-            notificationEnabled = false
-            minutesDelay.isEnabled = false
         }
+        filterSwitch.isEnabled = notificationEnabled
+        minutesDelay.isEnabled = notificationEnabled
+    }
+    
+    @IBAction func excludeSwitched(_ sender: UISwitch) {
+        excludeNonOrdinanceVisits = sender.isOn
     }
     
     @IBAction func filterEnabled(_ sender: UISwitch) {
