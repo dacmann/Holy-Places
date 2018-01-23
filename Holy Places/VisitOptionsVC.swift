@@ -32,6 +32,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var holyPlace = String()
     var comments = String()
     var visitDate = Date()
+    var hoursWorked = Double()
     var sealings = Int16()
     var endowments = Int16()
     var initiatories = Int16()
@@ -39,7 +40,10 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var baptisms = Int16()
     var type = String()
     let dateFormatter = DateFormatter()
+    let dateFormatterFile = DateFormatter()
     var importCount = 0
+    var fileName = String()
+    var exportCount = 0
     
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
@@ -62,6 +66,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
         
         dateFormatter.dateStyle = .full
+        dateFormatterFile.dateFormat = "yyyyMMdd"
+        fileName = "HolyPlacesVisits-\(dateFormatterFile.string(from: Date.init()))"
     }
     
     //MARK: - PickerView Functions
@@ -125,7 +131,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func exportAction(_ sender: UIBarButtonItem) {
         getVisits(type: "txt")
         do {
-            try exportFile(visits, title: "HolyPlacesVisits", type: "txt")
+            try exportFile(visits, title: fileName, type: "txt")
         } catch {
             print("Error with export: \(error)")
         }
@@ -133,19 +139,23 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func exportXmlAction(_ sender: UIBarButtonItem) {
         getVisits(type: "xml")
         do {
-            try exportFile(visits, title: "HolyPlacesVisits", type: "xml")
+            try exportFile(visits, title: fileName, type: "xml")
         } catch {
             print("Error with export: \(error)")
         }
     }
+    
     @IBAction func exportCsvAction(_ sender: UIBarButtonItem) {
         getVisits(type: "csv")
         do {
-            try exportFile(visits, title: "HolyPlacesVisits", type: "csv")
+            try exportFile(visits, title: fileName, type: "csv")
         } catch {
             print("Error with export: \(error)")
         }
     }
+    
+    
+    
     @IBAction func importVisits(_ sender: UIButton) {
         let importMenu = UIDocumentPickerViewController(documentTypes: [kUTTypeXML as String], in: .import)
         importMenu.delegate = self
@@ -202,14 +212,15 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             //go get the results
             let searchResults = try getContext().fetch(fetchRequest)
             
+            exportCount = searchResults.count
             //Check the size of the returned results
             //print ("num of results = \(searchResults.count)")
             
             switch type {
             case "txt":
-                visits.append(" Total Number of Visits: \(searchResults.count)\n\n")
+                visits.append(" Total Number of Visits: \(exportCount)\n\n")
             case "csv":
-                visits = "holyPlace,type,dateVisited,comments,sealings,endowments,initiatories,confirmations,baptisms\n"
+                visits = "holyPlace,type,dateVisited,comments,hoursWorked,sealings,endowments,initiatories,confirmations,baptisms\n"
             default: // xml
                 visits.append("<TotalVisits>\(searchResults.count)</TotalVisits><Visits>")
             }
@@ -235,6 +246,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 if visit.value(forKey: "type") as! String == "T" {
                     switch type {
                     case "txt":
+                        if visit.shiftHrs > 0 {
+                            visits.append("\n Hours Worked: \(visit.shiftHrs)")
+                        }
                         if visit.sealings > 0 {
                             visits.append("\n Sealings: \(visit.sealings)")
                         }
@@ -251,8 +265,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                             visits.append("\n Baptisms: \(visit.baptisms)")
                         }
                     case "csv":
-                        visits.append(",\(visit.sealings),\(visit.endowments),\(visit.initiatories),\(visit.confirmations),\(visit.baptisms)")
+                        visits.append(",\(visit.shiftHrs),\(visit.sealings),\(visit.endowments),\(visit.initiatories),\(visit.confirmations),\(visit.baptisms)")
                     default: //xml
+                        visits.append("<hoursWorked>\(visit.shiftHrs)</hoursWorked>")
                         visits.append("<sealings>\(visit.sealings)</sealings>")
                         visits.append("<endowments>\(visit.endowments)</endowments>")
                         visits.append("<initiatories>\(visit.initiatories)</initiatories>")
@@ -278,6 +293,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 visits.append("</Visits></Document>")
             }
 //            print(visits)
+//            exportMessage()
         } catch {
             print("Error with request: \(error)")
         }
@@ -313,7 +329,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)
-        
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
@@ -323,6 +338,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             holyPlace = String()
             comments = String()
             visitDate = Date()
+            hoursWorked = Double()
             sealings = Int16()
             endowments = Int16()
             initiatories = Int16()
@@ -344,6 +360,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     break
                 }
                 visitDate = dateFormatter.date(from: string)!
+            case "hoursWorked": hoursWorked = Double(string)!
             case "sealings": sealings = Int16(string)!
             case "endowments": endowments = Int16(string)!
             case "initiatories": initiatories = Int16(string)!
@@ -373,6 +390,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             visit.comments = comments
             visit.dateVisited = visitDate
             visit.type = type
+            visit.shiftHrs = hoursWorked
             
             //save the object
             do {

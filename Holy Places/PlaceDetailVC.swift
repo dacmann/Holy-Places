@@ -36,6 +36,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var switchedPlaces = false
     var reloadPics = true
     var picsLoading = true
+    var webViewPresented = false
     
     //MARK: - ScrollView functions
     
@@ -59,18 +60,19 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         // Test the offset and calculate the current page after scrolling ends
     }
     
-    //MARK: - CoreData
-    func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
-    }
-    
+    //MARK: - Thread management functions
     func BG(_ block: @escaping ()->Void) {
         DispatchQueue.global(qos: .default).async(execute: block)
     }
     
     func UI(_ block: @escaping ()->Void) {
         DispatchQueue.main.async(execute: block)
+    }
+    
+    //MARK: - CoreData
+    func getContext () -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
     }
     
     // Retrieve the Visits data from CoreData
@@ -117,42 +119,64 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
                     
                     // embed date of visit in picture
-                    image = self.textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point)
+                    if let imageWithDate = self.textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point) {
+                        image = imageWithDate
+                    }
                     
                     if image!.size.height > 1000 && pictureResults.count > 2 {
                         // reduce size of picture when there are more than 2 visits with pictures so the scroll view control is more responsive
-                        let smallImage = (visit.dateVisited!, self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3)))
-                        images.append(smallImage)
-                        print("reduced image to \(smallImage.1.size.height)")
+                        do {
+                            if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3)) {
+                                images.append((visit.dateVisited!, smallImage))
+                                print("reduced image to \(smallImage.size.height)")
+                            } else {
+                                print("failed to reduce image")
+                            }
+                        } catch {
+                            print("failed to reduce image - throw")
+                        }
                     } else {
                         images.append((visit.dateVisited!, image!))
                     }}
                     if images.count == self.visitImageCount {
                         // all pictures have been processed, go ahead and update the UI
-                        self.UI {
-                            // first reorder the images by date
-                            let sortedImages = images.sorted(by: { $0.0 > $1.0 })
-                            for (_, image) in sortedImages {
-                                let imageView = UIImageView()
-                                imageView.contentMode = .scaleAspectFit
-                                imageView.image = image
-                                let xPosition = self.pictureScrollView.frame.width * CGFloat(imageCounter)
-                                imageView.frame = CGRect(x: xPosition, y: 0, width: self.pictureScrollView.frame.width, height: self.pictureScrollView.frame.height)
-                                self.pictureScrollView.contentSize.width = self.pictureScrollView.frame.width * CGFloat(imageCounter + 1)
-                                let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
-                                imageView.addGestureRecognizer(tap)
-                                imageView.isUserInteractionEnabled = true
-                                imageView.tag = imageCounter + 1
-                                self.imageCount += 1
-                                imageCounter += 1
-                                self.pictureScrollView.addSubview(imageView)
+                        if let navigationController = self.navigationController {
+                            print(navigationController.viewControllers.description)
+                            // if we have moved on to another controller then don't bother updating the UI
+                            if navigationController.viewControllers.count == 2 && !self.webViewPresented {
+                                self.UI {
+                                    if let pictureView = self.pictureScrollView {
+                                        print("Add pictures to pictureScrollView")
+                                        // first reorder the images by date
+                                        let sortedImages = images.sorted(by: { $0.0 > $1.0 })
+                                        for (_, image) in sortedImages {
+                                            let imageView = UIImageView()
+                                            imageView.contentMode = .scaleAspectFit
+                                            imageView.image = image
+                                            let xPosition = pictureView.frame.width * CGFloat(imageCounter)
+                                            imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
+                                            pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
+                                            let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
+                                            imageView.addGestureRecognizer(tap)
+                                            imageView.isUserInteractionEnabled = true
+                                            imageView.tag = imageCounter + 1
+                                            self.imageCount += 1
+                                            imageCounter += 1
+                                            pictureView.addSubview(imageView)
+                                        }
+                                        self.pageControl.numberOfPages = imageCounter
+                                        self.pageControl.isHidden = false
+                                        self.view.bringSubview(toFront: self.pageControl)
+                                        self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                                        self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                                        self.picsLoading = false
+                                    } else {
+                                        print("Unable to access pictureScrollView")
+                                    }
+                                }
+                            } else {
+                                self.visitImageCount = 0
                             }
-                            self.pageControl.numberOfPages = imageCounter
-                            self.pageControl.isHidden = false
-                            self.view.bringSubview(toFront: self.pageControl)
-                            self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                            self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
-                            self.picsLoading = false
                         }
                     }
                 }
@@ -193,7 +217,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
         configureView()
         visitsAdded = false
-        
+        webViewPresented = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -205,12 +229,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             } else {
                 downloadImage()
             }
-            
-            // Change the back button on the Record Visit VC to Cancel
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
         } else {
             reloadPics = true
         }
+        // Change the back button on the Record Visit VC to Cancel
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
 
     }
     
@@ -222,13 +245,22 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func imageWithImage(image:UIImage ,scaledToSize newSize:CGSize)-> UIImage
+    func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?
     {
-        UIGraphicsBeginImageContext( newSize )
-        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let newImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
-        UIGraphicsEndImageContext();
-        return newImage
+        if self.navigationController?.viewControllers.count == 2 && !self.webViewPresented {
+            UIGraphicsBeginImageContext( newSize )
+            image?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+            
+            if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+                return newImage
+            } else {
+                UIGraphicsEndImageContext()
+                return nil
+            }
+        } else {
+            return nil
+        }
     }
     
     @objc func imageClicked()
@@ -238,7 +270,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         self.performSegue(withIdentifier: "viewImage2", sender: self)
     }
     
-    func textToImage(drawText text: NSString, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+    func textToImage(drawText text: NSString, inImage image: UIImage, atPoint point: CGPoint) -> UIImage? {
         
         // Setup the font specific variables
         let textColor = UIColor.white
@@ -265,10 +297,13 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         text.draw(in: rect, withAttributes: textFontAttributes)
         
         // Create a new image out of the images we have created
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
+        if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsEndImageContext()
+            return newImage
+        } else {
+            UIGraphicsEndImageContext()
+            return nil
+        }
     }
 
     func configureView() {
@@ -443,6 +478,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
     @IBAction func LaunchWebsite2(_ sender: UIButton) {
         if let url = URL(string: (detailItem?.templeSiteURL)!) {
+            webViewPresented = true
             reloadPics = picsLoading
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
             present(vc, animated: true)
@@ -451,6 +487,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     @IBAction func launchWebsite(_ sender: Any) {
         if let url = URL(string: (detailItem?.infoURL)!) {
+            webViewPresented = true
             reloadPics = picsLoading
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
