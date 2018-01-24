@@ -346,7 +346,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            self.configureCell(tableView.cellForRow(at: indexPath!)!, withVisit: anObject as! Visit)
+            print("update") // This is causing a crash when the results are filtered with a search - disabling it doesn't seem to cause an issue
+//            self.configureCell(tableView.cellForRow(at: indexPath!)!, withVisit: anObject as! Visit)
         case .move:
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }

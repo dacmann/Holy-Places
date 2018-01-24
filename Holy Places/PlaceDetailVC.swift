@@ -108,9 +108,10 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             
 //            print ("num of results = \(searchResults.count)")
             
-            for visit in pictureResults as [Visit] {
+            // needed to move BG process to the for loop since the concurrent processing of images resulted in crashes when many pictures were attached
+            BG { for visit in pictureResults as [Visit] {
                 // load image
-                BG { if let imageData = visit.picture {
+                if let imageData = visit.picture {
                     var image = UIImage(data: imageData as Data)
                     
                     // Grab date of visit and attach to picture
@@ -138,49 +139,49 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     } else {
                         images.append((visit.dateVisited!, image!))
                     }}
-                    if images.count == self.visitImageCount {
-                        // all pictures have been processed, go ahead and update the UI
-                        if let navigationController = self.navigationController {
-                            print(navigationController.viewControllers.description)
-                            // if we have moved on to another controller then don't bother updating the UI
-                            if navigationController.viewControllers.count == 2 && !self.webViewPresented {
-                                self.UI {
-                                    if let pictureView = self.pictureScrollView {
-                                        print("Add pictures to pictureScrollView")
-                                        // first reorder the images by date
-                                        let sortedImages = images.sorted(by: { $0.0 > $1.0 })
-                                        for (_, image) in sortedImages {
-                                            let imageView = UIImageView()
-                                            imageView.contentMode = .scaleAspectFit
-                                            imageView.image = image
-                                            let xPosition = pictureView.frame.width * CGFloat(imageCounter)
-                                            imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
-                                            pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
-                                            let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
-                                            imageView.addGestureRecognizer(tap)
-                                            imageView.isUserInteractionEnabled = true
-                                            imageView.tag = imageCounter + 1
-                                            self.imageCount += 1
-                                            imageCounter += 1
-                                            pictureView.addSubview(imageView)
-                                        }
-                                        self.pageControl.numberOfPages = imageCounter
-                                        self.pageControl.isHidden = false
-                                        self.view.bringSubview(toFront: self.pageControl)
-                                        self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                                        self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
-                                        self.picsLoading = false
-                                    } else {
-                                        print("Unable to access pictureScrollView")
+                if images.count == self.visitImageCount {
+                    // all pictures have been processed, go ahead and update the UI
+                    if let navigationController = self.navigationController {
+                        print(navigationController.viewControllers.description)
+                        // if we have moved on to another controller then don't bother updating the UI
+                        if navigationController.viewControllers.count == 2 && !self.webViewPresented {
+                            self.UI {
+                                if let pictureView = self.pictureScrollView {
+                                    print("Add pictures to pictureScrollView")
+                                    // first reorder the images by date
+                                    let sortedImages = images.sorted(by: { $0.0 > $1.0 })
+                                    for (_, image) in sortedImages {
+                                        let imageView = UIImageView()
+                                        imageView.contentMode = .scaleAspectFit
+                                        imageView.image = image
+                                        let xPosition = pictureView.frame.width * CGFloat(imageCounter)
+                                        imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
+                                        pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
+                                        let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
+                                        imageView.addGestureRecognizer(tap)
+                                        imageView.isUserInteractionEnabled = true
+                                        imageView.tag = imageCounter + 1
+                                        self.imageCount += 1
+                                        imageCounter += 1
+                                        pictureView.addSubview(imageView)
                                     }
+                                    self.pageControl.numberOfPages = imageCounter
+                                    self.pageControl.isHidden = false
+                                    self.view.bringSubview(toFront: self.pageControl)
+                                    self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                                    self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                                    self.picsLoading = false
+                                } else {
+                                    print("Unable to access pictureScrollView")
                                 }
-                            } else {
-                                self.visitImageCount = 0
                             }
+                        } else {
+                            self.visitImageCount = 0
                         }
                     }
                 }
                 }
+            }
         } catch {
             print("Error with request: \(error)")
         }
