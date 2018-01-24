@@ -125,7 +125,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     }
                     
                     print(image!.size.height)
-                    if image!.size.height > 1000 {
+                    if image!.size.height > 2000 {
                         // reduce size of picture so the scroll view control is more responsive
                         var scale = 2.0 as CGFloat
                         // reduce by a larger amount when very big

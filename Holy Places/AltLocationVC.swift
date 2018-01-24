@@ -125,6 +125,7 @@ class AltLocationVC: UIViewController {
     
     // MARK: - Navigation
     @IBAction func goBack(_ sender: UIButton) {
+        optionsChanged = true
         self.dismiss(animated: true, completion: nil)
     }
 

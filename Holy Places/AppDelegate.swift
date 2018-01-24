@@ -86,6 +86,7 @@ var homeTextColor = 0 as Int16
 var homeVisitDate: String?
 var ordinanceWorker = Bool()
 var excludeNonOrdinanceVisits = Bool()
+var optionsChanged = false
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {

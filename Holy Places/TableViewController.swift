@@ -40,6 +40,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     // Set variable based Filter Option selected on Options view
     func FilterOptions(row: Int) {
         placeFilterRow = row
+        optionsChanged = true
     }
     
     // Set variables based on Sort Option selected on Options view
@@ -59,6 +60,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         } else if placeSortRow == 4 {
             sortBySize = true
         }
+        optionsChanged = true
     }
     
     //MARK: - CoreData
@@ -279,7 +281,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updateView()
+        if optionsChanged {
+            updateView()
+            optionsChanged = false
+        }
     }
     
     override func viewDidLoad() {
@@ -315,7 +320,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // Add done button to keyboard
         keyboardDone()
         
-        
+        updateView()
 
     }
     
