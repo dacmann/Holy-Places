@@ -187,6 +187,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         selectedImage.image = UIImage(data: homeAlternatePicture!)
         importBtn.setTitleColor(UIColor.home(), for: .normal)
         importBtn.setTitle("Change Image", for: .normal)
+        homeVisitPicture = false
+        homeDefaultPicture = false
+        imageOptionSelected = 2
+        imageOptions.selectedSegmentIndex = imageOptionSelected
         self.dismiss(animated: true, completion: nil)
     }
 }
