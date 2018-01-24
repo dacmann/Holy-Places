@@ -28,36 +28,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
-                            <tableViewSection id="Ao3-oL-QR4" userLabel="Title">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="qIZ-PV-uDN">
-                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qIZ-PV-uDN" id="6a0-kp-sWZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Holy Places Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8d2-Q5-GEn">
-                                                    <rect key="frame" x="106" y="10.5" width="162.5" height="23"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                    <color key="textColor" red="0.91092067960000001" green="0.70529049629999996" blue="0.3566227555" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="8d2-Q5-GEn" firstAttribute="centerY" secondItem="6a0-kp-sWZ" secondAttribute="centerY" id="Jws-6q-j2f"/>
-                                                <constraint firstItem="8d2-Q5-GEn" firstAttribute="centerX" secondItem="6a0-kp-sWZ" secondAttribute="centerX" id="xHJ-2O-7LN"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Temple Goal" id="pLf-go-q16">
                                 <string key="footerTitle">"Set specific goals, considering your circumstances, of when you can and will participate in temple ordinances. Then do not allow anything to interfere with that plan. ... What is there that is more important than attending and participating in the ordinances of the temple?"
            - Elder Richard G. Scott (Apr 2009)</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="ikA-G5-oWN">
-                                        <rect key="frame" x="0.0" y="142.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ikA-G5-oWN" id="48d-OG-tbD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -88,7 +64,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="xX8-uu-sbP">
-                                        <rect key="frame" x="0.0" y="186.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xX8-uu-sbP" id="gyh-Wu-uD6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -122,7 +98,7 @@
                                 <string key="footerTitle">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after your visit.  NOTE: You must allow both Location "Always" and Notifications for this feature.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="hmt-mx-AEa">
-                                        <rect key="frame" x="0.0" y="386" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="299" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hmt-mx-AEa" id="FS1-mq-Otk">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -150,7 +126,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="MEi-ex-bak">
-                                        <rect key="frame" x="0.0" y="430" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="343" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MEi-ex-bak" id="CNd-lt-JUf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -178,7 +154,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="I6P-Mx-OGe">
-                                        <rect key="frame" x="0.0" y="474" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="387" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I6P-Mx-OGe" id="MWO-uT-NTs">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -214,7 +190,7 @@
                                 <string key="footerTitle">Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="rN1-jd-KI2">
-                                        <rect key="frame" x="0.0" y="673.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="586.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rN1-jd-KI2" id="aNr-0G-ooD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -241,7 +217,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="HMj-NB-y59">
-                                        <rect key="frame" x="0.0" y="717.5" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="630.5" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
@@ -277,7 +253,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="zU5-l1-Mp7">
-                                        <rect key="frame" x="0.0" y="837.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="750.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zU5-l1-Mp7" id="TpG-oX-TQK">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -314,7 +290,7 @@
                             <tableViewSection headerTitle="Ordinance Worker" footerTitle="Enabling this option will allow you to enter the number of hours you worked on a given day when recording a temple visit." id="TJZ-nF-bxF" userLabel="Ordinance Worker">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="syO-3Z-ycb">
-                                        <rect key="frame" x="0.0" y="1005" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="918" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -343,42 +319,19 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="emp-Hn-AAO" userLabel="Save Settings">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="amn-Ef-ZUd">
-                                        <rect key="frame" x="0.0" y="1129" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="amn-Ef-ZUd" id="uS8-2F-mh1">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5v-A7-isj">
-                                                    <rect key="frame" x="10" y="4.5" width="355" height="35"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                    <state key="normal" title="Save Settings">
-                                                        <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="done:" destination="Pqe-NT-UkW" eventType="touchUpInside" id="WHV-jH-4l7"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Q5v-A7-isj" firstAttribute="centerX" secondItem="uS8-2F-mh1" secondAttribute="centerX" id="MI6-xm-q43"/>
-                                                <constraint firstAttribute="trailing" secondItem="Q5v-A7-isj" secondAttribute="trailing" constant="10" id="MT2-4z-oJM"/>
-                                                <constraint firstItem="Q5v-A7-isj" firstAttribute="leading" secondItem="uS8-2F-mh1" secondAttribute="leading" constant="10" id="l4B-DY-lGt"/>
-                                                <constraint firstItem="Q5v-A7-isj" firstAttribute="centerY" secondItem="uS8-2F-mh1" secondAttribute="centerY" id="oA6-Wb-2Kg"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Pqe-NT-UkW" id="7Zd-Ny-s9N"/>
                             <outlet property="delegate" destination="Pqe-NT-UkW" id="M30-cB-QD3"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="7dn-V1-u1f">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="okm-TB-o5b">
+                            <connections>
+                                <action selector="doneButton:" destination="Pqe-NT-UkW" id="bkR-hO-7Lf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
                         <outlet property="excludeNonOrdinanceVisitsSwitch" destination="GG9-1w-uas" id="ufF-K2-igT"/>
@@ -394,7 +347,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAA-1w-j9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1549.5999999999999" y="-1214.8425787106448"/>
+            <point key="canvasLocation" x="1607" y="-1216"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
@@ -496,7 +449,7 @@
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="O"/>
                                 <connections>
-                                    <segue destination="Pqe-NT-UkW" kind="presentation" id="p9X-Kd-HGH"/>
+                                    <segue destination="nbc-Vt-jOs" kind="presentation" id="p9X-Kd-HGH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -3154,6 +3107,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jx1-GZ-zY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3920" y="-416.49175412293857"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nMd-fp-lhr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nbc-Vt-jOs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pZq-bZ-mPD">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d8B-3k-NIz">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Pqe-NT-UkW" kind="relationship" relationship="rootViewController" id="nWJ-if-sNd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aoq-La-ztV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1548.8" y="-1215.2923538230887"/>
         </scene>
     </scenes>
     <resources>

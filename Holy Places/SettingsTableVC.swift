@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    //MARK: - Variables and Outlets
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var imageOptionSelected = 0
     
@@ -24,6 +25,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var hoursWorkedSwitch: UISwitch!
     @IBOutlet weak var excludeNonOrdinanceVisitsSwitch: UISwitch!
     
+    //MARK: - Standard Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +68,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
 
     }
     
+    //MARK: - Actions
     @IBAction func textColorChange(_ sender: UISegmentedControl) {
         homeTextColor = Int16(sender.selectedSegmentIndex)
         importBtn.setTitleColor(UIColor.home(), for: .normal)
@@ -121,21 +124,21 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         notificationFilter = sender.isOn
     }
     
-    @IBAction func done(_ sender: UIButton) {
-        // Save settings
-        notificationDelayInMinutes = Int16(minutesDelay.text!)!
-        annualVisitGoal = Int(visitGoal.text!)!
-        
-        // Dismiss view
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func hoursWorkedEnabled(_ sender: UISwitch) {
         ordinanceWorker = sender.isOn
     }
     
     @objc func doneButtonAction(){
         self.view.endEditing(true)
+    }
+    
+    @IBAction func doneButton(_ sender: UIBarButtonItem) {
+        // Save settings
+        notificationDelayInMinutes = Int16(minutesDelay.text!)!
+        annualVisitGoal = Int(visitGoal.text!)!
+        
+        // Dismiss view
+        self.dismiss(animated: true, completion: nil)
     }
     
     func keyboardDone() {
