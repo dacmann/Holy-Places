@@ -124,10 +124,16 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                         image = imageWithDate
                     }
                     
-                    if image!.size.height > 1000 && pictureResults.count > 2 {
-                        // reduce size of picture when there are more than 2 visits with pictures so the scroll view control is more responsive
+                    print(image!.size.height)
+                    if image!.size.height > 1000 {
+                        // reduce size of picture so the scroll view control is more responsive
+                        var scale = 2.0 as CGFloat
+                        // reduce by a larger amount when very big
+                        if image!.size.height > 3000 {
+                            scale = 3.0
+                        }
                         do {
-                            if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/3, height: image!.size.height/3)) {
+                            if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/scale, height: image!.size.height/scale)) {
                                 images.append((visit.dateVisited!, smallImage))
                                 print("reduced image to \(smallImage.size.height)")
                             } else {

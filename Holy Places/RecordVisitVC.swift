@@ -279,17 +279,45 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         pictureView.isHidden = false
         addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
-//        pictureView.image = info[UIImagePickerControllerEditedImage] as? UIImage
-//        pictureView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        var image = info[UIImagePickerControllerOriginalImage] as? UIImage
         print(image?.size as Any)
-        let size = CGSize(width: (image?.size.width)! / 3, height: (image?.size.height)! / 3)
-        pictureView.image = image?.scale(toSize: size)
+//        let size = CGSize(width: (image?.size.width)! / 1.5, height: (image?.size.height)! / 1.5)
+        
+        if image!.size.height > 2000 {
+            // reduce size of picture if it is very large
+            do {
+                if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/2, height: image!.size.height/2)) {
+                    print("reduced image to \(smallImage.size.height)")
+                    image = smallImage
+                } else {
+                    print("failed to reduce image")
+                }
+            } catch {
+                print("failed to reduce image - throw")
+            }
+        }
+    
+//        pictureView.image = image?.scale(toSize: size)
+        pictureView.image = image
         print(pictureView.image?.size as Any)
-        pictureView.sizeThatFits(size)
-//        scrollView.sizeToFit()
+//        pictureView.sizeThatFits(size)
 
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?
+    {
+        UIGraphicsBeginImageContext( newSize )
+        image?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        
+        if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsEndImageContext()
+            return newImage
+        } else {
+            UIGraphicsEndImageContext()
+            return nil
+        }
+
     }
 
 
