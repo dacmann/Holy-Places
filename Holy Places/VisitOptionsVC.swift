@@ -377,29 +377,44 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         if elementName == "Visit" {
             let context = getContext()
             
-            //insert a new object in the Visit entity
-            let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
-            
-            //set the entity values
-            visit.holyPlace = holyPlace
-            visit.baptisms = baptisms
-            visit.confirmations = confirmations
-            visit.initiatories = initiatories
-            visit.endowments = endowments
-            visit.sealings = sealings
-            visit.comments = comments
-            visit.dateVisited = visitDate
-            visit.type = type
-            visit.shiftHrs = hoursWorked
-            
-            //save the object
+            // Check for duplicate before saving
             do {
-                try context.save()
-            } catch let error as NSError  {
-                print("Could not save \(error), \(error.userInfo)")
-            } catch {}
-//            print("Saving Visit completed")
-            importCount += 1
+            let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "dateVisited == %@ && holyPlace == %@", visitDate as NSDate, holyPlace as String)
+                let searchResults = try getContext().fetch(fetchRequest)
+                if searchResults.count == 0 {
+                    
+                    //insert a new object in the Visit entity
+                    let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
+                    
+                    //set the entity values
+                    visit.holyPlace = holyPlace
+                    visit.baptisms = baptisms
+                    visit.confirmations = confirmations
+                    visit.initiatories = initiatories
+                    visit.endowments = endowments
+                    visit.sealings = sealings
+                    visit.comments = comments
+                    visit.dateVisited = visitDate
+                    visit.type = type
+                    visit.shiftHrs = hoursWorked
+                    
+                    //save the object
+                    do {
+                        try context.save()
+                    } catch let error as NSError  {
+                        print("Could not save \(error), \(error.userInfo)")
+                    } catch {}
+                    //            print("Saving Visit completed")
+                    importCount += 1
+                    
+                } else {
+                    print("Duplicate - not importing")
+                }
+            } catch {
+                print("Error with request: \(error)")
+            }
+            
         }
     }
 

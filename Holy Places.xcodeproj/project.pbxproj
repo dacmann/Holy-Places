@@ -36,6 +36,7 @@
 		64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */; };
 		64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */; };
 		64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F7364A1E3AA84A00622CD5 /* InfoVC.swift */; };
+		64F810B92029513D00B435BA /* HolyPlaces.xml in Resources */ = {isa = PBXBuildFile; fileRef = 64F810B82029513D00B435BA /* HolyPlaces.xml */; };
 		64F9313E1E6F57B500F053F3 /* AltLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */; };
 		64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FDE6EE1E21863A00951A58 /* AppDelegate.swift */; };
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
@@ -99,6 +100,7 @@
 		64EE3EB41ED487DB00B345C6 /* VisitImageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitImageVC.swift; sourceTree = "<group>"; };
 		64F25D321E30FDDB009FDEF3 /* DateChangeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateChangeVC.swift; sourceTree = "<group>"; };
 		64F7364A1E3AA84A00622CD5 /* InfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
+		64F810B82029513D00B435BA /* HolyPlaces.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HolyPlaces.xml; path = Assets.xcassets/HolyPlaces.xml; sourceTree = "<group>"; };
 		64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltLocationVC.swift; sourceTree = "<group>"; };
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FDE6EE1E21863A00951A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				642B345C1E2818C200A56C77 /* Extensions.swift */,
 				6453044D1F79443500667F7D /* CopyableLabel.swift */,
 				64FDE6F71E21863A00951A58 /* Assets.xcassets */,
+				64F810B82029513D00B435BA /* HolyPlaces.xml */,
 				64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */,
 				64FDE6FC1E21863A00951A58 /* Info.plist */,
 				642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */,
@@ -328,6 +331,7 @@
 				64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */,
 				64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */,
 				64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */,
+				64F810B92029513D00B435BA /* HolyPlaces.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
