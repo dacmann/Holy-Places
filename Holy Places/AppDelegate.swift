@@ -34,7 +34,7 @@ var activeTemples: [Temple] = []
 var historical: [Temple] = []
 var construction: [Temple] = []
 var visitors: [Temple] = []
-var placeDataVersion = String()
+var placeDataVersion: String?
 var greatTip = String()
 var greaterTip = String()
 var greatestTip = String()
@@ -587,7 +587,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -601,7 +601,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -626,7 +626,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             let error = parserVersion.parserError!
             print("Error Description:\(error.localizedDescription)")
             print("Line number: \(parserVersion.lineNumber)")
-            getPlaces()
+            // Check if initial launch with no data yet and no internet and load local XML file if so
+            if placeDataVersion == nil {
+                versionChecked = true
+                guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
+                    print("URL not defined properly")
+                    return
+                }
+                guard let parser = XMLParser(contentsOf: myURL as URL) else {
+                    print("Cannot Read Data")
+                    getPlaces()
+                    return
+                }
+                print("No internet on initial launch - loading from local XML file")
+                parser.delegate = self
+                if parser.parse() {
+                    // Save updated places to CoreData
+                    storePlaces()
+                } else {
+                    print("Data parsing aborted")
+                    let error = parser.parserError!
+                    print("Error Description:\(error.localizedDescription)")
+                    print("Line number: \(parser.lineNumber)")
+                    getPlaces()
+                }
+            } else {
+                getPlaces()
+            }
         }
         checkedForUpdate = Date()
         //        checkedForUpdate = Date().addingTimeInterval(-86401.0)
@@ -951,8 +977,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             
             //You need to convert to NSManagedObject to use 'for' loops
             for version in searchResults as [NSManagedObject] {
-                placeDataVersion = version.value(forKey: "versionNum") as! String
-                print("Place Data Version: " + placeDataVersion)
+                placeDataVersion = version.value(forKey: "versionNum") as? String
+                print("Place Data Version: " + placeDataVersion!)
             }
         } catch {
             print("Error with request: \(error)")

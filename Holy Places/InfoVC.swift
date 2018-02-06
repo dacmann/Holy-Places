@@ -25,7 +25,7 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         //SKPaymentQueue.default().add(self)
         
-        version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion
+        version.text = "Version: " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String?)! + " | " + placeDataVersion!
 
         // Do any additional setup after loading the view.
 //        greatTipBtn.setTitle(greatTip, for: .normal)
