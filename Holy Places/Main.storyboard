@@ -347,7 +347,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAA-1w-j9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1607" y="-1216"/>
+            <point key="canvasLocation" x="1697" y="-1216"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
@@ -372,7 +372,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D&amp;C 87:8" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-q7-HPl" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="294" y="97" width="55" height="15"/>
+                                <rect key="frame" x="294.5" y="97" width="54.5" height="15"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="13"/>
                                 <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -408,16 +408,16 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 of 12 Visits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="um1-Ns-NrD" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="107.5" y="488" width="159.5" height="34.5"/>
+                                <rect key="frame" x="108" y="488" width="159.5" height="34.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRa-Fz-Ssp" userLabel="spacer">
-                                <rect key="frame" x="87" y="522.5" width="200" height="33.5"/>
+                                <rect key="frame" x="87.5" y="522.5" width="200" height="33.5"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date of visit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MgI-SP-iNW" customClass="ShadowLabel" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="57.5" y="6" width="85" height="21"/>
+                                        <rect key="frame" x="57.5" y="6.5" width="85" height="21"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -518,7 +518,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="132"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
-                                        <rect key="frame" x="28" y="20" width="319" height="92"/>
+                                        <rect key="frame" x="28" y="20.5" width="319" height="92"/>
                                         <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."    ~ Thomas S. Monson ~</string>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -549,7 +549,7 @@
                                         <rect key="frame" x="0.0" y="20" width="375" height="769"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="l92-Za-36R" userLabel="Holy Places SV">
-                                                <rect key="frame" x="18.5" y="0.0" width="338" height="107"/>
+                                                <rect key="frame" x="19" y="0.0" width="337.5" height="107"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="O06-E6-H8n">
                                                         <rect key="frame" x="0.0" y="0.0" width="130" height="107"/>
@@ -618,7 +618,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EZ4-yY-jzO">
-                                                        <rect key="frame" x="174" y="0.0" width="60" height="107"/>
+                                                        <rect key="frame" x="173.5" y="0.0" width="60" height="107"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visited" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWf-xN-dXN">
                                                                 <rect key="frame" x="2" y="0.0" width="56" height="23"/>
@@ -683,10 +683,10 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nng-pv-gNp">
-                                                        <rect key="frame" x="278" y="0.0" width="60" height="107"/>
+                                                        <rect key="frame" x="277.5" y="0.0" width="60" height="107"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hh6-Hd-Q9S">
-                                                                <rect key="frame" x="9" y="0.0" width="42" height="23"/>
+                                                                <rect key="frame" x="9.5" y="0.0" width="42" height="23"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="23" id="lL8-t3-eVq">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="35"/>
@@ -699,7 +699,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Opp-7p-6cs">
-                                                                <rect key="frame" x="16.5" y="33" width="27" height="18"/>
+                                                                <rect key="frame" x="17" y="33" width="27" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="Y5G-bo-grT">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -713,7 +713,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NiB-cx-ytZ">
-                                                                <rect key="frame" x="21" y="61" width="18" height="18"/>
+                                                                <rect key="frame" x="21.5" y="61" width="18" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="l2m-ry-ooz">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -727,7 +727,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suL-gb-mXA">
-                                                                <rect key="frame" x="21" y="89" width="18" height="18"/>
+                                                                <rect key="frame" x="21.5" y="89" width="18" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="pP0-PL-w4i">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -750,7 +750,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="JKq-eO-hwA" userLabel="Temple Visits SV">
-                                                <rect key="frame" x="18.5" y="142" width="338" height="259"/>
+                                                <rect key="frame" x="19" y="142" width="337.5" height="259"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bqd-6y-JFj">
                                                         <rect key="frame" x="0.0" y="0.0" width="130" height="259"/>
@@ -883,7 +883,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
-                                                        <rect key="frame" x="139.5" y="0.0" width="60" height="259"/>
+                                                        <rect key="frame" x="139" y="0.0" width="60" height="259"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHy-M0-6lK">
                                                                 <rect key="frame" x="10" y="0.0" width="40" height="35"/>
@@ -1018,7 +1018,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EiO-sR-use">
-                                                        <rect key="frame" x="208.5" y="0.0" width="60" height="259"/>
+                                                        <rect key="frame" x="208" y="0.0" width="60" height="259"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-my-4j4">
                                                                 <rect key="frame" x="3" y="0.0" width="54" height="35"/>
@@ -1153,10 +1153,10 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="azS-05-5DM">
-                                                        <rect key="frame" x="278" y="0.0" width="60" height="259"/>
+                                                        <rect key="frame" x="277.5" y="0.0" width="60" height="259"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsm-zM-ICM">
-                                                                <rect key="frame" x="9" y="0.0" width="42" height="35"/>
+                                                                <rect key="frame" x="9.5" y="0.0" width="42" height="35"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1164,7 +1164,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHD-aA-TvX">
-                                                                <rect key="frame" x="25.5" y="45" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="45" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="6pA-Ut-Plp">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1192,7 +1192,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhO-HZ-5y6">
-                                                                <rect key="frame" x="25.5" y="101" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="101" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="pji-pz-SUi">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1206,7 +1206,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jS-wP-Tjw">
-                                                                <rect key="frame" x="25.5" y="129" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="129" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="AWa-JP-iW6">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1220,7 +1220,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABo-TA-qto">
-                                                                <rect key="frame" x="25.5" y="157" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="157" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="zf4-hj-tJ6">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1234,7 +1234,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-xg-O8e">
-                                                                <rect key="frame" x="25.5" y="185" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="185" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="dwc-7D-Ycd">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1248,7 +1248,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-xh-hK3">
-                                                                <rect key="frame" x="25.5" y="213" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="213" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="waz-ja-dXM">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1262,7 +1262,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlG-pa-iXb">
-                                                                <rect key="frame" x="25.5" y="241" width="9" height="18"/>
+                                                                <rect key="frame" x="26" y="241" width="9" height="18"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="18" id="HXI-xh-UOe">
                                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -1285,7 +1285,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="G8x-F0-WfJ" userLabel="Most Visited SV">
-                                                <rect key="frame" x="18.5" y="436" width="338" height="333"/>
+                                                <rect key="frame" x="19" y="436" width="337.5" height="333"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5iK-u2-WTb">
                                                         <rect key="frame" x="0.0" y="0.0" width="240" height="333"/>
@@ -1384,10 +1384,10 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A2a-qo-tbz">
-                                                        <rect key="frame" x="278" y="0.0" width="60" height="333"/>
+                                                        <rect key="frame" x="277.5" y="0.0" width="60" height="333"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visits" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8k-Jb-sFl">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
+                                                                <rect key="frame" x="0.5" y="0.0" width="60" height="23"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1395,7 +1395,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Zdp-ar-lPj">
-                                                                <rect key="frame" x="0.0" y="33" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="33" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1403,7 +1403,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lgb-HQ-7fi">
-                                                                <rect key="frame" x="0.0" y="64" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="64" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1411,7 +1411,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0qQ-jk-OSO">
-                                                                <rect key="frame" x="0.0" y="95" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="95" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1419,7 +1419,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Cs-Su-u8D">
-                                                                <rect key="frame" x="0.0" y="126" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="126" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1427,7 +1427,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZcT-WT-qet">
-                                                                <rect key="frame" x="0.0" y="157" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="157" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1435,7 +1435,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8me-bQ-7te">
-                                                                <rect key="frame" x="0.0" y="188" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="188" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1443,7 +1443,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Lpw-qg-jvR">
-                                                                <rect key="frame" x="0.0" y="219" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="219" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1451,7 +1451,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U5b-5b-Em9">
-                                                                <rect key="frame" x="0.0" y="250" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="250" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1459,7 +1459,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FAe-Ld-UFS">
-                                                                <rect key="frame" x="0.0" y="281" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="281" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1467,7 +1467,7 @@
                                                                 </variation>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="CNf-sY-97B">
-                                                                <rect key="frame" x="0.0" y="312" width="60" height="21"/>
+                                                                <rect key="frame" x="0.5" y="312" width="60" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <nil key="highlightedColor"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -1592,7 +1592,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
-                                <rect key="frame" x="16" y="182" width="150" height="176"/>
+                                <rect key="frame" x="16" y="182" width="150" height="176.5"/>
                                 <string key="text">Greetings!  I’m glad you found my app and I hope you find it useful.  If you have any comments or feature suggestions please contact me.                      - Derek</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -1656,7 +1656,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="v1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYQ-7U-HOC">
-                                <rect key="frame" x="329" y="639" width="29.5" height="19.5"/>
+                                <rect key="frame" x="329.5" y="639.5" width="29.5" height="19.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1956,7 +1956,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ygw-xb-uzw">
-                                <rect key="frame" x="27.5" y="148.5" width="320" height="369.5"/>
+                                <rect key="frame" x="27.5" y="149" width="320" height="369.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show On Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHY-jD-KCY">
                                         <rect key="frame" x="94" y="0.0" width="132.5" height="25.5"/>
@@ -2154,7 +2154,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="April 6, 1830" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ld-pR-BuH">
-                                <rect key="frame" x="26" y="114" width="323" height="28"/>
+                                <rect key="frame" x="26" y="114" width="323" height="27.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -2163,14 +2163,14 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-sK-urp" userLabel="Line">
-                                <rect key="frame" x="16" y="151" width="343" height="1"/>
+                                <rect key="frame" x="16" y="150.5" width="343" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="tRv-Vf-cB9"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Attended with..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cp-0s-Pla">
-                                <rect key="frame" x="16" y="160" width="343" height="21"/>
+                                <rect key="frame" x="16" y="159.5" width="343" height="21"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -2179,7 +2179,7 @@
                                 </variation>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="ordinances" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMy-1u-hd0">
-                                <rect key="frame" x="16" y="181" width="343" height="21"/>
+                                <rect key="frame" x="16" y="180.5" width="343" height="21"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2188,7 +2188,7 @@
                                 </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="G9t-XK-3vU">
-                                <rect key="frame" x="5" y="212" width="365" height="396"/>
+                                <rect key="frame" x="5" y="211.5" width="365" height="396.5"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2418,21 +2418,24 @@
                                 </variation>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="address" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qAS-fV-C3U" customClass="CopyableLabel" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="15" y="360" width="230" height="100"/>
+                                <rect key="frame" x="15" y="360" width="200" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="8qI-PG-hpL">
                                         <variation key="heightClass=regular-widthClass=regular" constant="140"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" constant="200" id="ORa-4K-UsB">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="400"/>
                                     </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
-                                <rect key="frame" x="10" y="460" width="245" height="40"/>
+                                <rect key="frame" x="10" y="460" width="200" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -2531,11 +2534,12 @@
                             <constraint firstItem="CbP-Sh-Wss" firstAttribute="top" secondItem="JNk-hK-mtx" secondAttribute="bottom" id="4bF-HI-dgN"/>
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="10" id="5vj-ng-IfE"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="bottom" secondItem="vK1-SH-HRa" secondAttribute="bottom" constant="15" id="D59-pu-6PI"/>
+                            <constraint firstItem="qAS-fV-C3U" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" constant="10" id="G7Z-1B-oKL"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="vK1-SH-HRa" secondAttribute="trailing" constant="10" id="HsP-FE-dnk">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
                             <constraint firstItem="DsF-Hv-V5B" firstAttribute="top" secondItem="qAS-fV-C3U" secondAttribute="bottom" id="IvU-8A-Mel"/>
-                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="10" id="Jg0-7G-Kca"/>
+                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="leading" secondItem="XIJ-sk-hj8" secondAttribute="leading" id="Jg0-7G-Kca"/>
                             <constraint firstItem="qAS-fV-C3U" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="15" id="LMh-U1-Mc2">
                                 <variation key="heightClass=regular-widthClass=regular" constant="25"/>
                             </constraint>
@@ -2546,32 +2550,41 @@
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="10" id="W3I-92-XX5"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="fQH-3G-9ma" secondAttribute="trailing" constant="10" id="XKf-nh-2n2"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="kBA-Zo-Zka" secondAttribute="trailing" id="Zf0-lM-jRJ"/>
-                            <constraint firstItem="vK1-SH-HRa" firstAttribute="leading" secondItem="DsF-Hv-V5B" secondAttribute="trailing" constant="10" id="amq-n4-ELu"/>
                             <constraint firstItem="cbg-HS-RCa" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" id="b16-ku-Vc6"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="CbP-Sh-Wss" secondAttribute="trailing" constant="10" id="bl6-Mg-bhw">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
-                            <constraint firstItem="qAS-fV-C3U" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" constant="10" id="f9Z-iJ-lMw"/>
                             <constraint firstItem="vK1-SH-HRa" firstAttribute="top" secondItem="CbP-Sh-Wss" secondAttribute="bottom" id="o4O-Aa-axi"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="XIJ-sk-hj8" secondAttribute="trailing" constant="10" id="p0P-0e-BpO"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="JNk-hK-mtx" secondAttribute="trailing" constant="10" id="rVR-eo-anL">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
-                            <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="kBr-CG-1Lf" secondAttribute="trailing" constant="10" id="yvW-fp-yto"/>
-                            <constraint firstItem="vK1-SH-HRa" firstAttribute="leading" secondItem="qAS-fV-C3U" secondAttribute="trailing" constant="20" id="zMJ-Yd-qfv"/>
+                            <constraint firstItem="DsF-Hv-V5B" firstAttribute="width" secondItem="qAS-fV-C3U" secondAttribute="width" id="sxQ-Up-RYa"/>
+                            <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="qAS-fV-C3U" secondAttribute="top" id="yhw-av-1gk"/>
+                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="trailing" secondItem="kBr-CG-1Lf" secondAttribute="trailing" id="yvW-fp-yto"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="58o-8C-bV5"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="yhw-av-1gk"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="address" destination="qAS-fV-C3U" id="8IN-ZN-kYv"/>
+                        <outlet property="addressWidth" destination="ORa-4K-UsB" id="Etu-RE-fm0"/>
                         <outlet property="pageControl" destination="cbg-HS-RCa" id="frD-e9-eW6"/>
                         <outlet property="phoneNumber" destination="DsF-Hv-V5B" id="8VR-Gd-FPp"/>
                         <outlet property="pictureScrollView" destination="kBA-Zo-Zka" id="yuk-uC-ump"/>
                         <outlet property="recordVisitBtn" destination="vK1-SH-HRa" id="jf4-ye-OLA"/>
+                        <outlet property="snippetBottom" destination="G7Z-1B-oKL" id="L6f-Dm-RBo"/>
+                        <outlet property="snippetLeading" destination="5vj-ng-IfE" id="2FU-n6-zn6"/>
+                        <outlet property="snippetTrailing" destination="p0P-0e-BpO" id="hUu-xF-4DE"/>
                         <outlet property="templeImage" destination="hqj-pp-6Th" id="pDo-nE-ukh"/>
                         <outlet property="templeName" destination="kBr-CG-1Lf" id="piT-sg-CsA"/>
+                        <outlet property="templeNameTop" destination="yhw-av-1gk" id="qzS-gT-WF3"/>
                         <outlet property="templeSnippet" destination="XIJ-sk-hj8" id="0Qb-TQ-PPc"/>
                         <outlet property="totalVisits" destination="fQH-3G-9ma" id="ZYu-Vg-VpM"/>
                         <outlet property="websiteBtn" destination="JNk-hK-mtx" id="xtt-RA-nIm"/>
@@ -2705,7 +2718,7 @@
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
-                                <rect key="frame" x="137" y="549" width="100" height="34"/>
+                                <rect key="frame" x="137.5" y="549" width="100" height="34"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
                                 <state key="normal" title="Import Visits">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>

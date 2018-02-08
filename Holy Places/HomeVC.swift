@@ -138,7 +138,13 @@ class HomeVC: UIViewController, XMLParserDelegate {
                 }
             }
         }
-
+        
+        // Lock Orientation to Portrait only for small devices
+        let width = UIScreen.main.bounds.width
+        print("screen width is \(width)")
+        if width < 400 {
+            AppUtility.lockOrientation(.portrait)
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -149,6 +155,8 @@ class HomeVC: UIViewController, XMLParserDelegate {
         }
         
     }
+    
+
 
     //MARK: - In-App Purchases
 //    var productRequest: SKProductsRequest!

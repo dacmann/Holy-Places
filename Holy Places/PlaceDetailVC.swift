@@ -25,6 +25,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var totalVisits: UILabel!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var websiteBtn2: UIButton!
+    @IBOutlet weak var addressWidth: NSLayoutConstraint!
+    @IBOutlet weak var snippetBottom: NSLayoutConstraint!
+    @IBOutlet weak var snippetLeading: NSLayoutConstraint!
+    @IBOutlet weak var snippetTrailing: NSLayoutConstraint!
+    @IBOutlet weak var templeNameTop: NSLayoutConstraint!
     
 
     var visitCount = 0
@@ -210,6 +215,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
         self.navigationItem.rightBarButtonItem = button
         originalPlace = (detailItem?.templeName)!
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -222,6 +228,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             pageControl.isHidden = true
             reloadPics = true
         }
+        
         configureView()
         visitsAdded = false
         webViewPresented = false
@@ -250,6 +257,44 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         if !(visitsAdded) {
             GetSavedImage()
         }
+        
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight :
+            // move snippet down
+            snippetBottom.isActive = false
+            snippetLeading.constant = 220
+            snippetTrailing.constant = 220
+            addressWidth.constant = 200
+            templeNameTop.isActive = true
+        default :
+            break
+        }
+    }
+    
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        switch toInterfaceOrientation {
+        case .landscapeLeft, .landscapeRight :
+            // move snippet down
+            snippetBottom.isActive = false
+            snippetLeading.constant = 220
+            snippetTrailing.constant = 220
+            addressWidth.constant = 200
+            templeNameTop.isActive = true
+
+        case .portrait, .portraitUpsideDown, .unknown :
+            // move snippet back up
+            snippetBottom.isActive = true
+            snippetLeading.constant = 10
+            snippetTrailing.constant = 10
+            addressWidth.constant = 400
+            templeNameTop.isActive = false
+        }
+        
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        GetSavedImage()
+        self.pageControl.isHidden = true
     }
     
     func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?
