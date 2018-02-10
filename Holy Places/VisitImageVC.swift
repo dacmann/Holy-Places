@@ -47,7 +47,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        updateMinZoomScaleForSize(view.bounds.size)
+        updateMinZoomScaleForSize(scrollView.bounds.size)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -55,7 +55,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        updateConstraintsForSize(view.bounds.size)
+        updateConstraintsForSize(scrollView.bounds.size)
     }
     
     fileprivate func updateConstraintsForSize(_ size: CGSize) {

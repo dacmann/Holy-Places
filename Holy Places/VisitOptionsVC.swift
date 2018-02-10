@@ -24,7 +24,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var sortSelected: Int?
     //var nearestEnabled: Bool?
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction"  ]
-    var sortOptions = ["Latest Visit", "Group by Place"]
     // UIDocumentInteractionController instance is a class property
     var docController:UIDocumentInteractionController!
     var visits = String()
@@ -48,10 +47,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var pickerFilter: UIPickerView!
-    @IBOutlet weak var pickerSort: UIPickerView!
-    @IBOutlet weak var txtExport: UIBarButtonItem!
-    @IBOutlet weak var xmlExport: UIBarButtonItem!
-    @IBOutlet weak var csvExport: UIBarButtonItem!
+    @IBOutlet weak var txtExport: UIButton!
+    @IBOutlet weak var xmlExport: UIButton!
+    @IBOutlet weak var csvExport: UIButton!
     
     //MARK: - Standard Functions
     override func viewDidLoad() {
@@ -61,9 +59,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerFilter.dataSource = self
         pickerFilter.delegate = self
         pickerFilter.selectRow(filterSelected!, inComponent: 0, animated: true)
-        pickerSort.dataSource = self
-        pickerSort.delegate = self
-        pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
         
         dateFormatter.dateStyle = .full
         dateFormatterFile.dateFormat = "yyyyMMdd"
@@ -76,10 +71,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         if label == nil {
             label = UILabel()
         }
-        var data = filterChoices[row]
-        if pickerView.tag == 1 {
-            data = sortOptions[row]
-        }
+        let data = filterChoices[row]
         let title = NSAttributedString(string: data, attributes: [NSAttributedStringKey.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
         label?.attributedText = title
         label?.textAlignment = .center
@@ -100,19 +92,12 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == 1 {
-            return sortOptions.count
-        } else {
-            return filterChoices.count
-        }
+        
+        return filterChoices.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == 1 {
-            return sortOptions[row]
-        } else {
-            return filterChoices[row]
-        }
+        return filterChoices[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -128,7 +113,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     //MARK: - Export Functions
-    @IBAction func exportAction(_ sender: UIBarButtonItem) {
+    @IBAction func exportTxtAction(_ sender: UIButton) {
         getVisits(type: "txt")
         do {
             try exportFile(visits, title: fileName, type: "txt")
@@ -136,7 +121,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print("Error with export: \(error)")
         }
     }
-    @IBAction func exportXmlAction(_ sender: UIBarButtonItem) {
+    
+    @IBAction func exportXmlAction(_ sender: UIButton) {
         getVisits(type: "xml")
         do {
             try exportFile(visits, title: fileName, type: "xml")
@@ -145,7 +131,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    @IBAction func exportCsvAction(_ sender: UIBarButtonItem) {
+    @IBAction func exportCsvAction(_ sender: UIButton) {
         getVisits(type: "csv")
         do {
             try exportFile(visits, title: fileName, type: "csv")
@@ -153,8 +139,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print("Error with export: \(error)")
         }
     }
-    
-    
     
     @IBAction func importVisits(_ sender: UIButton) {
         let importMenu = UIDocumentPickerViewController(documentTypes: [kUTTypeXML as String], in: .import)
@@ -176,14 +160,14 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // Configure Document Interaction Controller
         // Present Open In Menu
         
-        // create an outlet from an Export bar button outlet, then use it as the `from` argument
+        // create an outlet from an Export button outlet, then use it as the `from` argument
         switch type {
         case "txt":
-            self.docController!.presentOptionsMenu(from: txtExport, animated: true)
+            self.docController.presentOptionsMenu(from: txtExport.frame, in: self.view, animated: true)
         case "csv":
-            self.docController!.presentOptionsMenu(from: csvExport, animated: true)
+            self.docController.presentOptionsMenu(from: csvExport.frame, in: self.view, animated: true)
         default: // xml
-            self.docController!.presentOptionsMenu(from: xmlExport, animated: true)
+            self.docController.presentOptionsMenu(from: xmlExport.frame, in: self.view, animated: true)
         }
     }
     

@@ -118,11 +118,18 @@ class HomeVC: UIViewController, XMLParserDelegate {
 
         if homeDefaultPicture {
             // Set background image to Provo City Center temple
-            if self.traitCollection.horizontalSizeClass == .regular {
-                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
-            } else {
-                backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
+            
+            switch UIDevice.current.orientation {
+            case .landscapeLeft, .landscapeRight :
+                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
+            default :
+                if self.traitCollection.horizontalSizeClass == .regular {
+                    backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
+                } else {
+                    backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
+                }
             }
+            
             visitDate.isHidden = true
         } else {
             if homeVisitPicture {
@@ -144,6 +151,22 @@ class HomeVC: UIViewController, XMLParserDelegate {
         print("screen width is \(width)")
         if width < 400 {
             AppUtility.lockOrientation(.portrait)
+        }
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        switch fromInterfaceOrientation {
+        case .landscapeLeft, .landscapeRight :
+            // Change to Portait photo
+            if self.traitCollection.horizontalSizeClass == .regular {
+                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
+            } else {
+                backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
+            }
+            
+        case .portrait, .portraitUpsideDown, .unknown :
+            // Change to Landscape photo
+            backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
         }
     }
     
