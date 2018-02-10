@@ -19,6 +19,8 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 //    @IBOutlet weak var greatTipBtn: CustomButton!
 //    @IBOutlet weak var greaterTipBtn: CustomButton!
 //    @IBOutlet weak var greatestTipBtn: CustomButton!
+    @IBOutlet weak var logoWidth: NSLayoutConstraint!
+    @IBOutlet weak var greetings: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,26 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 10
         profile_picture.layer.masksToBounds = true
 
+    }
+    
+    override func viewDidLayoutSubviews() {
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight :
+            logoWidth.constant = greetings.frame.width / 2
+        default :
+            logoWidth.constant = greetings.frame.width / 1.5
+        }
+    }
+    
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        switch toInterfaceOrientation {
+        case .landscapeLeft, .landscapeRight :
+            logoWidth.constant = greetings.frame.width / 2
+            
+        case .portrait, .portraitUpsideDown, .unknown :
+            logoWidth.constant = greetings.frame.width / 1.5
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
