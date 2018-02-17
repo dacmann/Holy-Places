@@ -76,6 +76,40 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
     }
     
+    fileprivate func setImage(landscape: Bool) {
+        var defaultImageName = "PCC"
+        if self.traitCollection.horizontalSizeClass == .regular {
+            defaultImageName = "PCCW"
+        }
+        
+        if landscape {
+            defaultImageName = "PCCL"
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.04)
+            } else {
+                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
+            }
+        }
+        if homeDefaultPicture {
+            // Set background image to Provo City Center temple
+            backgroundImage.image = UIImage(imageLiteralResourceName: defaultImageName)
+            visitDate.isHidden = true
+        } else {
+            if homeVisitPicture {
+                if let imageData = homeVisitPictureData {
+                    backgroundImage.image = UIImage(data: imageData)
+                    visitDate.text = homeVisitDate
+                    visitDate.isHidden = false
+                }
+            } else {
+                if let imageData = homeAlternatePicture {
+                    backgroundImage.image = UIImage(data: imageData)
+                    visitDate.isHidden = true
+                }
+            }
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         // Determine if check hasn't occurred today
@@ -117,39 +151,11 @@ class HomeVC: UIViewController, XMLParserDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        if homeDefaultPicture {
-            // Set background image to Provo City Center temple
-            
-            switch UIDevice.current.orientation {
-            case .landscapeLeft, .landscapeRight :
-                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.04)
-                } else {
-                    goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
-                }
-            default :
-                if self.traitCollection.horizontalSizeClass == .regular {
-                    backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
-                } else {
-                    backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
-                }
-            }
-            
-            visitDate.isHidden = true
-        } else {
-            if homeVisitPicture {
-                if let imageData = homeVisitPictureData {
-                    backgroundImage.image = UIImage(data: imageData)
-                    visitDate.text = homeVisitDate
-                    visitDate.isHidden = false
-                }
-            } else {
-                if let imageData = homeAlternatePicture {
-                    backgroundImage.image = UIImage(data: imageData)
-                    visitDate.isHidden = true
-                }
-            }
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight :
+            setImage(landscape: true)
+        default :
+            setImage(landscape: false)
         }
         
         // Lock Orientation to Portrait only for small devices
@@ -164,21 +170,10 @@ class HomeVC: UIViewController, XMLParserDelegate {
         switch fromInterfaceOrientation {
         case .landscapeLeft, .landscapeRight :
             // Change to Portait photo
-            goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
-            if self.traitCollection.horizontalSizeClass == .regular {
-                backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
-            } else {
-                backgroundImage.image = UIImage(imageLiteralResourceName: "PCC")
-            }
-            
+            setImage(landscape: false)
         case .portrait, .portraitUpsideDown, .unknown :
             // Change to Landscape photo
-            backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.04)
-            } else {
-                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
-            }
+            setImage(landscape: true)
         }
     }
     
