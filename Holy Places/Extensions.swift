@@ -87,6 +87,13 @@ struct AppUtility {
     
 }
 
+extension UIApplication {
+    public var isSplitOrSlideOver: Bool {
+        guard let w = self.delegate?.window, let window = w else { return false }
+        return !window.frame.equalTo(window.screen.bounds)
+    }
+}
+
 public extension NSLayoutConstraint {
     
     func changeMultiplier(multiplier: CGFloat) -> NSLayoutConstraint {

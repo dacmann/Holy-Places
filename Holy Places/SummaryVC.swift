@@ -60,6 +60,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var mostVisitedPlace8: UILabel!
     @IBOutlet weak var mostVisitedPlace9: UILabel!
     @IBOutlet weak var mostVisitedPlace10: UILabel!
+    @IBOutlet weak var mostVisitedPlace11: UILabel!
+    @IBOutlet weak var mostVisitedPlace12: UILabel!
     
     @IBOutlet weak var mostVisitedCount1: UILabel!
     @IBOutlet weak var mostVisitedCount2: UILabel!
@@ -71,8 +73,12 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var mostVisitedCount8: UILabel!
     @IBOutlet weak var mostVisitedCount9: UILabel!
     @IBOutlet weak var mostVisitedCount10: UILabel!
+    @IBOutlet weak var mostVisitedCount11: UILabel!
+    @IBOutlet weak var mostVisitedCount12: UILabel!
     
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var visitsStackViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mainStackView: UIStackView!
     
     var yearOffset = 0
     
@@ -98,40 +104,42 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        switch UIDevice.current.orientation {
-        case .landscapeLeft, .landscapeRight :
+    fileprivate func changeConfiguration(landscape: Bool) {
+        if landscape {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 headerHeightConstraint.constant = 132
             } else {
                 headerHeightConstraint.constant = 100
             }
-        default :
+            // Change stack view to horizontal
+            mainStackView.axis = .horizontal
+            visitsStackViewWidthConstraint = visitsStackViewWidthConstraint.changeMultiplier(multiplier: 0.45)
+        } else {
             if self.traitCollection.horizontalSizeClass == .regular {
                 headerHeightConstraint.constant = 200
             } else {
                 headerHeightConstraint.constant = 132
             }
+            // Change stack view to vertical
+            mainStackView.axis = .vertical
+            visitsStackViewWidthConstraint = visitsStackViewWidthConstraint.changeMultiplier(multiplier: 1.0)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown || UIApplication.shared.isSplitOrSlideOver {
+            changeConfiguration(landscape: false)
+        } else {
+            changeConfiguration(landscape: true)
         }
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        switch fromInterfaceOrientation {
-        case .landscapeLeft, .landscapeRight :
-            // Change to Portait photo
-            if self.traitCollection.horizontalSizeClass == .regular {
-                headerHeightConstraint.constant = 200
-            } else {
-                headerHeightConstraint.constant = 132
-            }
-            
-        case .portrait, .portraitUpsideDown, .unknown :
-            // Change to Landscape photo
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                headerHeightConstraint.constant = 132
-            } else {
-                headerHeightConstraint.constant = 100
-            }
+        
+        if fromInterfaceOrientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight || UIApplication.shared.isSplitOrSlideOver {
+            changeConfiguration(landscape: false)
+        } else {
+            changeConfiguration(landscape: true)
         }
     }
     
@@ -322,11 +330,21 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                     mostVisitedCount10.text = placeCount
                     mostVisitedPlace10.textColor = textColor
                     mostVisitedCount10.textColor = textColor
+                case 11:
+                    mostVisitedPlace11.text = placeName
+                    mostVisitedCount11.text = placeCount
+                    mostVisitedPlace11.textColor = textColor
+                    mostVisitedCount11.textColor = textColor
+                case 12:
+                    mostVisitedPlace12.text = placeName
+                    mostVisitedCount12.text = placeCount
+                    mostVisitedPlace12.textColor = textColor
+                    mostVisitedCount12.textColor = textColor
                 default:
                     break
                 }
 //                print("\(placeName) - \(placeCount)")
-                if counter == 10 {
+                if counter == 12 {
                     break
                 }
             }
