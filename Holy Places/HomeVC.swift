@@ -26,6 +26,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var share: UIButton!
     @IBOutlet weak var visitDate: UILabel!
+    @IBOutlet weak var goalSpacerConstraint: NSLayoutConstraint!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
@@ -122,6 +123,11 @@ class HomeVC: UIViewController, XMLParserDelegate {
             switch UIDevice.current.orientation {
             case .landscapeLeft, .landscapeRight :
                 backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.04)
+                } else {
+                    goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
+                }
             default :
                 if self.traitCollection.horizontalSizeClass == .regular {
                     backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
@@ -148,7 +154,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         // Lock Orientation to Portrait only for small devices
         let width = UIScreen.main.bounds.width
-        print("screen width is \(width)")
+//        print("screen width is \(width)")
         if width < 400 {
             AppUtility.lockOrientation(.portrait)
         }
@@ -158,6 +164,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
         switch fromInterfaceOrientation {
         case .landscapeLeft, .landscapeRight :
             // Change to Portait photo
+            goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
             if self.traitCollection.horizontalSizeClass == .regular {
                 backgroundImage.image = UIImage(imageLiteralResourceName: "PCCW")
             } else {
@@ -167,6 +174,11 @@ class HomeVC: UIViewController, XMLParserDelegate {
         case .portrait, .portraitUpsideDown, .unknown :
             // Change to Landscape photo
             backgroundImage.image = UIImage(imageLiteralResourceName: "PCCL")
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.04)
+            } else {
+                goalSpacerConstraint = goalSpacerConstraint.changeMultiplier(multiplier: 0.09)
+            }
         }
     }
     

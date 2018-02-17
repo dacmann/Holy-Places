@@ -72,6 +72,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var mostVisitedCount9: UILabel!
     @IBOutlet weak var mostVisitedCount10: UILabel!
     
+    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
+    
     var yearOffset = 0
     
     func getContext () -> NSManagedObjectContext {
@@ -94,6 +96,43 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         getTotals()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight :
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                headerHeightConstraint.constant = 132
+            } else {
+                headerHeightConstraint.constant = 100
+            }
+        default :
+            if self.traitCollection.horizontalSizeClass == .regular {
+                headerHeightConstraint.constant = 200
+            } else {
+                headerHeightConstraint.constant = 132
+            }
+        }
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        switch fromInterfaceOrientation {
+        case .landscapeLeft, .landscapeRight :
+            // Change to Portait photo
+            if self.traitCollection.horizontalSizeClass == .regular {
+                headerHeightConstraint.constant = 200
+            } else {
+                headerHeightConstraint.constant = 132
+            }
+            
+        case .portrait, .portraitUpsideDown, .unknown :
+            // Change to Landscape photo
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                headerHeightConstraint.constant = 132
+            } else {
+                headerHeightConstraint.constant = 100
+            }
+        }
     }
     
     @IBAction func titleYr1Btn(_ sender: UIButton) {
@@ -286,7 +325,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
                 default:
                     break
                 }
-                print("\(placeName) - \(placeCount)")
+//                print("\(placeName) - \(placeCount)")
                 if counter == 10 {
                     break
                 }

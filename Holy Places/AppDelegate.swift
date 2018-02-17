@@ -306,11 +306,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             print("Visited \(region.identifier) for undetermined amount of time")
         }
         // create notification if visited more than 10 minutes
-        if Int(visitElapsedTime!) > 599 {
+//        if Int(visitElapsedTime!) > 599 {
+        // disable time crieria to see if it resolves consistency issue
             holyPlaceVisited = region.identifier
             dateHolyPlaceVisited = Date()
             shouldNotify()
-        }
+//        }
     }
     
     func locationServiceSetup() {
