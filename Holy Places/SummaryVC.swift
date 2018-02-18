@@ -136,7 +136,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
-        if fromInterfaceOrientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight || UIApplication.shared.isSplitOrSlideOver {
+        if fromInterfaceOrientation == .landscapeLeft || fromInterfaceOrientation == .landscapeRight || UIApplication.shared.isSplitOrSlideOver {
             changeConfiguration(landscape: false)
         } else {
             changeConfiguration(landscape: true)

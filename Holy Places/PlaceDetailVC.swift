@@ -248,7 +248,6 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
         // Change the back button on the Record Visit VC to Cancel
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -258,30 +257,25 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             GetSavedImage()
         }
         
-        switch UIDevice.current.orientation {
-        case .landscapeLeft, .landscapeRight :
+        if UIDevice.current.orientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
             // move snippet down
             snippetBottom.isActive = false
             snippetLeading.constant = 220
             snippetTrailing.constant = 220
             addressWidth.constant = 200
             templeNameTop.isActive = true
-        default :
-            break
         }
     }
     
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        switch toInterfaceOrientation {
-        case .landscapeLeft, .landscapeRight :
+        if toInterfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
             // move snippet down
             snippetBottom.isActive = false
             snippetLeading.constant = 220
             snippetTrailing.constant = 220
             addressWidth.constant = 200
             templeNameTop.isActive = true
-
-        case .portrait, .portraitUpsideDown, .unknown :
+        } else {
             // move snippet back up
             snippetBottom.isActive = true
             snippetLeading.constant = 10
