@@ -104,6 +104,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         
     }
     
+    override func viewWillLayoutSubviews() {
+        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+            changeConfiguration(landscape: true)
+        } else {
+            changeConfiguration(landscape: false)
+        }
+    }
+    
     fileprivate func changeConfiguration(landscape: Bool) {
         if landscape {
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -122,21 +130,26 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             }
             // Change stack view to vertical
             mainStackView.axis = .vertical
-            visitsStackViewWidthConstraint = visitsStackViewWidthConstraint.changeMultiplier(multiplier: 1.0)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                visitsStackViewWidthConstraint = visitsStackViewWidthConstraint.changeMultiplier(multiplier: 0.9)
+            } else {
+                visitsStackViewWidthConstraint = visitsStackViewWidthConstraint.changeMultiplier(multiplier: 1.0)
+            }
+            
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .portraitUpsideDown || UIApplication.shared.isSplitOrSlideOver {
-            changeConfiguration(landscape: false)
-        } else {
+        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
             changeConfiguration(landscape: true)
+        } else {
+            changeConfiguration(landscape: false)
         }
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
-        if fromInterfaceOrientation == .landscapeLeft || fromInterfaceOrientation == .landscapeRight || UIApplication.shared.isSplitOrSlideOver {
+        if fromInterfaceOrientation.isLandscape || UIApplication.shared.isSplitOrSlideOver {
             changeConfiguration(landscape: false)
         } else {
             changeConfiguration(landscape: true)

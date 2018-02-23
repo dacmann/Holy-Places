@@ -263,7 +263,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     
     //MARK: - Standard methods
     fileprivate func updateView() {
-        SortOptions(row: placeSortRow)
         setup()
 //        appDelegate.getVisits()
         self.tableView.reloadData()
@@ -319,8 +318,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         FilterOptions(row: placeFilterRow)
         // Add done button to keyboard
         keyboardDone()
-        
-        updateView()
 
     }
     
@@ -450,6 +447,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     // MARK: - Navigation
     
     func openForPlace(shortcutIdentifier: ShortcutIdentifier) -> Bool {
+//        SortOptions(row: placeSortRow)
         updateView()
         if shortcutIdentifier == .OpenRandomPlace {
             randomPlace = true

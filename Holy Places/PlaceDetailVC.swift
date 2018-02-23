@@ -42,6 +42,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var reloadPics = true
     var picsLoading = true
     var webViewPresented = false
+    var reloadSavedImage = false
+    var wasSplitView = false
     
     //MARK: - ScrollView functions
     
@@ -250,29 +252,41 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
     }
     
+    override func viewWillLayoutSubviews() {
+        if UIApplication.shared.isSplitOrSlideOver {
+            wasSplitView = true
+        }
+        
+        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+            configureForLandscape(landscape: true)
+        } else {
+            configureForLandscape(landscape: false)
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
-//        print("viewDidLayoutSubviews")
         // Moved the stock picture download to this method so it isn't waiting for the visits to load
         if !(visitsAdded) {
             GetSavedImage()
         }
-        
-        if UIDevice.current.orientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-            // move snippet down
-            snippetBottom.isActive = false
-            snippetLeading.constant = 220
-            snippetTrailing.constant = 220
-            addressWidth.constant = 200
-            templeNameTop.isActive = true
+
+        if UIApplication.shared.isSplitOrSlideOver || reloadSavedImage || wasSplitView {
+            GetSavedImage()
+            self.pageControl.isHidden = true
+            reloadSavedImage = false
+            if !UIApplication.shared.isSplitOrSlideOver {
+                wasSplitView = false
+            }
         }
+
     }
-    
-    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        if toInterfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+
+    fileprivate func configureForLandscape(landscape: Bool) {
+        if landscape {
             // move snippet down
             snippetBottom.isActive = false
-            snippetLeading.constant = 220
-            snippetTrailing.constant = 220
+            snippetLeading.constant = 240
+            snippetTrailing.constant = 240
             addressWidth.constant = 200
             templeNameTop.isActive = true
         } else {
@@ -283,12 +297,19 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             addressWidth.constant = 400
             templeNameTop.isActive = false
         }
-        
+    }
+    
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        reloadSavedImage = true
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        GetSavedImage()
-        self.pageControl.isHidden = true
+        reloadSavedImage = true
+        if fromInterfaceOrientation.isPortrait && !UIApplication.shared.isSplitOrSlideOver {
+            configureForLandscape(landscape: true)
+        } else {
+            configureForLandscape(landscape: false)
+        }
     }
     
     func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?

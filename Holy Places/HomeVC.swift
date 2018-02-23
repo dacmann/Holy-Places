@@ -73,7 +73,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
             appDelegate.getVisits()
             goal.text = goalProgress
         }
-        
+
     }
     
     fileprivate func setImage(landscape: Bool) {
@@ -151,10 +151,9 @@ class HomeVC: UIViewController, XMLParserDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        switch UIDevice.current.orientation {
-        case .landscapeLeft, .landscapeRight :
+        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
             setImage(landscape: true)
-        default :
+        } else {
             setImage(landscape: false)
         }
         
@@ -167,13 +166,10 @@ class HomeVC: UIViewController, XMLParserDelegate {
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        switch fromInterfaceOrientation {
-        case .landscapeLeft, .landscapeRight :
-            // Change to Portait photo
-            setImage(landscape: false)
-        case .portrait, .portraitUpsideDown, .unknown :
-            // Change to Landscape photo
+        if fromInterfaceOrientation.isPortrait && !UIApplication.shared.isSplitOrSlideOver {
             setImage(landscape: true)
+        } else {
+            setImage(landscape: false)
         }
     }
     
