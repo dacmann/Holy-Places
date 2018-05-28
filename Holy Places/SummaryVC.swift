@@ -207,13 +207,20 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             
             for temple in searchResults as [Visit] {
                 // add to total counts
-                attendedTotal += 1
+                
                 sealingsTotal += Int(temple.sealings)
                 endowmentsTotal += Int(temple.endowments)
                 initiatoriesTotal += Int(temple.initiatories)
                 confirmationsTotal += Int(temple.confirmations)
                 baptismsTotal += Int(temple.baptisms)
                 shiftHoursTotal += temple.shiftHrs
+                if excludeNonOrdinanceVisits {
+                    if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                        attendedTotal += 1
+                    }
+                } else {
+                    attendedTotal += 1
+                }
             }
             
             getYearTotals(visits: searchResults)
@@ -416,22 +423,36 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             // check for ordinances performed in 2 specific years based on offset
             let yearVisited = formatter.string(from: temple.dateVisited!)
             if (yearVisited == year1) {
-                attended += 1
+                
                 sealings += Int(temple.sealings)
                 endowments += Int(temple.endowments)
                 initiatories += Int(temple.initiatories)
                 confirmations += Int(temple.confirmations)
                 baptisms += Int(temple.baptisms)
                 shiftHrs += temple.shiftHrs
+                if excludeNonOrdinanceVisits {
+                    if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                        attended += 1
+                    }
+                } else {
+                    attended += 1
+                }
             }
             if (yearVisited == year2) {
-                attended2 += 1
+                
                 sealings2 += Int(temple.sealings)
                 endowments2 += Int(temple.endowments)
                 initiatories2 += Int(temple.initiatories)
                 confirmations2 += Int(temple.confirmations)
                 baptisms2 += Int(temple.baptisms)
                 shiftHrs2 += temple.shiftHrs
+                if excludeNonOrdinanceVisits {
+                    if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                        attended2 += 1
+                    }
+                } else {
+                    attended2 += 1
+                }
             }
         }
         

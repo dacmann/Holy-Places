@@ -26,7 +26,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItem = button
         
         // Create Map or Satellite control
-        let options = ["Map", "Sat"]
+        let options = ["Map", "Image"]
         let mapOptions = UISegmentedControl(items: options)
         mapOptions.selectedSegmentIndex = 0
         mapOptions.addTarget(self, action: #selector(changeMap(_:)), for: .valueChanged)
