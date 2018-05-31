@@ -183,7 +183,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     excludeNonOrdinanceVisits = (settings?.excludeNonOrdinanceVisits)!
                 }
             } else {
-                annualVisitGoal = 0
                 // nothing to do here
             }
         } catch {
