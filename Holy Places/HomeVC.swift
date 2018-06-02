@@ -55,7 +55,21 @@ class HomeVC: UIViewController, XMLParserDelegate {
         
         settings.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
         
-                
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeLeft.direction = .left
+        self.view.addGestureRecognizer(swipeLeft)
+    }
+    
+    @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == UISwipeGestureRecognizerDirection.right {
+            tabBarController?.selectedIndex = 4
+        } else if gesture.direction == UISwipeGestureRecognizerDirection.left {
+            tabBarController?.selectedIndex = 1
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +90,7 @@ class HomeVC: UIViewController, XMLParserDelegate {
 
     }
     
+
     fileprivate func setImage(landscape: Bool) {
         var defaultImageName = "PCC"
         if self.traitCollection.horizontalSizeClass == .regular {
