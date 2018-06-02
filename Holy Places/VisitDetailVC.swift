@@ -54,12 +54,46 @@ class VisitDetailVC: UIViewController {
         
         // Change the back button on the Edit Visit VC to Cancel
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
+        
+        // Add swipe gestures to navigate to other visits
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeUp.direction = .up
+        self.view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
         populateView()
         setDate()
+    }
+    
+    @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == UISwipeGestureRecognizerDirection.right {
+//            print("Swipe Right")
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.left {
+//            print("Swipe Left")
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.up {
+//            print("Swipe Up")
+            if selectedVisitRow < visitsInTable.count - 1 {
+                selectedVisitRow += 1
+                detailVisit = visitsInTable[selectedVisitRow]
+                setDate()
+            }
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.down {
+//            print("Swipe Down")
+            if selectedVisitRow > 0 {
+                selectedVisitRow -= 1
+                detailVisit = visitsInTable[selectedVisitRow]
+                setDate()
+            }
+        }
     }
     
     @objc func imageClicked()

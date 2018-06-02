@@ -87,6 +87,8 @@ var homeVisitDate: String?
 var ordinanceWorker = Bool()
 var excludeNonOrdinanceVisits = Bool()
 var optionsChanged = false
+var visitsInTable: [Visit] = []
+var selectedVisitRow = Int()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {

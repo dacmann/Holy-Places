@@ -386,11 +386,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 let controller = (segue.destination as! VisitDetailVC)
                 if searchController.isActive && searchController.searchBar.text != "" {
                     let visit = filteredVisits[indexPath.row]
+                    visitsInTable = filteredVisits
                     controller.detailVisit = visit
                 } else {
                     let visit = self.fetchedResultsController.object(at: indexPath)
+                    visitsInTable = fetchedResultsController.fetchedObjects!
                     controller.detailVisit = visit
                 }
+                selectedVisitRow = indexPath.row
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
