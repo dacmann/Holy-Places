@@ -89,6 +89,7 @@ var excludeNonOrdinanceVisits = Bool()
 var optionsChanged = false
 var visitsInTable: [Visit] = []
 var selectedVisitRow = Int()
+var selectedPlaceRow = Int()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {

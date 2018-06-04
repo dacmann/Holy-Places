@@ -490,9 +490,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 } else {
                     index = sections[indexPath.section].index + indexPath.row
                 }
+                selectedPlaceRow = index
                 detailItem = places[index]
             } else if randomPlace {
-                detailItem = allPlaces[Int(arc4random_uniform(UInt32(allPlaces.count)))]
+                selectedPlaceRow = Int(arc4random_uniform(UInt32(allPlaces.count)))
+                detailItem = allPlaces[selectedPlaceRow]
             }
             let controller = (segue.destination as! PlaceDetailVC)
             controller.navigationItem.leftItemsSupplementBackButton = true

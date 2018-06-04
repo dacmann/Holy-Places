@@ -218,10 +218,18 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         self.navigationItem.rightBarButtonItem = button
         originalPlace = (detailItem?.templeName)!
         
+        // Add swipe gestures to navigate to other places
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeUp.direction = .up
+        self.view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-//        print("viewWillAppear")
+    fileprivate func setUpView() {
         
         if originalPlace != detailItem?.templeName {
             stockImageAdded = false
@@ -236,8 +244,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         webViewPresented = false
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
+    override func viewWillAppear(_ animated: Bool) {
+        setUpView()
+    }
+    
+    fileprivate func pictures() {
         if reloadPics {
             // Determine number of visits and add any pictures found to the image scrollView
             if stockImageAdded {
@@ -248,6 +259,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         } else {
             reloadPics = true
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        pictures()
         // Change the back button on the Record Visit VC to Cancel
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
     }
@@ -373,6 +389,29 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == UISwipeGestureRecognizerDirection.up {
+//            print("Swipe Up")
+            print(selectedPlaceRow)
+            if selectedPlaceRow < places.count - 1 {
+                selectedPlaceRow += 1
+                detailItem = places[selectedPlaceRow]
+                setUpView()
+                pictures()
+            }
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.down {
+//            print("Swipe Down")
+            print(selectedPlaceRow)
+            if selectedPlaceRow > 0 {
+                selectedPlaceRow -= 1
+                detailItem = places[selectedPlaceRow]
+                setUpView()
+                pictures()
+            }
+        }
+    }
+    
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = detailItem {

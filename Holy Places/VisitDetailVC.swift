@@ -72,13 +72,7 @@ class VisitDetailVC: UIViewController {
     }
     
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
-        if gesture.direction == UISwipeGestureRecognizerDirection.right {
-//            print("Swipe Right")
-        }
-        else if gesture.direction == UISwipeGestureRecognizerDirection.left {
-//            print("Swipe Left")
-        }
-        else if gesture.direction == UISwipeGestureRecognizerDirection.up {
+        if gesture.direction == UISwipeGestureRecognizerDirection.up {
 //            print("Swipe Up")
             if selectedVisitRow < visitsInTable.count - 1 {
                 selectedVisitRow += 1
