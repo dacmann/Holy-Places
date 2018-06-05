@@ -14,6 +14,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var placeName = String()
     var optionSelected = false
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var mapPlaces: [Temple] = []
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -70,7 +71,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapThePlaces() {
-        var mapPlaces: [Temple] = []
+        
         // Filter the request
         switch mapFilterRow {
         case 0:
@@ -186,9 +187,14 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // Switch Places tab data to current map data
+        places = mapPlaces
+        placeFilterRow = mapFilterRow
+//        placeSortRow = 0
         // Find details for selected pin
-        if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
-            let place = allPlaces[found]
+        if let found = places.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+            let place = places[found]
+            selectedPlaceRow = found
 //            print(place.templeName)
             placeName = place.templeName
             if control == view.rightCalloutAccessoryView {
