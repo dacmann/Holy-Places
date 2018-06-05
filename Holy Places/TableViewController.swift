@@ -282,6 +282,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     override func viewWillAppear(_ animated: Bool) {
         if optionsChanged {
             updateView()
+            // Scroll to first row
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             optionsChanged = false
         }
     }
