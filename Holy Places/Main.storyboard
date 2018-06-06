@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -24,8 +24,8 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="Temple Goal" id="pLf-go-q16">
-                                <string key="footerTitle">"Set specific goals, considering your circumstances, of when you can and will participate in temple ordinances. Then do not allow anything to interfere with that plan. ... What is there that is more important than attending and participating in the ordinances of the temple?"
-           - Elder Richard G. Scott (Apr 2009)</string>
+                                <string key="footerTitle">"My dear brothers and sisters, construction of these temples may not change your life, but your time in the temple surely will. In that spirit, I bless you to identify those things you can set aside so you can spend more time in the temple."
+           - President Russell M. Nelson (Apr 2018)</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="ikA-G5-oWN">
                                         <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="44"/>
@@ -92,7 +92,7 @@
                             <tableViewSection headerTitle="Ordinance Worker" footerTitle="Enabling this option will allow you to enter the number of hours you worked on a given day when recording a temple visit." id="TJZ-nF-bxF" userLabel="Ordinance Worker">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="syO-3Z-ycb">
-                                        <rect key="frame" x="0.0" y="298.66666666666669" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="282.66666666666669" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -125,7 +125,7 @@
                                 <string key="footerTitle">Enabling this notification feature will remind you to record your visit to a Holy Place a configurable number of minutes after your visit.  NOTE: You must allow both Location "Always" and Notifications for this feature.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="hmt-mx-AEa">
-                                        <rect key="frame" x="0.0" y="450" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="434" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hmt-mx-AEa" id="FS1-mq-Otk">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -153,7 +153,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="MEi-ex-bak">
-                                        <rect key="frame" x="0.0" y="494" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="478" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MEi-ex-bak" id="CNd-lt-JUf">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -181,7 +181,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="I6P-Mx-OGe">
-                                        <rect key="frame" x="0.0" y="538" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="522" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I6P-Mx-OGe" id="MWO-uT-NTs">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -217,7 +217,7 @@
                                 <string key="footerTitle">Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="rN1-jd-KI2">
-                                        <rect key="frame" x="0.0" y="737.66666666666674" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="721.66666666666674" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rN1-jd-KI2" id="aNr-0G-ooD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -244,7 +244,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="HMj-NB-y59">
-                                        <rect key="frame" x="0.0" y="781.66666666666674" width="414" height="120"/>
+                                        <rect key="frame" x="0.0" y="765.66666666666674" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="119.66666666666667"/>
@@ -280,7 +280,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="zU5-l1-Mp7">
-                                        <rect key="frame" x="0.0" y="901.66666666666674" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="885.66666666666674" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zU5-l1-Mp7" id="TpG-oX-TQK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
