@@ -10,7 +10,7 @@ import UIKit
 //import StoreKit
 
 //class HomeVC: UIViewController, SKProductsRequestDelegate {
-class HomeVC: UIViewController, XMLParserDelegate {
+class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -63,6 +63,8 @@ class HomeVC: UIViewController, XMLParserDelegate {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
         swipeLeft.direction = .left
         self.view.addGestureRecognizer(swipeLeft)
+        
+        self.tabBarController?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +83,15 @@ class HomeVC: UIViewController, XMLParserDelegate {
             goal.text = goalProgress
         }
 
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        // Animate the transition between tabs
+        guard let fromView = self.tabBarController?.selectedViewController?.view, let toView = viewController.view else {
+            return false
+        }
+        UIView.transition(from: fromView, to: toView, duration: 0.3, options: [.transitionCrossDissolve], completion: nil)
+        return true
     }
     
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
