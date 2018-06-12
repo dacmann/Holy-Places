@@ -187,38 +187,42 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // Switch Places tab data to current map data
-        places = mapPlaces
-        placeFilterRow = mapFilterRow
-//        placeSortRow = 0
-        // Find details for selected pin
-        if let found = places.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
-            let place = places[found]
-            selectedPlaceRow = found
-//            print(place.templeName)
-            placeName = place.templeName
-            if control == view.rightCalloutAccessoryView {
-                // Launch Apple Maps with the selected Map location
-                let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
-                // The map item is the place location
-                let mapItem = MKMapItem(placemark: placemark)
-                mapItem.name = placeName
-                let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
-                mapItem.openInMaps(launchOptions: launchOptions)
-            }
-            if control == view.leftCalloutAccessoryView {
-                // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
-                detailItem = place
-                // Save the current Camera altitude
-                mapZoomLevel = mapView.camera.altitude
-                if self.navigationController?.popViewController(animated: true) == nil {
-                    // navigate to the place details
-                    if let myTabBar = appDelegate.window?.rootViewController as? UITabBarController {
-                        myTabBar.selectedIndex = 1
-                        let nvc = myTabBar.selectedViewController as? UINavigationController
-                        let vc = nvc?.viewControllers.first as? TableViewController
-                        nvc?.popToRootViewController(animated: false)
-                        _ = vc!.openForPlace(shortcutIdentifier: .ViewPlace)
+        
+        if control == view.rightCalloutAccessoryView {
+            // Launch Apple Maps with the selected Map location
+            let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
+            // The map item is the place location
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = placeName
+            let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
+            mapItem.openInMaps(launchOptions: launchOptions)
+        } else {
+            // Clicked on Place Name to bring up Details
+            // Switch Places tab data to current map data
+            places = mapPlaces
+            placeFilterRow = mapFilterRow
+            // Find details for selected pin
+            if let found = places.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+                print(found)
+                let place = places[found]
+                selectedPlaceRow = found
+//                print(place.templeName)
+                placeName = place.templeName
+//                print(places[selectedPlaceRow].templeName)
+                if control == view.leftCalloutAccessoryView {
+                    // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
+                    detailItem = place
+                    // Save the current Camera altitude
+                    mapZoomLevel = mapView.camera.altitude
+                    if self.navigationController?.popViewController(animated: true) == nil {
+                        // navigate to the place details
+                        if let myTabBar = appDelegate.window?.rootViewController as? UITabBarController {
+                            myTabBar.selectedIndex = 1
+                            let nvc = myTabBar.selectedViewController as? UINavigationController
+                            let vc = nvc?.viewControllers.first as? TableViewController
+                            nvc?.popToRootViewController(animated: false)
+                            _ = vc!.openForPlace(shortcutIdentifier: .ViewPlace)
+                        }
                     }
                 }
             }

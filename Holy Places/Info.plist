@@ -60,7 +60,7 @@
 			<key>UIApplicationShortcutItemSubtitle</key>
 			<string> to Current Location</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Nearest Places</string>
+			<string>Show Nearest Places</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER).ShowNearest</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
@@ -71,11 +71,11 @@
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
-			<string>globe</string>
+			<string>random</string>
 			<key>UIApplicationShortcutItemSubtitle</key>
 			<string></string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Random Place</string>
+			<string>Open Random Place</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER).OpenRandomPlace</string>
 			<key>UIApplicationShortcutItemUserInfo</key>

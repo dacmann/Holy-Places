@@ -18,6 +18,7 @@ enum ShortcutIdentifier: String {
     case RecordVisit
     case Reminder
     case ViewPlace
+    case NavigateTo
     
     init?(identifier: String) {
         guard let shortIdentifier = identifier.components(separatedBy: ".").last else {
@@ -416,13 +417,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         NotificationCenter.default.post(name: .reload, object: nil)
         
-        let shortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
+        let recordVisitShortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).RecordVisit",
                                                         localizedTitle: "Record Visit",
                                                         localizedSubtitle: quickLaunchItem?.templeName,
                                                         icon: UIApplicationShortcutIcon(type: .compose),
                                                         userInfo: nil
         )
-        UIApplication.shared.shortcutItems = [shortcut]
+        
+        let navigateToPlaceShortcut = UIMutableApplicationShortcutItem(type: "$(PRODUCT_BUNDLE_IDENTIFIER).NavigateTo",
+                                                                       localizedTitle: "Navigate To",
+                                                                       localizedSubtitle: quickLaunchItem?.templeName,
+                                                                       icon: UIApplicationShortcutIcon(templateImageName: "route"),
+                                                                       userInfo: nil
+        )
+        UIApplication.shared.shortcutItems = [recordVisitShortcut, navigateToPlaceShortcut]
         print("Quick Launch updated to \(quickLaunchItem?.templeName ?? "<place name>") with a distance of \(quickLaunchItem?.distance ?? 0)")
   
     }
@@ -539,6 +547,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             nvc.popToRootViewController(animated: false)
             return vc.quickAddVisit(shortcutIdentifier: shortcutIdentifier)
+        case .NavigateTo:
+            // Open and show coordinate
+            let latitude = quickLaunchItem?.coordinate.latitude
+            let longitude = quickLaunchItem?.coordinate.longitude
+            let url = URL(string: "http://maps.apple.com/maps?saddr=&daddr=\(latitude ?? 0.0),\(longitude ?? 0.0)")
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            return true
         default:
             return false
         }
