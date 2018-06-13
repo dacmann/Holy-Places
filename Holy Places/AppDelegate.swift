@@ -408,7 +408,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         // Update Distance for currently viewed array in table
         updateDistance(placesToUpdate: places, true)
-        places.sort { Int($0.distance!) < Int($1.distance!) }
+        if placeSortRow == 1 {
+            places.sort { Int($0.distance!) < Int($1.distance!) }
+        }
         
         // Set QuickLaunch object to closest place based on current location of user
         updateDistance(placesToUpdate: allPlaces)
