@@ -65,6 +65,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         self.view.addGestureRecognizer(swipeLeft)
         
         self.tabBarController?.delegate = self
+        
+        // download all place images if needed
+        appDelegate.downloadImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {

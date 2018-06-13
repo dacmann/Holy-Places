@@ -392,7 +392,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
         if gesture.direction == UISwipeGestureRecognizerDirection.up {
 //            print("Swipe Up")
-            print(selectedPlaceRow)
+//            print(selectedPlaceRow)
             if selectedPlaceRow < places.count - 1 {
                 selectedPlaceRow += 1
                 detailItem = places[selectedPlaceRow]
@@ -402,7 +402,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
         else if gesture.direction == UISwipeGestureRecognizerDirection.down {
 //            print("Swipe Down")
-            print(selectedPlaceRow)
+//            print(selectedPlaceRow)
             if selectedPlaceRow > 0 {
                 selectedPlaceRow -= 1
                 detailItem = places[selectedPlaceRow]

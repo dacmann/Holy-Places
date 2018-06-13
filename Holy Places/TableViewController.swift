@@ -151,8 +151,34 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             } else if sortByDedicationDate {
                 subTitle = "by Dedication Date"
                 places.sort { $0.templeOrder < $1.templeOrder }
-                let newSection = (index: 1, length: places.count, title: "")
-                sections.append(newSection)
+                var commonEra = ""
+                var era = "Pioneer Era ~ 1877-1893"
+                for i in (0 ..< (places.count + 1) ) {
+                    if places.count != i {
+                        switch places[i].templeOrder {
+                        case 1 ... 4:
+                            commonEra = "Pioneer Era ~ 1877-1893"
+                        case 5 ... 12:
+                            commonEra = "Expansion Era ~ 1919-1958"
+                        case 13 ... 20:
+                            commonEra = "Solidifying Era ~ 1964-1981"
+                        case 21 ... 58:
+                            commonEra = "Growth Era ~ 1983-1998"
+                        case 59 ... 114:
+                            commonEra = "Explosive Era ~ 1999-2002"
+                        default:
+                            commonEra = "Golden Era ~ 2003-Present"
+                        }
+                    }
+                    if era != commonEra || places.count == i {
+                        let string = "\(era) (\(i - index))"
+                        let title = " \(string)\(String(repeating: " ", count: 240))"
+                        let newSection = (index: index, length: i - index, title: title)
+                        sections.append(newSection)
+                        era = commonEra
+                        index = i
+                    }
+                }
             } else if sortBySize {
                 subTitle = "by Size"
                 places.sort { Double($0.templeSqFt!) > Double($1.templeSqFt!) }
@@ -179,7 +205,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                     if commonCountry.isEmpty || places.count == i {
                         let string = places[index].templeCountry + " (" + (i - index).description + ")"
-                        let title = "\(string)"
+                        let title = " \(string)\(String(repeating: " ", count: 240))"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
                         index = i
@@ -352,7 +378,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
 
         var index = Int()
 
-        if nearestEnabled || sortByDedicationDate || sortBySize {
+        if nearestEnabled || sortBySize {
             index = indexPath.row
         } else {
             index = sections[indexPath.section].index + indexPath.row
@@ -488,7 +514,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         var index = Int()
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                if nearestEnabled || sortByDedicationDate || sortBySize {
+                if nearestEnabled || sortBySize {
                     index = indexPath.row
                 } else {
                     index = sections[indexPath.section].index + indexPath.row

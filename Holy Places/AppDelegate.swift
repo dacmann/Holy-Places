@@ -1053,6 +1053,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             print("Error with request: \(error)")
         }
     }
+    
+    func downloadImage() {
+        let context = getContext()
+        
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try context.fetch(fetchRequest)
+            print("Checking for pictures to download...")
+            for place in searchResults {
+                // Check for picture data and skip if found
+                if place.pictureData != nil {
+                    continue
+                }
+                
+                // Get picture from URL
+                let pictureURL = URL(string: place.pictureURL!)!
+                print("Downloading picture for \(place.name ?? "place name")...")
+                URLSession.shared.dataTask(with: pictureURL) { (data, response, error) in
+                    guard
+                        let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                        let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                        let data = data, error == nil
+                        else {
+                            return
+                    }
+                    DispatchQueue.main.async() { () -> Void in
+                        // Save image data to Pictures
+                        print("Saving picture for \(place.name ?? "place name")...")
+                        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+                        fetchRequest.predicate = NSPredicate(format: "name == %@", place.name!)
+                        do {
+                            let searchResults = try context.fetch(fetchRequest)
+                            if searchResults.count > 0 {
+                                for place in searchResults as [Place] {
+                                    place.pictureData = data as Data
+                                    do {
+                                        try context.save()
+                                    } catch let error as NSError  {
+                                        print("Could not save \(error), \(error.userInfo)")
+                                    } catch {}
+                                }
+                            }
+                        } catch {
+                            print("Error with request: \(error)")
+                        }
+                    }
+                    }.resume()
+            }
+        } catch {
+            print("Error with request: \(error)")
+        }
+    }
+    
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
