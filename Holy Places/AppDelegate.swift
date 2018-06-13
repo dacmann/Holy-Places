@@ -528,6 +528,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 return false
             }
             nvc.popToRootViewController(animated: false)
+            vc.nearestEnabled = true
             return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
         case .OpenRandomPlace:
             myTabBar.selectedIndex = 1

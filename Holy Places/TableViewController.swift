@@ -161,13 +161,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                         case 5 ... 12:
                             commonEra = "Expansion Era ~ 1919-1958"
                         case 13 ... 20:
-                            commonEra = "Solidifying Era ~ 1964-1981"
+                            commonEra = "Strengthening Era ~ 1964-1981"
                         case 21 ... 58:
                             commonEra = "Growth Era ~ 1983-1998"
                         case 59 ... 114:
                             commonEra = "Explosive Era ~ 1999-2002"
                         default:
-                            commonEra = "Golden Era ~ 2003-Present"
+                            commonEra = "Hastening Era ~ 2003-Present"
                         }
                     }
                     if era != commonEra || places.count == i {
