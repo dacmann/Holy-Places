@@ -182,8 +182,34 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             } else if sortBySize {
                 subTitle = "by Size"
                 places.sort { Double($0.templeSqFt!) > Double($1.templeSqFt!) }
-                let newSection = (index: 1, length: places.count, title: "")
-                sections.append(newSection)
+                var commonSize = ""
+                var size = "Over 100K sqft"
+                for i in (0 ..< (places.count + 1) ) {
+                    if places.count != i {
+                        if let sqft = places[i].templeSqFt {
+                            switch sqft {
+                            case 100000... :
+                                commonSize = "Over 100K sqft"
+                            case 60000 ... 99999:
+                                commonSize = "60K - 100K sqft"
+                            case 30000 ... 59999:
+                                commonSize = "30K - 60K sqft"
+                            case 12000 ... 29999:
+                                commonSize = "12K - 30K sqft"
+                            default:
+                                commonSize = "Under 12K sqft"
+                            }
+                        }
+                    }
+                    if size != commonSize || places.count == i {
+                        let string = "\(size) (\(i - index))"
+                        let title = " \(string)\(String(repeating: " ", count: 240))"
+                        let newSection = (index: index, length: i - index, title: title)
+                        sections.append(newSection)
+                        size = commonSize
+                        index = i
+                    }
+                }
             } else if sortByCountry {
                 subTitle = "by Country"
                 // Sort by Country and then by Name
@@ -378,7 +404,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
 
         var index = Int()
 
-        if nearestEnabled || sortBySize {
+        if nearestEnabled {
             index = indexPath.row
         } else {
             index = sections[indexPath.section].index + indexPath.row
@@ -514,7 +540,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         var index = Int()
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                if nearestEnabled || sortBySize {
+                if nearestEnabled {
                     index = indexPath.row
                 } else {
                     index = sections[indexPath.section].index + indexPath.row
