@@ -181,7 +181,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 }
             } else if sortBySize {
                 subTitle = "by Size"
-                places.sort { Double($0.templeSqFt!) > Double($1.templeSqFt!) }
+                places.sort {
+                    if Double($0.templeSqFt!) == Double($1.templeSqFt!) {
+                        return $0.templeName < $1.templeName
+                    }
+                    return Double($0.templeSqFt!) > Double($1.templeSqFt!)
+                }
                 var commonSize = ""
                 var size = "Over 100K sqft"
                 for i in (0 ..< (places.count + 1) ) {
