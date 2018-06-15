@@ -93,8 +93,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         templesTotal.text = activeTemples.count.description
         historicalTotal.text = historical.count.description
         visitorsCentersTotal.text = visitors.count.description
-        //summary.backgroundColor = UIColor.ocean()
-        //summary.textColor = UIColor.white
 
         // Do any additional setup after loading the view.
     }

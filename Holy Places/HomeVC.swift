@@ -93,7 +93,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         guard let fromView = self.tabBarController?.selectedViewController?.view, let toView = viewController.view else {
             return false
         }
-        UIView.transition(from: fromView, to: toView, duration: 0.3, options: [.transitionCrossDissolve], completion: nil)
+        if fromView != toView {
+            UIView.transition(from: fromView, to: toView, duration: 0.3, options: [.transitionCrossDissolve], completion: nil)
+        }
         return true
     }
     
