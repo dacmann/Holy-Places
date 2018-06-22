@@ -162,9 +162,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                             commonEra = "Expansion Era ~ 1919-1958"
                         case 13 ... 20:
                             commonEra = "Strengthening Era ~ 1964-1981"
-                        case 21 ... 58:
+                        case 21 ... 53:
                             commonEra = "Growth Era ~ 1983-1998"
-                        case 59 ... 114:
+                        case 54 ... 114:
                             commonEra = "Explosive Era ~ 1999-2002"
                         default:
                             commonEra = "Hastening Era ~ 2003-Present"
