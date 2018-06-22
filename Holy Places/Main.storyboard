@@ -1629,7 +1629,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="morningstarmoroni" translatesAutoresizingMaskIntoConstraints="NO" id="ZGr-nK-lIr">
                                 <rect key="frame" x="49.333333333333343" y="30" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="HaQ-sJ-CEc"/>
+                                    <constraint firstAttribute="width" constant="100" id="HaQ-sJ-CEc">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    </constraint>
                                     <constraint firstAttribute="width" secondItem="ZGr-nK-lIr" secondAttribute="height" multiplier="1:1" id="eXb-A0-eal"/>
                                 </constraints>
                             </imageView>
@@ -1708,16 +1710,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-ln-hgO">
+                                <rect key="frame" x="81.333333333333329" y="388" width="35" height="33"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="FAQ"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="contactMe:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="hjs-lG-Vwy"/>
+                                    <action selector="faqLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="QSb-lD-OeL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="7vh-6f-ggg">
                                 <variation key="heightClass=regular-widthClass=regular" constant="32"/>
                             </constraint>
+                            <constraint firstItem="CBp-ln-hgO" firstAttribute="centerY" secondItem="Ert-qH-9pi" secondAttribute="centerY" id="9Yq-K8-XxJ"/>
                             <constraint firstItem="pF8-YH-7Sj" firstAttribute="top" secondItem="mWD-6x-LFb" secondAttribute="bottom" constant="20" id="Akg-8G-kXj"/>
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="width" secondItem="vDg-yG-O9s" secondAttribute="width" multiplier="0.4" id="HBX-M3-N3k"/>
                             <constraint firstItem="ZGr-nK-lIr" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="Hd2-h4-ANk"/>
                             <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="vYQ-7U-HOC" secondAttribute="trailing" constant="16" id="JRt-nc-o6V"/>
+                            <constraint firstItem="CBp-ln-hgO" firstAttribute="centerX" secondItem="Ylh-b0-nbh" secondAttribute="centerX" id="N1g-ar-9Xf"/>
                             <constraint firstItem="tbU-K5-ltw" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="UgV-Qy-773"/>
                             <constraint firstItem="tbU-K5-ltw" firstAttribute="width" secondItem="vDg-yG-O9s" secondAttribute="width" multiplier="0.5" id="Uvm-8n-SyC"/>
                             <constraint firstItem="hKm-g4-NbJ" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="VQc-vp-bsA">

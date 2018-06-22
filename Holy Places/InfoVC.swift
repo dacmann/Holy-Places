@@ -115,4 +115,11 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     
+    @IBAction func faqLink(_ sender: UIButton) {
+        if let url = URL(string: "https://dacworld.net/holyplaces/holyplacesfaq.html") {
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            present(vc, animated: true)
+        }
+    }
+    
 }
