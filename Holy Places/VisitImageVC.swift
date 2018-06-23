@@ -30,6 +30,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
 
         // Do any additional setup after loading the view.
         scrollView.delegate = self
+        scrollView.backgroundColor = .black
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
