@@ -2820,6 +2820,7 @@
                     <connections>
                         <outlet property="csvExport" destination="ERW-IH-EV6" id="7R2-AU-4Qp"/>
                         <outlet property="doneButton" destination="Xy1-uS-udJ" id="TCV-mH-xVd"/>
+                        <outlet property="message" destination="3SJ-RL-qNP" id="y2S-Vf-jfz"/>
                         <outlet property="pickerFilter" destination="vdt-0O-3bp" id="BvC-VD-qpQ"/>
                         <outlet property="txtExport" destination="W7B-lC-4UI" id="0A1-nf-dVf"/>
                         <outlet property="xmlExport" destination="L2R-Ro-P7w" id="kWF-ZM-uau"/>

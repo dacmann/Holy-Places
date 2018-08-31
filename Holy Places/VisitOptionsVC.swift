@@ -50,6 +50,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var txtExport: UIButton!
     @IBOutlet weak var xmlExport: UIButton!
     @IBOutlet weak var csvExport: UIButton!
+    @IBOutlet weak var message: UILabel!
     
     //MARK: - Standard Functions
     override func viewDidLoad() {
@@ -277,7 +278,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 visits.append("</Visits></Document>")
             }
 //            print(visits)
-//            exportMessage()
+            message.text = "Exported \(exportCount) visits to \(type) file."
+            message.textColor = UIColor.darkRed()
         } catch {
             print("Error with request: \(error)")
         }
