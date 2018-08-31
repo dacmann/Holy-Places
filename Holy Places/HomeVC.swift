@@ -164,10 +164,12 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
                 changesMsg.append(changesMsg3)
             }
             let alert = UIAlertController(title: changesDate + " Update", message: changesMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Handle OK (cancel) Logic here")
+                // clear out message now that it has been presented
+                changesDate = ""
+            }))
             self.present(alert, animated: true)
-            // clear out message now that it has been presented
-            changesDate = ""
         }
         
         // Home Screen Customizations

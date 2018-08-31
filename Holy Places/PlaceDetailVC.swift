@@ -44,6 +44,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var webViewPresented = false
     var reloadSavedImage = false
     var wasSplitView = false
+    var swiping = false
     
     //MARK: - ScrollView functions
     
@@ -85,114 +86,116 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     // Retrieve the Visits data from CoreData
     func getVisits (templeName: String, startInt: Int) {
 //        print("getVisits")
-        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
-        
-        var images = [(Date, UIImage)]()
-        
         processVisits: do {
+            let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
+            
+            var images = [(Date, UIImage)]()
+            
             var imageCounter = startInt
             //go get the results
             let searchResults = try getContext().fetch(fetchRequest)
             visitCount = searchResults.count
             
-            // Check for the number of visits that have pictures
-            fetchRequest.predicate = NSPredicate(format: "picture != nil && holyPlace == %@", templeName)
-            let pictureResults = try getContext().fetch(fetchRequest)
-            
-            //  when returning from recording a visit and no new images have been added, don't continue with image processing
-            if originalPlace == detailItem?.templeName {
-                if visitImageCount == pictureResults.count {
-                    break processVisits
-                } else {
-                    // Reset scrollview
-                    GetSavedImage()
-                }
-            }
-            visitImageCount = pictureResults.count
-            print("Number of visits with pictures: \(visitImageCount)")
-            
-//            print ("num of results = \(searchResults.count)")
-            
-            // needed to move BG process to the for loop since the concurrent processing of images resulted in crashes when many pictures were attached
-            BG { for visit in pictureResults as [Visit] {
-                // load image
-                if let imageData = visit.picture {
-                    var image = UIImage(data: imageData as Data)
-                    
-                    // Grab date of visit and attach to picture
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "EEEE, MMMM dd YYYY"
-                    let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
-                    
-                    // embed date of visit in picture
-                    if let imageWithDate = self.textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point) {
-                        image = imageWithDate
-                    }
-                    
-                    print(image!.size.height)
-                    if image!.size.height > 2000 {
-                        // reduce size of picture so the scroll view control is more responsive
-                        var scale = 2.0 as CGFloat
-                        // reduce by a larger amount when very big
-                        if image!.size.height > 3000 {
-                            scale = 3.0
-                        }
-                        do {
-                            if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/scale, height: image!.size.height/scale)) {
-                                images.append((visit.dateVisited!, smallImage))
-                                print("reduced image to \(smallImage.size.height)")
-                            } else {
-                                print("failed to reduce image")
-                            }
-                        } catch {
-                            print("failed to reduce image - throw")
-                        }
+            if !swiping {
+                // Check for the number of visits that have pictures
+                fetchRequest.predicate = NSPredicate(format: "picture != nil && holyPlace == %@", templeName)
+                let pictureResults = try getContext().fetch(fetchRequest)
+                
+                //  when returning from recording a visit and no new images have been added, don't continue with image processing
+                if originalPlace == detailItem?.templeName {
+                    if visitImageCount == pictureResults.count {
+                        break processVisits
                     } else {
-                        images.append((visit.dateVisited!, image!))
-                    }}
-                if images.count == self.visitImageCount {
-                    // all pictures have been processed, go ahead and update the UI
-                    if let navigationController = self.navigationController {
-                        print(navigationController.viewControllers.description)
-                        // if we have moved on to another controller then don't bother updating the UI
-                        if navigationController.viewControllers.count == 2 && !self.webViewPresented {
-                            self.UI {
-                                if let pictureView = self.pictureScrollView {
-                                    print("Add pictures to pictureScrollView")
-                                    // first reorder the images by date
-                                    let sortedImages = images.sorted(by: { $0.0 > $1.0 })
-                                    for (_, image) in sortedImages {
-                                        let imageView = UIImageView()
-                                        imageView.contentMode = .scaleAspectFit
-                                        imageView.image = image
-                                        let xPosition = pictureView.frame.width * CGFloat(imageCounter)
-                                        imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
-                                        pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
-                                        let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
-                                        imageView.addGestureRecognizer(tap)
-                                        imageView.isUserInteractionEnabled = true
-                                        imageView.tag = imageCounter + 1
-                                        self.imageCount += 1
-                                        imageCounter += 1
-                                        pictureView.addSubview(imageView)
-                                    }
-                                    self.pageControl.numberOfPages = imageCounter
-                                    self.pageControl.isHidden = false
-                                    self.view.bringSubview(toFront: self.pageControl)
-                                    self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                                    self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
-                                    self.picsLoading = false
+                        // Reset scrollview
+                        GetSavedImage()
+                    }
+                }
+                visitImageCount = pictureResults.count
+                print("Number of visits with pictures: \(visitImageCount)")
+                
+                //            print ("num of results = \(searchResults.count)")
+                
+                // needed to move BG process to the for loop since the concurrent processing of images resulted in crashes when many pictures were attached
+                BG { for visit in pictureResults as [Visit] {
+                    // load image
+                    if let imageData = visit.picture {
+                        var image = UIImage(data: imageData as Data)
+                        
+                        // Grab date of visit and attach to picture
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+                        let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
+                        
+                        // embed date of visit in picture
+                        if let imageWithDate = self.textToImage(drawText: formatter.string(from: visit.dateVisited! as Date) as NSString, inImage: image!, atPoint: point) {
+                            image = imageWithDate
+                        }
+                        
+                        print(image!.size.height)
+                        if image!.size.height > 2000 {
+                            // reduce size of picture so the scroll view control is more responsive
+                            var scale = 2.0 as CGFloat
+                            // reduce by a larger amount when very big
+                            if image!.size.height > 3000 {
+                                scale = 3.0
+                            }
+                            do {
+                                if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/scale, height: image!.size.height/scale)) {
+                                    images.append((visit.dateVisited!, smallImage))
+                                    print("reduced image to \(smallImage.size.height)")
                                 } else {
-                                    print("Unable to access pictureScrollView")
+                                    print("failed to reduce image")
                                 }
+                            } catch {
+                                print("failed to reduce image - throw")
                             }
                         } else {
-                            self.visitImageCount = 0
+                            images.append((visit.dateVisited!, image!))
+                        }}
+                    if images.count == self.visitImageCount {
+                        // all pictures have been processed, go ahead and update the UI
+                        if let navigationController = self.navigationController {
+                            print(navigationController.viewControllers.description)
+                            // if we have moved on to another controller then don't bother updating the UI
+                            if navigationController.viewControllers.count == 2 && !self.webViewPresented {
+                                self.UI {
+                                    if let pictureView = self.pictureScrollView {
+                                        print("Add pictures to pictureScrollView")
+                                        // first reorder the images by date
+                                        let sortedImages = images.sorted(by: { $0.0 > $1.0 })
+                                        for (_, image) in sortedImages {
+                                            let imageView = UIImageView()
+                                            imageView.contentMode = .scaleAspectFit
+                                            imageView.image = image
+                                            let xPosition = pictureView.frame.width * CGFloat(imageCounter)
+                                            imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
+                                            pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
+                                            let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
+                                            imageView.addGestureRecognizer(tap)
+                                            imageView.isUserInteractionEnabled = true
+                                            imageView.tag = imageCounter + 1
+                                            self.imageCount += 1
+                                            imageCounter += 1
+                                            pictureView.addSubview(imageView)
+                                        }
+                                        self.pageControl.numberOfPages = imageCounter
+                                        self.pageControl.isHidden = false
+                                        self.view.bringSubview(toFront: self.pageControl)
+                                        self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                                        self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                                        self.picsLoading = false
+                                    } else {
+                                        print("Unable to access pictureScrollView")
+                                    }
+                                }
+                            } else {
+                                self.visitImageCount = 0
+                            }
                         }
                     }
-                }
+                    }
                 }
             }
         } catch {
@@ -390,6 +393,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
 
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        swiping = true
         if gesture.direction == UISwipeGestureRecognizerDirection.up {
 //            print("Swipe Up")
 //            print(selectedPlaceRow)
