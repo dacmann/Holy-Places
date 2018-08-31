@@ -515,7 +515,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Q1g-ZX-bhx">
                                         <rect key="frame" x="28" y="21.000000000000007" width="358" height="91.666666666666686"/>
-                                        <string key="text">"The all-important and crowning blessings of membership in the Church are those blessings which we receive in the temples of God."    ~ Thomas S. Monson ~</string>
+                                        <string key="text">"The supreme benefits of membership in the Church can only be realized through the exalting ordinances of the temple."    ~ Russell M. Nelson ~</string>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>

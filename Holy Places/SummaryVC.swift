@@ -10,8 +10,9 @@ import UIKit
 import CoreData
 import StoreKit
 
-class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
+class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParserDelegate {
 
+    //MARK: - Outlets
     @IBOutlet weak var quote: UILabel!
     @IBOutlet weak var templesVisited: UILabel!
     @IBOutlet weak var templesTotal: UILabel!
@@ -80,13 +81,18 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
     @IBOutlet weak var visitsStackViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainStackView: UIStackView!
     
+    //MARK: - Variables
     var yearOffset = 0
+    var eName: String = String()
+    var summaryQuote: String = String()
+    var quoteNum = 0
     
     func getContext () -> NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }
     
+    //MARK: - Standard Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -94,12 +100,39 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         historicalTotal.text = historical.count.description
         visitorsCentersTotal.text = visitors.count.description
 
-        // Do any additional setup after loading the view.
+        // Load quotes into array if not done yet
+        if summaryQuotes.count == 0 {
+            guard let myURL = Bundle.main.url(forResource: "SummaryQuotes", withExtension: "xml") else {
+                print("URL not defined properly")
+                return
+            }
+            guard let parser = XMLParser(contentsOf: myURL as URL) else {
+                print("Cannot Read Data")
+                return
+            }
+            print("No internet on initial launch - loading from local XML file")
+            parser.delegate = self
+            if parser.parse() {
+                print("Successly parsed")
+            } else {
+                print("Data parsing aborted")
+                let error = parser.parserError!
+                print("Error Description:\(error.localizedDescription)")
+                print("Line number: \(parser.lineNumber)")
+                summaryQuotes.append("\"The supreme benefits of membership in the Church can only be realized through the exalting ordinances of the temple.\"\r\n~ Russell M. Nelson ~")
+            }
+        }
+        quoteNum = Int(arc4random_uniform(UInt32(summaryQuotes.count)))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         getTotals()
-        
+        // Cycle through the quotes sequentially
+        if quoteNum == summaryQuotes.count {
+            quoteNum = 0
+        }
+        quote.text = summaryQuotes[quoteNum]
+        quoteNum += 1
     }
     
     override func viewWillLayoutSubviews() {
@@ -110,6 +143,15 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+            changeConfiguration(landscape: true)
+        } else {
+            changeConfiguration(landscape: false)
+        }
+    }
+    
+    //MARK: - Layout
     fileprivate func changeConfiguration(landscape: Bool) {
         if landscape {
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -137,14 +179,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-            changeConfiguration(landscape: true)
-        } else {
-            changeConfiguration(landscape: false)
-        }
-    }
-    
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
         if fromInterfaceOrientation.isLandscape || UIApplication.shared.isSplitOrSlideOver {
@@ -153,6 +187,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             changeConfiguration(landscape: true)
         }
     }
+    
+    //MARK: - Button actions
     
     @IBAction func titleYr1Btn(_ sender: UIButton) {
         if yearOffset < 0 {
@@ -184,7 +220,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
         }
     }
     
-    
+    //MARK: - Tallying functions
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         var visitCnt = 0
@@ -374,7 +410,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
             hoursWorkedTotal.isHidden = !ordinanceWorker
 
             // If entered a few visits, prompt for a rating
-            if visitCnt > 2 {
+            if visitCnt > 200 {
                 if #available(iOS 10.3, *) {
                     SKStoreReviewController.requestReview()
                 }
@@ -478,4 +514,29 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate {
 
     }
 
+    //MARK: - XML Parser
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+        
+        eName = elementName
+        if elementName == "Quote" {
+            summaryQuote = String()
+        }
+    }
+    
+    // foundCharacters of parser
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if !string.isEmpty {
+            switch eName {
+            case "Quote": summaryQuote = string
+            default: return
+            }
+        }
+    }
+    
+    // didEndElement of parser
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "Quote" {
+           summaryQuotes.append(summaryQuote.replacingOccurrences(of: "*", with: "\r\n"))
+        }
+    }
 }

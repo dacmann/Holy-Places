@@ -91,6 +91,7 @@ var optionsChanged = false
 var visitsInTable: [Visit] = []
 var selectedVisitRow = Int()
 var selectedPlaceRow = Int()
+var summaryQuotes: [String] = []
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
