@@ -1637,7 +1637,7 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
                                 <rect key="frame" x="16" y="132" width="165.66666666666666" height="261"/>
-                                <string key="text">Greetings!  I’m glad you found my app and I hope you find it useful.  If you have any comments or feature suggestions please contact me.                      - Derek</string>
+                                <string key="text">Greetings! I love to visit Latter-day Saint Holy Places and creating this app has been a pure joy.  Comments or feature suggestions?  Please contact me.                      - Derek</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1663,7 +1663,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
                                 <rect key="frame" x="16" y="422.66666666666669" width="382" height="180.33333333333331"/>
-                                <string key="text">The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Please click on the link below for an excellent article regarding the pentagram.</string>
+                                <string key="text">The Holy Places logo, created by my fifteen-year-old daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Click on the link below for an excellent article regarding the pentagram.</string>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
