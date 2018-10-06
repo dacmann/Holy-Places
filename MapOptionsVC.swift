@@ -18,8 +18,8 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedStringKey.font as NSCopying)
-        visitedFilter.setTitleTextAttributes(attr as? [AnyHashable : Any], for: .normal)
+        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedString.Key.font as NSCopying)
+        visitedFilter.setTitleTextAttributes(attr as? [AnyHashable : Any] as? [NSAttributedString.Key : Any], for: .normal)
         visitedFilter.selectedSegmentIndex = mapVisitedFilter
         filterPicker.dataSource = self
         filterPicker.delegate = self
@@ -39,7 +39,7 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         let data = filterChoices[row]
 
-        let title = NSAttributedString(string: data, attributes: [NSAttributedStringKey.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
+        let title = NSAttributedString(string: data, attributes: [NSAttributedString.Key.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
         label?.attributedText = title
         label?.textAlignment = .center
         

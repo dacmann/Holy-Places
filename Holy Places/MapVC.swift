@@ -31,8 +31,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let mapOptions = UISegmentedControl(items: options)
         mapOptions.selectedSegmentIndex = 0
         mapOptions.addTarget(self, action: #selector(changeMap(_:)), for: .valueChanged)
-        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedStringKey.font as NSCopying)
-        mapOptions.setTitleTextAttributes(attr as? [AnyHashable : Any], for: .normal)
+        let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedString.Key.font as NSCopying)
+        mapOptions.setTitleTextAttributes(attr as? [AnyHashable : Any] as? [NSAttributedString.Key : Any], for: .normal)
         self.navigationItem.titleView = mapOptions
         
         // Show the user current location

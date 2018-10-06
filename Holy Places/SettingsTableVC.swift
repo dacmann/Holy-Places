@@ -159,10 +159,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     }
     
     @IBAction func addPicture(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
             //                imagePicker.allowsEditing = true
             if UIDevice.current.userInterfaceIdiom == .pad {
                 imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -176,12 +176,15 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+
+        let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
         print(image?.size as Any)
 
-        guard let imageData = UIImageJPEGRepresentation(image!, 1) else {
+        guard let imageData = image!.jpegData(compressionQuality: 1) else {
             // handle failed conversion
             print("jpg error")
             return
@@ -196,4 +199,14 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         imageOptions.selectedSegmentIndex = imageOptionSelected
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

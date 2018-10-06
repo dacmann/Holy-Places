@@ -78,7 +78,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.shiftHrs = Double(hoursWorked.text!)!
         if pictureView.isHidden == false {
             // create NSData from UIImage
-            guard let imageData = UIImageJPEGRepresentation(pictureView.image!, 1) else {
+            guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
                 // handle failed conversion
                 print("jpg error")
                 return
@@ -122,7 +122,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         detailVisit?.comments = comments.text!
         if pictureView.isHidden == false {
             // create NSData from UIImage
-            guard let imageData = UIImageJPEGRepresentation(pictureView.image!, 1) else {
+            guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
                 // handle failed conversion
                 print("jpg error")
                 return
@@ -249,12 +249,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         if addPictureBtn.currentTitle == "Remove Picture" {
             pictureView.image = nil
             pictureView.isHidden = true
-            addPictureBtn.setTitle("Add Picture", for: UIControlState.normal)
+            addPictureBtn.setTitle("Add Picture", for: UIControl.State.normal)
         } else {
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+                imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
 //                imagePicker.allowsEditing = true
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -276,10 +276,13 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         pictureView.isHidden = false
-        addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
-        var image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        addPictureBtn.setTitle("Remove Picture", for: UIControl.State.normal)
+        var image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
         print(image?.size as Any)
 //        let size = CGSize(width: (image?.size.width)! / 1.5, height: (image?.size.height)! / 1.5)
         
@@ -381,7 +384,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                     let image = UIImage(data: imageData as Data)
                     pictureView.image = image
                     pictureView.isHidden = false
-                    addPictureBtn.setTitle("Remove Picture", for: UIControlState.normal)
+                    addPictureBtn.setTitle("Remove Picture", for: UIControl.State.normal)
                 }
                 if detail.type != "T" {
                     templeView.isHidden = true
@@ -449,4 +452,14 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         }
     }
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

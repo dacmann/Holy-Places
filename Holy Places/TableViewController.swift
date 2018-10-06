@@ -355,7 +355,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.ocean()
         let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey.font.rawValue: searchBarFont, NSAttributedStringKey.foregroundColor.rawValue:UIColor.ocean()], for: UIControlState.normal)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
         
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
@@ -569,4 +569,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         }
     }
 
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

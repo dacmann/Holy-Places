@@ -182,7 +182,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                                         }
                                         self.pageControl.numberOfPages = imageCounter
                                         self.pageControl.isHidden = false
-                                        self.view.bringSubview(toFront: self.pageControl)
+                                        self.view.bringSubviewToFront(self.pageControl)
                                         self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
                                         self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
                                         self.picsLoading = false
@@ -369,9 +369,9 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         
         // Setup the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSAttributedStringKey.font: textFont,
-            NSAttributedStringKey.foregroundColor: textColor,
-            ] as [NSAttributedStringKey : Any]
+            NSAttributedString.Key.font: textFont,
+            NSAttributedString.Key.foregroundColor: textColor,
+            ] as [NSAttributedString.Key : Any]
         
         // Put the image into a rectangle as large as the original image
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
@@ -394,7 +394,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
 
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
         swiping = true
-        if gesture.direction == UISwipeGestureRecognizerDirection.up {
+        if gesture.direction == UISwipeGestureRecognizer.Direction.up {
 //            print("Swipe Up")
 //            print(selectedPlaceRow)
             if selectedPlaceRow < places.count - 1 {
@@ -404,7 +404,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 pictures()
             }
         }
-        else if gesture.direction == UISwipeGestureRecognizerDirection.down {
+        else if gesture.direction == UISwipeGestureRecognizer.Direction.down {
 //            print("Swipe Down")
 //            print(selectedPlaceRow)
             if selectedPlaceRow > 0 {
@@ -599,7 +599,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         if let url = URL(string: (detailItem?.infoURL)!) {
             webViewPresented = true
             reloadPics = picsLoading
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             present(vc, animated: true)
         }
     }

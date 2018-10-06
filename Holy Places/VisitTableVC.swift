@@ -172,7 +172,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         return true
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let context = self.fetchedResultsController.managedObjectContext
             context.delete(self.fetchedResultsController.object(at: indexPath))
@@ -310,18 +310,18 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         switch visitFilterRow {
         case 1:
-            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkRed()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkRed()]
         case 2:
-            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkLimeGreen()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkLimeGreen()]
         case 4:
-            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.darkOrange()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkOrange()]
         case 3:
-            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.strongYellow()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.strongYellow()]
         default:
-            titleDict = [NSAttributedStringKey.font: navbarFont, NSAttributedStringKey.foregroundColor: UIColor.lead()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.lead()]
         }
 
-        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedStringKey : AnyObject]
+        self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedString.Key : AnyObject]
 
         return _fetchedResultsController!
     }

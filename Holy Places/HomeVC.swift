@@ -74,7 +74,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         goalTitle.text = "\(currentYear) Goal Progress"
         // Adjust spacing of letters of Goal Progress
         let attributedString = NSMutableAttributedString(string: goalTitle.text!)
-        attributedString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
+        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
         goalTitle.attributedText = attributedString
         
         if annualVisitGoal == 0 {
@@ -100,9 +100,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
-        if gesture.direction == UISwipeGestureRecognizerDirection.right {
+        if gesture.direction == UISwipeGestureRecognizer.Direction.right {
             tabBarController?.selectedIndex = 4
-        } else if gesture.direction == UISwipeGestureRecognizerDirection.left {
+        } else if gesture.direction == UISwipeGestureRecognizer.Direction.left {
             tabBarController?.selectedIndex = 1
         }
     }

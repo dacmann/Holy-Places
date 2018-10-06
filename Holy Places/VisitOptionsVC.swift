@@ -73,7 +73,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             label = UILabel()
         }
         let data = filterChoices[row]
-        let title = NSAttributedString(string: data, attributes: [NSAttributedStringKey.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
+        let title = NSAttributedString(string: data, attributes: [NSAttributedString.Key.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
         label?.attributedText = title
         label?.textAlignment = .center
         
