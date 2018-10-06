@@ -161,6 +161,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             visit = filteredVisits[indexPath.row]
         }
         self.configureCell(cell, withVisit: visit)
+        
+        cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
     

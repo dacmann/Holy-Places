@@ -453,6 +453,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             cell.textLabel?.textColor = UIColor.lead()
         }
         
+        cell.accessoryType = .disclosureIndicator
 
         return cell
     }
