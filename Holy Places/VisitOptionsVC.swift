@@ -265,11 +265,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     visits.append("\n\n")
                 case "csv":
                     visits.append("\n")
-                default: // xml
-                    // include picture binary data
-                    //                    if visit.picture != nil {
-                    //                        visits.append("<picture>\(visit.picture?.base64EncodedString() ?? "")</picture>")
-                    //                    }
+                default: 
                     visits.append("</Visit>")
                 }
             }
