@@ -171,8 +171,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                         }
                     }
                     if era != commonEra || places.count == i {
-                        let string = "\(era) (\(i - index))"
-                        let title = " \(string)\(String(repeating: " ", count: 240))"
+                        let title = "\(era) (\(i - index))"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
                         era = commonEra
@@ -207,8 +206,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                         }
                     }
                     if size != commonSize || places.count == i {
-                        let string = "\(size) (\(i - index))"
-                        let title = " \(string)\(String(repeating: " ", count: 240))"
+                        let title = "\(size) (\(i - index))"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
                         size = commonSize
@@ -225,7 +223,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                     return countryComparisonResult == .orderedAscending
                 }
-//                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 // Create sections and index
                 for i in (0 ..< (places.count + 1) ) {
                     var commonCountry = ""
@@ -235,8 +232,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                         }
                     }
                     if commonCountry.isEmpty || places.count == i {
-                        let string = places[index].templeCountry + " (" + (i - index).description + ")"
-                        let title = " \(string)\(String(repeating: " ", count: 240))"
+                        let title = places[index].templeCountry + " (" + (i - index).description + ")"
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
                         index = i
@@ -247,7 +243,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 subTitle = "Alphabetical Order"
                 places.sort {$0.templeName < $1.templeName}
                 // Create sections and index for default Alphabetical
-//                sections.append((index: 0, length: 0, title: UITableViewIndexSearch))
                 var commonPrefix = ""
                 for i in (0 ..< (places.count + 1) ) {
                     if places.count != i {
@@ -458,20 +453,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        //Create label and autoresize it
-        let headerLabel = UILabel()
-        headerLabel.font = UIFont(name: "Baskerville", size: 22)
-        headerLabel.backgroundColor = UIColor.white
-        headerLabel.textColor = UIColor.ocean()
-        headerLabel.text = self.tableView(self.tableView, titleForHeaderInSection: section)
-        headerLabel.sizeToFit()
-        
-        //Adding Label to existing headerView
-        let headerView = UIView()
-        headerView.addSubview(headerLabel)
-        
-        return headerView
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
+        header.textLabel?.textColor = UIColor.ocean()
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
