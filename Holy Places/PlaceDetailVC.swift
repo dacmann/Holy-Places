@@ -401,6 +401,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 selectedPlaceRow += 1
                 detailItem = places[selectedPlaceRow]
                 setUpView()
+                GetSavedImage()
                 pictures()
             }
         }
@@ -411,6 +412,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 selectedPlaceRow -= 1
                 detailItem = places[selectedPlaceRow]
                 setUpView()
+                GetSavedImage()
                 pictures()
             }
         }
