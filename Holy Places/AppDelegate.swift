@@ -92,6 +92,9 @@ var visitsInTable: [Visit] = []
 var selectedVisitRow = Int()
 var selectedPlaceRow = Int()
 var summaryQuotes: [String] = []
+var distinctTemplesVisited: [String] = []
+var distinctHistoricSitesVisited: [String] = []
+var achievements: [Achievement] = []
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {

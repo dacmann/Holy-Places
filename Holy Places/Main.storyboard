@@ -496,7 +496,101 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="748" y="-516.79160419790105"/>
+            <point key="canvasLocation" x="1655.072463768116" y="-516.84782608695662"/>
+        </scene>
+        <!--AchievementsVC-->
+        <scene sceneID="GHP-bD-pzY">
+            <objects>
+                <tableViewController id="7cq-yi-S5P" customClass="AchievementsVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="krB-PJ-W9n">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="acell" rowHeight="100" id="EVZ-a8-WkK" customClass="AchievementCell" customModule="Holy_Places" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EVZ-a8-WkK" id="xMU-A2-G8h">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="99.666666666666671"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4nK-Yy-xMs">
+                                            <rect key="frame" x="10" y="5" width="89.666666666666671" height="89.666666666666671"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="4nK-Yy-xMs" secondAttribute="height" multiplier="1:1" id="1NE-0g-db5"/>
+                                            </constraints>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="ucC-cQ-Ok7">
+                                            <rect key="frame" x="119.66666666666666" y="5" width="284.33333333333337" height="89.666666666666671"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Temple Fanatic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="E0R-Og-xfP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="279.33333333333331" height="23"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attend 30 different temples" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kbr-3T-4aT">
+                                                    <rect key="frame" x="0.0" y="25" width="279.33333333333331" height="18.333333333333329"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Nauvoo Illinois Temple" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qfH-xj-9nc">
+                                                    <rect key="frame" x="0.0" y="47.333333333333336" width="279.33333333333331" height="19.666666666666664"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                                    <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="on December 12, 2008" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ye1-rr-ryJ">
+                                                    <rect key="frame" x="0.0" y="70" width="279.33333333333331" height="19.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="qfH-xj-9nc" secondAttribute="trailing" constant="5" id="A0a-pH-uGM"/>
+                                                <constraint firstAttribute="trailing" secondItem="Kbr-3T-4aT" secondAttribute="trailing" constant="5" id="A90-cE-c8s"/>
+                                                <constraint firstAttribute="trailing" secondItem="E0R-Og-xfP" secondAttribute="trailing" constant="5" id="BcE-aC-zlR"/>
+                                                <constraint firstAttribute="trailing" secondItem="ye1-rr-ryJ" secondAttribute="trailing" constant="5" id="F7x-wQ-fA8"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="4nK-Yy-xMs" firstAttribute="top" secondItem="xMU-A2-G8h" secondAttribute="top" constant="5" id="3He-US-2oX"/>
+                                        <constraint firstItem="ucC-cQ-Ok7" firstAttribute="bottom" secondItem="4nK-Yy-xMs" secondAttribute="bottom" id="F76-mL-UBd"/>
+                                        <constraint firstItem="ucC-cQ-Ok7" firstAttribute="leading" secondItem="4nK-Yy-xMs" secondAttribute="trailing" constant="20" id="YME-gv-5Fq"/>
+                                        <constraint firstItem="4nK-Yy-xMs" firstAttribute="leading" secondItem="xMU-A2-G8h" secondAttribute="leading" constant="10" id="eLC-gA-Yyf"/>
+                                        <constraint firstAttribute="bottom" secondItem="4nK-Yy-xMs" secondAttribute="bottom" constant="5" id="ixq-6w-QVK"/>
+                                        <constraint firstAttribute="trailing" secondItem="ucC-cQ-Ok7" secondAttribute="trailing" constant="10" id="t62-vg-yr9"/>
+                                        <constraint firstItem="ucC-cQ-Ok7" firstAttribute="top" secondItem="4nK-Yy-xMs" secondAttribute="top" id="yNR-os-v36"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cellDateAchieved" destination="ye1-rr-ryJ" id="7h4-kt-hii"/>
+                                    <outlet property="cellDetails" destination="Kbr-3T-4aT" id="Q7m-Mq-fAa"/>
+                                    <outlet property="cellImage" destination="4nK-Yy-xMs" id="ztB-8C-QLd"/>
+                                    <outlet property="cellPlaceAchieved" destination="qfH-xj-9nc" id="O5b-GY-MHz"/>
+                                    <outlet property="cellTitle" destination="E0R-Og-xfP" id="W12-Me-148"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7cq-yi-S5P" id="weP-M1-jSD"/>
+                            <outlet property="delegate" destination="7cq-yi-S5P" id="nGe-ko-COK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="oyo-ZA-4Hw">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="Hw0-Gr-nTF">
+                            <connections>
+                                <action selector="doneButton:" destination="7cq-yi-S5P" id="Yl3-ZW-SFr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="70U-q9-IgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="30" y="-518"/>
         </scene>
         <!--Summary-->
         <scene sceneID="6Ag-lf-C2L">
@@ -537,8 +631,21 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kv4-qF-iXm">
                                 <rect key="frame" x="0.0" y="152" width="414" height="535"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6K0-NO-Vjn">
+                                        <rect key="frame" x="118.66666666666669" y="1" width="177" height="34"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                        <state key="normal" title="Click for Achievements">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                        </variation>
+                                        <connections>
+                                            <segue destination="2ij-uH-t6G" kind="show" id="DQn-F3-acx"/>
+                                        </connections>
+                                    </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="CLj-4f-YGy" userLabel="Main Stack View">
-                                        <rect key="frame" x="20.666666666666657" y="20" width="372.66666666666674" height="827"/>
+                                        <rect key="frame" x="20.666666666666657" y="40" width="372.66666666666674" height="827"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="P3F-hR-sjQ" userLabel="Visits SV">
                                                 <rect key="frame" x="0.0" y="0.0" width="372.66666666666669" height="401"/>
@@ -1523,8 +1630,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="6K0-NO-Vjn" firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="top" constant="-5" id="4gq-ww-hSF"/>
+                                    <constraint firstItem="6K0-NO-Vjn" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="HRL-Xj-lXH"/>
                                     <constraint firstAttribute="trailing" secondItem="CLj-4f-YGy" secondAttribute="trailing" id="Ub7-o6-gJn"/>
-                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="kv4-qF-iXm" secondAttribute="top" constant="20" id="amG-IN-yoN">
+                                    <constraint firstItem="CLj-4f-YGy" firstAttribute="top" secondItem="kv4-qF-iXm" secondAttribute="top" constant="40" id="amG-IN-yoN">
                                         <variation key="heightClass=regular-widthClass=regular" constant="50"/>
                                     </constraint>
                                     <constraint firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="bottom" constant="47" id="c5g-b0-d7f"/>
@@ -1612,7 +1721,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHc-lt-lqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="44" y="-516"/>
+            <point key="canvasLocation" x="950.72463768115949" y="-516.03260869565224"/>
         </scene>
         <!--InfoVC-->
         <scene sceneID="LTs-MM-lVc">
@@ -1766,7 +1875,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o1q-OP-Hgx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1551.2" y="-516.79160419790105"/>
+            <point key="canvasLocation" x="2457.971014492754" y="-516.84782608695662"/>
         </scene>
         <!--OptionsVC-->
         <scene sceneID="iFi-OT-1yX">
@@ -1830,7 +1939,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9b5-zc-iGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="-516"/>
+            <point key="canvasLocation" x="3286.9565217391305" y="-516.03260869565224"/>
         </scene>
         <!--Alt LocationVC-->
         <scene sceneID="wzL-tM-6g7">
@@ -1966,7 +2075,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kx3-e9-p3K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3083" y="-508"/>
+            <point key="canvasLocation" x="3989.8550724637685" y="-508.69565217391306"/>
         </scene>
         <!--MapVC-->
         <scene sceneID="Vkk-8P-Sml">
@@ -2000,7 +2109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cis-Ja-ZQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4260" y="-416.0419790104948"/>
+            <point key="canvasLocation" x="5166.666666666667" y="-416.57608695652175"/>
         </scene>
         <!--Map OptionsVC-->
         <scene sceneID="91A-bK-oi6">
@@ -2066,7 +2175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ryi-Mu-62U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4964" y="-416.0419790104948"/>
+            <point key="canvasLocation" x="5871.0144927536239" y="-416.57608695652175"/>
         </scene>
         <!--Places-->
         <scene sceneID="tVV-iv-ZMs">
@@ -3191,7 +3300,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jx1-GZ-zY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3920" y="-416.49175412293857"/>
+            <point key="canvasLocation" x="4826.0869565217399" y="-416.57608695652175"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nMd-fp-lhr">
@@ -3214,17 +3323,35 @@
             </objects>
             <point key="canvasLocation" x="1548.8" y="-1215.2923538230887"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fDE-yn-7ls">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2ij-uH-t6G" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0Sn-o7-6Yh">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="7cq-yi-S5P" kind="relationship" relationship="rootViewController" id="L2S-ku-Hup"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5qG-f1-0pG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-83" y="-518"/>
+        </scene>
     </scenes>
     <resources>
         <image name="BrighamCity" width="360" height="640"/>
         <image name="PCC" width="360" height="640"/>
-        <image name="PCCW" width="556" height="741"/>
-        <image name="journal" width="25" height="25"/>
-        <image name="map" width="33" height="33"/>
-        <image name="morningstar-bnw" width="25" height="25"/>
-        <image name="morningstarmoroni" width="318" height="341"/>
-        <image name="starOfMelchizedek" width="25" height="25"/>
-        <image name="summary" width="25" height="25"/>
+        <image name="PCCW" width="1668" height="2224"/>
+        <image name="journal" width="56.25" height="56.25"/>
+        <image name="map" width="51.063831329345703" height="51.063831329345703"/>
+        <image name="morningstar-bnw" width="56.25" height="56.25"/>
+        <image name="morningstarmoroni" width="715.5" height="768"/>
+        <image name="starOfMelchizedek" width="56.25" height="56.25"/>
+        <image name="summary" width="56.25" height="56.25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ufl-Eb-Dlx"/>

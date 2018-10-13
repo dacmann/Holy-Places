@@ -110,7 +110,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 print("Cannot Read Data")
                 return
             }
-            print("No internet on initial launch - loading from local XML file")
             parser.delegate = self
             if parser.parse() {
                 print("Successly parsed")
@@ -224,9 +223,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         var visitCnt = 0
+        achievements.removeAll()
+        distinctHistoricSitesVisited.removeAll()
+        distinctTemplesVisited.removeAll()
         do {
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
             var searchResults = try getContext().fetch(fetchRequest)
             
             // count ordinances for each temple visited
@@ -255,6 +259,44 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 } else {
                     attendedTotal += 1
                 }
+                
+                // determine unique temples visited
+                if !distinctTemplesVisited.contains(temple.holyPlace!) {
+                    distinctTemplesVisited.append(temple.holyPlace!)
+                    if distinctTemplesVisited.count == 10 {
+                        achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 20 {
+                        achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 30 {
+                        achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 40 {
+                        achievements.append(Achievement(Name: "Temple Enthusiast", Details: "Visit 40 different temples", IconName: "ach40T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 50 {
+                        achievements.append(Achievement(Name: "Temple Fanatic", Details: "Visit 50 different temples", IconName: "ach50T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 75 {
+                        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 75 different temples", IconName: "ach75T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 100 {
+                        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 100 different temples", IconName: "ach100T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 125 {
+                        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 125 different temples", IconName: "ach125T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 150 {
+                        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 150 different temples", IconName: "ach150T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 175 {
+                        achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 175 different temples", IconName: "ach175T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                    if distinctTemplesVisited.count == 200 {
+                        achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                    }
+                }
             }
             
             getYearTotals(visits: searchResults)
@@ -271,21 +313,21 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             ordinancesPerformedTotal.text = ordinancesTotal.description
             hoursWorkedTotal.text = shiftHoursTotal.description
             
-            // get number of Temples visited
+            // get number of Unique Temples visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
             searchResults = try getContext().fetch(fetchRequest)
             var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             templesVisited.text = distinct.count.description
             visitCnt = searchResults.count
 
-            // get number of Historical sites visited
+            // get number of Unique Historical sites visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             historicalVisited.text = distinct.count.description
             visitCnt += searchResults.count
             
-            // get number of Visitors' Centers visited
+            // get number of Unique Visitors' Centers visited
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
@@ -412,7 +454,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             // If entered a few visits, prompt for a rating
             if visitCnt > 3 {
                 if #available(iOS 10.3, *) {
-                    SKStoreReviewController.requestReview()
+//                    SKStoreReviewController.requestReview()
                 }
             }
           

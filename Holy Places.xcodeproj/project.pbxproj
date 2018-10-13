@@ -19,6 +19,8 @@
 		6453044E1F79443500667F7D /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6453044D1F79443500667F7D /* CopyableLabel.swift */; };
 		6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */; };
 		646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */; };
+		64732F53216FA455003E0EBD /* AchievementsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64732F52216FA455003E0EBD /* AchievementsVC.swift */; };
+		64732F55216FB09B003E0EBD /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64732F54216FB09B003E0EBD /* Achievement.swift */; };
 		6479E5EB1F05733D0087E013 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EA1F05733D0087E013 /* MapVC.swift */; };
 		6479E5ED1F0576D70087E013 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6479E5EC1F0576D70087E013 /* MapKit.framework */; };
 		6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EE1F0579B50087E013 /* MapPoint.swift */; };
@@ -81,6 +83,8 @@
 		6453044D1F79443500667F7D /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitOptionsVC.swift; sourceTree = "<group>"; };
 		646BCD7F1E8EE81800E8E839 /* RecordVisitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordVisitVC.swift; sourceTree = "<group>"; };
+		64732F52216FA455003E0EBD /* AchievementsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsVC.swift; sourceTree = "<group>"; };
+		64732F54216FB09B003E0EBD /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		6479E5EA1F05733D0087E013 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		6479E5EC1F0576D70087E013 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6479E5EE1F0579B50087E013 /* MapPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				642565631E32F55C0020FA73 /* OptionsVC.swift */,
 				6460807A1E4B9A5D002CF985 /* VisitOptionsVC.swift */,
 				64D934581E368ACB008F9975 /* SummaryVC.swift */,
+				64732F52216FA455003E0EBD /* AchievementsVC.swift */,
 				64F7364A1E3AA84A00622CD5 /* InfoVC.swift */,
 				64DD9F611E3D2CA900A9EBE9 /* WebsiteVC.swift */,
 				64F9313D1E6F57B500F053F3 /* AltLocationVC.swift */,
@@ -203,6 +208,7 @@
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
 				64B520FC1FD6FD6900E9B1EE /* Visits.gpx */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
+				64732F54216FB09B003E0EBD /* Achievement.swift */,
 				6479E5EE1F0579B50087E013 /* MapPoint.swift */,
 				64DD9F5F1E3C02BC00A9EBE9 /* CustomButton.swift */,
 				642B345C1E2818C200A56C77 /* Extensions.swift */,
@@ -364,6 +370,8 @@
 				64228E0F1F3A04F3009ADCFD /* PlaceDetailVC.swift in Sources */,
 				64B521011FD9D94200E9B1EE /* SettingsTableVC.swift in Sources */,
 				642565641E32F55C0020FA73 /* OptionsVC.swift in Sources */,
+				64732F55216FB09B003E0EBD /* Achievement.swift in Sources */,
+				64732F53216FA455003E0EBD /* AchievementsVC.swift in Sources */,
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */,
