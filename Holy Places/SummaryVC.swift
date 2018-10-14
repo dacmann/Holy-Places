@@ -223,7 +223,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         var visitCnt = 0
-        achievements.removeAll()
+        initAchievements()
         distinctHistoricSitesVisited.removeAll()
         distinctTemplesVisited.removeAll()
         do {
@@ -264,37 +264,37 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 if !distinctTemplesVisited.contains(temple.holyPlace!) {
                     distinctTemplesVisited.append(temple.holyPlace!)
                     if distinctTemplesVisited.count == 10 {
-                        achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach10T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 20 {
-                        achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach20T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 30 {
-                        achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach30T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 40 {
-                        achievements.append(Achievement(Name: "Temple Enthusiast", Details: "Visit 40 different temples", IconName: "ach40T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach40T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 50 {
-                        achievements.append(Achievement(Name: "Temple Fanatic", Details: "Visit 50 different temples", IconName: "ach50T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach50T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 75 {
-                        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 75 different temples", IconName: "ach75T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach75T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 100 {
-                        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 100 different temples", IconName: "ach100T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach100T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 125 {
-                        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 125 different temples", IconName: "ach125T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach125T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 150 {
-                        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 150 different temples", IconName: "ach150T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach150T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 175 {
-                        achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 175 different temples", IconName: "ach175T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach175T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 200 {
-                        achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T", Achieved: temple.dateVisited!, PlaceAchieved:temple.holyPlace!))
+                        updateAchievement(achievement:"ach200T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                 }
             }
@@ -554,6 +554,32 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         baptismsPerformedYr2.text = baptisms2.description
         ordinancesPerformedYr2.text = ordinances2.description
 
+    }
+    
+    func updateAchievement(achievement:String, dateAchieved:Date, placeAchieved:String) {
+        if let location = achievements.index(where:{$0.iconName == achievement}) {
+            achievements[location].achieved = dateAchieved
+            achievements[location].placeAchieved = placeAchieved
+        }
+    }
+    
+    func initAchievements() {
+        achievements.removeAll()
+        achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
+        achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T"))
+        achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T"))
+        achievements.append(Achievement(Name: "Temple Enthusiast", Details: "Visit 40 different temples", IconName: "ach40T"))
+        achievements.append(Achievement(Name: "Temple Fanatic", Details: "Visit 50 different temples", IconName: "ach50T"))
+        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 75 different temples", IconName: "ach75T"))
+        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 100 different temples", IconName: "ach100T"))
+        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 125 different temples", IconName: "ach125T"))
+        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 150 different temples", IconName: "ach150T"))
+        if activeTemples.count > 174 {
+            achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 175 different temples", IconName: "ach175T"))
+        }
+        if activeTemples.count > 199 {
+            achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
+        }
     }
 
     //MARK: - XML Parser

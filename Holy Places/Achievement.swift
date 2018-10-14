@@ -13,10 +13,16 @@ class Achievement: NSObject {
     var name = String()
     var details = String()
     var iconName = String()
-    var achieved = Date()
-    var placeAchieved = String()
+    var achieved: Date?
+    var placeAchieved: String?
     
-    init(Name:String, Details:String, IconName:String, Achieved:Date, PlaceAchieved:String) {
+    init(Name:String, Details:String, IconName:String) {
+        self.name = Name
+        self.details = Details
+        self.iconName = IconName
+    }
+    
+    init(Name:String, Details:String, IconName:String, Achieved:Date?, PlaceAchieved:String?) {
         self.name = Name
         self.details = Details
         self.iconName = IconName

@@ -586,6 +586,19 @@
                                 <action selector="doneButton:" destination="7cq-yi-S5P" id="Yl3-ZW-SFr"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="gbt-G4-gPi">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="VfA-5o-CsP">
+                                <rect key="frame" x="289" y="7" width="105" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Achvd"/>
+                                    <segment title="All"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeFilter:" destination="7cq-yi-S5P" eventType="valueChanged" id="rDC-2Z-tZc"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="70U-q9-IgH" userLabel="First Responder" sceneMemberID="firstResponder"/>

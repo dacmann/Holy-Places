@@ -26,7 +26,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let button = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(options(_:)))
         self.navigationItem.rightBarButtonItem = button
         
-        // Create Map or Satellite control
+        // Create Map or Aerial control
         let options = ["Standard", "Aerial"]
         let mapOptions = UISegmentedControl(items: options)
         mapOptions.selectedSegmentIndex = 0
