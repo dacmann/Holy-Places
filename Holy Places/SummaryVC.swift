@@ -299,6 +299,20 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 }
             }
             
+            // Check for Historic Sites Achievement
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            searchResults = try getContext().fetch(fetchRequest)
+            for site in searchResults as [Visit] {
+                // determine unique temples visited
+                if !distinctHistoricSitesVisited.contains(site.holyPlace!) {
+                    distinctHistoricSitesVisited.append(site.holyPlace!)
+                    if distinctHistoricSitesVisited.count == 10 {
+                        updateAchievement(achievement:"ach10H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                }
+            }
+            
             getYearTotals(visits: searchResults)
             
             ordinancesTotal = sealingsTotal + endowmentsTotal + initiatoriesTotal + confirmationsTotal + baptismsTotal
@@ -580,6 +594,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         if activeTemples.count > 199 {
             achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
         }
+        achievements.append(Achievement(Name: "History Novice", Details: "Visit 10 different historic sites", IconName: "ach10H"))
     }
 
     //MARK: - XML Parser

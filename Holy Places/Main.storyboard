@@ -591,11 +591,11 @@
                                 <rect key="frame" x="289" y="7" width="105" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="Achvd"/>
-                                    <segment title="All"/>
+                                    <segment title="🏆"/>
+                                    <segment title="〜"/>
                                 </segments>
                                 <connections>
-                                    <action selector="changeFilter:" destination="7cq-yi-S5P" eventType="valueChanged" id="rDC-2Z-tZc"/>
+                                    <action selector="changeDisplay:" destination="7cq-yi-S5P" eventType="valueChanged" id="hZ3-lQ-8gn"/>
                                 </connections>
                             </segmentedControl>
                         </barButtonItem>
