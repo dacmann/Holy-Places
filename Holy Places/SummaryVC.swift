@@ -310,6 +310,25 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                     if distinctHistoricSitesVisited.count == 10 {
                         updateAchievement(achievement:"ach10H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
                     }
+                    if distinctHistoricSitesVisited.count == 25 {
+                        updateAchievement(achievement:"ach25H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 40 {
+                        updateAchievement(achievement:"ach40H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 55 {
+                        updateAchievement(achievement:"ach55H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 70 {
+                        updateAchievement(achievement:"ach70H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 85 {
+                        updateAchievement(achievement:"ach85H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 99 {
+                        updateAchievement(achievement:"ach99H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+
                 }
             }
             
@@ -594,7 +613,13 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         if activeTemples.count > 199 {
             achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
         }
-        achievements.append(Achievement(Name: "History Novice", Details: "Visit 10 different historic sites", IconName: "ach10H"))
+        achievements.append(Achievement(Name: "History Admirer", Details: "Visit 10 different historic sites", IconName: "ach10H"))
+        achievements.append(Achievement(Name: "History Lover", Details: "Visit 25 different historic sites", IconName: "ach25H"))
+        achievements.append(Achievement(Name: "History Enthusiast", Details: "Visit 40 different historic sites", IconName: "ach40H"))
+        achievements.append(Achievement(Name: "History Zealot", Details: "Visit 55 different historic sites", IconName: "ach55H"))
+        achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
+        achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
+        achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
     }
 
     //MARK: - XML Parser
