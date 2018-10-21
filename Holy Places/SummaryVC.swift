@@ -297,7 +297,24 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                         updateAchievement(achievement:"ach200T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                     }
                 }
+                
+                // Check for Ordinance Achievements
+                switch baptismsTotal {
+                case 20 ... 39:
+                    updateAchievement(achievement: "ach20B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 40 ... 79:
+                    updateAchievement(achievement: "ach40B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 80 ... 159:
+                    updateAchievement(achievement: "ach80B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 160...:
+                    updateAchievement(achievement: "ach160B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+
             }
+
+            getYearTotals(visits: searchResults)
             
             // Check for Historic Sites Achievement
             fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
@@ -331,8 +348,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
 
                 }
             }
-            
-            getYearTotals(visits: searchResults)
             
             ordinancesTotal = sealingsTotal + endowmentsTotal + initiatoriesTotal + confirmationsTotal + baptismsTotal
             
@@ -591,13 +606,17 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     
     func updateAchievement(achievement:String, dateAchieved:Date, placeAchieved:String) {
         if let location = achievements.index(where:{$0.iconName == achievement}) {
-            achievements[location].achieved = dateAchieved
-            achievements[location].placeAchieved = placeAchieved
+            // Only update if not already achieved
+            if achievements[location].achieved == nil {
+                achievements[location].achieved = dateAchieved
+                achievements[location].placeAchieved = placeAchieved
+            }
         }
     }
     
     func initAchievements() {
         achievements.removeAll()
+        // Temples
         achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
         achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T"))
         achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T"))
@@ -613,6 +632,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         if activeTemples.count > 199 {
             achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
         }
+        // Historic Sites
         achievements.append(Achievement(Name: "History Admirer", Details: "Visit 10 different historic sites", IconName: "ach10H"))
         achievements.append(Achievement(Name: "History Lover", Details: "Visit 25 different historic sites", IconName: "ach25H"))
         achievements.append(Achievement(Name: "History Enthusiast", Details: "Visit 40 different historic sites", IconName: "ach40H"))
@@ -620,6 +640,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
         achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
         achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
+        // Ordinances
+        achievements.append(Achievement(Name: "Font of Many Blessings", Details: "Complete 20 Proxy Baptisms", IconName: "ach20B"))
+        achievements.append(Achievement(Name: "Fontastic", Details: "Complete 40 Proxy Baptisms", IconName: "ach40B"))
+        achievements.append(Achievement(Name: "Spiritual Celebrity", Details: "Complete 80 Proxy Baptisms", IconName: "ach80B"))
+        achievements.append(Achievement(Name: "Spirit World Fontstar", Details: "Complete 160 Proxy Baptisms", IconName: "ach160B"))
     }
 
     //MARK: - XML Parser

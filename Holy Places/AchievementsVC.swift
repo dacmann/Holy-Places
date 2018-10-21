@@ -35,7 +35,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             }
         }
         // sort the achievements by date achieved
-        completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedAscending })
+        completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedDescending })
         // Default to display the completed achievements
         display = completed
     }
@@ -71,8 +71,6 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         guard ((cell.cellImage?.image = UIImage(imageLiteralResourceName: display[row].iconName)) != nil) else {
             return cell
         }
-        // dim image
-        cell.imageView?.alpha = 0.5
 
         return cell
     }
