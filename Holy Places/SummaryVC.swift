@@ -311,7 +311,53 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 default:
                     break
                 }
+                
+                switch initiatoriesTotal {
+                case 20 ... 39:
+                    updateAchievement(achievement: "ach25I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 40 ... 79:
+                    updateAchievement(achievement: "ach50I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 80 ... 159:
+                    updateAchievement(achievement: "ach100I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 160 ... 319:
+                    updateAchievement(achievement: "ach200I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 320... :
+                    updateAchievement(achievement: "ach400I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
 
+                switch endowmentsTotal {
+                case 10 ... 24:
+                    updateAchievement(achievement: "ach10E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 25 ... 49:
+                    updateAchievement(achievement: "ach25E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400... :
+                    updateAchievement(achievement: "ach400E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+
+                switch sealingsTotal {
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800... :
+                    updateAchievement(achievement: "ach800S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
             }
 
             getYearTotals(visits: searchResults)
@@ -640,11 +686,30 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
         achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
         achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
-        // Ordinances
-        achievements.append(Achievement(Name: "Font of Many Blessings", Details: "Complete 20 Proxy Baptisms", IconName: "ach20B"))
-        achievements.append(Achievement(Name: "Fontastic", Details: "Complete 40 Proxy Baptisms", IconName: "ach40B"))
-        achievements.append(Achievement(Name: "Spiritual Celebrity", Details: "Complete 80 Proxy Baptisms", IconName: "ach80B"))
-        achievements.append(Achievement(Name: "Spirit World Fontstar", Details: "Complete 160 Proxy Baptisms", IconName: "ach160B"))
+        // Ordinances - Baptisms
+        achievements.append(Achievement(Name: "Font of Many Blessings", Details: "20 Baptisms", IconName: "ach20B"))
+        achievements.append(Achievement(Name: "Fontastic", Details: "40 Baptisms", IconName: "ach40B"))
+        achievements.append(Achievement(Name: "Spiritual Celebrity", Details: "80 Baptisms", IconName: "ach80B"))
+        achievements.append(Achievement(Name: "Spirit World Fontstar", Details: "160 Baptisms", IconName: "ach160B"))
+        // Ordinances - Initiatories
+        achievements.append(Achievement(Name: "25 Initiatories", Details: "25 Iniatories", IconName: "ach25I"))
+        achievements.append(Achievement(Name: "50 Initiatories", Details: "50 Iniatories", IconName: "ach50I"))
+        achievements.append(Achievement(Name: "100 Initiatories", Details: "100 Iniatories", IconName: "ach100I"))
+        achievements.append(Achievement(Name: "200 Initiatories", Details: "200 Iniatories", IconName: "ach200I"))
+        achievements.append(Achievement(Name: "400 Initiatories", Details: "400 Iniatories", IconName: "ach400I"))
+        // Ordinances - Endowments
+        achievements.append(Achievement(Name: "10 Endowments", Details: "10 Endowments", IconName: "ach10E"))
+        achievements.append(Achievement(Name: "25 Endowments", Details: "25 Endowments", IconName: "ach25E"))
+        achievements.append(Achievement(Name: "50 Endowments", Details: "50 Endowments", IconName: "ach50E"))
+        achievements.append(Achievement(Name: "100 Endowments", Details: "100 Endowments", IconName: "ach100E"))
+        achievements.append(Achievement(Name: "200 Endowments", Details: "200 Endowments", IconName: "ach200E"))
+        achievements.append(Achievement(Name: "400 Endowments", Details: "400 Endowments", IconName: "ach400E"))
+        // Ordinances - Sealings
+        achievements.append(Achievement(Name: "50 Sealings", Details: "50 Sealings", IconName: "ach50S"))
+        achievements.append(Achievement(Name: "100 Sealings", Details: "100 Sealings", IconName: "ach100S"))
+        achievements.append(Achievement(Name: "200 Sealings", Details: "200 Sealings", IconName: "ach200S"))
+        achievements.append(Achievement(Name: "400 Sealings", Details: "400 Sealings", IconName: "ach400S"))
+        achievements.append(Achievement(Name: "800 Sealings", Details: "800 Sealings", IconName: "ach800S"))
     }
 
     //MARK: - XML Parser

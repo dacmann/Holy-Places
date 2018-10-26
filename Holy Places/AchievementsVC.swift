@@ -68,9 +68,14 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellDateAchieved.text = ""
             cell.cellDateAchieved.isHidden = true
         }
-        guard ((cell.cellImage?.image = UIImage(imageLiteralResourceName: display[row].iconName)) != nil) else {
-            return cell
+        if let iconImage = UIImage(named: display[row].iconName) {
+            // image exists
+            cell.cellImage?.image = iconImage
+        } else {
+            cell.cellImage?.image = nil
         }
+        // dim image
+        cell.imageView?.alpha = 0.5
 
         return cell
     }
