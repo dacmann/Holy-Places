@@ -313,16 +313,18 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 }
                 
                 switch initiatoriesTotal {
-                case 20 ... 39:
+                case 20 ... 49:
                     updateAchievement(achievement: "ach25I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 40 ... 79:
+                case 50 ... 99:
                     updateAchievement(achievement: "ach50I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 80 ... 159:
+                case 100 ... 199:
                     updateAchievement(achievement: "ach100I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 160 ... 319:
+                case 200 ... 399:
                     updateAchievement(achievement: "ach200I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 320... :
+                case 400 ... 799:
                     updateAchievement(achievement: "ach400I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800... :
+                    updateAchievement(achievement: "ach800I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 default:
                     break
                 }
@@ -697,6 +699,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         achievements.append(Achievement(Name: "100 Initiatories", Details: "100 Iniatories", IconName: "ach100I"))
         achievements.append(Achievement(Name: "200 Initiatories", Details: "200 Iniatories", IconName: "ach200I"))
         achievements.append(Achievement(Name: "400 Initiatories", Details: "400 Iniatories", IconName: "ach400I"))
+        achievements.append(Achievement(Name: "800 Initiatories", Details: "800 Iniatories", IconName: "ach800I"))
         // Ordinances - Endowments
         achievements.append(Achievement(Name: "10 Endowments", Details: "10 Endowments", IconName: "ach10E"))
         achievements.append(Achievement(Name: "25 Endowments", Details: "25 Endowments", IconName: "ach25E"))
