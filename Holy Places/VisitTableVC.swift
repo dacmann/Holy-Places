@@ -11,7 +11,15 @@ import CoreData
 
 extension VisitTableVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+    }
+}
+
+extension VisitTableVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
 }
 
@@ -41,10 +49,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let allVisits = fetchedResultsController.fetchedObjects
         // Search on Place name or comments
         filteredVisits = allVisits!.filter { visit in
-            return ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())))
+            let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0)
+            return categoryMatch && ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())) || searchText.isEmpty)
         }
         // Update title
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive {
             self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
         } else {
             self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
@@ -81,6 +90,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.tintColor = UIColor.ocean()
+        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
+
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         definesPresentationContext = true
@@ -93,6 +106,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             tableView.tableHeaderView = searchController.searchBar
         }
         extendedLayoutIncludesOpaqueBars = true
+        
+        searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S"]
+        searchController.searchBar.delegate = self
+        
+        // Add done button to keyboard
+        keyboardDone()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -101,6 +120,26 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         self.tableView.reloadData()
     }
 
+    func keyboardDone() {
+        //init toolbar
+        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
+        //create left side empty space so that done button set on right side
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        //array of BarButtonItems
+        var arr = [UIBarButtonItem]()
+        arr.append(flexSpace)
+        arr.append(doneBtn)
+        toolbar.setItems(arr, animated: false)
+        toolbar.sizeToFit()
+        //setting toolbar as inputAccessoryView
+        self.searchController.searchBar.inputAccessoryView = toolbar
+    }
+    
+    @objc func doneButtonAction(){
+        self.searchController.searchBar.endEditing(true)
+    }
+    
     func insertNewObject(_ sender: Any) {
         let context = self.fetchedResultsController.managedObjectContext
         let newVisit = Visit(context: context)
@@ -146,7 +185,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive {
             return filteredVisits.count
         } else {
             let sectionInfo = self.fetchedResultsController.sections![section]
@@ -157,7 +196,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath)
         var visit = self.fetchedResultsController.object(at: indexPath)
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive {
             visit = filteredVisits[indexPath.row]
         }
         self.configureCell(cell, withVisit: visit)
@@ -299,7 +338,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         
         // Update title
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchController.isActive {
             self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
         } else {
             self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
@@ -387,7 +426,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! VisitDetailVC)
-                if searchController.isActive && searchController.searchBar.text != "" {
+                if searchController.isActive {
                     let visit = filteredVisits[indexPath.row]
                     visitsInTable = filteredVisits
                     controller.detailVisit = visit
@@ -414,5 +453,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
     }
 
+    // Helper function inserted by Swift 4.2 migrator.
+    fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+        guard let input = input else { return nil }
+        return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+    }
 
 }
