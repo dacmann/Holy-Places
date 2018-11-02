@@ -223,6 +223,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         var visitCnt = 0
+        var year = "1830"
+        var month = 1
         initAchievements()
         distinctHistoricSitesVisited.removeAll()
         distinctTemplesVisited.removeAll()
@@ -359,6 +361,28 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                     updateAchievement(achievement: "ach800S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 default:
                     break
+                }
+                
+                //  Check for consecutive month achievements
+                let yearFormat = DateFormatter()
+                yearFormat.dateFormat = "yyyy"
+                let monthFormat = DateFormatter()
+                monthFormat.dateFormat = "MM"
+                let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
+                let yearVisited = yearFormat.string(from: temple.dateVisited!)
+                if (monthVisited == 1) {
+                    // reset the year to year of visit
+                    year = yearVisited
+                    month = 1
+                }
+                if monthVisited == 12 && month == 12 && yearVisited == year {
+                    // Check if all twelve months had visits
+                    achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Visit temple each month of the year", IconName: "ach12MT", Achieved: temple.dateVisited!, PlaceAchieved: temple.holyPlace!))
+                    month = 0
+                }
+                if monthVisited == month + 1 && yearVisited == year {
+                    // check if subsequent month has a visit and increment month
+                    month += 1
                 }
             }
 
