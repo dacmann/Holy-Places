@@ -225,6 +225,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         var visitCnt = 0
         var year = "1830"
         var month = 1
+        let yearFormat = DateFormatter()
+        yearFormat.dateFormat = "yyyy"
+        let monthFormat = DateFormatter()
+        monthFormat.dateFormat = "MM"
+
         initAchievements()
         distinctHistoricSitesVisited.removeAll()
         distinctTemplesVisited.removeAll()
@@ -244,6 +249,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             var baptismsTotal = 0
             var ordinancesTotal = 0
             var shiftHoursTotal = 0.0
+            var didOrdinances = false
             
             for temple in searchResults as [Visit] {
                 // add to total counts
@@ -254,8 +260,16 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 confirmationsTotal += Int(temple.confirmations)
                 baptismsTotal += Int(temple.baptisms)
                 shiftHoursTotal += temple.shiftHrs
+                
+                // Check if ordnances were performed at this visit
+                if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                    didOrdinances = true
+                } else {
+                    didOrdinances = false
+                }
+                
                 if excludeNonOrdinanceVisits {
-                    if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                    if didOrdinances {
                         attendedTotal += 1
                     }
                 } else {
@@ -302,20 +316,24 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 
                 // Check for Ordinance Achievements
                 switch baptismsTotal {
-                case 20 ... 39:
-                    updateAchievement(achievement: "ach20B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 40 ... 79:
-                    updateAchievement(achievement: "ach40B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 80 ... 159:
-                    updateAchievement(achievement: "ach80B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 160...:
-                    updateAchievement(achievement: "ach160B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 25 ... 49:
+                    updateAchievement(achievement: "ach25B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800...:
+                    updateAchievement(achievement: "ach800B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 default:
                     break
                 }
                 
                 switch initiatoriesTotal {
-                case 20 ... 49:
+                case 25 ... 49:
                     updateAchievement(achievement: "ach25I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 case 50 ... 99:
                     updateAchievement(achievement: "ach50I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
@@ -357,32 +375,32 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                     updateAchievement(achievement: "ach200S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 case 400 ... 799:
                     updateAchievement(achievement: "ach400S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
-                case 800... :
+                case 800 ... 1599:
                     updateAchievement(achievement: "ach800S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 1600... :
+                    updateAchievement(achievement: "ach1600S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
                 default:
                     break
                 }
                 
-                //  Check for consecutive month achievements
-                let yearFormat = DateFormatter()
-                yearFormat.dateFormat = "yyyy"
-                let monthFormat = DateFormatter()
-                monthFormat.dateFormat = "MM"
-                let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
-                let yearVisited = yearFormat.string(from: temple.dateVisited!)
-                if (monthVisited == 1) {
-                    // reset the year to year of visit
-                    year = yearVisited
-                    month = 1
-                }
-                if monthVisited == 12 && month == 12 && yearVisited == year {
-                    // Check if all twelve months had visits
-                    achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Visit temple each month of the year", IconName: "ach12MT", Achieved: temple.dateVisited!, PlaceAchieved: temple.holyPlace!))
-                    month = 0
-                }
-                if monthVisited == month + 1 && yearVisited == year {
-                    // check if subsequent month has a visit and increment month
-                    month += 1
+                //  Check for consecutive month achievements if ordinaces performed
+                if didOrdinances {
+                    let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
+                    let yearVisited = yearFormat.string(from: temple.dateVisited!)
+                    if (monthVisited == 1) {
+                        // reset the year to year of visit
+                        year = yearVisited
+                        month = 1
+                    }
+                    if monthVisited == 12 && month == 12 && yearVisited == year {
+                        // Check if all twelve months had visits
+                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT", Achieved: temple.dateVisited!, PlaceAchieved: temple.holyPlace!))
+                        month = 0
+                    }
+                    if monthVisited == month + 1 && yearVisited == year {
+                        // check if subsequent month has a visit and increment month
+                        month += 1
+                    }
                 }
             }
 
@@ -688,6 +706,34 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     
     func initAchievements() {
         achievements.removeAll()
+        // Ordinances - Baptisms
+        achievements.append(Achievement(Name: "Excellent! (Baptisms)", Details: "25 Baptisms", IconName: "ach25B"))
+        achievements.append(Achievement(Name: "Wonderful! (Baptisms)", Details: "50 Baptisms", IconName: "ach50B"))
+        achievements.append(Achievement(Name: "Incredible! (Baptisms)", Details: "100 Baptisms", IconName: "ach100B"))
+        achievements.append(Achievement(Name: "Extraordinary! (Baptisms)", Details: "200 Baptisms", IconName: "ach200B"))
+        achievements.append(Achievement(Name: "Astounding! (Baptisms)", Details: "400 Baptisms", IconName: "ach400B"))
+        achievements.append(Achievement(Name: "Unbelievable! (Baptisms)", Details: "800 Baptisms", IconName: "ach800B"))
+        // Ordinances - Initiatories
+        achievements.append(Achievement(Name: "Excellent! (Initiatories)", Details: "25 Iniatories", IconName: "ach25I"))
+        achievements.append(Achievement(Name: "Wonderful! (Initiatories)", Details: "50 Iniatories", IconName: "ach50I"))
+        achievements.append(Achievement(Name: "Incredible! (Initiatories)", Details: "100 Iniatories", IconName: "ach100I"))
+        achievements.append(Achievement(Name: "Extraordinary! (Initiatories)", Details: "200 Iniatories", IconName: "ach200I"))
+        achievements.append(Achievement(Name: "Astounding! (Initiatories)", Details: "400 Iniatories", IconName: "ach400I"))
+        achievements.append(Achievement(Name: "Unbelievable! (Initiatories)", Details: "800 Iniatories", IconName: "ach800I"))
+        // Ordinances - Endowments
+        achievements.append(Achievement(Name: "Excellent! (Endowments)", Details: "10 Endowments", IconName: "ach10E"))
+        achievements.append(Achievement(Name: "Wonderful! (Endowments)", Details: "25 Endowments", IconName: "ach25E"))
+        achievements.append(Achievement(Name: "Incredible! (Endowments)", Details: "50 Endowments", IconName: "ach50E"))
+        achievements.append(Achievement(Name: "Extraordinary! (Endowments)", Details: "100 Endowments", IconName: "ach100E"))
+        achievements.append(Achievement(Name: "Astounding! (Endowments)", Details: "200 Endowments", IconName: "ach200E"))
+        achievements.append(Achievement(Name: "Unbelievable! (Endowments)", Details: "400 Endowments", IconName: "ach400E"))
+        // Ordinances - Sealings
+        achievements.append(Achievement(Name: "Excellent! (Sealings)", Details: "50 Sealings", IconName: "ach50S"))
+        achievements.append(Achievement(Name: "Wonderful! (Sealings)", Details: "100 Sealings", IconName: "ach100S"))
+        achievements.append(Achievement(Name: "Incredible! (Sealings)", Details: "200 Sealings", IconName: "ach200S"))
+        achievements.append(Achievement(Name: "Extraordinary! (Sealings)", Details: "400 Sealings", IconName: "ach400S"))
+        achievements.append(Achievement(Name: "Astounding! (Sealings)", Details: "800 Sealings", IconName: "ach800S"))
+        achievements.append(Achievement(Name: "Unbelievable! (Sealings)", Details: "1600 Sealings", IconName: "ach1600S"))
         // Temples
         achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
         achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T"))
@@ -712,31 +758,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
         achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
         achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
-        // Ordinances - Baptisms
-        achievements.append(Achievement(Name: "Font of Many Blessings", Details: "20 Baptisms", IconName: "ach20B"))
-        achievements.append(Achievement(Name: "Fontastic", Details: "40 Baptisms", IconName: "ach40B"))
-        achievements.append(Achievement(Name: "Spiritual Celebrity", Details: "80 Baptisms", IconName: "ach80B"))
-        achievements.append(Achievement(Name: "Spirit World Fontstar", Details: "160 Baptisms", IconName: "ach160B"))
-        // Ordinances - Initiatories
-        achievements.append(Achievement(Name: "25 Initiatories", Details: "25 Iniatories", IconName: "ach25I"))
-        achievements.append(Achievement(Name: "50 Initiatories", Details: "50 Iniatories", IconName: "ach50I"))
-        achievements.append(Achievement(Name: "100 Initiatories", Details: "100 Iniatories", IconName: "ach100I"))
-        achievements.append(Achievement(Name: "200 Initiatories", Details: "200 Iniatories", IconName: "ach200I"))
-        achievements.append(Achievement(Name: "400 Initiatories", Details: "400 Iniatories", IconName: "ach400I"))
-        achievements.append(Achievement(Name: "800 Initiatories", Details: "800 Iniatories", IconName: "ach800I"))
-        // Ordinances - Endowments
-        achievements.append(Achievement(Name: "10 Endowments", Details: "10 Endowments", IconName: "ach10E"))
-        achievements.append(Achievement(Name: "25 Endowments", Details: "25 Endowments", IconName: "ach25E"))
-        achievements.append(Achievement(Name: "50 Endowments", Details: "50 Endowments", IconName: "ach50E"))
-        achievements.append(Achievement(Name: "100 Endowments", Details: "100 Endowments", IconName: "ach100E"))
-        achievements.append(Achievement(Name: "200 Endowments", Details: "200 Endowments", IconName: "ach200E"))
-        achievements.append(Achievement(Name: "400 Endowments", Details: "400 Endowments", IconName: "ach400E"))
-        // Ordinances - Sealings
-        achievements.append(Achievement(Name: "50 Sealings", Details: "50 Sealings", IconName: "ach50S"))
-        achievements.append(Achievement(Name: "100 Sealings", Details: "100 Sealings", IconName: "ach100S"))
-        achievements.append(Achievement(Name: "200 Sealings", Details: "200 Sealings", IconName: "ach200S"))
-        achievements.append(Achievement(Name: "400 Sealings", Details: "400 Sealings", IconName: "ach400S"))
-        achievements.append(Achievement(Name: "800 Sealings", Details: "800 Sealings", IconName: "ach800S"))
     }
 
     //MARK: - XML Parser
