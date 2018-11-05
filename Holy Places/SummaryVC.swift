@@ -382,7 +382,24 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 default:
                     break
                 }
-                
+
+                switch shiftHoursTotal {
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800 ... 1599:
+                    updateAchievement(achievement: "ach800TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 1600... :
+                    updateAchievement(achievement: "ach1600TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+
                 //  Check for consecutive month achievements if ordinaces performed
                 if didOrdinances {
                     let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
@@ -707,33 +724,42 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     func initAchievements() {
         achievements.removeAll()
         // Ordinances - Baptisms
-        achievements.append(Achievement(Name: "Excellent! (Baptisms)", Details: "25 Baptisms", IconName: "ach25B"))
-        achievements.append(Achievement(Name: "Wonderful! (Baptisms)", Details: "50 Baptisms", IconName: "ach50B"))
-        achievements.append(Achievement(Name: "Incredible! (Baptisms)", Details: "100 Baptisms", IconName: "ach100B"))
-        achievements.append(Achievement(Name: "Extraordinary! (Baptisms)", Details: "200 Baptisms", IconName: "ach200B"))
-        achievements.append(Achievement(Name: "Astounding! (Baptisms)", Details: "400 Baptisms", IconName: "ach400B"))
-        achievements.append(Achievement(Name: "Unbelievable! (Baptisms)", Details: "800 Baptisms", IconName: "ach800B"))
+        achievements.append(Achievement(Name: "Excellent! (Baptisms)", Details: "Complete 25 Baptisms", IconName: "ach25B"))
+        achievements.append(Achievement(Name: "Wonderful! (Baptisms)", Details: "Complete 50 Baptisms", IconName: "ach50B"))
+        achievements.append(Achievement(Name: "Incredible! (Baptisms)", Details: "Complete 100 Baptisms", IconName: "ach100B"))
+        achievements.append(Achievement(Name: "Extraordinary! (Baptisms)", Details: "Complete 200 Baptisms", IconName: "ach200B"))
+        achievements.append(Achievement(Name: "Astounding! (Baptisms)", Details: "Complete 400 Baptisms", IconName: "ach400B"))
+        achievements.append(Achievement(Name: "Unbelievable! (Baptisms)", Details: "Complete 800 Baptisms", IconName: "ach800B"))
         // Ordinances - Initiatories
-        achievements.append(Achievement(Name: "Excellent! (Initiatories)", Details: "25 Iniatories", IconName: "ach25I"))
-        achievements.append(Achievement(Name: "Wonderful! (Initiatories)", Details: "50 Iniatories", IconName: "ach50I"))
-        achievements.append(Achievement(Name: "Incredible! (Initiatories)", Details: "100 Iniatories", IconName: "ach100I"))
-        achievements.append(Achievement(Name: "Extraordinary! (Initiatories)", Details: "200 Iniatories", IconName: "ach200I"))
-        achievements.append(Achievement(Name: "Astounding! (Initiatories)", Details: "400 Iniatories", IconName: "ach400I"))
-        achievements.append(Achievement(Name: "Unbelievable! (Initiatories)", Details: "800 Iniatories", IconName: "ach800I"))
+        achievements.append(Achievement(Name: "Excellent! (Initiatories)", Details: "Complete 25 Iniatories", IconName: "ach25I"))
+        achievements.append(Achievement(Name: "Wonderful! (Initiatories)", Details: "Complete 50 Iniatories", IconName: "ach50I"))
+        achievements.append(Achievement(Name: "Incredible! (Initiatories)", Details: "Complete 100 Iniatories", IconName: "ach100I"))
+        achievements.append(Achievement(Name: "Extraordinary! (Initiatories)", Details: "Complete 200 Iniatories", IconName: "ach200I"))
+        achievements.append(Achievement(Name: "Astounding! (Initiatories)", Details: "Complete 400 Iniatories", IconName: "ach400I"))
+        achievements.append(Achievement(Name: "Unbelievable! (Initiatories)", Details: "Complete 800 Iniatories", IconName: "ach800I"))
         // Ordinances - Endowments
-        achievements.append(Achievement(Name: "Excellent! (Endowments)", Details: "10 Endowments", IconName: "ach10E"))
-        achievements.append(Achievement(Name: "Wonderful! (Endowments)", Details: "25 Endowments", IconName: "ach25E"))
-        achievements.append(Achievement(Name: "Incredible! (Endowments)", Details: "50 Endowments", IconName: "ach50E"))
-        achievements.append(Achievement(Name: "Extraordinary! (Endowments)", Details: "100 Endowments", IconName: "ach100E"))
-        achievements.append(Achievement(Name: "Astounding! (Endowments)", Details: "200 Endowments", IconName: "ach200E"))
-        achievements.append(Achievement(Name: "Unbelievable! (Endowments)", Details: "400 Endowments", IconName: "ach400E"))
+        achievements.append(Achievement(Name: "Excellent! (Endowments)", Details: "Complete 10 Endowments", IconName: "ach10E"))
+        achievements.append(Achievement(Name: "Wonderful! (Endowments)", Details: "Complete 25 Endowments", IconName: "ach25E"))
+        achievements.append(Achievement(Name: "Incredible! (Endowments)", Details: "Complete 50 Endowments", IconName: "ach50E"))
+        achievements.append(Achievement(Name: "Extraordinary! (Endowments)", Details: "Complete 100 Endowments", IconName: "ach100E"))
+        achievements.append(Achievement(Name: "Astounding! (Endowments)", Details: "Complete 200 Endowments", IconName: "ach200E"))
+        achievements.append(Achievement(Name: "Unbelievable! (Endowments)", Details: "Complete 400 Endowments", IconName: "ach400E"))
         // Ordinances - Sealings
-        achievements.append(Achievement(Name: "Excellent! (Sealings)", Details: "50 Sealings", IconName: "ach50S"))
-        achievements.append(Achievement(Name: "Wonderful! (Sealings)", Details: "100 Sealings", IconName: "ach100S"))
-        achievements.append(Achievement(Name: "Incredible! (Sealings)", Details: "200 Sealings", IconName: "ach200S"))
-        achievements.append(Achievement(Name: "Extraordinary! (Sealings)", Details: "400 Sealings", IconName: "ach400S"))
-        achievements.append(Achievement(Name: "Astounding! (Sealings)", Details: "800 Sealings", IconName: "ach800S"))
-        achievements.append(Achievement(Name: "Unbelievable! (Sealings)", Details: "1600 Sealings", IconName: "ach1600S"))
+        achievements.append(Achievement(Name: "Excellent! (Sealings)", Details: "Complete 50 Sealings", IconName: "ach50S"))
+        achievements.append(Achievement(Name: "Wonderful! (Sealings)", Details: "Complete 100 Sealings", IconName: "ach100S"))
+        achievements.append(Achievement(Name: "Incredible! (Sealings)", Details: "Complete 200 Sealings", IconName: "ach200S"))
+        achievements.append(Achievement(Name: "Extraordinary! (Sealings)", Details: "Complete 400 Sealings", IconName: "ach400S"))
+        achievements.append(Achievement(Name: "Astounding! (Sealings)", Details: "Complete 800 Sealings", IconName: "ach800S"))
+        achievements.append(Achievement(Name: "Unbelievable! (Sealings)", Details: "Complete 1600 Sealings", IconName: "ach1600S"))
+        if ordinanceWorker {
+            // Ordinance Worker
+            achievements.append(Achievement(Name: "Excellent! (Ordinance Worker)", Details: "Work 50 hours in the temple", IconName: "ach50TW"))
+            achievements.append(Achievement(Name: "Wonderful! (Ordinance Worker)", Details: "Work 100 hours in the temple", IconName: "ach100TW"))
+            achievements.append(Achievement(Name: "Incredible! (Ordinance Worker)", Details: "Work 200 hours in the temple", IconName: "ach200TW"))
+            achievements.append(Achievement(Name: "Extraordinary! (Ordinance Worker)", Details: "Work 400 hours in the temple", IconName: "ach400TW"))
+            achievements.append(Achievement(Name: "Astounding! (Ordinance Worker)", Details: "Work 800 hours in the temple", IconName: "ach800TW"))
+            achievements.append(Achievement(Name: "Unbelievable! (Ordinance Worker)", Details: "Work 1600 hours in the temple", IconName: "ach1600TW"))
+        }
         // Temples
         achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
         achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T"))
