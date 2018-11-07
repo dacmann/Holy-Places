@@ -609,7 +609,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             // If entered a few visits, prompt for a rating
             if visitCnt > 3 {
                 if #available(iOS 10.3, *) {
-//                    SKStoreReviewController.requestReview()
+                    SKStoreReviewController.requestReview()
                 }
             }
           
