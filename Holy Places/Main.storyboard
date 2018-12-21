@@ -2589,8 +2589,8 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="247" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="templeSnippet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-sk-hj8">
-                                <rect key="frame" x="10" y="370" width="394" height="49"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="16"/>
+                                <rect key="frame" x="10" y="385" width="394" height="34"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -2703,6 +2703,15 @@
                                     <segue destination="Wm6-qc-lsd" kind="show" identifier="recordVisit" id="Znc-r7-aaw"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1st operating temple" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pn-If-Yrl">
+                                <rect key="frame" x="137" y="360" width="140" height="20"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2725,11 +2734,13 @@
                             <constraint firstItem="qAS-fV-C3U" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="15" id="LMh-U1-Mc2">
                                 <variation key="heightClass=regular-widthClass=regular" constant="25"/>
                             </constraint>
+                            <constraint firstItem="5Pn-If-Yrl" firstAttribute="centerX" secondItem="58o-8C-bV5" secondAttribute="centerX" id="Lks-jV-5hT"/>
                             <constraint firstItem="kBA-Zo-Zka" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" id="Ont-pS-hxz"/>
                             <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" constant="30" id="TH0-b5-Idj"/>
                             <constraint firstItem="cbg-HS-RCa" firstAttribute="centerX" secondItem="58o-8C-bV5" secondAttribute="centerX" id="Uja-N5-rhm"/>
                             <constraint firstItem="fQH-3G-9ma" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" constant="10" id="Vdh-Nw-piX"/>
-                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="10" id="W3I-92-XX5"/>
+                            <constraint firstItem="5Pn-If-Yrl" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" id="Vem-L7-zFT"/>
+                            <constraint firstItem="XIJ-sk-hj8" firstAttribute="top" secondItem="kBr-CG-1Lf" secondAttribute="bottom" constant="25" id="W3I-92-XX5"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="fQH-3G-9ma" secondAttribute="trailing" constant="10" id="XKf-nh-2n2">
                                 <variation key="heightClass=regular-widthClass=regular" constant="25"/>
                             </constraint>
@@ -2765,10 +2776,12 @@
                         <outlet property="recordVisitBtn" destination="vK1-SH-HRa" id="jf4-ye-OLA"/>
                         <outlet property="snippetBottom" destination="G7Z-1B-oKL" id="L6f-Dm-RBo"/>
                         <outlet property="snippetLeading" destination="5vj-ng-IfE" id="2FU-n6-zn6"/>
+                        <outlet property="snippetTop" destination="W3I-92-XX5" id="UXv-hT-oJS"/>
                         <outlet property="snippetTrailing" destination="p0P-0e-BpO" id="hUu-xF-4DE"/>
                         <outlet property="templeImage" destination="hqj-pp-6Th" id="pDo-nE-ukh"/>
                         <outlet property="templeName" destination="kBr-CG-1Lf" id="piT-sg-CsA"/>
                         <outlet property="templeNameTop" destination="yhw-av-1gk" id="qzS-gT-WF3"/>
+                        <outlet property="templeOrdinal" destination="5Pn-If-Yrl" id="uMG-vC-sPI"/>
                         <outlet property="templeSnippet" destination="XIJ-sk-hj8" id="0Qb-TQ-PPc"/>
                         <outlet property="totalVisits" destination="fQH-3G-9ma" id="ZYu-Vg-VpM"/>
                         <outlet property="websiteBtn" destination="JNk-hK-mtx" id="xtt-RA-nIm"/>
@@ -2955,11 +2968,11 @@
             <objects>
                 <viewController storyboardIdentifier="RecordVisitVC" title="Edit Visit" id="Wm6-qc-lsd" userLabel="Record Visit" customClass="RecordVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hdx-hg-WHC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
-                                <rect key="frame" x="20" y="74" width="374" height="613"/>
+                                <rect key="frame" x="20" y="10" width="374" height="569"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -2990,7 +3003,7 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="83" width="374" height="530"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="486"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="520"/>
@@ -3369,7 +3382,7 @@
         <image name="summary" width="56.25" height="56.25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ufl-Eb-Dlx"/>
+        <segue reference="Znc-r7-aaw"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

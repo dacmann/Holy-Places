@@ -29,7 +29,10 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var snippetBottom: NSLayoutConstraint!
     @IBOutlet weak var snippetLeading: NSLayoutConstraint!
     @IBOutlet weak var snippetTrailing: NSLayoutConstraint!
+    @IBOutlet weak var snippetTop: NSLayoutConstraint!
     @IBOutlet weak var templeNameTop: NSLayoutConstraint!
+    @IBOutlet weak var templeOrdinal: UILabel!
+    
     
 
     var visitCount = 0
@@ -424,7 +427,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             if let label = self.templeName {
                 label.text = detail.templeName
                 originalPlace = detail.templeName
-                templeSnippet.text = detail.templeSnippet
+                
                 address.text = detail.templeAddress + "\n" + detail.templeCityState + "\n" + detail.templeCountry
                 if detail.templePhone == "" {
                     phoneNumber.isHidden = true
@@ -441,8 +444,16 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 
                 if detail.templeType == "T" {
                     websiteBtn2.setTitle("Schedule", for: .normal)
+                    let snippetArr = detail.templeSnippet.components(separatedBy: " - ")
+                    templeOrdinal.text = snippetArr[0]
+                    templeSnippet.text = detail.templeSnippet.replacingOccurrences(of: "\(snippetArr[0]) - ", with: "")
+                    templeOrdinal.isHidden = false
+                    snippetTop.constant = 25
                 } else {
                     websiteBtn2.setTitle("Web Site", for: .normal)
+                    templeSnippet.text = detail.templeSnippet
+                    templeOrdinal.isHidden = true
+                    snippetTop.constant = 0
                 }
                 
                 switch detail.templeType {

@@ -88,9 +88,6 @@
 		6479E5EA1F05733D0087E013 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		6479E5EC1F0576D70087E013 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6479E5EE1F0579B50087E013 /* MapPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
-		647A85162190D01A005F068B /* AltLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AltLocation.gpx; sourceTree = "<group>"; };
-		647A85172191220E005F068B /* AltLocation2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AltLocation2.gpx; sourceTree = "<group>"; };
-		647A85182191312F005F068B /* Mooresville.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mooresville.gpx; sourceTree = "<group>"; };
 		64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Holy Places Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		64A3CB691FA901CE00D37E6A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -210,9 +207,6 @@
 				64F25D341E3121C6009FDEF3 /* ViewControllers */,
 				64FDE6EE1E21863A00951A58 /* AppDelegate.swift */,
 				64B520FC1FD6FD6900E9B1EE /* Visits.gpx */,
-				647A85162190D01A005F068B /* AltLocation.gpx */,
-				647A85182191312F005F068B /* Mooresville.gpx */,
-				647A85172191220E005F068B /* AltLocation2.gpx */,
 				64CAEBF01E21B80900F7C605 /* Temples.swift */,
 				64732F54216FB09B003E0EBD /* Achievement.swift */,
 				6479E5EE1F0579B50087E013 /* MapPoint.swift */,
