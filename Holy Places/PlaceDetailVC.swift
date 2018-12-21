@@ -32,9 +32,9 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var snippetTop: NSLayoutConstraint!
     @IBOutlet weak var templeNameTop: NSLayoutConstraint!
     @IBOutlet weak var templeOrdinal: UILabel!
+    @IBOutlet weak var pictureHeight: NSLayoutConstraint!
     
     
-
     var visitCount = 0
     var imageCount = 0
     var visitImageCount = 0
@@ -251,6 +251,12 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            pictureHeight.constant = view.frame.height * 0.60
+        } else {
+            pictureHeight.constant = view.frame.height * 0.40
+        }
         setUpView()
     }
     

@@ -2554,24 +2554,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBA-Zo-Zka">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBA-Zo-Zka">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="PCCL" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" priority="750" constant="300" id="Kpa-3b-zEU">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="700"/>
-                                    </constraint>
+                                    <constraint firstItem="hqj-pp-6Th" firstAttribute="centerY" secondItem="kBA-Zo-Zka" secondAttribute="centerY" id="8ib-pV-8GT"/>
+                                    <constraint firstItem="hqj-pp-6Th" firstAttribute="centerX" secondItem="kBA-Zo-Zka" secondAttribute="centerX" id="H3J-w3-HgG"/>
+                                    <constraint firstAttribute="bottom" secondItem="hqj-pp-6Th" secondAttribute="bottom" id="Hvt-Ut-XM3"/>
+                                    <constraint firstItem="hqj-pp-6Th" firstAttribute="leading" secondItem="kBA-Zo-Zka" secondAttribute="leading" id="PmJ-ap-k4j"/>
+                                    <constraint firstAttribute="height" constant="300" id="UMh-gd-mOk"/>
+                                    <constraint firstAttribute="trailing" secondItem="hqj-pp-6Th" secondAttribute="trailing" id="cPw-3P-reT"/>
+                                    <constraint firstItem="hqj-pp-6Th" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="top" id="wmd-3i-Uol"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="hqj-pp-6Th"/>
-                                    </mask>
-                                </variation>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-HS-RCa">
                                 <rect key="frame" x="203.66666666666666" y="300" width="7" height="37"/>
@@ -2772,6 +2770,7 @@
                         <outlet property="addressWidth" destination="ORa-4K-UsB" id="Etu-RE-fm0"/>
                         <outlet property="pageControl" destination="cbg-HS-RCa" id="frD-e9-eW6"/>
                         <outlet property="phoneNumber" destination="DsF-Hv-V5B" id="8VR-Gd-FPp"/>
+                        <outlet property="pictureHeight" destination="UMh-gd-mOk" id="3lj-f2-oHJ"/>
                         <outlet property="pictureScrollView" destination="kBA-Zo-Zka" id="yuk-uC-ump"/>
                         <outlet property="recordVisitBtn" destination="vK1-SH-HRa" id="jf4-ye-OLA"/>
                         <outlet property="snippetBottom" destination="G7Z-1B-oKL" id="L6f-Dm-RBo"/>
@@ -3373,6 +3372,7 @@
     <resources>
         <image name="BrighamCity" width="360" height="640"/>
         <image name="PCC" width="360" height="640"/>
+        <image name="PCCL" width="910.66668701171875" height="683"/>
         <image name="PCCW" width="1668" height="2224"/>
         <image name="journal" width="56.25" height="56.25"/>
         <image name="map" width="51.063831329345703" height="51.063831329345703"/>
