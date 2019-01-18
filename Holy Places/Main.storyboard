@@ -443,6 +443,29 @@
                                     <segue destination="nbc-Vt-jOs" kind="presentation" id="p9X-Kd-HGH"/>
                                 </connections>
                             </button>
+                            <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK8-KI-4Qz">
+                                <rect key="frame" x="20" y="597" width="70" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXo-k0-bHE">
+                                        <rect key="frame" x="5" y="5" width="60" height="60"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button" image="ach10T"/>
+                                        <connections>
+                                            <segue destination="2ij-uH-t6G" kind="show" id="8oe-hn-yZM"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="qXo-k0-bHE" firstAttribute="leading" secondItem="wK8-KI-4Qz" secondAttribute="leading" constant="5" id="2FN-MN-c2A"/>
+                                    <constraint firstAttribute="bottom" secondItem="qXo-k0-bHE" secondAttribute="bottom" constant="5" id="I6g-4m-2Y6"/>
+                                    <constraint firstAttribute="width" constant="70" id="JcG-Hq-eyD"/>
+                                    <constraint firstAttribute="trailing" secondItem="qXo-k0-bHE" secondAttribute="trailing" constant="5" id="RQB-ui-ywF"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="TS7-Nm-kh3"/>
+                                    <constraint firstItem="qXo-k0-bHE" firstAttribute="top" secondItem="wK8-KI-4Qz" secondAttribute="top" constant="5" id="saq-Jv-IvO"/>
+                                    <constraint firstAttribute="width" secondItem="wK8-KI-4Qz" secondAttribute="height" id="wFW-8p-fvc"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -455,6 +478,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="d0U-Nv-ABQ" secondAttribute="trailing" id="INu-HH-HgK"/>
                             <constraint firstItem="d0U-Nv-ABQ" firstAttribute="top" secondItem="fRa-Fz-Ssp" secondAttribute="bottom" id="IjA-4t-Mx9"/>
                             <constraint firstItem="vwg-46-s45" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="Kqt-cc-ujc"/>
+                            <constraint firstItem="wK8-KI-4Qz" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" constant="20" id="Lr9-zs-5eo"/>
                             <constraint firstItem="pF0-Pf-K9x" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="NR6-BY-BRQ"/>
                             <constraint firstItem="KgE-B8-cmp" firstAttribute="top" secondItem="k46-Yl-vx7" secondAttribute="bottom" constant="50" id="Ovv-nG-zoz"/>
                             <constraint firstAttribute="bottom" secondItem="pF0-Pf-K9x" secondAttribute="bottom" id="P8A-nc-vme"/>
@@ -475,11 +499,16 @@
                             <constraint firstItem="fRa-Fz-Ssp" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.09" id="v9f-Zu-6CX"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="k46-Yl-vx7" secondAttribute="trailing" constant="20" id="xyN-vt-Bst"/>
                             <constraint firstItem="19M-tx-g3d" firstAttribute="bottom" secondItem="vwg-46-s45" secondAttribute="bottom" constant="2" id="y5Q-rY-s1m"/>
+                            <constraint firstItem="KB8-Og-jCU" firstAttribute="bottom" secondItem="wK8-KI-4Qz" secondAttribute="bottom" constant="20" id="z7q-Su-duk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KB8-Og-jCU"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="achBottomConstraint" destination="z7q-Su-duk" id="6ld-VR-e4t"/>
+                        <outlet property="achievementBtn" destination="qXo-k0-bHE" id="FGG-3d-Czb"/>
+                        <outlet property="achievementBtnView" destination="wK8-KI-4Qz" id="Bsn-wF-Lpf"/>
+                        <outlet property="achievementButtonWidth" destination="JcG-Hq-eyD" id="jdu-Qd-zAO"/>
                         <outlet property="backgroundImage" destination="pF0-Pf-K9x" id="E89-oD-njX"/>
                         <outlet property="bottomLine" destination="19M-tx-g3d" id="1C3-jO-TdK"/>
                         <outlet property="goal" destination="um1-Ns-NrD" id="hH8-pd-1hc"/>
@@ -3374,6 +3403,7 @@
         <image name="PCC" width="360" height="640"/>
         <image name="PCCL" width="910.66668701171875" height="683"/>
         <image name="PCCW" width="1668" height="2224"/>
+        <image name="ach10T" width="225" height="223.5"/>
         <image name="journal" width="56.25" height="56.25"/>
         <image name="map" width="51.063831329345703" height="51.063831329345703"/>
         <image name="morningstar-bnw" width="56.25" height="56.25"/>
@@ -3382,6 +3412,7 @@
         <image name="summary" width="56.25" height="56.25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="8oe-hn-yZM"/>
         <segue reference="Znc-r7-aaw"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>

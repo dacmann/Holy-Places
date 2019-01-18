@@ -95,6 +95,8 @@ var summaryQuotes: [String] = []
 var distinctTemplesVisited: [String] = []
 var distinctHistoricSitesVisited: [String] = []
 var achievements: [Achievement] = []
+var completed: [Achievement] = []
+var notCompleted: [Achievement] = []
 var attendedTotal = 0
 var sealingsTotal = 0
 var endowmentsTotal = 0
@@ -1183,9 +1185,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             
             
+            // divide array into achieved and not achieved
+            completed = achievements.filter { if $0.achieved != nil {
+                return true
+            } else {
+                return false
+                }
+            }
+            notCompleted = achievements.filter { if $0.achieved == nil {
+                return true
+            } else {
+                return false
+                }
+            }
             
-            
-            
+            // sort the achievements by date achieved
+            completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedDescending })
             
         } catch {
             print("Error with request: \(error)")

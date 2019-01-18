@@ -19,6 +19,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //MARK: - Variables
     var delegateOptions: SendVisitOptionsDelegate? = nil
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var filterSelected: Int?
     var sortSelected: Int?
@@ -276,6 +277,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 //            print(visits)
             message.text = "Exported \(exportCount) visits to \(type) file."
             message.textColor = UIColor.darkRed()
+            // Update visit count 
+            appDelegate.getVisits()
         } catch {
             print("Error with request: \(error)")
         }

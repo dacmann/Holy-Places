@@ -12,30 +12,13 @@ import CoreData
 
 
 class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate {
-
     
-    var completed: [Achievement] = []
-    var notCompleted: [Achievement] = []
     var display: [Achievement] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Achievements"
-        // divide array into achieved and not achieved
-        completed = achievements.filter { if $0.achieved != nil {
-            return true
-        } else {
-            return false
-            }
-        }
-        notCompleted = achievements.filter { if $0.achieved == nil {
-            return true
-        } else {
-            return false
-            }
-        }
-        // sort the achievements by date achieved
-        completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedDescending })
+
         // Default to display the completed achievements
         display = completed
     }

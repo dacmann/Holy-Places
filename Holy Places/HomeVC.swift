@@ -27,6 +27,10 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     @IBOutlet weak var share: UIButton!
     @IBOutlet weak var visitDate: UILabel!
     @IBOutlet weak var goalSpacerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var achievementBtn: UIButton!
+    @IBOutlet weak var achBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var achievementBtnView: UIView!
+    @IBOutlet weak var achievementButtonWidth: NSLayoutConstraint!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
@@ -84,6 +88,24 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         } else {
             appDelegate.getVisits()
             goal.text = goalProgress
+        }
+        
+        // Set size of achivement button
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            achievementButtonWidth.constant = 100
+        } else {
+            let size = view.frame.width * 0.20
+            achievementButtonWidth.constant = size
+        }
+        
+        // round corners of view
+        achievementBtnView.layer.cornerRadius = 10
+
+        // Set image of button to latest achievement
+        if completed.count > 0 {
+            achievementBtn.setImage(UIImage(named: completed[0].iconName), for: .normal)
+        } else {
+            achievementBtnView.isHidden = true
         }
 
     }
