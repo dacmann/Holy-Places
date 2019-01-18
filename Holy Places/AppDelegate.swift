@@ -95,6 +95,15 @@ var summaryQuotes: [String] = []
 var distinctTemplesVisited: [String] = []
 var distinctHistoricSitesVisited: [String] = []
 var achievements: [Achievement] = []
+var attendedTotal = 0
+var sealingsTotal = 0
+var endowmentsTotal = 0
+var initiatoriesTotal = 0
+var confirmationsTotal = 0
+var baptismsTotal = 0
+var ordinancesTotal = 0
+var shiftHoursTotal = 0.0
+var didOrdinances = false
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -796,6 +805,81 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
     
+    func initAchievements() {
+        achievements.removeAll()
+        // Ordinances - Baptisms
+        achievements.append(Achievement(Name: "Excellent! (Baptisms)", Details: "Complete 25 Baptisms", IconName: "ach25B"))
+        achievements.append(Achievement(Name: "Wonderful! (Baptisms)", Details: "Complete 50 Baptisms", IconName: "ach50B"))
+        achievements.append(Achievement(Name: "Incredible! (Baptisms)", Details: "Complete 100 Baptisms", IconName: "ach100B"))
+        achievements.append(Achievement(Name: "Extraordinary! (Baptisms)", Details: "Complete 200 Baptisms", IconName: "ach200B"))
+        achievements.append(Achievement(Name: "Astounding! (Baptisms)", Details: "Complete 400 Baptisms", IconName: "ach400B"))
+        achievements.append(Achievement(Name: "Unbelievable! (Baptisms)", Details: "Complete 800 Baptisms", IconName: "ach800B"))
+        // Ordinances - Initiatories
+        achievements.append(Achievement(Name: "Excellent! (Initiatories)", Details: "Complete 25 Iniatories", IconName: "ach25I"))
+        achievements.append(Achievement(Name: "Wonderful! (Initiatories)", Details: "Complete 50 Iniatories", IconName: "ach50I"))
+        achievements.append(Achievement(Name: "Incredible! (Initiatories)", Details: "Complete 100 Iniatories", IconName: "ach100I"))
+        achievements.append(Achievement(Name: "Extraordinary! (Initiatories)", Details: "Complete 200 Iniatories", IconName: "ach200I"))
+        achievements.append(Achievement(Name: "Astounding! (Initiatories)", Details: "Complete 400 Iniatories", IconName: "ach400I"))
+        achievements.append(Achievement(Name: "Unbelievable! (Initiatories)", Details: "Complete 800 Iniatories", IconName: "ach800I"))
+        // Ordinances - Endowments
+        achievements.append(Achievement(Name: "Excellent! (Endowments)", Details: "Complete 10 Endowments", IconName: "ach10E"))
+        achievements.append(Achievement(Name: "Wonderful! (Endowments)", Details: "Complete 25 Endowments", IconName: "ach25E"))
+        achievements.append(Achievement(Name: "Incredible! (Endowments)", Details: "Complete 50 Endowments", IconName: "ach50E"))
+        achievements.append(Achievement(Name: "Extraordinary! (Endowments)", Details: "Complete 100 Endowments", IconName: "ach100E"))
+        achievements.append(Achievement(Name: "Astounding! (Endowments)", Details: "Complete 200 Endowments", IconName: "ach200E"))
+        achievements.append(Achievement(Name: "Unbelievable! (Endowments)", Details: "Complete 400 Endowments", IconName: "ach400E"))
+        // Ordinances - Sealings
+        achievements.append(Achievement(Name: "Excellent! (Sealings)", Details: "Complete 50 Sealings", IconName: "ach50S"))
+        achievements.append(Achievement(Name: "Wonderful! (Sealings)", Details: "Complete 100 Sealings", IconName: "ach100S"))
+        achievements.append(Achievement(Name: "Incredible! (Sealings)", Details: "Complete 200 Sealings", IconName: "ach200S"))
+        achievements.append(Achievement(Name: "Extraordinary! (Sealings)", Details: "Complete 400 Sealings", IconName: "ach400S"))
+        achievements.append(Achievement(Name: "Astounding! (Sealings)", Details: "Complete 800 Sealings", IconName: "ach800S"))
+        achievements.append(Achievement(Name: "Unbelievable! (Sealings)", Details: "Complete 1600 Sealings", IconName: "ach1600S"))
+        if ordinanceWorker {
+            // Ordinance Worker
+            achievements.append(Achievement(Name: "Excellent! (Ordinance Worker)", Details: "Work 50 hours in the temple", IconName: "ach50TW"))
+            achievements.append(Achievement(Name: "Wonderful! (Ordinance Worker)", Details: "Work 100 hours in the temple", IconName: "ach100TW"))
+            achievements.append(Achievement(Name: "Incredible! (Ordinance Worker)", Details: "Work 200 hours in the temple", IconName: "ach200TW"))
+            achievements.append(Achievement(Name: "Extraordinary! (Ordinance Worker)", Details: "Work 400 hours in the temple", IconName: "ach400TW"))
+            achievements.append(Achievement(Name: "Astounding! (Ordinance Worker)", Details: "Work 800 hours in the temple", IconName: "ach800TW"))
+            achievements.append(Achievement(Name: "Unbelievable! (Ordinance Worker)", Details: "Work 1600 hours in the temple", IconName: "ach1600TW"))
+        }
+        // Temples
+        achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
+        achievements.append(Achievement(Name: "Temple Lover", Details: "Visit 20 different temples", IconName: "ach20T"))
+        achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T"))
+        achievements.append(Achievement(Name: "Temple Enthusiast", Details: "Visit 40 different temples", IconName: "ach40T"))
+        achievements.append(Achievement(Name: "Temple Fanatic", Details: "Visit 50 different temples", IconName: "ach50T"))
+        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 75 different temples", IconName: "ach75T"))
+        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 100 different temples", IconName: "ach100T"))
+        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 125 different temples", IconName: "ach125T"))
+        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 150 different temples", IconName: "ach150T"))
+        if activeTemples.count > 174 {
+            achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 175 different temples", IconName: "ach175T"))
+        }
+        if activeTemples.count > 199 {
+            achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
+        }
+        // Historic Sites
+        achievements.append(Achievement(Name: "History Admirer", Details: "Visit 10 different historic sites", IconName: "ach10H"))
+        achievements.append(Achievement(Name: "History Lover", Details: "Visit 25 different historic sites", IconName: "ach25H"))
+        achievements.append(Achievement(Name: "History Enthusiast", Details: "Visit 40 different historic sites", IconName: "ach40H"))
+        achievements.append(Achievement(Name: "History Zealot", Details: "Visit 55 different historic sites", IconName: "ach55H"))
+        achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
+        achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
+        achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
+    }
+    
+    func updateAchievement(achievement:String, dateAchieved:Date, placeAchieved:String) {
+        if let location = achievements.index(where:{$0.iconName == achievement}) {
+            // Only update if not already achieved
+            if achievements[location].achieved == nil {
+                achievements[location].achieved = dateAchieved
+                achievements[location].placeAchieved = placeAchieved
+            }
+        }
+    }
+    
     //MARK: - Core Data
     // Required for CoreData
     func getContext () -> NSManagedObjectContext {
@@ -809,16 +893,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd, YYYY"
+        var year = "1830"
+        var month = 1
+        
+        let yearFormat = DateFormatter()
+        yearFormat.dateFormat = "yyyy"
+        let monthFormat = DateFormatter()
+        monthFormat.dateFormat = "MM"
+        
+        attendedTotal = 0
+        sealingsTotal = 0
+        endowmentsTotal = 0
+        initiatoriesTotal = 0
+        confirmationsTotal = 0
+        baptismsTotal = 0
+        ordinancesTotal = 0
+        shiftHoursTotal = 0.0
+        didOrdinances = false
+        
+        initAchievements()
+        distinctHistoricSitesVisited.removeAll()
+        distinctTemplesVisited.removeAll()
         
         do {
             // Get All visits
+            visits.removeAll()
             var searchResults = try getContext().fetch(fetchRequest)
             for visit in searchResults as [Visit] {
                 visits.append(visit.holyPlace!)
             }
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
-            let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
+            var sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
             
@@ -864,6 +970,223 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 homeVisitPictureData = visit.picture!
                 homeVisitDate = formatter.string(from: visit.dateVisited!)
             }
+            
+            // Achievements
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            searchResults = try getContext().fetch(fetchRequest)
+            
+            for temple in searchResults as [Visit] {
+                // count ordinances for each temple visited
+                // add to total counts
+                
+                sealingsTotal += Int(temple.sealings)
+                endowmentsTotal += Int(temple.endowments)
+                initiatoriesTotal += Int(temple.initiatories)
+                confirmationsTotal += Int(temple.confirmations)
+                baptismsTotal += Int(temple.baptisms)
+                shiftHoursTotal += temple.shiftHrs
+                
+                // Check if ordnances were performed at this visit
+                if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                    didOrdinances = true
+                } else {
+                    didOrdinances = false
+                }
+                
+                if excludeNonOrdinanceVisits {
+                    if didOrdinances {
+                        attendedTotal += 1
+                    }
+                } else {
+                    attendedTotal += 1
+                }
+                
+                // determine unique temples visited
+                if !distinctTemplesVisited.contains(temple.holyPlace!) {
+                    distinctTemplesVisited.append(temple.holyPlace!)
+                    if distinctTemplesVisited.count == 10 {
+                        updateAchievement(achievement:"ach10T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 20 {
+                        updateAchievement(achievement:"ach20T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 30 {
+                        updateAchievement(achievement:"ach30T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 40 {
+                        updateAchievement(achievement:"ach40T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 50 {
+                        updateAchievement(achievement:"ach50T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 75 {
+                        updateAchievement(achievement:"ach75T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 100 {
+                        updateAchievement(achievement:"ach100T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 125 {
+                        updateAchievement(achievement:"ach125T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 150 {
+                        updateAchievement(achievement:"ach150T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 175 {
+                        updateAchievement(achievement:"ach175T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 200 {
+                        updateAchievement(achievement:"ach200T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    }
+                }
+                
+                // Check for Ordinance Achievements
+                switch baptismsTotal {
+                case 25 ... 49:
+                    updateAchievement(achievement: "ach25B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800...:
+                    updateAchievement(achievement: "ach800B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+                
+                switch initiatoriesTotal {
+                case 25 ... 49:
+                    updateAchievement(achievement: "ach25I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800... :
+                    updateAchievement(achievement: "ach800I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+                
+                switch endowmentsTotal {
+                case 10 ... 24:
+                    updateAchievement(achievement: "ach10E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 25 ... 49:
+                    updateAchievement(achievement: "ach25E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400... :
+                    updateAchievement(achievement: "ach400E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+                
+                switch sealingsTotal {
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800 ... 1599:
+                    updateAchievement(achievement: "ach800S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 1600... :
+                    updateAchievement(achievement: "ach1600S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+                
+                switch shiftHoursTotal {
+                case 50 ... 99:
+                    updateAchievement(achievement: "ach50TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 100 ... 199:
+                    updateAchievement(achievement: "ach100TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 200 ... 399:
+                    updateAchievement(achievement: "ach200TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 400 ... 799:
+                    updateAchievement(achievement: "ach400TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 800 ... 1599:
+                    updateAchievement(achievement: "ach800TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                case 1600... :
+                    updateAchievement(achievement: "ach1600TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                default:
+                    break
+                }
+                
+                //  Check for consecutive month achievements if ordinaces performed
+                if didOrdinances {
+                    let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
+                    let yearVisited = yearFormat.string(from: temple.dateVisited!)
+                    if (monthVisited == 1) {
+                        // reset the year to year of visit
+                        year = yearVisited
+                        month = 1
+                    }
+                    if monthVisited == 12 && month == 12 && yearVisited == year {
+                        // Check if all twelve months had visits
+                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT", Achieved: temple.dateVisited!, PlaceAchieved: temple.holyPlace!))
+                        month = 0
+                    }
+                    if monthVisited == month + 1 && yearVisited == year {
+                        // check if subsequent month has a visit and increment month
+                        month += 1
+                    }
+                }
+            }
+            
+            
+            // Check for Historic Sites Achievement
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            searchResults = try getContext().fetch(fetchRequest)
+            for site in searchResults as [Visit] {
+                // determine unique temples visited
+                if !distinctHistoricSitesVisited.contains(site.holyPlace!) {
+                    distinctHistoricSitesVisited.append(site.holyPlace!)
+                    if distinctHistoricSitesVisited.count == 10 {
+                        updateAchievement(achievement:"ach10H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 25 {
+                        updateAchievement(achievement:"ach25H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 40 {
+                        updateAchievement(achievement:"ach40H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 55 {
+                        updateAchievement(achievement:"ach55H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 70 {
+                        updateAchievement(achievement:"ach70H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 85 {
+                        updateAchievement(achievement:"ach85H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    if distinctHistoricSitesVisited.count == 99 {
+                        updateAchievement(achievement:"ach99H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
+                    
+                }
+            }
+            
+            
+            
+            
+            
+            
         } catch {
             print("Error with request: \(error)")
         }

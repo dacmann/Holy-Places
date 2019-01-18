@@ -45,7 +45,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }
 
@@ -139,6 +138,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             print("Could not save \(error), \(error.userInfo)")
         } catch {}
         print("Saving edited Visit completed")
+        
+        // Update visit count for goal progress in Widget
+        appDelegate.getVisits()
+        
         _ = navigationController?.popViewController(animated: true)
 
     }
