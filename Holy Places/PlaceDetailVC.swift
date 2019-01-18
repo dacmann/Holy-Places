@@ -450,13 +450,17 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 
                 if detail.templeType == "T" {
                     websiteBtn2.setTitle("Schedule", for: .normal)
+                } else {
+                    websiteBtn2.setTitle("Web Site", for: .normal)
+                }
+                
+                if detail.templeType == "T" || detail.templeType == "C" {
                     let snippetArr = detail.templeSnippet.components(separatedBy: " - ")
                     templeOrdinal.text = snippetArr[0]
                     templeSnippet.text = detail.templeSnippet.replacingOccurrences(of: "\(snippetArr[0]) - ", with: "")
                     templeOrdinal.isHidden = false
                     snippetTop.constant = 25
                 } else {
-                    websiteBtn2.setTitle("Web Site", for: .normal)
                     templeSnippet.text = detail.templeSnippet
                     templeOrdinal.isHidden = true
                     snippetTop.constant = 0
