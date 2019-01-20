@@ -152,6 +152,18 @@ public extension UIDevice {
             return "iPhone 7"
         case "iPhone9,2", "iPhone9,4":
             return "iPhone 7 Plus"
+        case "iPhone10,1":
+            return "iPhone8"
+        case "iPhone10,2":
+            return "iPhone 8 Plus"
+        case "iPhone10,3", "iPhone10,6":
+            return "iPhone X"
+        case "iPhone11,2":
+            return "iPhone XS"
+        case "iPhone11,4", "iPhone11,6":
+            return "iPhone XS Max"
+        case "iPhone11,8":
+            return "iPhone XR"
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":
             return "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":
@@ -178,6 +190,8 @@ public extension UIDevice {
             return "iPad Pro 9.7 (\(identifier))"
         case "iPad7,3", "iPad7,4":
             return "iPad Pro 10.5 (\(identifier))"
+        case "iPad8,1", "iPad8,2", "iPad8,3", "iPad8,4":
+            return "iPad Pro 11"
         case "AppleTV5,3":
             return "Apple TV"
         case "i386", "x86_64":
