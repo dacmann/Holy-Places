@@ -420,20 +420,41 @@
                                     <constraint firstItem="MgI-SP-iNW" firstAttribute="centerX" secondItem="fRa-Fz-Ssp" secondAttribute="centerX" id="GoY-kp-vpz"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-Nv-ABQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="20" y="625" width="374" height="32"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
-                                <state key="normal" title="Share Holy Places">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                </variation>
-                                <connections>
-                                    <action selector="shareHolyPlaces:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Yfj-v3-Pmt"/>
-                                </connections>
-                            </button>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5PE-qx-Fb0">
+                                <rect key="frame" x="324" y="597" width="70" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0U-Nv-ABQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="0.0" width="50" height="50"/>
+                                        <state key="normal" title="  Share" image="share">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="shareHolyPlaces:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Yfj-v3-Pmt"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0y-l1-ttk">
+                                        <rect key="frame" x="5" y="45" width="60" height="20"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="d0U-Nv-ABQ" firstAttribute="top" secondItem="5PE-qx-Fb0" secondAttribute="top" id="09v-fl-1lq"/>
+                                    <constraint firstAttribute="bottom" secondItem="d0U-Nv-ABQ" secondAttribute="bottom" constant="20" id="3U6-jh-mc5"/>
+                                    <constraint firstAttribute="width" constant="70" id="5oJ-5f-pdu"/>
+                                    <constraint firstAttribute="trailing" secondItem="J0y-l1-ttk" secondAttribute="trailing" constant="5" id="Ile-Ay-zN6"/>
+                                    <constraint firstItem="J0y-l1-ttk" firstAttribute="leading" secondItem="5PE-qx-Fb0" secondAttribute="leading" constant="5" id="UGq-4s-Qhx"/>
+                                    <constraint firstAttribute="trailing" secondItem="d0U-Nv-ABQ" secondAttribute="trailing" constant="10" id="Y04-RM-Byj"/>
+                                    <constraint firstAttribute="bottom" secondItem="J0y-l1-ttk" secondAttribute="bottom" constant="5" id="k3w-fc-zox"/>
+                                    <constraint firstAttribute="height" constant="70" id="ukJ-7n-xlS"/>
+                                    <constraint firstItem="d0U-Nv-ABQ" firstAttribute="leading" secondItem="5PE-qx-Fb0" secondAttribute="leading" constant="10" id="wPz-uO-yuN"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uec-Ci-Yhv" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="368" y="101" width="30" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -443,7 +464,7 @@
                                     <segue destination="nbc-Vt-jOs" kind="presentation" id="p9X-Kd-HGH"/>
                                 </connections>
                             </button>
-                            <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK8-KI-4Qz">
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK8-KI-4Qz">
                                 <rect key="frame" x="20" y="597" width="70" height="70"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXo-k0-bHE">
@@ -470,13 +491,13 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KgE-B8-cmp" firstAttribute="leading" secondItem="KB8-Og-jCU" secondAttribute="leading" constant="16" id="0da-6H-29x"/>
+                            <constraint firstItem="KB8-Og-jCU" firstAttribute="bottom" secondItem="5PE-qx-Fb0" secondAttribute="bottom" constant="20" id="4lf-ni-mwu"/>
                             <constraint firstItem="fRa-Fz-Ssp" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="5oN-25-s4c"/>
                             <constraint firstItem="fRa-Fz-Ssp" firstAttribute="top" secondItem="um1-Ns-NrD" secondAttribute="bottom" id="AXG-ap-Pnw"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="Uec-Ci-Yhv" secondAttribute="trailing" constant="16" id="CWf-Ph-eQL"/>
                             <constraint firstItem="0NS-3P-XN1" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="DPh-Eu-K2I"/>
+                            <constraint firstItem="KB8-Og-jCU" firstAttribute="bottom" secondItem="fRa-Fz-Ssp" secondAttribute="bottom" constant="62" id="EJm-Zx-E9q"/>
                             <constraint firstItem="um1-Ns-NrD" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="GFf-G2-NH1"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="d0U-Nv-ABQ" secondAttribute="trailing" id="INu-HH-HgK"/>
-                            <constraint firstItem="d0U-Nv-ABQ" firstAttribute="top" secondItem="fRa-Fz-Ssp" secondAttribute="bottom" id="IjA-4t-Mx9"/>
                             <constraint firstItem="vwg-46-s45" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="Kqt-cc-ujc"/>
                             <constraint firstItem="wK8-KI-4Qz" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" constant="20" id="Lr9-zs-5eo"/>
                             <constraint firstItem="pF0-Pf-K9x" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="NR6-BY-BRQ"/>
@@ -487,15 +508,14 @@
                             <constraint firstItem="k46-Yl-vx7" firstAttribute="top" secondItem="KB8-Og-jCU" secondAttribute="top" constant="20" id="Rya-WN-NU4"/>
                             <constraint firstItem="k46-Yl-vx7" firstAttribute="leading" secondItem="KB8-Og-jCU" secondAttribute="leading" constant="20" id="TO5-DA-HNc"/>
                             <constraint firstItem="19M-tx-g3d" firstAttribute="centerX" secondItem="KB8-Og-jCU" secondAttribute="centerX" id="Umv-XT-5BC"/>
-                            <constraint firstItem="d0U-Nv-ABQ" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="XRn-Fj-knc"/>
                             <constraint firstItem="jOZ-q7-HPl" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" constant="-10" id="aDL-AM-5ss"/>
                             <constraint firstItem="um1-Ns-NrD" firstAttribute="top" secondItem="19M-tx-g3d" secondAttribute="bottom" constant="2" id="cyc-bs-Yxw"/>
                             <constraint firstItem="pF0-Pf-K9x" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="d8v-Nx-J76"/>
+                            <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="5PE-qx-Fb0" secondAttribute="trailing" constant="20" id="dxJ-yo-j15"/>
                             <constraint firstItem="Uec-Ci-Yhv" firstAttribute="centerY" secondItem="KgE-B8-cmp" secondAttribute="centerY" id="hEC-d6-PDK"/>
                             <constraint firstItem="19M-tx-g3d" firstAttribute="width" secondItem="vwg-46-s45" secondAttribute="width" id="oZh-L4-uci"/>
                             <constraint firstItem="0NS-3P-XN1" firstAttribute="width" secondItem="vwg-46-s45" secondAttribute="width" id="p8E-Z3-1Zp"/>
                             <constraint firstItem="vwg-46-s45" firstAttribute="top" secondItem="0NS-3P-XN1" secondAttribute="bottom" constant="1" id="qvb-xR-aKu"/>
-                            <constraint firstItem="KB8-Og-jCU" firstAttribute="bottom" secondItem="d0U-Nv-ABQ" secondAttribute="bottom" constant="30" id="rgR-u7-ZZO"/>
                             <constraint firstItem="fRa-Fz-Ssp" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="width" multiplier="0.09" id="v9f-Zu-6CX"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="trailing" secondItem="k46-Yl-vx7" secondAttribute="trailing" constant="20" id="xyN-vt-Bst"/>
                             <constraint firstItem="19M-tx-g3d" firstAttribute="bottom" secondItem="vwg-46-s45" secondAttribute="bottom" constant="2" id="y5Q-rY-s1m"/>
@@ -531,7 +551,7 @@
         <scene sceneID="GHP-bD-pzY">
             <objects>
                 <tableViewController id="7cq-yi-S5P" customClass="AchievementsVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="krB-PJ-W9n">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="krB-PJ-W9n">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3408,6 +3428,7 @@
         <image name="mexico" width="360" height="640"/>
         <image name="morningstar-bnw" width="56.25" height="56.25"/>
         <image name="morningstarmoroni" width="715.5" height="768"/>
+        <image name="share" width="225" height="225"/>
         <image name="starOfMelchizedek" width="56.25" height="56.25"/>
         <image name="summary" width="56.25" height="56.25"/>
     </resources>
