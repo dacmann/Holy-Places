@@ -29,7 +29,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Settings"
+        self.navigationItem.title = "Settings"
         
         enableSwitch.isOn = notificationEnabled
         filterSwitch.isOn = notificationFilter

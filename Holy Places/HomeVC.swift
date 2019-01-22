@@ -90,7 +90,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             goal.text = goalProgress
         }
         
-        // Set size of achivement button
+        // Set size of achievement button
         if UIDevice.current.userInterfaceIdiom == .pad {
             achievementButtonWidth.constant = 100
         } else {
@@ -104,6 +104,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         // Set image of button to latest achievement
         if completed.count > 0 {
             achievementBtn.setImage(UIImage(named: completed[0].iconName), for: .normal)
+            achievementBtnView.isHidden = false
         } else {
             achievementBtnView.isHidden = true
         }
