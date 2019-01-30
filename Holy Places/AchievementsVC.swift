@@ -72,6 +72,15 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if completed.count == 0 {
+            let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text          = "No Achievements Yet 😕"
+            noDataLabel.textColor     = UIColor.ocean()
+            noDataLabel.textAlignment = .center
+            noDataLabel.font = UIFont(name: "Baskerville", size: 18)
+            tableView.backgroundView  = noDataLabel
+            tableView.separatorStyle  = .none
+        }
         return 1
     }
 
