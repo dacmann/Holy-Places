@@ -128,6 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var infoURL = String()
     var templeSiteURL = String()
     var templeSqFt = Int32()
+    var fhCode = String()
     var window: UIWindow?
     var settings: Settings?
     let locationManager = CLLocationManager()
@@ -719,6 +720,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             readerView = Bool()
             infoURL = String()
             templeSqFt = Int32(0)
+            fhCode = String()
         }
     }
     
@@ -740,6 +742,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             case "readerView": readerView = Bool(string)!
             case "infoURL": infoURL += string
             case "SqFt": templeSqFt += Int32(string)!
+            case "fhc": fhCode += string
             case "Version":
                 if string == placeDataVersion {
                     print("XML Data Version has not changed")
@@ -791,7 +794,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL, SqFt: templeSqFt)
+            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL, SqFt: templeSqFt, FHCode: fhCode)
             
             allPlaces.append(temple)
             switch templeType {
@@ -1241,6 +1244,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         place.readerView = temple.readerView
                         place.infoURL = temple.infoURL
                         place.sqFt = temple.templeSqFt!
+                        place.fhCode = temple.fhCode
                     }
                 } else {
                     // Not found so add the new Place
@@ -1260,6 +1264,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     place.readerView = temple.readerView
                     place.infoURL = temple.infoURL
                     place.sqFt = temple.templeSqFt!
+                    place.fhCode = temple.fhCode
                     print("Added \(temple.templeName)")
                 }
                 //save the object
@@ -1376,7 +1381,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             allPlaces.removeAll()
             
             for place in searchResults {
-                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!, SqFt: place.sqFt)
+                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!, SqFt: place.sqFt, FHCode: place.fhCode)
                 allPlaces.append(temple)
                 switch temple.templeType {
                 case "T":

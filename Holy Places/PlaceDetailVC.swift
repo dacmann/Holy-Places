@@ -33,6 +33,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var templeNameTop: NSLayoutConstraint!
     @IBOutlet weak var templeOrdinal: UILabel!
     @IBOutlet weak var pictureHeight: NSLayoutConstraint!
+    @IBOutlet weak var fhCode: UILabel!
     
     
     var visitCount = 0
@@ -446,6 +447,13 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     websiteBtn.isHidden = true
                 } else {
                     websiteBtn.isHidden = false
+                }
+                
+                if detail.fhCode == "" {
+                    fhCode.isHidden = true
+                } else {
+                    fhCode.isHidden = false
+                    fhCode.text = detail.fhCode
                 }
                 
                 if detail.templeType == "T" {

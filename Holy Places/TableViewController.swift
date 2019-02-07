@@ -90,7 +90,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // Search on Place name, City or State and now snippet
         filteredPlaces = places.filter { place in
             let categoryMatch = (scope == "All") || (scope == "Visited" && visits.contains(place.templeName)) || (scope == "Not Visited" && !(visits.contains(place.templeName)))
-            return categoryMatch && (place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased()) || place.templeSnippet.lowercased().contains(searchText.lowercased()) || searchText.isEmpty)
+            return categoryMatch && (place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased()) || place.templeSnippet.lowercased().contains(searchText.lowercased())  || (place.fhCode?.lowercased().contains(searchText.lowercased()))! || searchText.isEmpty)
         }
         // Update table to reflect filtered results
         setup()

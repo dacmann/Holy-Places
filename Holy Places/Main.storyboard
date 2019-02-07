@@ -20,8 +20,8 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="Temple Goal" id="pLf-go-q16">
-                                <mutableString key="footerTitle">"I urge you to find a way to make an appointment regularly with the Lord--to be in His holy house﻿--then keep that appointment with exactness and joy.  I promise you that the Lord will bring the miracles He knows you need as you make sacrifices to serve and worship in His temples."
-           - President Russell M. Nelson (Oct 2018)</mutableString>
+                                <string key="footerTitle">"I urge you to find a way to make an appointment regularly with the Lord--to be in His holy house﻿--then keep that appointment with exactness and joy.  I promise you that the Lord will bring the miracles He knows you need as you make sacrifices to serve and worship in His temples."
+           - President Russell M. Nelson (Oct 2018)</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="ikA-G5-oWN">
                                         <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="44"/>
@@ -2626,6 +2626,15 @@
                                     <action selector="changePage:" destination="zKl-KP-iZp" eventType="valueChanged" id="qv7-5t-O8K"/>
                                 </connections>
                             </pageControl>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DtP-7Y-MO8">
+                                <rect key="frame" x="10" y="310" width="32" height="17.333333333333314"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                </variation>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kBr-CG-1Lf">
                                 <rect key="frame" x="10" y="330" width="394" height="30"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
@@ -2772,6 +2781,7 @@
                             <constraint firstItem="JNk-hK-mtx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qAS-fV-C3U" secondAttribute="trailing" constant="10" id="5RN-fg-yfZ"/>
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="10" id="5vj-ng-IfE"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="bottom" secondItem="vK1-SH-HRa" secondAttribute="bottom" constant="15" id="D59-pu-6PI"/>
+                            <constraint firstItem="DtP-7Y-MO8" firstAttribute="leading" secondItem="58o-8C-bV5" secondAttribute="leading" constant="10" id="FF6-sA-PJ2"/>
                             <constraint firstItem="qAS-fV-C3U" firstAttribute="top" secondItem="XIJ-sk-hj8" secondAttribute="bottom" constant="10" id="G7Z-1B-oKL"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="vK1-SH-HRa" secondAttribute="trailing" constant="10" id="HsP-FE-dnk">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
@@ -2792,6 +2802,7 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="25"/>
                             </constraint>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="kBA-Zo-Zka" secondAttribute="trailing" id="Zf0-lM-jRJ"/>
+                            <constraint firstItem="DtP-7Y-MO8" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" constant="10" id="aHe-pm-fWy"/>
                             <constraint firstItem="cbg-HS-RCa" firstAttribute="top" secondItem="kBA-Zo-Zka" secondAttribute="bottom" id="b16-ku-Vc6"/>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="trailing" secondItem="CbP-Sh-Wss" secondAttribute="trailing" constant="10" id="bl6-Mg-bhw">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
@@ -2817,6 +2828,7 @@
                     <connections>
                         <outlet property="address" destination="qAS-fV-C3U" id="8IN-ZN-kYv"/>
                         <outlet property="addressWidth" destination="ORa-4K-UsB" id="Etu-RE-fm0"/>
+                        <outlet property="fhCode" destination="DtP-7Y-MO8" id="ZgR-is-hoR"/>
                         <outlet property="pageControl" destination="cbg-HS-RCa" id="frD-e9-eW6"/>
                         <outlet property="phoneNumber" destination="DsF-Hv-V5B" id="8VR-Gd-FPp"/>
                         <outlet property="pictureHeight" destination="UMh-gd-mOk" id="3lj-f2-oHJ"/>
