@@ -339,6 +339,19 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     // Reset recently visited variables
                     dateFromNotification = nil
                     placeFromNotification = nil
+                } else if copyVisit != nil {
+                    // Copy visit details and increament date by a week
+                    let modifiedDate = Calendar.current.date(byAdding: .day, value: 7, to: copyVisit!.dateVisited!)!
+                    dateOfVisit = modifiedDate
+                    hoursWorked.text = copyVisit!.shiftHrs.description
+                    sealings.text = copyVisit!.sealings.description
+                    endowments.text = copyVisit!.endowments.description
+                    initiatories.text = copyVisit!.initiatories.description
+                    confirmations.text = copyVisit!.confirmations.description
+                    baptisms.text = copyVisit!.baptisms.description
+                    comments.text = copyVisit!.comments
+                    comments.sizeToFit()
+                    copyVisit = nil
                 } else {
                     dateOfVisit = Date()
                 }

@@ -106,6 +106,7 @@ var baptismsTotal = 0
 var ordinancesTotal = 0
 var shiftHoursTotal = 0.0
 var didOrdinances = false
+var copyVisit: Visit?
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {

@@ -211,6 +211,53 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         return true
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete item at indexPath after confirming action
+            let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this visit?", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            }
+            alert.addAction(cancelAction)
+            let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+                let context = self.fetchedResultsController.managedObjectContext
+                context.delete(self.fetchedResultsController.object(at: indexPath))
+            }
+            alert.addAction(destroyAction)
+            
+            self.present(alert, animated: true) {
+            }
+        }
+        
+        let new = UITableViewRowAction(style: .normal, title: "New") { (action, indexPath) in
+            // new item at indexPath
+            let visit = self.fetchedResultsController.object(at: indexPath)
+            // find Place based on name of Visit
+            if let found = allPlaces.first(where:{$0.templeName == visit.holyPlace!}) {
+                self.quickAddPlace  = found
+                self.performSegue(withIdentifier: "quickRecordVisit", sender: nil)
+            }
+            
+        }
+        
+        let copy = UITableViewRowAction(style: .normal, title: "Copy") { (action, indexPath) in
+            // Copy item at indexPath
+            copyVisit = self.fetchedResultsController.object(at: indexPath)
+//            self.performSegue(withIdentifier: "quickRecordVisit", sender: nil)
+            // find Place based on name of Visit
+            if let found = allPlaces.first(where:{$0.templeName == copyVisit!.holyPlace!}) {
+                self.quickAddPlace  = found
+                self.performSegue(withIdentifier: "quickRecordVisit", sender: nil)
+            }
+            
+        }
+
+        new.backgroundColor = UIColor.blue
+        copy.backgroundColor = UIColor.moss()
+//        delete.
+        
+        return [copy, new, delete]
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let context = self.fetchedResultsController.managedObjectContext
