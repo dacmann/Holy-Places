@@ -29,6 +29,26 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     var quickAddPlace: Temple?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let formatter = DateFormatter()
+    var sortByDate = true
+    
+    @IBOutlet weak var sortBy: UIBarButtonItem!
+    @IBAction func sortByBtn(_ sender: Any) {
+        if sortByDate {
+            sortByDate = false
+            sortBy.title = "by Date"
+        } else {
+            sortByDate = true
+            sortBy.title = "by Place"
+        }
+        // reset data pull
+        _fetchedResultsController = nil
+        if searchController.isActive {
+            // reset filtered results based on updated pull
+            let sel = searchController.searchBar.selectedScopeButtonIndex
+            searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
+        }
+        self.tableView.reloadData()
+    }
     
     // Set variable based on Filter Option selected on Options view
     func FilterOptions(row: Int) {
@@ -377,10 +397,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         fetchRequest.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
-//        let sortDescriptor = NSSortDescriptor(key: "holyPlace", ascending: true)
+        var sortDescriptor = NSSortDescriptor(key: "holyPlace", ascending: true)
+        if sortByDate {
+            sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+        } else {
+            let sortDescriptor2 = NSSortDescriptor(key: "dateVisited", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
+        }
         
-        fetchRequest.sortDescriptors = [sortDescriptor]
+//        fetchRequest.sortDescriptors = [sortDescriptor]
         
         // Filter the request
         switch visitFilterRow {
@@ -405,7 +431,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "year", cacheName: nil)
+        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "holyPlace", cacheName: nil)
+        if sortByDate {
+            aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "year", cacheName: nil)
+        }
         if searchController.isActive {
             aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         }        

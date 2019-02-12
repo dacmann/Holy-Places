@@ -2349,6 +2349,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Visits" id="lL4-nU-PFd">
                         <barButtonItem key="backBarButtonItem" title="Visits" id="oxp-WO-I8O"/>
+                        <barButtonItem key="leftBarButtonItem" title="by Place" id="9Xf-EQ-F2d">
+                            <connections>
+                                <action selector="sortByBtn:" destination="lXC-AK-NFm" id="Wt1-12-Y0W"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Options" id="e40-Ed-Hjr">
                             <connections>
                                 <segue destination="0kB-hC-xcd" kind="presentation" identifier="showVisitOptions" id="ImW-8S-f9R"/>
@@ -2356,6 +2361,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="sortBy" destination="9Xf-EQ-F2d" id="d2p-aF-hcY"/>
                         <segue destination="Wm6-qc-lsd" kind="show" identifier="quickRecordVisit" id="ufl-Eb-Dlx"/>
                     </connections>
                 </tableViewController>
