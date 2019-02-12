@@ -341,7 +341,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     placeFromNotification = nil
                 } else if copyVisit != nil {
                     // Copy visit details and increament date by a week
-                    let modifiedDate = Calendar.current.date(byAdding: .day, value: 7, to: copyVisit!.dateVisited!)!
+                    let modifiedDate = Calendar.current.date(byAdding: .day, value: Int(copyAddDays), to: copyVisit!.dateVisited!)!
                     dateOfVisit = modifiedDate
                     hoursWorked.text = copyVisit!.shiftHrs.description
                     sealings.text = copyVisit!.sealings.description

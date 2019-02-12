@@ -24,6 +24,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var importBtn: ShadowButton!
     @IBOutlet weak var hoursWorkedSwitch: UISwitch!
     @IBOutlet weak var excludeNonOrdinanceVisitsSwitch: UISwitch!
+    @IBOutlet weak var addDays: UITextField!
     
     //MARK: - Standard Methods
     override func viewDidLoad() {
@@ -64,6 +65,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         
         visitGoal.text = String(annualVisitGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
+        addDays.text = String(copyAddDays)
         keyboardDone()
 
     }
@@ -134,8 +136,9 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func doneButton(_ sender: UIBarButtonItem) {
         // Save settings
-        notificationDelayInMinutes = Int16(minutesDelay.text!)!
-        annualVisitGoal = Int(visitGoal.text!)!
+        notificationDelayInMinutes = Int16(minutesDelay.text!) ?? 30
+        annualVisitGoal = Int(visitGoal.text!) ?? 12
+        copyAddDays = Int16(addDays.text!) ?? 7
         
         // Dismiss view
         self.dismiss(animated: true, completion: nil)
@@ -156,6 +159,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         //setting toolbar as inputAccessoryView
         self.minutesDelay.inputAccessoryView = toolbar
         self.visitGoal.inputAccessoryView = toolbar
+        self.addDays.inputAccessoryView = toolbar
     }
     
     @IBAction func addPicture(_ sender: UIButton) {

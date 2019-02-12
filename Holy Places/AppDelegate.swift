@@ -107,6 +107,7 @@ var ordinancesTotal = 0
 var shiftHoursTotal = 0.0
 var didOrdinances = false
 var copyVisit: Visit?
+var copyAddDays = 7 as Int16
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -202,6 +203,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     homeVisitPicture = (settings?.homeVisitPicture)!
                     ordinanceWorker = (settings?.ordinanceWorker)!
                     excludeNonOrdinanceVisits = (settings?.excludeNonOrdinanceVisits)!
+                    copyAddDays = (settings?.copyAddDays)!
                 }
             } else {
                 // nothing to do here
@@ -256,6 +258,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.homeVisitPicture = homeVisitPicture
         settings?.ordinanceWorker = ordinanceWorker
         settings?.excludeNonOrdinanceVisits = excludeNonOrdinanceVisits
+        settings?.copyAddDays = copyAddDays
         
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()
