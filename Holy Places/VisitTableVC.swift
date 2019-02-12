@@ -46,6 +46,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
+        _fetchedResultsController = nil
         let allVisits = fetchedResultsController.fetchedObjects
         // Search on Place name or comments
         filteredVisits = allVisits!.filter { visit in
@@ -83,7 +84,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
+//        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
         formatter.dateFormat = "EEEE, MMMM dd, YYYY"
         
         // Search Controller Stuff
@@ -159,7 +161,23 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
 
     // MARK: - Table view data source
-
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if searchController.isActive {
+            return nil
+        } else {
+            guard let sectionInfo = fetchedResultsController.sections?[section] else {
+                return nil
+            }
+            return "\(sectionInfo.name) (\(sectionInfo.numberOfObjects))"
+        }
+        
+    }
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
+        header.textLabel?.textColor = UIColor.ocean()
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         if self.fetchedResultsController.fetchedObjects?.count != 0
         {
@@ -176,7 +194,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }
-        return self.fetchedResultsController.sections?.count ?? 0
+        if searchController.isActive {
+            return 1
+        } else {
+            return self.fetchedResultsController.sections?.count ?? 0
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -208,6 +231,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
+        if searchController.isActive {
+            return false
+        }
         return true
     }
     
@@ -221,6 +247,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
                 let context = self.fetchedResultsController.managedObjectContext
                 context.delete(self.fetchedResultsController.object(at: indexPath))
+                self.tableView.reloadData()
+                do {
+                    try context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+                // Update visit count for goal progress in Widget
+                self.appDelegate.getVisits()
             }
             alert.addAction(destroyAction)
             
@@ -242,7 +277,6 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let copy = UITableViewRowAction(style: .normal, title: "Copy") { (action, indexPath) in
             // Copy item at indexPath
             copyVisit = self.fetchedResultsController.object(at: indexPath)
-//            self.performSegue(withIdentifier: "quickRecordVisit", sender: nil)
             // find Place based on name of Visit
             if let found = allPlaces.first(where:{$0.templeName == copyVisit!.holyPlace!}) {
                 self.quickAddPlace  = found
@@ -253,7 +287,6 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         new.backgroundColor = UIColor.blue
         copy.backgroundColor = UIColor.moss()
-//        delete.
         
         return [copy, new, delete]
     }
@@ -345,6 +378,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Edit the sort key as appropriate.
         let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
+//        let sortDescriptor = NSSortDescriptor(key: "holyPlace", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -371,7 +405,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "year", cacheName: nil)
+        if searchController.isActive {
+            aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        }        
+        
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         

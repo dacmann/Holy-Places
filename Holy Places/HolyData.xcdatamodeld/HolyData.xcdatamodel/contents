@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityState" optional="YES" attributeType="String" syncable="YES"/>
@@ -63,6 +63,7 @@
         <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="shiftHrs" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
         <fetchIndex name="byHolyPlaceIndex">
             <fetchIndexElement property="holyPlace" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -71,6 +72,6 @@
         <element name="Place" positionX="-36" positionY="-75" width="128" height="300"/>
         <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
         <element name="Settings" positionX="99" positionY="0" width="128" height="405"/>
-        <element name="Visit" positionX="232" positionY="-99" width="128" height="210"/>
+        <element name="Visit" positionX="232" positionY="-99" width="128" height="225"/>
     </elements>
 </model>

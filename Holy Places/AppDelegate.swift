@@ -894,6 +894,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     func getVisits () {
+        let context = getContext()
         var latestTempleVisited = ""
         var dateLastVisited = ""
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
@@ -924,8 +925,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         do {
             // Get All visits
             visits.removeAll()
-            var searchResults = try getContext().fetch(fetchRequest)
+            var searchResults = try context.fetch(fetchRequest)
             for visit in searchResults as [Visit] {
+                // populate year if needed
+                if visit.year == nil {
+                    visit.year = yearFormat.string(from: visit.dateVisited!)
+                    //save the object
+                    do {
+                        try context.save()
+                    } catch let error as NSError  {
+                        print("Could not save \(error), \(error.userInfo)")
+                    } catch {}
+                }
                 visits.append(visit.holyPlace!)
             }
             // get temple visits
@@ -983,19 +994,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
             
-            for temple in searchResults as [Visit] {
+            for visit in searchResults as [Visit] {
                 // count ordinances for each temple visited
                 // add to total counts
                 
-                sealingsTotal += Int(temple.sealings)
-                endowmentsTotal += Int(temple.endowments)
-                initiatoriesTotal += Int(temple.initiatories)
-                confirmationsTotal += Int(temple.confirmations)
-                baptismsTotal += Int(temple.baptisms)
-                shiftHoursTotal += temple.shiftHrs
+                sealingsTotal += Int(visit.sealings)
+                endowmentsTotal += Int(visit.endowments)
+                initiatoriesTotal += Int(visit.initiatories)
+                confirmationsTotal += Int(visit.confirmations)
+                baptismsTotal += Int(visit.baptisms)
+                shiftHoursTotal += visit.shiftHrs
                 
                 // Check if ordnances were performed at this visit
-                if Int(temple.baptisms) > 0 || Int(temple.confirmations) > 0 || Int(temple.initiatories) > 0 || Int(temple.endowments) > 0 || Int(temple.sealings) > 0 {
+                if Int(visit.baptisms) > 0 || Int(visit.confirmations) > 0 || Int(visit.initiatories) > 0 || Int(visit.endowments) > 0 || Int(visit.sealings) > 0 {
                     didOrdinances = true
                 } else {
                     didOrdinances = false
@@ -1010,133 +1021,133 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 }
                 
                 // determine unique temples visited
-                if !distinctTemplesVisited.contains(temple.holyPlace!) {
-                    distinctTemplesVisited.append(temple.holyPlace!)
+                if !distinctTemplesVisited.contains(visit.holyPlace!) {
+                    distinctTemplesVisited.append(visit.holyPlace!)
                     if distinctTemplesVisited.count == 10 {
-                        updateAchievement(achievement:"ach10T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach10T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 20 {
-                        updateAchievement(achievement:"ach20T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach20T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 30 {
-                        updateAchievement(achievement:"ach30T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach30T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 40 {
-                        updateAchievement(achievement:"ach40T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach40T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 50 {
-                        updateAchievement(achievement:"ach50T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach50T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 75 {
-                        updateAchievement(achievement:"ach75T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach75T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 100 {
-                        updateAchievement(achievement:"ach100T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach100T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 125 {
-                        updateAchievement(achievement:"ach125T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach125T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 150 {
-                        updateAchievement(achievement:"ach150T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach150T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 175 {
-                        updateAchievement(achievement:"ach175T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach175T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 200 {
-                        updateAchievement(achievement:"ach200T", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                        updateAchievement(achievement:"ach200T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                 }
                 
                 // Check for Ordinance Achievements
                 switch baptismsTotal {
                 case 25 ... 49:
-                    updateAchievement(achievement: "ach25B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach25B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach50B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach100B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach200B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400 ... 799:
-                    updateAchievement(achievement: "ach400B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach400B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 800...:
-                    updateAchievement(achievement: "ach800B", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach800B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
                 
                 switch initiatoriesTotal {
                 case 25 ... 49:
-                    updateAchievement(achievement: "ach25I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach25I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach50I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach100I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach200I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400 ... 799:
-                    updateAchievement(achievement: "ach400I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach400I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 800... :
-                    updateAchievement(achievement: "ach800I", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach800I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
                 
                 switch endowmentsTotal {
                 case 10 ... 24:
-                    updateAchievement(achievement: "ach10E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach10E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 25 ... 49:
-                    updateAchievement(achievement: "ach25E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach25E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach50E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach100E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach200E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400... :
-                    updateAchievement(achievement: "ach400E", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach400E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
                 
                 switch sealingsTotal {
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach50S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach100S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach200S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400 ... 799:
-                    updateAchievement(achievement: "ach400S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach400S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 800 ... 1599:
-                    updateAchievement(achievement: "ach800S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach800S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 1600... :
-                    updateAchievement(achievement: "ach1600S", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach1600S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
                 
                 switch shiftHoursTotal {
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach50TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach100TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach200TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400 ... 799:
-                    updateAchievement(achievement: "ach400TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach400TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 800 ... 1599:
-                    updateAchievement(achievement: "ach800TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach800TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 1600... :
-                    updateAchievement(achievement: "ach1600TW", dateAchieved: temple.dateVisited!, placeAchieved: temple.holyPlace!)
+                    updateAchievement(achievement: "ach1600TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
                 
                 //  Check for consecutive month achievements if ordinaces performed
                 if didOrdinances {
-                    let monthVisited = Int(monthFormat.string(from: temple.dateVisited!))
-                    let yearVisited = yearFormat.string(from: temple.dateVisited!)
+                    let monthVisited = Int(monthFormat.string(from: visit.dateVisited!))
+                    let yearVisited = yearFormat.string(from: visit.dateVisited!)
                     if (monthVisited == 1) {
                         // reset the year to year of visit
                         year = yearVisited
@@ -1144,7 +1155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                     if monthVisited == 12 && month == 12 && yearVisited == year {
                         // Check if all twelve months had visits
-                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT", Achieved: temple.dateVisited!, PlaceAchieved: temple.holyPlace!))
+                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT", Achieved: visit.dateVisited!, PlaceAchieved: visit.holyPlace!))
                         month = 0
                     }
                     if monthVisited == month + 1 && yearVisited == year {
