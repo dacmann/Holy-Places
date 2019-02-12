@@ -2944,8 +2944,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint: Add Visits from the Place Details pages" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3SJ-RL-qNP">
-                                <rect key="frame" x="53.333333333333343" y="128" width="307.33333333333326" height="19.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint: Add new Visit from Place Details or by swiping left on previous Visit in table" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3SJ-RL-qNP">
+                                <rect key="frame" x="10" y="108.66666666666669" width="394" height="39"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -3045,8 +3045,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3SJ-RL-qNP" secondAttribute="trailing" constant="10" id="43F-ET-EqC"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerX" secondItem="tES-rO-uak" secondAttribute="centerX" id="eP3-6R-M3G"/>
+                            <constraint firstItem="3SJ-RL-qNP" firstAttribute="leading" secondItem="MKd-em-rZT" secondAttribute="leading" constant="10" id="lzn-tn-3Oz"/>
                             <constraint firstItem="3SJ-RL-qNP" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="skJ-tR-bsT"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="top" secondItem="3SJ-RL-qNP" secondAttribute="bottom" constant="20" id="wPs-l3-8lG"/>
                         </constraints>

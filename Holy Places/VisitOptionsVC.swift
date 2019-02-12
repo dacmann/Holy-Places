@@ -298,6 +298,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let alert = UIAlertController(title: "Import Successful", message: "Successfully imported \(importCount) visits", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
+            appDelegate.getVisits()
         } else {
             print("Data parsing aborted")
             let error = parser.parserError!

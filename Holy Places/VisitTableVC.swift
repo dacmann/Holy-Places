@@ -308,7 +308,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         new.backgroundColor = UIColor.blue
         copy.backgroundColor = UIColor.moss()
         
-        return [copy, new, delete]
+        return [new, copy, delete]
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -328,6 +328,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             appDelegate.getVisits()
         }
     }
+    
 
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
         cell.textLabel!.text = visit.holyPlace
