@@ -102,7 +102,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             mapPoints.append(MapPoint(title: (place.templeName), coordinate: CLLocationCoordinate2D(latitude: (place.cllocation.coordinate.latitude), longitude: (place.cllocation.coordinate.longitude)), type: (place.templeType)))
         }
         mapView.addAnnotations(mapPoints)
-        if let found = mapPoints.index(where:{$0.name == mapPoint.name}) {
+        if let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
             mapView.selectAnnotation(mapPoints[found], animated: true)
         }
     }
@@ -112,7 +112,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             mapView.addAnnotations(mapPoints)
             mapView.setCenter(mapCenter, animated: false)
             // Determine the current 
-            if let found = mapPoints.index(where:{$0.name == mapPoint.name}) {
+            if let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
                 mapView.selectAnnotation(mapPoints[found], animated: true)
             }
             let mapCamera = MKMapCamera(lookingAtCenter: mapCenter, fromEyeCoordinate: mapCenter, eyeAltitude: mapZoomLevel)
@@ -173,7 +173,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Navigation
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let found = allPlaces.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+        if let found = allPlaces.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
             let place = allPlaces[found]
 //            print(place.templeName)
             placeName = place.templeName
@@ -202,7 +202,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             places = mapPlaces
             placeFilterRow = mapFilterRow
             // Find details for selected pin
-            if let found = places.index(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+            if let found = places.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
                 print(found)
                 let place = places[found]
                 selectedPlaceRow = found

@@ -507,6 +507,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 //            self.configureCell(tableView.cellForRow(at: indexPath!)!, withVisit: anObject as! Visit)
         case .move:
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        @unknown default:
+            print("Not handled")
         }
     }
     

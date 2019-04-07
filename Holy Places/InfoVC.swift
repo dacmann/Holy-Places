@@ -56,6 +56,8 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
             
         case .portrait, .portraitUpsideDown, .unknown :
             logoWidth.constant = greetings.frame.width / 1.5
+        @unknown default:
+            print("Not handled")
         }
         
     }

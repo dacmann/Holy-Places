@@ -292,7 +292,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 let placeCount = String(format: "%@", place.object(forKey: "count") as! CVarArg)
                 
                 // Determine type
-                if let found = allPlaces.index(where:{$0.templeName == placeName}) {
+                if let found = allPlaces.firstIndex(where:{$0.templeName == placeName}) {
                     switch allPlaces[found].templeType {
                     case "T":
                         textColor = UIColor.darkRed()

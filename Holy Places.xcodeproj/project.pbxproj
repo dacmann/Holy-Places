@@ -26,7 +26,6 @@
 		6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EE1F0579B50087E013 /* MapPoint.swift */; };
 		64A3CB671FA901CE00D37E6A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */; };
 		64A3CB6A1FA901CE00D37E6A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A3CB691FA901CE00D37E6A /* TodayViewController.swift */; };
-		64A3CB6D1FA901CE00D37E6A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64A3CB6B1FA901CE00D37E6A /* MainInterface.storyboard */; };
 		64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64B520FC1FD6FD6900E9B1EE /* Visits.gpx */; };
 		64B521011FD9D94200E9B1EE /* SettingsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B521001FD9D94200E9B1EE /* SettingsTableVC.swift */; };
@@ -71,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		641054A8225A41390057F25A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64228E0E1F3A04F3009ADCFD /* PlaceDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailVC.swift; sourceTree = "<group>"; };
 		642565631E32F55C0020FA73 /* OptionsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsVC.swift; sourceTree = "<group>"; };
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
@@ -91,7 +91,6 @@
 		64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Holy Places Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		64A3CB691FA901CE00D37E6A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		64A3CB6C1FA901CE00D37E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		64A3CB6E1FA901CE00D37E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places Widget.entitlements"; sourceTree = "<group>"; };
 		64A3CB771FA9029700D37E6A /* Holy Places.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places.entitlements"; sourceTree = "<group>"; };
@@ -111,7 +110,6 @@
 		64FDE6EB1E21863A00951A58 /* Holy Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FDE6EE1E21863A00951A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		64FDE6FA1E21863A00951A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,7 +147,6 @@
 			children = (
 				64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */,
 				64A3CB691FA901CE00D37E6A /* TodayViewController.swift */,
-				64A3CB6B1FA901CE00D37E6A /* MainInterface.storyboard */,
 				64A3CB6E1FA901CE00D37E6A /* Info.plist */,
 			);
 			path = "Holy Places Widget";
@@ -269,13 +266,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Derek Cordon";
 				TargetAttributes = {
 					64A3CB641FA901CE00D37E6A = {
 						CreatedOnToolsVersion = 9.0;
 						DevelopmentTeam = 3N7PM336W9;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -286,7 +283,7 @@
 					64FDE6EA1E21863A00951A58 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3N7PM336W9;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -307,11 +304,10 @@
 			};
 			buildConfigurationList = 64FDE6E61E21863A00951A58 /* Build configuration list for PBXProject "Holy Places" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 64FDE6E21E21863A00951A58;
 			productRefGroup = 64FDE6EC1E21863A00951A58 /* Products */;
@@ -329,7 +325,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A3CB6D1FA901CE00D37E6A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,18 +396,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		64A3CB6B1FA901CE00D37E6A /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64A3CB6C1FA901CE00D37E6A /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				64FDE6FA1E21863A00951A58 /* Base */,
+				641054A8225A41390057F25A /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -437,7 +424,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -459,7 +446,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -589,7 +576,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -611,7 +598,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

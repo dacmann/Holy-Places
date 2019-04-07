@@ -355,6 +355,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 locationManager.startMonitoringSignificantLocationChanges()
                 // Add Quick Launch Shortcut to record visit for nearest place
                 DetermineClosest()
+            @unknown default:
+                print("Not handled")
             }
         } else {
             print("Location services are not enabled")
@@ -374,7 +376,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 // remove any non-temple regions being monitored since temple only notifications is enabled
                 for region in locationManager.monitoredRegions {
                     // find region in array to determine if it is a temple
-                    if let found = placesForRegionMonitoring.index(where:{$0.templeName == region.identifier}) {
+                    if let found = placesForRegionMonitoring.firstIndex(where:{$0.templeName == region.identifier}) {
                         if placesForRegionMonitoring[found].templeType != "T" {
                             let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: placesForRegionMonitoring[found].coordinate.latitude, longitude: placesForRegionMonitoring[found].coordinate.longitude), radius: regionRadius, identifier: placesForRegionMonitoring[found].templeName)
                             if locationManager.monitoredRegions.contains(region) {
@@ -394,7 +396,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             for region in locationManager.monitoredRegions {
                 // find region in array to determine distance
                 
-                if let found = placesForRegionMonitoring.index(where:{$0.templeName == region.identifier}) {
+                if let found = placesForRegionMonitoring.firstIndex(where:{$0.templeName == region.identifier}) {
 //                    print("region set for \(region.identifier) with a distance of \(placesForRegionMonitoring[found].distance!) meters")
                     if placesForRegionMonitoring[found].distance! >= distanceFilter {
                         // remove if further than distanceFilter
@@ -634,7 +636,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -648,7 +650,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -880,7 +882,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     func updateAchievement(achievement:String, dateAchieved:Date, placeAchieved:String) {
-        if let location = achievements.index(where:{$0.iconName == achievement}) {
+        if let location = achievements.firstIndex(where:{$0.iconName == achievement}) {
             // Only update if not already achieved
             if achievements[location].achieved == nil {
                 achievements[location].achieved = dateAchieved
