@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
            - President Russell M. Nelson (Oct 2018)</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="ikA-G5-oWN">
-                                        <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ikA-G5-oWN" id="48d-OG-tbD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -275,7 +275,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="HMj-NB-y59">
-                                        <rect key="frame" x="0.0" y="917.00000000000011" width="414" height="119.99999999999989"/>
+                                        <rect key="frame" x="0.0" y="917.00000000000011" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="119.66666666666667"/>
@@ -711,6 +711,15 @@
                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="33"/>
                                         </variation>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-Cg-29B">
+                                        <rect key="frame" x="374" y="97" width="30" height="30"/>
+                                        <state key="normal" title="▷">
+                                            <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnChangeQuote:" destination="odm-0V-dAT" eventType="touchUpInside" id="83N-So-KKG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -719,6 +728,8 @@
                                     <constraint firstAttribute="height" constant="132" id="Roj-CE-cip">
                                         <variation key="heightClass=regular-widthClass=regular" constant="200"/>
                                     </constraint>
+                                    <constraint firstAttribute="trailing" secondItem="mhC-Cg-29B" secondAttribute="trailing" constant="10" id="ZSF-jN-LXM"/>
+                                    <constraint firstAttribute="bottom" secondItem="mhC-Cg-29B" secondAttribute="bottom" constant="5" id="dfc-cR-csd"/>
                                     <constraint firstItem="Q1g-ZX-bhx" firstAttribute="leading" secondItem="8ge-ji-DV0" secondAttribute="leadingMargin" constant="20" id="gUK-ef-8OV">
                                         <variation key="heightClass=regular-widthClass=regular" constant="60"/>
                                     </constraint>
@@ -3477,19 +3488,19 @@
     <resources>
         <image name="PCC" width="360" height="640"/>
         <image name="PCCL" width="910.66668701171875" height="683"/>
-        <image name="PCCW" width="1668" height="2224"/>
-        <image name="ach10T" width="225" height="223.5"/>
-        <image name="journal" width="56.25" height="56.25"/>
-        <image name="map" width="51.063831329345703" height="51.063831329345703"/>
+        <image name="PCCW" width="556" height="741.33331298828125"/>
+        <image name="ach10T" width="100" height="99.333335876464844"/>
+        <image name="journal" width="25" height="25"/>
+        <image name="map" width="33.333332061767578" height="33.333332061767578"/>
         <image name="mexico" width="360" height="640"/>
-        <image name="morningstar-bnw" width="56.25" height="56.25"/>
-        <image name="morningstarmoroni" width="715.5" height="768"/>
-        <image name="share" width="225" height="225"/>
-        <image name="starOfMelchizedek" width="56.25" height="56.25"/>
-        <image name="summary" width="56.25" height="56.25"/>
+        <image name="morningstar-bnw" width="25" height="25"/>
+        <image name="morningstarmoroni" width="318" height="341.33334350585938"/>
+        <image name="share" width="100" height="100"/>
+        <image name="starOfMelchizedek" width="25" height="25"/>
+        <image name="summary" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8oe-hn-yZM"/>
+        <segue reference="DQn-F3-acx"/>
         <segue reference="ufl-Eb-Dlx"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>

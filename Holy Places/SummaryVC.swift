@@ -124,14 +124,18 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         quoteNum = Int(arc4random_uniform(UInt32(summaryQuotes.count)))
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        getTotals()
+    fileprivate func nextQuote() {
         // Cycle through the quotes sequentially
         if quoteNum == summaryQuotes.count {
             quoteNum = 0
         }
         quote.text = summaryQuotes[quoteNum]
         quoteNum += 1
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getTotals()
+        nextQuote()
     }
     
     override func viewWillLayoutSubviews() {
@@ -217,6 +221,9 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         } catch {
             print("Error with request: \(error)")
         }
+    }
+    @IBAction func btnChangeQuote(_ sender: UIButton) {
+        nextQuote()
     }
     
     //MARK: - Tallying functions
