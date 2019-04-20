@@ -547,12 +547,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                     let visit = filteredVisits[indexPath.row]
                     visitsInTable = filteredVisits
                     controller.detailVisit = visit
+                    selectedVisitRow = indexPath.row
                 } else {
                     let visit = self.fetchedResultsController.object(at: indexPath)
                     visitsInTable = fetchedResultsController.fetchedObjects!
                     controller.detailVisit = visit
+                    selectedVisitRow = visitsInTable.firstIndex(where:{$0.holyPlace == visit.holyPlace && $0.dateVisited == visit.dateVisited})!
                 }
-                selectedVisitRow = indexPath.row
+                
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
