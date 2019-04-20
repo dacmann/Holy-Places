@@ -15,6 +15,8 @@ class Achievement: NSObject {
     var iconName = String()
     var achieved: Date?
     var placeAchieved: String?
+    var progress: Float?
+    var remaining: Int?
     
     init(Name:String, Details:String, IconName:String) {
         self.name = Name
@@ -38,5 +40,6 @@ class AchievementCell: UITableViewCell {
     @IBOutlet weak var cellDetails: UILabel!
     @IBOutlet weak var cellPlaceAchieved: UILabel!
     @IBOutlet weak var cellDateAchieved: UILabel!
+    @IBOutlet weak var cellProgress: UIProgressView!
     
 }

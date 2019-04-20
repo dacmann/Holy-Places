@@ -106,24 +106,36 @@ class VisitDetailVC: UIViewController {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
                 var ordinances = ""
+                var sealings = ""
+                var endowments = ""
+                var initiatories = ""
+                var confirmations = ""
+                var baptisms = ""
+                var shiftHrs = ""
                 if detail.type == "T" {
                     if detail.sealings > 0 {
-                        ordinances.append("\nSealings: \(detail.sealings.description)")
+                        sealings = "\nSealings: \(detail.sealings.description)"
+                        ordinances.append(sealings)
                     }
                     if detail.endowments > 0 {
-                        ordinances.append("\nEndowments: \(detail.endowments.description)")
+                        endowments = "\nEndowments: \(detail.endowments.description)"
+                        ordinances.append(endowments)
                     }
                     if detail.initiatories > 0 {
-                        ordinances.append("\nInitiatories: \(detail.initiatories.description)")
+                        initiatories = "\nInitiatories: \(detail.initiatories.description)"
+                        ordinances.append(initiatories)
                     }
                     if detail.confirmations > 0 {
-                        ordinances.append("\nConfirmations: \(detail.confirmations.description)")
+                        confirmations = "\nConfirmations: \(detail.confirmations.description)"
+                        ordinances.append(confirmations)
                     }
                     if detail.baptisms > 0 {
-                        ordinances.append("\nBaptisms: \(detail.baptisms.description)")
+                        baptisms = "\nBaptisms: \(detail.baptisms.description)"
+                        ordinances.append(baptisms)
                     }
                     if detail.shiftHrs > 0 {
-                        ordinances.append("\nHours Worked: \(detail.shiftHrs.description)")
+                        shiftHrs = "\nHours Worked: \(detail.shiftHrs.description)"
+                        ordinances.append(shiftHrs)
                     }
                 }
                 if ordinances != "" {
@@ -131,7 +143,28 @@ class VisitDetailVC: UIViewController {
                 } else {
                     ordinancesPerformed.isHidden = true
                 }
-                ordinancesPerformed.text = ordinances
+                // color code the ordinance recorded
+                let attributedText = NSMutableAttributedString(string: ordinances)
+                if detail.sealings > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.eggplant()], range: getRangeOfSubString(subString: sealings, fromString: ordinances))
+                }
+                if detail.endowments > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkTangerine()], range: getRangeOfSubString(subString: endowments, fromString: ordinances))
+                }
+                if detail.initiatories > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.olive()], range: getRangeOfSubString(subString: initiatories, fromString: ordinances))
+                }
+                if detail.confirmations > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.flame()], range: getRangeOfSubString(subString: confirmations, fromString: ordinances))
+                }
+                if detail.baptisms > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.ocean()], range: getRangeOfSubString(subString: baptisms, fromString: ordinances))
+                }
+                if detail.shiftHrs > 0 {
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.iron()], range: getRangeOfSubString(subString: shiftHrs, fromString: ordinances))
+                }
+//                ordinancesPerformed.text = ordinances
+                ordinancesPerformed.attributedText = attributedText
                 comments.text = detail.comments
                 
                 if let theType = detail.type {
@@ -160,6 +193,14 @@ class VisitDetailVC: UIViewController {
                 
             }
         }
+    }
+    
+    func getRangeOfSubString(subString: String, fromString: String) -> NSRange {
+        let sampleLinkRange = fromString.range(of: subString)!
+        let startPos = fromString.distance(from: fromString.startIndex, to: sampleLinkRange.lowerBound)
+        let endPos = fromString.distance(from: fromString.startIndex, to: sampleLinkRange.upperBound)
+        let linkRange = NSMakeRange(startPos, endPos - startPos)
+        return linkRange
     }
     
     var detailVisit: Visit? {

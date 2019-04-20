@@ -636,7 +636,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -650,7 +650,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -848,12 +848,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         achievements.append(Achievement(Name: "Unbelievable! (Sealings)", Details: "Complete 1600 Sealings", IconName: "ach1600S"))
         if ordinanceWorker {
             // Ordinance Worker
-            achievements.append(Achievement(Name: "Excellent! (Ordinance Worker)", Details: "Work 50 hours in the temple", IconName: "ach50TW"))
-            achievements.append(Achievement(Name: "Wonderful! (Ordinance Worker)", Details: "Work 100 hours in the temple", IconName: "ach100TW"))
-            achievements.append(Achievement(Name: "Incredible! (Ordinance Worker)", Details: "Work 200 hours in the temple", IconName: "ach200TW"))
-            achievements.append(Achievement(Name: "Extraordinary! (Ordinance Worker)", Details: "Work 400 hours in the temple", IconName: "ach400TW"))
-            achievements.append(Achievement(Name: "Astounding! (Ordinance Worker)", Details: "Work 800 hours in the temple", IconName: "ach800TW"))
-            achievements.append(Achievement(Name: "Unbelievable! (Ordinance Worker)", Details: "Work 1600 hours in the temple", IconName: "ach1600TW"))
+            achievements.append(Achievement(Name: "Excellent! (Ordinance Worker)", Details: "Work 50 hours in the temple", IconName: "ach50W"))
+            achievements.append(Achievement(Name: "Wonderful! (Ordinance Worker)", Details: "Work 100 hours in the temple", IconName: "ach100W"))
+            achievements.append(Achievement(Name: "Incredible! (Ordinance Worker)", Details: "Work 200 hours in the temple", IconName: "ach200W"))
+            achievements.append(Achievement(Name: "Extraordinary! (Ordinance Worker)", Details: "Work 400 hours in the temple", IconName: "ach400W"))
+            achievements.append(Achievement(Name: "Astounding! (Ordinance Worker)", Details: "Work 800 hours in the temple", IconName: "ach800W"))
+            achievements.append(Achievement(Name: "Unbelievable! (Ordinance Worker)", Details: "Work 1600 hours in the temple", IconName: "ach1600W"))
         }
         // Temples
         achievements.append(Achievement(Name: "Temple Admirer", Details: "Visit 10 different temples", IconName: "ach10T"))
@@ -1134,17 +1134,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 
                 switch shiftHoursTotal {
                 case 50 ... 99:
-                    updateAchievement(achievement: "ach50TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 100 ... 199:
-                    updateAchievement(achievement: "ach100TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 200 ... 399:
-                    updateAchievement(achievement: "ach200TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 400 ... 799:
-                    updateAchievement(achievement: "ach400TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 800 ... 1599:
-                    updateAchievement(achievement: "ach800TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach800W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 1600... :
-                    updateAchievement(achievement: "ach1600TW", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach1600W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
@@ -1219,8 +1219,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 }
             }
             
+            for achievement in notCompleted as [Achievement] {
+                // Parse icon name to determine progress level
+                // first remove 'ach'
+                let ach = achievement.iconName.replacingOccurrences(of: "ach", with: "")
+                // Get type from last letter of string
+                let achType = ach.suffix(1)
+                // remove type letter and convert to Float
+                let achCnt = Float(ach.replacingOccurrences(of: achType, with: ""))
+                // Set progress level by dividing number achived by achievement number
+                switch achType {
+                case "T":
+                    achievement.progress = Float(distinctTemplesVisited.count)/achCnt!
+                    achievement.remaining = Int(achCnt!) - distinctTemplesVisited.count
+                case "H":
+                    achievement.progress = Float(distinctHistoricSitesVisited.count)/achCnt!
+                    achievement.remaining = Int(achCnt!) - distinctHistoricSitesVisited.count
+                case "B":
+                    achievement.progress = Float(baptismsTotal)/achCnt!
+                    achievement.remaining = Int(achCnt!) - baptismsTotal
+                case "I":
+                    achievement.progress = Float(initiatoriesTotal)/achCnt!
+                    achievement.remaining = Int(achCnt!) - initiatoriesTotal
+                case "E":
+                    achievement.progress = Float(endowmentsTotal)/achCnt!
+                    achievement.remaining = Int(achCnt!) - endowmentsTotal
+                case "S":
+                    achievement.progress = Float(sealingsTotal)/achCnt!
+                    achievement.remaining = Int(achCnt!) - sealingsTotal
+                case "W":
+                    achievement.progress = Float(shiftHoursTotal)/achCnt!
+                    achievement.remaining = Int(achCnt!) - Int(shiftHoursTotal)
+                default:
+                    print("none")
+                }
+            }
             // sort the achievements by date achieved
             completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedDescending })
+            // sort the non-achievements by progress
+            notCompleted.sort(by: { Int($0.progress!*100) > Int($1.progress!*100) })
             
         } catch {
             print("Error with request: \(error)")

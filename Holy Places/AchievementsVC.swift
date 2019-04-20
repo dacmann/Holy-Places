@@ -36,13 +36,49 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         let cell  = tableView.dequeueReusableCell(withIdentifier: "acell", for: indexPath) as! AchievementCell
         let row = indexPath.row
         cell.cellTitle.text = display[row].name
-        cell.cellDetails.text = display[row].details
+        switch display[row].iconName.suffix(1) {
+        case "B":
+            cell.cellTitle.textColor = UIColor.ocean()
+            cell.cellProgress.tintColor = UIColor.ocean()
+        case "I":
+            cell.cellTitle.textColor = UIColor.olive()
+            cell.cellProgress.tintColor = UIColor.olive()
+        case "E":
+            cell.cellTitle.textColor = UIColor.darkTangerine()
+            cell.cellProgress.tintColor = UIColor.darkTangerine()
+        case "S":
+            cell.cellTitle.textColor = UIColor.eggplant()
+            cell.cellProgress.tintColor = UIColor.eggplant()
+        case "W":
+            cell.cellTitle.textColor = UIColor.iron()
+            cell.cellProgress.tintColor = UIColor.iron()
+        case "H":
+            cell.cellTitle.textColor = UIColor.darkLimeGreen()
+            cell.cellProgress.tintColor = UIColor.darkLimeGreen()
+        case "T":
+            cell.cellTitle.textColor = UIColor.darkRed()
+            cell.cellProgress.tintColor = UIColor.darkRed()
+        default:
+            cell.cellTitle.textColor = UIColor.lead()
+            cell.cellProgress.tintColor = UIColor.lead()
+        }
         if let placeAchieved = display[row].placeAchieved {
+            cell.cellDetails.text = display[row].details
             cell.cellPlaceAchieved.text = "at \(placeAchieved)"
             cell.cellPlaceAchieved.isHidden = false
+            cell.cellProgress.isHidden = true
+            switch display[row].iconName.suffix(1) {
+            case "H":
+                cell.cellPlaceAchieved.textColor = UIColor.darkLimeGreen()
+            default:
+                cell.cellPlaceAchieved.textColor = UIColor.darkRed()
+            }
         } else {
+            cell.cellDetails.text = "\(display[row].details) ~ \(display[row].remaining ?? 0) more"
             cell.cellPlaceAchieved.text = ""
             cell.cellPlaceAchieved.isHidden = true
+            cell.cellProgress.isHidden = false
+            cell.cellProgress.progress = display[row].progress!
         }
         if let dateAchieved = display[row].achieved {
             cell.cellDateAchieved.text = "on \(formatter.string(from: dateAchieved))"
@@ -85,14 +121,13 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return display.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if display[indexPath.row].placeAchieved == nil {
-            return 55.0
+            return 65.0
         } else {
             return 100.0 //Choose your custom row height
         }
