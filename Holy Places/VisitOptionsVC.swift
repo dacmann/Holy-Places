@@ -42,6 +42,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     let dateFormatter = DateFormatter()
     let dateFormatterFile = DateFormatter()
     var importCount = 0
+    var duplicates = 0
     var fileName = String()
     var exportCount = 0
     
@@ -295,7 +296,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         parser.delegate = self
         if parser.parse() {
-            let alert = UIAlertController(title: "Import Successful", message: "Successfully imported \(importCount) visits", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Import Completed", message: "Successfully imported \(importCount) visits; \(duplicates) duplicate visits skipped", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
             appDelegate.getVisits()
@@ -366,7 +367,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             // Check for duplicate before saving
             do {
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "dateVisited == %@ && holyPlace == %@", visitDate as NSDate, holyPlace as String)
+            fetchRequest.predicate = NSPredicate(format: "dateVisited == %@ && holyPlace == %@ && comments == %@", visitDate as NSDate, holyPlace as String, comments as String)
                 let searchResults = try getContext().fetch(fetchRequest)
                 if searchResults.count == 0 {
                     
@@ -395,7 +396,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     importCount += 1
                     
                 } else {
-                    print("Duplicate - not importing")
+//                    print("Duplicate - not importing")
+                    duplicates += 1
                 }
             } catch {
                 print("Error with request: \(error)")
