@@ -12,6 +12,7 @@
 		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
 		642B345D1E2818C200A56C77 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* Extensions.swift */; };
 		643B59CE2139B99300C71A3B /* SummaryQuotes.xml in Resources */ = {isa = PBXBuildFile; fileRef = 643B59CD2139B99300C71A3B /* SummaryQuotes.xml */; };
+		643E378A226BF87D000FEBBC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 643E3789226BF87D000FEBBC /* MainInterface.storyboard */; };
 		644243C31E2975810097E924 /* VisitDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C21E2975810097E924 /* VisitDetailVC.swift */; };
 		644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C41E298CA80097E924 /* VisitTableVC.swift */; };
 		644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644243C61E2A6CB10097E924 /* HomeVC.swift */; };
@@ -76,6 +77,7 @@
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		643B59CD2139B99300C71A3B /* SummaryQuotes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SummaryQuotes.xml; sourceTree = "<group>"; };
+		643E3789226BF87D000FEBBC /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		64A3CB681FA901CE00D37E6A /* Holy Places Widget */ = {
 			isa = PBXGroup;
 			children = (
+				643E3789226BF87D000FEBBC /* MainInterface.storyboard */,
 				64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */,
 				64A3CB691FA901CE00D37E6A /* TodayViewController.swift */,
 				64A3CB6E1FA901CE00D37E6A /* Info.plist */,
@@ -325,6 +328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				643E378A226BF87D000FEBBC /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

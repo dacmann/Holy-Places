@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" customModule="Holy_Places_Widget" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFit" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGg-qL-2pd" userLabel="OpenApp">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                                <connections>
+                                    <action selector="openApp:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="1oq-IN-wE9"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017 Goal Progress: 10 of 12 Visits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-LM-dzj">
+                                <rect key="frame" x="16" y="8" width="280" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bg0-24-mv5">
+                                <rect key="frame" x="0.0" y="35.5" width="320" height="0.5"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="0.5" id="AMy-Bh-Juc"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Columbia North Carolina Temple" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="J8l-3G-7AG">
+                                <rect key="frame" x="16" y="62" width="280" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Temple Visit: December 10, 2016" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jz3-tg-gFZ">
+                                <rect key="frame" x="16" y="44" width="228" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="qGg-qL-2pd" secondAttribute="trailing" id="EbG-Ko-J9P"/>
+                            <constraint firstItem="qGg-qL-2pd" firstAttribute="top" secondItem="ssy-KU-ocm" secondAttribute="top" id="G9G-s4-qi3"/>
+                            <constraint firstItem="bg0-24-mv5" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" id="Hcv-tQ-aS9"/>
+                            <constraint firstItem="Jz3-tg-gFZ" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="16" id="KnK-1o-lo1"/>
+                            <constraint firstItem="bg0-24-mv5" firstAttribute="top" secondItem="RuH-LM-dzj" secondAttribute="bottom" constant="6" id="MbC-Ve-u3F"/>
+                            <constraint firstItem="J8l-3G-7AG" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="16" id="Q8Q-CJ-CW4"/>
+                            <constraint firstItem="RuH-LM-dzj" firstAttribute="top" secondItem="ssy-KU-ocm" secondAttribute="top" constant="8" id="SeJ-1w-5P4"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Jz3-tg-gFZ" secondAttribute="trailing" constant="20" symbolic="YES" id="Ul1-Nl-cqy"/>
+                            <constraint firstItem="Jz3-tg-gFZ" firstAttribute="bottom" secondItem="J8l-3G-7AG" secondAttribute="top" constant="-2" id="Xdy-ef-ww3"/>
+                            <constraint firstItem="RuH-LM-dzj" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="16" id="Y5Y-5m-uAZ"/>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="J8l-3G-7AG" secondAttribute="trailing" constant="24" id="f44-bm-lJx"/>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="RuH-LM-dzj" secondAttribute="trailing" constant="24" id="j4I-dZ-OwN"/>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="bottom" secondItem="qGg-qL-2pd" secondAttribute="bottom" id="sB9-IH-8AX"/>
+                            <constraint firstItem="J8l-3G-7AG" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="16" id="uYm-MM-tfu"/>
+                            <constraint firstItem="bg0-24-mv5" firstAttribute="trailing" secondItem="ssy-KU-ocm" secondAttribute="trailing" id="xvP-nk-TEN"/>
+                            <constraint firstItem="qGg-qL-2pd" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" id="yum-kE-ZNF"/>
+                            <constraint firstItem="Jz3-tg-gFZ" firstAttribute="top" secondItem="bg0-24-mv5" secondAttribute="bottom" constant="8" id="z2F-fO-o6o"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ssy-KU-ocm"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="120"/>
+                    <connections>
+                        <outlet property="goal" destination="RuH-LM-dzj" id="klh-np-SFw"/>
+                        <outlet property="lastVisit" destination="J8l-3G-7AG" id="bpL-YM-u1c"/>
+                        <outlet property="lastVisitDate" destination="Jz3-tg-gFZ" id="bn7-5v-FeZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="33.600000000000001" y="32.383808095952027"/>
+        </scene>
+    </scenes>
+</document>
