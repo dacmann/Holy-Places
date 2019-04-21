@@ -861,15 +861,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         achievements.append(Achievement(Name: "Temple Devotee", Details: "Visit 30 different temples", IconName: "ach30T"))
         achievements.append(Achievement(Name: "Temple Enthusiast", Details: "Visit 40 different temples", IconName: "ach40T"))
         achievements.append(Achievement(Name: "Temple Fanatic", Details: "Visit 50 different temples", IconName: "ach50T"))
-        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 75 different temples", IconName: "ach75T"))
-        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 100 different temples", IconName: "ach100T"))
-        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 125 different temples", IconName: "ach125T"))
-        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 150 different temples", IconName: "ach150T"))
+        achievements.append(Achievement(Name: "Temple Zealot", Details: "Visit 60 different temples", IconName: "ach60T"))
+        achievements.append(Achievement(Name: "Temple Visionary", Details: "Visit 75 different temples", IconName: "ach75T"))
+        achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 100 different temples", IconName: "ach100T"))
+        achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 125 different temples", IconName: "ach125T"))
+        achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 150 different temples", IconName: "ach150T"))
         if activeTemples.count > 174 {
-            achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 175 different temples", IconName: "ach175T"))
+            achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 175 different temples", IconName: "ach175T"))
         }
         if activeTemples.count > 199 {
-            achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 200 different temples", IconName: "ach200T"))
+            achievements.append(Achievement(Name: "Temple Extremist", Details: "Visit 200 different temples", IconName: "ach200T"))
         }
         // Historic Sites
         achievements.append(Achievement(Name: "History Admirer", Details: "Visit 10 different historic sites", IconName: "ach10H"))
@@ -1042,6 +1043,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                     if distinctTemplesVisited.count == 50 {
                         updateAchievement(achievement:"ach50T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    }
+                    if distinctTemplesVisited.count == 60 {
+                        updateAchievement(achievement:"ach60T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                     }
                     if distinctTemplesVisited.count == 75 {
                         updateAchievement(achievement:"ach75T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
