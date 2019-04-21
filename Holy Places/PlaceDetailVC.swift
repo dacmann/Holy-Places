@@ -240,7 +240,9 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         
         if originalPlace != detailItem?.templeName {
             stockImageAdded = false
-            switchedPlaces = true
+            if !swiping {
+                switchedPlaces = true
+            }
             pageControl.numberOfPages = 1
             pageControl.isHidden = true
             reloadPics = true
@@ -603,7 +605,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
         let coordinate = CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!)
         mapPoint = MapPoint(title: (detailItem?.templeName)!, coordinate: coordinate, type: (detailItem?.templeType)!)
-        if !switchedPlaces{
+        print(mapPoint.name)
+        if !switchedPlaces {
             // Set the map point just for this one place
             mapPoints.removeAll()
             mapPoints.append(mapPoint)

@@ -199,7 +199,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         } else {
             // Clicked on Place Name to bring up Details
             // Switch Places tab data to current map data
-            places = mapPlaces
+//            places = mapPlaces - Was causing crashes - Not sure why this was added to begin with
             placeFilterRow = mapFilterRow
             // Find details for selected pin
             if let found = places.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
