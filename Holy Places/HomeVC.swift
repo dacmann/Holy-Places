@@ -214,9 +214,10 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
         // Lock Orientation to Portrait only for small devices
-        let width = UIScreen.main.bounds.width
+//        let width = UIScreen.main.bounds.width
 //        print("screen width is \(width)")
-        if width < 400 {
+//        if width < 400 {
+        if UIDevice.current.userInterfaceIdiom != .pad {
             AppUtility.lockOrientation(.portrait)
         }
     }
