@@ -84,8 +84,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             places = historical
         case 3:
             places = visitors
-        default:
+        case 4:
             places = construction
+        default:
+            places = announced
         }
         // Search on Place name, City or State and now snippet
         filteredPlaces = places.filter { place in
@@ -116,9 +118,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case 3:
             title = "Visitors' Centers"
             places = visitors
-        default:
+        case 4:
             title = "Construction"
             places = construction
+        default:
+            title = "Announced"
+            places = announced
         }
 
         // If search bar is active use filteredPlaces instead
@@ -281,6 +286,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             titleLabel.textColor = UIColor.darkOrange()
         case 3:
             titleLabel.textColor = UIColor.strongYellow()
+        case 5:
+            titleLabel.textColor = UIColor.brown
         default:
             titleLabel.textColor = UIColor.lead()
         }
@@ -440,6 +447,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             cell.textLabel?.textColor = UIColor.darkRed()
         case "H":
             cell.textLabel?.textColor = UIColor.darkLimeGreen()
+        case "A":
+            cell.textLabel?.textColor = UIColor.brown
         case "C":
             cell.textLabel?.textColor = UIColor.darkOrange()
         case "V":

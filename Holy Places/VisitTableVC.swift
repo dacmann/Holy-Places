@@ -87,6 +87,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             self.navigationItem.titleView?.tintColor = UIColor.darkLimeGreen()
         case 4:
             self.navigationItem.titleView?.tintColor = UIColor.darkOrange()
+        case 5:
+            self.navigationItem.titleView?.tintColor = UIColor.brown
         case 3:
             self.navigationItem.titleView?.tintColor = UIColor.strongYellow()
         default:
@@ -373,6 +375,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 cell.textLabel?.textColor = UIColor.darkRed()
             case "H":
                 cell.textLabel?.textColor = UIColor.darkLimeGreen()
+            case "A":
+                cell.textLabel?.textColor = UIColor.brown
             case "C":
                 cell.textLabel?.textColor = UIColor.darkOrange()
             case "V":

@@ -18,7 +18,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var delegateOptions: SendOptionsDelegate? = nil
     var filterSelected: Int?
     var sortSelected: Int?
-    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction" ]
+    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples" ]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
     var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
@@ -71,6 +71,8 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
             label?.textColor = UIColor.darkLimeGreen()
         case "Temples Under Construction":
             label?.textColor = UIColor.darkOrange()
+        case "Announced Temples":
+            label?.textColor = UIColor.brown
         case "Visitors' Centers":
             label?.textColor = UIColor.strongYellow()
         default:

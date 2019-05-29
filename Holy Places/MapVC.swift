@@ -85,9 +85,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         case 3:
             // Visitors' Centers
             mapPlaces = visitors
-        default:
+        case 4:
             // Under Construction
             mapPlaces = construction
+        default:
+            // Announced
+            mapPlaces = announced
         }
         
         // Filter the places by Visited filter
@@ -126,6 +129,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
             return UIColor.darkRed()
         case "H":
             return UIColor.darkLimeGreen()
+        case "A":
+            return UIColor.brown
         case "C":
             return UIColor.darkOrange()
         case "V":

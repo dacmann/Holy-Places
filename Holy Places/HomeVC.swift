@@ -20,6 +20,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     @IBOutlet weak var goal: UILabel!
     @IBOutlet weak var settings: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var appName: UILabel!
     @IBOutlet weak var holyPlaces: UILabel!
     @IBOutlet weak var reference: UILabel!
     @IBOutlet weak var topLine: UIView!
@@ -196,6 +197,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
         // Home Screen Customizations
+        appName.textColor = UIColor.home()
         holyPlaces.textColor = UIColor.home()
         reference.textColor = UIColor.home()
         goalTitle.textColor = UIColor.home()

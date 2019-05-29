@@ -34,6 +34,7 @@ var allPlaces: [Temple] = []
 var activeTemples: [Temple] = []
 var historical: [Temple] = []
 var construction: [Temple] = []
+var announced: [Temple] = []
 var visitors: [Temple] = []
 var placeDataVersion: String?
 var greatTip = String()
@@ -369,8 +370,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 
         // Check for notification criteria
         if notificationEnabled {
-            // Update distances for allPlaces or activeTemples array based on filter
-            var placesForRegionMonitoring = allPlaces
+            // Update distances for allPlaces (minus annunced temples) or activeTemples array based on filter
+            var placesForRegionMonitoring = allPlaces.filter {!announced.contains($0)}
             
             if notificationFilter {
                 // remove any non-temple regions being monitored since temple only notifications is enabled
@@ -636,7 +637,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -650,7 +651,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -764,6 +765,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         historical.removeAll()
                         visitors.removeAll()
                         construction.removeAll()
+                        announced.removeAll()
                         allPlaces.removeAll()
                     } else {
                         break
@@ -810,6 +812,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 historical.append(temple)
             case "V":
                 visitors.append(temple)
+            case "A":
+                announced.append(temple)
             default:
                 construction.append(temple)
             }
@@ -1436,6 +1440,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             historical.removeAll()
             visitors.removeAll()
             construction.removeAll()
+            announced.removeAll()
             allPlaces.removeAll()
             
             for place in searchResults {
@@ -1448,6 +1453,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     historical.append(temple)
                 case "V":
                     visitors.append(temple)
+                case "A":
+                    announced.append(temple)
                 default:
                     construction.append(temple)
                 }
@@ -1457,6 +1464,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             print("Historical sites: " + historical.count.description)
             print("Visitors' Centers: " + visitors.count.description)
             print("Under Construction: " + construction.count.description)
+            print("Announced: " + announced.count.description)
         } catch {
             print("Error with request: \(error)")
         }

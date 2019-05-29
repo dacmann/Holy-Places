@@ -464,7 +464,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     websiteBtn2.setTitle("Web Site", for: .normal)
                 }
                 
-                if detail.templeType == "T" || detail.templeType == "C" {
+                if detail.templeType == "T" || detail.templeType == "C" || detail.templeType == "A" {
                     let snippetArr = detail.templeSnippet.components(separatedBy: " - ")
                     templeOrdinal.text = snippetArr[0]
                     templeSnippet.text = detail.templeSnippet.replacingOccurrences(of: "\(snippetArr[0]) - ", with: "")
@@ -481,6 +481,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     templeName.textColor = UIColor.darkRed()
                 case "H":
                     templeName.textColor = UIColor.darkLimeGreen()
+                case "A":
+                    templeName.textColor = UIColor.brown
                 case "C":
                     templeName.textColor = UIColor.darkOrange()
                 case "V":
