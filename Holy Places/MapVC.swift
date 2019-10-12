@@ -213,6 +213,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
 
     @objc func options(_ sender: Any) {
         optionSelected = true
+        mapZoomLevel = mapView.camera.altitude
         self.performSegue(withIdentifier: "viewMapOptions", sender: self)
     }
     

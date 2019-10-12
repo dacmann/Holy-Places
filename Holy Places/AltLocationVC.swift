@@ -101,7 +101,7 @@ class AltLocationVC: UIViewController {
         } else {
             CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks, error) in
                 if error != nil {
-                    self.addressResult.text = error?.localizedDescription
+                    self.addressResult.text = "Location not found...\n\n\(error?.localizedDescription ?? "")"
                     return
                 }
                 if (placemarks?.count)! > 0 {
