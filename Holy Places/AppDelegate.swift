@@ -35,6 +35,7 @@ var activeTemples: [Temple] = []
 var historical: [Temple] = []
 var construction: [Temple] = []
 var announced: [Temple] = []
+var allTemples: [Temple] = []
 var visitors: [Temple] = []
 var placeDataVersion: String?
 var greatTip = String()
@@ -759,6 +760,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         construction.removeAll()
                         announced.removeAll()
                         allPlaces.removeAll()
+                        allTemples.removeAll()
                     } else {
                         break
                     }
@@ -800,14 +802,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             switch templeType {
             case "T":
                 activeTemples.append(temple)
+                allTemples.append(temple)
             case "H":
                 historical.append(temple)
             case "V":
                 visitors.append(temple)
             case "A":
                 announced.append(temple)
+                allTemples.append(temple)
             default:
                 construction.append(temple)
+                allTemples.append(temple)
             }
         }
     }
@@ -1434,6 +1439,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             construction.removeAll()
             announced.removeAll()
             allPlaces.removeAll()
+            allTemples.removeAll()
             
             for place in searchResults {
                 let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!, SqFt: place.sqFt, FHCode: place.fhCode)
@@ -1441,14 +1447,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 switch temple.templeType {
                 case "T":
                     activeTemples.append(temple)
+                    allTemples.append(temple)
                 case "H":
                     historical.append(temple)
                 case "V":
                     visitors.append(temple)
                 case "A":
                     announced.append(temple)
+                    allTemples.append(temple)
                 default:
                     construction.append(temple)
+                    allTemples.append(temple)
                 }
             }
             print("All places: " + allPlaces.count.description)

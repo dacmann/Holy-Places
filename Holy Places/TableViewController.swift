@@ -86,8 +86,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             places = visitors
         case 4:
             places = construction
-        default:
+        case 5:
             places = announced
+        default:
+            places = allTemples
         }
         // Search on Place name, City or State and now snippet
         filteredPlaces = places.filter { place in
@@ -121,9 +123,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case 4:
             title = "Construction"
             places = construction
-        default:
+        case 5:
             title = "Announced"
             places = announced
+        default:
+            title = "All Temples"
+            places = allTemples
         }
 
         // If search bar is active use filteredPlaces instead
@@ -354,14 +359,16 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
+        // bug with following option in 13.1
+//        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor.ocean()
-        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
         
-        let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let searchField = searchController.searchBar.searchTextField
+        searchField.font = UIFont(name: "Baskerville", size: 17)
         
+//        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+//    searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
+
         definesPresentationContext = true
         if #available(iOS 11.0, *) {
             // New in iOS 11, the searchbar is part of the navigationItem

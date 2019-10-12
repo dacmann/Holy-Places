@@ -113,9 +113,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         case 4:
             // Under Construction
             mapPlaces = construction
-        default:
+        case 5:
             // Announced
             mapPlaces = announced
+        default:
+            // All Temples
+            mapPlaces = allTemples
         }
         
         // Filter the places by Visited filter

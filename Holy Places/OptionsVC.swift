@@ -18,7 +18,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var delegateOptions: SendOptionsDelegate? = nil
     var filterSelected: Int?
     var sortSelected: Int?
-    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples" ]
+    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples", "All Temples"]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
     var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
