@@ -451,6 +451,12 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                     websiteBtn.isHidden = false
                 }
                 
+                if detail.templeSiteURL == "" {
+                    websiteBtn2.isHidden = true
+                } else {
+                    websiteBtn2.isHidden = false
+                }
+                
                 if detail.fhCode == "" {
                     fhCode.isHidden = true
                 } else {
