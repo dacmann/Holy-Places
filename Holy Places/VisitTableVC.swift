@@ -142,6 +142,30 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reload the data
         _fetchedResultsController = nil
         self.tableView.reloadData()
+        
+        // Change the font and color for the navigation Bar text
+        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        if #available(iOS 13.0, *) {
+            let style = UINavigationBarAppearance()
+            style.configureWithDefaultBackground()
+            style.backgroundColor = .white
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.titleTextAttributes = [
+                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .font : navbarFont // Navigation bar title font
+            ]
+            navigationController?.navigationBar.standardAppearance = style
+            
+        } else {
+            // Fallback on earlier versions
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
+            UINavigationBar.appearance().tintColor = UIColor.ocean()
+        }
     }
 
     func keyboardDone() {

@@ -35,9 +35,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
         // Button to share Holy Places app
-        let textToShare = "Holy Places - LDS Temples and Historic Sites by Derek Cordon"
+        let textToShare = "Holy Places of the Lord - Temples and Historic Sites by Derek Cordon"
         
-        if let myWebsite = NSURL(string: "https://itunes.apple.com/us/app/holy-places-lds-temples-historic/id1200184537?mt=8") {
+        if let myWebsite = NSURL(string: "https://apps.apple.com/us/app/holy-places-of-the-lord/id1200184537") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
@@ -58,6 +58,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         // Grab In-App purchase information
 //        fetchProducts(matchingIdentifiers: ["GreatTip99", "GreaterTip299", "GreatestTip499"])
         
+        //Unicode Character for 'GEAR'
         settings.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
         
         // Add swipe gestures to move to enter content
@@ -73,6 +74,31 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // download all place images if needed
         appDelegate.downloadImage()
+        
+        // Change the font and color for the navigation Bar text
+        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        if #available(iOS 13.0, *) {
+            let style = UINavigationBarAppearance()
+            style.configureWithDefaultBackground()
+            style.backgroundColor = .white
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.titleTextAttributes = [
+                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .font : navbarFont // Navigation bar title font
+            ]
+            navigationController?.navigationBar.standardAppearance = style
+            
+        } else {
+            // Fallback on earlier versions
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
+            UINavigationBar.appearance().tintColor = UIColor.ocean()
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

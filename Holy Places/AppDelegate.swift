@@ -153,18 +153,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         locationManager.delegate = self
         notificationManager.delegate = self
         
-        // Change the font and color for the navigation Bar text
-        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
-        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        // Change the font of the tab bar items
         let tabBarItemFont = UIFont(name: "Baskerville", size: 12) ?? UIFont.systemFont(ofSize: 12)
-        
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .selected)
-
-        UINavigationBar.appearance().tintColor = UIColor.ocean()
         UITabBar.appearance().tintColor = UIColor.ocean()
         
         //Load any saved settings
@@ -636,8 +628,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Get version of saved data
         getPlaceVersion()
         
-        // determine latest version from hpVersion.xml file
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-v3.4.xml") else {
+        // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -651,7 +643,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-v3.4.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -772,13 +764,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                 }
             case "ChangesDate":
-                changesDate = string
+                changesDate += string
             case "ChangesMsg1":
-                changesMsg1 = string
+                changesMsg1 += string
             case "ChangesMsg2":
-                changesMsg2 = string
+                changesMsg2 += string
             case "ChangesMsg3":
-                changesMsg3 = string
+                changesMsg3 += string
             default: return
             }
         }
