@@ -364,7 +364,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 keyboardDone()
                 switch detail.templeType {
                 case "T":
-                    templeName.textColor = UIColor.darkRed()
+                    templeName.textColor = UIColor(named: "TempleDarkRed")
                 case "H":
                     templeName.textColor = UIColor.darkLimeGreen()
                 case "C":
@@ -372,7 +372,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 case "V":
                     templeName.textColor = UIColor.strongYellow()
                 default:
-                    templeName.textColor = UIColor.lead()
+                    templeName.textColor = UIColor(named: "DefaultText")!
                 }
                 
                 // enable the Hours worked stack view when needed
@@ -416,7 +416,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor.darkRed()
+                        templeName.textColor = UIColor(named: "TempleDarkRed")
                     case "H":
                         templeName.textColor = UIColor.darkLimeGreen()
                     case "C":
@@ -424,7 +424,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     case "V":
                         templeName.textColor = UIColor.strongYellow()
                     default:
-                        templeName.textColor = UIColor.lead()
+                        templeName.textColor = UIColor(named: "DefaultText")!
                     }
                 }
                 // enable the Hours worked stack view when needed

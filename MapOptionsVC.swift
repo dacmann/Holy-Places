@@ -10,7 +10,7 @@ import UIKit
 
 class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples" ]
+    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples", "All Temples" ]
     
     @IBOutlet weak var filterPicker: UIPickerView!
     @IBOutlet weak var visitedFilter: UISegmentedControl!
@@ -45,7 +45,7 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         switch data {
         case "Active Temples":
-            label?.textColor = UIColor.darkRed()
+            label?.textColor = UIColor(named: "TempleDarkRed")
         case "Historical Sites":
             label?.textColor = UIColor.darkLimeGreen()
         case "Visitors' Centers":
@@ -55,7 +55,7 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case "Announced Temples":
             label?.textColor = UIColor.brown
         default:
-            label?.textColor = UIColor.lead()
+            label?.textColor = UIColor(named: "DefaultText")!
         }
         return label!
     }

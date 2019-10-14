@@ -43,23 +43,22 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithDefaultBackground()
-            style.backgroundColor = .white
-            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
-            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.configureWithOpaqueBackground()
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.titleTextAttributes = [
-                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
                 .font : navbarFont // Navigation bar title font
             ]
             navigationController?.navigationBar.standardAppearance = style
             
         } else {
             // Fallback on earlier versions
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.highlighted)
             
-            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
-            UINavigationBar.appearance().tintColor = UIColor.ocean()
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
+            UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
 
     }
@@ -154,7 +153,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     func pinColor(type:String) -> UIColor {
         switch type {
         case "T":
-            return UIColor.darkRed()
+            return UIColor(named: "TempleDarkRed")!
         case "H":
             return UIColor.darkLimeGreen()
         case "A":
@@ -164,7 +163,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         case "V":
             return UIColor.strongYellow()
         default:
-            return UIColor.lead()
+            return UIColor(named: "DefaultText")!
         }
     }
     

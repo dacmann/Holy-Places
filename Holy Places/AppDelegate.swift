@@ -158,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         let tabBarItemFont = UIFont(name: "Baskerville", size: 12) ?? UIFont.systemFont(ofSize: 12)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .selected)
-        UITabBar.appearance().tintColor = UIColor.ocean()
+        UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         
         //Load any saved settings
         let context = persistentContainer.viewContext

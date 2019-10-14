@@ -26,23 +26,22 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithDefaultBackground()
-            style.backgroundColor = .white
-            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
-            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.configureWithOpaqueBackground()
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.titleTextAttributes = [
-                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
                 .font : navbarFont // Navigation bar title font
             ]
             navigationController?.navigationBar.standardAppearance = style
             
         } else {
             // Fallback on earlier versions
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.highlighted)
             
-            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
-            UINavigationBar.appearance().tintColor = UIColor.ocean()
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
+            UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
 
     }
@@ -62,17 +61,17 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         cell.cellTitle.text = display[row].name
         switch display[row].iconName.suffix(1) {
         case "B":
-            cell.cellTitle.textColor = UIColor.ocean()
-            cell.cellProgress.tintColor = UIColor.ocean()
+            cell.cellTitle.textColor = UIColor(named: "BaptismsBlue")
+            cell.cellProgress.tintColor = UIColor(named: "BaptismsBlue")
         case "I":
-            cell.cellTitle.textColor = UIColor.olive()
-            cell.cellProgress.tintColor = UIColor.olive()
+            cell.cellTitle.textColor = UIColor(named: "InitiatoriesOlive")!
+            cell.cellProgress.tintColor = UIColor(named: "InitiatoriesOlive")!
         case "E":
             cell.cellTitle.textColor = UIColor.darkTangerine()
             cell.cellProgress.tintColor = UIColor.darkTangerine()
         case "S":
-            cell.cellTitle.textColor = UIColor.eggplant()
-            cell.cellProgress.tintColor = UIColor.eggplant()
+            cell.cellTitle.textColor = UIColor(named: "SealingsPurple")!
+            cell.cellProgress.tintColor = UIColor(named: "SealingsPurple")!
         case "W":
             cell.cellTitle.textColor = UIColor.iron()
             cell.cellProgress.tintColor = UIColor.iron()
@@ -80,11 +79,11 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellTitle.textColor = UIColor.darkLimeGreen()
             cell.cellProgress.tintColor = UIColor.darkLimeGreen()
         case "T":
-            cell.cellTitle.textColor = UIColor.darkRed()
-            cell.cellProgress.tintColor = UIColor.darkRed()
+            cell.cellTitle.textColor = UIColor(named: "TempleDarkRed")
+            cell.cellProgress.tintColor = UIColor(named: "TempleDarkRed")
         default:
-            cell.cellTitle.textColor = UIColor.lead()
-            cell.cellProgress.tintColor = UIColor.lead()
+            cell.cellTitle.textColor = UIColor(named: "DefaultText")!
+            cell.cellProgress.tintColor = UIColor(named: "DefaultText")!
         }
         if let placeAchieved = display[row].placeAchieved {
             cell.cellDetails.text = display[row].details
@@ -95,7 +94,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             case "H":
                 cell.cellPlaceAchieved.textColor = UIColor.darkLimeGreen()
             default:
-                cell.cellPlaceAchieved.textColor = UIColor.darkRed()
+                cell.cellPlaceAchieved.textColor = UIColor(named: "TempleDarkRed")
             }
         } else {
             cell.cellDetails.text = "\(display[row].details) ~ \(display[row].remaining ?? 0) more"
@@ -135,7 +134,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         if completed.count == 0 {
             let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = "No Achievements Yet 😕"
-            noDataLabel.textColor     = UIColor.ocean()
+            noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
             tableView.backgroundView  = noDataLabel

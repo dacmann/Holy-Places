@@ -188,7 +188,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                                         self.pageControl.isHidden = false
                                         self.view.bringSubviewToFront(self.pageControl)
                                         self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                                        self.pageControl.currentPageIndicatorTintColor = UIColor.ocean()
+                                        self.pageControl.currentPageIndicatorTintColor = UIColor(named: "BaptismsBlue")
                                         self.picsLoading = false
                                     } else {
                                         print("Unable to access pictureScrollView")
@@ -484,7 +484,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 
                 switch detail.templeType {
                 case "T":
-                    templeName.textColor = UIColor.darkRed()
+                    templeName.textColor = UIColor(named: "TempleDarkRed")
                 case "H":
                     templeName.textColor = UIColor.darkLimeGreen()
                 case "A":
@@ -494,7 +494,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                 case "V":
                     templeName.textColor = UIColor.strongYellow()
                 default:
-                    templeName.textColor = UIColor.lead()
+                    templeName.textColor = UIColor(named: "DefaultText")!
                 }
             }
         }
@@ -632,7 +632,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         if let url = URL(string: (detailItem?.templeSiteURL)!) {
             webViewPresented = true
             reloadPics = picsLoading
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
+//            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: (detailItem?.readerView)!)
+            let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
         }
     }
@@ -641,7 +642,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         if let url = URL(string: (detailItem?.infoURL)!) {
             webViewPresented = true
             reloadPics = picsLoading
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+//            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
         }
     }

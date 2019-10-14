@@ -112,14 +112,16 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBAction func fairMormonLink(_ sender: UIButton) {
         if let url = URL(string: "http://oneclimbs.com/2011/11/21/restoring-the-pentagram-to-its-proper-place/") {
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+//            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
         }
     }
     
     @IBAction func faqLink(_ sender: UIButton) {
         if let url = URL(string: "https://dacworld.net/holyplaces/holyplacesfaq.html") {
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+//            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let vc = SFSafariViewController(url: url)
             present(vc, animated: true)
         }
     }

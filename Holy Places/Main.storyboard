@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -701,7 +702,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="gbt-G4-gPi">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="VfA-5o-CsP">
-                                <rect key="frame" x="289" y="6" width="105" height="33"/>
+                                <rect key="frame" x="289" y="5.6666666666666679" width="105" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="🏆" width="52"/>
@@ -774,7 +775,7 @@
                                         <rect key="frame" x="123" y="1" width="168" height="34"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
                                         <state key="normal" title="Tap for Achievements">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
@@ -817,7 +818,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -882,7 +883,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -947,7 +948,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1017,7 +1018,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1045,7 +1046,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.32369780539999998" green="0.1063579395" blue="0.574860394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1073,7 +1074,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1101,7 +1102,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1110,7 +1111,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Total Ordinances" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="K1A-FT-AQP">
                                                                         <rect key="frame" x="0.0" y="238" width="130" height="21"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1147,7 +1148,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1175,7 +1176,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1203,7 +1204,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1231,7 +1232,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1245,7 +1246,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1282,7 +1283,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1310,7 +1311,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1338,7 +1339,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1366,7 +1367,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1380,7 +1381,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1412,7 +1413,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.44705882349999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" name="TempleDarkRed"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1440,7 +1441,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1468,7 +1469,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1496,7 +1497,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1510,7 +1511,7 @@
                                                                             </constraint>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -1767,7 +1768,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="6K0-NO-Vjn" firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="top" constant="-5" id="4gq-ww-hSF"/>
                                     <constraint firstItem="6K0-NO-Vjn" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="HRL-Xj-lXH"/>
@@ -1780,7 +1781,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="8ge-ji-DV0" firstAttribute="top" secondItem="FZn-fg-ace" secondAttribute="top" id="1E7-rZ-Hzl"/>
                             <constraint firstItem="kv4-qF-iXm" firstAttribute="top" secondItem="8ge-ji-DV0" secondAttribute="bottom" id="5FX-ts-R3m"/>
@@ -1897,7 +1898,9 @@
                                 <rect key="frame" x="256.66666666666669" y="388" width="88" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Contact Me"/>
+                                <state key="normal" title="Contact Me">
+                                    <color key="titleColor" name="BaptismsBlue"/>
+                                </state>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                 </variation>
@@ -1919,7 +1922,7 @@
                                 <rect key="frame" x="10" y="613" width="394" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <state key="normal" title="Restoring the pentagram to its proper place">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" name="BaptismsBlue"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="31"/>
@@ -1958,7 +1961,9 @@
                                 <rect key="frame" x="81.333333333333329" y="388" width="35" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="FAQ"/>
+                                <state key="normal" title="FAQ">
+                                    <color key="titleColor" name="BaptismsBlue"/>
+                                </state>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                 </variation>
@@ -1967,7 +1972,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="7vh-6f-ggg">
                                 <variation key="heightClass=regular-widthClass=regular" constant="32"/>
@@ -2063,7 +2068,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IAy-eS-OMT" firstAttribute="centerY" secondItem="Otn-yD-yww" secondAttribute="centerY" id="BeC-mj-sAj"/>
                             <constraint firstItem="IAy-eS-OMT" firstAttribute="centerX" secondItem="EzO-sj-5ZC" secondAttribute="centerX" id="WnZ-0B-YBk"/>
@@ -2192,7 +2197,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerX" secondItem="dbt-Bg-SAr" secondAttribute="centerX" id="Nl9-Ec-Qck"/>
                             <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerY" secondItem="uLD-XH-Jpp" secondAttribute="centerY" id="gGF-Fg-ocg"/>
@@ -2296,7 +2301,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerX" secondItem="M4D-3Y-0F4" secondAttribute="centerX" id="3zE-nZ-4th"/>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerY" secondItem="OiN-QX-JnL" secondAttribute="centerY" id="SFF-zh-iLj"/>
@@ -2459,8 +2464,8 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="April 6, 1830" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ld-pR-BuH">
                                 <rect key="frame" x="30" y="94" width="354" height="27.666666666666671"/>
+                                <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
@@ -2495,7 +2500,7 @@
                                 <rect key="frame" x="5" y="191" width="404" height="486"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="c4v-GY-6qn" firstAttribute="bottom" secondItem="G9t-XK-3vU" secondAttribute="bottom" constant="10" id="01i-Vm-E5I"/>
                             <constraint firstItem="XMy-1u-hd0" firstAttribute="leading" secondItem="6Cp-0s-Pla" secondAttribute="leading" id="1NM-ij-ADU"/>
@@ -2526,7 +2531,7 @@
                         <outlet property="pictureView" destination="G9t-XK-3vU" id="rge-oU-K3o"/>
                         <outlet property="templeName" destination="W8A-Vv-BBw" id="3yj-I2-N7b"/>
                         <outlet property="visitDate" destination="7ld-pR-BuH" id="2C7-U3-RYA"/>
-                        <segue destination="ycp-V5-fYb" kind="presentation" identifier="viewImage" id="rRd-SC-EqT"/>
+                        <segue destination="ycp-V5-fYb" kind="presentation" identifier="viewImage" modalPresentationStyle="fullScreen" id="rRd-SC-EqT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ir4-Ep-tyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2570,7 +2575,7 @@
                                 <color key="barTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="MpG-Ru-SBp" firstAttribute="bottom" secondItem="yAg-50-aHf" secondAttribute="top" id="64M-Pp-WLa"/>
                             <constraint firstItem="w9c-kb-HVW" firstAttribute="trailing" secondItem="yAg-50-aHf" secondAttribute="trailing" id="Q9W-kb-j1C"/>
@@ -2593,7 +2598,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fvE-Lz-U1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3269.5999999999999" y="1226.5367316341831"/>
+            <point key="canvasLocation" x="3199" y="1246"/>
         </scene>
         <!--Date ChangeVC-->
         <scene sceneID="1W0-dA-PQU">
@@ -2636,7 +2641,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="RKH-A0-GiO" firstAttribute="centerX" secondItem="IFK-3K-nM5" secondAttribute="centerXWithinMargins" id="9S8-b8-IT8"/>
                             <constraint firstItem="RKH-A0-GiO" firstAttribute="centerY" secondItem="IFK-3K-nM5" secondAttribute="centerY" id="gOJ-L8-jvy"/>
@@ -2746,14 +2751,14 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
                                 <rect key="frame" x="10" y="544" width="200" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="tintColor" name="BaptismsBlue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7yR-FQ-KdJ">
                                         <variation key="heightClass=regular-widthClass=regular" constant="60"/>
                                     </constraint>
                                 </constraints>
-                                <color key="textColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" name="BaptismsBlue"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
@@ -2843,7 +2848,7 @@
                                 </variation>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="bottom" secondItem="DsF-Hv-V5B" secondAttribute="bottom" constant="10" id="00V-fM-Od2"/>
                             <constraint firstItem="kBA-Zo-Zka" firstAttribute="top" secondItem="58o-8C-bV5" secondAttribute="top" id="08J-fU-iSW"/>
@@ -3000,8 +3005,9 @@
                                             <constraint firstAttribute="height" constant="50" id="JXC-iI-WTR"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                        <color key="tintColor" name="BaptismsBlue"/>
                                         <state key="normal" title="Import Visits from XML">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" name="BaptismsBlue"/>
                                         </state>
                                         <connections>
                                             <action selector="importVisits:" destination="0kB-hC-xcd" eventType="touchUpInside" id="i1G-Gt-Djb"/>
@@ -3022,8 +3028,9 @@
                                                     <constraint firstAttribute="height" constant="50" id="d9E-I0-79T"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
                                                 <state key="normal" title="txt">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" name="BaptismsBlue"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="exportTxtAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="Lgw-dS-9KU"/>
@@ -3035,8 +3042,9 @@
                                                     <constraint firstAttribute="height" constant="50" id="qez-cF-J5R"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
                                                 <state key="normal" title="xml">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" name="BaptismsBlue"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="exportXmlAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="wbs-wF-GIN"/>
@@ -3048,8 +3056,9 @@
                                                     <constraint firstAttribute="height" constant="50" id="zzX-OB-yBh"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
                                                 <state key="normal" title="csv">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" name="BaptismsBlue"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="exportCsvAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="dvd-5v-HAx"/>
@@ -3075,7 +3084,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="3SJ-RL-qNP" secondAttribute="trailing" constant="10" id="43F-ET-EqC"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
@@ -3122,8 +3131,10 @@
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-Lj-g5Z">
                                         <rect key="frame" x="0.0" y="34" width="374" height="40"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
-                                        <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Apr 6, 1830"/>
+                                        <color key="tintColor" name="BaptismsBlue"/>
+                                        <state key="normal" title="Apr 6, 1830">
+                                            <color key="titleColor" name="BaptismsBlue"/>
+                                        </state>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="28"/>
                                         </variation>
@@ -3161,6 +3172,7 @@
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" priority="750" constant="180" id="JMA-5L-NQ5"/>
                                                                 </constraints>
+                                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -3214,7 +3226,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Sealings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRO-o0-8rA">
                                                                         <rect key="frame" x="0.0" y="0.0" width="226" height="32"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                                        <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -3222,7 +3234,7 @@
                                                                     </label>
                                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gqK-pF-ISd">
                                                                         <rect key="frame" x="234" y="0.0" width="38" height="32"/>
-                                                                        <color key="textColor" red="0.32549019610000002" green="0.21960784310000001" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="SealingsPurple"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
@@ -3280,7 +3292,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Initiatories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJZ-It-t6m">
                                                                         <rect key="frame" x="0.0" y="0.0" width="226" height="32"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                                        <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -3288,7 +3300,7 @@
                                                                     </label>
                                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4m9-AR-4QV">
                                                                         <rect key="frame" x="234" y="0.0" width="38" height="32"/>
-                                                                        <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="InitiatoriesOlive"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
@@ -3346,7 +3358,7 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Baptisms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cS-Ir-gH1">
                                                                         <rect key="frame" x="0.0" y="0.0" width="226" height="32"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -3354,7 +3366,7 @@
                                                                     </label>
                                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nRg-dq-1OS">
                                                                         <rect key="frame" x="234" y="0.0" width="38" height="32"/>
-                                                                        <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" name="BaptismsBlue"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                                                                         <variation key="heightClass=regular-widthClass=regular">
@@ -3384,8 +3396,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hco-1D-iCr">
                                                         <rect key="frame" x="0.0" y="503" width="374" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                        <color key="tintColor" name="BaptismsBlue"/>
                                                         <state key="normal" title="Add Picture">
-                                                            <color key="titleColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleColor" name="BaptismsBlue"/>
                                                         </state>
                                                         <variation key="heightClass=regular-widthClass=regular">
                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -3411,7 +3424,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="szC-4L-T83" firstAttribute="leading" secondItem="Hdx-hg-WHC" secondAttribute="leadingMargin" id="1gE-5a-hhf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="szC-4L-T83" secondAttribute="trailing" id="Zon-f9-KeO"/>
@@ -3520,11 +3533,23 @@
         <image name="share" width="100" height="100"/>
         <image name="starOfMelchizedek" width="25" height="25"/>
         <image name="summary" width="25" height="25"/>
+        <namedColor name="BaptismsBlue">
+            <color red="0.0" green="0.41176470588235292" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="InitiatoriesOlive">
+            <color red="0.19599999487400055" green="0.30199998617172241" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SealingsPurple">
+            <color red="0.32549019607843138" green="0.29019607843137257" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TempleDarkRed">
+            <color red="0.7839999794960022" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8oe-hn-yZM"/>
+        <segue reference="DQn-F3-acx"/>
         <segue reference="Znc-r7-aaw"/>
-        <segue reference="QNJ-qY-fxt"/>
+        <segue reference="rRd-SC-EqT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

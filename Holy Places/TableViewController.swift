@@ -284,7 +284,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         titleLabel.backgroundColor = UIColor.clear
         switch type {
         case 1:
-            titleLabel.textColor = UIColor.darkRed()
+            titleLabel.textColor = UIColor(named: "TempleDarkRed")
         case 2:
             titleLabel.textColor = UIColor.darkLimeGreen()
         case 4:
@@ -294,7 +294,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case 5:
             titleLabel.textColor = UIColor.brown
         default:
-            titleLabel.textColor = UIColor.lead()
+            titleLabel.textColor = UIColor(named: "DefaultText")!
         }
         titleLabel.font = titleFont
         titleLabel.text = title
@@ -361,23 +361,14 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         searchController.dimsBackgroundDuringPresentation = false
         // bug with following option in 13.1
 //        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.ocean()
+        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
         let searchField = searchController.searchBar.searchTextField
         searchField.font = UIFont(name: "Baskerville", size: 17)
         
-//        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-//    searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
-
         definesPresentationContext = true
-        if #available(iOS 11.0, *) {
-            // New in iOS 11, the searchbar is part of the navigationItem
-            navigationItem.searchController = searchController
-            navigationItem.hidesSearchBarWhenScrolling = false
-        } else {
-            // Fallback on earlier versions
-            tableView.tableHeaderView = searchController.searchBar
-        }
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         extendedLayoutIncludesOpaqueBars = true
         
@@ -393,23 +384,22 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithDefaultBackground()
-            style.backgroundColor = .white
-            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
-            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.configureWithOpaqueBackground()
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.titleTextAttributes = [
-                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
                 .font : navbarFont // Navigation bar title font
             ]
             navigationController?.navigationBar.standardAppearance = style
             
         } else {
             // Fallback on earlier versions
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.highlighted)
             
-            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
-            UINavigationBar.appearance().tintColor = UIColor.ocean()
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
+            UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
     }
     
@@ -474,7 +464,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         
         switch temple.templeType {
         case "T":
-            cell.textLabel?.textColor = UIColor.darkRed()
+            cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
         case "H":
             cell.textLabel?.textColor = UIColor.darkLimeGreen()
         case "A":
@@ -484,7 +474,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case "V":
             cell.textLabel?.textColor = UIColor.strongYellow()
         default:
-            cell.textLabel?.textColor = UIColor.lead()
+            cell.textLabel?.textColor = UIColor(named: "DefaultText")!
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -495,7 +485,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
-        header.textLabel?.textColor = UIColor.ocean()
+        header.textLabel?.textColor = UIColor(named: "BaptismsBlue")
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

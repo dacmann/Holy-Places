@@ -30,7 +30,7 @@ class VisitDetailVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd YYYY"
         visitDate.text = formatter.string(from: dateOfVisit!)
-        visitDate.textColor = UIColor.lead()
+//        visitDate.textColor = UIColor(named: "DefaultText")!
     }
     
     @objc func editVisit (_ sender: Any) {
@@ -146,19 +146,19 @@ class VisitDetailVC: UIViewController {
                 // color code the ordinance recorded
                 let attributedText = NSMutableAttributedString(string: ordinances)
                 if detail.sealings > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.eggplant()], range: getRangeOfSubString(subString: sealings, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "SealingsPurple")!], range: getRangeOfSubString(subString: sealings, fromString: ordinances))
                 }
                 if detail.endowments > 0 {
                     attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkTangerine()], range: getRangeOfSubString(subString: endowments, fromString: ordinances))
                 }
                 if detail.initiatories > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.olive()], range: getRangeOfSubString(subString: initiatories, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "InitiatoriesOlive")!], range: getRangeOfSubString(subString: initiatories, fromString: ordinances))
                 }
                 if detail.confirmations > 0 {
                     attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.flame()], range: getRangeOfSubString(subString: confirmations, fromString: ordinances))
                 }
                 if detail.baptisms > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.ocean()], range: getRangeOfSubString(subString: baptisms, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "BaptismsBlue")!], range: getRangeOfSubString(subString: baptisms, fromString: ordinances))
                 }
                 if detail.shiftHrs > 0 {
                     attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.iron()], range: getRangeOfSubString(subString: shiftHrs, fromString: ordinances))
@@ -170,7 +170,7 @@ class VisitDetailVC: UIViewController {
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor.darkRed()
+                        templeName.textColor = UIColor(named: "TempleDarkRed")
                     case "H":
                         templeName.textColor = UIColor.darkLimeGreen()
                     case "C":
@@ -178,7 +178,7 @@ class VisitDetailVC: UIViewController {
                     case "V":
                         templeName.textColor = UIColor.strongYellow()
                     default:
-                        templeName.textColor = UIColor.lead()
+                        templeName.textColor = UIColor(named: "DefaultText")!
                     }
                 }
                 comments.sizeToFit()

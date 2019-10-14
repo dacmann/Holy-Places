@@ -82,7 +82,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         switch visitFilterRow {
         case 1:
-            self.navigationItem.titleView?.tintColor = UIColor.darkRed()
+            self.navigationItem.titleView?.tintColor = UIColor(named: "TempleDarkRed")
         case 2:
             self.navigationItem.titleView?.tintColor = UIColor.darkLimeGreen()
         case 4:
@@ -92,7 +92,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 3:
             self.navigationItem.titleView?.tintColor = UIColor.strongYellow()
         default:
-            self.navigationItem.titleView?.tintColor = UIColor.lead()
+            self.navigationItem.titleView?.tintColor = UIColor(named: "DefaultText")!
         }
         
         tableView.reloadData()
@@ -114,21 +114,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.tintColor = UIColor.ocean()
+        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor.ocean()]), for: UIControl.State.normal)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor(named: "BaptismsBlue")!]), for: UIControl.State.normal)
 
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         definesPresentationContext = true
-        if #available(iOS 11.0, *) {
-            // New in iOS 11, the searchbar is part of the navigationItem
-            navigationItem.searchController = searchController
-            navigationItem.hidesSearchBarWhenScrolling = false
-        } else {
-            // Fallback on earlier versions
-            tableView.tableHeaderView = searchController.searchBar
-        }
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         extendedLayoutIncludesOpaqueBars = true
         
         searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S"]
@@ -148,23 +142,22 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithDefaultBackground()
-            style.backgroundColor = .white
-            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
-            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()]
+            style.configureWithOpaqueBackground()
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.titleTextAttributes = [
-                .foregroundColor : UIColor.ocean(), // Navigation bar title color
+                .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
                 .font : navbarFont // Navigation bar title font
             ]
             navigationController?.navigationBar.standardAppearance = style
             
         } else {
             // Fallback on earlier versions
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.ocean()], for: UIControl.State.highlighted)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.highlighted)
             
-            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor.lead()]
-            UINavigationBar.appearance().tintColor = UIColor.ocean()
+            UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
+            UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
     }
 
@@ -222,7 +215,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
-        header.textLabel?.textColor = UIColor.ocean()
+        header.textLabel?.textColor = UIColor(named: "BaptismsBlue")
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         if self.fetchedResultsController.fetchedObjects?.count != 0
@@ -234,7 +227,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         {
             let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = "Add Visits from the Place Details pages"
-            noDataLabel.textColor     = UIColor.ocean()
+            noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
             tableView.backgroundView  = noDataLabel
@@ -392,11 +385,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
-        cell.detailTextLabel?.textColor = UIColor.lead()
+        cell.detailTextLabel?.textColor = UIColor(named: "DefaultText")!
         if let theType = visit.type {
             switch theType {
             case "T":
-                cell.textLabel?.textColor = UIColor.darkRed()
+                cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
             case "H":
                 cell.textLabel?.textColor = UIColor.darkLimeGreen()
             case "A":
@@ -406,7 +399,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             case "V":
                 cell.textLabel?.textColor = UIColor.strongYellow()
             default:
-                cell.textLabel?.textColor = UIColor.lead()
+                cell.textLabel?.textColor = UIColor(named: "DefaultText")!
             }
         }
     }
@@ -492,7 +485,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         switch visitFilterRow {
         case 1:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkRed()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "TempleDarkRed")!]
         case 2:
             titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkLimeGreen()]
         case 4:
@@ -500,7 +493,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 3:
             titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.strongYellow()]
         default:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.lead()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "DefaultText")!]
         }
 
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedString.Key : AnyObject]

@@ -81,7 +81,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         switch data {
         case "Active Temples":
-            label?.textColor = UIColor.darkRed()
+            label?.textColor = UIColor(named: "TempleDarkRed")
         case "Historical Sites":
             label?.textColor = UIColor.darkLimeGreen()
         case "Visitors' Centers":
@@ -89,7 +89,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case "Temples Under Construction":
             label?.textColor = UIColor.darkOrange()
         default:
-            label?.textColor = UIColor.lead()
+            label?.textColor = UIColor(named: "DefaultText")!
         }
         return label!
     }
@@ -146,7 +146,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func importVisits(_ sender: UIButton) {
         let importMenu = UIDocumentPickerViewController(documentTypes: [kUTTypeXML as String], in: .import)
         importMenu.delegate = self
-        importMenu.modalPresentationStyle = .formSheet
+        importMenu.modalPresentationStyle = .fullScreen
         self.present(importMenu, animated: true, completion: nil)
     }
     
@@ -277,7 +277,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             }
 //            print(visits)
             message.text = "Exported \(exportCount) visits to \(type) file."
-            message.textColor = UIColor.darkRed()
+            message.textColor = UIColor(named: "TempleDarkRed")
             // Update visit count 
             appDelegate.getVisits()
         } catch {
@@ -311,11 +311,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         
-    }
-    public func documentMenu(_ documentMenu:     UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
-        
-        documentPicker.delegate = self
-        present(documentPicker, animated: true, completion: nil)
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {

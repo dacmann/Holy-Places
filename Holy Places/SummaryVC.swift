@@ -302,7 +302,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 if let found = allPlaces.firstIndex(where:{$0.templeName == placeName}) {
                     switch allPlaces[found].templeType {
                     case "T":
-                        textColor = UIColor.darkRed()
+                        textColor = UIColor(named: "TempleDarkRed")!
                     case "H":
                         textColor = UIColor.darkLimeGreen()
                     case "C":
@@ -310,7 +310,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                     case "V":
                         textColor = UIColor.strongYellow()
                     default:
-                        textColor = UIColor.lead()
+                        textColor = UIColor(named: "DefaultText")!
                     }
                 }
                 counter += 1
