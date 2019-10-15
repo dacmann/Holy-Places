@@ -144,10 +144,11 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func importVisits(_ sender: UIButton) {
-        let importMenu = UIDocumentPickerViewController(documentTypes: [kUTTypeXML as String], in: .import)
+        let types = [String(kUTTypeXML)]
+        let importMenu = UIDocumentPickerViewController(documentTypes: types, in: .import)
         importMenu.delegate = self
         importMenu.modalPresentationStyle = .fullScreen
-        self.present(importMenu, animated: true, completion: nil)
+        self.present(importMenu, animated: true)
     }
     
     func exportFile(_ string: String, title: String, type: String) throws {
@@ -285,11 +286,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt url: [URL]) {
         
-        let myURL = url as URL
-//        print("The Url is : \(myURL)")
-        guard let parser = XMLParser(contentsOf: myURL as URL) else {
+        guard let parser = XMLParser(contentsOf: url[0]) else {
             print("Cannot Read Data")
             return
         }
