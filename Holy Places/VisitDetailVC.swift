@@ -17,8 +17,10 @@ class VisitDetailVC: UIViewController {
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var visitDate: UILabel!
     @IBOutlet weak var pictureView: UIImageView!
-    @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var ordinancesPerformed: UILabel!
+    @IBOutlet weak var comments: UITextView!
+    @IBOutlet weak var pictureHeight: NSLayoutConstraint!
+    @IBOutlet weak var commentHeight: NSLayoutConstraint!
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
@@ -181,16 +183,26 @@ class VisitDetailVC: UIViewController {
                         templeName.textColor = UIColor(named: "DefaultText")!
                     }
                 }
-                comments.sizeToFit()
+//                comments.sizeToFit()
                 // load image
                 if let imageData = detail.picture {
                     let image = UIImage(data: imageData as Data)
                     pictureView.image = image
                     pictureView.isHidden = false
+                    if (image?.size.height)!/(image?.size.width)! > 1 {
+                        pictureHeight.constant = 700
+                    } else {
+                        pictureHeight.constant = 300
+                    }
                 } else {
                     pictureView.isHidden = true
                 }
-                
+                if comments.text.lengthOfBytes(using: .ascii) > 128 {
+                    commentHeight.constant = 120
+                } else {
+                    commentHeight.constant = 70
+                }
+                view.setNeedsDisplay()
             }
         }
     }
