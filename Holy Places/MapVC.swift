@@ -43,15 +43,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithOpaqueBackground()
-            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-            style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-            style.titleTextAttributes = [
-                .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
-                .font : navbarFont // Navigation bar title font
-            ]
+            style.configureWithTransparentBackground()
+            style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.label]
             navigationController?.navigationBar.standardAppearance = style
-            
         } else {
             // Fallback on earlier versions
             UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!], for: UIControl.State.normal)
@@ -197,6 +191,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Additional settings for the annotation
         view.isEnabled = true
         view.canShowCallout = true
+//        view.image
         view.pinTintColor = pinColor(type: annotation.type)
         annotation.title = " "
         return view
