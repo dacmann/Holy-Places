@@ -101,6 +101,16 @@ class VisitDetailVC: UIViewController {
     
 
     // function for read-only view of recorded visit
+    fileprivate func AddSeparator(_ count: inout Int, _ ordinances: inout String) {
+        if count % 2 == 0 {
+            // even number added
+            ordinances.append("\n")
+        } else {
+            ordinances.append("\t\t")
+        }
+        count += 1
+    }
+    
     func populateView() {
         // Update the user interface for the detail item.
         if let detail = self.detailVisit {
@@ -114,29 +124,36 @@ class VisitDetailVC: UIViewController {
                 var confirmations = ""
                 var baptisms = ""
                 var shiftHrs = ""
+                var count = 0
                 if detail.type == "T" {
                     if detail.sealings > 0 {
                         sealings = "\nSealings: \(detail.sealings.description)"
+                        count += 1
                         ordinances.append(sealings)
                     }
                     if detail.endowments > 0 {
-                        endowments = "\nEndowments: \(detail.endowments.description)"
+                        endowments = "Endowments: \(detail.endowments.description)"
+                        AddSeparator(&count, &ordinances)
                         ordinances.append(endowments)
                     }
                     if detail.initiatories > 0 {
-                        initiatories = "\nInitiatories: \(detail.initiatories.description)"
+                        initiatories = "Initiatories: \(detail.initiatories.description)"
+                        AddSeparator(&count, &ordinances)
                         ordinances.append(initiatories)
                     }
                     if detail.confirmations > 0 {
-                        confirmations = "\nConfirmations: \(detail.confirmations.description)"
+                        confirmations = "Confirmations: \(detail.confirmations.description)"
+                        AddSeparator(&count, &ordinances)
                         ordinances.append(confirmations)
                     }
                     if detail.baptisms > 0 {
-                        baptisms = "\nBaptisms: \(detail.baptisms.description)"
+                        baptisms = "Baptisms: \(detail.baptisms.description)"
+                        AddSeparator(&count, &ordinances)
                         ordinances.append(baptisms)
                     }
                     if detail.shiftHrs > 0 {
-                        shiftHrs = "\nHours Worked: \(detail.shiftHrs.description)"
+                        shiftHrs = "Hours Worked: \(detail.shiftHrs.description)"
+                        AddSeparator(&count, &ordinances)
                         ordinances.append(shiftHrs)
                     }
                 }
