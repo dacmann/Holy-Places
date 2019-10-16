@@ -102,6 +102,7 @@ class VisitDetailVC: UIViewController {
 
     // function for read-only view of recorded visit
     fileprivate func AddSeparator(_ count: inout Int, _ ordinances: inout String) {
+        // Show two ordinances per line
         if count % 2 == 0 {
             // even number added
             ordinances.append("\n")

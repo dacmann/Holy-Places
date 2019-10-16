@@ -379,6 +379,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // Add done button to keyboard
         keyboardDone()
         
+        tableView.sectionIndexColor = UIColor(named: "BaptismsBlue")
+        
         // Change the font and color for the navigation Bar text
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)

@@ -113,13 +113,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
+//        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor(named: "BaptismsBlue")!]), for: UIControl.State.normal)
 
-        let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideUISearchBar?.font = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let searchField = searchController.searchBar.searchTextField
+        searchField.font = searchBarFont
         definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
