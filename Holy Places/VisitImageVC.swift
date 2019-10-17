@@ -11,17 +11,13 @@ import UIKit
 class VisitImageVC: UIViewController, UIScrollViewDelegate {
 
     var img: UIImage!
-    var minScale = CGFloat()
+    var imageView: UIImageView!
     
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var done: UIButton!
     
-    @IBAction func done(_ sender: Any) {
-        scrollView.zoomScale = minScale
+    @IBAction func doneButton(_ sender: Any) {
+        scrollView.zoomScale = 1.0
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -30,64 +26,37 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
 
         // Do any additional setup after loading the view.
         scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 4.0
         scrollView.backgroundColor = .black
+        
+        imageView = UIImageView(image: img)
+        imageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        imageView.contentMode = .scaleAspectFit
+        scrollView.addSubview(imageView)
+        imageView.centerXAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerYAnchor).isActive = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
-    }
-    
-    fileprivate func updateMinZoomScaleForSize(_ size: CGSize) {
-        let widthScale = size.width / imageView.bounds.width
-        let heightScale = size.height / imageView.bounds.height
-        let minScale = min(widthScale, heightScale)
         
-        scrollView.minimumZoomScale = minScale
-        scrollView.zoomScale = minScale
-    }
+        view.bringSubviewToFront(done)
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateMinZoomScaleForSize(scrollView.bounds.size)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        updateConstraintsForSize(scrollView.bounds.size)
-    }
-    
-    fileprivate func updateConstraintsForSize(_ size: CGSize) {
-        
-        let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-        imageViewTopConstraint.constant = yOffset
-        imageViewBottomConstraint.constant = yOffset
-        
-        let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-        imageViewLeadingConstraint.constant = xOffset
-        imageViewTrailingConstraint.constant = xOffset
-        
-        view.layoutIfNeeded()
-    }
-    
-    @objc override func viewDidLayoutSubviews() {
-        // Configure the Image view
-        if img != nil {
-            imageView.image = img
-        }
-    }
     
     @objc func doubleTapped(recognizer:  UITapGestureRecognizer) {
         if let scrollV = self.scrollView {
-            if scrollV.zoomScale > scrollV.minimumZoomScale {
-                scrollV.setZoomScale(scrollV.minimumZoomScale, animated: true)
-            }
-            else {
-                //(I divide by 3.0 since I don't wan't to zoom to the max upon the double tap)
-                let zoomRect = self.zoomRectForScale(scale: scrollV.maximumZoomScale / 3.0, center: recognizer.location(in: recognizer.view))
+            if scrollV.zoomScale == 1 {
+                let zoomRect = self.zoomRectForScale(scale: scrollV.maximumZoomScale, center: recognizer.location(in: recognizer.view))
                 self.scrollView?.zoom(to: zoomRect, animated: true)
+            } else {
+                self.scrollView?.setZoomScale(1, animated: true)
             }
         }
     }
@@ -97,7 +66,7 @@ class VisitImageVC: UIViewController, UIScrollViewDelegate {
         if let imageV = self.imageView {
             zoomRect.size.height = imageV.frame.size.height / scale
             zoomRect.size.width  = imageV.frame.size.width  / scale
-            let newCenter = imageV.convert(center, from: self.scrollView)
+            let newCenter = imageV.convert(center, from: imageV)
             zoomRect.origin.x = newCenter.x - ((zoomRect.size.width / 2.0))
             zoomRect.origin.y = newCenter.y - ((zoomRect.size.height / 2.0))
         }
