@@ -207,18 +207,24 @@ class VisitDetailVC: UIViewController {
                     let image = UIImage(data: imageData as Data)
                     pictureView.image = image
                     pictureView.isHidden = false
-                    if (image?.size.height)!/(image?.size.width)! > 1 {
-                        pictureHeight.constant = 700
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        pictureHeight.constant = 1700
                     } else {
-                        pictureHeight.constant = 300
+                        if (image?.size.height)!/(image?.size.width)! > 1 {
+                            pictureHeight.constant = 700
+                        } else {
+                            pictureHeight.constant = 300
+                        }
                     }
                 } else {
                     pictureView.isHidden = true
                 }
-                if comments.text.lengthOfBytes(using: .ascii) > 128 {
-                    commentHeight.constant = 120
-                } else {
-                    commentHeight.constant = 70
+                if UIDevice.current.userInterfaceIdiom != .pad {
+                    if comments.text.lengthOfBytes(using: .ascii) > 128 {
+                        commentHeight.constant = 120
+                    } else {
+                        commentHeight.constant = 70
+                    }
                 }
                 view.setNeedsDisplay()
             }

@@ -2677,7 +2677,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="PCCL" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300.00000000000023"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
