@@ -363,9 +363,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
 //        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
-        let searchField = searchController.searchBar.searchTextField
-        searchField.font = UIFont(name: "Baskerville", size: 17)
-        
         definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -386,6 +383,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
+            let searchField = searchController.searchBar.searchTextField
+            searchField.font = UIFont(name: "Baskerville", size: 17)
             style.configureWithOpaqueBackground()
             style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]

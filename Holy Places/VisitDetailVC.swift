@@ -212,6 +212,8 @@ class VisitDetailVC: UIViewController {
                     } else {
                         if (image?.size.height)!/(image?.size.width)! > 1 {
                             pictureHeight.constant = 700
+                        } else if (image?.size.height)!/(image?.size.width)! == 1 {
+                            pictureHeight.constant = 400
                         } else {
                             pictureHeight.constant = 300
                         }
@@ -224,6 +226,7 @@ class VisitDetailVC: UIViewController {
                         commentHeight.constant = 120
                     } else {
                         commentHeight.constant = 70
+                        pictureHeight.constant = 400
                     }
                 }
                 view.setNeedsDisplay()

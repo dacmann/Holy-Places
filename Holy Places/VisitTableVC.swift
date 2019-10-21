@@ -115,11 +115,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.dimsBackgroundDuringPresentation = false
 //        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
-        let searchBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.font.rawValue: searchBarFont, NSAttributedString.Key.foregroundColor.rawValue:UIColor(named: "BaptismsBlue")!]), for: UIControl.State.normal)
-
-        let searchField = searchController.searchBar.searchTextField
-        searchField.font = searchBarFont
+        
         definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -142,6 +138,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
+            let searchField = searchController.searchBar.searchTextField
+            searchField.font = UIFont(name: "Baskerville", size: 17)
             style.configureWithOpaqueBackground()
             style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
             style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
