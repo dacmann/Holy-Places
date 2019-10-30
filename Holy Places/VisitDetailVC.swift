@@ -202,6 +202,7 @@ class VisitDetailVC: UIViewController {
                     }
                 }
 //                comments.sizeToFit()
+                let commentSize = comments.text.lengthOfBytes(using: .macOSRoman)
                 // load image
                 if let imageData = detail.picture {
                     let image = UIImage(data: imageData as Data)
@@ -212,7 +213,7 @@ class VisitDetailVC: UIViewController {
                     } else {
                         if (image?.size.height)!/(image?.size.width)! > 1 {
                             pictureHeight.constant = 700
-                        } else if (image?.size.height)!/(image?.size.width)! == 1 {
+                        } else if (image?.size.height)!/(image?.size.width)! == 1 || commentSize < 129 {
                             pictureHeight.constant = 400
                         } else {
                             pictureHeight.constant = 300
@@ -221,12 +222,12 @@ class VisitDetailVC: UIViewController {
                 } else {
                     pictureView.isHidden = true
                 }
+                // Determine height restriction of comment text area
                 if UIDevice.current.userInterfaceIdiom != .pad {
-                    if comments.text.lengthOfBytes(using: .ascii) > 128 {
+                    if commentSize > 128 {
                         commentHeight.constant = 120
                     } else {
                         commentHeight.constant = 70
-                        pictureHeight.constant = 400
                     }
                 }
                 view.setNeedsDisplay()
