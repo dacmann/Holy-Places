@@ -360,7 +360,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         // bug with following option in 13.1
-//        searchController.hidesNavigationBarDuringPresentation = false
+        if #available(iOS 13.2, *) {
+            searchController.hidesNavigationBarDuringPresentation = false
+        }
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
         definesPresentationContext = true

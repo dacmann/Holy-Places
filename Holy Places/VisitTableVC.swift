@@ -113,7 +113,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-//        searchController.hidesNavigationBarDuringPresentation = false
+        // bug with following option in 13.1
+        if #available(iOS 13.2, *) {
+            searchController.hidesNavigationBarDuringPresentation = false
+        }
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
         definesPresentationContext = true
