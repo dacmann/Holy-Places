@@ -209,25 +209,32 @@ class VisitDetailVC: UIViewController {
                     pictureView.image = image
                     pictureView.isHidden = false
                     if UIDevice.current.userInterfaceIdiom == .pad {
-                        pictureHeight.constant = 1700
+                        pictureHeight.constant = 1400
                     } else {
-                        if (image?.size.height)!/(image?.size.width)! > 1 {
-                            pictureHeight.constant = 700
-                        } else if (image?.size.height)!/(image?.size.width)! == 1 || commentSize < 129 {
-                            pictureHeight.constant = 400
-                        } else {
-                            pictureHeight.constant = 300
-                        }
+                        pictureHeight.constant = 700
                     }
                 } else {
                     pictureView.isHidden = true
+                    pictureHeight.constant = 10
                 }
                 // Determine height restriction of comment text area
-                if UIDevice.current.userInterfaceIdiom != .pad {
-                    if commentSize > 128 {
-                        commentHeight.constant = 120
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    if commentSize > 400 {
+                        commentHeight.constant = 400
+                    } else if commentSize < 100 {
+                        commentHeight.constant = 50
                     } else {
-                        commentHeight.constant = 70
+                        commentHeight.constant = CGFloat(commentSize) * 0.5
+                    }
+                } else {
+                    if commentSize > 200 {
+                        commentHeight.constant = 200
+                    } else if commentSize < 50 {
+                        commentHeight.constant = 50
+                    } else if commentSize < 75 {
+                        commentHeight.constant = CGFloat(commentSize)
+                    } else {
+                        commentHeight.constant = CGFloat(commentSize) * 0.7
                     }
                 }
                 view.setNeedsDisplay()

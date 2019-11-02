@@ -45,11 +45,11 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>To add a picture of a Holy Place</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place</string>
+	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place. Location information remains private and isn&apos;t stored or uploaded.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place</string>
+	<string>To determine nearest Holy Place and trigger a notification when leaving a Holy Place.  Location information remains private and isn&apos;t stored or uploaded.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To determine nearest Holy Place</string>
+	<string>To determine nearest Holy Place. Location information remains private and isn&apos;t stored or uploaded.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To add a picture of a Holy Place</string>
 	<key>UIApplicationShortcutItems</key>
