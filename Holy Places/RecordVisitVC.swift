@@ -269,13 +269,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
                 }
             }
         }
-//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-//            let imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
-//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-//            imagePicker.allowsEditing = false
-//            self.present(imagePicker, animated: true, completion: nil)
-//        }
+
     }
     
     

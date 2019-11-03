@@ -24,7 +24,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var filterSelected: Int?
     var sortSelected: Int?
     //var nearestEnabled: Bool?
-    var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction"  ]
+    var filterChoices = ["All Visits", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Other"  ]
     // UIDocumentInteractionController instance is a class property
     var docController:UIDocumentInteractionController!
     var visits = String()

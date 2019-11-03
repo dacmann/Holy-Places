@@ -234,7 +234,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         else
         {
             let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text          = "Add Visits from the Place Details pages"
+            noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above"
             noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
@@ -454,6 +454,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 4:
             titleHeader = "Construction Visits"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "C")
+        case 5:
+            titleHeader = "Other Visits"
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "O")
         default:
             titleHeader = "Visits"
         }

@@ -24,6 +24,10 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.placeSelection.delegate = self
         self.placeSelection.dataSource = self
         
+        let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
+        placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
+        placeNameSelected = randomPlace
+        
         let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedString.Key.font as NSCopying)
         segmentedController.setTitleTextAttributes(attr as? [AnyHashable : Any] as? [NSAttributedString.Key : Any], for: .normal)
         
@@ -43,6 +47,7 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         placeName.isHidden = true
         placeSelection.isHidden = false
         doneButtonAction()
+        nextButton.isEnabled = true
         switch segmentedController.selectedSegmentIndex {
         case 0:
             pickerData = activeTemples
@@ -59,8 +64,9 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             break
         }
         placeSelection.reloadAllComponents()
-        placeSelection.selectRow(pickerData.count / 2, inComponent: 0, animated: true)
-        placeNameSelected = pickerData.count / 2
+        let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
+        placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
+        placeNameSelected = randomPlace
     }
     
     
