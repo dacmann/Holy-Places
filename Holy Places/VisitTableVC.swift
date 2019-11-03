@@ -35,10 +35,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     @IBAction func sortByBtn(_ sender: Any) {
         if sortByDate {
             sortByDate = false
-            sortBy.title = "by Date"
+            //sortBy.title = "by Date"
         } else {
             sortByDate = true
-            sortBy.title = "by Place"
+            //sortBy.title = "by Place"
         }
         // reset data pull
         _fetchedResultsController = nil
@@ -129,6 +129,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Add done button to keyboard
         keyboardDone()
+        
+        // Add "Add New Visit" button to bottom of view
+//        let newButton = UIButton(frame: CGRect(origin: CGPoint(x: 50, y: self.view.frame.height - 150), size: CGSize(width: 50, height: 50)))
+//        newButton.titleLabel?.text = "Add"
+//        newButton.backgroundColor = UIColor(named:"BaptismBlue")
+//        newButton.tintColor = .white
+//        self.navigationController?.view.addSubview(newButton)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -434,15 +441,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Filter the request
         switch visitFilterRow {
         case 0:
-            titleHeader = "Holy Places Visits"
+            titleHeader = "Visits"
         case 1:
-            titleHeader = "Active Temples Visits"
+            titleHeader = "Active Temples"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
         case 2:
-            titleHeader = "Historical Sites Visits"
+            titleHeader = "Historical"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
         case 3:
-            titleHeader = "Visitors' Centers Visits"
+            titleHeader = "Visitors' Centers"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
         case 4:
             titleHeader = "Construction Visits"

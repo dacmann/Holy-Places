@@ -2425,11 +2425,18 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Visits" id="lL4-nU-PFd">
                         <barButtonItem key="backBarButtonItem" title="Visits" id="oxp-WO-I8O"/>
-                        <barButtonItem key="leftBarButtonItem" title="by Place" id="9Xf-EQ-F2d">
-                            <connections>
-                                <action selector="sortByBtn:" destination="lXC-AK-NFm" id="Wt1-12-Y0W"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Sort" id="9Xf-EQ-F2d">
+                                <connections>
+                                    <action selector="sortByBtn:" destination="lXC-AK-NFm" id="Wt1-12-Y0W"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Add" id="f0N-u9-qXd">
+                                <connections>
+                                    <segue destination="HiP-YK-D1n" kind="show" id="x4n-nN-iU0"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" title="Options" id="e40-Ed-Hjr">
                             <connections>
                                 <segue destination="0kB-hC-xcd" kind="presentation" identifier="showVisitOptions" modalPresentationStyle="fullScreen" id="ImW-8S-f9R"/>
@@ -2442,6 +2449,11 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L59-Wf-89W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cdb-NB-j08">
+                    <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button"/>
+                </button>
             </objects>
             <point key="canvasLocation" x="1589" y="1227"/>
         </scene>
@@ -2590,6 +2602,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fvE-Lz-U1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3199" y="1246"/>
+        </scene>
+        <!--New VisitVC-->
+        <scene sceneID="8AP-do-7T7">
+            <objects>
+                <viewController id="HiP-YK-D1n" customClass="NewVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Pe-lp-JaZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add New Visit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ph-fb-mZj">
+                                <rect key="frame" x="142" y="225.5" width="130" height="26"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lAS-3T-LPJ">
+                                <rect key="frame" x="53.5" y="281.5" width="307" height="32"/>
+                                <segments>
+                                    <segment title="Temple"/>
+                                    <segment title="Historic"/>
+                                    <segment title="V. Center"/>
+                                    <segment title="Other"/>
+                                </segments>
+                                <connections>
+                                    <action selector="typeSelection:" destination="HiP-YK-D1n" eventType="valueChanged" id="gVn-XR-VOl"/>
+                                </connections>
+                            </segmentedControl>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPR-6d-hrr">
+                                <rect key="frame" x="47" y="343" width="320" height="216"/>
+                            </pickerView>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name of place" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a5e-yh-6XZ">
+                                <rect key="frame" x="10" y="342.5" width="394" height="34"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                <connections>
+                                    <action selector="placeEntered:" destination="HiP-YK-D1n" eventType="editingDidEnd" id="cbn-49-2DA"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lAS-3T-LPJ" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="Ncq-SX-RwR"/>
+                            <constraint firstItem="iPR-6d-hrr" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="Uzf-YK-F96"/>
+                            <constraint firstItem="iPR-6d-hrr" firstAttribute="top" secondItem="lAS-3T-LPJ" secondAttribute="bottom" constant="30" id="V1X-l2-Se6"/>
+                            <constraint firstItem="iPR-6d-hrr" firstAttribute="centerY" secondItem="JJ4-Uq-P6C" secondAttribute="centerY" id="Zi2-GO-zuP"/>
+                            <constraint firstItem="a5e-yh-6XZ" firstAttribute="leading" secondItem="JJ4-Uq-P6C" secondAttribute="leading" constant="10" id="dYW-uN-INM"/>
+                            <constraint firstItem="JJ4-Uq-P6C" firstAttribute="trailing" secondItem="a5e-yh-6XZ" secondAttribute="trailing" constant="10" id="fDy-0R-Lts"/>
+                            <constraint firstItem="a5e-yh-6XZ" firstAttribute="top" secondItem="lAS-3T-LPJ" secondAttribute="bottom" constant="30" id="ggz-Gw-Mjb"/>
+                            <constraint firstItem="lAS-3T-LPJ" firstAttribute="top" secondItem="6Ph-fb-mZj" secondAttribute="bottom" constant="30" id="jzz-p2-WlA"/>
+                            <constraint firstItem="6Ph-fb-mZj" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="waQ-vT-WcA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JJ4-Uq-P6C"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="sbA-dQ-OBA">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="s25-jb-if9">
+                            <connections>
+                                <segue destination="Wm6-qc-lsd" kind="show" identifier="enterVisit" id="k3L-ab-35b"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nextButton" destination="s25-jb-if9" id="ySe-8F-W82"/>
+                        <outlet property="placeName" destination="a5e-yh-6XZ" id="Hps-ve-xaz"/>
+                        <outlet property="placeSelection" destination="iPR-6d-hrr" id="0sf-IR-I02"/>
+                        <outlet property="segmentedController" destination="lAS-3T-LPJ" id="CjZ-Cc-qCO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="idn-u3-4Yf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4078" y="1227"/>
         </scene>
         <!--Date ChangeVC-->
         <scene sceneID="1W0-dA-PQU">
@@ -3104,11 +3186,11 @@
             <objects>
                 <viewController storyboardIdentifier="RecordVisitVC" title="Edit Visit" id="Wm6-qc-lsd" userLabel="Record Visit" customClass="RecordVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hdx-hg-WHC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
-                                <rect key="frame" x="20" y="10" width="374" height="666"/>
+                                <rect key="frame" x="20" y="98" width="374" height="715"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -3141,7 +3223,7 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="83" width="374" height="583"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="632"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="538"/>
@@ -3424,6 +3506,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ko3-ho-qch"/>
                     </view>
+                    <navigationItem key="navigationItem" id="TQ7-Fr-gXW"/>
                     <connections>
                         <outlet property="addPictureBtn" destination="hco-1D-iCr" id="wXE-n1-Lpv"/>
                         <outlet property="baptisms" destination="nRg-dq-1OS" id="Kx7-Iq-9eI"/>
@@ -3539,7 +3622,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DQn-F3-acx"/>
-        <segue reference="Znc-r7-aaw"/>
+        <segue reference="k3L-ab-35b"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
