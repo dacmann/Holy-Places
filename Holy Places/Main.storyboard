@@ -2630,7 +2630,7 @@
                                 </connections>
                             </segmentedControl>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPR-6d-hrr">
-                                <rect key="frame" x="47" y="343" width="320" height="216"/>
+                                <rect key="frame" x="47" y="342.5" width="320" height="216"/>
                             </pickerView>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name of place" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a5e-yh-6XZ">
                                 <rect key="frame" x="10" y="342.5" width="394" height="34"/>
@@ -2759,7 +2759,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="PCCL" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300.00000000000023"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -2976,6 +2976,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="bUN-5O-Cxs"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="address" destination="qAS-fV-C3U" id="8IN-ZN-kYv"/>
@@ -3186,11 +3187,11 @@
             <objects>
                 <viewController storyboardIdentifier="RecordVisitVC" title="Edit Visit" id="Wm6-qc-lsd" userLabel="Record Visit" customClass="RecordVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hdx-hg-WHC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
-                                <rect key="frame" x="20" y="98" width="374" height="715"/>
+                                <rect key="frame" x="20" y="10" width="374" height="666"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -3223,7 +3224,7 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="83" width="374" height="632"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="583"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="538"/>
@@ -3622,8 +3623,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DQn-F3-acx"/>
-        <segue reference="k3L-ab-35b"/>
-        <segue reference="QNJ-qY-fxt"/>
+        <segue reference="Znc-r7-aaw"/>
+        <segue reference="rRd-SC-EqT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
