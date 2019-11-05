@@ -111,22 +111,6 @@ var didOrdinances = false
 var copyVisit: Visit?
 var copyAddDays = 7 as Int16
 
-@objc
-class UITextViewWorkaround : NSObject {
-
-    static func executeWorkaround() {
-        if #available(iOS 13.2, *) {
-        } else {
-            let className = "_UITextLayoutView"
-            let theClass = objc_getClass(className)
-            if theClass == nil {
-                let classPair: AnyClass? = objc_allocateClassPair(UIView.self, className, 0)
-                objc_registerClassPair(classPair!)
-            }
-        }
-    }
-
-}
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
 class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
@@ -647,7 +631,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -661,7 +645,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -1579,4 +1563,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
+
+//******************************************************************
+// MARK: - Workaround for the Xcode 11.2 bug
+//******************************************************************
+@objc
+class UITextViewWorkaround : NSObject {
+
+    static func executeWorkaround() {
+        if #available(iOS 13.2, *) {
+        } else {
+            let className = "_UITextLayoutView"
+            let theClass = objc_getClass(className)
+            if theClass == nil {
+                let classPair: AnyClass? = objc_allocateClassPair(UIView.self, className, 0)
+                objc_registerClassPair(classPair!)
+            }
+        }
+    }
+
 }

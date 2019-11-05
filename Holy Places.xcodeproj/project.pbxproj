@@ -425,6 +425,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Holy Places Widget/Holy Places Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Holy Places Widget/Info.plist";
@@ -448,6 +449,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Holy Places Widget/Holy Places Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Holy Places Widget/Info.plist";
@@ -577,6 +579,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Holy Places/Holy Places.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEVELOPMENT_TEAM = 3N7PM336W9;
@@ -601,6 +604,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Holy Places/Holy Places.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				INFOPLIST_FILE = "Holy Places/Info.plist";
