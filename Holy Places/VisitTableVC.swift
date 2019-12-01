@@ -238,6 +238,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
+            noDataLabel.numberOfLines = 2
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }

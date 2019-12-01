@@ -135,6 +135,8 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let controller = (segue.destination as! RecordVisitVC)
         if segue.identifier == "enterVisit" {
+            // Change the back button on the Record Visit VC to Cancel
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
             if segmentedController.selectedSegmentIndex == 3 {
                 let temple = Temple(Name: placeName.text!, Address: "", Snippet: "", CityState: "", Country: "", Phone: "", Latitude: 0.0, Longitude: 0.0, Order: 0, PictureURL: "", SiteURL: "", Type: "O", ReaderView: false, InfoURL: "", SqFt: 0, FHCode: "")
                 controller.detailItem = temple

@@ -43,7 +43,11 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
         if #available(iOS 13.0, *) {
             let style = UINavigationBarAppearance()
-            style.configureWithTransparentBackground()
+            if navigationController!.viewControllers.first == self {
+                style.configureWithTransparentBackground()
+            } else {
+                style.configureWithOpaqueBackground()
+            }
             style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor.label]
             navigationController?.navigationBar.standardAppearance = style
         } else {

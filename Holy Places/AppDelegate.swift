@@ -150,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Override point for customization after application launch.
         
 //        SKPaymentQueue.default().add(self)
-        UITextViewWorkaround.executeWorkaround()
+//        UITextViewWorkaround.executeWorkaround()
         
         locationManager.delegate = self
         notificationManager.delegate = self
@@ -1568,19 +1568,19 @@ fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ inp
 //******************************************************************
 // MARK: - Workaround for the Xcode 11.2 bug
 //******************************************************************
-@objc
-class UITextViewWorkaround : NSObject {
-
-    static func executeWorkaround() {
-        if #available(iOS 13.2, *) {
-        } else {
-            let className = "_UITextLayoutView"
-            let theClass = objc_getClass(className)
-            if theClass == nil {
-                let classPair: AnyClass? = objc_allocateClassPair(UIView.self, className, 0)
-                objc_registerClassPair(classPair!)
-            }
-        }
-    }
-
-}
+//@objc
+//class UITextViewWorkaround : NSObject {
+//
+//    static func executeWorkaround() {
+//        if #available(iOS 13.2, *) {
+//        } else {
+//            let className = "_UITextLayoutView"
+//            let theClass = objc_getClass(className)
+//            if theClass == nil {
+//                let classPair: AnyClass? = objc_allocateClassPair(UIView.self, className, 0)
+//                objc_registerClassPair(classPair!)
+//            }
+//        }
+//    }
+//
+//}
