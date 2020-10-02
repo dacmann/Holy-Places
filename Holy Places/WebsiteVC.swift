@@ -7,22 +7,23 @@
 //
 
 import UIKit
+import WebKit
 
-class WebsiteVC: UIViewController, UIWebViewDelegate {
+class WebsiteVC: UIViewController, WKUIDelegate {
 
     var urlPlace: String?
     
-    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var webView: WKWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        webView.delegate = self
+        webView.uiDelegate = self
         
         if self.webView != nil {
             if let url = URL(string: urlPlace!) {
                 let request = URLRequest(url: url)
-                webView.loadRequest(request)
+                webView.load(request)
             }
         }
 

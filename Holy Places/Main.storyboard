@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,7 +17,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="COf-rm-lyQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="Temple Goal" id="pLf-go-q16">
                                 <string key="footerTitle">"I urge you to find a way to make an appointment regularly with the Lord--to be in His holy house﻿--then keep that appointment with exactness and joy.  I promise you that the Lord will bring the miracles He knows you need as you make sacrifices to serve and worship in His temples."
@@ -283,7 +284,7 @@
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZAD-zY-ug5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="42.5" width="394" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                     <state key="normal" title="Import Image">
@@ -537,6 +538,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="KB8-Og-jCU"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="KgE-B8-cmp" firstAttribute="leading" secondItem="KB8-Og-jCU" secondAttribute="leading" constant="16" id="0da-6H-29x"/>
@@ -575,7 +577,6 @@
                             <constraint firstItem="19M-tx-g3d" firstAttribute="bottom" secondItem="vwg-46-s45" secondAttribute="bottom" constant="2" id="y5Q-rY-s1m"/>
                             <constraint firstItem="KB8-Og-jCU" firstAttribute="bottom" secondItem="wK8-KI-4Qz" secondAttribute="bottom" constant="20" id="z7q-Su-duk"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="KB8-Og-jCU"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="morningstar-bnw" id="acW-dT-cKf"/>
                     <connections>
@@ -740,7 +741,7 @@
                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="33"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-Cg-29B">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-Cg-29B">
                                         <rect key="frame" x="374" y="97" width="30" height="30"/>
                                         <state key="normal" title="▷">
                                             <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -771,7 +772,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kv4-qF-iXm">
                                 <rect key="frame" x="0.0" y="176" width="414" height="637"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6K0-NO-Vjn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6K0-NO-Vjn">
                                         <rect key="frame" x="123" y="1" width="168" height="34"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
                                         <state key="normal" title="Tap for Achievements">
@@ -1127,7 +1128,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-w4-gBw">
                                                                 <rect key="frame" x="151" y="0.0" width="60" height="259"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHy-M0-6lK">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHy-M0-6lK">
                                                                         <rect key="frame" x="10" y="0.0" width="40" height="35"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                         <state key="normal" title="2018">
@@ -1262,7 +1263,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EiO-sR-use">
                                                                 <rect key="frame" x="232" y="0.0" width="60" height="259"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-my-4j4">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-my-4j4">
                                                                         <rect key="frame" x="3" y="0.0" width="54" height="35"/>
                                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                                         <state key="normal" title="2017&gt;">
@@ -1768,7 +1769,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="6K0-NO-Vjn" firstAttribute="bottom" secondItem="CLj-4f-YGy" secondAttribute="top" constant="-5" id="4gq-ww-hSF"/>
                                     <constraint firstItem="6K0-NO-Vjn" firstAttribute="centerX" secondItem="kv4-qF-iXm" secondAttribute="centerX" id="HRL-Xj-lXH"/>
@@ -1781,7 +1782,8 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="FZn-fg-ace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8ge-ji-DV0" firstAttribute="top" secondItem="FZn-fg-ace" secondAttribute="top" id="1E7-rZ-Hzl"/>
                             <constraint firstItem="kv4-qF-iXm" firstAttribute="top" secondItem="8ge-ji-DV0" secondAttribute="bottom" id="5FX-ts-R3m"/>
@@ -1792,7 +1794,6 @@
                             <constraint firstItem="8ge-ji-DV0" firstAttribute="leading" secondItem="djT-hh-aiP" secondAttribute="leading" id="asn-en-diV"/>
                             <constraint firstItem="CLj-4f-YGy" firstAttribute="width" secondItem="djT-hh-aiP" secondAttribute="width" multiplier="0.9" id="yTW-D3-gul"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="FZn-fg-ace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Summary" image="summary" id="1yM-p4-5ih"/>
                     <connections>
@@ -1894,7 +1895,7 @@
                                 <rect key="frame" x="197" y="54" width="207" height="409"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
                                 <rect key="frame" x="256.5" y="473" width="88" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1918,7 +1919,7 @@
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-6x-LFb">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-6x-LFb">
                                 <rect key="frame" x="10" y="739" width="394" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <state key="normal" title="Restoring the pentagram to its proper place">
@@ -1931,7 +1932,7 @@
                                     <action selector="fairMormonLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="yMJ-ug-0J0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF8-YH-7Sj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF8-YH-7Sj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="57" y="792" width="300" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1957,7 +1958,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-ln-hgO">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-ln-hgO">
                                 <rect key="frame" x="81.5" y="473" width="35" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1972,7 +1973,8 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vDg-yG-O9s"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="7vh-6f-ggg">
                                 <variation key="heightClass=regular-widthClass=regular" constant="32"/>
@@ -2008,7 +2010,6 @@
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="baseline" secondItem="tbU-K5-ltw" secondAttribute="baseline" id="ubR-oK-Jl6"/>
                             <constraint firstItem="Ylh-b0-nbh" firstAttribute="top" secondItem="ZGr-nK-lIr" secondAttribute="bottom" constant="2" id="x1Z-c5-L15"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="vDg-yG-O9s"/>
                     </view>
                     <connections>
                         <outlet property="greetings" destination="Ylh-b0-nbh" id="uXM-mz-fQL"/>
@@ -2050,7 +2051,7 @@
                                     <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjQ-EU-9tg">
                                         <rect key="frame" x="0.0" y="267" width="320" height="216"/>
                                     </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rR2-3t-G31" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="483" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -2068,12 +2069,12 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="EzO-sj-5ZC"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="IAy-eS-OMT" firstAttribute="centerY" secondItem="Otn-yD-yww" secondAttribute="centerY" id="BeC-mj-sAj"/>
                             <constraint firstItem="IAy-eS-OMT" firstAttribute="centerX" secondItem="EzO-sj-5ZC" secondAttribute="centerX" id="WnZ-0B-YBk"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="EzO-sj-5ZC"/>
                     </view>
                     <connections>
                         <outlet property="doneButton" destination="rR2-3t-G31" id="9jA-ze-JpZ"/>
@@ -2154,7 +2155,7 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-05-MOt" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-05-MOt" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="264.5" width="283" height="40"/>
                                         <color key="backgroundColor" red="0.0013271663337945938" green="0.3275567889213562" blue="0.57669931650161743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -2176,7 +2177,7 @@
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17A-u9-buV" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17A-u9-buV" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="464.5" width="283" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -2197,12 +2198,12 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="dbt-Bg-SAr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerX" secondItem="dbt-Bg-SAr" secondAttribute="centerX" id="Nl9-Ec-Qck"/>
                             <constraint firstItem="lpX-Dx-XBO" firstAttribute="centerY" secondItem="uLD-XH-Jpp" secondAttribute="centerY" id="gGF-Fg-ocg"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="dbt-Bg-SAr"/>
                     </view>
                     <connections>
                         <outlet property="addressResult" destination="O0c-Sy-hQp" id="7Zp-CV-AFo"/>
@@ -2232,6 +2233,7 @@
                                 </connections>
                             </mapView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="jwb-M1-QhA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="IpT-qR-qTj" firstAttribute="top" secondItem="dOV-8W-jBv" secondAttribute="top" id="168-L7-Eav"/>
@@ -2239,7 +2241,6 @@
                             <constraint firstAttribute="trailing" secondItem="IpT-qR-qTj" secondAttribute="trailing" id="Qav-pE-ghl"/>
                             <constraint firstItem="jwb-M1-QhA" firstAttribute="bottom" secondItem="IpT-qR-qTj" secondAttribute="bottom" id="ufb-lN-Zpz"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="jwb-M1-QhA"/>
                     </view>
                     <navigationItem key="navigationItem" id="Bp7-Mi-jeo"/>
                     <connections>
@@ -2283,7 +2284,7 @@
                                             <action selector="visitedFilterChanged:" destination="Rs3-1P-nLQ" eventType="valueChanged" id="Ui8-Y4-gMj"/>
                                         </connections>
                                     </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dr-73-TbO" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dr-73-TbO" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="332.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -2301,12 +2302,12 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="M4D-3Y-0F4"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerX" secondItem="M4D-3Y-0F4" secondAttribute="centerX" id="3zE-nZ-4th"/>
                             <constraint firstItem="ygw-xb-uzw" firstAttribute="centerY" secondItem="OiN-QX-JnL" secondAttribute="centerY" id="SFF-zh-iLj"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="M4D-3Y-0F4"/>
                     </view>
                     <connections>
                         <outlet property="filterPicker" destination="E4Z-A3-rWc" id="Hj8-7K-M6T"/>
@@ -2335,7 +2336,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="txC-8l-y6Q">
-                                            <rect key="frame" x="20" y="5" width="33.5" height="20.5"/>
+                                            <rect key="frame" x="20" y="5" width="33" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -2398,7 +2399,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eyZ-RJ-h3g">
-                                            <rect key="frame" x="20" y="5" width="33.5" height="20.5"/>
+                                            <rect key="frame" x="20" y="5" width="33" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -2449,7 +2450,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L59-Wf-89W" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cdb-NB-j08">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Cdb-NB-j08">
                     <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Button"/>
@@ -2476,7 +2477,7 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="April 6, 1830" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ld-pR-BuH">
                                 <rect key="frame" x="30" y="138" width="354" height="27.5"/>
-                                <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="tintColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -2501,11 +2502,11 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="Attended with..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XhD-do-yyN">
                                 <rect key="frame" x="15" y="206.5" width="384" height="386.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="60" id="Oga-BZ-rgF"/>
                                 </constraints>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -2516,7 +2517,8 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="c4v-GY-6qn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="c4v-GY-6qn" firstAttribute="bottom" secondItem="G9t-XK-3vU" secondAttribute="bottom" constant="10" id="01i-Vm-E5I"/>
                             <constraint firstItem="XhD-do-yyN" firstAttribute="leading" secondItem="d6U-sK-urp" secondAttribute="leading" id="2Em-wi-gW7"/>
@@ -2539,7 +2541,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="W8A-Vv-BBw" secondAttribute="trailing" id="wP9-Qv-O1p"/>
                             <constraint firstItem="c4v-GY-6qn" firstAttribute="trailing" secondItem="G9t-XK-3vU" secondAttribute="trailing" constant="5" id="z5Z-3k-IYx"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="c4v-GY-6qn"/>
                     </view>
                     <connections>
                         <outlet property="commentHeight" destination="Oga-BZ-rgF" id="OZ1-ya-e3L"/>
@@ -2564,7 +2565,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d34-3b-Qwm" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d34-3b-Qwm" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="20" y="812" width="50" height="30"/>
                                 <color key="backgroundColor" name="BaptismsBlue"/>
                                 <constraints>
@@ -2583,7 +2584,8 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="w9c-kb-HVW"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="w9c-kb-HVW" firstAttribute="bottom" secondItem="d34-3b-Qwm" secondAttribute="bottom" constant="20" id="2fd-53-HuH"/>
                             <constraint firstAttribute="bottom" secondItem="MpG-Ru-SBp" secondAttribute="bottom" id="2zY-XB-pAc"/>
@@ -2592,7 +2594,6 @@
                             <constraint firstItem="MpG-Ru-SBp" firstAttribute="top" secondItem="LQP-mr-7hb" secondAttribute="top" id="neT-kh-E7I"/>
                             <constraint firstItem="MpG-Ru-SBp" firstAttribute="trailing" secondItem="w9c-kb-HVW" secondAttribute="trailing" id="wvQ-k6-Sr9"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="w9c-kb-HVW"/>
                     </view>
                     <connections>
                         <outlet property="done" destination="d34-3b-Qwm" id="91l-3E-paH"/>
@@ -2641,7 +2642,8 @@
                                 </connections>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="JJ4-Uq-P6C"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="lAS-3T-LPJ" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="Ncq-SX-RwR"/>
                             <constraint firstItem="iPR-6d-hrr" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="Uzf-YK-F96"/>
@@ -2653,7 +2655,6 @@
                             <constraint firstItem="lAS-3T-LPJ" firstAttribute="top" secondItem="6Ph-fb-mZj" secondAttribute="bottom" constant="30" id="jzz-p2-WlA"/>
                             <constraint firstItem="6Ph-fb-mZj" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="waQ-vT-WcA"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="JJ4-Uq-P6C"/>
                     </view>
                     <navigationItem key="navigationItem" id="sbA-dQ-OBA">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="s25-jb-if9">
@@ -2696,7 +2697,7 @@
                                             <action selector="dateChanged:" destination="34m-OB-2N8" eventType="valueChanged" id="wIZ-lT-xTA"/>
                                         </connections>
                                     </datePicker>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="263.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -2714,12 +2715,12 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ant-3S-HEm"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="RKH-A0-GiO" firstAttribute="centerX" secondItem="IFK-3K-nM5" secondAttribute="centerXWithinMargins" id="9S8-b8-IT8"/>
                             <constraint firstItem="RKH-A0-GiO" firstAttribute="centerY" secondItem="IFK-3K-nM5" secondAttribute="centerY" id="gOJ-L8-jvy"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ant-3S-HEm"/>
                     </view>
                     <connections>
                         <outlet property="dateChange" destination="Tv5-g8-v0O" id="Lwh-i3-1TG"/>
@@ -2759,7 +2760,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="PCCL" translatesAutoresizingMaskIntoConstraints="NO" id="hqj-pp-6Th">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300.00000000000023"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -2773,7 +2774,7 @@
                                 </constraints>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-HS-RCa">
-                                <rect key="frame" x="207" y="300" width="0.0" height="0.0"/>
+                                <rect key="frame" x="185" y="300" width="44.5" height="0.0"/>
                                 <connections>
                                     <action selector="changePage:" destination="zKl-KP-iZp" eventType="valueChanged" id="qv7-5t-O8K"/>
                                 </connections>
@@ -2824,7 +2825,7 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" editable="NO" text="704-234-3456" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-Hv-V5B">
                                 <rect key="frame" x="10" y="626" width="200" height="40"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="tintColor" name="BaptismsBlue"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7yR-FQ-KdJ">
@@ -2848,7 +2849,7 @@
                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx" userLabel="Website1 Btn" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNk-hK-mtx" userLabel="Website1 Btn" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="304" y="541" width="100" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="tRG-ht-cQe">
@@ -2869,7 +2870,7 @@
                                     <action selector="launchWebsite:" destination="zKl-KP-iZp" eventType="touchUpInside" id="sg3-QB-Ue1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbP-Sh-Wss" userLabel="Website2 Btn" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CbP-Sh-Wss" userLabel="Website2 Btn" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                 <rect key="frame" x="304" y="581" width="100" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="SG9-cH-Gi8">
@@ -2890,7 +2891,7 @@
                                     <action selector="LaunchWebsite2:" destination="zKl-KP-iZp" eventType="touchUpInside" id="fnQ-oi-Xg8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vK1-SH-HRa">
                                 <rect key="frame" x="304" y="621" width="100" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="9Ta-f5-qgS">
@@ -2921,7 +2922,8 @@
                                 </variation>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="58o-8C-bV5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="58o-8C-bV5" firstAttribute="bottom" secondItem="DsF-Hv-V5B" secondAttribute="bottom" constant="10" id="00V-fM-Od2"/>
                             <constraint firstItem="kBA-Zo-Zka" firstAttribute="top" secondItem="58o-8C-bV5" secondAttribute="top" id="08J-fU-iSW"/>
@@ -2968,7 +2970,6 @@
                             <constraint firstItem="kBr-CG-1Lf" firstAttribute="top" secondItem="qAS-fV-C3U" secondAttribute="top" id="yhw-av-1gk"/>
                             <constraint firstItem="XIJ-sk-hj8" firstAttribute="trailing" secondItem="kBr-CG-1Lf" secondAttribute="trailing" id="yvW-fp-yto"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="58o-8C-bV5"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="yhw-av-1gk"/>
@@ -3073,7 +3074,7 @@
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdt-0O-3bp">
                                         <rect key="frame" x="0.0" y="25.5" width="320" height="216"/>
                                     </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
                                         <rect key="frame" x="65" y="241.5" width="190" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="JXC-iI-WTR"/>
@@ -3096,7 +3097,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="6Yg-hk-256">
                                         <rect key="frame" x="65" y="311" width="190" height="50"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7B-lC-4UI">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7B-lC-4UI">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="d9E-I0-79T"/>
@@ -3110,7 +3111,7 @@
                                                     <action selector="exportTxtAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="Lgw-dS-9KU"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2R-Ro-P7w">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2R-Ro-P7w">
                                                 <rect key="frame" x="80" y="0.0" width="30" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="qez-cF-J5R"/>
@@ -3124,7 +3125,7 @@
                                                     <action selector="exportXmlAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="wbs-wF-GIN"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERW-IH-EV6">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERW-IH-EV6">
                                                 <rect key="frame" x="160" y="0.0" width="30" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="zzX-OB-yBh"/>
@@ -3140,7 +3141,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-uS-udJ" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-uS-udJ" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
                                         <rect key="frame" x="10" y="361" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
@@ -3158,7 +3159,8 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="tES-rO-uak"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="3SJ-RL-qNP" secondAttribute="trailing" constant="10" id="43F-ET-EqC"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="centerY" secondItem="MKd-em-rZT" secondAttribute="centerY" id="aH3-1e-hMr"/>
@@ -3167,7 +3169,6 @@
                             <constraint firstItem="3SJ-RL-qNP" firstAttribute="centerX" secondItem="MKd-em-rZT" secondAttribute="centerX" id="skJ-tR-bsT"/>
                             <constraint firstItem="wj5-Ce-glP" firstAttribute="top" secondItem="3SJ-RL-qNP" secondAttribute="bottom" constant="20" id="wPs-l3-8lG"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="tES-rO-uak"/>
                     </view>
                     <connections>
                         <outlet property="csvExport" destination="ERW-IH-EV6" id="7R2-AU-4Qp"/>
@@ -3202,7 +3203,7 @@
                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-Lj-g5Z">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-Lj-g5Z">
                                         <rect key="frame" x="0.0" y="34" width="374" height="40"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <color key="tintColor" name="BaptismsBlue"/>
@@ -3246,7 +3247,7 @@
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" priority="750" constant="180" id="JMA-5L-NQ5"/>
                                                                 </constraints>
-                                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                <color key="textColor" systemColor="labelColor"/>
                                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 <variation key="heightClass=regular-widthClass=regular">
@@ -3467,7 +3468,7 @@
                                                             <constraint firstAttribute="height" constant="200" id="XTG-BU-pkd"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hco-1D-iCr">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hco-1D-iCr">
                                                         <rect key="frame" x="0.0" y="503" width="374" height="35"/>
                                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                         <color key="tintColor" name="BaptismsBlue"/>
@@ -3498,14 +3499,14 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Ko3-ho-qch"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="szC-4L-T83" firstAttribute="leading" secondItem="Hdx-hg-WHC" secondAttribute="leadingMargin" id="1gE-5a-hhf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="szC-4L-T83" secondAttribute="trailing" id="Zon-f9-KeO"/>
                             <constraint firstItem="Ko3-ho-qch" firstAttribute="bottom" secondItem="szC-4L-T83" secondAttribute="bottom" id="i9W-r8-mIA"/>
                             <constraint firstItem="szC-4L-T83" firstAttribute="top" secondItem="Ko3-ho-qch" secondAttribute="top" constant="10" id="mDx-1Y-hEK"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ko3-ho-qch"/>
                     </view>
                     <navigationItem key="navigationItem" id="TQ7-Fr-gXW"/>
                     <connections>
@@ -3595,6 +3596,12 @@
             <point key="canvasLocation" x="-83" y="-518"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="DQn-F3-acx"/>
+        <segue reference="Znc-r7-aaw"/>
+        <segue reference="rRd-SC-EqT"/>
+    </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="PCC" width="375" height="666.5"/>
         <image name="PCCL" width="1112" height="834"/>
@@ -3620,11 +3627,17 @@
         <namedColor name="TempleDarkRed">
             <color red="0.56499999761581421" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="DQn-F3-acx"/>
-        <segue reference="Znc-r7-aaw"/>
-        <segue reference="rRd-SC-EqT"/>
-    </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

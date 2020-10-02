@@ -358,7 +358,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         // bug with following option in 13.1
         if #available(iOS 13.2, *) {
             searchController.hidesNavigationBarDuringPresentation = false
