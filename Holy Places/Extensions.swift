@@ -128,6 +128,8 @@ public extension UIDevice {
             return "iPod Touch 5"
         case "iPod7,1":
             return "iPod Touch 6"
+        case "iPod9,1":
+            return "iPod Touch 7"
         case "iPhone3,1", "iPhone3,2", "iPhone3,3":
             return "iPhone 4"
         case "iPhone4,1":
@@ -164,6 +166,22 @@ public extension UIDevice {
             return "iPhone XS Max"
         case "iPhone11,8":
             return "iPhone XR"
+        case "iPhone12,1":
+            return "iPhone 11"
+        case "iPhone12,3":
+            return "iPhone 11 Pro"
+        case "iPhone12,5":
+            return "iPhone 11 Pro Max"
+        case "iPhone12,8":
+            return "iPhone SE 2nd Gen"
+        case "iPhone13,1":
+            return "iPhone 12 Mini"
+        case "iPhone13,2":
+            return "iPhone 12"
+        case "iPhone13,3":
+            return "iPhone 12 Pro"
+        case "iPhone13,4":
+            return "iPhone 12 Pro Max"
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":
             return "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":
@@ -175,7 +193,7 @@ public extension UIDevice {
         case "iPad5,3", "iPad5,4":
             return "iPad Air 2"
         case "iPad6,11", "iPad6,12":
-            return "iPad 5 (\(identifier))"
+            return "iPad 5"
         case "iPad2,5", "iPad2,6", "iPad2,7":
             return "iPad Mini"
         case "iPad4,4", "iPad4,5", "iPad4,6":
@@ -185,13 +203,31 @@ public extension UIDevice {
         case "iPad5,1", "iPad5,2":
             return "iPad Mini 4"
         case "iPad6,7", "iPad6,8", "iPad7,1", "iPad7,2":
-            return "iPad Pro 12.9 (\(identifier))"
+            return "iPad Pro 12.9"
         case "iPad6,3", "iPad6,4":
-            return "iPad Pro 9.7 (\(identifier))"
+            return "iPad Pro 9.7"
         case "iPad7,3", "iPad7,4":
-            return "iPad Pro 10.5 (\(identifier))"
+            return "iPad Pro 10.5"
+        case "iPad7,5", "iPad7,6":
+            return "iPad 6th Gen"
+        case "iPad7,11", "iPad7,12":
+            return "iPad 7th Gen 10.2-inch"
         case "iPad8,1", "iPad8,2", "iPad8,3", "iPad8,4":
-            return "iPad Pro 11"
+            return "iPad Pro 11 inch 3rd Gen"
+        case "iPad8,5", "iPad8,6", "iPad8,7", "iPad8,8":
+            return "iPad Pro 12.9 inch 3rd Gen"
+        case "iPad8,9", "iPad8,10":
+            return "iPad Pro 11 inch 4th Gen"
+        case "iPad8,11", "iPad8,12":
+            return "iPad Pro 12.9 inch 4th Gen"
+        case "iPad11,1", "iPad11,2":
+            return "iPad Mini 5th Gen"
+        case "iPad11,3", "iPad11,4":
+            return "iPad Air 3rd Gen"
+        case "iPad11,6", "iPad11,7":
+            return "iPad 8th Gen"
+        case "iPad13,1", "iPad13,2":
+            return "iPad Air 4th Gen"
         case "AppleTV5,3":
             return "Apple TV"
         case "i386", "x86_64":
