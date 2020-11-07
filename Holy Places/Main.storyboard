@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -3599,7 +3599,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="DQn-F3-acx"/>
         <segue reference="Znc-r7-aaw"/>
-        <segue reference="rRd-SC-EqT"/>
+        <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>

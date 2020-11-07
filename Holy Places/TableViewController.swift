@@ -52,7 +52,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         sortBySize = false
         if placeSortRow == 1 {
             nearestEnabled = true
-            appDelegate.locationServiceSetup()
+            //appDelegate.locationServiceSetup() - now done in OptionsVC
         } else if placeSortRow == 2 {
             sortByCountry = true
         } else if placeSortRow == 3 {

@@ -22,6 +22,7 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
     var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //MARK: - Outlets & Actions
     @IBOutlet weak var doneButton: UIButton!
@@ -100,6 +101,9 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 1 {
             sortSelected = row
+            if row == 1 {
+                appDelegate.locationServiceSetup()
+            }
         } else {
             filterSelected = row
             if row == 1 {
