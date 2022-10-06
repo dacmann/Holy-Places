@@ -75,25 +75,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         // download all place images if needed
         appDelegate.downloadImage()
         
-/*
-        // Change the font and color for the navigation Bar text
-        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
-
-        let style = UINavigationBarAppearance()
-        style.configureWithOpaqueBackground()
-        style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-        style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-        style.titleTextAttributes = [
-            .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
-            .font : navbarFont // Navigation bar title font
-        ]
-        style.backgroundColor = UIColor.white
-        //navigationController?.navigationBar.standardAppearance = style
-        UINavigationBar.appearance().standardAppearance = style
-        UINavigationBar.appearance().compactAppearance = style
-        UINavigationBar.appearance().scrollEdgeAppearance = style
-*/
     }
     
     override func viewWillAppear(_ animated: Bool) {

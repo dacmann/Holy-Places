@@ -155,12 +155,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         locationManager.delegate = self
         notificationManager.delegate = self
         
-        /*// Change the font of the tab bar items
-        let tabBarItemFont = UIFont(name: "Baskerville", size: 12) ?? UIFont.systemFont(ofSize: 12)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .selected)
+        // Change the font of the tab bar items
+        let tabBarItemFont = UIFont(name: "Baskerville", size: 13) ?? UIFont.systemFont(ofSize: 13)
+        let textAttributes = [NSAttributedString.Key.font: tabBarItemFont]
+        
+        UITabBarItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes(textAttributes, for: .selected)
         UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
-        */
+        
         // Change the font and color for the navigation Bar text
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -173,18 +175,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
             .font : navbarFont // Navigation bar title font
         ]
-        //style.backgroundColor = UIColor.white
-        //navigationController?.navigationBar.standardAppearance = style
         UINavigationBar.appearance().standardAppearance = style
         UINavigationBar.appearance().compactAppearance = style
         UINavigationBar.appearance().scrollEdgeAppearance = style
         
         if #available(iOS 15.0, *) {
+            
+            let tabBarItemAppearance = UITabBarItemAppearance()
+            tabBarItemAppearance.normal.titleTextAttributes = textAttributes
+            tabBarItemAppearance.selected.titleTextAttributes = textAttributes
+            
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
             tabBarAppearance.backgroundColor = UIColor.systemBackground
+            //tabBarAppearance.
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             UITabBar.appearance().standardAppearance = tabBarAppearance
+            
+            tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
+            tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
+            tabBarAppearance.compactInlineLayoutAppearance = tabBarItemAppearance
         }
         
         //Load any saved settings
