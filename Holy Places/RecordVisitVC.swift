@@ -52,7 +52,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         //dateOfVisit = sender.date
         if let button = self.visitDate {
             let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE, MMMM dd YYYY"
+            formatter.dateFormat = "EEEE, MMMM dd yyyy"
             let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit!))
             button.setAttributedTitle(visitDateAtt, for: .normal)
         }

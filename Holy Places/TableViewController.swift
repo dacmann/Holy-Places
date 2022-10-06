@@ -360,9 +360,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         // bug with following option in 13.1
-        if #available(iOS 13.2, *) {
-            searchController.hidesNavigationBarDuringPresentation = false
-        }
+        searchController.hidesNavigationBarDuringPresentation = false
+        
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
         definesPresentationContext = true
@@ -379,7 +378,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         keyboardDone()
         
         tableView.sectionIndexColor = UIColor(named: "BaptismsBlue")
-        
+        /*
         // Change the font and color for the navigation Bar text
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -404,6 +403,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
             UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
+         */
     }
     
     @objc func reloadTableData(_ notification: Notification) {

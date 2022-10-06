@@ -30,7 +30,7 @@ class VisitDetailVC: UIViewController {
 
     func setDate() {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+        formatter.dateFormat = "EEEE, MMMM dd yyyy"
         visitDate.text = formatter.string(from: dateOfVisit!)
 //        visitDate.textColor = UIColor(named: "DefaultText")!
     }

@@ -18,25 +18,14 @@ class DateChangeVC: UIViewController {
     
     var dateOfVisit: Date?
 
-    @IBOutlet weak var dayOfWeek: UILabel!
     @IBOutlet weak var dateChange: UIDatePicker!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         dateChange.date = dateOfVisit!
-        //dateChange.setValue(UIFont(name: "Baskerville", size: 20), forKey: NSFontAttributeName)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE"
-        dayOfWeek.text = formatter.string(from: dateOfVisit!)
-    }
 
-    @IBAction func dateChanged(_ sender: UIDatePicker) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE"
-        dayOfWeek.text = formatter.string(from: sender.date)
     }
-
     
     
     override func didReceiveMemoryWarning() {

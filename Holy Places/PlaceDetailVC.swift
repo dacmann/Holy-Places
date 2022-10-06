@@ -129,7 +129,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                         
                         // Grab date of visit and attach to picture
                         let formatter = DateFormatter()
-                        formatter.dateFormat = "EEEE, MMMM dd YYYY"
+                        formatter.dateFormat = "EEEE, MMMM dd yyyy"
                         let point: CGPoint = CGPoint(x: 60, y: (image?.size.height)! - (image!.size.height/16) - 40)
                         
                         // embed date of visit in picture

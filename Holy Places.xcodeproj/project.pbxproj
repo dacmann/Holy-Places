@@ -28,7 +28,7 @@
 		6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6479E5EE1F0579B50087E013 /* MapPoint.swift */; };
 		64A3CB671FA901CE00D37E6A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */; };
 		64A3CB6A1FA901CE00D37E6A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A3CB691FA901CE00D37E6A /* TodayViewController.swift */; };
-		64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 64A3CB651FA901CE00D37E6A /* Holy Places Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64B520FC1FD6FD6900E9B1EE /* Visits.gpx */; };
 		64B521011FD9D94200E9B1EE /* SettingsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B521001FD9D94200E9B1EE /* SettingsTableVC.swift */; };
 		64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B557E91F1FEC68002E4182 /* MapOptionsVC.swift */; };
@@ -58,15 +58,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		64A3CB751FA901CE00D37E6A /* Embed App Extensions */ = {
+		64A3CB751FA901CE00D37E6A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed App Extensions */,
+				64A3CB711FA901CE00D37E6A /* Holy Places Widget.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -253,7 +253,7 @@
 				64FDE6E71E21863A00951A58 /* Sources */,
 				64FDE6E81E21863A00951A58 /* Frameworks */,
 				64FDE6E91E21863A00951A58 /* Resources */,
-				64A3CB751FA901CE00D37E6A /* Embed App Extensions */,
+				64A3CB751FA901CE00D37E6A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -272,7 +272,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Derek Cordon";
 				TargetAttributes = {
 					64A3CB641FA901CE00D37E6A = {
@@ -429,9 +429,9 @@
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Holy Places Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -453,9 +453,9 @@
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "Holy Places Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -586,9 +586,11 @@
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				INFOPLIST_FILE = "Holy Places/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places of the Lord";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -610,9 +612,11 @@
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = 3N7PM336W9;
 				INFOPLIST_FILE = "Holy Places/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places of the Lord";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

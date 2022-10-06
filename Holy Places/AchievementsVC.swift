@@ -21,6 +21,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
 
         // Default to display the completed achievements
         display = completed
+        /*
         // Change the font and color for the navigation Bar text
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -43,7 +44,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
             UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
-
+*/
     }
 
     // MARK: - Table view data source
@@ -55,7 +56,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd, YYYY"
+        formatter.dateFormat = "MMMM dd, yyyy"
         let cell  = tableView.dequeueReusableCell(withIdentifier: "acell", for: indexPath) as! AchievementCell
         let row = indexPath.row
         cell.cellTitle.text = display[row].name

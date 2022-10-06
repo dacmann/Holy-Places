@@ -155,11 +155,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         locationManager.delegate = self
         notificationManager.delegate = self
         
-        // Change the font of the tab bar items
+        /*// Change the font of the tab bar items
         let tabBarItemFont = UIFont(name: "Baskerville", size: 12) ?? UIFont.systemFont(ofSize: 12)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: tabBarItemFont], for: .selected)
         UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
+        */
+        // Change the font and color for the navigation Bar text
+        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+
+        let style = UINavigationBarAppearance()
+        style.configureWithOpaqueBackground()
+        style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+        style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
+        style.titleTextAttributes = [
+            .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
+            .font : navbarFont // Navigation bar title font
+        ]
+        //style.backgroundColor = UIColor.white
+        //navigationController?.navigationBar.standardAppearance = style
+        UINavigationBar.appearance().standardAppearance = style
+        UINavigationBar.appearance().compactAppearance = style
+        UINavigationBar.appearance().scrollEdgeAppearance = style
+        
+        if #available(iOS 15.0, *) {
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.systemBackground
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            UITabBar.appearance().standardAppearance = tabBarAppearance
+        }
         
         //Load any saved settings
         let context = persistentContainer.viewContext
@@ -208,7 +234,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
         
         // Add Quick Launch shortcut when authorized
-        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+        let manager = CLLocationManager()
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             print("Location Services Authorized")
             locationServiceSetup()
         }
@@ -259,7 +286,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         self.saveContext()
         
         // Add Quick Launch shortcut when authorized
-        if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+        let manager = CLLocationManager()
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             locationServiceSetup()
         }
     }
@@ -336,7 +364,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestAlwaysAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            switch(CLLocationManager.authorizationStatus()) {
+            let manager = CLLocationManager()
+            switch(manager.authorizationStatus) {
             case .notDetermined, .restricted, .denied:
                 print("No access")
             case .authorizedAlways, .authorizedWhenInUse:
@@ -478,7 +507,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     func shouldNotify() {
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
+        formatter.dateFormat = "EEEE, MMMM dd, yyyy"
         let dateVisited = formatter.string(from: dateHolyPlaceVisited!)
         
         // Construct Notification
@@ -631,7 +660,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -645,7 +674,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if parserVersion.parse() {
             // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
             versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                 print("URL not defined properly")
                 return
             }
@@ -907,7 +936,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         var dateLastVisited = ""
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd, YYYY"
+        formatter.dateFormat = "MMMM dd, yyyy"
         var year = "1830"
         var month = 1
         

@@ -108,15 +108,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
 //        self.navigationItem.leftBarButtonItem = self.editButtonItem
         
-        formatter.dateFormat = "EEEE, MMMM dd, YYYY"
+        formatter.dateFormat = "EEEE, MMMM dd, yyyy"
         
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         // bug with following option in 13.1
-        if #available(iOS 13.2, *) {
-            searchController.hidesNavigationBarDuringPresentation = false
-        }
+        searchController.hidesNavigationBarDuringPresentation = false
+        
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
         
         definesPresentationContext = true
@@ -142,7 +141,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reload the data
         _fetchedResultsController = nil
         self.tableView.reloadData()
-        
+        /*
         // Change the font and color for the navigation Bar text
         let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -167,6 +166,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor:UIColor(named: "DefaultText")!]
             UINavigationBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         }
+         */
     }
 
     func keyboardDone() {
