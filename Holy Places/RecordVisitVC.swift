@@ -159,6 +159,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
 //        self.scrollView.reloadInputViews()
 //        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
 
@@ -323,6 +324,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
     //MARK:- Initial Set-up functions
     func configureView() {
+        
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
             if let label = self.templeName {
@@ -459,6 +461,10 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             let controller: DateChangeVC = segue.destination as! DateChangeVC
             controller.delegate = self
             controller.dateOfVisit = dateOfVisit
+        }
+        if segue.identifier == "quickRecordVisit" {
+            // Change the back button on the Record Visit VC to Cancel
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
         }
     }
 

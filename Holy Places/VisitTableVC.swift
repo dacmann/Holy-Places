@@ -260,8 +260,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         return true
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+    //MARK: Swipe Actions
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+        //let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath after confirming action
             let alert = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this visit?", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -286,7 +288,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             }
         }
         
-        let new = UITableViewRowAction(style: .normal, title: "New") { (action, indexPath) in
+        let new = UIContextualAction(style: .destructive, title: "New") {  (contextualAction, view, boolValue) in
             // new item at indexPath
             let visit = self.fetchedResultsController.object(at: indexPath)
             // find Place based on name of Visit
@@ -297,7 +299,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             
         }
         
-        let copy = UITableViewRowAction(style: .normal, title: "Copy") { (action, indexPath) in
+        let copy = UIContextualAction(style: .destructive, title: "Copy") {  (contextualAction, view, boolValue) in
             // Copy item at indexPath
             copyVisit = self.fetchedResultsController.object(at: indexPath)
             // find Place based on name of Visit
@@ -311,7 +313,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         new.backgroundColor = UIColor.blue
         copy.backgroundColor = UIColor.moss()
         
-        return [new, copy, delete]
+        return UISwipeActionsConfiguration(actions: [new, copy, delete])
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -574,6 +576,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             searchController.isActive = false
         }
         if segue.identifier == "quickRecordVisit" {
+            // Change the back button on the Record Visit VC to Cancel
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
             let temple = quickAddPlace
             let controller = (segue.destination as! RecordVisitVC)
             controller.detailItem = temple

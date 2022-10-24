@@ -212,12 +212,20 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+                setImage(landscape: true)
+            } else {
+                setImage(landscape: false)
+            }
+        }
+
+       /* if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
             setImage(landscape: true)
         } else {
             setImage(landscape: false)
         }
-        
+        */
         // Lock Orientation to Portrait only for small devices
 //        let width = UIScreen.main.bounds.width
 //        print("screen width is \(width)")

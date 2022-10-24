@@ -139,18 +139,22 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     }
     
     override func viewWillLayoutSubviews() {
-        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-            changeConfiguration(landscape: true)
-        } else {
-            changeConfiguration(landscape: false)
+        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+                changeConfiguration(landscape: true)
+            } else {
+                changeConfiguration(landscape: false)
+            }
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-            changeConfiguration(landscape: true)
-        } else {
-            changeConfiguration(landscape: false)
+        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+                changeConfiguration(landscape: true)
+            } else {
+                changeConfiguration(landscape: false)
+            }
         }
     }
     

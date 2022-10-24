@@ -182,6 +182,24 @@ public extension UIDevice {
             return "iPhone 12 Pro"
         case "iPhone13,4":
             return "iPhone 12 Pro Max"
+        case "iPhone14,4":
+            return "iPhone 13 Mini"
+        case "iPhone14,5":
+            return "iPhone 13"
+        case "iPhone14,2":
+            return "iPhone 13 Pro"
+        case "iPhone14,3":
+            return "iPhone 13 Pro Max"
+        case "iPhone14,6":
+            return "iPhone SE 2nd Gen"
+        case "iPhone14,7":
+            return "iPhone 14"
+        case "iPhone14,8":
+            return "iPhone 14 Plus"
+        case "iPhone15,2":
+            return "iPhone 14 Pro"
+        case "iPhone15,3":
+            return "iPhone 14 Pro Max"
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":
             return "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":
@@ -202,10 +220,12 @@ public extension UIDevice {
             return "iPad Mini 3"
         case "iPad5,1", "iPad5,2":
             return "iPad Mini 4"
-        case "iPad6,7", "iPad6,8", "iPad7,1", "iPad7,2":
-            return "iPad Pro 12.9"
+        case "iPad6,7", "iPad6,8":
+            return "iPad Pro 12.9 inch 1st Gen"
         case "iPad6,3", "iPad6,4":
             return "iPad Pro 9.7"
+        case "iPad7,1", "iPad7,2":
+            return "iPad Pro 12.9 inch 2nd Gen"
         case "iPad7,3", "iPad7,4":
             return "iPad Pro 10.5"
         case "iPad7,5", "iPad7,6":
@@ -213,11 +233,11 @@ public extension UIDevice {
         case "iPad7,11", "iPad7,12":
             return "iPad 7th Gen 10.2-inch"
         case "iPad8,1", "iPad8,2", "iPad8,3", "iPad8,4":
-            return "iPad Pro 11 inch 3rd Gen"
+            return "iPad Pro 11 inch 1st Gen"
         case "iPad8,5", "iPad8,6", "iPad8,7", "iPad8,8":
             return "iPad Pro 12.9 inch 3rd Gen"
         case "iPad8,9", "iPad8,10":
-            return "iPad Pro 11 inch 4th Gen"
+            return "iPad Pro 11 inch 2nd Gen"
         case "iPad8,11", "iPad8,12":
             return "iPad Pro 12.9 inch 4th Gen"
         case "iPad11,1", "iPad11,2":
@@ -226,8 +246,22 @@ public extension UIDevice {
             return "iPad Air 3rd Gen"
         case "iPad11,6", "iPad11,7":
             return "iPad 8th Gen"
+        case "iPad12,1", "iPad12,2":
+            return "iPad 9th Gen"
         case "iPad13,1", "iPad13,2":
             return "iPad Air 4th Gen"
+        case "iPad13,4", "iPad13,5", "iPad13,6", "iPad13,7":
+            return "iPad Pro 11 inch 3rd Gen"
+        case "iPad13,8", "iPad13,9", "iPad13,10", "iPad13,11":
+            return "iPad Pro 12.9 inch 5th Gen"
+        case "iPad13,16", "iPad13,17":
+            return "iPad Air 5th Gen"
+        case "iPad13,18", "iPad13,19":
+            return "iPad 10th Gen"
+        case "iPad14,3", "iPad14,4":
+            return "iPad Pro 11 inch 4th Gen"
+        case "iPad14,5", "iPad14,6":
+            return "iPad Pro 12.9 inch 6th Gen"
         case "AppleTV5,3":
             return "Apple TV"
         case "i386", "x86_64":
