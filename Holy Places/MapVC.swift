@@ -213,6 +213,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
 //            places = mapPlaces - Was causing crashes - Not sure why this was added to begin with
             placeFilterRow = mapFilterRow
             // Find details for selected pin
+            places = mapPlaces
             if let found = places.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
                 print(found)
                 let place = places[found]
