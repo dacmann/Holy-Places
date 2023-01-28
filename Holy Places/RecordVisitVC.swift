@@ -21,6 +21,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     var placeType = String()
     var activeField: UITextField?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let yearFormat = DateFormatter()
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
@@ -61,6 +62,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     @objc func saveVisit (_ sender: Any) {
         let context = getContext()
         
+        yearFormat.dateFormat = "yyyy"
+        
         //insert a new object in the Visit entity
         let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
 
@@ -73,6 +76,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.sealings = Int16(sealings.text!)!
         visit.comments = comments.text
         visit.dateVisited = dateOfVisit as Date?
+        visit.year = yearFormat.string(from: visit.dateVisited!)
         visit.type = placeType
         visit.shiftHrs = Double(hoursWorked.text!)!
         if pictureView.isHidden == false {
@@ -102,6 +106,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     @objc func saveEdit (_ sender: Any) {
         let context = getContext()
         
+        yearFormat.dateFormat = "yyyy"
+        
         // save the updated values to the Visit object 
         if detailVisit?.type == "T" {
             templeView.isHidden = true
@@ -118,6 +124,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             detailVisit?.shiftHrs = Double(hoursWorked.text!)!
         }
         detailVisit?.dateVisited = dateOfVisit as Date?
+        detailVisit?.year = yearFormat.string(from: (detailVisit?.dateVisited)!)
         detailVisit?.comments = comments.text!
         if pictureView.isHidden == false {
             // create NSData from UIImage
