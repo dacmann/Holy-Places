@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -278,13 +278,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
+                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZAD-zY-ug5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="42.5" width="394" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                     <state key="normal" title="Import Image">
@@ -315,7 +315,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
                                                     <rect key="frame" x="287" y="6.5" width="111" height="32"/>
                                                     <segments>
                                                         <segment title="White"/>
@@ -326,7 +326,7 @@
                                                         <action selector="textColorChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="jcP-5Y-KfA"/>
                                                     </connections>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
                                                     <rect key="frame" x="16" y="11.5" width="79" height="21"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
@@ -1873,46 +1873,112 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="morningstarmoroni" translatesAutoresizingMaskIntoConstraints="NO" id="ZGr-nK-lIr">
-                                <rect key="frame" x="49" y="58" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="HaQ-sJ-CEc">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                    </constraint>
-                                    <constraint firstAttribute="width" secondItem="ZGr-nK-lIr" secondAttribute="height" multiplier="1:1" id="eXb-A0-eal"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
-                                <rect key="frame" x="16" y="160" width="165.5" height="310.5"/>
-                                <string key="text">Greetings! Creating and maintaining this app has truly been a labor of love.  I hope it assists and motivates all who use it to frequently visit these Holy Places of the Lord.  Comments or feature suggestions?  Please contact me.   - Derek</string>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
-                                </variation>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="mexico" translatesAutoresizingMaskIntoConstraints="NO" id="tbU-K5-ltw">
-                                <rect key="frame" x="197" y="58" width="207" height="407"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
-                                <rect key="frame" x="256.5" y="475" width="88" height="33"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Contact Me">
-                                    <color key="titleColor" name="BaptismsBlue"/>
-                                </state>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
-                                </variation>
-                                <connections>
-                                    <action selector="contactMe:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="Ypn-22-Y9y"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
-                                <rect key="frame" x="16" y="510" width="382" height="219"/>
-                                <string key="text">The Holy Places logo, created by my teenage daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Click on the link below for an excellent article regarding the pentagram.</string>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="szx-8I-tPs">
+                                <rect key="frame" x="14" y="66" width="384" height="565"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Sn7-76-VOx">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="565"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="morningstarmoroni" translatesAutoresizingMaskIntoConstraints="NO" id="ZGr-nK-lIr">
+                                                <rect key="frame" x="63.5" y="0.0" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="60" id="14D-my-HnI"/>
+                                                    <constraint firstAttribute="width" secondItem="ZGr-nK-lIr" secondAttribute="height" multiplier="1:1" id="srq-je-t52"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
+                                                <rect key="frame" x="0.0" y="100" width="187" height="160.5"/>
+                                                <string key="text">Greetings! Creating and maintaining this app is a labor of love.  I hope it assists and motivates all who use it to frequently visit these Holy Places.</string>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
+                                                </variation>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-ln-hgO">
+                                                <rect key="frame" x="72" y="300" width="43" height="38"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="FAQ">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="31"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="faqLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="QSb-lD-OeL"/>
+                                                </connections>
+                                            </button>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" image="stickersheet" translatesAutoresizingMaskIntoConstraints="NO" id="9n4-gH-MFG">
+                                                <rect key="frame" x="0.0" y="378" width="187" height="187"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="9n4-gH-MFG" secondAttribute="height" multiplier="1:1" id="fVp-VL-FmL"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="20" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lUf-Rd-1WV">
+                                        <rect key="frame" x="197" y="0.0" width="187" height="565"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="profile 1" translatesAutoresizingMaskIntoConstraints="NO" id="tbU-K5-ltw">
+                                                <rect key="frame" x="0.0" y="0.0" width="187" height="187"/>
+                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="tbU-K5-ltw" secondAttribute="height" multiplier="1:1" id="NBg-DF-o5H"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" text="Comments or feature suggestions?  Please contact me.   - Derek" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="A3l-dl-uEJ" userLabel="Comments">
+                                                <rect key="frame" x="5.5" y="226.5" width="176.5" height="69"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
+                                                </variation>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
+                                                <rect key="frame" x="40" y="321" width="107" height="38"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Contact Me">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="31"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="contactMe:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="Ypn-22-Y9y"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="752" text="My daughter has created a fun Holy Places sticker sheet!  Check out her Etsy shop below." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZPV-2G-sKX" userLabel="StoreAdvert">
+                                                <rect key="frame" x="10.5" y="386.5" width="166.5" height="114.5"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
+                                                </variation>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BvX-3J-DHr">
+                                                <rect key="frame" x="23" y="527" width="141" height="38"/>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
+                                                <state key="normal" title="hunibearstudios">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="31"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="hunibearstudios:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="ms9-0B-GuJ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" text="The Holy Places logo contains The Morning Star from the stained glass windows of the Nauvoo Temple.  See below article." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
+                                <rect key="frame" x="16" y="651" width="382" height="69"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1921,7 +1987,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWD-6x-LFb">
-                                <rect key="frame" x="10" y="739" width="394" height="33"/>
+                                <rect key="frame" x="10" y="730" width="394" height="33"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                 <state key="normal" title="Restoring the pentagram to its proper place">
                                     <color key="titleColor" name="BaptismsBlue"/>
@@ -1934,12 +2000,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pF8-YH-7Sj" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                <rect key="frame" x="57" y="792" width="300" height="40"/>
+                                <rect key="frame" x="57" y="783" width="300" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="yrf-ys-bvL">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="600"/>
-                                    </constraint>
+                                    <constraint firstAttribute="width" constant="300" id="RAd-VK-Llp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                 <state key="normal" title="Done">
@@ -1954,74 +2018,44 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="v1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYQ-7U-HOC">
-                                <rect key="frame" x="368.5" y="834.5" width="29.5" height="19.5"/>
+                                <rect key="frame" x="368.5" y="825.5" width="29.5" height="28.5"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-ln-hgO">
-                                <rect key="frame" x="81.5" y="475" width="35" height="33"/>
-                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="FAQ">
-                                    <color key="titleColor" name="BaptismsBlue"/>
-                                </state>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="30"/>
-                                </variation>
-                                <connections>
-                                    <action selector="faqLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="QSb-lD-OeL"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDg-yG-O9s"/>
                         <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ylh-b0-nbh" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="7vh-6f-ggg">
-                                <variation key="heightClass=regular-widthClass=regular" constant="32"/>
-                            </constraint>
-                            <constraint firstItem="CBp-ln-hgO" firstAttribute="centerY" secondItem="Ert-qH-9pi" secondAttribute="centerY" id="9Yq-K8-XxJ"/>
-                            <constraint firstItem="pF8-YH-7Sj" firstAttribute="top" secondItem="mWD-6x-LFb" secondAttribute="bottom" constant="20" id="Akg-8G-kXj"/>
-                            <constraint firstItem="Ylh-b0-nbh" firstAttribute="width" secondItem="vDg-yG-O9s" secondAttribute="width" multiplier="0.4" id="HBX-M3-N3k"/>
-                            <constraint firstItem="ZGr-nK-lIr" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="Hd2-h4-ANk"/>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="vYQ-7U-HOC" secondAttribute="trailing" constant="16" id="JRt-nc-o6V"/>
-                            <constraint firstItem="CBp-ln-hgO" firstAttribute="centerX" secondItem="Ylh-b0-nbh" secondAttribute="centerX" id="N1g-ar-9Xf"/>
-                            <constraint firstItem="tbU-K5-ltw" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="10" id="UgV-Qy-773"/>
-                            <constraint firstItem="tbU-K5-ltw" firstAttribute="width" secondItem="vDg-yG-O9s" secondAttribute="width" multiplier="0.5" id="Uvm-8n-SyC"/>
-                            <constraint firstItem="hKm-g4-NbJ" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="16" id="VQc-vp-bsA">
-                                <variation key="heightClass=regular-widthClass=regular" constant="32"/>
-                            </constraint>
-                            <constraint firstItem="ZGr-nK-lIr" firstAttribute="centerX" secondItem="Ylh-b0-nbh" secondAttribute="centerX" id="Xib-PI-5FL"/>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="tbU-K5-ltw" secondAttribute="trailing" constant="10" id="YSf-4Z-iif"/>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="hKm-g4-NbJ" secondAttribute="trailing" constant="16" id="Yce-Fp-S8O">
-                                <variation key="heightClass=regular-widthClass=regular" constant="32"/>
-                            </constraint>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="mWD-6x-LFb" secondAttribute="trailing" constant="10" id="ZCt-1X-Upj"/>
-                            <constraint firstItem="Ert-qH-9pi" firstAttribute="centerX" secondItem="tbU-K5-ltw" secondAttribute="centerX" id="aCJ-aK-95c"/>
-                            <constraint firstItem="mWD-6x-LFb" firstAttribute="top" secondItem="hKm-g4-NbJ" secondAttribute="bottom" constant="10" id="aKi-qD-Ufc"/>
-                            <constraint firstItem="hKm-g4-NbJ" firstAttribute="top" secondItem="Ert-qH-9pi" secondAttribute="bottom" constant="2" id="aWK-0l-Eb2"/>
-                            <constraint firstItem="mWD-6x-LFb" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="10" id="dcb-9f-aM7"/>
-                            <constraint firstItem="Ert-qH-9pi" firstAttribute="top" secondItem="tbU-K5-ltw" secondAttribute="bottom" constant="10" id="dju-sb-Sfl"/>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="bottom" secondItem="vYQ-7U-HOC" secondAttribute="bottom" constant="8" id="dzM-zj-siU"/>
-                            <constraint firstItem="tbU-K5-ltw" firstAttribute="height" relation="lessThanOrEqual" secondItem="vDg-yG-O9s" secondAttribute="height" multiplier="0.5" id="lk1-vn-TSQ">
-                                <variation key="heightClass=regular-widthClass=regular" constant="110"/>
-                            </constraint>
-                            <constraint firstItem="vDg-yG-O9s" firstAttribute="bottom" secondItem="pF8-YH-7Sj" secondAttribute="bottom" constant="30" id="m8S-FE-gf9"/>
-                            <constraint firstItem="pF8-YH-7Sj" firstAttribute="centerX" secondItem="vDg-yG-O9s" secondAttribute="centerX" id="oDP-zL-G45"/>
-                            <constraint firstItem="Ylh-b0-nbh" firstAttribute="baseline" secondItem="tbU-K5-ltw" secondAttribute="baseline" id="ubR-oK-Jl6"/>
-                            <constraint firstItem="Ylh-b0-nbh" firstAttribute="top" secondItem="ZGr-nK-lIr" secondAttribute="bottom" constant="2" id="x1Z-c5-L15"/>
+                            <constraint firstItem="vYQ-7U-HOC" firstAttribute="top" secondItem="mWD-6x-LFb" secondAttribute="bottom" constant="62.5" id="0wc-WG-Kwu"/>
+                            <constraint firstAttribute="bottom" secondItem="szx-8I-tPs" secondAttribute="bottom" constant="265" id="2Na-rJ-0g7"/>
+                            <constraint firstItem="vDg-yG-O9s" firstAttribute="trailing" secondItem="szx-8I-tPs" secondAttribute="trailing" constant="16" id="321-GR-j4S"/>
+                            <constraint firstItem="szx-8I-tPs" firstAttribute="trailing" secondItem="vYQ-7U-HOC" secondAttribute="trailing" id="8Tp-rA-X3J"/>
+                            <constraint firstItem="szx-8I-tPs" firstAttribute="top" secondItem="vDg-yG-O9s" secondAttribute="top" constant="18" id="E6a-HD-slK"/>
+                            <constraint firstItem="pF8-YH-7Sj" firstAttribute="top" secondItem="mWD-6x-LFb" secondAttribute="bottom" constant="20" id="GDJ-bZ-dZj"/>
+                            <constraint firstItem="mWD-6x-LFb" firstAttribute="centerX" secondItem="hKm-g4-NbJ" secondAttribute="centerX" id="GVE-9a-pAO"/>
+                            <constraint firstItem="hKm-g4-NbJ" firstAttribute="top" secondItem="szx-8I-tPs" secondAttribute="bottom" constant="20" id="Qru-hj-wga"/>
+                            <constraint firstItem="vDg-yG-O9s" firstAttribute="bottom" secondItem="vYQ-7U-HOC" secondAttribute="bottom" constant="8" id="SaV-BW-js4"/>
+                            <constraint firstItem="szx-8I-tPs" firstAttribute="trailing" secondItem="hKm-g4-NbJ" secondAttribute="trailing" id="YA4-Fs-lDW"/>
+                            <constraint firstItem="mWD-6x-LFb" firstAttribute="centerX" secondItem="0j2-6m-asj" secondAttribute="centerX" id="dW1-ti-r4a"/>
+                            <constraint firstItem="szx-8I-tPs" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="14" id="kkX-zA-cfg"/>
+                            <constraint firstItem="mWD-6x-LFb" firstAttribute="leading" secondItem="vDg-yG-O9s" secondAttribute="leading" constant="10" id="oke-Ir-I4V"/>
+                            <constraint firstItem="mWD-6x-LFb" firstAttribute="top" secondItem="hKm-g4-NbJ" secondAttribute="bottom" constant="10" id="vBW-dG-8SY"/>
+                            <constraint firstItem="mWD-6x-LFb" firstAttribute="centerX" secondItem="pF8-YH-7Sj" secondAttribute="centerX" id="xy4-lP-Z9z"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="greetings" destination="Ylh-b0-nbh" id="uXM-mz-fQL"/>
-                        <outlet property="logoWidth" destination="HaQ-sJ-CEc" id="fZ7-sx-5VB"/>
+                        <outlet property="logo" destination="ZGr-nK-lIr" id="xBJ-HN-yjL"/>
+                        <outlet property="logoWidth" destination="14D-my-HnI" id="1Xd-3D-TSs"/>
                         <outlet property="profile_picture" destination="tbU-K5-ltw" id="g3a-sr-YhT"/>
+                        <outlet property="sticker_sheet" destination="9n4-gH-MFG" id="pMi-Ch-4Ll"/>
                         <outlet property="version" destination="vYQ-7U-HOC" id="m9i-fg-AwA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o1q-OP-Hgx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2457.971014492754" y="-516.84782608695662"/>
+            <point key="canvasLocation" x="2457.971014492754" y="-516.96428571428567"/>
         </scene>
         <!--OptionsVC-->
         <scene sceneID="iFi-OT-1yX">
@@ -3600,11 +3634,12 @@
         <image name="ach10T" width="100" height="99.5"/>
         <image name="journal" width="25" height="25"/>
         <image name="map" width="25" height="25"/>
-        <image name="mexico" width="270" height="480"/>
         <image name="morningstar-bnw" width="25" height="25"/>
         <image name="morningstarmoroni" width="477" height="512"/>
+        <image name="profile 1" width="300" height="300"/>
         <image name="share" width="100" height="100"/>
         <image name="starOfMelchizedek" width="25" height="25"/>
+        <image name="stickersheet" width="300" height="300"/>
         <image name="summary" width="25" height="25"/>
         <namedColor name="BaptismsBlue">
             <color red="0.0" green="0.32941176470588235" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -15,7 +15,9 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 
     var alertController: UIAlertController?
     @IBOutlet weak var profile_picture: UIImageView!
+    @IBOutlet weak var sticker_sheet: UIImageView!
     @IBOutlet weak var version: UILabel!
+    @IBOutlet weak var logo: UIImageView!
 //    @IBOutlet weak var greatTipBtn: CustomButton!
 //    @IBOutlet weak var greaterTipBtn: CustomButton!
 //    @IBOutlet weak var greatestTipBtn: CustomButton!
@@ -37,29 +39,43 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.view.layoutIfNeeded()
         profile_picture.layer.cornerRadius = profile_picture.frame.size.width / 10
         profile_picture.layer.masksToBounds = true
+        sticker_sheet.layer.cornerRadius = sticker_sheet.frame.size.width / 10
+        sticker_sheet.layer.masksToBounds = true
 
     }
-    
+
     override func viewDidLayoutSubviews() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        print(screenSize.height)
         switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight :
-            logoWidth.constant = greetings.frame.width / 2
+            //logoWidth.constant = greetings.frame.width / 2
+            logo.isHidden = true
+            profile_picture.isHidden = true
         default :
-            logoWidth.constant = greetings.frame.width / 1.5
+            logoWidth.constant = greetings.frame.width / 2
+            profile_picture.isHidden = false
+            if screenSize.height < 800 {
+                logo.isHidden = true
+                greetings.text = "Greetings! I hope this App assists and motivates all who use it to frequently visit these Holy Places."
+            }
         }
     }
-    
+
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         switch toInterfaceOrientation {
         case .landscapeLeft, .landscapeRight :
-            logoWidth.constant = greetings.frame.width / 2
-            
+            //logoWidth.constant = greetings.frame.width / 2
+            logo.isHidden = true
+            profile_picture.isHidden = true
         case .portrait, .portraitUpsideDown, .unknown :
-            logoWidth.constant = greetings.frame.width / 1.5
+            logoWidth.constant = greetings.frame.width / 2
+            logo.isHidden = false
+            profile_picture.isHidden = false
         @unknown default:
             print("Not handled")
         }
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -108,6 +124,13 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func hunibearstudios(_ sender: UIButton) {
+        if let url = URL(string: "https://www.etsy.com/listing/1389725437/holy-places-sticker-sheet") {
+            let vc = SFSafariViewController(url: url)
+            present(vc, animated: true)
+        }
     }
     
     @IBAction func fairMormonLink(_ sender: UIButton) {
