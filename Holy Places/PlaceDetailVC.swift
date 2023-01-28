@@ -183,6 +183,10 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                                             self.imageCount += 1
                                             imageCounter += 1
                                             pictureView.addSubview(imageView)
+                                            // Don't load more than 20 Visit images
+                                            if self.imageCount == 21 {
+                                                break
+                                            }
                                         }
                                         self.pageControl.numberOfPages = imageCounter
                                         self.pageControl.isHidden = false
