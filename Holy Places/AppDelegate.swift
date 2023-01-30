@@ -110,6 +110,7 @@ var shiftHoursTotal = 0.0
 var didOrdinances = false
 var copyVisit: Visit?
 var copyAddDays = 7 as Int16
+var ad = AppDelegate()
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -143,6 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     let visitLengthInSec = 600.0 // 10 minutes
     var visitElapsedTime: TimeInterval?
     var monitoredRegions: Dictionary<String, NSDate> = [:]
+    var newFileParsed = false
     
     // MARK: - Standard Events
 
@@ -198,8 +200,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
         
         //Load any saved settings
+        ad = UIApplication.shared.delegate as! AppDelegate
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
+        
+        // Get version of saved data
+        getPlaceVersion()
+        
+        // Get Saved places
+        getPlaces()
         
         // Update Places
         refreshTemples()
@@ -685,85 +694,118 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     //MARK: - Update Data
     // Pull down the XML file from website and parse the data
-    func refreshTemples(){
-        
+    func refreshTemples() {
+            
         // Get version of saved data
-        getPlaceVersion()
+        //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
         guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
-        guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
-            print("Cannot Read Data")
-            getPlaces()
-            return
-        }
         
-        parserVersion.delegate = self
-        if parserVersion.parse() {
-            // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
-            versionChecked = true
-            guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
-                print("URL not defined properly")
+        let task = URLSession.shared.downloadTask(with: versionURL as URL)
+        {
+            (tempURL, response, error) in
+            // Handle response, the download file is
+            // at tempURL
+            if error != nil {
+                print("Cannot Read Data ERROR: \(String(describing: error))")
+                //self.getPlaces()
                 return
             }
-            guard let parser = XMLParser(contentsOf: myURL as URL) else {
+            
+            /*
+             guard let parserVersion = XMLParser(data: data) else {
+             print("Cannot Read Data")
+             getPlaces()
+             return
+             }
+             
+             */
+            //guard let (parserVersion, _) = try await URLSession.shared.data(from: versionURL as URL) else {
+            guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
                 print("Cannot Read Data")
-                getPlaces()
+                //self.getPlaces()
                 return
             }
-            parser.delegate = self
-            if parser.parse() {
-                // Save updated places to CoreData
-                storePlaces()
-            } else {
-                print("Data parsing aborted")
-                let error = parser.parserError!
-                print("Error Description:\(error.localizedDescription)")
-                print("Line number: \(parser.lineNumber)")
-                getPlaces()
-            }
-        } else {
-            print("Data parsing aborted")
-            let error = parserVersion.parserError!
-            print("Error Description:\(error.localizedDescription)")
-            print("Line number: \(parserVersion.lineNumber)")
-            // Check if initial launch with no data yet and no internet and load local XML file if so
-            if placeDataVersion == nil {
+            
+            
+            parserVersion.delegate = self
+            
+            if parserVersion.parse() {
+                // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }
                 guard let parser = XMLParser(contentsOf: myURL as URL) else {
                     print("Cannot Read Data")
-                    getPlaces()
+                    //self.getPlaces()
                     return
                 }
-                print("No internet on initial launch - loading from local XML file")
                 parser.delegate = self
                 if parser.parse() {
                     // Save updated places to CoreData
-                    storePlaces()
+                    //self.storePlaces()
+                    self.newFileParsed = true
                 } else {
                     print("Data parsing aborted")
                     let error = parser.parserError!
                     print("Error Description:\(error.localizedDescription)")
                     print("Line number: \(parser.lineNumber)")
-                    getPlaces()
+                    //self.getPlaces()
                 }
             } else {
-                getPlaces()
+                print("Data parsing aborted")
+                let error = parserVersion.parserError!
+                print("Error Description:\(error.localizedDescription)")
+                print("Line number: \(parserVersion.lineNumber)")
+                // Check if initial launch with no data yet and no internet and load local XML file if so
+                if placeDataVersion == nil {
+                    versionChecked = true
+                    guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
+                        print("URL not defined properly")
+                        return
+                    }
+                    guard let parser = XMLParser(contentsOf: myURL as URL) else {
+                        print("Cannot Read Data")
+                        //self.getPlaces()
+                        return
+                    }
+                    print("No internet on initial launch - loading from local XML file")
+                    parser.delegate = self
+                    if parser.parse() {
+                        // Save updated places to CoreData
+                        self.storePlaces()
+                    } else {
+                        print("Data parsing aborted")
+                        let error = parser.parserError!
+                        print("Error Description:\(error.localizedDescription)")
+                        print("Line number: \(parser.lineNumber)")
+                        //self.getPlaces()
+                    }
+                }
+                //else {
+                //    self.getPlaces()
+                //}
             }
+            if self.newFileParsed {
+                self.storePlaces()
+                checkedForUpdate = Date()
+                // if app is updated while running in background send notification
+                //&& UIApplication.shared.applicationState == .background
+                if changesDate != "" {
+                    self.updateNotification()
+                }
+            }
+
         }
-        checkedForUpdate = Date()
+        // Start the download
+        task.resume()
         
-        // if app is updated while running in background send notification
-        if changesDate != "" && UIApplication.shared.applicationState == .background {
-            updateNotification()
-        }
     }
     
     // didStartElement of parser
@@ -961,8 +1003,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     //MARK: - Core Data
     // Required for CoreData
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     func getVisits () {
@@ -1487,6 +1529,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // Get the Place data from CoreData and build the various Place arrays
     func getPlaces () {
+        // Load from XML if first time launched.
+        if placeDataVersion == nil {
+            versionChecked = true
+            guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
+                print("URL not defined properly")
+                return
+            }
+            guard let parser = XMLParser(contentsOf: myURL as URL) else {
+                print("Cannot Read Data")
+                //self.getPlaces()
+                return
+            }
+            print("No internet on initial launch - loading from local XML file")
+            parser.delegate = self
+            if parser.parse() {
+                // Save updated places to CoreData
+                self.storePlaces()
+            } else {
+                print("Data parsing aborted")
+                let error = parser.parserError!
+                print("Error Description:\(error.localizedDescription)")
+                print("Line number: \(parser.lineNumber)")
+                //self.getPlaces()
+            }
+        }
         //create a fetch request, telling it about the entity
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
         

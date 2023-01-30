@@ -172,9 +172,11 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Determine if check hasn't occurred today
 //        print(checkedForUpdate?.daysBetweenDate(toDate: Date()) as Any)
-        if (checkedForUpdate?.daysBetweenDate(toDate: Date()))! > 0 {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.refreshTemples()
+        if checkedForUpdate != nil {
+            if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 0 > 0 {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.refreshTemples()
+            }
         }
         
         // Check for update and pop message
