@@ -531,7 +531,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if shortcutIdentifier == .RecordVisit {
             quickAddPlace = quickLaunchItem
         } else {
-            if notificationData != nil {
+            if notificationData?.value(forKey: "place") != nil {
                 if let found = allPlaces.first(where:{$0.templeName == (notificationData?.value(forKey: "place"))! as! String}) {
                     quickAddPlace  = found
                     placeFromNotification = quickAddPlace?.templeName

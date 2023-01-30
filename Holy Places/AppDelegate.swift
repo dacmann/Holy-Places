@@ -547,9 +547,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         visitElapsedTime = nil
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func updateNotification() {
+        // Construct Notification
+        let notifyContent = UNMutableNotificationContent()
+        notifyContent.title = changesDate + " Update"
+        notifyContent.body = changesMsg1
+        notifyContent.categoryIdentifier = "dataUpdate"
+        //notifyContent.userInfo = ["place":holyPlaceVisited as Any, "dateVisited":dateHolyPlaceVisited as Any]
+        notifyContent.sound = UNNotificationSound.default
+        
+        // Schedule delivery
+        let notifyTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(60), repeats: false)
+        let request = UNNotificationRequest(identifier: "dataUpdate", content: notifyContent, trigger: notifyTrigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+            print(error as Any)
+        })
+        print("Notification requested for data update")
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
         notificationData = response.notification.request.content.userInfo as NSDictionary
-        _ = selectTabBarItemFor(shortcutIdentifier: .Reminder)
+        if notificationData?.value(forKey: "place") != nil {
+            _ = selectTabBarItemFor(shortcutIdentifier: .Reminder)
+        }
         completionHandler()
     }
 
@@ -738,7 +759,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
         }
         checkedForUpdate = Date()
-        //        checkedForUpdate = Date().addingTimeInterval(-86401.0)
+        
+        // if app is updated while running in background send notification
+        if changesDate != "" && UIApplication.shared.applicationState == .background {
+            updateNotification()
+        }
     }
     
     // didStartElement of parser
