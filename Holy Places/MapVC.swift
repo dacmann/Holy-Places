@@ -131,14 +131,15 @@ class MapVC: UIViewController, MKMapViewDelegate {
         switch type {
         case "T":
             return UIColor(named: "TempleDarkRed")!
+            //return UIColor.purple
         case "H":
-            return UIColor.darkLimeGreen()
+            return UIColor(named: "Historical")!
         case "A":
-            return UIColor.brown
+            return UIColor(named: "Announced")!
         case "C":
-            return UIColor.darkOrange()
+            return UIColor(named: "Construction")!
         case "V":
-            return UIColor.strongYellow()
+            return UIColor(named: "VisitorCenters")!
         default:
             return UIColor(named: "DefaultText")!
         }

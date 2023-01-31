@@ -69,15 +69,15 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         case "Active Temples":
             label?.textColor = UIColor(named: "TempleDarkRed")
         case "Historical Sites":
-            label?.textColor = UIColor.darkLimeGreen()
+            label?.textColor = UIColor(named: "Historical")
         case "Temples Under Construction":
-            label?.textColor = UIColor.darkOrange()
+            label?.textColor = UIColor(named: "Construction")
         case "Announced Temples":
-            label?.textColor = UIColor.brown
+            label?.textColor = UIColor(named: "Announced")
         case "Visitors' Centers":
-            label?.textColor = UIColor.strongYellow()
+            label?.textColor = UIColor(named: "VisitorCenters")
         default:
-            label?.textColor = UIColor(named: "DefaultText")!
+            label?.textColor = UIColor(named: "DefaultText")
         }
         return label!
     }

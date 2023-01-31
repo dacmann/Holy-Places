@@ -84,13 +84,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 1:
             self.navigationItem.titleView?.tintColor = UIColor(named: "TempleDarkRed")
         case 2:
-            self.navigationItem.titleView?.tintColor = UIColor.darkLimeGreen()
+            self.navigationItem.titleView?.tintColor = UIColor(named: "Historical")
         case 4:
-            self.navigationItem.titleView?.tintColor = UIColor.darkOrange()
+            self.navigationItem.titleView?.tintColor = UIColor(named: "Construction")
         case 5:
-            self.navigationItem.titleView?.tintColor = UIColor.brown
+            self.navigationItem.titleView?.tintColor = UIColor(named: "Announced")
         case 3:
-            self.navigationItem.titleView?.tintColor = UIColor.strongYellow()
+            self.navigationItem.titleView?.tintColor = UIColor(named: "VisitorCenters")
         default:
             self.navigationItem.titleView?.tintColor = UIColor(named: "DefaultText")!
         }
@@ -377,13 +377,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             case "T":
                 cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
             case "H":
-                cell.textLabel?.textColor = UIColor.darkLimeGreen()
+                cell.textLabel?.textColor = UIColor(named: "Historical")
             case "A":
-                cell.textLabel?.textColor = UIColor.brown
+                cell.textLabel?.textColor = UIColor(named: "Announced")
             case "C":
-                cell.textLabel?.textColor = UIColor.darkOrange()
+                cell.textLabel?.textColor = UIColor(named: "Construction")
             case "V":
-                cell.textLabel?.textColor = UIColor.strongYellow()
+                cell.textLabel?.textColor = UIColor(named: "VisitorCenters")
             default:
                 cell.textLabel?.textColor = UIColor(named: "DefaultText")!
             }
@@ -476,11 +476,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 1:
             titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "TempleDarkRed")!]
         case 2:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkLimeGreen()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "Historical")!]
         case 4:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.darkOrange()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "Construction")!]
         case 3:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor.strongYellow()]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "VisitorCenters")!]
         default:
             titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "DefaultText")!]
         }

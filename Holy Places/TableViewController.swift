@@ -176,8 +176,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                             commonEra = "Growth Era ~ 1983-1998"
                         case 54 ... 114:
                             commonEra = "Explosive Era ~ 1999-2002"
+                        case 115 ... 161:
+                            commonEra = "Hastening Era ~ 2003-2018"
                         default:
-                            commonEra = "Hastening Era ~ 2003-Present"
+                            commonEra = "Unparalleled Era ~ 2019-\(Calendar(identifier: .gregorian).dateComponents([.year], from: Date()).year ?? 2023)"
                         }
                     }
                     if era != commonEra || places.count == i {
@@ -286,13 +288,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case 1:
             titleLabel.textColor = UIColor(named: "TempleDarkRed")
         case 2:
-            titleLabel.textColor = UIColor.darkLimeGreen()
-        case 4:
-            titleLabel.textColor = UIColor.darkOrange()
+            titleLabel.textColor = UIColor(named: "Historical")
         case 3:
-            titleLabel.textColor = UIColor.strongYellow()
+            titleLabel.textColor = UIColor(named: "VisitorCenters")
+        case 4:
+            titleLabel.textColor = UIColor(named: "Construction")
         case 5:
-            titleLabel.textColor = UIColor.brown
+            titleLabel.textColor = UIColor(named: "Announced")
         default:
             titleLabel.textColor = UIColor(named: "DefaultText")!
         }
@@ -444,13 +446,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         case "T":
             cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
         case "H":
-            cell.textLabel?.textColor = UIColor.darkLimeGreen()
+            cell.textLabel?.textColor = UIColor(named: "Historical")
         case "A":
-            cell.textLabel?.textColor = UIColor.brown
+            cell.textLabel?.textColor = UIColor(named: "Announced")
         case "C":
-            cell.textLabel?.textColor = UIColor.darkOrange()
+            cell.textLabel?.textColor = UIColor(named: "Construction")
         case "V":
-            cell.textLabel?.textColor = UIColor.strongYellow()
+            cell.textLabel?.textColor = UIColor(named: "VisitorCenters")
         default:
             cell.textLabel?.textColor = UIColor(named: "DefaultText")!
         }

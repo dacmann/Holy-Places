@@ -54,8 +54,8 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellTitle.textColor = UIColor.iron()
             cell.cellProgress.tintColor = UIColor.iron()
         case "H":
-            cell.cellTitle.textColor = UIColor.darkLimeGreen()
-            cell.cellProgress.tintColor = UIColor.darkLimeGreen()
+            cell.cellTitle.textColor = UIColor(named: "Historical")
+            cell.cellProgress.tintColor = UIColor(named: "Historical")
         case "T":
             cell.cellTitle.textColor = UIColor(named: "TempleDarkRed")
             cell.cellProgress.tintColor = UIColor(named: "TempleDarkRed")
@@ -70,7 +70,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellProgress.isHidden = true
             switch display[row].iconName.suffix(1) {
             case "H":
-                cell.cellPlaceAchieved.textColor = UIColor.darkLimeGreen()
+                cell.cellPlaceAchieved.textColor = UIColor(named: "Historical")
             default:
                 cell.cellPlaceAchieved.textColor = UIColor(named: "TempleDarkRed")
             }

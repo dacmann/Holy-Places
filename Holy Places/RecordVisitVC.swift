@@ -369,11 +369,11 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 case "T":
                     templeName.textColor = UIColor(named: "TempleDarkRed")
                 case "H":
-                    templeName.textColor = UIColor.darkLimeGreen()
+                    templeName.textColor = UIColor(named: "Historical")
                 case "C":
-                    templeName.textColor = UIColor.darkOrange()
+                    templeName.textColor = UIColor(named: "Construction")
                 case "V":
-                    templeName.textColor = UIColor.strongYellow()
+                    templeName.textColor = UIColor(named: "VisitorCenters")
                 default:
                     templeName.textColor = UIColor(named: "DefaultText")!
                 }
@@ -421,11 +421,11 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     case "T":
                         templeName.textColor = UIColor(named: "TempleDarkRed")
                     case "H":
-                        templeName.textColor = UIColor.darkLimeGreen()
+                        templeName.textColor = UIColor(named: "Historical")
                     case "C":
-                        templeName.textColor = UIColor.darkOrange()
+                        templeName.textColor = UIColor(named: "Construction")
                     case "V":
-                        templeName.textColor = UIColor.strongYellow()
+                        templeName.textColor = UIColor(named: "VisitorCenters")
                     default:
                         templeName.textColor = UIColor(named: "DefaultText")!
                     }

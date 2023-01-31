@@ -88,9 +88,9 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         case 0:
             label?.textColor = UIColor(named: "TempleDarkRed")
         case 1:
-            label?.textColor = UIColor.darkLimeGreen()
+            label?.textColor = UIColor(named: "Historical")
         case 2:
-            label?.textColor = UIColor.strongYellow()
+            label?.textColor = UIColor(named: "VisitorCenters")
         default:
             label?.textColor = UIColor(named: "DefaultText")!
         }

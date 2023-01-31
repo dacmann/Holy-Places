@@ -308,11 +308,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                     case "T":
                         textColor = UIColor(named: "TempleDarkRed")!
                     case "H":
-                        textColor = UIColor.darkLimeGreen()
+                        textColor = UIColor(named: "Historical")!
                     case "C":
-                        textColor = UIColor.darkOrange()
+                        textColor = UIColor(named: "Construction")!
                     case "V":
-                        textColor = UIColor.strongYellow()
+                        textColor = UIColor(named: "VisitorCenters")!
                     default:
                         textColor = UIColor(named: "DefaultText")!
                     }
