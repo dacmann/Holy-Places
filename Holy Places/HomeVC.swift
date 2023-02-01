@@ -114,6 +114,30 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
 
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        // Check for update and pop message when it occurs after the Home tab was rendered
+        if changesDate != "" {
+            var changesMsg = changesMsg1
+            if changesMsg2 != ""
+            {
+                changesMsg.append("\n\n")
+                changesMsg.append(changesMsg2)
+            }
+            if changesMsg3 != ""
+            {
+                changesMsg.append("\n\n")
+                changesMsg.append(changesMsg3)
+            }
+            let alert = UIAlertController(title: changesDate + " Update", message: changesMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Handle OK (cancel) Logic here")
+                // clear out message now that it has been presented
+                changesDate = ""
+            }))
+            self.present(alert, animated: true)
+        }
+    }
+    
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         // Animate the transition between tabs
         guard let fromView = self.tabBarController?.selectedViewController?.view, let toView = viewController.view else {
@@ -171,7 +195,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         
         // Determine if check hasn't occurred today
-//        print(checkedForUpdate?.daysBetweenDate(toDate: Date()) as Any)
         if checkedForUpdate != nil {
             if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 0 > 0 {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
