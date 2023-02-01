@@ -272,7 +272,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         // Save settings
         if settings == nil {
-            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: persistentContainer.viewContext) as? Settings
+            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: ad.persistentContainer.viewContext) as? Settings
         }
         settings?.altLocation = locationSpecific
         settings?.altLocStreet = altLocStreet
@@ -1678,7 +1678,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // MARK: - Core Data Saving support
     
     func saveContext () {
-        let context = persistentContainer.viewContext
+        let context = ad.persistentContainer.viewContext
+        
         if context.hasChanges {
             do {
                 try context.save()
