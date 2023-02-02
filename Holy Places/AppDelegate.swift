@@ -207,8 +207,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Get version of saved data
         getPlaceVersion()
         
-        // Get Saved places
-        getPlaces()
+        // populate place arrays if not first time launched
+        if placeDataVersion != nil {
+            getPlaces()
+        }
         
         // Update Places
         refreshTemples()
@@ -712,7 +714,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             // at tempURL
             if error != nil {
                 print("Cannot Read Data ERROR: \(String(describing: error))")
-                //self.getPlaces()
+                self.getPlaces()
                 return
             }
             
@@ -727,7 +729,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             //guard let (parserVersion, _) = try await URLSession.shared.data(from: versionURL as URL) else {
             guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
                 print("Cannot Read Data")
-                //self.getPlaces()
+                self.getPlaces()
                 return
             }
             
@@ -743,20 +745,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 }
                 guard let parser = XMLParser(contentsOf: myURL as URL) else {
                     print("Cannot Read Data")
-                    //self.getPlaces()
+                    self.getPlaces()
                     return
                 }
                 parser.delegate = self
                 if parser.parse() {
-                    // Save updated places to CoreData
-                    //self.storePlaces()
                     self.newFileParsed = true
                 } else {
                     print("Data parsing aborted")
                     let error = parser.parserError!
                     print("Error Description:\(error.localizedDescription)")
                     print("Line number: \(parser.lineNumber)")
-                    //self.getPlaces()
+                    self.getPlaces()
                 }
             } else {
                 print("Data parsing aborted")
@@ -772,7 +772,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                     guard let parser = XMLParser(contentsOf: myURL as URL) else {
                         print("Cannot Read Data")
-                        //self.getPlaces()
+                        self.getPlaces()
                         return
                     }
                     print("No internet on initial launch - loading from local XML file")
@@ -785,7 +785,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         let error = parser.parserError!
                         print("Error Description:\(error.localizedDescription)")
                         print("Line number: \(parser.lineNumber)")
-                        //self.getPlaces()
+                        self.getPlaces()
                     }
                 }
                 //else {
@@ -796,8 +796,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 self.storePlaces()
                 checkedForUpdate = Date()
                 // if app is updated while running in background send notification
-                //
-                if changesDate != "" && UIApplication.shared.applicationState == .background {
+                //&& UIApplication.shared.applicationState == .background
+                if changesDate != "" {
                     self.updateNotification()
                 }
             }
@@ -1541,7 +1541,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 //self.getPlaces()
                 return
             }
-            print("No internet on initial launch - loading from local XML file")
+            print("Initial launch - loading from local XML file")
             parser.delegate = self
             if parser.parse() {
                 // Save updated places to CoreData
