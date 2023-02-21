@@ -19,7 +19,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //MARK: - Variables
     var delegateOptions: SendVisitOptionsDelegate? = nil
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var filterSelected: Int?
     var sortSelected: Int?
@@ -129,6 +129,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         getVisits(type: "xml")
         do {
             try exportFile(visits, title: fileName, type: "xml")
+            // Keep track of when backup was last performed
+            let defaults = UserDefaults.standard
+            defaults.set(Date(), forKey: "backupDate")
         } catch {
             print("Error with export: \(error)")
         }
@@ -177,8 +180,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //MARK: - CoreData Functions
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     // Retrieve the Visits data from CoreData
@@ -280,7 +283,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             message.text = "Exported \(exportCount) visits to \(type) file."
             message.textColor = UIColor(named: "TempleDarkRed")
             // Update visit count 
-            appDelegate.getVisits()
+            ad.getVisits()
         } catch {
             print("Error with request: \(error)")
         }
@@ -298,7 +301,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let alert = UIAlertController(title: "Import Completed", message: "Successfully imported \(importCount) visits; \(duplicates) duplicate visits skipped", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
-            appDelegate.getVisits()
+            ad.getVisits()
         } else {
             print("Data parsing aborted")
             let error = parser.parserError!

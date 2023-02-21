@@ -32,7 +32,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     var sortBySize = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var randomPlace = false
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var locationButton: UIBarButtonItem!
     
@@ -65,8 +65,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     
     //MARK: - CoreData
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     //MARK: - Search Controller Code
@@ -154,7 +154,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 } else {
                     subTitle = "Nearest to Current Location"
                 }
-                appDelegate.updateDistance(placesToUpdate: places, true)
+                ad.updateDistance(placesToUpdate: places, true)
                 places.sort { Int($0.distance!) < Int($1.distance!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)

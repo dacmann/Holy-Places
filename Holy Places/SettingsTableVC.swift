@@ -11,7 +11,7 @@ import UIKit
 class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //MARK: - Variables and Outlets
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var imageOptionSelected = 0
     
     @IBOutlet weak var minutesDelay: UITextField!
@@ -112,7 +112,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBAction func enable(_ sender: UISwitch) {
         notificationEnabled = sender.isOn
         if notificationEnabled {
-            appDelegate.locationServiceSetup()
+            ad.locationServiceSetup()
         }
         filterSwitch.isEnabled = notificationEnabled
         minutesDelay.isEnabled = notificationEnabled

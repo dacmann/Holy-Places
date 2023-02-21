@@ -20,7 +20,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     var dateOfVisit: Date?
     var placeType = String()
     var activeField: UITextField?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let yearFormat = DateFormatter()
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -46,7 +46,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
-        return appDelegate.persistentContainer.viewContext
+        return ad.persistentContainer.viewContext
     }
 
     func setDate() {
@@ -98,7 +98,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         print("Saving Visit completed")
         
         // Update visit count for goal progress in Widget
-        appDelegate.getVisits()
+        ad.getVisits()
         
         _ = navigationController?.popViewController(animated: true)
     }
@@ -147,7 +147,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         print("Saving edited Visit completed")
         
         // Update visit count for goal progress in Widget
-        appDelegate.getVisits()
+        ad.getVisits()
         
         _ = navigationController?.popViewController(animated: true)
 

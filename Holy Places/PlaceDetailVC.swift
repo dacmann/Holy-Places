@@ -83,8 +83,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     //MARK: - CoreData
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     // Retrieve the Visits data from CoreData

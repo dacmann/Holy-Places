@@ -201,19 +201,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         //Load any saved settings
         ad = UIApplication.shared.delegate as! AppDelegate
-        let context = persistentContainer.viewContext
+        let context = ad.persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
         
         // Get version of saved data
         getPlaceVersion()
         
-        // populate place arrays if not first time launched
-        if placeDataVersion != nil {
-            getPlaces()
-        }
+        // populate place arrays
+        getPlaces()
         
         // Update Places
-        refreshTemples()
+        // letting this now be handled only from home tab
+        //refreshTemples()
         
         do {
             //go get the results
@@ -482,7 +481,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Set QuickLaunch object to closest place based on current location of user
         updateDistance(placesToUpdate: allPlaces)
         allPlaces.sort { Int($0.distance!) < Int($1.distance!) }
-        quickLaunchItem = allPlaces[0]
+        if !allPlaces.isEmpty {
+            quickLaunchItem = allPlaces[0]
+        }
         
         NotificationCenter.default.post(name: .reload, object: nil)
         
@@ -797,9 +798,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 checkedForUpdate = Date()
                 // if app is updated while running in background send notification
                 //&& UIApplication.shared.applicationState == .background
-                if changesDate != "" {
-                    self.updateNotification()
-                }
+                //if changesDate != "" {
+                //    self.updateNotification()
+                //}
             }
 
         }
@@ -1004,7 +1005,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // Required for CoreData
     func getContext () -> NSManagedObjectContext {
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return ad.persistentContainer.viewContext
+        return self.persistentContainer.viewContext
     }
     
     func getVisits () {
@@ -1538,7 +1539,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             guard let parser = XMLParser(contentsOf: myURL as URL) else {
                 print("Cannot Read Data")
-                //self.getPlaces()
                 return
             }
             print("Initial launch - loading from local XML file")
@@ -1551,7 +1551,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 let error = parser.parserError!
                 print("Error Description:\(error.localizedDescription)")
                 print("Line number: \(parser.lineNumber)")
-                //self.getPlaces()
             }
         }
         //create a fetch request, telling it about the entity
@@ -1678,7 +1677,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // MARK: - Core Data Saving support
     
     func saveContext () {
-        let context = ad.persistentContainer.viewContext
+        let context = self.persistentContainer.viewContext
         
         if context.hasChanges {
             do {

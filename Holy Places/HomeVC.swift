@@ -12,7 +12,7 @@ import UIKit
 //class HomeVC: UIViewController, SKProductsRequestDelegate {
 class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
@@ -73,7 +73,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         self.tabBarController?.delegate = self
         
         // download all place images if needed
-        appDelegate.downloadImage()
+        ad.downloadImage()
         
     }
     
@@ -89,7 +89,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             // Update value for Today Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
         } else {
-            appDelegate.getVisits()
+            ad.getVisits()
             goal.text = goalProgress
         }
         
@@ -195,12 +195,13 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         
         // Determine if check hasn't occurred today
-        if checkedForUpdate != nil {
-            if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 0 > 0 {
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.refreshTemples()
-            }
+        
+        //if checkedForUpdate != nil {
+        if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
+            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            ad.refreshTemples()
         }
+        //}
         
         // Check for update and pop message
         if changesDate != "" {

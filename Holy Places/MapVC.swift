@@ -13,7 +13,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
 
     var placeName = String()
     var optionSelected = false
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var mapPlaces: [Temple] = []
     
     @IBOutlet weak var mapView: MKMapView!
@@ -45,8 +45,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
         if let navigationController = self.navigationController {
             if navigationController.viewControllers.first == self {
                 optionSelected = true
-                if appDelegate.coordinateOfUser != nil {
-                    mapCenter = CLLocationCoordinate2D(latitude: appDelegate.coordinateOfUser.coordinate.latitude, longitude: appDelegate.coordinateOfUser.coordinate.longitude)
+                if ad.coordinateOfUser != nil {
+                    mapCenter = CLLocationCoordinate2D(latitude: ad.coordinateOfUser.coordinate.latitude, longitude: ad.coordinateOfUser.coordinate.longitude)
                 } else {
                     // default to Temple Square
                     mapCenter = CLLocationCoordinate2D(latitude: 40.7707425, longitude: -111.8932596)
@@ -229,7 +229,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     mapZoomLevel = mapView.camera.altitude
                     if self.navigationController?.popViewController(animated: true) == nil {
                         // navigate to the place details
-                        if let myTabBar = appDelegate.window?.rootViewController as? UITabBarController {
+                        if let myTabBar = ad.window?.rootViewController as? UITabBarController {
                             myTabBar.selectedIndex = 1
                             let nvc = myTabBar.selectedViewController as? UINavigationController
                             let vc = nvc?.viewControllers.first as? TableViewController

@@ -88,8 +88,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     var quoteNum = 0
     
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     //MARK: - Standard Methods

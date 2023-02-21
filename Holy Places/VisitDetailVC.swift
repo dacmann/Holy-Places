@@ -24,8 +24,8 @@ class VisitDetailVC: UIViewController {
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
 
     func setDate() {

@@ -3081,14 +3081,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hint: Add new Visit from Place Details or by swiping left on previous Visit in table" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3SJ-RL-qNP">
-                                <rect key="frame" x="10" y="188.5" width="394" height="39"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIP: Add new Visit from Place Details or by swiping left on previous Visit in table" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3SJ-RL-qNP">
+                                <rect key="frame" x="10" y="162.5" width="394" height="39"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wj5-Ce-glP">
-                                <rect key="frame" x="47" y="247.5" width="320" height="401"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wj5-Ce-glP">
+                                <rect key="frame" x="47" y="221.5" width="320" height="453"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gS6-dg-ok8">
                                         <rect key="frame" x="98" y="0.0" width="124" height="25.5"/>
@@ -3097,10 +3097,69 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdt-0O-3bp">
-                                        <rect key="frame" x="0.0" y="25.5" width="320" height="216"/>
+                                        <rect key="frame" x="0.0" y="30.5" width="320" height="216"/>
                                     </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Export Visits as txt, xml or csv files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-g6-EGk">
+                                        <rect key="frame" x="27.5" y="251.5" width="265" height="22"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="6Yg-hk-256">
+                                        <rect key="frame" x="48" y="278.5" width="224" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7B-lC-4UI">
+                                                <rect key="frame" x="0.0" y="0.0" width="42" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="d9E-I0-79T"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
+                                                <state key="normal" title="TXT">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="exportTxtAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="Lgw-dS-9KU"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2R-Ro-P7w">
+                                                <rect key="frame" x="92" y="0.0" width="44" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="qez-cF-J5R"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
+                                                <state key="normal" title="XML">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="exportXmlAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="wbs-wF-GIN"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERW-IH-EV6">
+                                                <rect key="frame" x="186" y="0.0" width="38" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="zzX-OB-yBh"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
+                                                <color key="tintColor" name="BaptismsBlue"/>
+                                                <state key="normal" title="CSV">
+                                                    <color key="titleColor" name="BaptismsBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="exportCsvAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="dvd-5v-HAx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(XML file used for back-up)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fgy-E4-F5C">
+                                        <rect key="frame" x="65.5" y="333.5" width="189.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
-                                        <rect key="frame" x="65" y="241.5" width="190" height="50"/>
+                                        <rect key="frame" x="65" y="358" width="190" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="JXC-iI-WTR"/>
                                         </constraints>
@@ -3113,61 +3172,8 @@
                                             <action selector="importVisits:" destination="0kB-hC-xcd" eventType="touchUpInside" id="i1G-Gt-Djb"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Export Visits as txt, xml or csv files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ThY-g6-EGk">
-                                        <rect key="frame" x="41.5" y="291.5" width="237" height="19.5"/>
-                                        <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="6Yg-hk-256">
-                                        <rect key="frame" x="65" y="311" width="190" height="50"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7B-lC-4UI">
-                                                <rect key="frame" x="0.0" y="0.0" width="30" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="d9E-I0-79T"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
-                                                <color key="tintColor" name="BaptismsBlue"/>
-                                                <state key="normal" title="txt">
-                                                    <color key="titleColor" name="BaptismsBlue"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="exportTxtAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="Lgw-dS-9KU"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2R-Ro-P7w">
-                                                <rect key="frame" x="80" y="0.0" width="30" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="qez-cF-J5R"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
-                                                <color key="tintColor" name="BaptismsBlue"/>
-                                                <state key="normal" title="xml">
-                                                    <color key="titleColor" name="BaptismsBlue"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="exportXmlAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="wbs-wF-GIN"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERW-IH-EV6">
-                                                <rect key="frame" x="160" y="0.0" width="30" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="zzX-OB-yBh"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="19"/>
-                                                <color key="tintColor" name="BaptismsBlue"/>
-                                                <state key="normal" title="csv">
-                                                    <color key="titleColor" name="BaptismsBlue"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="exportCsvAction:" destination="0kB-hC-xcd" eventType="touchUpInside" id="dvd-5v-HAx"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-uS-udJ" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="361" width="300" height="40"/>
+                                        <rect key="frame" x="10" y="413" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">

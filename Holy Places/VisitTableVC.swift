@@ -27,9 +27,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     var titleHeader = String()
     var quickAddPlace: Temple?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let formatter = DateFormatter()
     var sortByDate = true
+    var backupDate: Date?
+    var backupReminder: Date?
     
     @IBOutlet weak var sortBy: UIBarButtonItem!
     @IBAction func sortByBtn(_ sender: Any) {
@@ -99,8 +101,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     func getContext () -> NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.persistentContainer.viewContext
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return ad.persistentContainer.viewContext
     }
     
     override func viewDidLoad() {
@@ -129,12 +131,20 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Add done button to keyboard
         keyboardDone()
         
-        // Add "Add New Visit" button to bottom of view
-//        let newButton = UIButton(frame: CGRect(origin: CGPoint(x: 50, y: self.view.frame.height - 150), size: CGSize(width: 50, height: 50)))
-//        newButton.titleLabel?.text = "Add"
-//        newButton.backgroundColor = UIColor(named:"BaptismBlue")
-//        newButton.tintColor = .white
-//        self.navigationController?.view.addSubview(newButton)
+        let defaults = UserDefaults.standard
+        backupDate = defaults.object(forKey: "backupDate") as? Date
+        backupReminder = defaults.object(forKey: "backupReminder") as? Date
+        if backupDate?.daysBetweenDate(toDate: Date()) ?? 91 > 90
+            && backupReminder?.daysBetweenDate(toDate: Date()) ?? 91 > 90
+            && visits.count > 6 {
+            let backupMsg = "To ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
+            let alert = UIAlertController(title: "IMPORTANT!", message: backupMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Handle OK (cancel) Logic here")
+                defaults.set(Date(), forKey: "backupReminder")
+            }))
+            self.present(alert, animated: true)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -208,12 +218,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         else
         {
-            let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above"
+            let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width-40, height: tableView.bounds.size.height))
+            noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above.\n\nIMPORTANT!\n\nTo ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
             noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
-            noDataLabel.numberOfLines = 2
+            noDataLabel.numberOfLines = 15
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }
@@ -280,7 +290,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                     fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
                 // Update visit count for goal progress in Widget
-                self.appDelegate.getVisits()
+                ad.getVisits()
             }
             alert.addAction(destroyAction)
             
@@ -330,7 +340,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
             // Update visit count for goal progress in Widget
-            appDelegate.getVisits()
+            ad.getVisits()
         }
     }
     
