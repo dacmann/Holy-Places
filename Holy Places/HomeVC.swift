@@ -73,7 +73,18 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         self.tabBarController?.delegate = self
         
         // download all place images if needed
-        ad.downloadImage()
+        //ad.downloadImage()
+        
+        // Check if newly installed
+        let previouslyLaunched = UserDefaults.standard.bool(forKey: "previouslyLaunched")
+        if !previouslyLaunched {
+            UserDefaults.standard.set(true, forKey: "previouslyLaunched")
+        } else {
+            // Check for update
+            if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
+                ad.refreshTemples()
+            }
+        }
         
     }
     
@@ -136,6 +147,12 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             }))
             self.present(alert, animated: true)
         }
+        // save Place updates on main thread
+        if ad.newFileParsed {
+            ad.storePlaces()
+            checkedForUpdate = Date()
+            ad.newFileParsed = false
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -194,16 +211,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        // Determine if check hasn't occurred today
         
-        //if checkedForUpdate != nil {
-        if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
-            //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            ad.refreshTemples()
-        }
-        //}
-        
-        // Check for update and pop message
+        // Pop Welcome message
         if changesDate != "" {
             var changesMsg = changesMsg1
             if changesMsg2 != ""

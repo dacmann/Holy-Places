@@ -212,7 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         // Update Places
         // letting this now be handled only from home tab
-        //refreshTemples()
+        // refreshTemples()
         
         do {
             //go get the results
@@ -715,7 +715,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             // at tempURL
             if error != nil {
                 print("Cannot Read Data ERROR: \(String(describing: error))")
-                self.getPlaces()
+                //self.getPlaces()
                 return
             }
             
@@ -730,7 +730,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             //guard let (parserVersion, _) = try await URLSession.shared.data(from: versionURL as URL) else {
             guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
                 print("Cannot Read Data")
-                self.getPlaces()
+                //self.getPlaces()
                 return
             }
             
@@ -746,7 +746,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 }
                 guard let parser = XMLParser(contentsOf: myURL as URL) else {
                     print("Cannot Read Data")
-                    self.getPlaces()
+                    //self.getPlaces()
                     return
                 }
                 parser.delegate = self
@@ -757,7 +757,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     let error = parser.parserError!
                     print("Error Description:\(error.localizedDescription)")
                     print("Line number: \(parser.lineNumber)")
-                    self.getPlaces()
+                    //self.getPlaces()
                 }
             } else {
                 print("Data parsing aborted")
@@ -765,43 +765,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 print("Error Description:\(error.localizedDescription)")
                 print("Line number: \(parserVersion.lineNumber)")
                 // Check if initial launch with no data yet and no internet and load local XML file if so
-                if placeDataVersion == nil {
-                    versionChecked = true
-                    guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
-                        print("URL not defined properly")
-                        return
-                    }
-                    guard let parser = XMLParser(contentsOf: myURL as URL) else {
-                        print("Cannot Read Data")
-                        self.getPlaces()
-                        return
-                    }
-                    print("No internet on initial launch - loading from local XML file")
-                    parser.delegate = self
-                    if parser.parse() {
-                        // Save updated places to CoreData
-                        self.storePlaces()
-                    } else {
-                        print("Data parsing aborted")
-                        let error = parser.parserError!
-                        print("Error Description:\(error.localizedDescription)")
-                        print("Line number: \(parser.lineNumber)")
-                        self.getPlaces()
-                    }
-                }
+//                if placeDataVersion == nil {
+//                    versionChecked = true
+//                    guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
+//                        print("URL not defined properly")
+//                        return
+//                    }
+//                    guard let parser = XMLParser(contentsOf: myURL as URL) else {
+//                        print("Cannot Read Data")
+//                        self.getPlaces()
+//                        return
+//                    }
+//                    print("No internet on initial launch - loading from local XML file")
+//                    parser.delegate = self
+//                    if parser.parse() {
+//                        // Save updated places to CoreData
+//                        self.storePlaces()
+//                    } else {
+//                        print("Data parsing aborted")
+//                        let error = parser.parserError!
+//                        print("Error Description:\(error.localizedDescription)")
+//                        print("Line number: \(parser.lineNumber)")
+//                        self.getPlaces()
+//                    }
+//                }
                 //else {
                 //    self.getPlaces()
                 //}
             }
-            if self.newFileParsed {
-                self.storePlaces()
-                checkedForUpdate = Date()
+            //moved to HomeVC
+            //if self.newFileParsed {
+            //    self.storePlaces()
+            //    checkedForUpdate = Date()
                 // if app is updated while running in background send notification
                 //&& UIApplication.shared.applicationState == .background
                 //if changesDate != "" {
                 //    self.updateNotification()
                 //}
-            }
+            //}
 
         }
         // Start the download
@@ -1005,7 +1006,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // Required for CoreData
     func getContext () -> NSManagedObjectContext {
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return self.persistentContainer.viewContext
+        return ad.persistentContainer.viewContext
     }
     
     func getVisits () {
@@ -1441,7 +1442,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     print("Could not save \(error), \(error.userInfo)")
                 } catch {}
                 
-                
             } catch {
                 print("Error with request: \(error)")
             }
@@ -1473,6 +1473,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             print("Error with request: \(error)")
         }
         print("Saving Places completed")
+        
+        downloadImage()
     }
     
     // Save the version from the HolyPlaces.xml in CoreData
