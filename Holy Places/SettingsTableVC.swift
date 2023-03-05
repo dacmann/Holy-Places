@@ -18,6 +18,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var enableSwitch: UISwitch!
     @IBOutlet weak var filterSwitch: UISwitch!
     @IBOutlet weak var visitGoal: UITextField!
+    @IBOutlet weak var colorThemeOptions: UISegmentedControl!
     @IBOutlet weak var textColor: UISegmentedControl!
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var imageOptions: UISegmentedControl!
@@ -56,6 +57,11 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         }
         imageOptions.selectedSegmentIndex = imageOptionSelected
         textColor.selectedSegmentIndex = Int(homeTextColor)
+        if theme == "4414" {
+            colorThemeOptions.selectedSegmentIndex = 0
+        } else {
+            colorThemeOptions.selectedSegmentIndex = 1
+        }
         
         if homeAlternatePicture != nil {
             selectedImage.image = UIImage(data: homeAlternatePicture!)
@@ -71,6 +77,20 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     }
     
     //MARK: - Actions
+    
+    @IBAction func themeColorChange(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            theme = "4414"
+        case 1:
+            theme = "3830"
+        default:
+            theme = "3830"
+        }
+        UserDefaults.standard.set(theme, forKey: "themeSelected")
+        themeChanged = true
+    }
+    
     @IBAction func textColorChange(_ sender: UISegmentedControl) {
         homeTextColor = Int16(sender.selectedSegmentIndex)
         importBtn.setTitleColor(UIColor.home(), for: .normal)

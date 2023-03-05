@@ -86,13 +86,13 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         switch segmentedController.selectedSegmentIndex {
         case 0:
-            label?.textColor = UIColor(named: "TempleDarkRed")
+            label?.textColor = templeColor
         case 1:
-            label?.textColor = UIColor(named: "Historical")
+            label?.textColor = historicalColor
         case 2:
-            label?.textColor = UIColor(named: "VisitorCenters")
+            label?.textColor = visitorCenterColor
         default:
-            label?.textColor = UIColor(named: "DefaultText")!
+            label?.textColor = defaultColor
         }
         return label!
     }

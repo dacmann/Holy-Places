@@ -84,17 +84,17 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         switch visitFilterRow {
         case 1:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "TempleDarkRed")
+            self.navigationItem.titleView?.tintColor = templeColor
         case 2:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "Historical")
+            self.navigationItem.titleView?.tintColor = historicalColor
         case 4:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "Construction")
+            self.navigationItem.titleView?.tintColor = constructionColor
         case 5:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "Announced")
+            self.navigationItem.titleView?.tintColor = announcedColor
         case 3:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "VisitorCenters")
+            self.navigationItem.titleView?.tintColor = visitorCenterColor
         default:
-            self.navigationItem.titleView?.tintColor = UIColor(named: "DefaultText")!
+            self.navigationItem.titleView?.tintColor = defaultColor
         }
         
         tableView.reloadData()
@@ -381,21 +381,21 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
-        cell.detailTextLabel?.textColor = UIColor(named: "DefaultText")!
+        cell.detailTextLabel?.textColor = defaultColor
         if let theType = visit.type {
             switch theType {
             case "T":
-                cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
+                cell.textLabel?.textColor = templeColor
             case "H":
-                cell.textLabel?.textColor = UIColor(named: "Historical")
+                cell.textLabel?.textColor = historicalColor
             case "A":
-                cell.textLabel?.textColor = UIColor(named: "Announced")
+                cell.textLabel?.textColor = announcedColor
             case "C":
-                cell.textLabel?.textColor = UIColor(named: "Construction")
+                cell.textLabel?.textColor = constructionColor
             case "V":
-                cell.textLabel?.textColor = UIColor(named: "VisitorCenters")
+                cell.textLabel?.textColor = visitorCenterColor
             default:
-                cell.textLabel?.textColor = UIColor(named: "DefaultText")!
+                cell.textLabel?.textColor = defaultColor
             }
         }
     }
@@ -484,15 +484,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         switch visitFilterRow {
         case 1:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "TempleDarkRed")!]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: templeColor]
         case 2:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "Historical")!]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: historicalColor]
         case 4:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "Construction")!]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: constructionColor]
         case 3:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "VisitorCenters")!]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: visitorCenterColor]
         default:
-            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: UIColor(named: "DefaultText")!]
+            titleDict = [NSAttributedString.Key.font: navbarFont, NSAttributedString.Key.foregroundColor: defaultColor]
         }
 
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedString.Key : AnyObject]

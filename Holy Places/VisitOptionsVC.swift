@@ -81,15 +81,15 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         switch data {
         case "Active Temples":
-            label?.textColor = UIColor(named: "TempleDarkRed")
+            label?.textColor = templeColor
         case "Historical Sites":
-            label?.textColor = UIColor(named: "Historical")
+            label?.textColor = historicalColor
         case "Visitors' Centers":
-            label?.textColor = UIColor(named: "VisitorCenters")
+            label?.textColor = visitorCenterColor
         case "Temples Under Construction":
-            label?.textColor = UIColor(named: "Construction")
+            label?.textColor = constructionColor
         default:
-            label?.textColor = UIColor(named: "DefaultText")
+            label?.textColor = defaultColor
         }
         return label!
     }
@@ -281,7 +281,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             }
 //            print(visits)
             message.text = "Exported \(exportCount) visits to \(type) file."
-            message.textColor = UIColor(named: "TempleDarkRed")
+            message.textColor = templeColor
             // Update visit count 
             ad.getVisits()
         } catch {

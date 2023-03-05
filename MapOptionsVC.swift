@@ -45,17 +45,17 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         switch data {
         case "Active Temples":
-            label?.textColor = UIColor(named: "TempleDarkRed")
+            label?.textColor = templeColor
         case "Historical Sites":
-            label?.textColor = UIColor(named: "Historical")
+            label?.textColor = historicalColor
         case "Visitors' Centers":
-            label?.textColor = UIColor(named: "VisitorCenters")
+            label?.textColor = visitorCenterColor
         case "Temples Under Construction":
-            label?.textColor = UIColor(named: "Construction")
+            label?.textColor = constructionColor
         case "Announced Temples":
-            label?.textColor = UIColor(named: "Announced")
+            label?.textColor = announcedColor
         default:
-            label?.textColor = UIColor(named: "DefaultText")
+            label?.textColor = defaultColor
         }
         return label!
     }

@@ -367,15 +367,15 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 keyboardDone()
                 switch detail.templeType {
                 case "T":
-                    templeName.textColor = UIColor(named: "TempleDarkRed")
+                    templeName.textColor = templeColor
                 case "H":
-                    templeName.textColor = UIColor(named: "Historical")
+                    templeName.textColor = historicalColor
                 case "C":
-                    templeName.textColor = UIColor(named: "Construction")
+                    templeName.textColor = constructionColor
                 case "V":
-                    templeName.textColor = UIColor(named: "VisitorCenters")
+                    templeName.textColor = visitorCenterColor
                 default:
-                    templeName.textColor = UIColor(named: "DefaultText")!
+                    templeName.textColor = defaultColor
                 }
                 
                 // enable the Hours worked stack view when needed
@@ -419,15 +419,15 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor(named: "TempleDarkRed")
+                        templeName.textColor = templeColor
                     case "H":
-                        templeName.textColor = UIColor(named: "Historical")
+                        templeName.textColor = historicalColor
                     case "C":
-                        templeName.textColor = UIColor(named: "Construction")
+                        templeName.textColor = constructionColor
                     case "V":
-                        templeName.textColor = UIColor(named: "VisitorCenters")
+                        templeName.textColor = visitorCenterColor
                     default:
-                        templeName.textColor = UIColor(named: "DefaultText")!
+                        templeName.textColor = defaultColor
                     }
                 }
                 // enable the Hours worked stack view when needed

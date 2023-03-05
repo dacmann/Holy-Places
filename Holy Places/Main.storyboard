@@ -84,33 +84,32 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Ordinance Worker" footerTitle="Enabling this option will allow you to enter the number of hours you worked on a given day when recording a temple visit." id="TJZ-nF-bxF" userLabel="Ordinance Worker">
+                            <tableViewSection headerTitle="Color Theme" id="Tfh-nI-rSn" userLabel="Color Theme">
+                                <string key="footerTitle">Choose which color theme to use for the different types of places.  Original color scheme was red for temples and green for historic sites.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="syO-3Z-ycb">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="tbS-de-Itp">
                                         <rect key="frame" x="0.0" y="299" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tbS-de-Itp" id="pJY-ux-SBi">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Hours Worked Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC2-y3-D85">
-                                                    <rect key="frame" x="16" y="11.5" width="207.5" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caJ-Zs-E4x">
-                                                    <rect key="frame" x="349" y="6.5" width="51" height="31"/>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="63Y-6c-RM1">
+                                                    <rect key="frame" x="10" y="6.5" width="394" height="32"/>
+                                                    <segments>
+                                                        <segment title="Red / Green"/>
+                                                        <segment title="Purple / Orange"/>
+                                                    </segments>
                                                     <connections>
-                                                        <action selector="hoursWorkedEnabled:" destination="Pqe-NT-UkW" eventType="valueChanged" id="p2D-hI-ie4"/>
+                                                        <action selector="themeColorChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="hmh-IZ-emC"/>
                                                     </connections>
-                                                </switch>
+                                                </segmentedControl>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="kC2-y3-D85" firstAttribute="leading" secondItem="yx6-PV-jFd" secondAttribute="leading" constant="16" id="3GI-ek-k1O"/>
-                                                <constraint firstItem="caJ-Zs-E4x" firstAttribute="centerY" secondItem="yx6-PV-jFd" secondAttribute="centerY" id="9xF-0f-7gM"/>
-                                                <constraint firstItem="kC2-y3-D85" firstAttribute="centerY" secondItem="yx6-PV-jFd" secondAttribute="centerY" id="ZKa-mb-LZD"/>
-                                                <constraint firstAttribute="trailing" secondItem="caJ-Zs-E4x" secondAttribute="trailing" constant="16" id="rDt-OM-e6v"/>
+                                                <constraint firstAttribute="trailing" secondItem="63Y-6c-RM1" secondAttribute="trailing" constant="10" id="9nL-n9-QQ9"/>
+                                                <constraint firstItem="63Y-6c-RM1" firstAttribute="leading" secondItem="pJY-ux-SBi" secondAttribute="leading" constant="10" id="Yka-Fm-dFO"/>
+                                                <constraint firstItem="63Y-6c-RM1" firstAttribute="top" secondItem="pJY-ux-SBi" secondAttribute="top" constant="6.5" id="n6D-MJ-XaW"/>
+                                                <constraint firstAttribute="bottom" secondItem="63Y-6c-RM1" secondAttribute="bottom" constant="6.5" id="rER-Kd-0vK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -207,45 +206,11 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Visits" footerTitle="Configure how many days will be automatically added when the Copy swipe action is selected for an existing Visit." id="Imo-fS-zmH">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Fhf-PF-FdA">
-                                        <rect key="frame" x="0.0" y="738" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fhf-PF-FdA" id="h7l-2O-ZsW">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuH-Tt-Qx6">
-                                                    <rect key="frame" x="20" y="11.5" width="208" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-8Z-OGL">
-                                                    <rect key="frame" x="338" y="5" width="60" height="34"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="BjI-p1-c6y"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="KJF-8Z-OGL" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="82v-6D-ge6"/>
-                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="CnB-lI-CnD"/>
-                                                <constraint firstAttribute="trailing" secondItem="KJF-8Z-OGL" secondAttribute="trailing" constant="16" id="Eax-T4-8vB"/>
-                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="leading" secondItem="h7l-2O-ZsW" secondAttribute="leadingMargin" id="ceQ-Kv-b85"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Customize Home Screen" id="jZm-MJ-9Gx">
                                 <string key="footerTitle">Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="rN1-jd-KI2">
-                                        <rect key="frame" x="0.0" y="873.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="738" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rN1-jd-KI2" id="aNr-0G-ooD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -272,19 +237,19 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="HMj-NB-y59">
-                                        <rect key="frame" x="0.0" y="917.5" width="414" height="120"/>
+                                        <rect key="frame" x="0.0" y="782" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HMj-NB-y59" id="8Ih-cM-gBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
+                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZAD-zY-ug5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="42.5" width="394" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                     <state key="normal" title="Import Image">
@@ -309,13 +274,13 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="zU5-l1-Mp7">
-                                        <rect key="frame" x="0.0" y="1037.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="902" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zU5-l1-Mp7" id="TpG-oX-TQK">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
                                                     <rect key="frame" x="287" y="6.5" width="111" height="32"/>
                                                     <segments>
                                                         <segment title="White"/>
@@ -326,7 +291,7 @@
                                                         <action selector="textColorChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="jcP-5Y-KfA"/>
                                                     </connections>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
                                                     <rect key="frame" x="16" y="11.5" width="79" height="21"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
@@ -338,6 +303,72 @@
                                                 <constraint firstAttribute="trailing" secondItem="9dI-CK-Mbb" secondAttribute="trailing" constant="16" id="gf3-lX-hvH"/>
                                                 <constraint firstItem="WyI-Fe-Eg6" firstAttribute="leading" secondItem="TpG-oX-TQK" secondAttribute="leading" constant="16" id="rFA-oX-crR"/>
                                                 <constraint firstItem="9dI-CK-Mbb" firstAttribute="centerY" secondItem="TpG-oX-TQK" secondAttribute="centerY" id="wLz-Ih-amo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Copy Visit" footerTitle="Configure how many days will be automatically added when the Copy swipe action is selected for an existing Visit." id="Imo-fS-zmH">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Fhf-PF-FdA">
+                                        <rect key="frame" x="0.0" y="1069.5" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fhf-PF-FdA" id="h7l-2O-ZsW">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuH-Tt-Qx6">
+                                                    <rect key="frame" x="20" y="11.5" width="208" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-8Z-OGL">
+                                                    <rect key="frame" x="338" y="5" width="60" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="BjI-p1-c6y"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="KJF-8Z-OGL" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="82v-6D-ge6"/>
+                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="CnB-lI-CnD"/>
+                                                <constraint firstAttribute="trailing" secondItem="KJF-8Z-OGL" secondAttribute="trailing" constant="16" id="Eax-T4-8vB"/>
+                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="leading" secondItem="h7l-2O-ZsW" secondAttribute="leadingMargin" id="ceQ-Kv-b85"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Ordinance Worker" footerTitle="Enabling this option will allow you to enter the number of hours you worked on a given day when recording a temple visit." id="TJZ-nF-bxF" userLabel="Ordinance Worker">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="syO-3Z-ycb">
+                                        <rect key="frame" x="0.0" y="1205" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Enable Hours Worked Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC2-y3-D85">
+                                                    <rect key="frame" x="16" y="11.5" width="207.5" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caJ-Zs-E4x">
+                                                    <rect key="frame" x="349" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="hoursWorkedEnabled:" destination="Pqe-NT-UkW" eventType="valueChanged" id="p2D-hI-ie4"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kC2-y3-D85" firstAttribute="leading" secondItem="yx6-PV-jFd" secondAttribute="leading" constant="16" id="3GI-ek-k1O"/>
+                                                <constraint firstItem="caJ-Zs-E4x" firstAttribute="centerY" secondItem="yx6-PV-jFd" secondAttribute="centerY" id="9xF-0f-7gM"/>
+                                                <constraint firstItem="kC2-y3-D85" firstAttribute="centerY" secondItem="yx6-PV-jFd" secondAttribute="centerY" id="ZKa-mb-LZD"/>
+                                                <constraint firstAttribute="trailing" secondItem="caJ-Zs-E4x" secondAttribute="trailing" constant="16" id="rDt-OM-e6v"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -358,6 +389,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addDays" destination="KJF-8Z-OGL" id="bXO-us-7ah"/>
+                        <outlet property="colorThemeOptions" destination="63Y-6c-RM1" id="lne-dA-EQB"/>
                         <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
                         <outlet property="excludeNonOrdinanceVisitsSwitch" destination="GG9-1w-uas" id="ufF-K2-igT"/>
                         <outlet property="filterSwitch" destination="Axd-EG-udR" id="0Pg-My-XZh"/>
@@ -1798,6 +1830,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Summary" image="summary" id="1yM-p4-5ih"/>
                     <connections>
+                        <outlet property="activeTemplesLabel" destination="gBd-JU-ttH" id="Mou-3t-n8n"/>
                         <outlet property="attendedTempleTotal" destination="iHD-aA-TvX" id="nG2-q8-l2v"/>
                         <outlet property="attendedTempleYr" destination="KRN-QD-kzc" id="PSt-7r-IXA"/>
                         <outlet property="attendedTempleYr2" destination="bZo-Pa-7ae" id="ZfF-Lf-7WR"/>
@@ -1811,6 +1844,7 @@
                         <outlet property="endowmentsPerformedYr" destination="cjd-IN-fJ4" id="hdH-Vo-y10"/>
                         <outlet property="endowmentsPerformedYr2" destination="U2x-EH-6rB" id="H7q-xh-C2G"/>
                         <outlet property="headerHeightConstraint" destination="Roj-CE-cip" id="gqi-NQ-nGr"/>
+                        <outlet property="historicalSitesLabel" destination="dNK-aP-3Ev" id="pcg-nS-IkI"/>
                         <outlet property="historicalTotal" destination="NiB-cx-ytZ" id="Oo2-Ue-vxi"/>
                         <outlet property="historicalVisited" destination="5D1-85-ebO" id="koD-uk-jVm"/>
                         <outlet property="hoursWorked" destination="lKz-FU-bF2" id="Jq9-Tt-Uzk"/>
@@ -1856,6 +1890,7 @@
                         <outlet property="templesVisited" destination="CSb-lW-FXk" id="lin-20-dDZ"/>
                         <outlet property="titleYr1" destination="HHy-M0-6lK" id="ZcL-PO-glV"/>
                         <outlet property="titleYr2" destination="PDV-my-4j4" id="BXE-aQ-3e0"/>
+                        <outlet property="visitorsCentersLabel" destination="CaS-6Y-xd7" id="8gi-3g-IC2"/>
                         <outlet property="visitorsCentersTotal" destination="suL-gb-mXA" id="uGN-sr-lKA"/>
                         <outlet property="visitorsCentersVisited" destination="JJY-BB-SZN" id="g3W-zj-sob"/>
                         <outlet property="visitsStackViewWidthConstraint" destination="k6m-jI-Xex" id="UQF-mt-ERk"/>

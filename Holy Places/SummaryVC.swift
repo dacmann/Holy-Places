@@ -14,10 +14,13 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
 
     //MARK: - Outlets
     @IBOutlet weak var quote: UILabel!
+    @IBOutlet weak var activeTemplesLabel: UILabel!
     @IBOutlet weak var templesVisited: UILabel!
     @IBOutlet weak var templesTotal: UILabel!
+    @IBOutlet weak var historicalSitesLabel: UILabel!
     @IBOutlet weak var historicalVisited: UILabel!
     @IBOutlet weak var historicalTotal: UILabel!
+    @IBOutlet weak var visitorsCentersLabel: UILabel!
     @IBOutlet weak var visitorsCentersVisited: UILabel!
     @IBOutlet weak var visitorsCentersTotal: UILabel!
     @IBOutlet weak var hoursWorked: UILabel!
@@ -96,10 +99,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        templesTotal.text = activeTemples.count.description
-        historicalTotal.text = historical.count.description
-        visitorsCentersTotal.text = visitors.count.description
-
         // Load quotes into array if not done yet
         if summaryQuotes.count == 0 {
             guard let myURL = Bundle.main.url(forResource: "SummaryQuotes", withExtension: "xml") else {
@@ -134,6 +133,21 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        templesTotal.text = activeTemples.count.description
+        historicalTotal.text = historical.count.description
+        visitorsCentersTotal.text = visitors.count.description
+        
+        activeTemplesLabel.textColor = templeColor
+        templesVisited.textColor = templeColor
+        templesTotal.textColor = templeColor
+        historicalSitesLabel.textColor = historicalColor
+        historicalVisited.textColor = historicalColor
+        historicalTotal.textColor = historicalColor
+        visitorsCentersLabel.textColor = visitorCenterColor
+        visitorsCentersVisited.textColor = visitorCenterColor
+        visitorsCentersTotal.textColor = visitorCenterColor
+
         getTotals()
         nextQuote()
     }
@@ -306,15 +320,15 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 if let found = allPlaces.firstIndex(where:{$0.templeName == placeName}) {
                     switch allPlaces[found].templeType {
                     case "T":
-                        textColor = UIColor(named: "TempleDarkRed")!
+                        textColor = templeColor
                     case "H":
-                        textColor = UIColor(named: "Historical")!
+                        textColor = historicalColor
                     case "C":
-                        textColor = UIColor(named: "Construction")!
+                        textColor = constructionColor
                     case "V":
-                        textColor = UIColor(named: "VisitorCenters")!
+                        textColor = visitorCenterColor
                     default:
-                        textColor = UIColor(named: "DefaultText")!
+                        textColor = defaultColor
                     }
                 }
                 counter += 1

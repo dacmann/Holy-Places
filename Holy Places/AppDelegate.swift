@@ -111,6 +111,14 @@ var didOrdinances = false
 var copyVisit: Visit?
 var copyAddDays = 7 as Int16
 var ad = AppDelegate()
+var theme = "3830"
+var themeChanged = false
+var templeColor: UIColor = UIColor(named: "Temples"+theme) ?? UIColor.black
+var historicalColor: UIColor  = UIColor(named: "Historical"+theme) ?? UIColor.black
+var announcedColor: UIColor  = UIColor(named: "Announced"+theme) ?? UIColor.black
+var constructionColor: UIColor  = UIColor(named: "Construction"+theme) ?? UIColor.black
+var visitorCenterColor: UIColor  = UIColor(named: "VisitorCenters"+theme) ?? UIColor.black
+var defaultColor: UIColor  = UIColor(named: "DefaultText") ?? UIColor.black
 
 @UIApplicationMain
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -703,7 +711,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -740,7 +748,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }

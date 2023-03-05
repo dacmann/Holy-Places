@@ -54,14 +54,14 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellTitle.textColor = UIColor.iron()
             cell.cellProgress.tintColor = UIColor.iron()
         case "H":
-            cell.cellTitle.textColor = UIColor(named: "Historical")
-            cell.cellProgress.tintColor = UIColor(named: "Historical")
+            cell.cellTitle.textColor = historicalColor
+            cell.cellProgress.tintColor = historicalColor
         case "T":
-            cell.cellTitle.textColor = UIColor(named: "TempleDarkRed")
-            cell.cellProgress.tintColor = UIColor(named: "TempleDarkRed")
+            cell.cellTitle.textColor = templeColor
+            cell.cellProgress.tintColor = templeColor
         default:
-            cell.cellTitle.textColor = UIColor(named: "DefaultText")!
-            cell.cellProgress.tintColor = UIColor(named: "DefaultText")!
+            cell.cellTitle.textColor = defaultColor
+            cell.cellProgress.tintColor = defaultColor
         }
         if let placeAchieved = display[row].placeAchieved {
             cell.cellDetails.text = display[row].details
@@ -70,9 +70,9 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellProgress.isHidden = true
             switch display[row].iconName.suffix(1) {
             case "H":
-                cell.cellPlaceAchieved.textColor = UIColor(named: "Historical")
+                cell.cellPlaceAchieved.textColor = historicalColor
             default:
-                cell.cellPlaceAchieved.textColor = UIColor(named: "TempleDarkRed")
+                cell.cellPlaceAchieved.textColor = templeColor
             }
         } else {
             cell.cellDetails.text = "\(display[row].details) ~ \(display[row].remaining ?? 0) more"

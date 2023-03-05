@@ -32,7 +32,7 @@ class VisitDetailVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd yyyy"
         visitDate.text = formatter.string(from: dateOfVisit!)
-//        visitDate.textColor = UIColor(named: "DefaultText")!
+//        visitDate.textColor = defaultColor!
     }
     
     @objc func editVisit (_ sender: Any) {
@@ -190,15 +190,15 @@ class VisitDetailVC: UIViewController {
                 if let theType = detail.type {
                     switch theType {
                     case "T":
-                        templeName.textColor = UIColor(named: "TempleDarkRed")
+                        templeName.textColor = templeColor
                     case "H":
-                        templeName.textColor = UIColor(named: "Historical")
+                        templeName.textColor = historicalColor
                     case "C":
-                        templeName.textColor = UIColor(named: "Construction")
+                        templeName.textColor = constructionColor
                     case "V":
-                        templeName.textColor = UIColor(named: "VisitorCenters")
+                        templeName.textColor = visitorCenterColor
                     default:
-                        templeName.textColor = UIColor(named: "DefaultText")!
+                        templeName.textColor = defaultColor
                     }
                 }
 //                comments.sizeToFit()

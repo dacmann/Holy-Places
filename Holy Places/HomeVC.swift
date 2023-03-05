@@ -79,6 +79,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         let previouslyLaunched = UserDefaults.standard.bool(forKey: "previouslyLaunched")
         if !previouslyLaunched {
             UserDefaults.standard.set(true, forKey: "previouslyLaunched")
+            UserDefaults.standard.set("4485", forKey: "themeSelected")
         } else {
             // Check for update
             if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
@@ -126,6 +127,15 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        
+        // set colors based on theme
+        theme = UserDefaults.standard.string(forKey: "themeSelected") ?? "3830"
+        templeColor = UIColor(named: "Temples"+theme) ?? UIColor.purple
+        historicalColor = UIColor(named: "Historical"+theme) ?? UIColor.orange
+        announcedColor = UIColor(named: "Announced"+theme) ?? UIColor.yellow
+        constructionColor = UIColor(named: "Construction"+theme) ?? UIColor.olive()
+        visitorCenterColor = UIColor(named: "VisitorCenters"+theme) ?? UIColor.yellow
+        
         // Check for update and pop message when it occurs after the Home tab was rendered
         if changesDate != "" {
             var changesMsg = changesMsg1

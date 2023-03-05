@@ -286,17 +286,17 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         titleLabel.backgroundColor = UIColor.clear
         switch type {
         case 1:
-            titleLabel.textColor = UIColor(named: "TempleDarkRed")
+            titleLabel.textColor = templeColor
         case 2:
-            titleLabel.textColor = UIColor(named: "Historical")
+            titleLabel.textColor = historicalColor
         case 3:
-            titleLabel.textColor = UIColor(named: "VisitorCenters")
+            titleLabel.textColor = visitorCenterColor
         case 4:
-            titleLabel.textColor = UIColor(named: "Construction")
+            titleLabel.textColor = constructionColor
         case 5:
-            titleLabel.textColor = UIColor(named: "Announced")
+            titleLabel.textColor = announcedColor
         default:
-            titleLabel.textColor = UIColor(named: "DefaultText")!
+            titleLabel.textColor = defaultColor
         }
         titleLabel.font = titleFont
         titleLabel.text = title
@@ -346,12 +346,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if optionsChanged {
+        if optionsChanged || themeChanged {
             updateView()
             // Scroll to first row
             let indexPath = IndexPath(row: 0, section: 0)
             self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             optionsChanged = false
+            themeChanged = false
         }
     }
     
@@ -444,17 +445,17 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         
         switch temple.templeType {
         case "T":
-            cell.textLabel?.textColor = UIColor(named: "TempleDarkRed")
+            cell.textLabel?.textColor = templeColor
         case "H":
-            cell.textLabel?.textColor = UIColor(named: "Historical")
+            cell.textLabel?.textColor = historicalColor
         case "A":
-            cell.textLabel?.textColor = UIColor(named: "Announced")
+            cell.textLabel?.textColor = announcedColor
         case "C":
-            cell.textLabel?.textColor = UIColor(named: "Construction")
+            cell.textLabel?.textColor = constructionColor
         case "V":
-            cell.textLabel?.textColor = UIColor(named: "VisitorCenters")
+            cell.textLabel?.textColor = visitorCenterColor
         default:
-            cell.textLabel?.textColor = UIColor(named: "DefaultText")!
+            cell.textLabel?.textColor = defaultColor
         }
         
         cell.accessoryType = .disclosureIndicator
