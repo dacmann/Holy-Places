@@ -388,35 +388,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 //        }
     }
     
-    func locationServiceSetup() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestAlwaysAuthorization()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            let manager = CLLocationManager()
-            switch(manager.authorizationStatus) {
-            case .notDetermined, .restricted, .denied:
-                print("No access")
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Location Services Allowed")
-                if notificationEnabled {
-                    // Request authorization for Notifcation alerts and sounds
-                    notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
-                        print(error as Any)
-                    })
-                }
-                locationManager.startMonitoringSignificantLocationChanges()
-                // Add Quick Launch Shortcut to record visit for nearest place
-                DetermineClosest()
-            @unknown default:
-                print("Not handled")
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let manager = CLLocationManager()
+        switch(manager.authorizationStatus) {
+        case .restricted, .denied:
+            print("Access Denied/Restricted")
+            UserDefaults.standard.set(false, forKey: "addVisitClosestPlace")
+            UserDefaults.standard.set(true, forKey: "locationNotAllowed")
+            UserDefaults.standard.set(false, forKey: "locationAllowed")
+        case .notDetermined:
+            print("Access Not Determined")
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("Location Services Allowed")
+            UserDefaults.standard.set(true, forKey: "locationAllowed")
+            UserDefaults.standard.set(false, forKey: "locationNotAllowed")
+            if notificationEnabled {
+                // Request authorization for Notifcation alerts and sounds
+                notificationManager.requestAuthorization(options: [.alert, .sound], completionHandler: { (permissionGranted, error) in
+                    print(error as Any)
+                })
             }
-        } else {
-            print("Location services are not enabled")
+            locationManager.startMonitoringSignificantLocationChanges()
+            // Add Quick Launch Shortcut to record visit for nearest place
+            DetermineClosest()
+        @unknown default:
+            print("Not handled")
         }
     }
     
+    func locationServiceSetup() {
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
     // Update the Distance in the Place data arrays based on new location
-    fileprivate func DetermineClosest() {
+    func DetermineClosest() {
         let regionRadius = 100.0
 
         // Check for notification criteria

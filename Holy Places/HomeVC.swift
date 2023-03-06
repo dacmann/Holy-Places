@@ -79,7 +79,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         let previouslyLaunched = UserDefaults.standard.bool(forKey: "previouslyLaunched")
         if !previouslyLaunched {
             UserDefaults.standard.set(true, forKey: "previouslyLaunched")
-            UserDefaults.standard.set("4485", forKey: "themeSelected")
+            UserDefaults.standard.set("3830", forKey: "themeSelected")
+            UserDefaults.standard.set(false, forKey: "addVisitClosestPlace")
         } else {
             // Check for update
             if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {

@@ -14,9 +14,12 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var placeName: UITextField!
     @IBOutlet weak var placeSelection: UIPickerView!
     @IBOutlet weak var nextButton: UIBarButtonItem!
+    @IBOutlet weak var closestPlaceSwitch: UISwitch!
+    @IBOutlet weak var closestPlaceLabel: UILabel!
     
     var pickerData = activeTemples
     var placeNameSelected = 0
+    var closest = UserDefaults.standard.bool(forKey: "addVisitClosestPlace")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +27,27 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.placeSelection.delegate = self
         self.placeSelection.dataSource = self
         
-        let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
-        placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
-        placeNameSelected = randomPlace
+        if closest {
+            ad.DetermineClosest()
+            pickerData.sort { Int($0.distance!) < Int($1.distance!) }
+            placeSelection.selectRow(0, inComponent: 0, animated: true)
+            placeNameSelected = 0
+        } else {
+            let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
+            placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
+            placeNameSelected = randomPlace
+        }
         
         let attr = NSDictionary(object: UIFont(name: "Baskerville", size: 14.0)!, forKey: NSAttributedString.Key.font as NSCopying)
         segmentedController.setTitleTextAttributes(attr as? [AnyHashable : Any] as? [NSAttributedString.Key : Any], for: .normal)
         
         keyboardDone()
+        
+        closestPlaceSwitch.isOn = closest
+        if UserDefaults.standard.bool(forKey: "locationNotAllowed") {
+            closestPlaceSwitch.isHidden = true
+            closestPlaceLabel.isHidden = true
+        }
 
     }
 
@@ -40,6 +56,26 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             nextButton.isEnabled = true
         } else {
             nextButton.isEnabled = false
+        }
+    }
+    
+    @IBAction func closestPlace(_ sender: UISwitch) {
+        closest = sender.isOn
+        if closest {
+            if UserDefaults.standard.bool(forKey: "locationAllowed") {
+                UserDefaults.standard.set(true, forKey: "addVisitClosestPlace")
+                pickerData.sort { Int($0.distance!) < Int($1.distance!) }
+                placeSelection.selectRow(0, inComponent: 0, animated: true)
+                placeNameSelected = 0
+            } else {
+                ad.locationServiceSetup()
+                closestPlaceSwitch.isOn = false
+            }
+        } else {
+            UserDefaults.standard.set(false, forKey: "addVisitClosestPlace")
+            let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
+            placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
+            placeNameSelected = randomPlace
         }
     }
     
@@ -64,9 +100,15 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             break
         }
         placeSelection.reloadAllComponents()
-        let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
-        placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
-        placeNameSelected = randomPlace
+        if closest {
+            pickerData.sort { Int($0.distance!) < Int($1.distance!) }
+            placeSelection.selectRow(0, inComponent: 0, animated: true)
+            placeNameSelected = 0
+        } else {
+            let randomPlace = Int(arc4random_uniform(UInt32(pickerData.count)))
+            placeSelection.selectRow(randomPlace, inComponent: 0, animated: true)
+            placeNameSelected = randomPlace
+        }
     }
     
     
