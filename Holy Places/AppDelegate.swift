@@ -717,7 +717,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -754,7 +754,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                     print("URL not defined properly")
                     return
                 }
