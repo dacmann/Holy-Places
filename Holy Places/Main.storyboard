@@ -317,13 +317,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuH-Tt-Qx6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuH-Tt-Qx6">
                                                     <rect key="frame" x="20" y="11.5" width="208" height="21"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-8Z-OGL">
+                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-8Z-OGL">
                                                     <rect key="frame" x="338" y="5" width="60" height="34"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="BjI-p1-c6y"/>
@@ -353,13 +353,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Hours Worked Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC2-y3-D85">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Enable Hours Worked Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kC2-y3-D85">
                                                     <rect key="frame" x="16" y="11.5" width="207.5" height="21"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caJ-Zs-E4x">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caJ-Zs-E4x">
                                                     <rect key="frame" x="349" y="6.5" width="51" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="49" id="taB-Vc-3fj"/>
@@ -2718,17 +2718,17 @@
                                 </connections>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="76B-5B-v1O">
-                                <rect key="frame" x="119.5" y="570.5" width="175" height="28.5"/>
+                                <rect key="frame" x="119.5" y="570.5" width="175" height="31"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="Select Closest" translatesAutoresizingMaskIntoConstraints="NO" id="LVy-Pr-gTx">
-                                        <rect key="frame" x="0.0" y="0.0" width="51" height="28.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                         <color key="onTintColor" name="BaptismsBlue"/>
                                         <connections>
                                             <action selector="closestPlace:" destination="HiP-YK-D1n" eventType="valueChanged" id="GBQ-v4-i2u"/>
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Closest Place" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MbE-Li-Oa9">
-                                        <rect key="frame" x="70" y="0.0" width="105" height="28.5"/>
+                                        <rect key="frame" x="70" y="0.0" width="105" height="31"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -2744,7 +2744,7 @@
                             <constraint firstItem="iPR-6d-hrr" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="Uzf-YK-F96"/>
                             <constraint firstItem="iPR-6d-hrr" firstAttribute="top" secondItem="lAS-3T-LPJ" secondAttribute="bottom" constant="30" id="V1X-l2-Se6"/>
                             <constraint firstItem="76B-5B-v1O" firstAttribute="centerX" secondItem="JJ4-Uq-P6C" secondAttribute="centerX" id="W0B-TO-b5S"/>
-                            <constraint firstItem="JJ4-Uq-P6C" firstAttribute="bottom" secondItem="76B-5B-v1O" secondAttribute="bottom" constant="214" id="ZLZ-bv-wOy"/>
+                            <constraint firstItem="JJ4-Uq-P6C" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="76B-5B-v1O" secondAttribute="bottom" constant="214" id="ZLZ-bv-wOy"/>
                             <constraint firstItem="iPR-6d-hrr" firstAttribute="centerY" secondItem="JJ4-Uq-P6C" secondAttribute="centerY" id="Zi2-GO-zuP"/>
                             <constraint firstItem="a5e-yh-6XZ" firstAttribute="leading" secondItem="JJ4-Uq-P6C" secondAttribute="leading" constant="10" id="dYW-uN-INM"/>
                             <constraint firstItem="JJ4-Uq-P6C" firstAttribute="trailing" secondItem="a5e-yh-6XZ" secondAttribute="trailing" constant="10" id="fDy-0R-Lts"/>
