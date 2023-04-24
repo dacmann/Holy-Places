@@ -98,13 +98,13 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         goalTitle.attributedText = attributedString
         
         if annualVisitGoal == 0 {
-            goal.text = "SET GOAL"
+            // goal.text = "SET GOAL"
             // Update value for Today Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
-        } else {
-            ad.getVisits()
-            goal.text = goalProgress
         }
+        
+        ad.getVisits()
+        goal.text = goalProgress
         
         // Set size of achievement button
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -137,33 +137,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         constructionColor = UIColor(named: "Construction"+theme) ?? UIColor.olive()
         visitorCenterColor = UIColor(named: "VisitorCenters"+theme) ?? UIColor.yellow
         
-        // Check for update and pop message when it occurs after the Home tab was rendered
-        if changesDate != "" {
-            var changesMsg = changesMsg1
-            if changesMsg2 != ""
-            {
-                changesMsg.append("\n\n")
-                changesMsg.append(changesMsg2)
-            }
-            if changesMsg3 != ""
-            {
-                changesMsg.append("\n\n")
-                changesMsg.append(changesMsg3)
-            }
-            let alert = UIAlertController(title: changesDate + " Update", message: changesMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
-                print("Handle OK (cancel) Logic here")
-                // clear out message now that it has been presented
-                changesDate = ""
-            }))
-            self.present(alert, animated: true)
-        }
-        // save Place updates on main thread
-        if ad.newFileParsed {
-            ad.storePlaces()
-            checkedForUpdate = Date()
-            ad.newFileParsed = false
-        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -236,7 +209,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
                 changesMsg.append("\n\n")
                 changesMsg.append(changesMsg3)
             }
-            let alert = UIAlertController(title: changesDate + " Update", message: changesMsg, preferredStyle: .alert)
+            let alert = UIAlertController(title: changesDate + " Message", message: changesMsg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Handle OK (cancel) Logic here")
                 // clear out message now that it has been presented

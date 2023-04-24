@@ -1,78 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
-        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cityState" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fhCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="infoURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="pictureData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="pictureURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="readerView" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="siteURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="snippet" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="sqFt" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="cityState" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="fhCode" optional="YES" attributeType="String"/>
+        <attribute name="infoURL" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="pictureData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="pictureURL" optional="YES" attributeType="String"/>
+        <attribute name="readerView" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="siteURL" optional="YES" attributeType="String"/>
+        <attribute name="snippet" optional="YES" attributeType="String"/>
+        <attribute name="sqFt" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
         <fetchIndex name="byNameIndex">
             <fetchIndexElement property="name" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
     <entity name="PlaceVersions" representedClassName="PlaceVersions" syncable="YES" codeGenerationType="class">
-        <attribute name="versionNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="versionNum" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
-        <attribute name="altLocation" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="altLocCity" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="altLocLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="altLocLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="altLocPostalCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="altLocState" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="altLocStreet" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="copyAddDays" optional="YES" attributeType="Integer 16" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="dateHolyPlaceVisited" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="excludeNonOrdinanceVisits" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="holyPlaceVisited" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="homeAlternatePicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="homeDefaultPicture" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="homeTextColor" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="homeVisitPicture" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="notificationDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="notificationEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="notificationFilter" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ordinanceWorker" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="placeFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="placeSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="tip" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="visitFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="visitSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="altLocation" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="altLocCity" optional="YES" attributeType="String"/>
+        <attribute name="altLocLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="altLocLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="altLocPostalCode" optional="YES" attributeType="String"/>
+        <attribute name="altLocState" optional="YES" attributeType="String"/>
+        <attribute name="altLocStreet" optional="YES" attributeType="String"/>
+        <attribute name="annualBaptismGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="annualEndowmentGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="annualInitiatoryGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="annualSealingGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="copyAddDays" optional="YES" attributeType="Integer 16" defaultValueString="7" usesScalarValueType="YES"/>
+        <attribute name="dateHolyPlaceVisited" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="excludeNonOrdinanceVisits" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="holyPlaceVisited" optional="YES" attributeType="String"/>
+        <attribute name="homeAlternatePicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="homeDefaultPicture" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="homeTextColor" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="homeVisitPicture" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="notificationDelay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="notificationEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="notificationFilter" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="ordinanceWorker" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="placeFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="placeSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tip" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="visitFilterRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="visitSortRow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="Visit" representedClassName="Visit" syncable="YES" codeGenerationType="class">
-        <attribute name="baptisms" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="confirmations" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="dateVisited" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="endowments" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="holyPlace" attributeType="String" syncable="YES"/>
-        <attribute name="initiatories" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="shiftHrs" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="baptisms" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="comments" optional="YES" attributeType="String"/>
+        <attribute name="confirmations" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateVisited" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endowments" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="holyPlace" attributeType="String"/>
+        <attribute name="initiatories" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="sealings" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shiftHrs" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="String"/>
         <fetchIndex name="byHolyPlaceIndex">
             <fetchIndexElement property="holyPlace" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <elements>
-        <element name="Place" positionX="-36" positionY="-75" width="128" height="300"/>
-        <element name="PlaceVersions" positionX="126" positionY="18" width="128" height="60"/>
-        <element name="Settings" positionX="99" positionY="0" width="128" height="420"/>
-        <element name="Visit" positionX="232" positionY="-99" width="128" height="225"/>
-    </elements>
 </model>

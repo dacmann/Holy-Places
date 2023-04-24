@@ -15,6 +15,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var optionSelected = false
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var mapPlaces: [Temple] = []
+    var alreadyVisitedTab = false
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -43,7 +44,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
 
         if let navigationController = self.navigationController {
-            if navigationController.viewControllers.first == self {
+            if navigationController.viewControllers.first == self && !alreadyVisitedTab {
                 optionSelected = true
                 if ad.coordinateOfUser != nil {
                     mapCenter = CLLocationCoordinate2D(latitude: ad.coordinateOfUser.coordinate.latitude, longitude: ad.coordinateOfUser.coordinate.longitude)
@@ -53,12 +54,44 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 }
                 
                 mapZoomLevel = 10000000
+                alreadyVisitedTab = true
             }
         }
         self.configureView()
 
         if optionSelected {
             mapThePlaces()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // save Place updates on main thread
+        if ad.newFileParsed {
+            ad.storePlaces()
+            ad.savePlaceVersion()
+            checkedForUpdate = Date()
+            ad.newFileParsed = false
+        }
+        // Pop message when update has occured
+        if changesDate != "" {
+            var changesMsg = changesMsg1
+            if changesMsg2 != ""
+            {
+                changesMsg.append("\n\n")
+                changesMsg.append(changesMsg2)
+            }
+            if changesMsg3 != ""
+            {
+                changesMsg.append("\n\n")
+                changesMsg.append(changesMsg3)
+            }
+            let alert = UIAlertController(title: changesDate + " Update", message: changesMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Handle OK (cancel) Logic here")
+                // clear out message now that it has been presented
+                changesDate = ""
+            }))
+            self.present(alert, animated: true)
         }
     }
     

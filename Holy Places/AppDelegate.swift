@@ -54,7 +54,11 @@ var altLocStreet = String()
 var altLocCity = String()
 var altLocState = String()
 var altLocPostalCode = String()
-var annualVisitGoal = 12 as Int
+var annualVisitGoal = Int()
+var annualBaptismGoal = Int()
+var annualInitiatoryGoal = Int()
+var annualEndowmentGoal = Int()
+var annualSealingGoal = Int()
 var placeFilterRow = Int()
 var placeSortRow = Int()
 var visitFilterRow = Int()
@@ -71,7 +75,6 @@ var mapZoomLevel = Double()
 var versionChecked = false
 var checkedForUpdate: Date?
 var currentYear = String()
-var attended = 0
 var goalProgress = String()
 var notificationEnabled = Bool()
 var notificationFilter = Bool()
@@ -241,6 +244,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     visitSortRow = Int((settings?.visitSortRow)!)
                     visitFilterRow = Int((settings?.visitFilterRow)!)
                     annualVisitGoal = Int((settings?.annualVisitGoal)!)
+                    annualBaptismGoal = Int((settings?.annualBaptismGoal)!)
+                    annualInitiatoryGoal = Int((settings?.annualInitiatoryGoal)!)
+                    annualEndowmentGoal = Int((settings?.annualEndowmentGoal)!)
+                    annualSealingGoal = Int((settings?.annualSealingGoal)!)
                     notificationEnabled = (settings?.notificationEnabled)!
                     notificationFilter = (settings?.notificationFilter)!
                     notificationDelayInMinutes = (settings?.notificationDelay)!
@@ -293,6 +300,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             settings?.altLocLongitude = coordAltLocation.coordinate.longitude
         }
         settings?.annualVisitGoal = Int16(annualVisitGoal)
+        settings?.annualBaptismGoal = Int16(annualBaptismGoal)
+        settings?.annualInitiatoryGoal = Int16(annualInitiatoryGoal)
+        settings?.annualEndowmentGoal = Int16(annualEndowmentGoal)
+        settings?.annualSealingGoal = Int16(annualSealingGoal)
         settings?.placeFilterRow = Int16(placeFilterRow)
         settings?.placeSortRow = Int16(placeSortRow)
         settings?.visitFilterRow = Int16(visitFilterRow)
@@ -875,7 +886,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     print("XML Data Version has changed - \(string)")
                     if versionChecked {
                         placeDataVersion = string
-                        savePlaceVersion()
+                        //savePlaceVersion() - moving to same time as saving of all data updates
                         // Reset arrays
                         activeTemples.removeAll()
                         historical.removeAll()
@@ -1032,6 +1043,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         formatter.dateFormat = "MMMM dd, yyyy"
         var year = "1830"
         var month = 1
+        var attended = 0
+        var baptisms = 0
+        var initiatories = 0
+        var endowments = 0
+        var sealings = 0
         
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "yyyy"
@@ -1087,7 +1103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
                 // check for ordinaces performed in the last year
                 if (visit.dateVisited?.daysBetweenDate(toDate: Date()))! < currentYearDate.daysBetweenDate(toDate: Date()) {
-                    // check for ordinancs when excluded
+                    // check for ordinances when excluded
                     if excludeNonOrdinanceVisits {
                         if visit.baptisms > 0 || visit.confirmations > 0 || visit.initiatories > 0 || visit.endowments > 0 || visit.sealings > 0 {
                             attended += 1
@@ -1095,14 +1111,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     } else {
                         attended += 1
                     }
+                    
+                    baptisms += Int(visit.baptisms) + Int(visit.confirmations)
+                    initiatories += Int(visit.initiatories)
+                    endowments += Int(visit.endowments)
+                    sealings += Int(visit.sealings)
                 }
                 if latestTempleVisited == "" {
                     latestTempleVisited = visit.holyPlace!
                     dateLastVisited = formatter.string(from: visit.dateVisited! as Date)
                 }
             }
+            goalProgress = ""
+            if Int(annualVisitGoal) > 0 {
+                goalProgress = "\(attended) of \(annualVisitGoal) Visits\n"
+            }
+            if Int(annualBaptismGoal) > 0 {
+                goalProgress += "\(baptisms) of \(annualBaptismGoal) Bapt/Conf\n"
+            }
+            if Int(annualInitiatoryGoal) > 0 {
+                goalProgress += "\(initiatories) of \(annualInitiatoryGoal) Initiatories\n"
+            }
+            if Int(annualEndowmentGoal) > 0 {
+                goalProgress += "\(endowments) of \(annualEndowmentGoal) Endowments\n"
+            }
+            if Int(annualSealingGoal) > 0 {
+                goalProgress += "\(sealings) of \(annualSealingGoal) Sealings"
+            }
+            if goalProgress == "" {
+                goalProgress = "SET GOAL"
+            }
             
-            goalProgress = "\(attended) of \(annualVisitGoal) Visits"
             // Update UserDefaults for Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(goalProgress, forKey: "goalProgress")
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(latestTempleVisited, forKey: "latestTempleVisited")
@@ -1561,7 +1600,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             parser.delegate = self
             if parser.parse() {
                 // Save updated places to CoreData
-                self.storePlaces()
+                storePlaces()
+                savePlaceVersion()
             } else {
                 print("Data parsing aborted")
                 let error = parser.parserError!
@@ -1635,7 +1675,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 
                 // Get picture from URL
                 let pictureURL = URL(string: place.pictureURL!)!
-                print("Downloading picture for \(place.name ?? "place name")...")
+                //print("Downloading picture for \(place.name ?? "place name")...")
                 URLSession.shared.dataTask(with: pictureURL) { (data, response, error) in
                     guard
                         let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -1646,7 +1686,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                     DispatchQueue.main.async() { () -> Void in
                         // Save image data to Pictures
-                        print("Saving picture for \(place.name ?? "place name")...")
+                        //print("Saving picture for \(place.name ?? "place name")...")
                         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
                         fetchRequest.predicate = NSPredicate(format: "name == %@", place.name!)
                         do {

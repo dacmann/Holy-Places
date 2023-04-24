@@ -18,6 +18,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var enableSwitch: UISwitch!
     @IBOutlet weak var filterSwitch: UISwitch!
     @IBOutlet weak var visitGoal: UITextField!
+    @IBOutlet weak var baptismGoal: UITextField!
+    @IBOutlet weak var initiatoryGoal: UITextField!
+    @IBOutlet weak var endowmentGoal: UITextField!
+    @IBOutlet weak var sealingGoal: UITextField!
     @IBOutlet weak var colorThemeOptions: UISegmentedControl!
     @IBOutlet weak var textColor: UISegmentedControl!
     @IBOutlet weak var selectedImage: UIImageView!
@@ -44,9 +48,9 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         if notificationDelayInMinutes == 0 {
             notificationDelayInMinutes = 30
         }
-        if annualVisitGoal == 0 {
-            annualVisitGoal = 12
-        }
+        //if annualVisitGoal == 0 {
+        //    annualVisitGoal = 12
+        //}
         
         if homeDefaultPicture {
             imageOptionSelected = 0
@@ -70,6 +74,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         }
         
         visitGoal.text = String(annualVisitGoal)
+        baptismGoal.text = String(annualBaptismGoal)
+        initiatoryGoal.text = String(annualInitiatoryGoal)
+        endowmentGoal.text = String(annualEndowmentGoal)
+        sealingGoal.text = String(annualSealingGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
         addDays.text = String(copyAddDays)
         keyboardDone()
@@ -157,7 +165,11 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBAction func doneButton(_ sender: UIBarButtonItem) {
         // Save settings
         notificationDelayInMinutes = Int16(minutesDelay.text!) ?? 30
-        annualVisitGoal = Int(visitGoal.text!) ?? 12
+        annualVisitGoal = Int(visitGoal.text!) ?? 0
+        annualBaptismGoal = Int(baptismGoal.text!) ?? 0
+        annualInitiatoryGoal = Int(initiatoryGoal.text!) ?? 0
+        annualEndowmentGoal = Int(endowmentGoal.text!) ?? 0
+        annualSealingGoal = Int(sealingGoal.text!) ?? 0
         copyAddDays = Int16(addDays.text!) ?? 7
         
         // Dismiss view
@@ -179,6 +191,10 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         //setting toolbar as inputAccessoryView
         self.minutesDelay.inputAccessoryView = toolbar
         self.visitGoal.inputAccessoryView = toolbar
+        self.baptismGoal.inputAccessoryView = toolbar
+        self.initiatoryGoal.inputAccessoryView = toolbar
+        self.endowmentGoal.inputAccessoryView = toolbar
+        self.sealingGoal.inputAccessoryView = toolbar
         self.addDays.inputAccessoryView = toolbar
     }
     
