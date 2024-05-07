@@ -81,11 +81,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             UserDefaults.standard.set(true, forKey: "previouslyLaunched")
             UserDefaults.standard.set("3830", forKey: "themeSelected")
             UserDefaults.standard.set(false, forKey: "addVisitClosestPlace")
-        } else {
-            // Check for update
-            if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
-                ad.refreshTemples()
-            }
         }
         
     }
@@ -101,6 +96,12 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             // goal.text = "SET GOAL"
             // Update value for Today Widget
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
+        }
+        
+       
+        // Check for update
+        if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
+            ad.refreshTemples()
         }
         
         ad.getVisits()
@@ -119,7 +120,13 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
 
         // Set image of button to latest achievement
         if completed.count > 0 {
-            achievementBtn.setImage(UIImage(named: completed[0].iconName), for: .normal)
+            if let iconImage = UIImage(named: completed[0].iconName) {
+                // image exists
+                achievementBtn.setImage(iconImage, for: .normal)
+            } else {
+                achievementBtn.setImage(UIImage(named: "ach12MT"), for: .normal)
+            }
+            
             achievementBtnView.isHidden = false
         } else {
             achievementBtnView.isHidden = true

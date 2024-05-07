@@ -60,8 +60,8 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellTitle.textColor = templeColor
             cell.cellProgress.tintColor = templeColor
         default:
-            cell.cellTitle.textColor = defaultColor
-            cell.cellProgress.tintColor = defaultColor
+            cell.cellTitle.textColor = templeColor
+            cell.cellProgress.tintColor = templeColor
         }
         if let placeAchieved = display[row].placeAchieved {
             cell.cellDetails.text = display[row].details
@@ -92,7 +92,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             // image exists
             cell.cellImage?.image = iconImage
         } else {
-            cell.cellImage?.image = nil
+            cell.cellImage?.image = UIImage(named: "ach12MT")
         }
         // dim image
         cell.imageView?.alpha = 0.5

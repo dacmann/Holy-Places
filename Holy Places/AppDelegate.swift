@@ -728,7 +728,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -765,7 +765,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }
@@ -785,6 +785,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     //self.getPlaces()
                 }
             } else {
+                checkedForUpdate = Date()
                 print("Data parsing aborted")
                 let error = parserVersion.parserError!
                 print("Error Description:\(error.localizedDescription)")
@@ -821,7 +822,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             //moved to HomeVC
             //if self.newFileParsed {
             //    self.storePlaces()
-            //    checkedForUpdate = Date()
+            //checkedForUpdate = Date()
                 // if app is updated while running in background send notification
                 //&& UIApplication.shared.applicationState == .background
                 //if changesDate != "" {
@@ -1015,6 +1016,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
         achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
         achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
+        
+        // Temple Consistent for current year
+        achievements.append(Achievement(Name: "Temple Consistent - \(currentYear)", Details: "Ordinances completed each month", IconName: "ach12MT\(currentYear)"))
     }
     
     func updateAchievement(achievement:String, dateAchieved:Date, placeAchieved:String) {
@@ -1043,6 +1047,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         formatter.dateFormat = "MMMM dd, yyyy"
         var year = "1830"
         var month = 1
+        var currentYearMonths = 1
         var attended = 0
         var baptisms = 0
         var initiatories = 0
@@ -1158,7 +1163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             
             // Achievements
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
             sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
@@ -1325,14 +1330,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         year = yearVisited
                         month = 1
                     }
-                    if monthVisited == 12 && month == 12 && yearVisited == year {
-                        // Check if all twelve months had visits
-                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT", Achieved: visit.dateVisited!, PlaceAchieved: visit.holyPlace!))
-                        month = 0
-                    }
                     if monthVisited == month + 1 && yearVisited == year {
                         // check if subsequent month has a visit and increment month
                         month += 1
+                    }
+                    if monthVisited == 12 && month == 12 && yearVisited == year {
+                        // Check if all twelve months had visits
+                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT\(yearVisited)", Achieved: visit.dateVisited!, PlaceAchieved: visit.holyPlace!))
+                        month = 0
+                    }
+                    if monthVisited == currentYearMonths + 1 && yearVisited == currentYear {
+                        // check if subsequent month has a visit and increment month
+                        currentYearMonths += 1
                     }
                 }
             }
@@ -1418,7 +1427,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     achievement.progress = Float(shiftHoursTotal)/achCnt!
                     achievement.remaining = Int(achCnt!) - Int(shiftHoursTotal)
                 default:
-                    print("none")
+                    // Temple Consistent
+                    if (currentYearMonths + 1 < Int(monthFormat.string(from: Date()))!) {
+                        // Achievement failed for this year so remove it from Not Completed Progress
+                        if let location = notCompleted.firstIndex(where:{$0.iconName == "ach12MT\(currentYear)"}) {
+                            // Only update if not already achieved
+                            notCompleted.remove(atOffsets: IndexSet(integer: location))
+                        }
+                    } else {
+                        achievement.progress = Float(currentYearMonths)/12
+                        achievement.remaining = 12 - Int(currentYearMonths)
+                    }
+                    
                 }
             }
             // sort the achievements by date achieved

@@ -103,20 +103,22 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
 //    }
 
     func sendEmail() {
+        // determine device
+        let identifier = UIDevice.current.modelName
+        
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
-            
             mail.mailComposeDelegate = self
-            
-            // determine device
-            let identifier = UIDevice.current.modelName
             mail.setToRecipients(["dacmann@icloud.com"])
             mail.setSubject("Holy Places App Feedback")
             mail.setMessageBody("<br><br><br><p>----------------------</p><p>Device: \(identifier) </p><p> " + (version.text)! + " </p><p>----------------------</p>", isHTML: true)
             
             present(mail, animated: true, completion: nil)
         } else {
-            // show failure alert
+            // If the default Mail app isn't configured, provide an alternative action
+            if let url = URL(string: "mailto:dacmann@icloud.com?subject=Holy%20Places%20App%20Feedback") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         }
     }
     
@@ -126,10 +128,9 @@ class InfoVC: UIViewController, MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func hunibearstudios(_ sender: UIButton) {
-        if let url = URL(string: "https://www.etsy.com/listing/1389725437/holy-places-sticker-sheet") {
-            let vc = SFSafariViewController(url: url)
-            present(vc, animated: true)
+    @IBAction func quizGameLink(_ sender: UIButton) {
+        if let appStoreURL = URL(string: "https://apps.apple.com/app/id1294022470") {
+            UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
         }
     }
     

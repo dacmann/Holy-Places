@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "HPQuizLogo2.png",
       "idiom" : "universal",
-      "filename" : "profile@1x.jpg",
       "scale" : "1x"
     },
     {
+      "filename" : "HPQuizLogo2-1.png",
       "idiom" : "universal",
-      "filename" : "profile@2x.jpg",
       "scale" : "2x"
     },
     {
+      "filename" : "HPQuizLogo2-2.png",
       "idiom" : "universal",
-      "filename" : "profile@3x.jpg",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -24,7 +24,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
 
         // Add Show Options button on right side of navigation bar
-        let button = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(options(_:)))
+        let button = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(options(_:)))
         self.navigationItem.rightBarButtonItem = button
         
         // Create Map or Aerial control

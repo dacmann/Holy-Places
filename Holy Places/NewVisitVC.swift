@@ -17,7 +17,7 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var closestPlaceSwitch: UISwitch!
     @IBOutlet weak var closestPlaceLabel: UILabel!
     
-    var pickerData = activeTemples
+    var pickerData = allTemples
     var placeNameSelected = 0
     var closest = UserDefaults.standard.bool(forKey: "addVisitClosestPlace")
     
@@ -86,7 +86,7 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         nextButton.isEnabled = true
         switch segmentedController.selectedSegmentIndex {
         case 0:
-            pickerData = activeTemples
+            pickerData = allTemples
         case 1:
             pickerData = historical
         case 2:
@@ -128,7 +128,15 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         switch segmentedController.selectedSegmentIndex {
         case 0:
-            label?.textColor = templeColor
+            // apply appropriate color based on temple status
+            switch pickerData[row].templeType {
+            case "T": 
+                label?.textColor = templeColor
+            case "A": 
+                label?.textColor = announcedColor
+            default: 
+                label?.textColor = constructionColor
+            }
         case 1:
             label?.textColor = historicalColor
         case 2:

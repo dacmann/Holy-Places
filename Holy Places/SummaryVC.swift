@@ -134,7 +134,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     
     override func viewWillAppear(_ animated: Bool) {
         
-        templesTotal.text = activeTemples.count.description
+        //templesTotal.text = allTemples.count.description
+        templesTotal.text = (activeTemples.count + construction.count).description
         historicalTotal.text = historical.count.description
         visitorsCentersTotal.text = visitors.count.description
         
@@ -299,7 +300,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             hoursWorkedTotal.text = shiftHoursTotal.description
             
             // get number of Unique Temples visited
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
             searchResults = try getContext().fetch(fetchRequest)
             var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             templesVisited.text = distinct.count.description

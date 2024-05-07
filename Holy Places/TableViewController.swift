@@ -134,6 +134,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         // If search bar is active use filteredPlaces instead
         if searchController.isActive {
             places = filteredPlaces
+            searchController.searchBar.showsScopeBar = true
+        } else {
+            searchController.searchBar.showsScopeBar = false
         }
         
         //reset sections array

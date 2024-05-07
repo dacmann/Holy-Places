@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -979,7 +979,7 @@
                                                                             <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                                                         </variation>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active Temples" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-JU-ttH">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temples" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-JU-ttH">
                                                                         <rect key="frame" x="0.0" y="33" width="130" height="18"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="18" id="3Tc-GI-Ovw">
@@ -2056,7 +2056,7 @@
                                                     <constraint firstAttribute="width" secondItem="ZGr-nK-lIr" secondAttribute="height" multiplier="1:1" id="srq-je-t52"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ylh-b0-nbh">
                                                 <rect key="frame" x="0.0" y="116" width="187" height="160.5"/>
                                                 <string key="text">Greetings! Creating and maintaining this app is a labor of love.  I hope it assists and motivates all who use it to frequently visit these Holy Places.</string>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
@@ -2080,7 +2080,7 @@
                                                     <action selector="faqLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="QSb-lD-OeL"/>
                                                 </connections>
                                             </button>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" image="stickersheet" translatesAutoresizingMaskIntoConstraints="NO" id="9n4-gH-MFG">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" image="QuizGame" translatesAutoresizingMaskIntoConstraints="NO" id="9n4-gH-MFG">
                                                 <rect key="frame" x="0.0" y="426" width="187" height="187"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="9n4-gH-MFG" secondAttribute="height" multiplier="1:1" id="fVp-VL-FmL"/>
@@ -2098,8 +2098,8 @@
                                                     <constraint firstAttribute="width" secondItem="tbU-K5-ltw" secondAttribute="height" multiplier="1:1" id="NBg-DF-o5H"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" text="Comments or feature suggestions?  Please contact me.   - Derek" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="A3l-dl-uEJ" userLabel="Comments">
-                                                <rect key="frame" x="5.5" y="238.5" width="176.5" height="69"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" text="Comments or feature suggestions?  Please contact me.   - Derek" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="A3l-dl-uEJ" userLabel="Comments">
+                                                <rect key="frame" x="5.5" y="233" width="176.5" height="69"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -2108,7 +2108,7 @@
                                                 </variation>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-qH-9pi">
-                                                <rect key="frame" x="40" y="345" width="107" height="38"/>
+                                                <rect key="frame" x="40" y="333.5" width="107" height="38"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="Contact Me">
@@ -2121,8 +2121,8 @@
                                                     <action selector="contactMe:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="Ypn-22-Y9y"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="752" text="My daughter has created a fun Holy Places sticker sheet!  Check out her Etsy shop below." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZPV-2G-sKX" userLabel="StoreAdvert">
-                                                <rect key="frame" x="10.5" y="422.5" width="166.5" height="114.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="752" text="See how well you know your stuff with my fun Holy Places Quiz Game app for iPhone, iPad and the Apple TV." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZPV-2G-sKX" userLabel="StoreAdvert">
+                                                <rect key="frame" x="0.0" y="405.5" width="187" height="137.5"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -2130,24 +2130,24 @@
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="35"/>
                                                 </variation>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BvX-3J-DHr">
-                                                <rect key="frame" x="23" y="575" width="141" height="38"/>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="BvX-3J-DHr">
+                                                <rect key="frame" x="41" y="575" width="105" height="38"/>
                                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="22"/>
-                                                <state key="normal" title="hunibearstudios">
+                                                <state key="normal" title="Quiz Game">
                                                     <color key="titleColor" name="BaptismsBlue"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=regular">
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="31"/>
                                                 </variation>
                                                 <connections>
-                                                    <action selector="hunibearstudios:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="ms9-0B-GuJ"/>
+                                                    <action selector="quizGameLink:" destination="Xvp-4l-ctd" eventType="touchUpInside" id="ms9-0B-GuJ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" text="The Holy Places logo contains The Morning Star from the stained glass windows of the Nauvoo Temple.  See below article." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" text="The Holy Places logo contains The Morning Star from the stained glass windows of the Nauvoo Temple.  See below article." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hKm-g4-NbJ">
                                 <rect key="frame" x="16" y="651" width="382" height="69"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -2911,13 +2911,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RKH-A0-GiO">
-                                <rect key="frame" x="47" y="264.5" width="320" height="357"/>
+                                <rect key="frame" x="47" y="256" width="320" height="374.5"/>
                                 <subviews>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Tv5-g8-v0O">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="307"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="324.5"/>
                                     </datePicker>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1N-1f-s3E" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="317" width="300" height="40"/>
+                                        <rect key="frame" x="10" y="334.5" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -3821,7 +3821,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8oe-hn-yZM"/>
+        <segue reference="DQn-F3-acx"/>
         <segue reference="k3L-ab-35b"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
@@ -3830,6 +3830,7 @@
         <image name="PCC" width="375" height="666.5"/>
         <image name="PCCL" width="1112" height="834"/>
         <image name="PCCW" width="834" height="1112"/>
+        <image name="QuizGame" width="512" height="512"/>
         <image name="ach10T" width="100" height="99.5"/>
         <image name="journal" width="25" height="25"/>
         <image name="map" width="25" height="25"/>
@@ -3838,7 +3839,6 @@
         <image name="profile 1" width="300" height="300"/>
         <image name="share" width="100" height="100"/>
         <image name="starOfMelchizedek" width="25" height="25"/>
-        <image name="stickersheet" width="300" height="300"/>
         <image name="summary" width="25" height="25"/>
         <namedColor name="BaptismsBlue">
             <color red="0.0" green="0.32941176470588235" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3865,7 +3865,7 @@
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
