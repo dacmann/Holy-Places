@@ -100,7 +100,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         // Update visit count for goal progress in Widget
         ad.getVisits()
         
-        _ = navigationController?.popViewController(animated: true)
+        //_ = navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func saveEdit (_ sender: Any) {

@@ -154,23 +154,19 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     }
     
     override func viewWillLayoutSubviews() {
-        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-                changeConfiguration(landscape: true)
-            } else {
-                changeConfiguration(landscape: false)
-            }
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let isLandscape = windowScene.interfaceOrientation.isLandscape
+            changeConfiguration(landscape: isLandscape)
         }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-                changeConfiguration(landscape: true)
-            } else {
-                changeConfiguration(landscape: false)
-            }
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let isLandscape = windowScene.interfaceOrientation.isLandscape
+            changeConfiguration(landscape: isLandscape)
         }
+
         // save Place updates on main thread
         if ad.newFileParsed {
             ad.storePlaces()

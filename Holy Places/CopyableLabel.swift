@@ -31,16 +31,19 @@ class CopyableLabel: UILabel {
         becomeFirstResponder()
         let menu = UIMenuController.shared
         if !menu.isMenuVisible {
-            menu.setTargetRect(bounds, in: self)
-            menu.setMenuVisible(true, animated: true)
+            menu.showMenu(from: self, rect: bounds)
         }
     }
+
     
     override func copy(_ sender: Any?) {
         let board = UIPasteboard.general
         board.string = text
+        
         let menu = UIMenuController.shared
-        menu.setMenuVisible(false, animated: true)
+        if menu.isMenuVisible {
+            menu.hideMenu()
+        }
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {

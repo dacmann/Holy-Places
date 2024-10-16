@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MobileCoreServices
+import UniformTypeIdentifiers
 
 protocol SendVisitOptionsDelegate {
     func FilterOptions(row: Int)
@@ -147,8 +148,8 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func importVisits(_ sender: UIButton) {
-        let types = [String(kUTTypeXML)]
-        let importMenu = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        let types = [UTType.xml]
+        let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: types, asCopy: true)
         importMenu.delegate = self
         importMenu.modalPresentationStyle = .fullScreen
         self.present(importMenu, animated: true)

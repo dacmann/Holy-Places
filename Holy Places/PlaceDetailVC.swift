@@ -292,12 +292,10 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             wasSplitView = true
         }
         
-        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            if interfaceOrientation.isLandscape &&  !UIApplication.shared.isSplitOrSlideOver {
-                configureForLandscape(landscape: true)
-            } else {
-                configureForLandscape(landscape: false)
-            }
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let interfaceOrientation = windowScene.interfaceOrientation
+            let isLandscape = interfaceOrientation.isLandscape
+            configureForLandscape(landscape: isLandscape)
         }
     }
     

@@ -81,6 +81,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             UserDefaults.standard.set(true, forKey: "previouslyLaunched")
             UserDefaults.standard.set("3830", forKey: "themeSelected")
             UserDefaults.standard.set(false, forKey: "addVisitClosestPlace")
+            checkedForUpdate = Date()
         }
         
     }
@@ -238,8 +239,11 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            if interfaceOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let interfaceOrientation = windowScene.interfaceOrientation
+            let isLandscape = interfaceOrientation.isLandscape
+            
+            if isLandscape {
                 setImage(landscape: true)
             } else {
                 setImage(landscape: false)
