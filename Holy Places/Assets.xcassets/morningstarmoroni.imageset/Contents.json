@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "morningstarmoroni-dark 2.png",
       "idiom" : "universal",
-      "filename" : "morningstarmoroni-2.png",
       "scale" : "1x"
     },
     {
+      "filename" : "morningstarmoroni-dark 1.png",
       "idiom" : "universal",
-      "filename" : "morningstarmoroni-1.png",
       "scale" : "2x"
     },
     {
+      "filename" : "morningstarmoroni-dark.png",
       "idiom" : "universal",
-      "filename" : "morningstarmoroni.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
