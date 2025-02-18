@@ -22,6 +22,8 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     var activeField: UITextField?
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let yearFormat = DateFormatter()
+    var isFavorite = false
+    let favoriteButton = UIButton(type: .system)
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
@@ -79,6 +81,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.year = yearFormat.string(from: visit.dateVisited!)
         visit.type = placeType
         visit.shiftHrs = Double(hoursWorked.text!)!
+        visit.isFavorite = isFavorite
         if pictureView.isHidden == false {
             // create NSData from UIImage
             guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
@@ -127,6 +130,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         detailVisit?.dateVisited = dateOfVisit as Date?
         detailVisit?.year = yearFormat.string(from: (detailVisit?.dateVisited)!)
         detailVisit?.comments = comments.text!
+        detailVisit?.isFavorite = isFavorite
         if pictureView.isHidden == false {
             // create NSData from UIImage
             guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
@@ -161,15 +165,19 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         configureView()
         populateView()
         setDate()
-        
+        setupFavoriteButton()
+
         // Disable the swipe to make sure you get your chance to save
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        // Add tap gesture recognizer to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-//        self.scrollView.reloadInputViews()
-//        self.scrollView.setContentOffset(CGPoint(x:0, y:self.scrollView.contentSize.height - self.scrollView.bounds.size.height), animated: true)
+        super.viewWillAppear(animated)
 
     }
     
@@ -178,7 +186,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         //create left side empty space so that done button set on right side
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(RecordVisitVC.doneButtonAction))
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(RecordVisitVC.dismissKeyboard))
         //array of BarButtonItems
         var arr = [UIBarButtonItem]()
         arr.append(flexSpace)
@@ -197,8 +205,31 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     
     //MARK:- Actions
     
+    private func setupFavoriteButton() {
+        favoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill" : "star"), for: .normal)
+        favoriteButton.tintColor = isFavorite ? UIColor.darkTangerine() : .gray
+        favoriteButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
+        
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(favoriteButton)
+        
+        NSLayoutConstraint.activate([
+            favoriteButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 85),
+            favoriteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
     
-    @objc func doneButtonAction(){
+    @objc private func toggleFavorite() {
+        isFavorite.toggle()
+        let imageName = isFavorite ? "star.fill" : "star"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        favoriteButton.tintColor = isFavorite ? UIColor.darkTangerine() : .gray
+    }
+    
+    @objc func dismissKeyboard(){
         self.view.endEditing(true)
     }
     
@@ -381,6 +412,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 
                 // enable the Hours worked stack view when needed
                 ordinanceWorkerSV.isHidden = !ordinanceWorker
+                
             }
         }
     }
@@ -392,6 +424,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
+                isFavorite = detail.isFavorite
                 hoursWorked.text = detail.shiftHrs.description
                 sealings.text = detail.sealings.description
                 endowments.text = detail.endowments.description
@@ -433,6 +466,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 }
                 // enable the Hours worked stack view when needed
                 ordinanceWorkerSV.isHidden = !ordinanceWorker
+                
             }
         }
     }
@@ -449,7 +483,9 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
     var detailVisit: Visit? {
         didSet {
             // populate the view
-            self.populateView()
+            DispatchQueue.main.async {
+                self.populateView() // Refresh UI when detailVisit changes
+            }
             let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEdit(_:)))
             self.navigationItem.rightBarButtonItem = saveButton
         }

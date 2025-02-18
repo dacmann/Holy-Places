@@ -103,6 +103,7 @@ var achievements: [Achievement] = []
 var completed: [Achievement] = []
 var notCompleted: [Achievement] = []
 var attendedTotal = 0
+var uniqueTempleTotal = 0
 var sealingsTotal = 0
 var endowmentsTotal = 0
 var initiatoriesTotal = 0
@@ -728,7 +729,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -765,7 +766,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }

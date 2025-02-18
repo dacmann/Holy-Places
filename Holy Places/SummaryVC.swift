@@ -24,9 +24,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     @IBOutlet weak var visitorsCentersVisited: UILabel!
     @IBOutlet weak var visitorsCentersTotal: UILabel!
     @IBOutlet weak var hoursWorked: UILabel!
+    @IBOutlet weak var uniqueTemples: UILabel!
     
     @IBOutlet weak var titleYr1: UIButton!
     @IBOutlet weak var attendedTempleYr: UILabel!
+    @IBOutlet weak var uniqueTemplesYr: UILabel!
     @IBOutlet weak var hoursWorkedYr: UILabel!
     @IBOutlet weak var sealingsPerformedYr: UILabel!
     @IBOutlet weak var endowmentsPerformedYr: UILabel!
@@ -37,6 +39,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     
     @IBOutlet weak var titleYr2: UIButton!
     @IBOutlet weak var attendedTempleYr2: UILabel!
+    @IBOutlet weak var uniqueTemplesYr2: UILabel!
     @IBOutlet weak var hoursWorkedYr2: UILabel!
     @IBOutlet weak var sealingsPerformedYr2: UILabel!
     @IBOutlet weak var endowmentsPerformedYr2: UILabel!
@@ -48,6 +51,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     @IBOutlet weak var hoursWorkedTotal: UILabel!
     @IBOutlet weak var sealingsPerformedTotal: UILabel!
     @IBOutlet weak var attendedTempleTotal: UILabel!
+    @IBOutlet weak var uniqueTempleTotal: UILabel!
     @IBOutlet weak var endowmentsPerformedTotal: UILabel!
     @IBOutlet weak var initiatoriesPerformedTotal: UILabel!
     @IBOutlet weak var confirmationsPerformedTotal: UILabel!
@@ -148,6 +152,11 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         visitorsCentersLabel.textColor = visitorCenterColor
         visitorsCentersVisited.textColor = visitorCenterColor
         visitorsCentersTotal.textColor = visitorCenterColor
+        
+        uniqueTemples.textColor = templeColor
+        uniqueTemplesYr.textColor = templeColor
+        uniqueTemplesYr2.textColor = templeColor
+        uniqueTempleTotal.textColor = templeColor
 
         getTotals()
         nextQuote()
@@ -268,7 +277,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     @IBAction func btnChangeQuote(_ sender: UIButton) {
         nextQuote()
     }
-    
     //MARK: - Tallying functions
     func getTotals () {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
@@ -295,11 +303,18 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             ordinancesPerformedTotal.text = ordinancesTotal.description
             hoursWorkedTotal.text = shiftHoursTotal.description
             
-            // get number of Unique Temples visited
+            // get number of Unique Temples and Temples Under Construction visited
             fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
             searchResults = try getContext().fetch(fetchRequest)
             var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             templesVisited.text = distinct.count.description
+            visitCnt = searchResults.count
+            
+            // get number of Unique Temples visited
+            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            searchResults = try getContext().fetch(fetchRequest)
+            distinct = NSSet(array: searchResults.map { $0.holyPlace! })
+            uniqueTempleTotal.text = distinct.count.description
             visitCnt = searchResults.count
 
             // get number of Unique Historical sites visited
@@ -464,6 +479,9 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         var attended2 = 0
         var shiftHrs2 = 0.0
         
+        var uniqueTemplesYear1: Set<String> = []
+        var uniqueTemplesYear2: Set<String> = []
+        
         let year1 = String(Int(currentYear)! + yearOffset)
         let year2 = String(Int(currentYear)! + yearOffset - 1)
         if yearOffset < 0 {
@@ -495,6 +513,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 } else {
                     attended += 1
                 }
+                uniqueTemplesYear1.insert(temple.holyPlace!) // Track unique temples
+
             }
             if (yearVisited == year2) {
                 
@@ -511,12 +531,14 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 } else {
                     attended2 += 1
                 }
+                uniqueTemplesYear2.insert(temple.holyPlace!) // Track unique temples
             }
         }
         
         ordinances = sealings + endowments + initiatories + confirmations + baptisms
         
         attendedTempleYr.text = attended.description
+        uniqueTemplesYr.text = uniqueTemplesYear1.count.description  // Display unique temple visits for year1
         hoursWorkedYr.text = shiftHrs.description
         sealingsPerformedYr.text = sealings.description
         endowmentsPerformedYr.text = endowments.description
@@ -528,6 +550,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         ordinances2 = sealings2 + endowments2 + initiatories2 + confirmations2 + baptisms2
         
         attendedTempleYr2.text = attended2.description
+        uniqueTemplesYr2.text = uniqueTemplesYear2.count.description  // Display unique temple visits for year2
         hoursWorkedYr2.text = shiftHrs2.description
         sealingsPerformedYr2.text = sealings2.description
         endowmentsPerformedYr2.text = endowments2.description

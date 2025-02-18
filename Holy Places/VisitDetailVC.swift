@@ -22,6 +22,8 @@ class VisitDetailVC: UIViewController {
     @IBOutlet weak var pictureHeight: NSLayoutConstraint!
     @IBOutlet weak var commentHeight: NSLayoutConstraint!
     
+    private let favoriteButton = UIButton(type: .system) // Add the favorite indicator
+    
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -50,6 +52,7 @@ class VisitDetailVC: UIViewController {
     //MARK:- Standard Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFavoriteButton() // Setup the favorite indicator
         let tap = UITapGestureRecognizer(target: self, action: #selector(VisitDetailVC.imageClicked))
         pictureView.addGestureRecognizer(tap)
         pictureView.isUserInteractionEnabled = true
@@ -71,6 +74,23 @@ class VisitDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         populateView()
         setDate()
+    }
+    
+    // MARK: - Setup Favorite Indicator
+    private func setupFavoriteButton() {
+        favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        favoriteButton.tintColor = UIColor.darkTangerine()
+        favoriteButton.isUserInteractionEnabled = false
+        
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(favoriteButton)
+        
+        NSLayoutConstraint.activate([
+            favoriteButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 85),
+            favoriteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
     
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
@@ -118,6 +138,8 @@ class VisitDetailVC: UIViewController {
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?
+                // Show favorite indicator if visit is marked as favorite
+                favoriteButton.isHidden = !detail.isFavorite
                 var ordinances = ""
                 var sealings = ""
                 var endowments = ""

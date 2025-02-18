@@ -72,7 +72,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let allVisits = fetchedResultsController.fetchedObjects
         // Search on Place name or comments
         filteredVisits = allVisits!.filter { visit in
-            let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0)
+            let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0 || scope == "⭐️" && visit.isFavorite)
             return categoryMatch && ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())) || searchText.isEmpty)
         }
         // Update title
@@ -125,11 +125,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         navigationItem.hidesSearchBarWhenScrolling = false
         extendedLayoutIncludesOpaqueBars = true
         
-        searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S"]
+        searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S", "⭐️"]
         searchController.searchBar.delegate = self
-        
-        // Add done button to keyboard
-        keyboardDone()
         
         let defaults = UserDefaults.standard
         backupDate = defaults.object(forKey: "backupDate") as? Date
@@ -184,27 +181,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             self.present(alert, animated: true)
         }
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsScopeBar = true
+        searchBar.sizeToFit()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsScopeBar = false
+    }
 
-    func keyboardDone() {
-        //init toolbar
-        let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-        //create left side empty space so that done button set on right side
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
-        //array of BarButtonItems
-        var arr = [UIBarButtonItem]()
-        arr.append(flexSpace)
-        arr.append(doneBtn)
-        toolbar.setItems(arr, animated: false)
-        toolbar.sizeToFit()
-        //setting toolbar as inputAccessoryView
-        self.searchController.searchBar.inputAccessoryView = toolbar
-    }
-    
-    @objc func doneButtonAction(){
-        self.searchController.searchBar.endEditing(true)
-    }
-    
     func insertNewObject(_ sender: Any) {
         let context = self.fetchedResultsController.managedObjectContext
         let newVisit = Visit(context: context)
@@ -407,6 +393,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         if visit.picture != nil {
             ordinances.append("  📷")
+        }
+        
+        if visit.isFavorite {
+            ordinances.append( "   ⭐")
         }
         
         cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
