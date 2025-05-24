@@ -131,6 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     //MARK: - Variables
     var xmlParser: XMLParser!
     var eName: String = String()
+    var templeId = String()
     var templeName = String()
     var templeAddress = String()
     var templeSnippet = String()
@@ -157,6 +158,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var visitElapsedTime: TimeInterval?
     var monitoredRegions: Dictionary<String, NSDate> = [:]
     var newFileParsed = false
+    var oldNames: [String] = []
+    var oldName = String()
     
     // MARK: - Standard Events
 
@@ -168,6 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         locationManager.delegate = self
         notificationManager.delegate = self
+        
+        ValueTransformer.setValueTransformer(StringArrayTransformer(), forName: NSValueTransformerName("StringArrayTransformer"))
         
         // Change the font of the tab bar items
         let tabBarItemFont = UIFont(name: "Baskerville", size: 13) ?? UIFont.systemFont(ofSize: 13)
@@ -677,49 +682,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
 
-
-    
-    //MARK:- Payment function
-//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-//        
-//        for transaction in transactions {
-//            switch transaction.transactionState {
-//            case .purchased:
-//                // Remove transaction from queue
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                // Alert the user
-//                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
-//                topWindow.rootViewController = UIViewController()
-//                topWindow.windowLevel = UIWindowLevelAlert + 1
-//                let alert: UIAlertController =  UIAlertController(title: "Thanks for tip!", message: "I really appreciate your support.", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-//                    topWindow.isHidden = true
-//                }))
-//                topWindow.makeKeyAndVisible()
-//                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
-//                break
-//            case .failed:
-//                // Determine reason for failure
-//                let message = transaction.error?.localizedDescription
-//                // Remove transaction from queue
-//                SKPaymentQueue.default().finishTransaction(transaction)
-//                // Alert the user
-//                let topWindow: UIWindow = UIWindow(frame: UIScreen.main.bounds)
-//                topWindow.rootViewController = UIViewController()
-//                topWindow.windowLevel = UIWindowLevelAlert + 1
-//                let alert: UIAlertController =  UIAlertController(title: "Purchase Failed", message: (message)!, preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(action: UIAlertAction) -> Void in
-//                    topWindow.isHidden = true
-//                }))
-//                topWindow.makeKeyAndVisible()
-//                topWindow.rootViewController?.present(alert, animated: true, completion: { _ in })
-//                break
-//            default:
-//                break
-//            }
-//        }
-//        
-//    }
     
     //MARK: - Update Data
     // Pull down the XML file from website and parse the data
@@ -729,7 +691,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -745,15 +707,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 return
             }
             
-            /*
-             guard let parserVersion = XMLParser(data: data) else {
-             print("Cannot Read Data")
-             getPlaces()
-             return
-             }
-             
-             */
-            //guard let (parserVersion, _) = try await URLSession.shared.data(from: versionURL as URL) else {
             guard let parserVersion = XMLParser(contentsOf: versionURL as URL) else {
                 print("Cannot Read Data")
                 //self.getPlaces()
@@ -766,7 +719,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }
@@ -791,46 +744,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 let error = parserVersion.parserError!
                 print("Error Description:\(error.localizedDescription)")
                 print("Line number: \(parserVersion.lineNumber)")
-                // Check if initial launch with no data yet and no internet and load local XML file if so
-//                if placeDataVersion == nil {
-//                    versionChecked = true
-//                    guard let myURL = Bundle.main.url(forResource: "HolyPlaces", withExtension: "xml") else {
-//                        print("URL not defined properly")
-//                        return
-//                    }
-//                    guard let parser = XMLParser(contentsOf: myURL as URL) else {
-//                        print("Cannot Read Data")
-//                        self.getPlaces()
-//                        return
-//                    }
-//                    print("No internet on initial launch - loading from local XML file")
-//                    parser.delegate = self
-//                    if parser.parse() {
-//                        // Save updated places to CoreData
-//                        self.storePlaces()
-//                    } else {
-//                        print("Data parsing aborted")
-//                        let error = parser.parserError!
-//                        print("Error Description:\(error.localizedDescription)")
-//                        print("Line number: \(parser.lineNumber)")
-//                        self.getPlaces()
-//                    }
-//                }
-                //else {
-                //    self.getPlaces()
-                //}
             }
-            //moved to HomeVC
-            //if self.newFileParsed {
-            //    self.storePlaces()
-            //checkedForUpdate = Date()
-                // if app is updated while running in background send notification
-                //&& UIApplication.shared.applicationState == .background
-                //if changesDate != "" {
-                //    self.updateNotification()
-                //}
-            //}
-
         }
         // Start the download
         task.resume()
@@ -842,6 +756,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         eName = elementName
         if elementName == "Place" {
+            templeId = String()
             templeName = String()
             templeAddress = String()
             templeSnippet = String()
@@ -857,6 +772,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             infoURL = String()
             templeSqFt = Int32(0)
             fhCode = String()
+            oldNames = []
+        }
+        
+        if elementName == "oldName" {
+            oldName = ""
         }
     }
     
@@ -864,6 +784,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         if !string.isEmpty {
             switch eName {
+            case "ID": templeId += string
             case "name": templeName += string
             case "Address": templeAddress += string
             case "Snippet": templeSnippet += string
@@ -879,6 +800,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             case "infoURL": infoURL += string
             case "SqFt": templeSqFt += Int32(string)!
             case "fhc": fhCode += string
+            case "oldName": oldName += string
             case "Version":
                 if string == placeDataVersion {
                     print("XML Data Version has not changed")
@@ -916,6 +838,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     // didEndElement of parser
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "oldName" {
+            let trimmed = oldName.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty {
+                oldNames.append(trimmed)
+            }
+        }
+
         if elementName == "Place" {
             // Determine Order
             let digits = CharacterSet.decimalDigits
@@ -932,7 +861,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     break
                 }
             }
-            let temple = Temple(Name: templeName, Address: templeAddress, Snippet: templeSnippet, CityState: templeCityState, Country: templeCountry, Phone: templePhone, Latitude: templeLatitude, Longitude: templeLongitude, Order: Int16(number)!, PictureURL: templePictureURL, SiteURL: templeSiteURL,Type: templeType, ReaderView: readerView, InfoURL: infoURL, SqFt: templeSqFt, FHCode: fhCode)
+            let temple = Temple(
+                Id: templeId,
+                Name: templeName,
+                Address: templeAddress,
+                Snippet: templeSnippet,
+                CityState: templeCityState,
+                Country: templeCountry,
+                Phone: templePhone,
+                Latitude: templeLatitude,
+                Longitude: templeLongitude,
+                Order: Int16(number)!,
+                PictureURL: templePictureURL,
+                SiteURL: templeSiteURL,
+                Type: templeType,
+                ReaderView: readerView,
+                InfoURL: infoURL,
+                SqFt: templeSqFt,
+                FHCode: fhCode
+            )
+            temple.oldNames = oldNames // ✅ pass collected old names
             
             allPlaces.append(temple)
             switch templeType {
@@ -974,8 +922,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         achievements.append(Achievement(Name: "Wonderful! (Endowments)", Details: "Complete 25 Endowments", IconName: "ach25E"))
         achievements.append(Achievement(Name: "Incredible! (Endowments)", Details: "Complete 50 Endowments", IconName: "ach50E"))
         achievements.append(Achievement(Name: "Extraordinary! (Endowments)", Details: "Complete 100 Endowments", IconName: "ach100E"))
+        achievements.append(Achievement(Name: "Amazing! (Endowments)", Details: "Complete 150 Endowments", IconName: "ach150E"))
         achievements.append(Achievement(Name: "Astounding! (Endowments)", Details: "Complete 200 Endowments", IconName: "ach200E"))
+        achievements.append(Achievement(Name: "Phenomenal! (Endowments)", Details: "Complete 300 Endowments", IconName: "ach300E"))
         achievements.append(Achievement(Name: "Unbelievable! (Endowments)", Details: "Complete 400 Endowments", IconName: "ach400E"))
+        achievements.append(Achievement(Name: "Miraculous! (Endowments)", Details: "Complete 550 Endowments", IconName: "ach550E"))
+        achievements.append(Achievement(Name: "Celestial! (Endowments)", Details: "Complete 700 Endowments", IconName: "ach700E"))
         // Ordinances - Sealings
         achievements.append(Achievement(Name: "Excellent! (Sealings)", Details: "Complete 50 Sealings", IconName: "ach50S"))
         achievements.append(Achievement(Name: "Wonderful! (Sealings)", Details: "Complete 100 Sealings", IconName: "ach100S"))
@@ -1278,12 +1230,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     updateAchievement(achievement: "ach25E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 case 50 ... 99:
                     updateAchievement(achievement: "ach50E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 199:
+                case 100 ... 149:
                     updateAchievement(achievement: "ach100E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 399:
+                case 150 ... 199:
+                    updateAchievement(achievement: "ach150E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                case 200 ... 299:
                     updateAchievement(achievement: "ach200E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400... :
+                case 300 ... 399:
+                    updateAchievement(achievement: "ach300E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                case 400 ... 549:
                     updateAchievement(achievement: "ach400E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                case 550 ... 699:
+                    updateAchievement(achievement: "ach550E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                case 700... :
+                    updateAchievement(achievement: "ach700E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
                 default:
                     break
                 }
@@ -1455,18 +1415,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // Save the Place data in CoreData
     func storePlaces () {
         let context = getContext()
-        
-        //retrieve the entity
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
-        
-        //set the entity values
+        var renamedVisits = false // ✅ Track if any visits were updated
+
         for temple in allPlaces {
-            // Check if Place picture is already saved locally
+            // Match by name first
             fetchRequest.predicate = NSPredicate(format: "name == %@", temple.templeName)
             do {
-                let searchResults = try context.fetch(fetchRequest)
+                var searchResults = try context.fetch(fetchRequest)
+
+                if searchResults.isEmpty {
+                    // No match by name, try matching by old name
+                    for oldName in temple.oldNames {
+                        fetchRequest.predicate = NSPredicate(format: "name == %@", oldName)
+                        let legacyMatches = try context.fetch(fetchRequest)
+                        if let matchedPlace = legacyMatches.first {
+                            print("⤴️ Name changed from \(matchedPlace.name ?? "?") to \(temple.templeName)")
+                            matchedPlace.name = temple.templeName
+                            matchedPlace.placeID = temple.templeId
+
+                            // ✅ Update visits using this old name
+                            let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
+                            visitFetch.predicate = NSPredicate(format: "holyPlace == %@", oldName)
+                            let matchedVisits = try context.fetch(visitFetch)
+                            for visit in matchedVisits {
+                                visit.holyPlace = temple.templeName
+                                renamedVisits = true
+                                print("🔁 Renamed visit from \(oldName) to \(temple.templeName)")
+                            }
+
+                            searchResults = [matchedPlace] // treat as found
+                            break
+                        }
+                    }
+                }
+
                 if searchResults.count > 0 {
-                    for place in searchResults as [Place] {
+                    for place in searchResults {
+                        place.placeID = temple.templeId
                         place.snippet = temple.templeSnippet
                         place.address = temple.templeAddress
                         place.cityState = temple.templeCityState
@@ -1476,7 +1462,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         place.phone = temple.templePhone
                         if temple.templePictureURL != place.pictureURL {
                             place.pictureURL = temple.templePictureURL
-                            // Delete saved picture if URL changed
                             place.pictureData = nil
                             print("Picture changed for \(temple.templeName)")
                         }
@@ -1487,10 +1472,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         place.infoURL = temple.infoURL
                         place.sqFt = temple.templeSqFt!
                         place.fhCode = temple.fhCode
+                        place.setValue(Array(Set(temple.oldNames)), forKey: "oldNames")
                     }
                 } else {
-                    // Not found so add the new Place
-                    let place =  NSEntityDescription.insertNewObject(forEntityName: "Place", into: context) as! Place
+                    // Not found by name or old name, so insert new
+                    let place = NSEntityDescription.insertNewObject(forEntityName: "Place", into: context) as! Place
+                    place.placeID = temple.templeId
                     place.name = temple.templeName
                     place.snippet = temple.templeSnippet
                     place.address = temple.templeAddress
@@ -1507,48 +1494,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     place.infoURL = temple.infoURL
                     place.sqFt = temple.templeSqFt!
                     place.fhCode = temple.fhCode
+                    place.setValue(Array(Set(temple.oldNames)), forKey: "oldNames")
                     print("Added \(temple.templeName)")
                 }
-                //save the object
-                do {
-                    try context.save()
-                } catch let error as NSError  {
-                    print("Could not save \(error), \(error.userInfo)")
-                } catch {}
-                
+
+                try context.save()
             } catch {
-                print("Error with request: \(error)")
+                print("Error with request or saving: \(error)")
             }
-            
         }
-        // Check for orphans
+
+        // Orphan cleanup
         let fetchRequest2: NSFetchRequest<Place> = Place.fetchRequest()
         do {
-            //go get the results
-            let searchResults2 = try getContext().fetch(fetchRequest2)
-            
-            // If there are more records saved than in the array populated from the xml, look for orphans
+            let searchResults2 = try context.fetch(fetchRequest2)
             if searchResults2.count > allPlaces.count {
-                for place in searchResults2 as [Place] {
+                for place in searchResults2 {
                     if !allPlaces.contains(where: { $0.templeName == place.name }) {
-                        // Delete the orphan
-                        print("Deleting orphaned entry of \(String(describing: place.name))")
+                        print("Deleting orphaned entry of \(place.name ?? "unknown")")
                         context.delete(place)
-                        //save the delete
-                        do {
-                            try context.save()
-                        } catch let error as NSError  {
-                            print("Could not save \(error), \(error.userInfo)")
-                        } catch {}
                     }
                 }
+                try context.save()
             }
         } catch {
-            print("Error with request: \(error)")
+            print("Error during orphan cleanup: \(error)")
         }
+
         print("Saving Places completed")
-        
         downloadImage()
+
+        // ✅ Re-run getVisits() if any visit names were updated
+        if renamedVisits {
+            print("🔁 Temple names updated. Reloading visits...")
+            getVisits()
+        }
     }
     
     // Save the version from the HolyPlaces.xml in CoreData
@@ -1650,7 +1630,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             allTemples.removeAll()
             
             for place in searchResults {
-                let temple = Temple(Name: place.name, Address: place.address, Snippet: place.snippet, CityState: place.cityState, Country: place.country, Phone: place.phone, Latitude: place.latitude, Longitude: place.longitude, Order: place.order, PictureURL: place.pictureURL, SiteURL: place.siteURL, Type: place.type, ReaderView: place.readerView, InfoURL: place.infoURL!, SqFt: place.sqFt, FHCode: place.fhCode)
+                let temple = Temple(
+                    Id: place.placeID ?? "",
+                    Name: place.name,
+                    Address: place.address,
+                    Snippet: place.snippet,
+                    CityState: place.cityState,
+                    Country: place.country,
+                    Phone: place.phone,
+                    Latitude: place.latitude,
+                    Longitude: place.longitude,
+                    Order: place.order,
+                    PictureURL: place.pictureURL,
+                    SiteURL: place.siteURL,
+                    Type: place.type,
+                    ReaderView: place.readerView,
+                    InfoURL: place.infoURL ?? "",
+                    SqFt: place.sqFt,
+                    FHCode: place.fhCode
+                )
+                temple.oldNames = (place.oldNames as? [String]) ?? []
                 allPlaces.append(temple)
                 switch temple.templeType {
                 case "T":

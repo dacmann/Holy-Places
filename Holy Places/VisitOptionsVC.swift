@@ -362,6 +362,17 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         if elementName == "Visit" {
             let context = getContext()
             
+            // ✅ Check for old place names and update them
+            if !allPlaces.contains(where: { $0.templeName == holyPlace }) {
+                for temple in allPlaces {
+                    if temple.oldNames.contains(holyPlace) {
+                        print("🛠 Imported visit renamed from \(holyPlace) to \(temple.templeName)")
+                        holyPlace = temple.templeName
+                        break
+                    }
+                }
+            }
+            
             // Check for duplicate before saving
             do {
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()

@@ -142,6 +142,21 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             }))
             self.present(alert, animated: true)
         }
+        
+        // Add Done button to search bar keyboard
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        keyboardToolbar.items = [flexSpace, doneButton]
+
+        searchController.searchBar.inputAccessoryView = keyboardToolbar
+
+    }
+    
+    @objc func dismissKeyboard() {
+        searchController.searchBar.resignFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {

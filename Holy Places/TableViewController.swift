@@ -413,7 +413,21 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         FilterOptions(row: placeFilterRow)
         
         tableView.sectionIndexColor = UIColor(named: "BaptismsBlue")
+        
+        // Add Done button to search bar keyboard
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
 
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        keyboardToolbar.items = [flexSpace, doneButton]
+
+        searchController.searchBar.inputAccessoryView = keyboardToolbar
+
+    }
+    
+    @objc func dismissKeyboard() {
+        searchController.searchBar.resignFirstResponder()
     }
     
     @objc func reloadTableData(_ notification: Notification) {

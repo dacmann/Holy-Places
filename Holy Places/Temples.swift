@@ -11,6 +11,7 @@ import CoreLocation
 
 class Temple: NSObject {
     
+    var templeId = String()
     var templeName = String()
     var templeAddress = String()
     var templeSnippet = String()
@@ -31,8 +32,11 @@ class Temple: NSObject {
     var cllocation: CLLocation
     var distance : Double?
     var coordinate : CLLocationCoordinate2D
+    
+    var oldNames: [String] = []
 
-    init(Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32, FHCode:String?){
+    init(Id:String = "", Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32, FHCode:String?){
+        templeId = Id
         templeName = Name
         templeAddress = Address
         templeSnippet = Snippet
