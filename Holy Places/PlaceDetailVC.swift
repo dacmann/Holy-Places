@@ -238,6 +238,59 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeDown)
         
+        // Make address label tappable
+        address.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showNavigationOptions))
+        address.addGestureRecognizer(tap)
+        address.textColor = UIColor(named: "BaptismsBlue")
+        
+    }
+    
+    @objc func showNavigationOptions() {
+        guard let detail = detailItem else { return }
+
+        let coordinate = CLLocationCoordinate2D(latitude: detail.templeLatitude, longitude: detail.templeLongitude)
+
+        let alert = UIAlertController(title: "Navigate to Holy Place", message: "Choose an app", preferredStyle: .actionSheet)
+
+        // Apple Maps
+        alert.addAction(UIAlertAction(title: "Apple Maps", style: .default) { _ in
+            let placemark = MKPlacemark(coordinate: coordinate)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = detail.templeName
+            mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+        })
+
+        // Google Maps
+        if UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!) {
+            alert.addAction(UIAlertAction(title: "Google Maps", style: .default) { _ in
+                let urlString = "comgooglemaps://?daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving"
+                if let url = URL(string: urlString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+        }
+
+        // Waze
+        if UIApplication.shared.canOpenURL(URL(string: "waze://")!) {
+            alert.addAction(UIAlertAction(title: "Waze", style: .default) { _ in
+                let urlString = "waze://?ll=\(coordinate.latitude),\(coordinate.longitude)&navigate=yes"
+                if let url = URL(string: urlString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+        }
+
+        // Cancel
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        // iPad support
+        if let popover = alert.popoverPresentationController {
+            popover.sourceView = self.view
+            popover.sourceRect = address.frame
+        }
+
+        present(alert, animated: true)
     }
     
     fileprivate func setUpView() {

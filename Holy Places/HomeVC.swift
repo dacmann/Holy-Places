@@ -228,10 +228,15 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Home Screen Customizations
         appName.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: appName, backgroundColor: UIColor.home(), opacity: 0.0)
         holyPlaces.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: holyPlaces, backgroundColor: UIColor.home(), opacity: 0.0)
         reference.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: reference, backgroundColor: UIColor.home(), opacity: 0.0)
         goalTitle.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: goalTitle, backgroundColor: UIColor.home())
         goal.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: goal, backgroundColor: UIColor.home())
         info.tintColor = UIColor.home()
         topLine.backgroundColor = UIColor.home()
         bottomLine.backgroundColor = UIColor.home()
@@ -281,7 +286,29 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
     }
-    
+    func wrapLabelWithOverlay(label: UILabel, backgroundColor: UIColor = .black, opacity: CGFloat = 0.05, cornerRadius: CGFloat = 8) {
+        guard let superview = label.superview else { return }
+        
+        let overlay = UIView()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        overlay.backgroundColor = backgroundColor.withAlphaComponent(opacity)
+        overlay.layer.cornerRadius = cornerRadius
+        overlay.layer.masksToBounds = true
+        
+        superview.insertSubview(overlay, belowSubview: label)
+        
+        NSLayoutConstraint.activate([
+            overlay.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -8),
+            overlay.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 8),
+            overlay.topAnchor.constraint(equalTo: label.topAnchor, constant: -4),
+            overlay.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4)
+        ])
+        
+        label.layer.shadowColor = (backgroundColor == .black ? UIColor.white.cgColor : UIColor.black.cgColor)
+        label.layer.shadowOffset = CGSize(width: 1, height: 1)
+        label.layer.shadowOpacity = 0.7
+        label.layer.shadowRadius = 1
+    }
 
 
     //MARK: - In-App Purchases
