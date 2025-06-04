@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import StoreKit
 
 extension VisitTableVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -195,6 +196,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             }))
             self.present(alert, animated: true)
         }
+        
+        let defaults = UserDefaults.standard
+        let hasRequestedReview = defaults.bool(forKey: "hasRequestedReview")
+        if !hasRequestedReview && visits.count >= 10 {
+            if let scene = view.window?.windowScene {
+                SKStoreReviewController.requestReview(in: scene)
+                defaults.set(true, forKey: "hasRequestedReview")
+            }
+        }
+
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -250,13 +261,26 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         else
         {
-            let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width-40, height: tableView.bounds.size.height))
+            let containerView = UIView(frame: tableView.bounds)
+
+            let noDataLabel = UILabel()
+            noDataLabel.translatesAutoresizingMaskIntoConstraints = false
             noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above.\n\nIMPORTANT!\n\nTo ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
-            noDataLabel.textColor     = UIColor(named: "BaptismsBlue")
+            noDataLabel.textColor = UIColor(named: "BaptismsBlue")
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
-            noDataLabel.numberOfLines = 15
-            tableView.backgroundView  = noDataLabel
+            noDataLabel.numberOfLines = 0
+
+            containerView.addSubview(noDataLabel)
+
+            // Add padding with constraints
+            NSLayoutConstraint.activate([
+                noDataLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+                noDataLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+                noDataLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            ])
+
+            tableView.backgroundView = containerView
             tableView.separatorStyle  = .none
         }
         if searchController.isActive {

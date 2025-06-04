@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,18 +42,50 @@
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 		9C132C682DE12C4D008C88DF /* StringArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */; };
+		9CF269002DE4D04800B2062C /* Holy Places Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9CF268ED2DE4D04800B2062C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64FDE6E31E21863A00951A58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9CF268DF2DE4D04500B2062C;
+			remoteInfo = "Holy Places Watch Watch App";
+		};
+		9CF268F72DE4D04800B2062C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64FDE6E31E21863A00951A58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9CF268DF2DE4D04500B2062C;
+			remoteInfo = "Holy Places Watch Watch App";
+		};
+		9CF268FE2DE4D04800B2062C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64FDE6E31E21863A00951A58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9CF268DF2DE4D04500B2062C;
+			remoteInfo = "Holy Places Watch Watch App";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		64A3CB751FA901CE00D37E6A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CF269042DE4D04800B2062C /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolder = Product;
+			files = (
+				9CF269002DE4D04800B2062C /* Holy Places Watch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -64,7 +96,6 @@
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		643B59CD2139B99300C71A3B /* SummaryQuotes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SummaryQuotes.xml; sourceTree = "<group>"; };
-		643E3789226BF87D000FEBBC /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		644243C21E2975810097E924 /* VisitDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitDetailVC.swift; sourceTree = "<group>"; };
 		644243C41E298CA80097E924 /* VisitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitTableVC.swift; sourceTree = "<group>"; };
 		644243C61E2A6CB10097E924 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -78,9 +109,6 @@
 		6479E5EC1F0576D70087E013 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6479E5EE1F0579B50087E013 /* MapPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
 		64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		64A3CB691FA901CE00D37E6A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		64A3CB6E1FA901CE00D37E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places Widget.entitlements"; sourceTree = "<group>"; };
 		64A3CB771FA9029700D37E6A /* Holy Places.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places.entitlements"; sourceTree = "<group>"; };
 		64B520FC1FD6FD6900E9B1EE /* Visits.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Visits.gpx; sourceTree = "<group>"; };
 		64B521001FD9D94200E9B1EE /* SettingsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableVC.swift; sourceTree = "<group>"; };
@@ -101,16 +129,50 @@
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringArrayTransformer.swift; sourceTree = "<group>"; };
+		9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CF268EC2DE4D04800B2062C /* Holy Places Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Holy Places Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CF268F62DE4D04800B2062C /* Holy Places Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Holy Places Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9CF268E12DE4D04500B2062C /* Holy Places Watch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Holy Places Watch Watch App";
+			sourceTree = "<group>";
+		};
+		9CF268EF2DE4D04800B2062C /* Holy Places Watch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Holy Places Watch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		9CF268F92DE4D04800B2062C /* Holy Places Watch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Holy Places Watch Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		64FDE6E81E21863A00951A58 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				6479E5ED1F0576D70087E013 /* MapKit.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CF268DD2DE4D04500B2062C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		9CF268E92DE4D04800B2062C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		9CF268F32DE4D04800B2062C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -122,17 +184,6 @@
 				64A3CB661FA901CE00D37E6A /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		64A3CB681FA901CE00D37E6A /* Holy Places Widget */ = {
-			isa = PBXGroup;
-			children = (
-				643E3789226BF87D000FEBBC /* MainInterface.storyboard */,
-				64A3CB761FA901EF00D37E6A /* Holy Places Widget.entitlements */,
-				64A3CB691FA901CE00D37E6A /* TodayViewController.swift */,
-				64A3CB6E1FA901CE00D37E6A /* Info.plist */,
-			);
-			path = "Holy Places Widget";
 			sourceTree = "<group>";
 		};
 		64F25D341E3121C6009FDEF3 /* ViewControllers */ = {
@@ -165,7 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				64FDE6ED1E21863A00951A58 /* Holy Places */,
-				64A3CB681FA901CE00D37E6A /* Holy Places Widget */,
+				9CF268E12DE4D04500B2062C /* Holy Places Watch Watch App */,
+				9CF268EF2DE4D04800B2062C /* Holy Places Watch Watch AppTests */,
+				9CF268F92DE4D04800B2062C /* Holy Places Watch Watch AppUITests */,
 				64FDE6EC1E21863A00951A58 /* Products */,
 				6461BADF1E3BF7A200365698 /* Frameworks */,
 			);
@@ -175,6 +228,9 @@
 			isa = PBXGroup;
 			children = (
 				64FDE6EB1E21863A00951A58 /* Holy Places.app */,
+				9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */,
+				9CF268EC2DE4D04800B2062C /* Holy Places Watch Watch AppTests.xctest */,
+				9CF268F62DE4D04800B2062C /* Holy Places Watch Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,15 +271,77 @@
 				64FDE6E81E21863A00951A58 /* Frameworks */,
 				64FDE6E91E21863A00951A58 /* Resources */,
 				64A3CB751FA901CE00D37E6A /* Embed Foundation Extensions */,
+				9CF269042DE4D04800B2062C /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9CF268FF2DE4D04800B2062C /* PBXTargetDependency */,
 			);
 			name = "Holy Places";
 			productName = "Holy Places";
 			productReference = 64FDE6EB1E21863A00951A58 /* Holy Places.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9CF268DF2DE4D04500B2062C /* Holy Places Watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CF269012DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch App" */;
+			buildPhases = (
+				9CF268DC2DE4D04500B2062C /* Sources */,
+				9CF268DD2DE4D04500B2062C /* Frameworks */,
+				9CF268DE2DE4D04500B2062C /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				9CF268E12DE4D04500B2062C /* Holy Places Watch Watch App */,
+			);
+			name = "Holy Places Watch Watch App";
+			productName = "Holy Places Watch Watch App";
+			productReference = 9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9CF268EB2DE4D04800B2062C /* Holy Places Watch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CF269052DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch AppTests" */;
+			buildPhases = (
+				9CF268E82DE4D04800B2062C /* Sources */,
+				9CF268E92DE4D04800B2062C /* Frameworks */,
+				9CF268EA2DE4D04800B2062C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9CF268EE2DE4D04800B2062C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9CF268EF2DE4D04800B2062C /* Holy Places Watch Watch AppTests */,
+			);
+			name = "Holy Places Watch Watch AppTests";
+			productName = "Holy Places Watch Watch AppTests";
+			productReference = 9CF268EC2DE4D04800B2062C /* Holy Places Watch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9CF268F52DE4D04800B2062C /* Holy Places Watch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CF269082DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch AppUITests" */;
+			buildPhases = (
+				9CF268F22DE4D04800B2062C /* Sources */,
+				9CF268F32DE4D04800B2062C /* Frameworks */,
+				9CF268F42DE4D04800B2062C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9CF268F82DE4D04800B2062C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9CF268F92DE4D04800B2062C /* Holy Places Watch Watch AppUITests */,
+			);
+			name = "Holy Places Watch Watch AppUITests";
+			productName = "Holy Places Watch Watch AppUITests";
+			productReference = 9CF268F62DE4D04800B2062C /* Holy Places Watch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -231,15 +349,14 @@
 		64FDE6E31E21863A00951A58 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 1400;
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
 				ORGANIZATIONNAME = "Derek Cordon";
 				TargetAttributes = {
 					64FDE6EA1E21863A00951A58 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 3N7PM336W9;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -255,10 +372,20 @@
 							};
 						};
 					};
+					9CF268DF2DE4D04500B2062C = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					9CF268EB2DE4D04800B2062C = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 9CF268DF2DE4D04500B2062C;
+					};
+					9CF268F52DE4D04800B2062C = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 9CF268DF2DE4D04500B2062C;
+					};
 				};
 			};
 			buildConfigurationList = 64FDE6E61E21863A00951A58 /* Build configuration list for PBXProject "Holy Places" */;
-			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -266,11 +393,15 @@
 				Base,
 			);
 			mainGroup = 64FDE6E21E21863A00951A58;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 64FDE6EC1E21863A00951A58 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				64FDE6EA1E21863A00951A58 /* Holy Places */,
+				9CF268DF2DE4D04500B2062C /* Holy Places Watch Watch App */,
+				9CF268EB2DE4D04800B2062C /* Holy Places Watch Watch AppTests */,
+				9CF268F52DE4D04800B2062C /* Holy Places Watch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -278,7 +409,6 @@
 /* Begin PBXResourcesBuildPhase section */
 		64FDE6E91E21863A00951A58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				644D96601F69F77A00E9D502 /* Main.storyboard in Resources */,
 				64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */,
@@ -287,14 +417,27 @@
 				64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */,
 				64F810B92029513D00B435BA /* HolyPlaces.xml in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CF268DE2DE4D04500B2062C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		9CF268EA2DE4D04800B2062C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		9CF268F42DE4D04800B2062C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		64FDE6E71E21863A00951A58 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				64FDE6EF1E21863A00951A58 /* AppDelegate.swift in Sources */,
 				64D934591E368ACB008F9975 /* SummaryVC.swift in Sources */,
@@ -325,9 +468,41 @@
 				64B557EA1F1FEC68002E4182 /* MapOptionsVC.swift in Sources */,
 				6479E5EF1F0579B50087E013 /* MapPoint.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CF268DC2DE4D04500B2062C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		9CF268E82DE4D04800B2062C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		9CF268F22DE4D04800B2062C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9CF268EE2DE4D04800B2062C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9CF268DF2DE4D04500B2062C /* Holy Places Watch Watch App */;
+			targetProxy = 9CF268ED2DE4D04800B2062C /* PBXContainerItemProxy */;
+		};
+		9CF268F82DE4D04800B2062C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9CF268DF2DE4D04500B2062C /* Holy Places Watch Watch App */;
+			targetProxy = 9CF268F72DE4D04800B2062C /* PBXContainerItemProxy */;
+		};
+		9CF268FF2DE4D04800B2062C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9CF268DF2DE4D04500B2062C /* Holy Places Watch Watch App */;
+			targetProxy = 9CF268FE2DE4D04800B2062C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */ = {
@@ -341,7 +516,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		64FDE6FD1E21863A00951A58 /* Debug */ = {
+		64FDE6FD1E21863A00951A58 /* Debug configuration for PBXProject "Holy Places" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -374,8 +549,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -399,7 +576,7 @@
 			};
 			name = Debug;
 		};
-		64FDE6FE1E21863A00951A58 /* Release */ = {
+		64FDE6FE1E21863A00951A58 /* Release configuration for PBXProject "Holy Places" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -432,8 +609,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3N7PM336W9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -445,19 +624,19 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		64FDE7001E21863A00951A58 /* Debug */ = {
+		64FDE7001E21863A00951A58 /* Debug configuration for PBXNativeTarget "Holy Places" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Holy Places/Holy Places.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
@@ -466,7 +645,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places of the Lord";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 4.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,14 +659,13 @@
 			};
 			name = Debug;
 		};
-		64FDE7011E21863A00951A58 /* Release */ = {
+		64FDE7011E21863A00951A58 /* Release configuration for PBXNativeTarget "Holy Places" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Holy Places/Holy Places.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = 3N7PM336W9;
@@ -492,7 +673,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places of the Lord";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 4.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -503,25 +687,245 @@
 			};
 			name = Release;
 		};
+		9CF269022DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch App" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Holy Places Watch Watch App/HolyPlacesWatchApp.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Holy-Places-Watch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "net.dacworld.Holy-Places";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		9CF269032DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch App" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "Holy Places Watch Watch App/HolyPlacesWatchApp.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Holy-Places-Watch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Holy Places Watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "net.dacworld.Holy-Places";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		9CF269062DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch AppTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places-Watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Holy Places Watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Holy Places Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		9CF269072DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch AppTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places-Watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Holy Places Watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Holy Places Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		9CF269092DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch AppUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places-Watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Holy Places Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		9CF2690A2DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch AppUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N7PM336W9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places-Watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Holy Places Watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		64FDE6E61E21863A00951A58 /* Build configuration list for PBXProject "Holy Places" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64FDE6FD1E21863A00951A58 /* Debug */,
-				64FDE6FE1E21863A00951A58 /* Release */,
+				64FDE6FD1E21863A00951A58 /* Debug configuration for PBXProject "Holy Places" */,
+				64FDE6FE1E21863A00951A58 /* Release configuration for PBXProject "Holy Places" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		64FDE6FF1E21863A00951A58 /* Build configuration list for PBXNativeTarget "Holy Places" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64FDE7001E21863A00951A58 /* Debug */,
-				64FDE7011E21863A00951A58 /* Release */,
+				64FDE7001E21863A00951A58 /* Debug configuration for PBXNativeTarget "Holy Places" */,
+				64FDE7011E21863A00951A58 /* Release configuration for PBXNativeTarget "Holy Places" */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9CF269012DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CF269022DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch App" */,
+				9CF269032DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch App" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		9CF269052DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CF269062DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch AppTests" */,
+				9CF269072DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch AppTests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		9CF269082DE4D04800B2062C /* Build configuration list for PBXNativeTarget "Holy Places Watch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CF269092DE4D04800B2062C /* Debug configuration for PBXNativeTarget "Holy Places Watch Watch AppUITests" */,
+				9CF2690A2DE4D04800B2062C /* Release configuration for PBXNativeTarget "Holy Places Watch Watch AppUITests" */,
+			);
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
