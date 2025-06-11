@@ -955,20 +955,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         achievements.append(Achievement(Name: "Temple Addict", Details: "Visit 100 different temples", IconName: "ach100T"))
         achievements.append(Achievement(Name: "Temple Aficionado", Details: "Visit 125 different temples", IconName: "ach125T"))
         achievements.append(Achievement(Name: "Temple Buff", Details: "Visit 150 different temples", IconName: "ach150T"))
-        if activeTemples.count > 174 {
-            achievements.append(Achievement(Name: "Temple Ultraist", Details: "Visit 175 different temples", IconName: "ach175T"))
-        }
-        if activeTemples.count > 199 {
-            achievements.append(Achievement(Name: "Temple Extremist", Details: "Visit 200 different temples", IconName: "ach200T"))
-        }
+        achievements.append(Achievement(Name: "Temple Legend", Details: "Visit 175 different temples", IconName: "ach175T"))
+        achievements.append(Achievement(Name: "Temple Extremist", Details: "Visit 200 different temples", IconName: "ach200T"))
+        
         // Historic Sites
         achievements.append(Achievement(Name: "History Admirer", Details: "Visit 10 different historic sites", IconName: "ach10H"))
         achievements.append(Achievement(Name: "History Lover", Details: "Visit 25 different historic sites", IconName: "ach25H"))
-        achievements.append(Achievement(Name: "History Enthusiast", Details: "Visit 40 different historic sites", IconName: "ach40H"))
-        achievements.append(Achievement(Name: "History Zealot", Details: "Visit 55 different historic sites", IconName: "ach55H"))
-        achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 70 different historic sites", IconName: "ach70H"))
-        achievements.append(Achievement(Name: "History Buff", Details: "Visit 85 different historic sites", IconName: "ach85H"))
-        achievements.append(Achievement(Name: "History Ultraist", Details: "Visit 99 different historic sites", IconName: "ach99H"))
+        achievements.append(Achievement(Name: "History Devotee", Details: "Visit 40 different historic sites", IconName: "ach40H"))
+        achievements.append(Achievement(Name: "History Enthusiast", Details: "Visit 55 different historic sites", IconName: "ach55H"))
+        achievements.append(Achievement(Name: "History Zealot", Details: "Visit 75 different historic sites", IconName: "ach75H"))
+        achievements.append(Achievement(Name: "History Aficionado", Details: "Visit 100 different historic sites", IconName: "ach100H"))
+        achievements.append(Achievement(Name: "History Buff", Details: "Visit 125 different historic sites", IconName: "ach125H"))
+        achievements.append(Achievement(Name: "History Legend", Details: "Visit 150 different historic sites", IconName: "ach150H"))
         
         // Temple Consistent for current year
         achievements.append(Achievement(Name: "Temple Consistent - \(currentYear)", Details: "Ordinances completed each month", IconName: "ach12MT\(currentYear)"))
@@ -1328,16 +1326,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     if distinctHistoricSitesVisited.count == 55 {
                         updateAchievement(achievement:"ach55H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
                     }
-                    if distinctHistoricSitesVisited.count == 70 {
-                        updateAchievement(achievement:"ach70H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    if distinctHistoricSitesVisited.count == 75 {
+                        updateAchievement(achievement:"ach75H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
                     }
-                    if distinctHistoricSitesVisited.count == 85 {
-                        updateAchievement(achievement:"ach85H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    if distinctHistoricSitesVisited.count == 100 {
+                        updateAchievement(achievement:"ach100H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
                     }
-                    if distinctHistoricSitesVisited.count == 99 {
-                        updateAchievement(achievement:"ach99H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    if distinctHistoricSitesVisited.count == 125 {
+                        updateAchievement(achievement:"ach125H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
                     }
-                    
+                    if distinctHistoricSitesVisited.count == 150 {
+                        updateAchievement(achievement:"ach150H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                    }
                 }
             }
             
@@ -1473,6 +1473,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         place.sqFt = temple.templeSqFt!
                         place.fhCode = temple.fhCode
                         place.setValue(Array(Set(temple.oldNames)), forKey: "oldNames")
+                        
+                        // ✅ Proactively rename visits using old names (even if Place already existed)
+                        for oldName in temple.oldNames {
+                            if oldName != temple.templeName {
+                                let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
+                                visitFetch.predicate = NSPredicate(format: "holyPlace == %@", oldName)
+                                let matchedVisits = try context.fetch(visitFetch)
+                                for visit in matchedVisits {
+                                    print("🔁 Proactively renamed visit from \(oldName) to \(temple.templeName)")
+                                    visit.holyPlace = temple.templeName
+                                    renamedVisits = true
+                                }
+                            }
+                        }
                     }
                 } else {
                     // Not found by name or old name, so insert new

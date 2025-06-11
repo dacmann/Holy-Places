@@ -106,7 +106,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
         ad.getVisits()
-        goal.text = goalProgress
+        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Set size of achievement button
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -288,28 +288,33 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     func wrapLabelWithOverlay(label: UILabel, backgroundColor: UIColor = .black, opacity: CGFloat = 0.05, cornerRadius: CGFloat = 8) {
         guard let superview = label.superview else { return }
-        
+
+        // Remove existing overlay if it exists
+        superview.subviews
+            .filter { $0.tag == 999 && $0.frame.intersects(label.frame) }
+            .forEach { $0.removeFromSuperview() }
+
         let overlay = UIView()
         overlay.translatesAutoresizingMaskIntoConstraints = false
         overlay.backgroundColor = backgroundColor.withAlphaComponent(opacity)
         overlay.layer.cornerRadius = cornerRadius
         overlay.layer.masksToBounds = true
-        
+        overlay.tag = 999 // Tag to identify the overlay
+
         superview.insertSubview(overlay, belowSubview: label)
-        
+
         NSLayoutConstraint.activate([
             overlay.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -8),
             overlay.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 8),
             overlay.topAnchor.constraint(equalTo: label.topAnchor, constant: -4),
             overlay.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4)
         ])
-        
+
         label.layer.shadowColor = (backgroundColor == .black ? UIColor.white.cgColor : UIColor.black.cgColor)
         label.layer.shadowOffset = CGSize(width: 1, height: 1)
         label.layer.shadowOpacity = 0.7
         label.layer.shadowRadius = 1
     }
-
 
     //MARK: - In-App Purchases
 //    var productRequest: SKProductsRequest!

@@ -18,10 +18,14 @@ struct ContentView: View {
         ? 10 : UserDefaults.standard.integer(forKey: "selectedMinutes")
 
     @State private var showPicker = false
+    @State private var backgroundIndex = 0
+    let backgrounds = ["celestial", "tree_of_life_garden", "mountain_of_the_lord"]
+    @State private var countdownFontSize: CGFloat = 16
+
     
     var body: some View {
         ZStack {
-            Image("celestial")
+            Image(backgrounds[backgroundIndex])
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
@@ -29,42 +33,88 @@ struct ContentView: View {
             VStack(spacing: 8) {
                 // Fixed height container to avoid layout thrashing
                 ZStack {
-                    Picker("Minutes", selection: Binding(
-                        get: { selectedMinutes },
-                        set: { newValue in
-                            selectedMinutes = newValue
-                            UserDefaults.standard.set(newValue, forKey: selectedMinutesKey)
-                            resetCountdown()
+                    if showPicker {
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                adjustMinutes(-1)
+                            }) {
+                                Image(systemName: "minus.circle")
+                                    .font(.caption2)
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                                    adjustMinutes(-5)
+                                }
+                            )
+
+                            Text("\(selectedMinutes) min")
+                                .font(.caption2)
+                                .foregroundColor(.white)
+
+                            Button(action: {
+                                adjustMinutes(1)
+                            }) {
+                                Image(systemName: "plus.circle")
+                                    .font(.caption2)
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                                    adjustMinutes(5)
+                                }
+                            )
+
                         }
-                    )) {
-                        ForEach(1..<61) { minute in
-                            Text("\(minute) min").tag(minute)
-                        }
-                    }
-                    .labelsHidden()
-                    .frame(height: 60)
-                    .opacity(showPicker ? 1 : 0)
-                    
-                    if !showPicker && showSwipeHint {
-                        Text("⬇︎ swipe to adjust time")
+                        .padding()
+                        .padding(.top, 40) // 👈 pushes the stepper down a bit
+                        .background(Color.black.opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    } else if showSwipeHint {
+                        Text("Swipe down to adjust timer\nSwipe left/right to change image")
                             .font(.caption2)
                             .foregroundColor(.white.opacity(0.4))
+                            .padding(.top, 44)
+                            .frame(maxWidth: .infinity)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .transition(.opacity)
                     }
                 }
+
                 .frame(height: 60)
                 
                 Spacer()
                 
                 Text(timerText())
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .font(.system(size: countdownFontSize))
+                    .foregroundColor(.white.opacity(0.8))
                     .padding(.bottom, 20)
+                    .if(!showPicker) { view in
+                        view
+                            .focusable(true)
+                            .digitalCrownRotation(
+                                $countdownFontSize,
+                                from: 10,
+                                through: 40,
+                                by: 1,
+                                sensitivity: .medium,
+                                isContinuous: false,
+                                isHapticFeedbackEnabled: true
+                            )
+                            .onChange(of: countdownFontSize) {
+                                UserDefaults.standard.set(Float(countdownFontSize), forKey: "countdownFontSize")
+                            }
+                    }
             }
             .padding()
         }
+        
         .onAppear {
+            
+            countdownFontSize = CGFloat(UserDefaults.standard.float(forKey: "countdownFontSize") == 0 ? 16 : UserDefaults.standard.float(forKey: "countdownFontSize"))
+
             if !UserDefaults.standard.bool(forKey: "hasSeenIntro") {
                 showIntro = true
             }
@@ -89,20 +139,41 @@ struct ContentView: View {
                 showIntro = false
             }
         }
-        .gesture(
+        .simultaneousGesture(
             DragGesture(minimumDistance: 20, coordinateSpace: .local)
                 .onEnded { value in
-                    if value.translation.height > 0 {
-                        withAnimation {
-                            showPicker = true
+                    if abs(value.translation.width) > abs(value.translation.height) {
+                        if value.translation.width < 0 {
+                            backgroundIndex = (backgroundIndex + 1) % backgrounds.count
+                            UserDefaults.standard.set(backgroundIndex, forKey: "backgroundIndex")
+                        } else if value.translation.width > 0 {
+                            backgroundIndex = (backgroundIndex - 1 + backgrounds.count) % backgrounds.count
+                            UserDefaults.standard.set(backgroundIndex, forKey: "backgroundIndex")
                         }
-                    } else if value.translation.height < 0 {
-                        withAnimation {
-                            showPicker = false
+                    } else {
+                        if value.translation.height > 0 {
+                            withAnimation {
+                                showPicker = true
+                            }
+                        } else if value.translation.height < 0 {
+                            withAnimation {
+                                showPicker = false
+                            }
                         }
                     }
                 }
         )
+
+    }
+    
+    func adjustMinutes(_ delta: Int) {
+        let newValue = max(1, min(60, selectedMinutes + delta))
+        if newValue != selectedMinutes {
+            selectedMinutes = newValue
+            WKInterfaceDevice.current().play(.click)
+            UserDefaults.standard.set(selectedMinutes, forKey: selectedMinutesKey)
+            resetCountdown()
+        }
     }
     
     func timerText() -> String {
@@ -150,6 +221,17 @@ struct ContentView: View {
     }
 }
 
+extension View {
+    @ViewBuilder
+    func `if`<Content: View>(_ condition: Bool, apply: (Self) -> Content) -> some View {
+        if condition {
+            apply(self)
+        } else {
+            self
+        }
+    }
+}
+
 private struct IntroContentView: View {
     @Binding var dontShowAgain: Bool
     var onDismiss: () -> Void
@@ -175,7 +257,7 @@ private struct InnerIntroViewContent: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
 
-            Text("Gently reminds you to stay alert while serving in the temple. You’ll feel a tap at your chosen interval (Swipe down to change interval). Simply tap the screen to reset the timer.")
+            Text("Gently reminds you to stay alert while serving in the temple. Swipe down to change the interval, swipe sideways to change the background, turn the Digital Crown to adjust the timer font, and tap the screen to reset the expired timer.")
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal)

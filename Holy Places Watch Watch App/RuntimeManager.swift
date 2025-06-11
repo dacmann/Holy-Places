@@ -14,10 +14,11 @@ class RuntimeManager: NSObject, WKExtendedRuntimeSessionDelegate {
     private var session: WKExtendedRuntimeSession?
 
     func start() {
-        guard session == nil else { return }
-        session = WKExtendedRuntimeSession()
-        session?.delegate = self
-        session?.start()
+        if session == nil || session?.state != .running {
+            session = WKExtendedRuntimeSession()
+            session?.delegate = self
+            session?.start()
+        }
     }
 
     func stop() {
