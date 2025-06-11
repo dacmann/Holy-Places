@@ -1,0 +1,13 @@
+{
+  "images" : [
+    {
+      "filename" : "mountain_of_the_lord.png",
+      "idiom" : "watch",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
