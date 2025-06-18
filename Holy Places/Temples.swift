@@ -21,6 +21,7 @@ class Temple: NSObject {
     var templeLatitude = Double()
     var templeLongitude = Double()
     var templeOrder = Int16()
+    var templeAnnouncedDate: Date?
     var templePictureURL = String()
     var templeType = String()
     var templeSiteURL = String()
@@ -35,7 +36,7 @@ class Temple: NSObject {
     
     var oldNames: [String] = []
 
-    init(Id:String = "", Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32, FHCode:String?){
+    init(Id:String = "", Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, AnnouncedDate: Date?, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32, FHCode:String?) {
         templeId = Id
         templeName = Name
         templeAddress = Address
@@ -46,6 +47,7 @@ class Temple: NSObject {
         templeLatitude = Latitude
         templeLongitude = Longitude
         templeOrder = Order
+        templeAnnouncedDate = AnnouncedDate
         templePictureURL = PictureURL
         templeType = Type
         cllocation = CLLocation(latitude: Latitude!, longitude: Longitude!)

@@ -691,7 +691,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -719,7 +719,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }
@@ -846,6 +846,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
 
         if elementName == "Place" {
+            // Extract Announced Date from snippet
+            var announcedDate: Date? = nil
+            let snippetLower = templeSnippet.lowercased()
+
+            if let range = snippetLower.range(of: #"announced\s+\d{1,2}\s+[a-z]+\s+\d{4}"#, options: .regularExpression) {
+                let dateStr = String(snippetLower[range]).replacingOccurrences(of: "announced ", with: "")
+                let formatter = DateFormatter()
+                formatter.dateFormat = "d MMMM yyyy"
+                formatter.locale = Locale(identifier: "en_US_POSIX")
+                announcedDate = formatter.date(from: dateStr.capitalized)
+            }
+
+            // Log if announced date not parsed
+            if (templeType == "T" || templeType == "C" || templeType == "A") && announcedDate == nil {
+                print("⚠️ Could not parse announced date for: \(templeName) — Snippet: \(templeSnippet)")
+            }
+
             // Determine Order
             let digits = CharacterSet.decimalDigits
             
@@ -872,6 +889,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 Latitude: templeLatitude,
                 Longitude: templeLongitude,
                 Order: Int16(number)!,
+                AnnouncedDate: announcedDate,
                 PictureURL: templePictureURL,
                 SiteURL: templeSiteURL,
                 Type: templeType,
@@ -1644,6 +1662,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             allTemples.removeAll()
             
             for place in searchResults {
+                var announcedDate: Date? = nil
+                let snippetLower = (place.snippet ?? "").lowercased()
+
+                if let range = snippetLower.range(of: #"announced\s+\d{1,2}\s+[a-z]+\s+\d{4}"#, options: .regularExpression) {
+                    let dateStr = String(snippetLower[range]).replacingOccurrences(of: "announced ", with: "")
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "d MMMM yyyy"
+                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    announcedDate = formatter.date(from: dateStr.capitalized)
+                }
+
+                // Optional logging
+                if ["T", "C", "A"].contains(place.type ?? "") && announcedDate == nil {
+                    print("⚠️ Could not parse announced date for: \(place.name ?? "?") — Snippet: \(place.snippet ?? "nil")")
+                }
+
                 let temple = Temple(
                     Id: place.placeID ?? "",
                     Name: place.name,
@@ -1655,6 +1689,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     Latitude: place.latitude,
                     Longitude: place.longitude,
                     Order: place.order,
+                    AnnouncedDate: announcedDate,
                     PictureURL: place.pictureURL,
                     SiteURL: place.siteURL,
                     Type: place.type,

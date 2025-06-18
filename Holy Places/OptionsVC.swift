@@ -20,7 +20,8 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
     var sortSelected: Int?
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples", "All Temples"]
     var sortOptions = ["Alphabetical", "Nearest", "Country"]
-    var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size"]
+    var sortOptionsTemple = ["Alphabetical", "Nearest", "Country", "Dedication Date", "Size", "Announced Date"]
+    var sortOptionsAllTemples = ["Alphabetical", "Nearest", "Country", "Announced Date"]
     var sortOptionsAll = ["Alphabetical", "Nearest", "Country"]
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -38,6 +39,8 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         // Determine which Sort array to use
         if filterSelected == 1 {
             sortOptions = sortOptionsTemple
+        } else if [4, 5, 6].contains(filterSelected) {
+            sortOptions = sortOptionsAllTemples
         } else {
             sortOptions = sortOptionsAll
         }
@@ -108,15 +111,16 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
             filterSelected = row
             if row == 1 {
                 sortOptions = sortOptionsTemple
-                pickerSort.reloadAllComponents()
+            } else if [4, 5, 6].contains(row) {
+                sortOptions = sortOptionsAllTemples
             } else {
                 sortOptions = sortOptionsAll
-                pickerSort.reloadAllComponents()
-                // ensure the Temple-only sort options aren't selected
-                if Double(sortSelected!) > 2 {
-                    sortSelected = 0
-                    pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
-                }
+            }
+
+            pickerSort.reloadAllComponents()
+            if sortSelected! >= sortOptions.count {
+                sortSelected = 0
+                pickerSort.selectRow(sortSelected!, inComponent: 0, animated: true)
             }
         }
     }

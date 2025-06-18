@@ -30,6 +30,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     var sortByCountry = Bool()
     var sortByDedicationDate = Bool()
     var sortBySize = Bool()
+    var sortByAnnouncedDate = Bool()
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var randomPlace = false
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -50,16 +51,30 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         sortByCountry = false
         sortByDedicationDate = false
         sortBySize = false
+        sortByAnnouncedDate = false
+        
         if placeSortRow == 1 {
             nearestEnabled = true
-            //appDelegate.locationServiceSetup() - now done in OptionsVC
         } else if placeSortRow == 2 {
             sortByCountry = true
         } else if placeSortRow == 3 {
-            sortByDedicationDate = true
+            // Dedication Date for Active Temples
+            if placeFilterRow == 1 {
+                sortByDedicationDate = true
+            }
+            // Announced Date for non-active temples
+            if [4, 5, 6].contains(placeFilterRow) {
+                sortByAnnouncedDate = true
+            }
         } else if placeSortRow == 4 {
             sortBySize = true
+        } else if placeSortRow == 5 {
+            // Announced Date for Active Temples
+            if placeFilterRow == 1 {
+                sortByAnnouncedDate = true
+            }
         }
+
         optionsChanged = true
     }
     
@@ -190,6 +205,44 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                         let newSection = (index: index, length: i - index, title: title)
                         sections.append(newSection)
                         era = commonEra
+                        index = i
+                    }
+                }
+            } else if sortByAnnouncedDate {
+                subTitle = "by Announced Date"
+                
+                // Sort by descending date (latest first)
+                places.sort {
+                    switch ($0.templeAnnouncedDate, $1.templeAnnouncedDate) {
+                    case let (d1?, d2?):
+                        return d1 > d2 // most recent first
+                    case (_?, nil):
+                        return true  // valid dates come before nil
+                    case (nil, _?):
+                        return false // nil dates go after valid ones
+                    default:
+                        return false // stable sort
+                    }
+                }
+
+                var index = 0
+                var currentDateString = ""
+                let formatter = DateFormatter()
+                formatter.dateFormat = "d MMMM yyyy"
+
+                for i in 0...places.count {
+                    var dateString = ""
+                    if i < places.count, let date = places[i].templeAnnouncedDate {
+                        dateString = formatter.string(from: date)
+                    }
+
+                    if dateString != currentDateString || i == places.count {
+                        if !currentDateString.isEmpty {
+                            let title = "\(currentDateString) (\(i - index))"
+                            let newSection = (index: index, length: i - index, title: title)
+                            sections.append(newSection)
+                        }
+                        currentDateString = dateString
                         index = i
                     }
                 }
@@ -521,7 +574,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         
-        if nearestEnabled || sortByDedicationDate || sortBySize {
+        if nearestEnabled || sortByDedicationDate || sortBySize || sortByAnnouncedDate {
             return nil
         } else {
             let titles = sections.map {$0.title[(title?.startIndex)!].description}

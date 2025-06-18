@@ -272,7 +272,7 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             // Change the back button on the Record Visit VC to Cancel
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
             if segmentedController.selectedSegmentIndex == 3 {
-                let temple = Temple(Name: placeName.text!, Address: "", Snippet: "", CityState: "", Country: "", Phone: "", Latitude: 0.0, Longitude: 0.0, Order: 0, PictureURL: "", SiteURL: "", Type: "O", ReaderView: false, InfoURL: "", SqFt: 0, FHCode: "")
+                let temple = Temple(Name: placeName.text!, Address: "", Snippet: "", CityState: "", Country: "", Phone: "", Latitude: 0.0, Longitude: 0.0, Order: 0, AnnouncedDate: nil, PictureURL: "", SiteURL: "", Type: "O", ReaderView: false, InfoURL: "", SqFt: 0, FHCode: "")
                 controller.detailItem = temple
             } else {
                 let temple = filteredData[placeNameSelected]
