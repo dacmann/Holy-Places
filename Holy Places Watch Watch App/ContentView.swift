@@ -3,6 +3,7 @@
 
 import SwiftUI
 import WatchKit
+import UserNotifications
 
 struct ContentView: View {
 
@@ -18,7 +19,7 @@ struct ContentView: View {
         ? 10 : UserDefaults.standard.integer(forKey: "selectedMinutes")
 
     @State private var showPicker = false
-    @State private var backgroundIndex = 0
+    @State private var backgroundIndex = UserDefaults.standard.integer(forKey: "backgroundIndex")
     let backgrounds = ["celestial", "tree_of_life_garden", "mountain_of_the_lord"]
     @State private var countdownFontSize: CGFloat = 16
 
@@ -112,7 +113,16 @@ struct ContentView: View {
         }
         
         .onAppear {
-            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+                if let error = error {
+                    print("Notification authorization error: \(error.localizedDescription)")
+                }
+                if !granted {
+                    print("Notifications denied. Users won’t receive session expiration alerts in the background.")
+                    // Optionally set a @State variable to show a UI warning, e.g.:
+                    // self.showNotificationWarning = true
+                }
+            }
             countdownFontSize = CGFloat(UserDefaults.standard.float(forKey: "countdownFontSize") == 0 ? 16 : UserDefaults.standard.float(forKey: "countdownFontSize"))
 
             if !UserDefaults.standard.bool(forKey: "hasSeenIntro") {
@@ -258,6 +268,11 @@ private struct InnerIntroViewContent: View {
                 .padding(.top)
 
             Text("Gently reminds you to stay alert while serving in the temple. Swipe down to change the interval, swipe sideways to change the background, turn the Digital Crown to adjust the timer font, and tap the screen to reset the expired timer.")
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal)
+            
+            Text("This app runs for up to 1 hour. Enable Notifications when prompted to receive alerts if the timer stops. Turn on Time Sensitive Notifications in the Watch app to ensure timely delivery, even in Do Not Disturb mode.")
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal)

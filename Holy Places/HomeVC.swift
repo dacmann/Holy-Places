@@ -203,7 +203,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        
         // Pop Welcome message
         if changesDate != "" {
             var changesMsg = changesMsg1
@@ -255,19 +254,13 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             }
         }
 
-       /* if UIApplication.shared.statusBarOrientation.isLandscape && !UIApplication.shared.isSplitOrSlideOver {
-            setImage(landscape: true)
-        } else {
-            setImage(landscape: false)
-        }
-        */
-        // Lock Orientation to Portrait only for small devices
-//        let width = UIScreen.main.bounds.width
-//        print("screen width is \(width)")
-//        if width < 400 {
         if UIDevice.current.userInterfaceIdiom != .pad {
             AppUtility.lockOrientation(.portrait)
         }
+        
+        // Show "What's New" pop-up for new app version
+        showWhatsNewPopup()
+        
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -316,40 +309,128 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         label.layer.shadowRadius = 1
     }
 
-    //MARK: - In-App Purchases
-//    var productRequest: SKProductsRequest!
-//    
-//    // Fetch information about your products from the App Store.
-//    func fetchProducts(matchingIdentifiers identifiers: [String]) {
-//        // Create a set for your product identifiers.
-//        let productIdentifiers = Set(identifiers)
-//        // Initialize the product request with the above set.
-//        productRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
-//        productRequest.delegate = self
-//        
-//        // Send the request to the App Store.
-//        productRequest.start()
-//    }
-//    
-//    // Get the App Store's response
-//    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-//        // Parse products retrieved from StoreKit
-//        if response.products.count > 0 {
-//            // Use availableProducts to populate UI.
-//            let availableProducts = response.products
-//            
-//            // format price for local currency
-//            let formatter = NumberFormatter()
-//            formatter.numberStyle = .currency
-//            formatter.locale = availableProducts[0].priceLocale
-//            
-//            greatTip = availableProducts[0].localizedTitle + "\n" + formatter.string(from: availableProducts[0].price)!
-//            greatTipPC = availableProducts[0]
-//            greaterTip = availableProducts[1].localizedTitle + "\n" + formatter.string(from: availableProducts[1].price)!
-//            greaterTipPC = availableProducts[1]
-//            greatestTip = availableProducts[2].localizedTitle + "\n" + formatter.string(from: availableProducts[2].price)!
-//            greatestTipPC = availableProducts[2]
-//        }
-//    }
-
+    // MARK: - What's New Pop-up
+    private func showWhatsNewPopup() {
+        // Get current app version
+        guard let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            print("Could not retrieve app version")
+            return
+        }
+        
+        // Check if this version's pop-up has already been shown
+        let lastVersionShown = UserDefaults.standard.string(forKey: "lastAppVersionShown")
+        if lastVersionShown == currentVersion {
+            print("Pop-up already shown for version \(currentVersion)")
+            return // Pop-up already shown for this version
+        }
+        
+        // Define "What's New" content for each version
+        let whatsNewContent: [String: String] = [
+            "4.8": """
+                Recently added features:
+                
+                * A new companion Apple Watch app displays a celestial-themed timer and gently taps your wrist at set intervals — ideal for staying attentive in a temple session.
+                
+                * Tapping on a Place address will now display navigation options with Apple Maps, Google Maps and Waze.
+                
+                * Updated the Achievements with all new, hand-drawn icons that look great in dark mode and added new Endowment and Historic Sites achievements.
+                
+                * New 'Announced Date' sort option on the Places tab to easily see which temples were announced at each conference.
+                """
+        ]
+        
+        // Get content for current version, or skip if none defined
+        guard let message = whatsNewContent[currentVersion] else {
+            print("No 'What's New' content defined for version \(currentVersion)")
+            return
+        }
+        
+        // Create pop-up view
+        let popupView = UIView()
+        popupView.translatesAutoresizingMaskIntoConstraints = false
+        popupView.backgroundColor = UIColor.systemBackground
+        popupView.layer.cornerRadius = 12
+        popupView.layer.masksToBounds = true
+        popupView.layer.borderWidth = 1
+        popupView.layer.borderColor = UIColor(named: "BaptismsBlue")?.cgColor ?? UIColor.blue.cgColor
+        
+        // Title label
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let titleText = "What's New in Version \(currentVersion)"
+        titleLabel.text = titleText
+        titleLabel.font = UIFont(name: "Baskerville-Bold", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textColor = UIColor.label // Use UIColor.label for better contrast
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0 // Allow wrapping if needed
+        print("Title set to: \(titleText)") // Debug print to confirm title
+        
+        // Message label
+        let messageLabel = UILabel()
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        messageLabel.text = message
+        messageLabel.font = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        messageLabel.textColor = UIColor.label
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .left
+        
+        // OK button
+        let okButton = UIButton(type: .system)
+        okButton.translatesAutoresizingMaskIntoConstraints = false
+        okButton.setTitle("OK", for: .normal)
+        okButton.titleLabel?.font = UIFont(name: "Baskerville", size: 18) ?? UIFont.systemFont(ofSize: 18)
+        okButton.setTitleColor(UIColor(named: "BaptismsBlue"), for: .normal)
+        okButton.addTarget(self, action: #selector(dismissWhatsNewPopup), for: .touchUpInside)
+        
+        // Stack view to arrange title, message, and button
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, messageLabel, okButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .fill // Ensure subviews fill the width
+        stackView.distribution = .equalSpacing // Distribute space evenly
+        
+        popupView.addSubview(stackView)
+        view.addSubview(popupView)
+        
+        // Constraints
+        NSLayoutConstraint.activate([
+            popupView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            popupView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            popupView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            popupView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor, multiplier: 0.7), // Increased to ensure space
+            
+            stackView.topAnchor.constraint(equalTo: popupView.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: popupView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: popupView.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: popupView.bottomAnchor, constant: -20),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
+        ])
+        
+        // Animate pop-up appearance
+        popupView.alpha = 0
+        popupView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        UIView.animate(withDuration: 0.3) {
+            popupView.alpha = 1
+            popupView.transform = .identity
+        }
+        
+        // Store the current version to prevent re-showing
+        UserDefaults.standard.set(currentVersion, forKey: "lastAppVersionShown")
+        print("Showing 'What's New' pop-up for version \(currentVersion)")
+    }
+    
+    @objc private func dismissWhatsNewPopup(_ sender: UIButton) {
+        // Animate pop-up dismissal
+        if let popupView = sender.superview?.superview {
+            UIView.animate(withDuration: 0.3, animations: {
+                popupView.alpha = 0
+                popupView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            }, completion: { _ in
+                popupView.removeFromSuperview()
+            })
+        }
+    }
 }
