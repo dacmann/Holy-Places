@@ -72,6 +72,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         self.tabBarController?.delegate = self
         
+        // Add notification observer to refresh background image when app becomes active
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
         // download all place images if needed
         //ad.downloadImage()
         
@@ -201,6 +204,27 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
     }
     
+    func refreshBackgroundImage() {
+        // Refresh the background image based on current settings
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let interfaceOrientation = windowScene.interfaceOrientation
+            let isLandscape = interfaceOrientation.isLandscape
+            setImage(landscape: isLandscape)
+        } else {
+            setImage(landscape: false)
+        }
+    }
+    
+    @objc func appDidBecomeActive() {
+        // Refresh background image when app becomes active
+        refreshBackgroundImage()
+    }
+    
+    deinit {
+        // Remove notification observer
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         // Pop Welcome message
@@ -243,16 +267,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let interfaceOrientation = windowScene.interfaceOrientation
-            let isLandscape = interfaceOrientation.isLandscape
-            
-            if isLandscape {
-                setImage(landscape: true)
-            } else {
-                setImage(landscape: false)
-            }
-        }
+        // Refresh background image to ensure it reflects current settings
+        refreshBackgroundImage()
 
         if UIDevice.current.userInterfaceIdiom != .pad {
             AppUtility.lockOrientation(.portrait)

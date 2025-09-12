@@ -40,6 +40,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var confirmations = Int16()
     var baptisms = Int16()
     var type = String()
+    var isFavorite = false
     let dateFormatter = DateFormatter()
     let dateFormatterFile = DateFormatter()
     var importCount = 0
@@ -212,7 +213,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             case "txt":
                 visits.append(" Total Number of Visits: \(exportCount)\n\n")
             case "csv":
-                visits = "holyPlace,type,dateVisited,comments,hoursWorked,sealings,endowments,initiatories,confirmations,baptisms\n"
+                visits = "holyPlace,type,dateVisited,comments,hoursWorked,sealings,endowments,initiatories,confirmations,baptisms,isFavorite\n"
             default: // xml
                 visits.append("<TotalVisits>\(searchResults.count)</TotalVisits><Visits>")
             }
@@ -224,6 +225,9 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     visits.append("\(visit.holyPlace!)\n")
                     visits.append("\(dateFormatter.string(from: visit.dateVisited!))\n")
                     visits.append(visit.comments!)
+                    if visit.isFavorite {
+                        visits.append("\n⭐️ Favorite Visit")
+                    }
                 case "csv":
                     let dateFormatter2 = DateFormatter()
                     dateFormatter2.dateStyle = .short
@@ -233,6 +237,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     visits.append("<type>\(visit.type!)</type>")
                     visits.append("<dateVisited>\(dateFormatter.string(from: visit.dateVisited!))</dateVisited>")
                     visits.append("<comments><![CDATA[\(visit.comments!)]]></comments>")
+                    visits.append("<isFavorite>\(visit.isFavorite)</isFavorite>")
                 }
                 
                 if visit.value(forKey: "type") as! String == "T" {
@@ -271,7 +276,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 case "txt":
                     visits.append("\n\n")
                 case "csv":
-                    visits.append("\n")
+                    visits.append(",\(visit.isFavorite)\n")
                 default: 
                     visits.append("</Visit>")
                 }
@@ -330,6 +335,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             confirmations = Int16()
             baptisms = Int16()
             type = String()
+            isFavorite = false
         }
     }
     
@@ -352,6 +358,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             case "confirmations": confirmations = Int16(string)!
             case "baptisms": baptisms = Int16(string)!
             case "type": type = string
+            case "isFavorite": isFavorite = string.lowercased() == "true"
             default: return
             }
         }
@@ -394,6 +401,7 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     visit.dateVisited = visitDate
                     visit.type = type
                     visit.shiftHrs = hoursWorked
+                    visit.isFavorite = isFavorite
                     
                     //save the object
                     do {

@@ -174,12 +174,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         ValueTransformer.setValueTransformer(StringArrayTransformer(), forName: NSValueTransformerName("StringArrayTransformer"))
         
-        // Change the font of the tab bar items
+        // Configure tab bar appearance for iOS 15.6+
         let tabBarItemFont = UIFont(name: "Baskerville", size: 13) ?? UIFont.systemFont(ofSize: 13)
         let textAttributes = [NSAttributedString.Key.font: tabBarItemFont]
         
-        UITabBarItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes(textAttributes, for: .selected)
+        let tabBarItemAppearance = UITabBarItemAppearance()
+        // Hide title for normal (unselected) state, show for selected state
+        tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: tabBarItemFont, NSAttributedString.Key.foregroundColor: UIColor.clear]
+        tabBarItemAppearance.selected.titleTextAttributes = textAttributes
+        
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor.systemBackground
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        
+        tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
+        tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
+        tabBarAppearance.compactInlineLayoutAppearance = tabBarItemAppearance
+        
         UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue")
         
         // Change the font and color for the navigation Bar text
@@ -198,24 +211,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UINavigationBar.appearance().compactAppearance = style
         UINavigationBar.appearance().scrollEdgeAppearance = style
         
-        if #available(iOS 15.0, *) {
-            
-            let tabBarItemAppearance = UITabBarItemAppearance()
-            tabBarItemAppearance.normal.titleTextAttributes = textAttributes
-            tabBarItemAppearance.selected.titleTextAttributes = textAttributes
-            
-            let tabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.configureWithOpaqueBackground()
-            tabBarAppearance.backgroundColor = UIColor.systemBackground
-            //tabBarAppearance.
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            UITabBar.appearance().standardAppearance = tabBarAppearance
-            
-            tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
-            tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
-            tabBarAppearance.compactInlineLayoutAppearance = tabBarItemAppearance
-        }
-        
         //Load any saved settings
         ad = UIApplication.shared.delegate as! AppDelegate
         let context = ad.persistentContainer.viewContext
@@ -230,6 +225,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Update Places
         // letting this now be handled only from home tab
         // refreshTemples()
+        
+        loadSettings()
+        
+        // Add Quick Launch shortcut when authorized
+        let manager = CLLocationManager()
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
+            print("Location Services Authorized")
+            locationServiceSetup()
+        }
+        
+        return true
+    }
+    
+    func loadSettings() {
+        let context = ad.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
         
         do {
             //go get the results
@@ -273,15 +284,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         } catch {
             print("Error with request: \(error)")
         }
-        
-        // Add Quick Launch shortcut when authorized
-        let manager = CLLocationManager()
-        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
-            print("Location Services Authorized")
-            locationServiceSetup()
-        }
-        
-        return true
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -339,6 +341,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        // Reload settings to ensure background image preferences are up to date
+        loadSettings()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -691,7 +695,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -719,7 +723,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }

@@ -9,6 +9,33 @@
 import UIKit
 import MapKit
 
+class ResizablePinAnnotationView: MKPinAnnotationView {
+    var baseSize: CGFloat = 30.0
+    var minSize: CGFloat = 18.0
+    var maxSize: CGFloat = 40.0
+    
+    func updateSize(for zoomLevel: Double) {
+        // Calculate size based on zoom level
+        // Higher altitude (more zoomed out) = smaller pins
+        // Lower altitude (more zoomed in) = larger pins
+        
+        // Use a more reasonable range for the app's zoom levels
+        // The app uses altitudes from ~1000 (very zoomed in) to ~10000000 (very zoomed out)
+        let minAltitude: Double = 1000
+        let maxAltitude: Double = 10000000
+        
+        let normalizedZoom = max(0, min(1, (zoomLevel - minAltitude) / (maxAltitude - minAltitude)))
+        let size = minSize + (maxSize - minSize) * (1 - normalizedZoom)
+        
+        // Update the frame size
+        let newSize = max(minSize, min(maxSize, size))
+        self.frame = CGRect(x: 0, y: 0, width: newSize, height: newSize)
+        
+        // Center the pin properly
+        self.centerOffset = CGPoint(x: 0, y: -newSize/2)
+    }
+}
+
 class MapVC: UIViewController, MKMapViewDelegate {
 
     var placeName = String()
@@ -181,12 +208,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let identifier = "pin"
-        var view : MKPinAnnotationView
+        var view : ResizablePinAnnotationView
         guard let annotation = annotation as? MapPoint else {return nil}
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResizablePinAnnotationView {
             view = dequeuedView
         } else { //make a new view
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view = ResizablePinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
         
         // Left accessory view
@@ -211,6 +238,10 @@ class MapVC: UIViewController, MKMapViewDelegate {
 //        view.image
         view.pinTintColor = pinColor(type: annotation.type)
         annotation.title = " "
+        
+        // Set initial size based on current zoom level
+        view.updateSize(for: mapView.camera.altitude)
+        
         return view
     }
 
@@ -222,6 +253,19 @@ class MapVC: UIViewController, MKMapViewDelegate {
 //            print(place.templeName)
             placeName = place.templeName
             mapPoint = MapPoint(title: placeName, coordinate: view.annotation!.coordinate, type: place.templeType)
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        // Update pin sizes when zoom level changes
+        let currentAltitude = mapView.camera.altitude
+        mapZoomLevel = currentAltitude
+        
+        // Update all visible annotation views
+        for annotation in mapView.annotations {
+            if let annotationView = mapView.view(for: annotation) as? ResizablePinAnnotationView {
+                annotationView.updateSize(for: currentAltitude)
+            }
         }
     }
 
