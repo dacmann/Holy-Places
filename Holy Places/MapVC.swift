@@ -43,6 +43,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var mapPlaces: [Temple] = []
     var alreadyVisitedTab = false
+    var fromPlaceDetail = false
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -69,9 +70,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
         if let navigationController = self.navigationController {
             if navigationController.viewControllers.first == self && !alreadyVisitedTab {
+                // First time accessing map tab
                 optionSelected = true
                 if ad.coordinateOfUser != nil {
                     mapCenter = CLLocationCoordinate2D(latitude: ad.coordinateOfUser.coordinate.latitude, longitude: ad.coordinateOfUser.coordinate.longitude)
@@ -79,15 +80,36 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     // default to Temple Square
                     mapCenter = CLLocationCoordinate2D(latitude: 40.7707425, longitude: -111.8932596)
                 }
-                
-                mapZoomLevel = 10000000
+                mapZoomLevel = 1000000  // 1000km - reasonable for showing all places
                 alreadyVisitedTab = true
+            } else if navigationController.viewControllers.first == self && alreadyVisitedTab {
+                // Returning to map tab - reset any previous place detail selection
+                mapPoints.removeAll()
+                mapView.removeAnnotations(mapView.annotations)
+                mapZoomLevel = 1000000  // 1000km - reasonable for showing all places
+                optionSelected = true
+                // Clear any selected annotation
+                if let selectedAnnotation = mapView.selectedAnnotations.first {
+                    mapView.deselectAnnotation(selectedAnnotation, animated: false)
+                }
             }
         }
-        self.configureView()
-
+        
+        // Handle coming from place detail
+        if fromPlaceDetail {
+            tabBarController?.tabBar.isHidden = true
+            mapZoomLevel = 2000  // Neighborhood level zoom
+        } else {
+            tabBarController?.tabBar.isHidden = false
+        }
+        
         if optionSelected {
             mapThePlaces()
+        }
+        
+        // Only set region when coming from place detail or first time
+        if fromPlaceDetail || (navigationController?.viewControllers.first == self && !alreadyVisitedTab) {
+            self.configureView()
         }
     }
     
@@ -163,13 +185,22 @@ class MapVC: UIViewController, MKMapViewDelegate {
             return categoryMatch
         }
         
-        mapView.removeAnnotations(mapPoints)
-        mapPoints.removeAll()                                                                                                                                                                                                   
-        for place in filteredPlaces {
-            mapPoints.append(MapPoint(title: (place.templeName), coordinate: CLLocationCoordinate2D(latitude: (place.cllocation.coordinate.latitude), longitude: (place.cllocation.coordinate.longitude)), type: (place.templeType)))
+        // If coming from place detail, don't rebuild all places - keep single selection
+        if !fromPlaceDetail {
+            mapView.removeAnnotations(mapPoints)
+            mapPoints.removeAll()                                                                                                                                                                                                   
+            for place in filteredPlaces {
+                mapPoints.append(MapPoint(title: (place.templeName), coordinate: CLLocationCoordinate2D(latitude: (place.cllocation.coordinate.latitude), longitude: (place.cllocation.coordinate.longitude)), type: (place.templeType)))
+            }
+            mapView.addAnnotations(mapPoints)
+            // Clear any selected annotation when rebuilding all places
+            if let selectedAnnotation = mapView.selectedAnnotations.first {
+                mapView.deselectAnnotation(selectedAnnotation, animated: false)
+            }
         }
-        mapView.addAnnotations(mapPoints)
-        if let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
+        
+        // Only select annotation if coming from place detail
+        if fromPlaceDetail, let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
             mapView.selectAnnotation(mapPoints[found], animated: true)
         }
     }
@@ -182,8 +213,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
             if let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
                 mapView.selectAnnotation(mapPoints[found], animated: true)
             }
-            let mapCamera = MKMapCamera(lookingAtCenter: mapCenter, fromEyeCoordinate: mapCenter, eyeAltitude: mapZoomLevel)
-            mapView.setCamera(mapCamera, animated: false)
+            // Set region with the specified zoom level
+            let region = MKCoordinateRegion(center: mapCenter, latitudinalMeters: mapZoomLevel, longitudinalMeters: mapZoomLevel)
+            mapView.setRegion(region, animated: true)
         }
     }
 
@@ -259,7 +291,6 @@ class MapVC: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // Update pin sizes when zoom level changes
         let currentAltitude = mapView.camera.altitude
-        mapZoomLevel = currentAltitude
         
         // Update all visible annotation views
         for annotation in mapView.annotations {
@@ -300,23 +331,29 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 placeName = place.templeName
 //                print(places[selectedPlaceRow].templeName)
                 if control == view.leftCalloutAccessoryView {
-                    // Navigate back to the Detail Page but swap out the details with the selected Place from the Map
+                    // Navigate directly to PlaceDetailVC from map
                     detailItem = place
-                    // Save the current Camera altitude
                     mapZoomLevel = mapView.camera.altitude
-                    if self.navigationController?.popViewController(animated: true) == nil {
-                        // navigate to the place details
-                        if let myTabBar = ad.window?.rootViewController as? UITabBarController {
-                            myTabBar.selectedIndex = 1
-                            let nvc = myTabBar.selectedViewController as? UINavigationController
-                            let vc = nvc?.viewControllers.first as? TableViewController
-                            nvc?.popToRootViewController(animated: false)
-                            _ = vc!.openForPlace(shortcutIdentifier: .ViewPlace)
-                        }
+                    
+                    // Create PlaceDetailVC instance directly
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let placeDetailVC = storyBoard.instantiateViewController(withIdentifier: "PlaceDetail") as? PlaceDetailVC {
+                        placeDetailVC.fromMap = true
+                        self.navigationController?.pushViewController(placeDetailVC, animated: true)
                     }
                 }
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show tab bar when leaving map (in case it was hidden)
+        tabBarController?.tabBar.isHidden = false
+        
+        // Reset the flag for next time
+        fromPlaceDetail = false
     }
 
 }
