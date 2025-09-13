@@ -366,13 +366,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
+                                                <imageView userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n8V-64-8Vu">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZAD-zY-ug5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btI-Gq-DnQ" customClass="ShadowButton" customModule="Holy_Places" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="42.5" width="394" height="35"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
                                                     <state key="normal" title="Import Image">
@@ -403,7 +403,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9dI-CK-Mbb">
                                                     <rect key="frame" x="287" y="6.5" width="111" height="32"/>
                                                     <segments>
                                                         <segment title="White"/>
@@ -414,7 +414,7 @@
                                                         <action selector="textColorChange:" destination="Pqe-NT-UkW" eventType="valueChanged" id="jcP-5Y-KfA"/>
                                                     </connections>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyI-Fe-Eg6">
                                                     <rect key="frame" x="16" y="11.5" width="79" height="21"/>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
@@ -431,7 +431,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Copy Visit" footerTitle="Configure how many days will be automatically added when the Copy swipe action is selected for an existing Visit." id="Imo-fS-zmH">
+                            <tableViewSection headerTitle="Visit Comments" footerTitle="Configure the default text shown in the comments when recording a new visit." id="Imo-fS-zmH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Fhf-PF-FdA">
                                         <rect key="frame" x="0.0" y="1245.5" width="414" height="44"/>
@@ -440,29 +440,54 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuH-Tt-Qx6">
+                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mgm-iO-jkN">
+                                                    <rect key="frame" x="10" y="5" width="394" height="34"/>
+                                                    <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Mgm-iO-jkN" secondAttribute="trailing" constant="10" id="9ST-gA-8z5"/>
+                                                <constraint firstItem="Mgm-iO-jkN" firstAttribute="top" secondItem="h7l-2O-ZsW" secondAttribute="top" constant="5" id="CDP-GS-ewe"/>
+                                                <constraint firstAttribute="bottom" secondItem="Mgm-iO-jkN" secondAttribute="bottom" constant="5" id="GZG-2K-YD1"/>
+                                                <constraint firstItem="Mgm-iO-jkN" firstAttribute="leading" secondItem="h7l-2O-ZsW" secondAttribute="leading" constant="10" id="vpW-Gs-UHh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Copy Visit" footerTitle="Configure how many days will be automatically added when the Copy swipe action is selected for an existing Visit." id="bMu-ah-xOF">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Kld-Da-xig">
+                                        <rect key="frame" x="0.0" y="1381" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kld-Da-xig" id="KeY-jF-sA4">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Days to add for Copy Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHL-PT-L3s">
                                                     <rect key="frame" x="20" y="11.5" width="210" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="NLo-UA-0Ne"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="IlZ-mm-xvx"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KJF-8Z-OGL">
+                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5HQ-vi-NSL">
                                                     <rect key="frame" x="338" y="5" width="60" height="34"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="BjI-p1-c6y"/>
+                                                        <constraint firstAttribute="width" constant="60" id="KiC-yO-apB"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="KJF-8Z-OGL" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="82v-6D-ge6"/>
-                                                <constraint firstAttribute="trailing" secondItem="KJF-8Z-OGL" secondAttribute="trailing" constant="16" id="Chw-Ht-4jt"/>
-                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="centerY" secondItem="h7l-2O-ZsW" secondAttribute="centerY" id="CnB-lI-CnD"/>
-                                                <constraint firstItem="TuH-Tt-Qx6" firstAttribute="leading" secondItem="h7l-2O-ZsW" secondAttribute="leadingMargin" id="ceQ-Kv-b85"/>
+                                                <constraint firstItem="EHL-PT-L3s" firstAttribute="centerY" secondItem="KeY-jF-sA4" secondAttribute="centerY" id="0Mp-eP-9An"/>
+                                                <constraint firstItem="EHL-PT-L3s" firstAttribute="leading" secondItem="KeY-jF-sA4" secondAttribute="leadingMargin" id="IcI-ev-ggs"/>
+                                                <constraint firstAttribute="trailing" secondItem="5HQ-vi-NSL" secondAttribute="trailing" constant="16" id="Lg1-c7-voB"/>
+                                                <constraint firstItem="5HQ-vi-NSL" firstAttribute="centerY" secondItem="KeY-jF-sA4" secondAttribute="centerY" id="m9j-ko-uIp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -471,7 +496,7 @@
                             <tableViewSection headerTitle="Ordinance Worker" footerTitle="Enabling this option will allow you to enter the number of hours you worked on a given day when recording a temple visit." id="TJZ-nF-bxF" userLabel="Ordinance Worker">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="syO-3Z-ycb">
-                                        <rect key="frame" x="0.0" y="1381" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="1516.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="syO-3Z-ycb" id="yx6-PV-jFd">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -519,9 +544,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addDays" destination="KJF-8Z-OGL" id="bXO-us-7ah"/>
+                        <outlet property="addDays" destination="5HQ-vi-NSL" id="8FK-8q-Bfc"/>
                         <outlet property="baptismGoal" destination="t1E-Te-fiS" id="487-FN-yUb"/>
                         <outlet property="colorThemeOptions" destination="63Y-6c-RM1" id="lne-dA-EQB"/>
+                        <outlet property="defaultCommentsTextField" destination="Mgm-iO-jkN" id="Oha-F7-jas"/>
                         <outlet property="enableSwitch" destination="gKK-16-9kt" id="fow-vy-41q"/>
                         <outlet property="endowmentGoal" destination="xk0-iw-B6C" id="qwq-B1-JFB"/>
                         <outlet property="excludeNonOrdinanceVisitsSwitch" destination="GG9-1w-uas" id="ufF-K2-igT"/>
@@ -539,7 +565,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAA-1w-j9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1697" y="-1216"/>
+            <point key="canvasLocation" x="1695.6521739130435" y="-1216.0714285714284"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
@@ -3907,7 +3933,7 @@
         <image name="PCCL" width="1112" height="834"/>
         <image name="PCCW" width="834" height="1112"/>
         <image name="QuizGame" width="512" height="512"/>
-        <image name="ach10T" width="100" height="99.5"/>
+        <image name="ach10T" width="100" height="100"/>
         <image name="journal" width="25" height="25"/>
         <image name="map" width="25" height="25"/>
         <image name="morningstar-bnw" width="25" height="25"/>

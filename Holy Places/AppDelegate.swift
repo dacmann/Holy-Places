@@ -114,6 +114,7 @@ var shiftHoursTotal = 0.0
 var didOrdinances = false
 var copyVisit: Visit?
 var copyAddDays = 7 as Int16
+var defaultCommentsText = "Attended with..."
 var ad = AppDelegate()
 var theme = "3830"
 var themeChanged = false
@@ -277,6 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     ordinanceWorker = (settings?.ordinanceWorker)!
                     excludeNonOrdinanceVisits = (settings?.excludeNonOrdinanceVisits)!
                     copyAddDays = (settings?.copyAddDays)!
+                    defaultCommentsText = settings?.defaultCommentsText ?? "Attended with..."
                 }
             } else {
                 // nothing to do here
@@ -328,6 +330,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         settings?.ordinanceWorker = ordinanceWorker
         settings?.excludeNonOrdinanceVisits = excludeNonOrdinanceVisits
         settings?.copyAddDays = copyAddDays
+        settings?.defaultCommentsText = defaultCommentsText
         
         //        SKPaymentQueue.default().remove(self)
         self.saveContext()

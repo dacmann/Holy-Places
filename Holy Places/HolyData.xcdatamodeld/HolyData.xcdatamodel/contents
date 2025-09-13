@@ -42,6 +42,7 @@
         <attribute name="annualVisitGoal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="copyAddDays" optional="YES" attributeType="Integer 16" defaultValueString="7" usesScalarValueType="YES"/>
         <attribute name="dateHolyPlaceVisited" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="defaultCommentsText" optional="YES" attributeType="String"/>
         <attribute name="excludeNonOrdinanceVisits" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="holyPlaceVisited" optional="YES" attributeType="String"/>
         <attribute name="homeAlternatePicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>

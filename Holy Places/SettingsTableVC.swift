@@ -30,6 +30,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var hoursWorkedSwitch: UISwitch!
     @IBOutlet weak var excludeNonOrdinanceVisitsSwitch: UISwitch!
     @IBOutlet weak var addDays: UITextField!
+    @IBOutlet weak var defaultCommentsTextField: UITextField!
     
     //MARK: - Standard Methods
     override func viewDidLoad() {
@@ -80,6 +81,8 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         sealingGoal.text = String(annualSealingGoal)
         minutesDelay.text = String(notificationDelayInMinutes)
         addDays.text = String(copyAddDays)
+        defaultCommentsTextField.text = defaultCommentsText
+        defaultCommentsTextField.placeholder = "Enter default comments text"
         keyboardDone()
         
     }
@@ -171,6 +174,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         annualEndowmentGoal = Int(endowmentGoal.text!) ?? 0
         annualSealingGoal = Int(sealingGoal.text!) ?? 0
         copyAddDays = Int16(addDays.text!) ?? 7
+        defaultCommentsText = defaultCommentsTextField.text ?? ""
         
         // Dismiss view
         self.dismiss(animated: true, completion: nil)
@@ -196,6 +200,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         self.endowmentGoal.inputAccessoryView = toolbar
         self.sealingGoal.inputAccessoryView = toolbar
         self.addDays.inputAccessoryView = toolbar
+        self.defaultCommentsTextField.inputAccessoryView = toolbar
     }
     
     @IBAction func addPicture(_ sender: UIButton) {

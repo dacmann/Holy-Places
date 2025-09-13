@@ -49,6 +49,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     var reloadSavedImage = false
     var wasSplitView = false
     var swiping = false
+    var fromMap = false
     
     //MARK: - ScrollView functions
     
@@ -225,18 +226,23 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         pictureScrollView.delegate = self
-        let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
-        self.navigationItem.rightBarButtonItem = button
+        // Only show map button if not coming from map
+        if !fromMap {
+            let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
+            self.navigationItem.rightBarButtonItem = button
+        }
         originalPlace = (detailItem?.templeName)!
         
-        // Add swipe gestures to navigate to other places
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
-        swipeUp.direction = .up
-        self.view.addGestureRecognizer(swipeUp)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
-        swipeDown.direction = .down
-        self.view.addGestureRecognizer(swipeDown)
+        // Add swipe gestures to navigate to other places (only if not from map)
+        if !fromMap {
+            let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+            swipeUp.direction = .up
+            self.view.addGestureRecognizer(swipeUp)
+            
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+            swipeDown.direction = .down
+            self.view.addGestureRecognizer(swipeDown)
+        }
         
         // Make address label tappable
         address.isUserInteractionEnabled = true
@@ -318,6 +324,16 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             pictureHeight.constant = view.frame.height * 0.40
         }
         setUpView()
+        
+        // Hide tab bar for all instances of place detail
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show tab bar again when leaving
+        tabBarController?.tabBar.isHidden = false
     }
     
     fileprivate func pictures() {
@@ -679,6 +695,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         }
         reloadPics = picsLoading
         mapCenter = coordinate
+        
+        // Hide tab bar before navigating to map
+        controller.fromPlaceDetail = true
+        print("DEBUG: PlaceDetailVC - Setting fromPlaceDetail = true")
+        tabBarController?.tabBar.isHidden = true
         navigationController?.pushViewController(controller, animated: true)
         
         // Change the back button on the Map VC to Back
