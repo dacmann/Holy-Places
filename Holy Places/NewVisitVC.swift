@@ -70,20 +70,6 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
 
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Hide tab bar
-        tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Show tab bar when leaving
-        tabBarController?.tabBar.isHidden = false
-    }
 
     @IBAction func placeEntered(_ sender: UITextField) {
         if placeName.text != "" {

@@ -72,20 +72,8 @@ class VisitDetailVC: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Hide tab bar
-        tabBarController?.tabBar.isHidden = true
-        
         populateView()
         setDate()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Show tab bar when leaving
-        tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - Setup Favorite Indicator
