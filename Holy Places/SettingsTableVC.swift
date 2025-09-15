@@ -186,6 +186,26 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         //create left side empty space so that done button set on right side
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        // Customize Done button font
+        let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        
+        doneBtn.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .normal)
+        
+        doneBtn.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .highlighted)
+        
+        doneBtn.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .selected)
+        
         //array of BarButtonItems
         var arr = [UIBarButtonItem]()
         arr.append(flexSpace)

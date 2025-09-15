@@ -24,33 +24,153 @@ extension VisitTableVC: UISearchBarDelegate {
     }
 }
 
-class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate {
+class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedResultsControllerDelegate, UISearchControllerDelegate {
     
     var titleHeader = String()
     var quickAddPlace: Temple?
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let formatter = DateFormatter()
-    var sortByDate = true
+    var sortOption = 0 // 0: Latest Date, 1: Oldest Date, 2: Place A-Z, 3: Place Z-A
     var backupDate: Date?
     var backupReminder: Date?
     
     @IBOutlet weak var sortBy: UIBarButtonItem!
-    @IBAction func sortByBtn(_ sender: Any) {
-        if sortByDate {
-            sortByDate = false
-            //sortBy.title = "by Date"
-        } else {
-            sortByDate = true
-            //sortBy.title = "by Place"
+    
+    // Sort options for the menu
+    let sortOptions = ["Latest Date", "Oldest Date", "Place (A-Z)", "Place (Z-A)"]
+    
+    
+    func setupSortMenu() {
+        let sortMenu = UIMenu(title: "Sort by", children: [
+            UIAction(title: "Latest Date", handler: { [weak self] _ in
+                self?.updateSortOption(0)
+            }),
+            UIAction(title: "Oldest Date", handler: { [weak self] _ in
+                self?.updateSortOption(1)
+            }),
+            UIAction(title: "Place (A-Z)", handler: { [weak self] _ in
+                self?.updateSortOption(2)
+            }),
+            UIAction(title: "Place (Z-A)", handler: { [weak self] _ in
+                self?.updateSortOption(3)
+            })
+        ])
+        
+        sortBy.menu = sortMenu
+        sortBy.title = "Sort"
+    }
+    
+    func customizeSearchBarAppearance() {
+        let baskervilleFont = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        
+        // Customize search text field font
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.font = baskervilleFont
         }
-        // reset data pull
+        
+        // Customize scope button fonts
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .normal)
+        
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .selected)
+        
+        // Customize cancel button font
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .normal)
+    }
+    
+    func updateSortOption(_ option: Int) {
+        sortOption = option
+        updateTitle()
+        
+        // Reset data pull
         _fetchedResultsController = nil
         if searchController.isActive {
-            // reset filtered results based on updated pull
+            // Reset filtered results based on updated pull
             let sel = searchController.searchBar.selectedScopeButtonIndex
             searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
         }
         self.tableView.reloadData()
+    }
+    
+    func updateTitle() {
+        // Set up title and subtitle
+        var title = String()
+        var subTitle = ""
+        
+        // Set title based on current filter
+        switch visitFilterRow {
+        case 0:
+            title = "Visits"
+        case 1:
+            title = "Active Temples"
+        case 2:
+            title = "Historical Sites"
+        case 3:
+            title = "Visitors' Centers"
+        case 4:
+            title = "Construction Visits"
+        case 5:
+            title = "Other Visits"
+        default:
+            title = "Visits"
+        }
+        
+        // Set subtitle based on sort method
+        subTitle = sortOptions[sortOption]
+        
+        // Update navigation title
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(getVisitCount()))", subtitle: subTitle)
+    }
+    
+    func getVisitCount() -> Int {
+        if let sections = fetchedResultsController.sections {
+            return sections.reduce(0) { $0 + $1.numberOfObjects }
+        }
+        return 0
+    }
+    
+    func setTitle(title: String, subtitle: String) -> UIView {
+        // Replace titleView with custom version that includes sub title
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: -2, width: 0, height: 0))
+        let titleFont = UIFont(name: "Baskerville", size: 19) ?? UIFont.systemFont(ofSize: 19)
+        let subTitleFont = UIFont(name: "Baskerville", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = UIColor.label
+        titleLabel.font = titleFont
+        titleLabel.text = title
+        titleLabel.sizeToFit()
+        
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
+        subtitleLabel.textColor = UIColor.gray
+        subtitleLabel.font = subTitleFont
+        subtitleLabel.text = subtitle
+        subtitleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff < 0 {
+            let newX = widthDiff / 2
+            subtitleLabel.frame.origin.x = abs(newX)
+        } else {
+            let newX = widthDiff / 2
+            titleLabel.frame.origin.x = newX
+        }
+        
+        return titleView
     }
     
     // Set variable based on Filter Option selected on Options view
@@ -61,11 +181,55 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     // Set variables based on Sort Option selected on Options view
     func SortOptions(row: Int) {
         visitSortRow = row
+        // Map the old sort row to new sort option if needed
+        // This maintains compatibility with existing options
+        sortOption = row
+        updateTitle()
     }
     
     // Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
     var filteredVisits = [Visit]()
+    var groupedFilteredVisits: [(section: String, visits: [Visit])] = []
+    
+    func groupFilteredVisits() {
+        groupedFilteredVisits.removeAll()
+        
+        guard !filteredVisits.isEmpty else { return }
+        
+        switch sortOption {
+        case 0, 1: // Date sorts - group by year
+            let grouped = Dictionary(grouping: filteredVisits) { visit in
+                let year = Calendar.current.component(.year, from: visit.dateVisited!)
+                return "\(year)"
+            }
+            groupedFilteredVisits = grouped.map { (section: $0.key, visits: $0.value) }
+                .sorted { 
+                    if sortOption == 0 { // Latest Date
+                        return Int($0.section)! > Int($1.section)!
+                    } else { // Oldest Date
+                        return Int($0.section)! < Int($1.section)!
+                    }
+                }
+            
+        case 2, 3: // Name sorts - group by FULL place name
+            let grouped = Dictionary(grouping: filteredVisits) { visit in
+                return visit.holyPlace! // Use the full place name as the section key
+            }
+            groupedFilteredVisits = grouped.map { (section: $0.key, visits: $0.value) }
+                .sorted { 
+                    if sortOption == 2 { // Place A-Z
+                        return $0.section < $1.section
+                    } else { // Place Z-A
+                        return $0.section > $1.section
+                    }
+                }
+            
+        default:
+            // Fallback to single section
+            groupedFilteredVisits = [("Results", filteredVisits)]
+        }
+    }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
@@ -76,6 +240,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0 || scope == "⭐️" && visit.isFavorite)
             return categoryMatch && ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())) || searchText.isEmpty)
         }
+        
+        // Group the filtered results
+        groupFilteredVisits()
+        
         // Update title
         if searchController.isActive {
             self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
@@ -113,6 +281,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         formatter.dateFormat = "EEEE, MMMM dd, yyyy"
         
+        // Setup sort menu
+        setupSortMenu()
+        
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -128,6 +299,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S", "⭐️"]
         searchController.searchBar.delegate = self
+        searchController.delegate = self
+        
+        // Customize search bar and scope button fonts
+        customizeSearchBarAppearance()
         
         let defaults = UserDefaults.standard
         backupDate = defaults.object(forKey: "backupDate") as? Date
@@ -150,6 +325,26 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        
+        // Customize Done button font
+        let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .normal)
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .highlighted)
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .selected)
+        
         keyboardToolbar.items = [flexSpace, doneButton]
 
         searchController.searchBar.inputAccessoryView = keyboardToolbar
@@ -164,7 +359,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reload the data
         _fetchedResultsController = nil
         self.tableView.reloadData()
-
+        
+        // Update title with current sort option
+        updateTitle()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -205,16 +402,49 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 defaults.set(true, forKey: "hasRequestedReview")
             }
         }
+        
+        // Ensure search bar appearance is customized
+        customizeSearchBarAppearance()
 
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsScopeBar = true
         searchBar.sizeToFit()
+        customizeSearchBarAppearance()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        // Keep scope bar visible as long as search is active
+        if searchController.isActive {
+            searchBar.showsScopeBar = true
+            searchBar.sizeToFit()
+        } else {
+            searchBar.showsScopeBar = false
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsScopeBar = false
+    }
+    
+    // MARK: - Search Controller Delegate Methods
+    func willPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.showsScopeBar = true
+        customizeSearchBarAppearance()
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.showsScopeBar = true
+        customizeSearchBarAppearance()
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.showsScopeBar = false
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.showsScopeBar = false
     }
 
     func insertNewObject(_ sender: Any) {
@@ -239,7 +469,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if searchController.isActive {
-            return nil
+            guard section < groupedFilteredVisits.count else { return nil }
+            let group = groupedFilteredVisits[section]
+            return "\(group.section) (\(group.visits.count))"
         } else {
             guard let sectionInfo = fetchedResultsController.sections?[section] else {
                 return nil
@@ -284,7 +516,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             tableView.separatorStyle  = .none
         }
         if searchController.isActive {
-            return 1
+            return groupedFilteredVisits.count
         } else {
             return self.fetchedResultsController.sections?.count ?? 0
         }
@@ -298,7 +530,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive {
-            return filteredVisits.count
+            guard section < groupedFilteredVisits.count else { return 0 }
+            return groupedFilteredVisits[section].visits.count
         } else {
             let sectionInfo = self.fetchedResultsController.sections![section]
             return sectionInfo.numberOfObjects
@@ -307,10 +540,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath)
-        var visit = self.fetchedResultsController.object(at: indexPath)
+        var visit: Visit
+        
         if searchController.isActive {
-            visit = filteredVisits[indexPath.row]
+            guard indexPath.section < groupedFilteredVisits.count else { return cell }
+            visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
+        } else {
+            visit = self.fetchedResultsController.object(at: indexPath)
         }
+        
         self.configureCell(cell, withVisit: visit)
         
         cell.accessoryType = .disclosureIndicator
@@ -474,15 +712,23 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
-        // Edit the sort key as appropriate.
-        var sortDescriptor = NSSortDescriptor(key: "holyPlace", ascending: true)
-        if sortByDate {
-            sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-        } else {
-            let sortDescriptor2 = NSSortDescriptor(key: "dateVisited", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
+        // Edit the sort key as appropriate based on sortOption
+        var sortDescriptors: [NSSortDescriptor] = []
+        
+        switch sortOption {
+        case 0: // Latest Date
+            sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
+        case 1: // Oldest Date
+            sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
+        case 2: // Place A-Z
+            sortDescriptors = [NSSortDescriptor(key: "holyPlace", ascending: true)]
+        case 3: // Place Z-A
+            sortDescriptors = [NSSortDescriptor(key: "holyPlace", ascending: false)]
+        default:
+            sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
         }
+        
+        fetchRequest.sortDescriptors = sortDescriptors
         
 //        fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -512,13 +758,22 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "holyPlace", cacheName: nil)
-        if sortByDate {
-            aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "year", cacheName: nil)
+        var sectionNameKeyPath: String?
+        
+        switch sortOption {
+        case 0, 1: // Latest Date, Oldest Date
+            sectionNameKeyPath = "year"
+        case 2, 3: // Place A-Z, Place Z-A
+            sectionNameKeyPath = "holyPlace"
+        default:
+            sectionNameKeyPath = "year"
         }
+        
         if searchController.isActive {
-            aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        }        
+            sectionNameKeyPath = nil
+        }
+        
+        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)        
         
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
@@ -624,7 +879,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! VisitDetailVC)
                 if searchController.isActive {
-                    let visit = filteredVisits[indexPath.row]
+                    guard indexPath.section < groupedFilteredVisits.count else { return }
+                    let visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
                     visitsInTable = filteredVisits
                     controller.detailVisit = visit
                     selectedVisitRow = indexPath.row

@@ -37,9 +37,21 @@ extension TableViewController: UISearchBarDelegate {
             applyScopeFilter(scope: scope)
         }
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        customizeSearchBarAppearance()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        customizeSearchBarAppearance()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Customization will be handled by search controller delegate
+    }
 }
 
-class TableViewController: UITableViewController, SendOptionsDelegate {
+class TableViewController: UITableViewController, SendOptionsDelegate, UISearchControllerDelegate {
     //MARK: - Variables and Outlets
     var nearestEnabled = Bool()
     var sortByCountry = Bool()
@@ -689,6 +701,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
             }))
             self.present(alert, animated: true)
         }
+        
+        // Ensure search bar appearance is customized
+        customizeSearchBarAppearance()
     }
     
     override func viewDidLoad() {
@@ -712,6 +727,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         
         searchController.searchBar.scopeButtonTitles = ["All", "Visited", "Not Visited"]
         searchController.searchBar.delegate = self
+        searchController.delegate = self
         searchController.searchBar.showsScopeBar = false  // Hide original scope bar since we have custom one
         SortOptions(row: placeSortRow)
         FilterOptions(row: placeFilterRow)
@@ -730,10 +746,76 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
 
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        
+        // Customize Done button font
+        let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .normal)
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .highlighted)
+        
+        doneButton.setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: baptismsBlue
+        ], for: .selected)
+        
         keyboardToolbar.items = [flexSpace, doneButton]
 
         searchController.searchBar.inputAccessoryView = keyboardToolbar
+        
+        // Customize search bar and scope button fonts
+        customizeSearchBarAppearance()
 
+    }
+    
+    func customizeSearchBarAppearance() {
+        let baskervilleFont = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        
+        // Customize search text field font
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.font = baskervilleFont
+        }
+        
+        // Customize scope button fonts
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .normal)
+        
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .selected)
+        
+        // Customize cancel button font
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
+            .font: baskervilleFont,
+            .foregroundColor: UIColor(named: "BaptismsBlue")
+        ], for: .normal)
+    }
+    
+    // MARK: - Search Controller Delegate Methods
+    func willPresentSearchController(_ searchController: UISearchController) {
+        customizeSearchBarAppearance()
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        customizeSearchBarAppearance()
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        // No action needed
+    }
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        // No action needed
     }
     
     @objc func dismissKeyboard() {

@@ -2718,11 +2718,7 @@
                     <navigationItem key="navigationItem" title="Visits" id="lL4-nU-PFd">
                         <barButtonItem key="backBarButtonItem" title="Visits" id="oxp-WO-I8O"/>
                         <leftBarButtonItems>
-                            <barButtonItem title="Sort" id="9Xf-EQ-F2d">
-                                <connections>
-                                    <action selector="sortByBtn:" destination="lXC-AK-NFm" id="Wt1-12-Y0W"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem title="Sort" id="9Xf-EQ-F2d"/>
                             <barButtonItem title="Add" id="f0N-u9-qXd">
                                 <connections>
                                     <segue destination="HiP-YK-D1n" kind="show" id="x4n-nN-iU0"/>
@@ -3377,13 +3373,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIP: Add new Visit from Place Details or by swiping left on previous Visit in table" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3SJ-RL-qNP">
-                                <rect key="frame" x="10" y="162.5" width="394" height="39"/>
+                                <rect key="frame" x="10" y="144.5" width="394" height="39"/>
                                 <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wj5-Ce-glP">
-                                <rect key="frame" x="47" y="221.5" width="320" height="453"/>
+                                <rect key="frame" x="47" y="203.5" width="320" height="489"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gS6-dg-ok8">
                                         <rect key="frame" x="98" y="0.0" width="124" height="25.5"/>
@@ -3447,14 +3443,18 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" toolTip="Include Photos in XML backup?" on="YES" title="Photos" translatesAutoresizingMaskIntoConstraints="NO" id="UEK-Lt-J2K">
+                                        <rect key="frame" x="135.5" y="333.5" width="51" height="31"/>
+                                        <color key="onTintColor" name="BaptismsBlue"/>
+                                    </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(XML file used for back-up)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fgy-E4-F5C">
-                                        <rect key="frame" x="65.5" y="333.5" width="189.5" height="19.5"/>
+                                        <rect key="frame" x="65.5" y="369.5" width="189.5" height="19.5"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qc-JX-cSe">
-                                        <rect key="frame" x="65" y="358" width="190" height="50"/>
+                                        <rect key="frame" x="65" y="394" width="190" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="JXC-iI-WTR"/>
                                         </constraints>
@@ -3468,7 +3468,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xy1-uS-udJ" customClass="CustomButton" customModule="Holy_Places" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="413" width="300" height="40"/>
+                                        <rect key="frame" x="10" y="449" width="300" height="40"/>
                                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
                                         <state key="normal" title="Done">
@@ -3514,11 +3514,11 @@
             <objects>
                 <viewController storyboardIdentifier="RecordVisitVC" title="Edit Visit" id="Wm6-qc-lsd" userLabel="Record Visit" customClass="RecordVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hdx-hg-WHC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
-                                <rect key="frame" x="20" y="10" width="374" height="580"/>
+                                <rect key="frame" x="20" y="150" width="374" height="629"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -3551,7 +3551,7 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gly-p2-QVA">
-                                        <rect key="frame" x="0.0" y="83" width="374" height="497"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="546"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JeK-wv-Hxr" userLabel="Content View">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="538"/>
@@ -3924,7 +3924,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="DQn-F3-acx"/>
-        <segue reference="Znc-r7-aaw"/>
+        <segue reference="ufl-Eb-Dlx"/>
         <segue reference="QNJ-qY-fxt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
