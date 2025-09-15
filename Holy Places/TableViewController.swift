@@ -14,13 +14,28 @@ extension TableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        let searchText = searchController.searchBar.text ?? ""
+        
+        // Don't sync custom control - it's the master control
+        
+        filterContentForSearchText(searchText: searchText, scope: scope)
     }
 }
 
 extension TableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        let scope = searchBar.scopeButtonTitles![selectedScope]
+        
+        // Don't sync custom control - it's the master control
+        
+        if searchController.isActive {
+            // When search is active, use the full search filtering
+            let searchText = searchBar.text ?? ""
+            filterContentForSearchText(searchText: searchText, scope: scope)
+        } else {
+            // When search is not active, use scope-only filtering
+            applyScopeFilter(scope: scope)
+        }
     }
 }
 
@@ -36,6 +51,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var locationButton: UIBarButtonItem!
+    
+    // Custom scope control
+    var customScopeControl: UISegmentedControl!
+    var scopeView: UIView?
+    var separatorLine: UIView?
+    var isScopeFiltering = false
     
     // MARK: - SendOptions
     // Set variable based Filter Option selected on Options view
@@ -116,68 +137,130 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         tableView.reloadData()
     }
     
-    //MARK: - Filters and Sort
-    // Determine Filters and sort criteria and build indexes if required
-    func setup () {
+    func applyScopeFilter(scope: String) {
+        isScopeFiltering = true
+        
+        // Reset places to full array based on current filter
+        switch placeFilterRow {
+        case 0:
+            places = allPlaces
+        case 1:
+            places = activeTemples
+        case 2:
+            places = historical
+        case 3:
+            places = visitors
+        case 4:
+            places = construction
+        case 5:
+            places = announced
+        default:
+            places = allTemples
+        }
+        
+        
+        // Apply scope filtering
+        if scope != "All" {
+            places = places.filter { place in
+                if scope == "Visited" {
+                    return visits.contains(place.templeName)
+                } else if scope == "Not Visited" {
+                    return !visits.contains(place.templeName)
+                }
+                return true
+            }
+        }
+        
+        
+        // If search is active, apply search filtering to the scope-filtered results
+        if searchController.isActive {
+            let searchText = searchController.searchBar.text ?? ""
+            if !searchText.isEmpty {
+                places = places.filter { place in
+                    return place.templeName.lowercased().contains(searchText.lowercased())
+                }
+            }
+        }
+        
+        // Update table to reflect filtered results - call setup without resetting places
+        setupForScopeFilter()
+        tableView.reloadData()
+        
+        // Reset flag after a short delay to allow viewWillAppear to complete
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isScopeFiltering = false
+        }
+    }
+    
+    func setupForScopeFilter() {
+        
+        // Set up title and subtitle without calling setup() (which resets places)
         var title = String()
         var subTitle = ""
         
+        // Set title based on current filter
         switch placeFilterRow {
         case 0:
             title = "Holy Places"
-            places = allPlaces
         case 1:
             title = "Active Temples"
-            places = activeTemples
         case 2:
             title = "Historical Sites"
-            places = historical
         case 3:
             title = "Visitors' Centers"
-            places = visitors
         case 4:
             title = "Construction"
-            places = construction
         case 5:
             title = "Announced"
-            places = announced
         default:
             title = "All Temples"
-            places = allTemples
-        }
-
-        // If search bar is active use filteredPlaces instead
-        if searchController.isActive {
-            places = filteredPlaces
-            searchController.searchBar.showsScopeBar = true
-        } else {
-            searchController.searchBar.showsScopeBar = false
         }
         
-        //reset sections array
+        // Set subtitle based on sort method
+        if nearestEnabled {
+            if locationSpecific {
+                if altLocState != "" || altLocCity != "" {
+                    subTitle = "Nearest to \(altLocCity) \(altLocState)"
+                } else if altLocPostalCode != "" {
+                    subTitle = "Nearest to \(altLocPostalCode)"
+                } else {
+                    subTitle = "Nearest to \(altLocStreet)"
+                }
+            } else {
+                subTitle = "Nearest to Current Location"
+            }
+        } else if sortByDedicationDate {
+            subTitle = "by Dedication Date"
+        } else if sortByAnnouncedDate {
+            subTitle = "by Announced Date"
+        } else if sortBySize {
+            subTitle = "by Size"
+        } else if sortByCountry {
+            subTitle = "by Country"
+        } else {
+            subTitle = "Alphabetical Order"
+        }
+        
+        // Update navigation title
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(places.count.description))", subtitle: subTitle, type: placeFilterRow)
+        
+        // Create sections for the filtered data
+        createSectionsForPlaces()
+        
+    }
+    
+    // Helper method to create sections for any places array
+    func createSectionsForPlaces() {
         sections.removeAll()
         
         if places.count > 0 {
-             //create index for array
             var index = 0
             if nearestEnabled {
-                if locationSpecific {
-                    if altLocState != "" || altLocCity != "" {
-                        subTitle = "Nearest to \(altLocCity) \(altLocState)"
-                    } else if altLocPostalCode != "" {
-                        subTitle = "Nearest to \(altLocPostalCode)"
-                    } else {
-                        subTitle = "Nearest to \(altLocStreet)"
-                    }
-                } else {
-                    subTitle = "Nearest to Current Location"
-                }
                 ad.updateDistance(placesToUpdate: places, true)
                 places.sort { Int($0.distance!) < Int($1.distance!) }
                 let newSection = (index: 1, length: places.count, title: "")
                 sections.append(newSection)
             } else if sortByDedicationDate {
-                subTitle = "by Dedication Date"
                 places.sort { $0.templeOrder < $1.templeOrder }
                 var commonEra = ""
                 var era = "Pioneer Era ~ 1877-1893"
@@ -209,33 +292,27 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                 }
             } else if sortByAnnouncedDate {
-                subTitle = "by Announced Date"
-                
-                // Sort by descending date (latest first)
                 places.sort {
                     switch ($0.templeAnnouncedDate, $1.templeAnnouncedDate) {
                     case let (d1?, d2?):
-                        return d1 > d2 // most recent first
+                        return d1 > d2
                     case (_?, nil):
-                        return true  // valid dates come before nil
+                        return true
                     case (nil, _?):
-                        return false // nil dates go after valid ones
+                        return false
                     default:
-                        return false // stable sort
+                        return false
                     }
                 }
-
                 var index = 0
                 var currentDateString = ""
                 let formatter = DateFormatter()
                 formatter.dateFormat = "d MMMM yyyy"
-
                 for i in 0...places.count {
                     var dateString = ""
                     if i < places.count, let date = places[i].templeAnnouncedDate {
                         dateString = formatter.string(from: date)
                     }
-
                     if dateString != currentDateString || i == places.count {
                         if !currentDateString.isEmpty {
                             let title = "\(currentDateString) (\(i - index))"
@@ -247,7 +324,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                 }
             } else if sortBySize {
-                subTitle = "by Size"
                 places.sort {
                     if Double($0.templeSqFt!) == Double($1.templeSqFt!) {
                         return $0.templeName < $1.templeName
@@ -282,8 +358,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                 }
             } else if sortByCountry {
-                subTitle = "by Country"
-                // Sort by Country and then by Name
                 places.sort {
                     let countryComparisonResult = $0.templeCountry.compare($1.templeCountry)
                     if countryComparisonResult == .orderedSame {
@@ -291,7 +365,6 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                     return countryComparisonResult == .orderedAscending
                 }
-                // Create sections and index
                 for i in (0 ..< (places.count + 1) ) {
                     var commonCountry = ""
                     if places.count != i {
@@ -307,16 +380,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                     }
                 }
             } else {
-                // Sort by Name
-                subTitle = "Alphabetical Order"
                 places.sort {$0.templeName < $1.templeName}
-                // Create sections and index for default Alphabetical
                 var commonPrefix = ""
                 for i in (0 ..< (places.count + 1) ) {
                     if places.count != i {
                         commonPrefix = places[i].templeName.commonPrefix(with: places[index].templeName, options: .caseInsensitive)
                     }
-                    //print(temples.count)
                     if commonPrefix.isEmpty || places.count == i {
                         let string = places[index].templeName.uppercased()
                         let firstCharacter = string[string.startIndex]
@@ -328,6 +397,127 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
                 }
             }
         }
+    }
+    
+    func setupCustomScopeControl() {
+        // Create custom segmented control
+        customScopeControl = UISegmentedControl(items: ["All", "Visited", "Not Visited"])
+        customScopeControl.selectedSegmentIndex = 0
+        customScopeControl.backgroundColor = UIColor.systemBackground
+        customScopeControl.selectedSegmentTintColor = UIColor(named: "BaptismsBlue")
+        customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.white, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .selected)
+        customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.label, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .normal)
+        customScopeControl.apportionsSegmentWidthsByContent = false
+        
+        // Add action
+        customScopeControl.addTarget(self, action: #selector(scopeControlChanged), for: .valueChanged)
+        
+        // Create a fixed view below the search bar
+        scopeView = UIView()
+        scopeView!.backgroundColor = UIColor.systemBackground
+        scopeView!.translatesAutoresizingMaskIntoConstraints = false
+        scopeView!.isUserInteractionEnabled = true  // Enable touches for the segmented control
+        customScopeControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add scope control to scope view
+        scopeView!.addSubview(customScopeControl)
+        
+        // Create separator line
+        separatorLine = UIView()
+        separatorLine!.backgroundColor = UIColor.separator
+        separatorLine!.translatesAutoresizingMaskIntoConstraints = false
+        scopeView!.addSubview(separatorLine!)
+        
+        // Only set height constraint here, positioning will be done in viewDidLayoutSubviews
+        NSLayoutConstraint.activate([
+            scopeView!.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        // Use AutoLayout for customScopeControl
+        customScopeControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Adjust table view content inset to account for the fixed scope view
+        tableView.contentInset.top = 44
+        tableView.scrollIndicatorInsets.top = 44
+    }
+    
+    @objc func scopeControlChanged() {
+        let selectedIndex = customScopeControl.selectedSegmentIndex
+        let scope = customScopeControl.titleForSegment(at: selectedIndex) ?? "All"
+        
+        // Sync search bar scope with custom control
+        searchController.searchBar.selectedScopeButtonIndex = selectedIndex
+        
+        applyScopeFilter(scope: scope)
+    }
+    
+    
+    //MARK: - Filters and Sort
+    // Determine Filters and sort criteria and build indexes if required
+    func setup () {
+        var title = String()
+        var subTitle = ""
+        
+        switch placeFilterRow {
+        case 0:
+            title = "Holy Places"
+            places = allPlaces
+        case 1:
+            title = "Active Temples"
+            places = activeTemples
+        case 2:
+            title = "Historical Sites"
+            places = historical
+        case 3:
+            title = "Visitors' Centers"
+            places = visitors
+        case 4:
+            title = "Construction"
+            places = construction
+        case 5:
+            title = "Announced"
+            places = announced
+        default:
+            title = "All Temples"
+            places = allTemples
+        }
+        
+
+        // If search bar is active use filteredPlaces instead
+        if searchController.isActive {
+            places = filteredPlaces
+        }
+        
+        // Custom scope control is used instead of search bar scope buttons
+        
+        // Set subtitle based on sort method
+        if nearestEnabled {
+            if locationSpecific {
+                if altLocState != "" || altLocCity != "" {
+                    subTitle = "Nearest to \(altLocCity) \(altLocState)"
+                } else if altLocPostalCode != "" {
+                    subTitle = "Nearest to \(altLocPostalCode)"
+                } else {
+                    subTitle = "Nearest to \(altLocStreet)"
+                }
+            } else {
+                subTitle = "Nearest to Current Location"
+            }
+        } else if sortByDedicationDate {
+            subTitle = "by Dedication Date"
+        } else if sortByAnnouncedDate {
+            subTitle = "by Announced Date"
+        } else if sortBySize {
+            subTitle = "by Size"
+        } else if sortByCountry {
+            subTitle = "by Country"
+        } else {
+            subTitle = "Alphabetical Order"
+        }
+        
+        // Create sections using the helper method
+        createSectionsForPlaces()
+        
         // Update title of View
         self.navigationItem.titleView = setTitle(title: "\(title) (\(places.count.description))", subtitle: subTitle, type: placeFilterRow)
     }
@@ -385,7 +575,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
     
     //MARK: - Standard methods
     fileprivate func updateView() {
-        setup()
+        if !isScopeFiltering {
+            setup()
+        } else {
+        }
 //        appDelegate.getVisits()
         self.tableView.reloadData()
         
@@ -401,7 +594,62 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         locationButton.isEnabled = nearestEnabled
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Position scope control below search bar once search bar is laid out
+        if let scopeView = scopeView, scopeView.superview == nil {
+            view.addSubview(scopeView)
+            
+            // Add all constraints to position directly below safe area and full width
+            NSLayoutConstraint.activate([
+                scopeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                scopeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scopeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                scopeView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            ])
+            
+            // Force layout to ensure proper sizing
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+            
+        }
+        
+        // Update custom scope control and separator constraints (only once)
+        if let scopeView = scopeView, let customScopeControl = customScopeControl, let separatorLine = separatorLine, scopeView.superview != nil, customScopeControl.superview == scopeView {
+            // Check if constraints already exist by looking for centerX constraint
+            let hasConstraints = customScopeControl.constraints.contains { $0.firstAttribute == .centerX }
+            
+            if !hasConstraints {
+                
+                // Add constraints to center the control and position separator
+                NSLayoutConstraint.activate([
+                    // Center the scope control with proper width
+                    customScopeControl.centerXAnchor.constraint(equalTo: scopeView.centerXAnchor),
+                    customScopeControl.centerYAnchor.constraint(equalTo: scopeView.centerYAnchor),
+                    customScopeControl.widthAnchor.constraint(equalTo: scopeView.widthAnchor, multiplier: 0.8),
+                    
+                    // Position separator line at bottom, full width
+                    separatorLine.leadingAnchor.constraint(equalTo: scopeView.leadingAnchor),
+                    separatorLine.trailingAnchor.constraint(equalTo: scopeView.trailingAnchor),
+                    separatorLine.bottomAnchor.constraint(equalTo: scopeView.bottomAnchor),
+                    separatorLine.heightAnchor.constraint(equalToConstant: 0.5)
+                ])
+                
+                // Force layout update
+                scopeView.setNeedsLayout()
+                scopeView.layoutIfNeeded()
+            }
+            
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        // Ensure custom scope control is always visible
+        if customScopeControl == nil {
+            setupCustomScopeControl()
+        }
+        
         if optionsChanged || themeChanged {
             updateView()
             // Scroll to first row
@@ -458,12 +706,21 @@ class TableViewController: UITableViewController, SendOptionsDelegate {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
+        // Custom scope control will be added separately
+        
         extendedLayoutIncludesOpaqueBars = true
         
         searchController.searchBar.scopeButtonTitles = ["All", "Visited", "Not Visited"]
         searchController.searchBar.delegate = self
+        searchController.searchBar.showsScopeBar = false  // Hide original scope bar since we have custom one
         SortOptions(row: placeSortRow)
         FilterOptions(row: placeFilterRow)
+        
+        // Create custom scope control
+        setupCustomScopeControl()
+        
+        // Apply initial scope filter (start with "All")
+        applyScopeFilter(scope: "All")
         
         tableView.sectionIndexColor = UIColor(named: "BaptismsBlue")
         

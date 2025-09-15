@@ -50,6 +50,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set background color to match system background for dark mode
+        view.backgroundColor = UIColor.systemBackground
 
         // Add Show Options button on right side of navigation bar
         let button = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(options(_:)))
@@ -98,9 +101,13 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Handle coming from place detail
         if fromPlaceDetail {
             tabBarController?.tabBar.isHidden = true
+            // Set background color to match system background for dark mode
+            view.backgroundColor = UIColor.systemBackground
             mapZoomLevel = 2000  // Neighborhood level zoom
         } else {
             tabBarController?.tabBar.isHidden = false
+            // Reset to default background when tab bar is shown
+            view.backgroundColor = UIColor.systemBackground
         }
         
         if optionSelected {

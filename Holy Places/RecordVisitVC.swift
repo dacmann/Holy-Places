@@ -53,10 +53,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
 
     func setDate() {
         //dateOfVisit = sender.date
-        if let button = self.visitDate {
+        if let button = self.visitDate, let dateOfVisit = dateOfVisit {
             let formatter = DateFormatter()
             formatter.dateFormat = "EEEE, MMMM dd yyyy"
-            let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit!))
+            let visitDateAtt = NSAttributedString(string: formatter.string(from: dateOfVisit))
             button.setAttributedTitle(visitDateAtt, for: .normal)
         }
     }
@@ -67,24 +67,34 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         yearFormat.dateFormat = "yyyy"
         
         //insert a new object in the Visit entity
-        let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as! Visit
+        guard let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as? Visit else {
+            print("Failed to create Visit entity")
+            return
+        }
 
-        //set the entity values
-        visit.holyPlace = templeName.text
-        visit.baptisms = Int16(baptisms.text!)!
-        visit.confirmations = Int16(confirmations.text!)!
-        visit.initiatories = Int16(initiatories.text!)!
-        visit.endowments = Int16(endowments.text!)!
-        visit.sealings = Int16(sealings.text!)!
-        visit.comments = comments.text
+        //set the entity values with safe unwrapping
+        visit.holyPlace = templeName.text ?? ""
+        visit.baptisms = Int16(baptisms.text ?? "0") ?? 0
+        visit.confirmations = Int16(confirmations.text ?? "0") ?? 0
+        visit.initiatories = Int16(initiatories.text ?? "0") ?? 0
+        visit.endowments = Int16(endowments.text ?? "0") ?? 0
+        visit.sealings = Int16(sealings.text ?? "0") ?? 0
+        visit.comments = comments.text ?? ""
         visit.dateVisited = dateOfVisit as Date?
-        visit.year = yearFormat.string(from: visit.dateVisited!)
+        
+        // Safe unwrapping for date
+        if let dateVisited = visit.dateVisited {
+            visit.year = yearFormat.string(from: dateVisited)
+        } else {
+            visit.year = yearFormat.string(from: Date())
+        }
+        
         visit.type = placeType
-        visit.shiftHrs = Double(hoursWorked.text!)!
+        visit.shiftHrs = Double(hoursWorked.text ?? "0") ?? 0.0
         visit.isFavorite = isFavorite
-        if pictureView.isHidden == false {
+        if pictureView.isHidden == false, let image = pictureView.image {
             // create NSData from UIImage
-            guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
+            guard let imageData = image.jpegData(compressionQuality: 1) else {
                 // handle failed conversion
                 print("jpg error")
                 return
@@ -95,10 +105,15 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         //save the object
         do {
             try context.save()
+            print("Saving Visit completed successfully")
         } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        } catch {}
-        print("Saving Visit completed")
+            print("Could not save visit: \(error), \(error.userInfo)")
+            // Show user-friendly error message
+            let alert = UIAlertController(title: "Save Error", message: "Failed to save visit. Please try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
         
         // Update visit count for goal progress in Widget
         ad.getVisits()
@@ -120,20 +135,24 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             initiatoriesStepO.isHidden = true
             confirmationsStepO.isHidden = true
             baptismsStepO.isHidden = true
-            detailVisit?.sealings = Int16(sealings.text!)!
-            detailVisit?.endowments = Int16(endowments.text!)!
-            detailVisit?.initiatories = Int16(initiatories.text!)!
-            detailVisit?.confirmations = Int16(confirmations.text!)!
-            detailVisit?.baptisms = Int16(baptisms.text!)!
-            detailVisit?.shiftHrs = Double(hoursWorked.text!)!
+            detailVisit?.sealings = Int16(sealings.text ?? "0") ?? 0
+            detailVisit?.endowments = Int16(endowments.text ?? "0") ?? 0
+            detailVisit?.initiatories = Int16(initiatories.text ?? "0") ?? 0
+            detailVisit?.confirmations = Int16(confirmations.text ?? "0") ?? 0
+            detailVisit?.baptisms = Int16(baptisms.text ?? "0") ?? 0
+            detailVisit?.shiftHrs = Double(hoursWorked.text ?? "0") ?? 0.0
         }
         detailVisit?.dateVisited = dateOfVisit as Date?
-        detailVisit?.year = yearFormat.string(from: (detailVisit?.dateVisited)!)
-        detailVisit?.comments = comments.text!
+        if let dateVisited = detailVisit?.dateVisited {
+            detailVisit?.year = yearFormat.string(from: dateVisited)
+        } else {
+            detailVisit?.year = yearFormat.string(from: Date())
+        }
+        detailVisit?.comments = comments.text ?? ""
         detailVisit?.isFavorite = isFavorite
-        if pictureView.isHidden == false {
+        if pictureView.isHidden == false, let image = pictureView.image {
             // create NSData from UIImage
-            guard let imageData = pictureView.image!.jpegData(compressionQuality: 1) else {
+            guard let imageData = image.jpegData(compressionQuality: 1) else {
                 // handle failed conversion
                 print("jpg error")
                 return
@@ -146,10 +165,15 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         //save the object
         do {
             try context.save()
+            print("Saving edited Visit completed successfully")
         } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        } catch {}
-        print("Saving edited Visit completed")
+            print("Could not save edited visit: \(error), \(error.userInfo)")
+            // Show user-friendly error message
+            let alert = UIAlertController(title: "Save Error", message: "Failed to save visit changes. Please try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
         
         // Update visit count for goal progress in Widget
         ad.getVisits()
@@ -242,40 +266,40 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     }
     
     @IBAction func hoursWorkedText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.hoursWorkedStepO.value = Double(sender.text!)!
+        self.hoursWorkedStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     @IBAction func sealingsText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.sealingsStepO.value = Double(sender.text!)!
+        self.sealingsStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     @IBAction func endowmentsText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.endowmentsStepO.value = Double(sender.text!)!
+        self.endowmentsStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     @IBAction func initiatoriesText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.initiatoriesStepO.value = Double(sender.text!)!
+        self.initiatoriesStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     @IBAction func confirmationsText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.confirmationsStepO.value = Double(sender.text!)!
+        self.confirmationsStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     @IBAction func baptismsText(_ sender: UITextField) {
-        if (sender.text?.isEmpty)!{
+        if sender.text?.isEmpty == true {
             sender.text = "0"
         }
-        self.baptismsStepO.value = Double(sender.text!)!
+        self.baptismsStepO.value = Double(sender.text ?? "0") ?? 0.0
     }
     
     @IBAction func hoursWorkedStep(_ sender: UIStepper) {
@@ -384,16 +408,22 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     placeFromNotification = nil
                 } else if copyVisit != nil {
                     // Copy visit details and increament date by a week
-                    let modifiedDate = Calendar.current.date(byAdding: .day, value: Int(copyAddDays), to: copyVisit!.dateVisited!)!
-                    dateOfVisit = modifiedDate
-                    hoursWorked.text = copyVisit!.shiftHrs.description
-                    sealings.text = copyVisit!.sealings.description
-                    endowments.text = copyVisit!.endowments.description
-                    initiatories.text = copyVisit!.initiatories.description
-                    confirmations.text = copyVisit!.confirmations.description
-                    baptisms.text = copyVisit!.baptisms.description
-                    comments.text = copyVisit!.comments
+                    let visitToCopy = copyVisit!
+                    if let dateVisited = visitToCopy.dateVisited,
+                       let modifiedDate = Calendar.current.date(byAdding: .day, value: Int(copyAddDays), to: dateVisited) {
+                        dateOfVisit = modifiedDate
+                    } else {
+                        dateOfVisit = Date()
+                    }
+                    hoursWorked.text = visitToCopy.shiftHrs.description
+                    sealings.text = visitToCopy.sealings.description
+                    endowments.text = visitToCopy.endowments.description
+                    initiatories.text = visitToCopy.initiatories.description
+                    confirmations.text = visitToCopy.confirmations.description
+                    baptisms.text = visitToCopy.baptisms.description
+                    comments.text = visitToCopy.comments ?? ""
                     comments.sizeToFit()
+                    // Reset the global copyVisit variable after use
                     copyVisit = nil
                 } else {
                     dateOfVisit = Date()
@@ -452,12 +482,12 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 if detail.type != "T" {
                     templeView.isHidden = true
                 } else {
-                    hoursWorkedStepO.value = Double(hoursWorked.text!)!
-                    sealingsStepO.value = Double(sealings.text!)!
-                    endowmentsStepO.value = Double(endowments.text!)!
-                    initiatoriesStepO.value = Double(initiatories.text!)!
-                    confirmationsStepO.value = Double(confirmations.text!)!
-                    baptismsStepO.value = Double(baptisms.text!)!
+                    hoursWorkedStepO.value = Double(hoursWorked.text ?? "0") ?? 0.0
+                    sealingsStepO.value = Double(sealings.text ?? "0") ?? 0.0
+                    endowmentsStepO.value = Double(endowments.text ?? "0") ?? 0.0
+                    initiatoriesStepO.value = Double(initiatories.text ?? "0") ?? 0.0
+                    confirmationsStepO.value = Double(confirmations.text ?? "0") ?? 0.0
+                    baptismsStepO.value = Double(baptisms.text ?? "0") ?? 0.0
                 }
                 keyboardDone()
                 if let theType = detail.type {
