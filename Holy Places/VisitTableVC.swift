@@ -126,8 +126,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Set subtitle based on sort method
         subTitle = sortOptions[sortOption]
         
+        // Check if there are search terms to determine which count to use
+        let searchText = searchController.searchBar.text ?? ""
+        let searchTerms = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .whitespaces)
+            .filter { !$0.isEmpty }
+        
+        let count = !searchTerms.isEmpty ? filteredVisits.count : getVisitCount()
+        
         // Update navigation title
-        self.navigationItem.titleView = setTitle(title: "\(title) (\(getVisitCount()))", subtitle: subTitle)
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(count))", subtitle: subTitle)
     }
     
     func getVisitCount() -> Int {
@@ -235,21 +243,33 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reset places to full array
         _fetchedResultsController = nil
         let allVisits = fetchedResultsController.fetchedObjects
-        // Search on Place name or comments
+        
+        // Split search text into individual terms for AND search
+        let searchTerms = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .whitespaces)
+            .filter { !$0.isEmpty }
+        
+        // Search on Place name, comments, and date with AND logic
         filteredVisits = allVisits!.filter { visit in
             let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0 || scope == "⭐️" && visit.isFavorite)
-            return categoryMatch && ((visit.holyPlace?.lowercased().contains(searchText.lowercased()))! || (visit.comments?.lowercased().contains(searchText.lowercased()))! || (formatter.string(from: visit.dateVisited! as Date).lowercased().contains(searchText.lowercased())) || searchText.isEmpty)
+            
+            guard categoryMatch else { return false }
+            guard !searchTerms.isEmpty else { return true }
+            
+            // Create searchable text from all relevant fields
+            let searchableText = "\(visit.holyPlace ?? "") \(visit.comments ?? "") \(formatter.string(from: visit.dateVisited! as Date))".lowercased()
+            
+            // AND search: all terms must be found in the searchable text
+            return searchTerms.allSatisfy { term in
+                searchableText.contains(term.lowercased())
+            }
         }
         
         // Group the filtered results
         groupFilteredVisits()
         
-        // Update title
-        if searchController.isActive {
-            self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
-        } else {
-            self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
-        }
+        // Update title with correct count
+        updateTitle()
         
         switch visitFilterRow {
         case 1:
@@ -787,12 +807,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
-        // Update title
-        if searchController.isActive {
-            self.navigationItem.title = titleHeader + " (" + (filteredVisits.count.description) + ")"
-        } else {
-            self.navigationItem.title = titleHeader + " (" + (self.fetchedResultsController.fetchedObjects?.count.description)! + ")"
-        }
+        // Update title with correct count
+        updateTitle()
         
         var titleDict = NSDictionary()
         let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)

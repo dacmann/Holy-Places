@@ -139,10 +139,26 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         default:
             places = allTemples
         }
-        // Search on Place name, City or State and now snippet
+        
+        // Split search text into individual terms for AND search
+        let searchTerms = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .whitespaces)
+            .filter { !$0.isEmpty }
+        
+        // Search on Place name, City or State and now snippet with AND logic
         filteredPlaces = places.filter { place in
             let categoryMatch = (scope == "All") || (scope == "Visited" && visits.contains(place.templeName)) || (scope == "Not Visited" && !(visits.contains(place.templeName)))
-            return categoryMatch && (place.templeName.lowercased().contains(searchText.lowercased()) || place.templeCityState.lowercased().contains(searchText.lowercased()) || place.templeCountry.lowercased().contains(searchText.lowercased()) || place.templeSnippet.lowercased().contains(searchText.lowercased())  || (place.fhCode?.lowercased().contains(searchText.lowercased()))! || searchText.isEmpty)
+            
+            guard categoryMatch else { return false }
+            guard !searchTerms.isEmpty else { return true }
+            
+            // Create searchable text from all relevant fields
+            let searchableText = "\(place.templeName) \(place.templeCityState) \(place.templeCountry) \(place.templeSnippet) \(place.fhCode ?? "")".lowercased()
+            
+            // AND search: all terms must be found in the searchable text
+            return searchTerms.allSatisfy { term in
+                searchableText.contains(term.lowercased())
+            }
         }
         // Update table to reflect filtered results
         setup()

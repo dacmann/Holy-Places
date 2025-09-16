@@ -239,9 +239,33 @@ class VisitDetailVC: UIViewController {
                 let commentSize = comments.text.lengthOfBytes(using: .macOSRoman)
                 // load image
                 if let imageData = detail.picture {
+                    print("🔍 VisitDetailVC: Found picture data, size: \(imageData.count) bytes")
+                    print("🔍 VisitDetailVC: Data type: \(Swift.type(of: imageData))")
+                    
+                    // Check first few bytes to see if it looks like valid image data
+                    let firstBytes = imageData.prefix(10)
+                    print("🔍 VisitDetailVC: First 10 bytes: \(Array(firstBytes))")
+                    
                     let image = UIImage(data: imageData as Data)
-                    pictureView.image = image
-                    pictureView.isHidden = false
+                    if let image = image {
+                        print("🔍 VisitDetailVC: Successfully created UIImage, size: \(image.size)")
+                        pictureView.image = image
+                        pictureView.isHidden = false
+                    } else {
+                        print("❌ VisitDetailVC: Failed to create UIImage from data")
+                        print("❌ VisitDetailVC: Data might be corrupted or in wrong format")
+                        
+                        // Try to save the data to a temporary file to inspect it
+                        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("debug_image.jpg")
+                        do {
+                            try imageData.write(to: tempURL)
+                            print("🔍 VisitDetailVC: Saved data to temp file: \(tempURL.path)")
+                        } catch {
+                            print("❌ VisitDetailVC: Failed to write temp file: \(error)")
+                        }
+                        
+                        pictureView.isHidden = true
+                    }
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         pictureHeight.constant = 1400
                     } else {
