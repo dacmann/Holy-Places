@@ -248,7 +248,7 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         address.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(showNavigationOptions))
         address.addGestureRecognizer(tap)
-        address.textColor = UIColor(named: "BaptismsBlue")
+        address.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
     }
     

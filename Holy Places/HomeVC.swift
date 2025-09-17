@@ -342,6 +342,23 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.0": """
+                - Visual updates: 
+                    - Support for new Liquid Glass UI
+                    - Map pins resize smoothly as you zoom
+                    - Visited/Not Visited scope buttons surfaced on Places tab
+                    - New button icons in Visit tab header
+                - Cleaner navigation: 
+                    - Tab bar hidden on child views
+                    - Inactive tab names are hidden
+                    - Place details from map view now independent of Places tab
+                    - Visit filters moved to a quick-access header button
+                - Improved search with support for multiple terms.
+                - Visits tab has an enhanced sort menu and sort-selected subtitle.
+                - Visit photos can now be included in an export/import.
+                - Customize in Settings the default message when adding a visit.
+                - Stability improvements for saving visits and other bugs.
+                """,
             "4.8": """
                 Recently added features:
                 
@@ -395,7 +412,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         okButton.translatesAutoresizingMaskIntoConstraints = false
         okButton.setTitle("OK", for: .normal)
         okButton.titleLabel?.font = UIFont(name: "Baskerville", size: 18) ?? UIFont.systemFont(ofSize: 18)
-        okButton.setTitleColor(UIColor(named: "BaptismsBlue"), for: .normal)
+        okButton.setTitleColor(UIColor(named: "BaptismsBlue") ?? UIColor.blue, for: .normal)
         okButton.addTarget(self, action: #selector(dismissWhatsNewPopup), for: .touchUpInside)
         
         // Stack view to arrange title, message, and button

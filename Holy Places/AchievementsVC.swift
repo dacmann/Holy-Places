@@ -39,8 +39,8 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         cell.cellTitle.text = display[row].name
         switch display[row].iconName.suffix(1) {
         case "B":
-            cell.cellTitle.textColor = UIColor(named: "BaptismsBlue")
-            cell.cellProgress.tintColor = UIColor(named: "BaptismsBlue")
+            cell.cellTitle.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+            cell.cellProgress.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         case "I":
             cell.cellTitle.textColor = UIColor(named: "InitiatoriesOlive")!
             cell.cellProgress.tintColor = UIColor(named: "InitiatoriesOlive")!

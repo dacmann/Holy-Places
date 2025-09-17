@@ -12,20 +12,16 @@ import MobileCoreServices
 import UniformTypeIdentifiers
 
 protocol SendVisitOptionsDelegate {
-    func FilterOptions(row: Int)
-    func SortOptions(row: Int)
+    // Protocol for future use if needed
 }
 
-class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIDocumentPickerDelegate, UINavigationControllerDelegate, XMLParserDelegate {
+class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationControllerDelegate, XMLParserDelegate {
     
     //MARK: - Variables
     var delegateOptions: SendVisitOptionsDelegate? = nil
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var filterSelected: Int?
-    var sortSelected: Int?
     //var nearestEnabled: Bool?
-    var filterChoices = ["All Visits", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Other"  ]
     // UIDocumentInteractionController instance is a class property
     var docController:UIDocumentInteractionController!
     var visits = String()
@@ -53,7 +49,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
-    @IBOutlet weak var pickerFilter: UIPickerView!
     @IBOutlet weak var txtExport: UIButton!
     @IBOutlet weak var xmlExport: UIButton!
     @IBOutlet weak var csvExport: UIButton!
@@ -66,9 +61,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        pickerFilter.dataSource = self
-        pickerFilter.delegate = self
-        pickerFilter.selectRow(filterSelected!, inComponent: 0, animated: true)
         
         dateFormatter.dateStyle = .full
         dateFormatterFile.dateFormat = "yyyyMMdd"
@@ -79,52 +71,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         includePhotos.addTarget(self, action: #selector(includePhotosChanged), for: .valueChanged)
     }
     
-    //MARK: - PickerView Functions
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label = view as! UILabel?
-        if label == nil {
-            label = UILabel()
-        }
-        let data = filterChoices[row]
-        let title = NSAttributedString(string: data, attributes: [NSAttributedString.Key.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
-        label?.attributedText = title
-        label?.textAlignment = .center
-        
-        switch data {
-        case "Active Temples":
-            label?.textColor = templeColor
-        case "Historical Sites":
-            label?.textColor = historicalColor
-        case "Visitors' Centers":
-            label?.textColor = visitorCenterColor
-        case "Temples Under Construction":
-            label?.textColor = constructionColor
-        default:
-            label?.textColor = defaultColor
-        }
-        return label!
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        return filterChoices.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return filterChoices[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == 1 {
-            sortSelected = row
-        } else {
-            filterSelected = row
-        }
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
     
     //MARK: - Photo Export Functions
     @objc func includePhotosChanged() {
@@ -547,8 +493,29 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     importCount += 1
                     
                 } else {
-//                    print("Duplicate - not importing")
-                    duplicates += 1
+                    // Duplicate found - check if we should update with photo
+                    let existingVisit = searchResults.first!
+                    
+                    // If existing visit doesn't have a photo but XML includes photo data, update it
+                    if existingVisit.picture == nil && pictureData != nil {
+                        print("🔍 Import: Updating existing visit with photo for: \(holyPlace)")
+                        existingVisit.picture = pictureData
+                        photoImportCount += 1
+                        
+                        // Save the updated visit
+                        do {
+                            try context.save()
+                            print("🔍 Import: Successfully updated existing visit with photo data, size: \(pictureData!.count) bytes for visit: \(holyPlace)")
+                        } catch let error as NSError {
+                            print("Could not save updated visit \(error), \(error.userInfo)")
+                        } catch {}
+                        
+                        // Count this as an import (photo update) rather than a duplicate
+                        importCount += 1
+                    } else {
+                        // No photo update needed - count as duplicate
+                        duplicates += 1
+                    }
                 }
             } catch {
                 print("Error with request: \(error)")
@@ -559,10 +526,6 @@ class VisitOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     //MARK: - Navigation
     @IBAction func goBack(_ sender: UIButton) {
-        if delegateOptions != nil {
-            delegateOptions?.FilterOptions(row: filterSelected!)
-            delegateOptions?.SortOptions(row: sortSelected!)
-        }
         self.dismiss(animated: true, completion: nil)
     }
     

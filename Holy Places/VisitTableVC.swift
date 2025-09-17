@@ -35,9 +35,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     var backupReminder: Date?
     
     @IBOutlet weak var sortBy: UIBarButtonItem!
+    @IBOutlet weak var filterBy: UIBarButtonItem!
     
     // Sort options for the menu
     let sortOptions = ["Latest Date", "Oldest Date", "Place (A-Z)", "Place (Z-A)"]
+    
+    // Filter options for the menu
+    let filterOptions = ["All Visits", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Other"]
     
     
     func setupSortMenu() {
@@ -60,8 +64,35 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         sortBy.title = "Sort"
     }
     
+    func setupFilterMenu() {
+        let filterMenu = UIMenu(title: "Filter by", children: [
+            UIAction(title: "All Visits", handler: { [weak self] _ in
+                self?.updateFilterOption(0)
+            }),
+            UIAction(title: "Active Temples", handler: { [weak self] _ in
+                self?.updateFilterOption(1)
+            }),
+            UIAction(title: "Historical Sites", handler: { [weak self] _ in
+                self?.updateFilterOption(2)
+            }),
+            UIAction(title: "Visitors' Centers", handler: { [weak self] _ in
+                self?.updateFilterOption(3)
+            }),
+            UIAction(title: "Temples Under Construction", handler: { [weak self] _ in
+                self?.updateFilterOption(4)
+            }),
+            UIAction(title: "Other", handler: { [weak self] _ in
+                self?.updateFilterOption(5)
+            })
+        ])
+        
+        filterBy.menu = filterMenu
+        filterBy.title = "Filter"
+    }
+    
     func customizeSearchBarAppearance() {
         let baskervilleFont = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        let baptismsBlue: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         // Customize search text field font
         if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
@@ -71,23 +102,37 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Customize scope button fonts
         searchController.searchBar.setScopeBarButtonTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .normal)
         
         searchController.searchBar.setScopeBarButtonTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .selected)
         
         // Customize cancel button font
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .normal)
     }
     
     func updateSortOption(_ option: Int) {
         sortOption = option
+        updateTitle()
+        
+        // Reset data pull
+        _fetchedResultsController = nil
+        if searchController.isActive {
+            // Reset filtered results based on updated pull
+            let sel = searchController.searchBar.selectedScopeButtonIndex
+            searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
+        }
+        self.tableView.reloadData()
+    }
+    
+    func updateFilterOption(_ option: Int) {
+        visitFilterRow = option
         updateTitle()
         
         // Reset data pull
@@ -134,8 +179,25 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         let count = !searchTerms.isEmpty ? filteredVisits.count : getVisitCount()
         
-        // Update navigation title
-        self.navigationItem.titleView = setTitle(title: "\(title) (\(count))", subtitle: subTitle)
+        // Determine color based on filter
+        let titleColor: UIColor
+        switch visitFilterRow {
+        case 1:
+            titleColor = templeColor
+        case 2:
+            titleColor = historicalColor
+        case 4:
+            titleColor = constructionColor
+        case 5:
+            titleColor = announcedColor
+        case 3:
+            titleColor = visitorCenterColor
+        default:
+            titleColor = defaultColor
+        }
+        
+        // Update navigation title with color
+        self.navigationItem.titleView = setTitle(title: "\(title) (\(count))", subtitle: subTitle, color: titleColor)
     }
     
     func getVisitCount() -> Int {
@@ -145,14 +207,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         return 0
     }
     
-    func setTitle(title: String, subtitle: String) -> UIView {
+    func setTitle(title: String, subtitle: String, color: UIColor = UIColor.label) -> UIView {
         // Replace titleView with custom version that includes sub title
         let titleLabel = UILabel(frame: CGRect(x: 0, y: -2, width: 0, height: 0))
         let titleFont = UIFont(name: "Baskerville", size: 19) ?? UIFont.systemFont(ofSize: 19)
         let subTitleFont = UIFont(name: "Baskerville", size: 15) ?? UIFont.systemFont(ofSize: 15)
         
         titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = UIColor.label
+        titleLabel.textColor = color
         titleLabel.font = titleFont
         titleLabel.text = title
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -185,19 +247,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         return titleView
     }
     
-    // Set variable based on Filter Option selected on Options view
-    func FilterOptions(row: Int) {
-        visitFilterRow = row
-    }
     
-    // Set variables based on Sort Option selected on Options view
-    func SortOptions(row: Int) {
-        visitSortRow = row
-        // Map the old sort row to new sort option if needed
-        // This maintains compatibility with existing options
-        sortOption = row
-        updateTitle()
-    }
     
     // Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
@@ -272,23 +322,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Group the filtered results
         groupFilteredVisits()
         
-        // Update title with correct count
+        // Update title with correct count and color
         updateTitle()
-        
-        switch visitFilterRow {
-        case 1:
-            self.navigationItem.titleView?.tintColor = templeColor
-        case 2:
-            self.navigationItem.titleView?.tintColor = historicalColor
-        case 4:
-            self.navigationItem.titleView?.tintColor = constructionColor
-        case 5:
-            self.navigationItem.titleView?.tintColor = announcedColor
-        case 3:
-            self.navigationItem.titleView?.tintColor = visitorCenterColor
-        default:
-            self.navigationItem.titleView?.tintColor = defaultColor
-        }
         
         tableView.reloadData()
     }
@@ -308,13 +343,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Setup sort menu
         setupSortMenu()
         
+        // Setup filter menu
+        setupFilterMenu()
+        
         // Search Controller Stuff
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         // bug with following option in 13.1
         searchController.hidesNavigationBarDuringPresentation = false
         
-        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
+        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         definesPresentationContext = true
         navigationItem.searchController = searchController
@@ -352,7 +390,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Customize Done button font
         let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        let baptismsBlue: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         doneButton.setTitleTextAttributes([
             .font: baskervilleFont,
@@ -507,7 +545,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
-        header.textLabel?.textColor = UIColor(named: "BaptismsBlue")
+        header.textLabel?.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         if self.fetchedResultsController.fetchedObjects?.count != 0
@@ -522,7 +560,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             let noDataLabel = UILabel()
             noDataLabel.translatesAutoresizingMaskIntoConstraints = false
             noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above.\n\nIMPORTANT!\n\nTo ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
-            noDataLabel.textColor = UIColor(named: "BaptismsBlue")
+            noDataLabel.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)
             noDataLabel.numberOfLines = 0
@@ -799,7 +837,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             sectionNameKeyPath = nil
         }
         
-        var aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)        
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)        
         
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
@@ -919,8 +957,6 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if segue.identifier == "showVisitOptions" {
             let controller: VisitOptionsVC = segue.destination as! VisitOptionsVC
             controller.delegateOptions = self
-            controller.sortSelected = visitSortRow
-            controller.filterSelected = visitFilterRow
             searchController.isActive = false
         }
         if segue.identifier == "quickRecordVisit" {

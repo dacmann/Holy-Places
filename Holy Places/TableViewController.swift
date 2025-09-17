@@ -240,7 +240,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         // Set title based on current filter
         switch placeFilterRow {
         case 0:
-            title = "Holy Places"
+            title = "All Holy Places"
         case 1:
             title = "Active Temples"
         case 2:
@@ -477,7 +477,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         // Adjust table view content inset to account for the fixed scope view
         tableView.contentInset.top = 44
-        tableView.scrollIndicatorInsets.top = 44
+        tableView.verticalScrollIndicatorInsets.top = 44
     }
     
     @objc func scopeControlChanged() {
@@ -499,7 +499,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         switch placeFilterRow {
         case 0:
-            title = "Holy Places"
+            title = "All Holy Places"
             places = allPlaces
         case 1:
             title = "Active Temples"
@@ -745,7 +745,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         // bug with following option in 13.1
         searchController.hidesNavigationBarDuringPresentation = false
         
-        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue")
+        searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         definesPresentationContext = true
         navigationItem.searchController = searchController
@@ -768,7 +768,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         // Apply initial scope filter (start with "All")
         applyScopeFilter(scope: "All")
         
-        tableView.sectionIndexColor = UIColor(named: "BaptismsBlue")
+        tableView.sectionIndexColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         // Add Done button to search bar keyboard
         let keyboardToolbar = UIToolbar()
@@ -779,7 +779,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         // Customize Done button font
         let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        let baptismsBlue: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         doneButton.setTitleTextAttributes([
             .font: baskervilleFont,
@@ -807,6 +807,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     
     func customizeSearchBarAppearance() {
         let baskervilleFont = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        let baptismsBlue: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         // Customize search text field font
         if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
@@ -816,18 +817,18 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         // Customize scope button fonts
         searchController.searchBar.setScopeBarButtonTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .normal)
         
         searchController.searchBar.setScopeBarButtonTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .selected)
         
         // Customize cancel button font
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
             .font: baskervilleFont,
-            .foregroundColor: UIColor(named: "BaptismsBlue")
+            .foregroundColor: baptismsBlue
         ], for: .normal)
     }
     
@@ -934,7 +935,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont(name: "Baskerville", size: 22)
-        header.textLabel?.textColor = UIColor(named: "BaptismsBlue")
+        header.textLabel?.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

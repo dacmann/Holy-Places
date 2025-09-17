@@ -189,7 +189,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         
         // Customize Done button font
         let baskervilleFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let baptismsBlue = UIColor(named: "BaptismsBlue")
+        let baptismsBlue: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         doneBtn.setTitleTextAttributes([
             .font: baskervilleFont,
