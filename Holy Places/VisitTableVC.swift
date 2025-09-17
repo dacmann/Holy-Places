@@ -116,7 +116,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         case 3:
             title = "Visitors' Centers"
         case 4:
-            title = "Construction Visits"
+            title = "Construction"
         case 5:
             title = "Other Visits"
         default:
@@ -155,6 +155,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         titleLabel.textColor = UIColor.label
         titleLabel.font = titleFont
         titleLabel.text = title
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.7
+        titleLabel.numberOfLines = 1
+        titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.sizeToFit()
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
@@ -698,6 +702,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
+        cell.textLabel?.minimumScaleFactor = 0.7
         cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
         cell.detailTextLabel?.textColor = defaultColor
         if let theType = visit.type {
@@ -766,7 +772,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             titleHeader = "Visitors' Centers"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
         case 4:
-            titleHeader = "Construction Visits"
+            titleHeader = "Construction"
             fetchRequest.predicate = NSPredicate(format: "type == %@", "C")
         case 5:
             titleHeader = "Other Visits"

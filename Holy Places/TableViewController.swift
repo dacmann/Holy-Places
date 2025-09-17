@@ -204,8 +204,19 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         if searchController.isActive {
             let searchText = searchController.searchBar.text ?? ""
             if !searchText.isEmpty {
+                // Split search text into individual terms for AND search
+                let searchTerms = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                    .components(separatedBy: .whitespaces)
+                    .filter { !$0.isEmpty }
+                
                 places = places.filter { place in
-                    return place.templeName.lowercased().contains(searchText.lowercased())
+                    // Create searchable text from all relevant fields
+                    let searchableText = "\(place.templeName) \(place.templeCityState) \(place.templeCountry) \(place.templeSnippet) \(place.fhCode ?? "")".lowercased()
+                    
+                    // AND search: all terms must be found in the searchable text
+                    return searchTerms.allSatisfy { term in
+                        searchableText.contains(term.lowercased())
+                    }
                 }
             }
         }
@@ -432,7 +443,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         customScopeControl = UISegmentedControl(items: ["All", "Visited", "Not Visited"])
         customScopeControl.selectedSegmentIndex = 0
         customScopeControl.backgroundColor = UIColor.systemBackground
-        customScopeControl.selectedSegmentTintColor = UIColor(named: "BaptismsBlue")
+        customScopeControl.selectedSegmentTintColor = UIColor(named: "BaptismsBlueBtn")
         customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.white, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .selected)
         customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.label, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .normal)
         customScopeControl.apportionsSegmentWidthsByContent = false
@@ -612,14 +623,17 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         if nearestEnabled {
             locationButton.title = "Location"
+            locationButton.isEnabled = true
+            // Show the Location button
+            navigationItem.leftBarButtonItem = locationButton
             // Create Notification Observer ".reload" to trigger the table to refresh when the location changes
             NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData), name: .reload, object: nil)
         } else {
-            locationButton.title = ""
+            // Hide the Location button
+            navigationItem.leftBarButtonItem = nil
             // Remove Notification Observer ".reload"
             NotificationCenter.default.removeObserver(self, name: .reload, object: nil)
         }
-        locationButton.isEnabled = nearestEnabled
     }
     
     override func viewDidLayoutSubviews() {
