@@ -197,6 +197,18 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         // Add tap gesture recognizer to dismiss keyboard
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+        
+        // Set text field delegates for auto-select behavior
+        sealings.delegate = self
+        endowments.delegate = self
+        initiatories.delegate = self
+        confirmations.delegate = self
+        baptisms.delegate = self
+        hoursWorked.delegate = self
+        
+        // Register for keyboard notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -211,6 +223,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         
         // Show tab bar when leaving
         tabBarController?.tabBar.isHidden = false
+        
+        // Remove keyboard observers
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func keyboardDone() {
@@ -283,6 +299,56 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     
     @objc func dismissKeyboard(){
         self.view.endEditing(true)
+    }
+    
+    // UITextFieldDelegate method to auto-select text when field becomes active
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
+        
+        // Delay selection slightly to ensure it works reliably
+        DispatchQueue.main.async {
+            textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeField = nil
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let activeField = activeField else {
+            return
+        }
+        
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        // Get the frame of the active field in the scroll view's coordinate system
+        let activeFieldFrame = activeField.convert(activeField.bounds, to: scrollView)
+        
+        // Calculate the visible area above the keyboard
+        let visibleHeight = scrollView.frame.height - keyboardSize.height
+        
+        // Calculate the bottom of the field (including some padding for the toolbar)
+        let fieldBottom = activeFieldFrame.origin.y + activeFieldFrame.height + 50
+        
+        // Check if the field bottom would be hidden by keyboard
+        let currentVisibleBottom = scrollView.contentOffset.y + visibleHeight
+        
+        if fieldBottom > currentVisibleBottom {
+            // Only scroll enough to show the field above keyboard, don't force it to the top
+            let targetOffset = fieldBottom - visibleHeight + 20
+            let scrollPoint = CGPoint(x: 0, y: max(0, targetOffset))
+            scrollView.setContentOffset(scrollPoint, animated: true)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
     }
     
     @IBAction func hoursWorkedText(_ sender: UITextField) {

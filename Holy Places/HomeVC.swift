@@ -342,6 +342,14 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.1": """
+                Bug Fixes:
+                - Fixed scope control buttons (All/Visited/Not Visited) touch area issues on iOS 26 liquid glass UI
+                - Fixed keyboard covering entry fields on Record Visit screen - content now auto-scrolls to keep fields visible
+                
+                Enhancements:
+                - Entry fields now auto-select their values when tapped for easier editing (Record Visit and Settings screens)
+                """,
             "5.0": """
                 - Visual updates: 
                     - Support for new Liquid Glass UI

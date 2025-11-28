@@ -372,7 +372,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         if backupDate?.daysBetweenDate(toDate: Date()) ?? 91 > 90
             && backupReminder?.daysBetweenDate(toDate: Date()) ?? 91 > 90
             && visits.count > 6 {
-            let backupMsg = "To ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
+            let backupMsg = "To ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Export button in the top right corner to access this feature; See the FAQ for more details."
             let alert = UIAlertController(title: "IMPORTANT!", message: backupMsg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Handle OK (cancel) Logic here")
@@ -559,7 +559,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
             let noDataLabel = UILabel()
             noDataLabel.translatesAutoresizingMaskIntoConstraints = false
-            noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above.\n\nIMPORTANT!\n\nTo ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Options button above to access this feature; check out the FAQ for more details."
+            noDataLabel.text          = "Add Visits from the Place Details pages or selecting the Add button above.\n\nIMPORTANT!\n\nTo ensure you don't lose your entered visits due to unforeseen circumstances, back-up your visits to an XML file from time to time.\n\nClick the Export button in the top right corner to access this feature; See the FAQ for more details."
             noDataLabel.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
             noDataLabel.textAlignment = .center
             noDataLabel.font = UIFont(name: "Baskerville", size: 18)

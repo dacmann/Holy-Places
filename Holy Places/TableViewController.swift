@@ -657,6 +657,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             
         }
         
+        // Ensure scopeView stays on top of table content when scrolling
+        if let scopeView = scopeView, scopeView.superview != nil {
+            view.bringSubviewToFront(scopeView)
+        }
+        
         // Update custom scope control and separator constraints (only once)
         if let scopeView = scopeView, let customScopeControl = customScopeControl, let separatorLine = separatorLine, scopeView.superview != nil, customScopeControl.superview == scopeView {
             // Check if constraints already exist by looking for centerX constraint
@@ -666,10 +671,11 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
                 
                 // Add constraints to center the control and position separator
                 NSLayoutConstraint.activate([
-                    // Center the scope control with proper width
+                    // Center the scope control with proper width and height
                     customScopeControl.centerXAnchor.constraint(equalTo: scopeView.centerXAnchor),
                     customScopeControl.centerYAnchor.constraint(equalTo: scopeView.centerYAnchor),
                     customScopeControl.widthAnchor.constraint(equalTo: scopeView.widthAnchor, multiplier: 0.8),
+                    customScopeControl.heightAnchor.constraint(equalToConstant: 36),
                     
                     // Position separator line at bottom, full width
                     separatorLine.leadingAnchor.constraint(equalTo: scopeView.leadingAnchor),

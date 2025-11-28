@@ -448,12 +448,10 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             hoursWorkedYr2.isHidden = !ordinanceWorker
             hoursWorkedTotal.isHidden = !ordinanceWorker
 
-            /* If entered a few visits, prompt for a rating
-            if visitCnt > 3 {
-                if #available(iOS 10.3, *) {
-                    SKStoreReviewController.requestReview()
-                }
-            } */
+            // If entered a few visits, prompt for a rating
+            if visitCnt > 5 {
+                SKStoreReviewController.requestReview()
+            }
              
         } catch {
             print("Error with request: \(error)")

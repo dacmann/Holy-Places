@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     //MARK: - Variables and Outlets
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -84,6 +84,16 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         defaultCommentsTextField.text = defaultCommentsText
         defaultCommentsTextField.placeholder = "Enter default comments text"
         keyboardDone()
+        
+        // Set text field delegates for auto-select behavior
+        minutesDelay.delegate = self
+        visitGoal.delegate = self
+        baptismGoal.delegate = self
+        initiatoryGoal.delegate = self
+        endowmentGoal.delegate = self
+        sealingGoal.delegate = self
+        addDays.delegate = self
+        defaultCommentsTextField.delegate = self
         
     }
     
@@ -163,6 +173,14 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
     
     @objc func doneButtonAction(){
         self.view.endEditing(true)
+    }
+    
+    // UITextFieldDelegate method to auto-select text when field becomes active
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Delay selection slightly to ensure it works reliably
+        DispatchQueue.main.async {
+            textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        }
     }
     
     @IBAction func doneButton(_ sender: UIBarButtonItem) {
