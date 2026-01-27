@@ -489,6 +489,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 if detail.templeName == placeFromNotification {
                     // Since this place is the same as recently visited place, set the date to saved date
                     dateOfVisit = dateFromNotification
+                    // Set default comments text for new visits from notification
+                    comments.text = defaultCommentsText
                     // Reset recently visited variables
                     dateFromNotification = nil
                     placeFromNotification = nil

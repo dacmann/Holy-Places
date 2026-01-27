@@ -89,7 +89,8 @@ struct AppUtility {
 
 extension UIApplication {
     public var isSplitOrSlideOver: Bool {
-        guard let w = self.delegate?.window, let window = w else { return false }
+        guard let windowScene = connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return false }
         return !window.frame.equalTo(window.screen.bounds)
     }
 }

@@ -125,7 +125,7 @@ var constructionColor: UIColor  = UIColor(named: "Construction"+theme) ?? UIColo
 var visitorCenterColor: UIColor  = UIColor(named: "VisitorCenters"+theme) ?? UIColor.black
 var defaultColor: UIColor  = UIColor(named: "DefaultText") ?? UIColor.black
 
-@UIApplicationMain
+@main
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
 class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
@@ -148,7 +148,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var templeSiteURL = String()
     var templeSqFt = Int32()
     var fhCode = String()
-    var window: UIWindow?
     var settings: Settings?
     let locationManager = CLLocationManager()
     let notificationManager = UNUserNotificationCenter.current()
@@ -161,6 +160,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var newFileParsed = false
     var oldNames: [String] = []
     var oldName = String()
+    let regionEntryTimesKey = "regionEntryTimes"
+    
+    // MARK: - Region Entry Time Persistence
+    
+    /// Save region entry time to UserDefaults for persistence across app termination
+    func saveRegionEntryTime(regionIdentifier: String, entryTime: Date) {
+        var entryTimes = UserDefaults.standard.dictionary(forKey: regionEntryTimesKey) as? [String: Date] ?? [:]
+        entryTimes[regionIdentifier] = entryTime
+        UserDefaults.standard.set(entryTimes, forKey: regionEntryTimesKey)
+        // Also update in-memory dictionary
+        monitoredRegions[regionIdentifier] = entryTime as NSDate
+        print("Saved entry time for \(regionIdentifier)")
+    }
+    
+    /// Load region entry time from UserDefaults
+    func loadRegionEntryTime(regionIdentifier: String) -> Date? {
+        // First check in-memory dictionary
+        if let time = monitoredRegions[regionIdentifier] {
+            return time as Date
+        }
+        // Fall back to UserDefaults (in case app was terminated)
+        if let entryTimes = UserDefaults.standard.dictionary(forKey: regionEntryTimesKey) as? [String: Date] {
+            return entryTimes[regionIdentifier]
+        }
+        return nil
+    }
+    
+    /// Remove region entry time from UserDefaults and in-memory dictionary
+    func removeRegionEntryTime(regionIdentifier: String) {
+        // Remove from in-memory dictionary
+        monitoredRegions.removeValue(forKey: regionIdentifier)
+        // Remove from UserDefaults
+        var entryTimes = UserDefaults.standard.dictionary(forKey: regionEntryTimesKey) as? [String: Date] ?? [:]
+        entryTimes.removeValue(forKey: regionIdentifier)
+        UserDefaults.standard.set(entryTimes, forKey: regionEntryTimesKey)
+        print("Removed entry time for \(regionIdentifier)")
+    }
+    
+    /// Restore in-memory dictionary from UserDefaults on app launch
+    func restoreRegionEntryTimes() {
+        if let entryTimes = UserDefaults.standard.dictionary(forKey: regionEntryTimesKey) as? [String: Date] {
+            for (identifier, time) in entryTimes {
+                monitoredRegions[identifier] = time as NSDate
+            }
+            print("Restored \(entryTimes.count) region entry times from UserDefaults")
+        }
+    }
+    
+    /// Request state for all currently monitored regions to detect if user is already inside
+    /// This handles the case where the app was terminated while the user was inside a region
+    func requestStateForMonitoredRegions() {
+        let monitoredRegionCount = locationManager.monitoredRegions.count
+        if monitoredRegionCount > 0 {
+            print("Requesting state for \(monitoredRegionCount) monitored regions")
+            for region in locationManager.monitoredRegions {
+                locationManager.requestState(for: region)
+            }
+        }
+    }
     
     // MARK: - Standard Events
 
@@ -227,14 +285,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         loadSettings()
         
+        // Restore persisted region entry times (in case app was terminated while user was inside a region)
+        restoreRegionEntryTimes()
+        
+        // Request notification authorization at app launch if notifications are enabled
+        // This ensures authorization is requested even if location was already authorized
+        if notificationEnabled {
+            notificationManager.requestAuthorization(options: [.alert, .sound]) { (permissionGranted, error) in
+                if let error = error {
+                    print("Notification authorization error: \(error.localizedDescription)")
+                } else {
+                    print("Notification authorization granted: \(permissionGranted)")
+                }
+            }
+        }
+        
         // Add Quick Launch shortcut when authorized
         let manager = CLLocationManager()
         if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             print("Location Services Authorized")
             locationServiceSetup()
+            // Check if user is already inside any monitored regions (handles app termination case)
+            requestStateForMonitoredRegions()
         }
         
         return true
+    }
+    
+    // MARK: UISceneSession Lifecycle
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // Called when a new scene session is being created.
+        // Use this method to select a configuration to create the new scene with.
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+    
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        // Called when the user discards a scene session.
+        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
     func loadSettings() {
@@ -293,57 +382,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        // Save settings
-        if settings == nil {
-            settings = NSEntityDescription.insertNewObject(forEntityName: "Settings", into: ad.persistentContainer.viewContext) as? Settings
-        }
-        settings?.altLocation = locationSpecific
-        settings?.altLocStreet = altLocStreet
-        settings?.altLocCity = altLocCity
-        settings?.altLocState = altLocState
-        settings?.altLocPostalCode = altLocPostalCode
-        if coordAltLocation != nil {
-            settings?.altLocLatitude = coordAltLocation.coordinate.latitude
-            settings?.altLocLongitude = coordAltLocation.coordinate.longitude
-        }
-        settings?.annualVisitGoal = Int16(annualVisitGoal)
-        settings?.annualBaptismGoal = Int16(annualBaptismGoal)
-        settings?.annualInitiatoryGoal = Int16(annualInitiatoryGoal)
-        settings?.annualEndowmentGoal = Int16(annualEndowmentGoal)
-        settings?.annualSealingGoal = Int16(annualSealingGoal)
-        settings?.placeFilterRow = Int16(placeFilterRow)
-        settings?.placeSortRow = Int16(placeSortRow)
-        settings?.visitFilterRow = Int16(visitFilterRow)
-        settings?.visitSortRow = Int16(visitSortRow)
-        settings?.notificationEnabled = notificationEnabled
-        settings?.notificationFilter = notificationFilter
-        settings?.notificationDelay = notificationDelayInMinutes
-        settings?.holyPlaceVisited = holyPlaceVisited
-        settings?.dateHolyPlaceVisited = dateHolyPlaceVisited
-        settings?.homeTextColor = homeTextColor
-        settings?.homeDefaultPicture = homeDefaultPicture
-        settings?.homeAlternatePicture = homeAlternatePicture
-        settings?.homeVisitPicture = homeVisitPicture
-        settings?.ordinanceWorker = ordinanceWorker
-        settings?.excludeNonOrdinanceVisits = excludeNonOrdinanceVisits
-        settings?.copyAddDays = copyAddDays
-        settings?.defaultCommentsText = defaultCommentsText
-        
-        //        SKPaymentQueue.default().remove(self)
-        self.saveContext()
-        
-        // Add Quick Launch shortcut when authorized
-        let manager = CLLocationManager()
-        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
-            locationServiceSetup()
-        }
+        // Note: With UIScene lifecycle, most of this logic is now handled in SceneDelegate.sceneDidEnterBackground
+        // This method is only called if not using scenes (iOS 12 and earlier)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        // Reload settings to ensure background image preferences are up to date
-        loadSettings()
+        // Note: With UIScene lifecycle, this is now handled in SceneDelegate.sceneWillEnterForeground
+        // This method is only called if not using scenes (iOS 12 and earlier)
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -382,22 +428,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         // entered region
-        // Add entrance time
-        monitoredRegions[region.identifier] = NSDate()
-        print("Entered region for \(region.identifier) at \(Date())")
+        // Add entrance time (persisted to UserDefaults for reliability across app termination)
+        let entryTime = Date()
+        saveRegionEntryTime(regionIdentifier: region.identifier, entryTime: entryTime)
+        print("Entered region for \(region.identifier) at \(entryTime)")
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         // exited region
         print("Exited region for \(region.identifier) at \(Date())")
-        // calculate visit time
-        if let timeEntered = monitoredRegions[region.identifier] {
-            visitElapsedTime = NSDate().timeIntervalSince(timeEntered as Date)
-            //Remove entrance time
-            monitoredRegions.removeValue(forKey: region.identifier)
+        // calculate visit time (using persisted entry time for reliability)
+        if let timeEntered = loadRegionEntryTime(regionIdentifier: region.identifier) {
+            visitElapsedTime = Date().timeIntervalSince(timeEntered)
+            // Remove entrance time from both memory and UserDefaults
+            removeRegionEntryTime(regionIdentifier: region.identifier)
             print("Visited \(region.identifier) for \(Int(visitElapsedTime!/60)) minutes")
         } else {
-            // No entry record - phone may have been turned off
+            // No entry record - phone may have been turned off or entry was never recorded
             visitElapsedTime = 999  // default value to greater than 10 minutes
             print("Visited \(region.identifier) for undetermined amount of time")
         }
@@ -408,6 +455,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             dateHolyPlaceVisited = Date()
             shouldNotify()
 //        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        print("Started monitoring region: \(region.identifier)")
+        // Check current state to handle case where user is already inside the region
+        manager.requestState(for: region)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        print("Failed to monitor region: \(region?.identifier ?? "unknown") - Error: \(error.localizedDescription)")
+        // Log additional details for debugging
+        if let clError = error as? CLError {
+            switch clError.code {
+            case .regionMonitoringDenied:
+                print("Region monitoring denied - check location permissions")
+            case .regionMonitoringFailure:
+                print("Region monitoring failure - may have exceeded 20 region limit")
+            case .regionMonitoringSetupDelayed:
+                print("Region monitoring setup delayed")
+            default:
+                print("Other CLError: \(clError.code.rawValue)")
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+        switch state {
+        case .inside:
+            print("User is currently inside region: \(region.identifier)")
+            // If we don't have an entry time recorded, record it now
+            if loadRegionEntryTime(regionIdentifier: region.identifier) == nil {
+                saveRegionEntryTime(regionIdentifier: region.identifier, entryTime: Date())
+                print("Recorded entry time for region user was already inside: \(region.identifier)")
+            }
+        case .outside:
+            print("User is currently outside region: \(region.identifier)")
+        case .unknown:
+            print("User's state for region \(region.identifier) is unknown")
+        @unknown default:
+            print("Unknown region state")
+        }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -441,6 +529,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     func locationServiceSetup() {
         locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
     }
     
     // Update the Distance in the Place data arrays based on new location
@@ -581,8 +671,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         notifyContent.sound = UNNotificationSound.default
         
         
-        // Schedule delivery
-        let notifyTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(notificationDelayInMinutes*60), repeats: false)
+        // Schedule delivery (ensure delay is at least 1 second to avoid crash/failure)
+        let delayInSeconds = max(1, Int(notificationDelayInMinutes) * 60)
+        let notifyTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(delayInSeconds), repeats: false)
         let request = UNNotificationRequest(identifier: "visitReminder:\(holyPlaceVisited ?? "<holy place>")", content: notifyContent, trigger: notifyTrigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
             print(error as Any)
@@ -636,7 +727,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     }
     
     private func selectTabBarItemFor(shortcutIdentifier: ShortcutIdentifier) -> Bool {
-        guard let myTabBar = self.window?.rootViewController as? UITabBarController else {
+        // Get the window from the active scene
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first,
+              let myTabBar = window.rootViewController as? UITabBarController else {
             return false
         }
         
@@ -1209,98 +1303,116 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     }
                 }
                 
-                // Check for Ordinance Achievements
-                switch baptismsTotal {
-                case 25 ... 49:
+                // Check for Ordinance Achievements - Baptisms
+                if baptismsTotal >= 25 {
                     updateAchievement(achievement: "ach25B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 50 ... 99:
+                }
+                if baptismsTotal >= 50 {
                     updateAchievement(achievement: "ach50B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 199:
+                }
+                if baptismsTotal >= 100 {
                     updateAchievement(achievement: "ach100B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 399:
+                }
+                if baptismsTotal >= 200 {
                     updateAchievement(achievement: "ach200B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400 ... 799:
+                }
+                if baptismsTotal >= 400 {
                     updateAchievement(achievement: "ach400B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 800...:
+                }
+                if baptismsTotal >= 800 {
                     updateAchievement(achievement: "ach800B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                default:
-                    break
                 }
                 
-                switch initiatoriesTotal {
-                case 25 ... 49:
+                // Initiatories
+                if initiatoriesTotal >= 25 {
                     updateAchievement(achievement: "ach25I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 50 ... 99:
+                }
+                if initiatoriesTotal >= 50 {
                     updateAchievement(achievement: "ach50I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 199:
+                }
+                if initiatoriesTotal >= 100 {
                     updateAchievement(achievement: "ach100I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 399:
+                }
+                if initiatoriesTotal >= 200 {
                     updateAchievement(achievement: "ach200I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400 ... 799:
+                }
+                if initiatoriesTotal >= 400 {
                     updateAchievement(achievement: "ach400I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 800... :
+                }
+                if initiatoriesTotal >= 800 {
                     updateAchievement(achievement: "ach800I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                default:
-                    break
                 }
                 
-                switch endowmentsTotal {
-                case 10 ... 24:
+                // Endowments
+                if endowmentsTotal >= 10 {
                     updateAchievement(achievement: "ach10E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 25 ... 49:
+                }
+                if endowmentsTotal >= 25 {
                     updateAchievement(achievement: "ach25E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 50 ... 99:
+                }
+                if endowmentsTotal >= 50 {
                     updateAchievement(achievement: "ach50E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 149:
+                }
+                if endowmentsTotal >= 100 {
                     updateAchievement(achievement: "ach100E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 150 ... 199:
+                }
+                if endowmentsTotal >= 150 {
                     updateAchievement(achievement: "ach150E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 299:
+                }
+                if endowmentsTotal >= 200 {
                     updateAchievement(achievement: "ach200E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 300 ... 399:
+                }
+                if endowmentsTotal >= 300 {
                     updateAchievement(achievement: "ach300E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400 ... 549:
+                }
+                if endowmentsTotal >= 400 {
                     updateAchievement(achievement: "ach400E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 550 ... 699:
+                }
+                if endowmentsTotal >= 550 {
                     updateAchievement(achievement: "ach550E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 700... :
+                }
+                if endowmentsTotal >= 700 {
                     updateAchievement(achievement: "ach700E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                default:
-                    break
                 }
                 
-                switch sealingsTotal {
-                case 50 ... 99:
+                // Sealings
+                if sealingsTotal >= 50 {
                     updateAchievement(achievement: "ach50S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 199:
+                }
+                if sealingsTotal >= 100 {
                     updateAchievement(achievement: "ach100S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 399:
+                }
+                if sealingsTotal >= 200 {
                     updateAchievement(achievement: "ach200S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400 ... 799:
+                }
+                if sealingsTotal >= 400 {
                     updateAchievement(achievement: "ach400S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 800 ... 1599:
+                }
+                if sealingsTotal >= 800 {
                     updateAchievement(achievement: "ach800S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 1600... :
+                }
+                if sealingsTotal >= 1600 {
                     updateAchievement(achievement: "ach1600S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                default:
-                    break
                 }
                 
-                switch shiftHoursTotal {
-                case 50 ... 99:
+                // Worker Hours
+                if shiftHoursTotal >= 50 {
                     updateAchievement(achievement: "ach50W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 100 ... 199:
+                }
+                if shiftHoursTotal >= 100 {
                     updateAchievement(achievement: "ach100W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 200 ... 399:
+                }
+                if shiftHoursTotal >= 200 {
                     updateAchievement(achievement: "ach200W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 400 ... 799:
+                }
+                if shiftHoursTotal >= 400 {
                     updateAchievement(achievement: "ach400W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 800 ... 1599:
+                }
+                if shiftHoursTotal >= 800 {
                     updateAchievement(achievement: "ach800W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                case 1600... :
+                }
+                if shiftHoursTotal >= 1600 {
                     updateAchievement(achievement: "ach1600W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
-                default:
-                    break
                 }
                 
                 //  Check for consecutive month achievements if ordinaces performed
@@ -1425,8 +1537,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     
                 }
             }
-            // sort the achievements by date achieved
-            completed.sort(by: { $0.achieved?.compare(($1.achieved)!) == .orderedDescending })
+            // sort the achievements by date achieved, then by achievement level (higher first) when dates are equal
+            completed.sort(by: {
+                let dateComparison = $0.achieved?.compare(($1.achieved)!)
+                if dateComparison == .orderedSame {
+                    // Extract achievement number from iconName (e.g., "ach50B" -> 50)
+                    let num0 = Int($0.iconName.replacingOccurrences(of: "ach", with: "").dropLast()) ?? 0
+                    let num1 = Int($1.iconName.replacingOccurrences(of: "ach", with: "").dropLast()) ?? 0
+                    return num0 > num1
+                }
+                return dateComparison == .orderedDescending
+            })
             // sort the non-achievements by progress
             notCompleted.sort(by: { Int($0.progress!*100) > Int($1.progress!*100) })
             

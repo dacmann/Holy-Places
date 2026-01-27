@@ -450,7 +450,9 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
 
             // If entered a few visits, prompt for a rating
             if visitCnt > 5 {
-                SKStoreReviewController.requestReview()
+                if let scene = view.window?.windowScene {
+                    SKStoreReviewController.requestReview(in: scene)
+                }
             }
              
         } catch {
