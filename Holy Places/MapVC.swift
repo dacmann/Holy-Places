@@ -9,30 +9,29 @@
 import UIKit
 import MapKit
 
-class ResizablePinAnnotationView: MKPinAnnotationView {
-    var baseSize: CGFloat = 30.0
-    var minSize: CGFloat = 18.0
-    var maxSize: CGFloat = 40.0
+class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
+    var minScale: CGFloat = 0.2
+    var maxScale: CGFloat = 1.0
     
     func updateSize(for zoomLevel: Double) {
-        // Calculate size based on zoom level
-        // Higher altitude (more zoomed out) = smaller pins
-        // Lower altitude (more zoomed in) = larger pins
+        // Use transform to scale the marker based on zoom level
+        // Higher altitude (more zoomed out) = smaller markers
+        // Lower altitude (more zoomed in) = larger markers
         
-        // Use a more reasonable range for the app's zoom levels
-        // The app uses altitudes from ~1000 (very zoomed in) to ~10000000 (very zoomed out)
         let minAltitude: Double = 1000
         let maxAltitude: Double = 10000000
         
+        // Calculate normalized zoom (0 = zoomed in, 1 = zoomed out)
         let normalizedZoom = max(0, min(1, (zoomLevel - minAltitude) / (maxAltitude - minAltitude)))
-        let size = minSize + (maxSize - minSize) * (1 - normalizedZoom)
         
-        // Update the frame size
-        let newSize = max(minSize, min(maxSize, size))
-        self.frame = CGRect(x: 0, y: 0, width: newSize, height: newSize)
+        // Calculate scale (inverted: zoomed out = smaller)
+        let scale = maxScale - (normalizedZoom * (maxScale - minScale))
         
-        // Center the pin properly
-        self.centerOffset = CGPoint(x: 0, y: -newSize/2)
+        // Apply transform to scale the marker
+        self.transform = CGAffineTransform(scaleX: scale, y: scale)
+        
+        // Always show all markers
+        self.displayPriority = .required
     }
 }
 
@@ -83,13 +82,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     // default to Temple Square
                     mapCenter = CLLocationCoordinate2D(latitude: 40.7707425, longitude: -111.8932596)
                 }
-                mapZoomLevel = 1000000  // 1000km - reasonable for showing all places
-                alreadyVisitedTab = true
+                mapZoomLevel = 3000000  // 3000km - reasonable for showing all places
+                // Don't set alreadyVisitedTab yet - do it after configureView check
             } else if navigationController.viewControllers.first == self && alreadyVisitedTab {
-                // Returning to map tab - reset any previous place detail selection
+                // Returning to map tab - rebuild places but keep current zoom level
                 mapPoints.removeAll()
                 mapView.removeAnnotations(mapView.annotations)
-                mapZoomLevel = 1000000  // 1000km - reasonable for showing all places
                 optionSelected = true
                 // Clear any selected annotation
                 if let selectedAnnotation = mapView.selectedAnnotations.first {
@@ -117,6 +115,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Only set region when coming from place detail or first time
         if fromPlaceDetail || (navigationController?.viewControllers.first == self && !alreadyVisitedTab) {
             self.configureView()
+            alreadyVisitedTab = true  // Set this AFTER configureView is called
+        }
+        
+        // Update marker sizes after view appears
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.updateAllMarkerSizes()
         }
     }
     
@@ -204,6 +208,11 @@ class MapVC: UIViewController, MKMapViewDelegate {
             if let selectedAnnotation = mapView.selectedAnnotations.first {
                 mapView.deselectAnnotation(selectedAnnotation, animated: false)
             }
+            
+            // Force update marker sizes after annotations are added
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.updateAllMarkerSizes()
+            }
         }
         
         // Only select annotation if coming from place detail
@@ -214,15 +223,21 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     func configureView() {
         if self.mapView != nil {
+            // Set region FIRST (without animation) so markers are created at correct size
+            let region = MKCoordinateRegion(center: mapCenter, latitudinalMeters: mapZoomLevel, longitudinalMeters: mapZoomLevel)
+            mapView.setRegion(region, animated: false)
+            
             mapView.addAnnotations(mapPoints)
             mapView.setCenter(mapCenter, animated: false)
             // Determine the current 
             if let found = mapPoints.firstIndex(where:{$0.name == mapPoint.name}) {
                 mapView.selectAnnotation(mapPoints[found], animated: true)
             }
-            // Set region with the specified zoom level
-            let region = MKCoordinateRegion(center: mapCenter, latitudinalMeters: mapZoomLevel, longitudinalMeters: mapZoomLevel)
-            mapView.setRegion(region, animated: true)
+            
+            // Force update marker sizes after a brief delay to ensure they're rendered
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.updateAllMarkerSizes()
+            }
         }
     }
 
@@ -246,13 +261,13 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        let identifier = "pin"
-        var view : ResizablePinAnnotationView
+        let identifier = "marker"
+        var view : ResizableMarkerAnnotationView
         guard let annotation = annotation as? MapPoint else {return nil}
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResizablePinAnnotationView {
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResizableMarkerAnnotationView {
             view = dequeuedView
         } else { //make a new view
-            view = ResizablePinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view = ResizableMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
         
         // Left accessory view
@@ -274,8 +289,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Additional settings for the annotation
         view.isEnabled = true
         view.canShowCallout = true
-//        view.image
-        view.pinTintColor = pinColor(type: annotation.type)
+        view.markerTintColor = pinColor(type: annotation.type)
+        view.glyphImage = nil  // Use default glyph
         annotation.title = " "
         
         // Set initial size based on current zoom level
@@ -296,12 +311,16 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        // Update pin sizes when zoom level changes
+        updateAllMarkerSizes()
+    }
+    
+    func updateAllMarkerSizes() {
+        // Update marker sizes based on current zoom level
         let currentAltitude = mapView.camera.altitude
         
         // Update all visible annotation views
         for annotation in mapView.annotations {
-            if let annotationView = mapView.view(for: annotation) as? ResizablePinAnnotationView {
+            if let annotationView = mapView.view(for: annotation) as? ResizableMarkerAnnotationView {
                 annotationView.updateSize(for: currentAltitude)
             }
         }

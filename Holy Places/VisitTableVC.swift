@@ -458,7 +458,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         let defaults = UserDefaults.standard
         let hasRequestedReview = defaults.bool(forKey: "hasRequestedReview")
-        if !hasRequestedReview && visits.count >= 10 {
+        let visitCount = getVisitCount()
+        if !hasRequestedReview && visitCount >= 10 {
             if let scene = view.window?.windowScene {
                 SKStoreReviewController.requestReview(in: scene)
                 defaults.set(true, forKey: "hasRequestedReview")

@@ -100,6 +100,58 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
+    // MARK: - URL Handling (Widget Deep Links)
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        handleWidgetURL(url)
+    }
+    
+    private func handleWidgetURL(_ url: URL) {
+        guard let myTabBar = self.window?.rootViewController as? UITabBarController else {
+            return
+        }
+        
+        // Handle widget deep links based on URL path
+        switch url.host {
+        case "place":
+            // Open Places tab and navigate to specific place
+            if let placeName = url.pathComponents.last?.removingPercentEncoding, !placeName.isEmpty {
+                myTabBar.selectedIndex = 1  // Places tab
+                if let nvc = myTabBar.selectedViewController as? UINavigationController {
+                    nvc.popToRootViewController(animated: false)
+                    // Small delay to ensure navigation is complete before posting notification
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        NotificationCenter.default.post(name: NSNotification.Name("OpenPlaceFromWidget"), object: placeName)
+                    }
+                }
+            } else {
+                myTabBar.selectedIndex = 1
+            }
+        case "visits":
+            // Open Visits tab
+            myTabBar.selectedIndex = 2
+            if let nvc = myTabBar.selectedViewController as? UINavigationController {
+                nvc.popToRootViewController(animated: false)
+            }
+        case "goals":
+            // Open Settings/Goals - navigate to settings tab
+            myTabBar.selectedIndex = 4  // Assuming Settings is the 5th tab
+            if let nvc = myTabBar.selectedViewController as? UINavigationController {
+                nvc.popToRootViewController(animated: false)
+            }
+        case "summary":
+            // Open Summary tab
+            myTabBar.selectedIndex = 0
+            if let nvc = myTabBar.selectedViewController as? UINavigationController {
+                nvc.popToRootViewController(animated: false)
+            }
+        default:
+            // Default: just open the app (Home tab)
+            myTabBar.selectedIndex = 0
+        }
+    }
+    
     // MARK: - Quick Actions (Shortcut Items)
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {

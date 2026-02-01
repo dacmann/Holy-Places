@@ -204,6 +204,25 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             }))
             self.present(alert, animated: true)
         }
+        
+        // If entered a few visits, prompt for a rating (only once)
+        let defaults = UserDefaults.standard
+        let hasRequestedReview = defaults.bool(forKey: "hasRequestedReview")
+        if !hasRequestedReview {
+            // Get visit count from Core Data
+            let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            do {
+                let visitCount = try getContext().count(for: fetchRequest)
+                if visitCount > 5 {
+                    if let scene = view.window?.windowScene {
+                        SKStoreReviewController.requestReview(in: scene)
+                        defaults.set(true, forKey: "hasRequestedReview")
+                    }
+                }
+            } catch {
+                print("Error counting visits: \(error)")
+            }
+        }
     }
     
     //MARK: - Layout
@@ -447,13 +466,6 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             hoursWorkedYr.isHidden = !ordinanceWorker
             hoursWorkedYr2.isHidden = !ordinanceWorker
             hoursWorkedTotal.isHidden = !ordinanceWorker
-
-            // If entered a few visits, prompt for a rating
-            if visitCnt > 5 {
-                if let scene = view.window?.windowScene {
-                    SKStoreReviewController.requestReview(in: scene)
-                }
-            }
              
         } catch {
             print("Error with request: \(error)")

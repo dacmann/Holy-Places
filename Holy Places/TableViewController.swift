@@ -797,18 +797,35 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             .foregroundColor: baptismsBlue
         ], for: .highlighted)
         
-        doneButton.setTitleTextAttributes([
-            .font: baskervilleFont,
-            .foregroundColor: baptismsBlue
-        ], for: .selected)
-        
         keyboardToolbar.items = [flexSpace, doneButton]
 
         searchController.searchBar.inputAccessoryView = keyboardToolbar
         
         // Customize search bar and scope button fonts
         customizeSearchBarAppearance()
-
+        
+        // Observer for widget deep link to open specific place
+        NotificationCenter.default.addObserver(self, selector: #selector(openPlaceFromWidget(_:)), name: NSNotification.Name("OpenPlaceFromWidget"), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("OpenPlaceFromWidget"), object: nil)
+    }
+    
+    @objc func openPlaceFromWidget(_ notification: Notification) {
+        guard let placeName = notification.object as? String else { return }
+        
+        // Prevent double navigation - only navigate if we're at the root
+        guard let navController = navigationController,
+              navController.viewControllers.count == 1 else {
+            return
+        }
+        
+        // Find the place in allPlaces by name
+        if let place = allPlaces.first(where: { $0.templeName == placeName }) {
+            detailItem = place
+            performSegue(withIdentifier: "showDetail", sender: nil)
+        }
     }
     
     func customizeSearchBarAppearance() {

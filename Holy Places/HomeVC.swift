@@ -342,6 +342,20 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.2": """
+                Enjoy a more connected experience with widgets and improved reliability throughout the app.
+
+                New Widgets:
+                - Large widget: Daily temple visit photos with place name and visit date
+                - Medium widget: Latest achievement and current year goal progress
+                - Small widget: Daily inspirational quote
+                
+                Improvements:
+                - Fixed temple visit reminder notifications
+                - Updated filter icon for better clarity
+                - Visit detail view now shows the temple's place image when no visit photo is attached
+                - A number of bug fixes
+                """,
             "5.1": """
                 Bug Fixes:
                 - Fixed scope control buttons (All/Visited/Not Visited) touch area issues on iOS 26 liquid glass UI
@@ -389,7 +403,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         // Create pop-up view
         let popupView = UIView()
         popupView.translatesAutoresizingMaskIntoConstraints = false
-        popupView.backgroundColor = UIColor.systemBackground
+        // Use tertiary system background for better contrast in dark mode
+        popupView.backgroundColor = UIColor.tertiarySystemBackground
         popupView.layer.cornerRadius = 12
         popupView.layer.masksToBounds = true
         popupView.layer.borderWidth = 1
@@ -401,7 +416,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         let titleText = "What's New in Version \(currentVersion)"
         titleLabel.text = titleText
         titleLabel.font = UIFont(name: "Baskerville-Bold", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
-        titleLabel.textColor = UIColor.label // Use UIColor.label for better contrast
+        // Use primary label color - adapts to dark mode automatically
+        titleLabel.textColor = UIColor.label
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0 // Allow wrapping if needed
         print("Title set to: \(titleText)") // Debug print to confirm title
@@ -411,6 +427,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.text = message
         messageLabel.font = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+        // Use primary label color - adapts to dark mode automatically
         messageLabel.textColor = UIColor.label
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .left

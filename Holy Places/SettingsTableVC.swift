@@ -219,11 +219,6 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
             .foregroundColor: baptismsBlue
         ], for: .highlighted)
         
-        doneBtn.setTitleTextAttributes([
-            .font: baskervilleFont,
-            .foregroundColor: baptismsBlue
-        ], for: .selected)
-        
         //array of BarButtonItems
         var arr = [UIBarButtonItem]()
         arr.append(flexSpace)

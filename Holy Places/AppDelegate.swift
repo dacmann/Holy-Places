@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import CoreLocation
 import UserNotifications
+import WidgetKit
 //import StoreKit
 
 enum ShortcutIdentifier: String {
@@ -309,7 +310,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             requestStateForMonitoredRegions()
         }
         
+        // Load quotes early for widget use
+        loadSummaryQuotes()
+        
         return true
+    }
+    
+    // Load summary quotes from XML for widget
+    func loadSummaryQuotes() {
+        if summaryQuotes.count == 0 {
+            guard let myURL = Bundle.main.url(forResource: "SummaryQuotes", withExtension: "xml") else {
+                print("SummaryQuotes URL not defined properly")
+                return
+            }
+            do {
+                let xmlData = try Data(contentsOf: myURL)
+                let xmlString = String(data: xmlData, encoding: .utf8) ?? ""
+                
+                // Simple regex-based parsing for Quote elements
+                let pattern = "<Quote>(.*?)</Quote>"
+                let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
+                let range = NSRange(xmlString.startIndex..., in: xmlString)
+                let matches = regex.matches(in: xmlString, options: [], range: range)
+                
+                for match in matches {
+                    if let quoteRange = Range(match.range(at: 1), in: xmlString) {
+                        let quote = String(xmlString[quoteRange])
+                            .replacingOccurrences(of: "*", with: "\r\n")
+                            .trimmingCharacters(in: .whitespacesAndNewlines)
+                        summaryQuotes.append(quote)
+                    }
+                }
+                print("Loaded \(summaryQuotes.count) quotes for widget")
+            } catch {
+                print("Error loading SummaryQuotes: \(error)")
+                summaryQuotes.append("\"The supreme benefits of membership in the Church can only be realized through the exalting ordinances of the temple.\"\r\n~ Russell M. Nelson ~")
+            }
+        }
     }
     
     // MARK: UISceneSession Lifecycle
@@ -1106,6 +1143,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         return ad.persistentContainer.viewContext
     }
     
+    // Compress and resize image for widget storage (max 400x400, JPEG quality 0.6)
+    func compressImageForWidget(_ imageData: Data) -> Data? {
+        guard let image = UIImage(data: imageData) else { return nil }
+        
+        let maxSize: CGFloat = 400
+        var newSize = image.size
+        
+        // Calculate new size maintaining aspect ratio
+        if image.size.width > maxSize || image.size.height > maxSize {
+            let widthRatio = maxSize / image.size.width
+            let heightRatio = maxSize / image.size.height
+            let ratio = min(widthRatio, heightRatio)
+            newSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
+        }
+        
+        // Use UIGraphicsImageRenderer for better color profile handling
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: {
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = 1.0
+            return format
+        }())
+        
+        let resizedImage = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+        
+        // Compress as JPEG
+        return resizedImage.jpegData(compressionQuality: 0.6)
+    }
+    
     func getVisits () {
         let context = getContext()
         var latestTempleVisited = ""
@@ -1228,6 +1295,111 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 let visit = searchResults[randomIndex] as Visit
                 homeVisitPictureData = visit.picture!
                 homeVisitDate = formatter.string(from: visit.dateVisited!)
+            }
+            
+            // NEW: Save widget image data on background thread to avoid UI lag
+            // First, capture the data we need from Core Data (must be on main thread)
+            var favoriteVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date)] = []
+            var regularVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date)] = []
+            
+            for visit in searchResults as [Visit] {
+                if let pictureData = visit.picture, let dateVisited = visit.dateVisited {
+                    let visitData = (
+                        picture: pictureData,
+                        placeName: visit.holyPlace ?? "",
+                        date: formatter.string(from: dateVisited),
+                        dateVisited: dateVisited
+                    )
+                    
+                    // Prioritize favorites
+                    if visit.isFavorite {
+                        favoriteVisits.append(visitData)
+                    } else {
+                        regularVisits.append(visitData)
+                    }
+                }
+            }
+            
+            // Sort both arrays by date (most recent first)
+            favoriteVisits.sort { $0.dateVisited > $1.dateVisited }
+            regularVisits.sort { $0.dateVisited > $1.dateVisited }
+            
+            // Combine: favorites first, then regular visits, limit to 30
+            var visitDataForWidget: [(picture: Data, placeName: String, date: String)] = []
+            visitDataForWidget.append(contentsOf: favoriteVisits.map { ($0.picture, $0.placeName, $0.date) })
+            visitDataForWidget.append(contentsOf: regularVisits.map { ($0.picture, $0.placeName, $0.date) })
+            visitDataForWidget = Array(visitDataForWidget.prefix(30))
+            
+            // Fetch place data for widget (including last visited date)
+            // Exclude announced temples (type=A)
+            let placeRequest: NSFetchRequest<Place> = Place.fetchRequest()
+            placeRequest.predicate = NSPredicate(format: "pictureData != nil AND (type != %@ OR type == nil)", "A")
+            var placeDataForWidget: [(picture: Data, placeName: String, lastVisited: String)] = []
+            if let placesWithImages = try? getContext().fetch(placeRequest) {
+                for place in placesWithImages {
+                    if let pictureData = place.pictureData, let placeName = place.name {
+                        // Find last visit date for this place
+                        let visitRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+                        visitRequest.predicate = NSPredicate(format: "holyPlace == %@", placeName)
+                        visitRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
+                        visitRequest.fetchLimit = 1
+                        
+                        var lastVisitedStr = "Not yet visited"
+                        if let lastVisit = try? getContext().fetch(visitRequest).first,
+                           let visitDate = lastVisit.dateVisited {
+                            lastVisitedStr = formatter.string(from: visitDate)
+                        }
+                        
+                        placeDataForWidget.append((
+                            picture: pictureData,
+                            placeName: placeName,
+                            lastVisited: lastVisitedStr
+                        ))
+                    }
+                }
+            }
+            // Randomly select 30 place images
+            if placeDataForWidget.count > 30 {
+                placeDataForWidget.shuffle()
+                placeDataForWidget = Array(placeDataForWidget.prefix(30))
+            }
+            
+            // Process images on background thread
+            DispatchQueue.global(qos: .utility).async {
+                let sharedDefaults = UserDefaults(suiteName: "group.net.dacworld.holyplaces")
+                
+                // Compress visit photos
+                var visitPhotoArray: [[String: Any]] = []
+                for visitData in visitDataForWidget {
+                    if let compressedData = self.compressImageForWidget(visitData.picture) {
+                        visitPhotoArray.append([
+                            "picture": compressedData.base64EncodedString(),
+                            "placeName": visitData.placeName,
+                            "date": visitData.date
+                        ])
+                    }
+                }
+                if let encoded = try? JSONSerialization.data(withJSONObject: visitPhotoArray) {
+                    sharedDefaults?.setValue(encoded, forKey: "widgetVisitPhotos")
+                }
+                
+                // Compress place images
+                var placeImageArray: [[String: Any]] = []
+                for placeData in placeDataForWidget {
+                    if let compressedData = self.compressImageForWidget(placeData.picture) {
+                        placeImageArray.append([
+                            "picture": compressedData.base64EncodedString(),
+                            "placeName": placeData.placeName,
+                            "date": placeData.lastVisited
+                        ])
+                    }
+                }
+                if let encoded = try? JSONSerialization.data(withJSONObject: placeImageArray) {
+                    sharedDefaults?.setValue(encoded, forKey: "widgetPlaceImages")
+                }
+                
+                // Reload widgets (can be called from background thread)
+                WidgetCenter.shared.reloadAllTimelines()
             }
             
             // Achievements
@@ -1550,6 +1722,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             })
             // sort the non-achievements by progress
             notCompleted.sort(by: { Int($0.progress!*100) > Int($1.progress!*100) })
+            
+            // NEW: Save latest achievement for widget
+            let sharedDefaultsAch = UserDefaults(suiteName: "group.net.dacworld.holyplaces")
+            if let latestAchievement = completed.first {
+                sharedDefaultsAch?.setValue(latestAchievement.iconName, forKey: "widgetAchievementIcon")
+                sharedDefaultsAch?.setValue(latestAchievement.name, forKey: "widgetAchievementName")
+            } else {
+                // Default achievement icon if none completed
+                sharedDefaultsAch?.setValue("ach10T", forKey: "widgetAchievementIcon")
+                sharedDefaultsAch?.setValue("", forKey: "widgetAchievementName")
+            }
+            
+            // NEW: Save all short quotes for widget (≤200 characters)
+            // Widget will pick one based on current day for daily rotation
+            let shortQuotes = summaryQuotes.filter { $0.count <= 200 }
+            if !shortQuotes.isEmpty {
+                if let quotesData = try? JSONEncoder().encode(shortQuotes) {
+                    sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
+                }
+            } else if !summaryQuotes.isEmpty {
+                // Fallback: truncate quotes if no short ones exist
+                let truncatedQuotes = summaryQuotes.map { quote -> String in
+                    if quote.count <= 200 {
+                        return quote
+                    }
+                    return String(quote.prefix(197)) + "..."
+                }
+                if let quotesData = try? JSONEncoder().encode(truncatedQuotes) {
+                    sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
+                }
+            }
+            
+            // Reload widgets to pick up new quotes and achievement data
+            WidgetCenter.shared.reloadAllTimelines()
             
         } catch {
             print("Error with request: \(error)")

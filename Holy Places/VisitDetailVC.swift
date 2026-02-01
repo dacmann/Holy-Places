@@ -272,8 +272,28 @@ class VisitDetailVC: UIViewController {
                         pictureHeight.constant = 700
                     }
                 } else {
-                    pictureView.isHidden = true
-                    pictureHeight.constant = 10
+                    // No visit photo - try to show place image as fallback
+                    let context = getContext()
+                    let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "name == %@", detail.holyPlace ?? "")
+                    
+                    if let placeResults = try? context.fetch(fetchRequest),
+                       let place = placeResults.first,
+                       let placeImageData = place.pictureData,
+                       let placeImage = UIImage(data: placeImageData as Data) {
+                        // Show place image
+                        pictureView.image = placeImage
+                        pictureView.isHidden = false
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            pictureHeight.constant = 1400
+                        } else {
+                            pictureHeight.constant = 700
+                        }
+                    } else {
+                        // No place image either - hide view
+                        pictureView.isHidden = true
+                        pictureHeight.constant = 10
+                    }
                 }
                 // Determine height restriction of comment text area
                 if UIDevice.current.userInterfaceIdiom == .pad {

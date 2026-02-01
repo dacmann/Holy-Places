@@ -250,11 +250,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
             .foregroundColor: baptismsBlue
         ], for: .highlighted)
         
-        doneBtn.setTitleTextAttributes([
-            .font: baskervilleFont,
-            .foregroundColor: baptismsBlue
-        ], for: .selected)
-        
         //array of BarButtonItems
         var arr = [UIBarButtonItem]()
         arr.append(flexSpace)

@@ -96,6 +96,15 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         // dim image
         cell.imageView?.alpha = 0.5
+        
+        // Add white glow shadow effect to achievement icon
+        if let imageView = cell.cellImage {
+            imageView.layer.shadowColor = UIColor.white.withAlphaComponent(0.6).cgColor
+            imageView.layer.shadowRadius = 4
+            imageView.layer.shadowOpacity = 1.0
+            imageView.layer.shadowOffset = .zero
+            imageView.layer.masksToBounds = false
+        }
 
         return cell
     }
