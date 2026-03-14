@@ -262,7 +262,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         switch sortOption {
         case 0, 1: // Date sorts - group by year
             let grouped = Dictionary(grouping: filteredVisits) { visit in
-                let year = Calendar.current.component(.year, from: visit.dateVisited!)
+                let year = Calendar.current.component(.year, from: visit.dateVisited ?? Date())
                 return "\(year)"
             }
             groupedFilteredVisits = grouped.map { (section: $0.key, visits: $0.value) }
@@ -311,7 +311,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             guard !searchTerms.isEmpty else { return true }
             
             // Create searchable text from all relevant fields
-            let searchableText = "\(visit.holyPlace ?? "") \(visit.comments ?? "") \(formatter.string(from: visit.dateVisited! as Date))".lowercased()
+            let dateString = visit.dateVisited.map { formatter.string(from: $0) } ?? ""
+            let searchableText = "\(visit.holyPlace ?? "") \(visit.comments ?? "") \(dateString)".lowercased()
             
             // AND search: all terms must be found in the searchable text
             return searchTerms.allSatisfy { term in
@@ -411,6 +412,49 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         searchController.searchBar.inputAccessoryView = keyboardToolbar
 
+        // Observer for widget deep link to open specific visit
+        NotificationCenter.default.addObserver(self, selector: #selector(openVisitFromWidget(_:)), name: NSNotification.Name("OpenVisitFromWidget"), object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("OpenVisitFromWidget"), object: nil)
+    }
+
+    @objc func openVisitFromWidget(_ notification: Notification) {
+        guard let objectIDString = notification.object as? String else { return }
+
+        // Prevent double navigation - only navigate if we're at the root
+        guard let navController = navigationController,
+              navController.viewControllers.count == 1 else {
+            return
+        }
+
+        guard let url = URL(string: objectIDString),
+              let objectID = ad.persistentContainer.persistentStoreCoordinator.managedObjectID(forURIRepresentation: url) else {
+            return
+        }
+
+        let context = getContext()
+        do {
+            let visit = try context.existingObject(with: objectID) as? Visit
+            guard let visit = visit else { return }
+
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let detailVC = storyboard.instantiateViewController(withIdentifier: "VisitDetailVC") as? VisitDetailVC else { return }
+
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
+            detailVC.detailVisit = visit
+            detailVC.navigationItem.leftItemsSupplementBackButton = true
+
+            // Set up visitsInTable for swipe navigation (single visit)
+            visitsInTable = [visit]
+            selectedVisitRow = 0
+
+            navController.pushViewController(detailVC, animated: true)
+        } catch {
+            // Visit was deleted - fallback to opening the place if we can get the name from the objectID
+            // For now, just stay on Visits tab (user is already there)
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -647,6 +691,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                     fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
                 // Update visit count for goal progress in Widget
+                ad.needsVisitRefresh = true
                 ad.getVisits()
             }
             alert.addAction(destroyAction)
@@ -697,6 +742,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
             // Update visit count for goal progress in Widget
+            ad.needsVisitRefresh = true
             ad.getVisits()
         }
     }
@@ -739,7 +785,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             ordinances.append( "   ⭐")
         }
         
-        cell.detailTextLabel?.text = " " + formatter.string(from: visit.dateVisited! as Date) + ordinances
+        if let dateVisited = visit.dateVisited {
+            cell.detailTextLabel?.text = " " + formatter.string(from: dateVisited) + ordinances
+        } else {
+            cell.detailTextLabel?.text = " (no date)" + ordinances
+        }
         cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.minimumScaleFactor = 0.7
@@ -877,39 +927,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     var _fetchedResultsController: NSFetchedResultsController<Visit>? = nil
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            self.tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            self.tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        default:
-            return
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            print("update") // This is causing a crash when the results are filtered with a search - disabling it doesn't seem to cause an issue
-//            self.configureCell(tableView.cellForRow(at: indexPath!)!, withVisit: anObject as! Visit)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        @unknown default:
-            print("Not handled")
-        }
-    }
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.endUpdates()
+        self.tableView.reloadData()
     }
     
     //MARK: - Navigation

@@ -159,6 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var visitElapsedTime: TimeInterval?
     var monitoredRegions: Dictionary<String, NSDate> = [:]
     var newFileParsed = false
+    var needsVisitRefresh = true
     var oldNames: [String] = []
     var oldName = String()
     let regionEntryTimesKey = "regionEntryTimes"
@@ -1211,19 +1212,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         do {
             // Get All visits
             visits.removeAll()
+            var needsSave = false
             var searchResults = try context.fetch(fetchRequest)
             for visit in searchResults as [Visit] {
-                // populate year if needed
-                if visit.year == nil {
-                    visit.year = yearFormat.string(from: visit.dateVisited!)
-                    //save the object
-                    do {
-                        try context.save()
-                    } catch let error as NSError  {
-                        print("Could not save \(error), \(error.userInfo)")
-                    } catch {}
+                if visit.year == nil, let dateVisited = visit.dateVisited {
+                    visit.year = yearFormat.string(from: dateVisited)
+                    needsSave = true
                 }
-                visits.append(visit.holyPlace!)
+                if let placeName = visit.holyPlace {
+                    visits.append(placeName)
+                }
+            }
+            if needsSave {
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save \(error), \(error.userInfo)")
+                }
             }
             // get temple visits
             fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
@@ -1240,10 +1245,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             
             attended = 0
             for visit in searchResults as [Visit] {
-                //print((temple.value(forKey: "dateVisited") as! Date).daysBetweenDate(toDate: Date()))
-                // check for ordinaces performed in the last year
-                if (visit.dateVisited?.daysBetweenDate(toDate: Date()))! < currentYearDate.daysBetweenDate(toDate: Date()) {
-                    // check for ordinances when excluded
+                guard let visitDate = visit.dateVisited else { continue }
+                let placeName = visit.holyPlace ?? ""
+                
+                if visitDate.daysBetweenDate(toDate: Date()) < currentYearDate.daysBetweenDate(toDate: Date()) {
                     if excludeNonOrdinanceVisits {
                         if visit.baptisms > 0 || visit.confirmations > 0 || visit.initiatories > 0 || visit.endowments > 0 || visit.sealings > 0 {
                             attended += 1
@@ -1258,8 +1263,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     sealings += Int(visit.sealings)
                 }
                 if latestTempleVisited == "" {
-                    latestTempleVisited = visit.holyPlace!
-                    dateLastVisited = formatter.string(from: visit.dateVisited! as Date)
+                    latestTempleVisited = placeName
+                    dateLastVisited = formatter.string(from: visitDate)
                 }
             }
             goalProgress = ""
@@ -1293,22 +1298,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if searchResults.count > 0 {
                 let randomIndex = Int(arc4random_uniform(UInt32(searchResults.count)))
                 let visit = searchResults[randomIndex] as Visit
-                homeVisitPictureData = visit.picture!
-                homeVisitDate = formatter.string(from: visit.dateVisited!)
+                if let pictureData = visit.picture {
+                    homeVisitPictureData = pictureData
+                }
+                if let visitDate = visit.dateVisited {
+                    homeVisitDate = formatter.string(from: visitDate)
+                }
             }
             
             // NEW: Save widget image data on background thread to avoid UI lag
             // First, capture the data we need from Core Data (must be on main thread)
-            var favoriteVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date)] = []
-            var regularVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date)] = []
+            var favoriteVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date, visitObjectID: String)] = []
+            var regularVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date, visitObjectID: String)] = []
             
             for visit in searchResults as [Visit] {
                 if let pictureData = visit.picture, let dateVisited = visit.dateVisited {
+                    let visitObjectID = visit.objectID.uriRepresentation().absoluteString
                     let visitData = (
                         picture: pictureData,
                         placeName: visit.holyPlace ?? "",
                         date: formatter.string(from: dateVisited),
-                        dateVisited: dateVisited
+                        dateVisited: dateVisited,
+                        visitObjectID: visitObjectID
                     )
                     
                     // Prioritize favorites
@@ -1325,12 +1336,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             regularVisits.sort { $0.dateVisited > $1.dateVisited }
             
             // Combine: favorites first, then regular visits, limit to 30
-            var visitDataForWidget: [(picture: Data, placeName: String, date: String)] = []
-            visitDataForWidget.append(contentsOf: favoriteVisits.map { ($0.picture, $0.placeName, $0.date) })
-            visitDataForWidget.append(contentsOf: regularVisits.map { ($0.picture, $0.placeName, $0.date) })
+            var visitDataForWidget: [(picture: Data, placeName: String, date: String, visitObjectID: String)] = []
+            visitDataForWidget.append(contentsOf: favoriteVisits.map { ($0.picture, $0.placeName, $0.date, $0.visitObjectID) })
+            visitDataForWidget.append(contentsOf: regularVisits.map { ($0.picture, $0.placeName, $0.date, $0.visitObjectID) })
             visitDataForWidget = Array(visitDataForWidget.prefix(30))
             
             // Fetch place data for widget (including last visited date)
+            // Build a lookup of latest visit date per place with a single query
+            var latestVisitByPlace: [String: Date] = [:]
+            let allVisitsRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            allVisitsRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
+            if let allVisitsResults = try? getContext().fetch(allVisitsRequest) {
+                for v in allVisitsResults {
+                    guard let name = v.holyPlace, let date = v.dateVisited else { continue }
+                    if latestVisitByPlace[name] == nil {
+                        latestVisitByPlace[name] = date
+                    }
+                }
+            }
+            
             // Exclude announced temples (type=A)
             let placeRequest: NSFetchRequest<Place> = Place.fetchRequest()
             placeRequest.predicate = NSPredicate(format: "pictureData != nil AND (type != %@ OR type == nil)", "A")
@@ -1338,18 +1362,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if let placesWithImages = try? getContext().fetch(placeRequest) {
                 for place in placesWithImages {
                     if let pictureData = place.pictureData, let placeName = place.name {
-                        // Find last visit date for this place
-                        let visitRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-                        visitRequest.predicate = NSPredicate(format: "holyPlace == %@", placeName)
-                        visitRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
-                        visitRequest.fetchLimit = 1
-                        
                         var lastVisitedStr = "Not yet visited"
-                        if let lastVisit = try? getContext().fetch(visitRequest).first,
-                           let visitDate = lastVisit.dateVisited {
+                        if let visitDate = latestVisitByPlace[placeName] {
                             lastVisitedStr = formatter.string(from: visitDate)
                         }
-                        
                         placeDataForWidget.append((
                             picture: pictureData,
                             placeName: placeName,
@@ -1375,7 +1391,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         visitPhotoArray.append([
                             "picture": compressedData.base64EncodedString(),
                             "placeName": visitData.placeName,
-                            "date": visitData.date
+                            "date": visitData.date,
+                            "visitObjectID": visitData.visitObjectID
                         ])
                     }
                 }
@@ -1409,8 +1426,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             searchResults = try getContext().fetch(fetchRequest)
             
             for visit in searchResults as [Visit] {
-                // count ordinances for each temple visited
-                // add to total counts
+                guard let visitDate = visit.dateVisited else { continue }
+                let placeName = visit.holyPlace ?? ""
                 
                 sealingsTotal += Int(visit.sealings)
                 endowmentsTotal += Int(visit.endowments)
@@ -1419,7 +1436,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 baptismsTotal += Int(visit.baptisms)
                 shiftHoursTotal += visit.shiftHrs
                 
-                // Check if ordnances were performed at this visit
                 if Int(visit.baptisms) > 0 || Int(visit.confirmations) > 0 || Int(visit.initiatories) > 0 || Int(visit.endowments) > 0 || Int(visit.sealings) > 0 {
                     didOrdinances = true
                 } else {
@@ -1434,179 +1450,168 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     attendedTotal += 1
                 }
                 
-                // determine unique temples visited
-                if !distinctTemplesVisited.contains(visit.holyPlace!) {
-                    distinctTemplesVisited.append(visit.holyPlace!)
+                if !distinctTemplesVisited.contains(placeName) {
+                    distinctTemplesVisited.append(placeName)
                     if distinctTemplesVisited.count == 10 {
-                        updateAchievement(achievement:"ach10T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach10T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 20 {
-                        updateAchievement(achievement:"ach20T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach20T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 30 {
-                        updateAchievement(achievement:"ach30T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach30T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 40 {
-                        updateAchievement(achievement:"ach40T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach40T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 50 {
-                        updateAchievement(achievement:"ach50T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach50T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 60 {
-                        updateAchievement(achievement:"ach60T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach60T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 75 {
-                        updateAchievement(achievement:"ach75T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach75T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 100 {
-                        updateAchievement(achievement:"ach100T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach100T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 125 {
-                        updateAchievement(achievement:"ach125T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach125T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 150 {
-                        updateAchievement(achievement:"ach150T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach150T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 175 {
-                        updateAchievement(achievement:"ach175T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach175T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                     if distinctTemplesVisited.count == 200 {
-                        updateAchievement(achievement:"ach200T", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                        updateAchievement(achievement:"ach200T", dateAchieved: visitDate, placeAchieved: placeName)
                     }
                 }
                 
-                // Check for Ordinance Achievements - Baptisms
                 if baptismsTotal >= 25 {
-                    updateAchievement(achievement: "ach25B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach25B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if baptismsTotal >= 50 {
-                    updateAchievement(achievement: "ach50B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if baptismsTotal >= 100 {
-                    updateAchievement(achievement: "ach100B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if baptismsTotal >= 200 {
-                    updateAchievement(achievement: "ach200B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if baptismsTotal >= 400 {
-                    updateAchievement(achievement: "ach400B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if baptismsTotal >= 800 {
-                    updateAchievement(achievement: "ach800B", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach800B", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 
-                // Initiatories
                 if initiatoriesTotal >= 25 {
-                    updateAchievement(achievement: "ach25I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach25I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if initiatoriesTotal >= 50 {
-                    updateAchievement(achievement: "ach50I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if initiatoriesTotal >= 100 {
-                    updateAchievement(achievement: "ach100I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if initiatoriesTotal >= 200 {
-                    updateAchievement(achievement: "ach200I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if initiatoriesTotal >= 400 {
-                    updateAchievement(achievement: "ach400I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if initiatoriesTotal >= 800 {
-                    updateAchievement(achievement: "ach800I", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach800I", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 
-                // Endowments
                 if endowmentsTotal >= 10 {
-                    updateAchievement(achievement: "ach10E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach10E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 25 {
-                    updateAchievement(achievement: "ach25E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach25E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 50 {
-                    updateAchievement(achievement: "ach50E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 100 {
-                    updateAchievement(achievement: "ach100E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 150 {
-                    updateAchievement(achievement: "ach150E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach150E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 200 {
-                    updateAchievement(achievement: "ach200E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 300 {
-                    updateAchievement(achievement: "ach300E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach300E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 400 {
-                    updateAchievement(achievement: "ach400E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 550 {
-                    updateAchievement(achievement: "ach550E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach550E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if endowmentsTotal >= 700 {
-                    updateAchievement(achievement: "ach700E", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach700E", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 
-                // Sealings
                 if sealingsTotal >= 50 {
-                    updateAchievement(achievement: "ach50S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if sealingsTotal >= 100 {
-                    updateAchievement(achievement: "ach100S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if sealingsTotal >= 200 {
-                    updateAchievement(achievement: "ach200S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if sealingsTotal >= 400 {
-                    updateAchievement(achievement: "ach400S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if sealingsTotal >= 800 {
-                    updateAchievement(achievement: "ach800S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach800S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if sealingsTotal >= 1600 {
-                    updateAchievement(achievement: "ach1600S", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach1600S", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 
-                // Worker Hours
                 if shiftHoursTotal >= 50 {
-                    updateAchievement(achievement: "ach50W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach50W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if shiftHoursTotal >= 100 {
-                    updateAchievement(achievement: "ach100W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach100W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if shiftHoursTotal >= 200 {
-                    updateAchievement(achievement: "ach200W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach200W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if shiftHoursTotal >= 400 {
-                    updateAchievement(achievement: "ach400W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach400W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if shiftHoursTotal >= 800 {
-                    updateAchievement(achievement: "ach800W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach800W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 if shiftHoursTotal >= 1600 {
-                    updateAchievement(achievement: "ach1600W", dateAchieved: visit.dateVisited!, placeAchieved: visit.holyPlace!)
+                    updateAchievement(achievement: "ach1600W", dateAchieved: visitDate, placeAchieved: placeName)
                 }
                 
-                //  Check for consecutive month achievements if ordinaces performed
                 if didOrdinances {
-                    let monthVisited = Int(monthFormat.string(from: visit.dateVisited!))
-                    let yearVisited = yearFormat.string(from: visit.dateVisited!)
+                    let monthVisited = Int(monthFormat.string(from: visitDate))
+                    let yearVisited = yearFormat.string(from: visitDate)
                     if (monthVisited == 1) {
-                        // reset the year to year of visit
                         year = yearVisited
                         month = 1
                     }
                     if monthVisited == month + 1 && yearVisited == year {
-                        // check if subsequent month has a visit and increment month
                         month += 1
                     }
                     if monthVisited == 12 && month == 12 && yearVisited == year {
-                        // Check if all twelve months had visits
-                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT\(yearVisited)", Achieved: visit.dateVisited!, PlaceAchieved: visit.holyPlace!))
+                        achievements.append(Achievement(Name: "Temple Consistent - \(yearVisited)", Details: "Ordinances completed each month", IconName: "ach12MT\(yearVisited)", Achieved: visitDate, PlaceAchieved: placeName))
                         month = 0
                     }
                     if monthVisited == currentYearMonths + 1 && yearVisited == currentYear {
-                        // check if subsequent month has a visit and increment month
                         currentYearMonths += 1
                     }
                 }
@@ -1618,32 +1623,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
             for site in searchResults as [Visit] {
-                // determine unique temples visited
-                if !distinctHistoricSitesVisited.contains(site.holyPlace!) {
-                    distinctHistoricSitesVisited.append(site.holyPlace!)
+                guard let siteDate = site.dateVisited else { continue }
+                let siteName = site.holyPlace ?? ""
+                
+                if !distinctHistoricSitesVisited.contains(siteName) {
+                    distinctHistoricSitesVisited.append(siteName)
                     if distinctHistoricSitesVisited.count == 10 {
-                        updateAchievement(achievement:"ach10H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach10H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 25 {
-                        updateAchievement(achievement:"ach25H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach25H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 40 {
-                        updateAchievement(achievement:"ach40H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach40H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 55 {
-                        updateAchievement(achievement:"ach55H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach55H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 75 {
-                        updateAchievement(achievement:"ach75H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach75H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 100 {
-                        updateAchievement(achievement:"ach100H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach100H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 125 {
-                        updateAchievement(achievement:"ach125H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach125H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                     if distinctHistoricSitesVisited.count == 150 {
-                        updateAchievement(achievement:"ach150H", dateAchieved: site.dateVisited!, placeAchieved: site.holyPlace!)
+                        updateAchievement(achievement:"ach150H", dateAchieved: siteDate, placeAchieved: siteName)
                     }
                 }
             }
@@ -1723,43 +1730,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             // sort the non-achievements by progress
             notCompleted.sort(by: { Int($0.progress!*100) > Int($1.progress!*100) })
             
-            // NEW: Save latest achievement for widget
-            let sharedDefaultsAch = UserDefaults(suiteName: "group.net.dacworld.holyplaces")
-            if let latestAchievement = completed.first {
-                sharedDefaultsAch?.setValue(latestAchievement.iconName, forKey: "widgetAchievementIcon")
-                sharedDefaultsAch?.setValue(latestAchievement.name, forKey: "widgetAchievementName")
-            } else {
-                // Default achievement icon if none completed
-                sharedDefaultsAch?.setValue("ach10T", forKey: "widgetAchievementIcon")
-                sharedDefaultsAch?.setValue("", forKey: "widgetAchievementName")
-            }
-            
-            // NEW: Save all short quotes for widget (≤200 characters)
-            // Widget will pick one based on current day for daily rotation
-            let shortQuotes = summaryQuotes.filter { $0.count <= 200 }
-            if !shortQuotes.isEmpty {
-                if let quotesData = try? JSONEncoder().encode(shortQuotes) {
-                    sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
-                }
-            } else if !summaryQuotes.isEmpty {
-                // Fallback: truncate quotes if no short ones exist
-                let truncatedQuotes = summaryQuotes.map { quote -> String in
-                    if quote.count <= 200 {
-                        return quote
+            // Save achievement and quote widget data on background thread
+            let achIconName = completed.first?.iconName ?? "ach10T"
+            let achName = completed.first?.name ?? ""
+            let capturedQuotes = summaryQuotes
+            DispatchQueue.global(qos: .utility).async {
+                let sharedDefaultsAch = UserDefaults(suiteName: "group.net.dacworld.holyplaces")
+                sharedDefaultsAch?.setValue(achIconName, forKey: "widgetAchievementIcon")
+                sharedDefaultsAch?.setValue(achName, forKey: "widgetAchievementName")
+                
+                let shortQuotes = capturedQuotes.filter { $0.count <= 200 }
+                if !shortQuotes.isEmpty {
+                    if let quotesData = try? JSONEncoder().encode(shortQuotes) {
+                        sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
                     }
-                    return String(quote.prefix(197)) + "..."
+                } else if !capturedQuotes.isEmpty {
+                    let truncatedQuotes = capturedQuotes.map { quote -> String in
+                        if quote.count <= 200 { return quote }
+                        return String(quote.prefix(197)) + "..."
+                    }
+                    if let quotesData = try? JSONEncoder().encode(truncatedQuotes) {
+                        sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
+                    }
                 }
-                if let quotesData = try? JSONEncoder().encode(truncatedQuotes) {
-                    sharedDefaultsAch?.setValue(quotesData, forKey: "widgetQuotes")
-                }
+                
+                WidgetCenter.shared.reloadAllTimelines()
             }
-            
-            // Reload widgets to pick up new quotes and achievement data
-            WidgetCenter.shared.reloadAllTimelines()
             
         } catch {
             print("Error with request: \(error)")
         }
+        needsVisitRefresh = false
     }
     
     // Save the Place data in CoreData

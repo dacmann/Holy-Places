@@ -2758,7 +2758,7 @@
         <!--Visit Details-->
         <scene sceneID="oFh-bY-d99">
             <objects>
-                <viewController title="Visit Details" id="rBL-9C-lIs" customClass="VisitDetailVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VisitDetailVC" title="Visit Details" id="rBL-9C-lIs" customClass="VisitDetailVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MMP-iS-hw5">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

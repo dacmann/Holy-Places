@@ -24,6 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let shortcutItem = connectionOptions.shortcutItem {
             handleShortcutItem(shortcutItem)
         }
+        
+        // Handle URL if app was cold-launched from widget tap (urlContexts only present on cold launch)
+        if let url = connectionOptions.urlContexts.first?.url {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleWidgetURL(url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -127,6 +134,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             } else {
                 myTabBar.selectedIndex = 1
+            }
+        case "visit":
+            // Open Visits tab and navigate to specific visit (from large widget photo tap)
+            // Use query param - object ID contains slashes so pathComponents would truncate it
+            let objectIDString = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                .queryItems?.first(where: { $0.name == "id" })?.value?.removingPercentEncoding ?? ""
+            if !objectIDString.isEmpty {
+                myTabBar.selectedIndex = 2  // Visits tab
+                if let nvc = myTabBar.selectedViewController as? UINavigationController {
+                    nvc.popToRootViewController(animated: false)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        NotificationCenter.default.post(name: NSNotification.Name("OpenVisitFromWidget"), object: objectIDString)
+                    }
+                }
+            } else {
+                myTabBar.selectedIndex = 2
             }
         case "visits":
             // Open Visits tab

@@ -1362,7 +1362,7 @@
         <!--Visit Details-->
         <scene sceneID="oFh-bY-d99">
             <objects>
-                <viewController title="Visit Details" id="rBL-9C-lIs" customClass="VisitDetailVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VisitDetailVC" title="Visit Details" id="rBL-9C-lIs" customClass="VisitDetailVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rXq-Ox-wxf"/>
                         <viewControllerLayoutGuide type="bottom" id="JSm-a4-m8r"/>

@@ -77,7 +77,7 @@ struct MediumAchievementWidgetView: View {
         
         ZStack {
             // Main content
-            HStack(spacing: 12) {
+            HStack(spacing: 20) {
                 // Achievement icon on the left
                 Image(entry.data.achievementIcon)
                     .resizable()
@@ -85,7 +85,7 @@ struct MediumAchievementWidgetView: View {
                     .frame(width: 90, height: 90)
                     .shadow(color: .white.opacity(0.6), radius: 4)
                 
-                // Goals on the right
+                // Goals on the right - expand to fill available width on Max screens
                 VStack(alignment: .leading, spacing: 3) {
                     Text("\(currentYear) Goal Progress")
                         .font(.custom("Baskerville-Bold", size: titleFontSize(for: goalCount)))
@@ -105,10 +105,9 @@ struct MediumAchievementWidgetView: View {
                         }
                     }
                 }
-                
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(8)
+            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 8))
             
             // App icon fixed in lower right corner of widget container
             VStack {

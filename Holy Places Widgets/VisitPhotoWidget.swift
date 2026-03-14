@@ -51,6 +51,22 @@ struct VisitPhotoProvider: AppIntentTimelineProvider {
 struct LargeVisitWidgetView: View {
     let entry: VisitPhotoEntry
     
+    private func widgetURL(for visitEntry: VisitWidgetData?, sourceType: ImageSourceType) -> URL {
+        guard let visitEntry = visitEntry else {
+            return URL(string: "net.dacworld.holyplaces://summary")!
+        }
+        // Visit photos with object ID: navigate to that visit (use query param to avoid path splitting on slashes in URI)
+        if sourceType == .visitPhoto, let objectID = visitEntry.visitObjectID, !objectID.isEmpty {
+            var allowed = CharacterSet.alphanumerics
+            allowed.insert(charactersIn: "-_.~")
+            let encoded = objectID.addingPercentEncoding(withAllowedCharacters: allowed) ?? objectID
+            return URL(string: "net.dacworld.holyplaces://visit?id=\(encoded)")!
+        }
+        // Place images or no object ID: navigate to place
+        let encodedPlace = visitEntry.placeName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        return URL(string: "net.dacworld.holyplaces://place/\(encodedPlace)")!
+    }
+    
     var body: some View {
         let sourceType: ImageSourceType = entry.imageSource == .visitPhoto ? .visitPhoto : .placeImage
         let visitEntry = entry.data.imageForCurrentDay(source: sourceType)
@@ -124,7 +140,7 @@ struct LargeVisitWidgetView: View {
             .padding(12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .widgetURL(URL(string: "net.dacworld.holyplaces://place/\(visitEntry?.placeName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "")"))
+        .widgetURL(widgetURL(for: visitEntry, sourceType: sourceType))
     }
 }
 

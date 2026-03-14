@@ -70,27 +70,27 @@ struct SmallQuoteWidgetView: View {
         let quote = entry.data.quoteForCurrentDay()
         
         ZStack(alignment: .topLeading) {
-            // Main content
-            VStack(spacing: 8) {
-                HStack {
-                    Spacer()
-                        .frame(width: 42) // Add space to account for icon width + padding
-                    Text("Daily Quote")
-                        .font(.custom("Baskerville-Bold", size: 16))
-                        .foregroundColor(.white.opacity(0.9))
-                    Spacer()
+            // Main content - vertically centered so short quotes look balanced
+            VStack {
+                Spacer(minLength: 0)
+                VStack(spacing: 8) {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50) // Space for icon (24+8) + gap before title
+                        Text("Daily Quote")
+                            .font(.custom("Baskerville-Bold", size: 16))
+                            .foregroundColor(.white.opacity(0.9))
+                        Spacer()
+                    }
+                    Text(quote.isEmpty ? "The temple is a place of peace." : quote)
+                        .font(.custom("Baskerville", size: 15))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(7)
+                        .minimumScaleFactor(0.6)
+                        .padding(.horizontal, 12)
                 }
-                .padding(.top, 12)
-                
-                Text(quote.isEmpty ? "The temple is a place of peace." : quote)
-                    .font(.custom("Baskerville", size: 15))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(7)
-                    .minimumScaleFactor(0.6)
-                    .padding(.horizontal, 12)
-                
-                Spacer()
+                Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             

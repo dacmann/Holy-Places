@@ -19,7 +19,7 @@ class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
         // Lower altitude (more zoomed in) = larger markers
         
         let minAltitude: Double = 1000
-        let maxAltitude: Double = 10000000
+        let maxAltitude: Double = 25000000  // ~25,000 km - markers stay larger longer when zooming out
         
         // Calculate normalized zoom (0 = zoomed in, 1 = zoomed out)
         let normalizedZoom = max(0, min(1, (zoomLevel - minAltitude) / (maxAltitude - minAltitude)))
@@ -32,6 +32,11 @@ class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
         
         // Always show all markers
         self.displayPriority = .required
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        transform = .identity
     }
 }
 
@@ -46,6 +51,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    private var markerSizeDisplayLink: CADisplayLink?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -310,16 +316,36 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        updateAllMarkerSizes()
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        startMarkerSizeUpdates()
     }
     
-    func updateAllMarkerSizes() {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        stopMarkerSizeUpdates()
+        updateAllMarkerSizes()
+        // Extra pass for annotations that may have just appeared at edges
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.updateAllMarkerSizes()
+        }
+    }
+    
+    private func startMarkerSizeUpdates() {
+        guard markerSizeDisplayLink == nil else { return }
+        markerSizeDisplayLink = CADisplayLink(target: self, selector: #selector(updateAllMarkerSizes))
+        markerSizeDisplayLink?.add(to: .main, forMode: .common)
+    }
+    
+    private func stopMarkerSizeUpdates() {
+        markerSizeDisplayLink?.invalidate()
+        markerSizeDisplayLink = nil
+    }
+    
+    @objc func updateAllMarkerSizes() {
         // Update marker sizes based on current zoom level
         let currentAltitude = mapView.camera.altitude
         
-        // Update all visible annotation views
-        for annotation in mapView.annotations {
+        // Update only MapPoint annotation views (skip user location, etc.)
+        for annotation in mapView.annotations.compactMap({ $0 as? MapPoint }) {
             if let annotationView = mapView.view(for: annotation) as? ResizableMarkerAnnotationView {
                 annotationView.updateSize(for: currentAltitude)
             }
@@ -374,6 +400,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        stopMarkerSizeUpdates()
         
         // Show tab bar when leaving map (in case it was hidden)
         tabBarController?.tabBar.isHidden = false

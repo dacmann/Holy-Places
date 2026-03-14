@@ -193,6 +193,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         annualSealingGoal = Int(sealingGoal.text!) ?? 0
         copyAddDays = Int16(addDays.text!) ?? 7
         defaultCommentsText = defaultCommentsTextField.text ?? ""
+        ad.needsVisitRefresh = true
         
         // Dismiss view
         self.dismiss(animated: true, completion: nil)

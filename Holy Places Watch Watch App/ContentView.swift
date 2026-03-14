@@ -5,12 +5,19 @@ import SwiftUI
 import WatchKit
 import UserNotifications
 
+private enum WatchStorageKeys {
+    static let sessionStartTime = "HolyPlacesWatch_sessionStartTime"
+    static let sessionDurationSeconds = "HolyPlacesWatch_sessionDurationSeconds"
+}
+
 struct ContentView: View {
 
+    @Environment(\.scenePhase) private var scenePhase
+    @FocusState private var timerFocused: Bool
     @State private var showIntro = false
     @State private var dontShowAgain = false
     @State private var showSwipeHint = true
-    @State private var countdown: Int = 600 // in seconds
+    @State private var countdown: Int = 600 // display value, derived from Date-based model
     @State private var timer: Timer?
     @State private var isTapping = false
     @State private var hapticTimer: Timer?
@@ -68,7 +75,7 @@ struct ContentView: View {
 
                         }
                         .padding()
-                        .padding(.top, 40) // 👈 pushes the stepper down a bit
+                        .padding(.top, 40)
                         .background(Color.black.opacity(0.5))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     } else if showSwipeHint {
@@ -83,7 +90,6 @@ struct ContentView: View {
                             .transition(.opacity)
                     }
                 }
-
                 .frame(height: 60)
                 
                 Spacer()
@@ -92,49 +98,35 @@ struct ContentView: View {
                     .font(.system(size: countdownFontSize))
                     .foregroundColor(.white.opacity(0.8))
                     .padding(.bottom, 20)
-                    .if(!showPicker) { view in
-                        view
-                            .focusable(true)
-                            .digitalCrownRotation(
-                                $countdownFontSize,
-                                from: 10,
-                                through: 40,
-                                by: 1,
-                                sensitivity: .medium,
-                                isContinuous: false,
-                                isHapticFeedbackEnabled: true
-                            )
-                            .onChange(of: countdownFontSize) {
-                                UserDefaults.standard.set(Float(countdownFontSize), forKey: "countdownFontSize")
-                            }
+                    .focused($timerFocused)
+                    .digitalCrownRotation(
+                        $countdownFontSize,
+                        from: 10,
+                        through: 40,
+                        by: 1,
+                        sensitivity: .medium,
+                        isContinuous: false,
+                        isHapticFeedbackEnabled: true
+                    )
+                    .onChange(of: countdownFontSize) {
+                        UserDefaults.standard.set(Float(countdownFontSize), forKey: "countdownFontSize")
                     }
             }
             .padding()
         }
         
         .onAppear {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
-                if let error = error {
-                    print("Notification authorization error: \(error.localizedDescription)")
-                }
-                if !granted {
-                    print("Notifications denied. Users won’t receive session expiration alerts in the background.")
-                    // Optionally set a @State variable to show a UI warning, e.g.:
-                    // self.showNotificationWarning = true
-                }
-            }
-            countdownFontSize = CGFloat(UserDefaults.standard.float(forKey: "countdownFontSize") == 0 ? 16 : UserDefaults.standard.float(forKey: "countdownFontSize"))
-
-            if !UserDefaults.standard.bool(forKey: "hasSeenIntro") {
-                showIntro = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                withAnimation {
-                    showSwipeHint = false
-                }
-            }
+            performInitialSetup()
             RuntimeManager.shared.start()
-            startCountdown()
+            startOrRestoreCountdown()
+            timerFocused = true
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                RuntimeManager.shared.start()
+                startOrRestoreCountdown()
+                timerFocused = true
+            }
         }
         .onTapGesture {
             if isTapping {
@@ -176,6 +168,26 @@ struct ContentView: View {
 
     }
     
+    func performInitialSetup() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Notification authorization error: \(error.localizedDescription)")
+            }
+            if !granted {
+                print("Notifications denied. Users won't receive session expiration alerts in the background.")
+            }
+        }
+        countdownFontSize = CGFloat(UserDefaults.standard.float(forKey: "countdownFontSize") == 0 ? 16 : UserDefaults.standard.float(forKey: "countdownFontSize"))
+        if !UserDefaults.standard.bool(forKey: "hasSeenIntro") {
+            showIntro = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            withAnimation {
+                showSwipeHint = false
+            }
+        }
+    }
+
     func adjustMinutes(_ delta: Int) {
         let newValue = max(1, min(60, selectedMinutes + delta))
         if newValue != selectedMinutes {
@@ -192,21 +204,66 @@ struct ContentView: View {
         return String(format: "%d:%02d", minutes, seconds)
     }
     
+    func startOrRestoreCountdown() {
+        // If we're already tapping (timer expired, haptics playing), leave that state alone
+        if isTapping { return }
+
+        let defaults = UserDefaults.standard
+        let storedStart = defaults.double(forKey: WatchStorageKeys.sessionStartTime)
+        let storedDuration = defaults.integer(forKey: WatchStorageKeys.sessionDurationSeconds)
+
+        if storedStart > 0, storedDuration > 0 {
+            let startTime = Date(timeIntervalSince1970: storedStart)
+            let elapsed = Int(Date().timeIntervalSince(startTime))
+            let remaining = max(0, storedDuration - elapsed)
+            if remaining > 0 {
+                stopTimers()
+                countdown = remaining
+                startDisplayTimer()
+                return
+            }
+            // Session expired - enter tapping state (haptics until user taps), don't reset
+            stopTimers()
+            countdown = 0
+            startTapping()
+            return
+        }
+        startCountdown()
+    }
+
     func startCountdown() {
         WKInterfaceDevice.current().play(.start)
         stopTimers()
-        isTapping = false
-        countdown = selectedMinutes * 60
-        
+        stopTapping()
+        let duration = selectedMinutes * 60
+        let startTime = Date()
+        UserDefaults.standard.set(startTime.timeIntervalSince1970, forKey: WatchStorageKeys.sessionStartTime)
+        UserDefaults.standard.set(duration, forKey: WatchStorageKeys.sessionDurationSeconds)
+        countdown = duration
+        startDisplayTimer()
+    }
+
+    func startDisplayTimer() {
+        timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            countdown -= 1
-            if countdown <= 0 {
+            let defaults = UserDefaults.standard
+            let storedStart = defaults.double(forKey: WatchStorageKeys.sessionStartTime)
+            let storedDuration = defaults.integer(forKey: WatchStorageKeys.sessionDurationSeconds)
+            guard storedStart > 0, storedDuration > 0 else { return }
+            let startTime = Date(timeIntervalSince1970: storedStart)
+            let elapsed = Int(Date().timeIntervalSince(startTime))
+            let remaining = max(0, storedDuration - elapsed)
+            countdown = remaining
+            if remaining <= 0 {
+                stopTimers()
                 startTapping()
             }
         }
     }
-    
+
     func resetCountdown() {
+        UserDefaults.standard.removeObject(forKey: WatchStorageKeys.sessionStartTime)
+        UserDefaults.standard.removeObject(forKey: WatchStorageKeys.sessionDurationSeconds)
         stopTapping()
         startCountdown()
     }
@@ -214,6 +271,8 @@ struct ContentView: View {
     func startTapping() {
         isTapping = true
         timer?.invalidate()
+        timer = nil
+        hapticTimer?.invalidate()
         hapticTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { _ in
             WKInterfaceDevice.current().play(.notification)
         }
@@ -227,20 +286,12 @@ struct ContentView: View {
     
     func stopTimers() {
         timer?.invalidate()
+        timer = nil
         hapticTimer?.invalidate()
+        hapticTimer = nil
     }
 }
 
-extension View {
-    @ViewBuilder
-    func `if`<Content: View>(_ condition: Bool, apply: (Self) -> Content) -> some View {
-        if condition {
-            apply(self)
-        } else {
-            self
-        }
-    }
-}
 
 private struct IntroContentView: View {
     @Binding var dontShowAgain: Bool
@@ -288,9 +339,3 @@ private struct InnerIntroViewContent: View {
         .padding()
     }
 }
-
-
-
-
-
-

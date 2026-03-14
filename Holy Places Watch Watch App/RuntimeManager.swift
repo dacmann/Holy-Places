@@ -14,68 +14,67 @@ class RuntimeManager: NSObject, WKExtendedRuntimeSessionDelegate {
 
     private var session: WKExtendedRuntimeSession?
 
+    /// True when a session has been created and start() called, but extendedRuntimeSessionDidStart
+    /// has not yet fired. Prevents creating another session during this window.
+    private var isStarting = false
+
     func start() {
-        if session == nil || session?.state != .running {
-            session = WKExtendedRuntimeSession()
-            session?.delegate = self
-            session?.start()
+        // Already running or in the process of starting – nothing to do
+        if isStarting { return }
+        if let s = session, s.state == .running { return }
+
+        // Release any previous (invalidated) session reference
+        session = nil
+        isStarting = true
+
+        // Create and start on the next run-loop so any prior session dealloc can finish
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.isStarting else { return }
+            self.session = WKExtendedRuntimeSession()
+            self.session?.delegate = self
+            self.session?.start()
         }
     }
 
     func stop() {
+        isStarting = false
         session?.invalidate()
         session = nil
     }
 
+    // MARK: - Delegate
+
     func extendedRuntimeSessionDidStart(_ session: WKExtendedRuntimeSession) {
+        isStarting = false
         print("🟢 Extended runtime session started. State: \(session.state.rawValue)")
     }
 
     func extendedRuntimeSessionWillExpire(_ session: WKExtendedRuntimeSession) {
         print("⚠️ Extended runtime session will expire soon")
-        // Play a haptic to alert the user
         WKInterfaceDevice.current().play(.notification)
-        // Schedule a Time Sensitive local notification to prompt user interaction
         let content = UNMutableNotificationContent()
         content.title = "Holy Places Timer"
         content.body = "Your timer session is about to expire. Tap to continue."
         content.sound = .default
-        content.interruptionLevel = .timeSensitive // Set as Time Sensitive
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false))
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Failed to schedule Time Sensitive notification: \(error.localizedDescription)")
-            }
-        }
+        content.interruptionLevel = .timeSensitive
+        let request = UNNotificationRequest(
+            identifier: "HolyPlacesWatch_willExpire",
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        )
+        UNUserNotificationCenter.current().add(request)
     }
 
-    func extendedRuntimeSession(_ session: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: Error?) {
-        print("🔴 Extended runtime session ended: \(reason)")
+    func extendedRuntimeSession(_ session: WKExtendedRuntimeSession,
+                                didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason,
+                                error: Error?) {
+        print("🔴 Extended runtime session ended: reason=\(reason.rawValue)")
         if let error = error {
-            print("Runtime session error: \(error.localizedDescription)")
+            print("   error: \(error.localizedDescription)")
         }
-        // Auto-restart session after a short delay if not due to error
-        if reason != .error {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                // Check if app is still in foreground or frontmost
-                if WKExtension.shared().applicationState != .background {
-                    self.start()
-                } else {
-                    // Schedule a Time Sensitive notification to bring the app back to foreground
-                    let content = UNMutableNotificationContent()
-                    content.title = "Holy Places Timer"
-                    content.body = "Timer session ended. Open the app to continue."
-                    content.sound = .default
-                    content.interruptionLevel = .timeSensitive // Set as Time Sensitive
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false))
-                    UNUserNotificationCenter.current().add(request) { error in
-                        if let error = error {
-                            print("Failed to schedule Time Sensitive notification: \(error.localizedDescription)")
-                        }
-                    }
-                }
-            }
-        }
+        isStarting = false
         self.session = nil
+        // Do NOT auto-retry here.  The next scenePhase → .active will call start().
+        // Retrying here caused an infinite loop when the system rejected new sessions.
     }
 }

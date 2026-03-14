@@ -322,6 +322,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             }
             message.textColor = templeColor
             // Update visit count 
+            ad.needsVisitRefresh = true
             ad.getVisits()
         } catch {
             print("Error with request: \(error)")
@@ -348,6 +349,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             let alert = UIAlertController(title: "Import Completed", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
+            ad.needsVisitRefresh = true
             ad.getVisits()
         } else {
             print("Data parsing aborted")

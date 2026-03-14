@@ -32,6 +32,7 @@ class GoalVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         annualVisitGoal = Int(goalNumbers[row])!
+        ad.needsVisitRefresh = true
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -46,6 +47,7 @@ class GoalVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         goalPicker.delegate = self
         if annualVisitGoal == 0 {
             annualVisitGoal = 12
+            ad.needsVisitRefresh = true
         }
         quote.text = """
         "Set specific goals, considering your circumstances, of when you can and will participate in temple ordinances. Then do not allow anything to interfere with that plan. ... What is there that is more important than attending and participating in the ordinances of the temple?"

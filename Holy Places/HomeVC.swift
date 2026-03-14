@@ -91,51 +91,25 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         goalTitle.text = "\(currentYear) Goal Progress"
-        // Adjust spacing of letters of Goal Progress
         let attributedString = NSMutableAttributedString(string: goalTitle.text!)
         attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
         goalTitle.attributedText = attributedString
         
-        if annualVisitGoal == 0 {
-            // goal.text = "SET GOAL"
-            // Update value for Today Widget
+        if annualVisitGoal == 0 && ad.needsVisitRefresh {
             UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue("SET GOAL IN APP", forKey: "goalProgress")
         }
         
-       
-        // Check for update
         if checkedForUpdate?.daysBetweenDate(toDate: Date()) ?? 1 > 0 {
             ad.refreshTemples()
         }
         
-        ad.getVisits()
-        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        // Set size of achievement button
         if UIDevice.current.userInterfaceIdiom == .pad {
             achievementButtonWidth.constant = 100
         } else {
             let size = view.frame.width * 0.20
             achievementButtonWidth.constant = size
         }
-        
-        // round corners of view
         achievementBtnView.layer.cornerRadius = 10
-
-        // Set image of button to latest achievement
-        if completed.count > 0 {
-            if let iconImage = UIImage(named: completed[0].iconName) {
-                // image exists
-                achievementBtn.setImage(iconImage, for: .normal)
-            } else {
-                achievementBtn.setImage(UIImage(named: "ach12MT"), for: .normal)
-            }
-            
-            achievementBtnView.isHidden = false
-        } else {
-            achievementBtnView.isHidden = true
-        }
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -247,6 +221,22 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
                 changesDate = ""
             }))
             self.present(alert, animated: true)
+        }
+        
+        if ad.needsVisitRefresh {
+            ad.getVisits()
+        }
+        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if completed.count > 0 {
+            if let iconImage = UIImage(named: completed[0].iconName) {
+                achievementBtn.setImage(iconImage, for: .normal)
+            } else {
+                achievementBtn.setImage(UIImage(named: "ach12MT"), for: .normal)
+            }
+            achievementBtnView.isHidden = false
+        } else {
+            achievementBtnView.isHidden = true
         }
         
         // Home Screen Customizations

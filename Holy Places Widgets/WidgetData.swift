@@ -20,6 +20,7 @@ struct VisitWidgetData {
     let picture: Data
     let placeName: String
     let date: String  // Empty for place images
+    let visitObjectID: String?  // Core Data object ID for visit photos; nil for place images
 }
 
 struct WidgetData {
@@ -59,12 +60,13 @@ struct WidgetData {
                    let pictureData = Data(base64Encoded: pictureBase64),
                    let placeName = item["placeName"] as? String,
                    let date = item["date"] as? String {
-                    visitPhotos.append(VisitWidgetData(picture: pictureData, placeName: placeName, date: date))
+                    let visitObjectID = item["visitObjectID"] as? String
+                    visitPhotos.append(VisitWidgetData(picture: pictureData, placeName: placeName, date: date, visitObjectID: visitObjectID))
                 }
             }
         }
         
-        // Decode place images from JSON with base64 encoded pictures
+        // Decode place images from JSON with base64 encoded pictures (no visitObjectID)
         var placeImages: [VisitWidgetData] = []
         if let data = defaults?.data(forKey: "widgetPlaceImages"),
            let jsonArray = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
@@ -73,7 +75,7 @@ struct WidgetData {
                    let pictureData = Data(base64Encoded: pictureBase64),
                    let placeName = item["placeName"] as? String,
                    let date = item["date"] as? String {
-                    placeImages.append(VisitWidgetData(picture: pictureData, placeName: placeName, date: date))
+                    placeImages.append(VisitWidgetData(picture: pictureData, placeName: placeName, date: date, visitObjectID: nil))
                 }
             }
         }

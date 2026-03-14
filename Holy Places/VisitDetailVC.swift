@@ -33,8 +33,11 @@ class VisitDetailVC: UIViewController {
     func setDate() {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM dd yyyy"
-        visitDate.text = formatter.string(from: dateOfVisit!)
-//        visitDate.textColor = defaultColor!
+        if let dateOfVisit = dateOfVisit {
+            visitDate.text = formatter.string(from: dateOfVisit)
+        } else {
+            visitDate.text = "(no date)"
+        }
     }
     
     @objc func editVisit (_ sender: Any) {

@@ -116,6 +116,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         }
         
         // Update visit count for goal progress in Widget
+        ad.needsVisitRefresh = true
         ad.getVisits()
         
         //_ = navigationController?.popViewController(animated: true)
@@ -176,6 +177,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         }
         
         // Update visit count for goal progress in Widget
+        ad.needsVisitRefresh = true
         ad.getVisits()
         
         _ = navigationController?.popViewController(animated: true)
