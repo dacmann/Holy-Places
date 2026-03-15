@@ -92,6 +92,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         visit.type = placeType
         visit.shiftHrs = Double(hoursWorked.text ?? "0") ?? 0.0
         visit.isFavorite = isFavorite
+        visit.profileId = activeProfileId
         if pictureView.isHidden == false, let image = pictureView.image {
             // create NSData from UIImage
             guard let imageData = image.jpegData(compressionQuality: 1) else {

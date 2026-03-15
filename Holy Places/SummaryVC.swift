@@ -99,6 +99,20 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         return ad.persistentContainer.viewContext
     }
     
+    private func profilePredicate() -> NSPredicate? {
+        if profilesEnabled, let pid = activeProfileId {
+            return NSPredicate(format: "profileId == %@", pid)
+        }
+        return nil
+    }
+    
+    private func combinedPredicate(_ typePredicate: NSPredicate) -> NSPredicate {
+        if let pp = profilePredicate() {
+            return NSCompoundPredicate(andPredicateWithSubpredicates: [typePredicate, pp])
+        }
+        return typePredicate
+    }
+    
     //MARK: - Standard Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -267,9 +281,8 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     @IBAction func titleYr1Btn(_ sender: UIButton) {
         if yearOffset < 0 {
             yearOffset += 1
-            // get temple visits
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "T"))
             do {
                 let searchResults = try getContext().fetch(fetchRequest)
                 getYearTotals(visits: searchResults)
@@ -280,12 +293,9 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     }
     
     @IBAction func titleYr2Btn(_ sender: UIButton) {
-        
         yearOffset -= 1
-        
-        // get temple visits
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+        fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "T"))
         do {
             let searchResults = try getContext().fetch(fetchRequest)
             getYearTotals(visits: searchResults)
@@ -303,7 +313,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
 
         do {
             // get temple visits
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "T"))
             let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
             var searchResults = try getContext().fetch(fetchRequest)
@@ -323,28 +333,28 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             hoursWorkedTotal.text = shiftHoursTotal.description
             
             // get number of Unique Temples and Temples Under Construction visited
-            fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@ OR type == %@", "T", "C"))
             searchResults = try getContext().fetch(fetchRequest)
             var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             templesVisited.text = distinct.count.description
             visitCnt = searchResults.count
             
             // get number of Unique Temples visited
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "T"))
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             uniqueTempleTotal.text = distinct.count.description
             visitCnt = searchResults.count
 
             // get number of Unique Historical sites visited
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "H"))
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             historicalVisited.text = distinct.count.description
             visitCnt += searchResults.count
             
             // get number of Unique Visitors' Centers visited
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
+            fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "V"))
             searchResults = try getContext().fetch(fetchRequest)
             distinct = NSSet(array: searchResults.map { $0.holyPlace! })
             visitorsCentersVisited.text = distinct.count.description
@@ -352,7 +362,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             
             // Deteremine most visited places
             let fetchRequest2 = NSFetchRequest<NSDictionary>(entityName:"Visit")
-            fetchRequest2.predicate = nil
+            fetchRequest2.predicate = profilePredicate()
             fetchRequest2.sortDescriptors = [NSSortDescriptor(key: "holyPlace", ascending: true)]
             let nameExpr = NSExpression(forKeyPath: "holyPlace")
             let countExpr = NSExpressionDescription()

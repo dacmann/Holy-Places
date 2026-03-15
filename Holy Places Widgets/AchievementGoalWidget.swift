@@ -72,7 +72,10 @@ struct MediumAchievementWidgetView: View {
     }
     
     var body: some View {
-        let goals = entry.data.goalProgress.components(separatedBy: "\n").filter { !$0.isEmpty }
+        let allLines = entry.data.goalProgress.components(separatedBy: "\n").filter { !$0.isEmpty }
+        let hasProfileHeader = allLines.first?.hasSuffix("Goals") ?? false
+        let headerText = hasProfileHeader ? (allLines.first ?? "\(currentYear) Goal Progress") : "\(currentYear) Goal Progress"
+        let goals = hasProfileHeader ? Array(allLines.dropFirst()) : allLines
         let goalCount = min(max(goals.count, 1), 5)
         
         ZStack {
@@ -87,7 +90,7 @@ struct MediumAchievementWidgetView: View {
                 
                 // Goals on the right - expand to fill available width on Max screens
                 VStack(alignment: .leading, spacing: 3) {
-                    Text("\(currentYear) Goal Progress")
+                    Text(headerText)
                         .font(.custom("Baskerville-Bold", size: titleFontSize(for: goalCount)))
                         .foregroundColor(.white)
                     

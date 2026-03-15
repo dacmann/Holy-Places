@@ -93,7 +93,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
 //        print("getVisits")
         processVisits: do {
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "holyPlace == %@", templeName)
+            var predicates: [NSPredicate] = [NSPredicate(format: "holyPlace == %@", templeName)]
+            if profilesEnabled, let pid = activeProfileId {
+                predicates.append(NSPredicate(format: "profileId == %@", pid))
+            }
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
             
             var images = [(Date, UIImage)]()
@@ -105,7 +109,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             
             if !swiping {
                 // Check for the number of visits that have pictures
-                fetchRequest.predicate = NSPredicate(format: "picture != nil && holyPlace == %@", templeName)
+                var picturePredicates: [NSPredicate] = [NSPredicate(format: "picture != nil && holyPlace == %@", templeName)]
+                if profilesEnabled, let pid = activeProfileId {
+                    picturePredicates.append(NSPredicate(format: "profileId == %@", pid))
+                }
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: picturePredicates)
                 let pictureResults = try getContext().fetch(fetchRequest)
                 
                 //  when returning from recording a visit and no new images have been added, don't continue with image processing

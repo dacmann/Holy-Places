@@ -93,6 +93,8 @@ var homeTextColor = 0 as Int16
 var homeVisitDate: String?
 var ordinanceWorker = Bool()
 var excludeNonOrdinanceVisits = Bool()
+var profilesEnabled = false
+var activeProfileId: String?
 var optionsChanged = false
 var visitsInTable: [Visit] = []
 var selectedVisitRow = Int()
@@ -404,12 +406,99 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     excludeNonOrdinanceVisits = (settings?.excludeNonOrdinanceVisits)!
                     copyAddDays = (settings?.copyAddDays)!
                     defaultCommentsText = settings?.defaultCommentsText ?? "Attended with..."
+                    profilesEnabled = settings?.profilesEnabled ?? false
                 }
             } else {
                 // nothing to do here
             }
         } catch {
             print("Error with request: \(error)")
+        }
+        
+        // Load active profile from UserDefaults
+        activeProfileId = UserDefaults.standard.string(forKey: "activeProfileId")
+        
+        // Ensure default profile exists and migrate visits if needed
+        migrateToProfiles()
+        
+        // Load goals from active profile if profiles are enabled
+        if profilesEnabled {
+            loadGoalsFromActiveProfile()
+        }
+    }
+    
+    func migrateToProfiles() {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Profile")
+        
+        do {
+            let profiles = try context.fetch(fetchRequest)
+            if profiles.isEmpty {
+                // Create default "Me" profile
+                guard let entity = NSEntityDescription.entity(forEntityName: "Profile", in: context) else { return }
+                let defaultProfile = NSManagedObject(entity: entity, insertInto: context)
+                let defaultId = UUID().uuidString
+                defaultProfile.setValue(defaultId, forKey: "profileId")
+                defaultProfile.setValue("Me", forKey: "name")
+                defaultProfile.setValue(true, forKey: "isDefault")
+                defaultProfile.setValue("person.fill", forKey: "iconName")
+                defaultProfile.setValue(Date(), forKey: "createdDate")
+                defaultProfile.setValue(Int16(annualVisitGoal), forKey: "annualVisitGoal")
+                defaultProfile.setValue(Int16(annualBaptismGoal), forKey: "annualBaptismGoal")
+                defaultProfile.setValue(Int16(annualInitiatoryGoal), forKey: "annualInitiatoryGoal")
+                defaultProfile.setValue(Int16(annualEndowmentGoal), forKey: "annualEndowmentGoal")
+                defaultProfile.setValue(Int16(annualSealingGoal), forKey: "annualSealingGoal")
+                defaultProfile.setValue(excludeNonOrdinanceVisits, forKey: "excludeNonOrdinanceVisits")
+                
+                // Assign all existing visits to this default profile
+                let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
+                visitFetch.predicate = NSPredicate(format: "profileId == nil OR profileId == %@", "")
+                let orphanVisits = try context.fetch(visitFetch)
+                for visit in orphanVisits {
+                    visit.profileId = defaultId
+                }
+                
+                try context.save()
+                
+                // Set as active profile
+                activeProfileId = defaultId
+                UserDefaults.standard.set(defaultId, forKey: "activeProfileId")
+                print("Created default profile and assigned \(orphanVisits.count) visits")
+            } else {
+                // Ensure activeProfileId is valid
+                if activeProfileId == nil {
+                    let defaultPredicate = NSPredicate(format: "isDefault == YES")
+                    fetchRequest.predicate = defaultPredicate
+                    let defaults = try context.fetch(fetchRequest)
+                    if let defaultProfile = defaults.first {
+                        activeProfileId = defaultProfile.value(forKey: "profileId") as? String
+                        UserDefaults.standard.set(activeProfileId, forKey: "activeProfileId")
+                    }
+                }
+            }
+        } catch {
+            print("Error migrating profiles: \(error)")
+        }
+    }
+    
+    func loadGoalsFromActiveProfile() {
+        guard let profileId = activeProfileId else { return }
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Profile")
+        fetchRequest.predicate = NSPredicate(format: "profileId == %@", profileId)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let profile = results.first {
+                annualVisitGoal = profile.value(forKey: "annualVisitGoal") as? Int ?? 0
+                annualBaptismGoal = profile.value(forKey: "annualBaptismGoal") as? Int ?? 0
+                annualInitiatoryGoal = profile.value(forKey: "annualInitiatoryGoal") as? Int ?? 0
+                annualEndowmentGoal = profile.value(forKey: "annualEndowmentGoal") as? Int ?? 0
+                annualSealingGoal = profile.value(forKey: "annualSealingGoal") as? Int ?? 0
+                excludeNonOrdinanceVisits = profile.value(forKey: "excludeNonOrdinanceVisits") as? Bool ?? false
+            }
+        } catch {
+            print("Error loading profile goals: \(error)")
         }
     }
     
@@ -1209,10 +1298,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         distinctHistoricSitesVisited.removeAll()
         distinctTemplesVisited.removeAll()
         
+        // Build profile predicate for filtering
+        let profilePredicate: NSPredicate? = {
+            if profilesEnabled, let pid = activeProfileId {
+                return NSPredicate(format: "profileId == %@", pid)
+            }
+            return nil
+        }()
+        
         do {
-            // Get All visits
+            // Get All visits (filtered by profile)
             visits.removeAll()
             var needsSave = false
+            if let pp = profilePredicate {
+                fetchRequest.predicate = pp
+            }
             var searchResults = try context.fetch(fetchRequest)
             for visit in searchResults as [Visit] {
                 if visit.year == nil, let dateVisited = visit.dateVisited {
@@ -1231,7 +1331,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 }
             }
             // get temple visits
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            if let pp = profilePredicate {
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                    NSPredicate(format: "type == %@", "T"), pp
+                ])
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            }
             var sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: false)
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
@@ -1287,13 +1393,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 goalProgress = "SET GOAL"
             }
             
+            // Prepend profile name for widget when profiles are enabled
+            var widgetGoalProgress = goalProgress
+            if profilesEnabled {
+                let profileName = ProfileManager.shared.activeProfileName()
+                widgetGoalProgress = "\(profileName)'s \(currentYear) Goals\n\(goalProgress)"
+            }
+            
             // Update UserDefaults for Widget
-            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(goalProgress, forKey: "goalProgress")
-            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(latestTempleVisited, forKey: "latestTempleVisited")
-            UserDefaults.init(suiteName: "group.net.dacworld.holyplaces")?.setValue(dateLastVisited, forKey: "dateLastVisited")
+            let sharedDefaults = UserDefaults(suiteName: "group.net.dacworld.holyplaces")
+            sharedDefaults?.setValue(widgetGoalProgress, forKey: "goalProgress")
+            sharedDefaults?.setValue(latestTempleVisited, forKey: "latestTempleVisited")
+            sharedDefaults?.setValue(dateLastVisited, forKey: "dateLastVisited")
+            if profilesEnabled {
+                sharedDefaults?.setValue(ProfileManager.shared.activeProfileName(), forKey: "activeProfileName")
+            } else {
+                sharedDefaults?.removeObject(forKey: "activeProfileName")
+            }
             
             // get random visit picture
-            fetchRequest.predicate = NSPredicate(format: "picture != nil")
+            if let pp = profilePredicate {
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                    NSPredicate(format: "picture != nil"), pp
+                ])
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "picture != nil")
+            }
             searchResults = try getContext().fetch(fetchRequest)
             if searchResults.count > 0 {
                 let randomIndex = Int(arc4random_uniform(UInt32(searchResults.count)))
@@ -1345,6 +1470,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             // Build a lookup of latest visit date per place with a single query
             var latestVisitByPlace: [String: Date] = [:]
             let allVisitsRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+            allVisitsRequest.predicate = profilePredicate
             allVisitsRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
             if let allVisitsResults = try? getContext().fetch(allVisitsRequest) {
                 for v in allVisitsResults {
@@ -1420,7 +1546,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             
             // Achievements
-            fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
+            if let pp = profilePredicate {
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                    NSPredicate(format: "type == %@ OR type == %@", "T", "C"), pp
+                ])
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "type == %@ OR type == %@", "T", "C")
+            }
             sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
@@ -1619,7 +1751,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             
             
             // Check for Historic Sites Achievement
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            if let pp = profilePredicate {
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                    NSPredicate(format: "type == %@", "H"), pp
+                ])
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            }
             fetchRequest.sortDescriptors = [sortDescriptor]
             searchResults = try getContext().fetch(fetchRequest)
             for site in searchResults as [Visit] {
@@ -2117,13 +2255,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
         let container = NSPersistentContainer(name: "HolyData")
+        let description = container.persistentStoreDescriptions.first
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = true
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")

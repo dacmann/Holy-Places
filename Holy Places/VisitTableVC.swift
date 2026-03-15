@@ -847,27 +847,37 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
 //        fetchRequest.sortDescriptors = [sortDescriptor]
         
+        // Build profile predicate
+        var predicates: [NSPredicate] = []
+        if profilesEnabled, let pid = activeProfileId {
+            predicates.append(NSPredicate(format: "profileId == %@", pid))
+        }
+        
         // Filter the request
         switch visitFilterRow {
         case 0:
             titleHeader = "Visits"
         case 1:
             titleHeader = "Active Temples"
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "T")
+            predicates.append(NSPredicate(format: "type == %@", "T"))
         case 2:
             titleHeader = "Historical"
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "H")
+            predicates.append(NSPredicate(format: "type == %@", "H"))
         case 3:
             titleHeader = "Visitors' Centers"
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "V")
+            predicates.append(NSPredicate(format: "type == %@", "V"))
         case 4:
             titleHeader = "Construction"
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "C")
+            predicates.append(NSPredicate(format: "type == %@", "C"))
         case 5:
             titleHeader = "Other Visits"
-            fetchRequest.predicate = NSPredicate(format: "type == %@", "O")
+            predicates.append(NSPredicate(format: "type == %@", "O"))
         default:
             titleHeader = "Visits"
+        }
+        
+        if !predicates.isEmpty {
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         }
         
         

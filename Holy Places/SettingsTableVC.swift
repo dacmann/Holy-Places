@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
@@ -84,6 +85,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         defaultCommentsTextField.text = defaultCommentsText
         defaultCommentsTextField.placeholder = "Enter default comments text"
         keyboardDone()
+        setupProfilesFooter()
         
         // Set text field delegates for auto-select behavior
         minutesDelay.delegate = self
@@ -195,8 +197,141 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
         defaultCommentsText = defaultCommentsTextField.text ?? ""
         ad.needsVisitRefresh = true
         
+        if profilesEnabled {
+            ProfileManager.shared.saveGoalsToActiveProfile()
+        }
+        
         // Dismiss view
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Profiles (footer view approach to avoid static table conflicts)
+    
+    private var profilesToggle: UISwitch!
+    private var manageRow: UIView!
+    private var separatorView: UIView!
+    private var chevronView: UIImageView!
+    private var subtitleLabel: UILabel!
+    
+    private func setupProfilesFooter() {
+        let footer = UIView()
+        footer.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 200)
+        
+        let inset: CGFloat = 20
+        let cellInset: CGFloat = 16
+        var y: CGFloat = 28
+        
+        // Section header
+        let headerLabel = UILabel(frame: CGRect(x: inset, y: y, width: tableView.bounds.width - inset * 2, height: 18))
+        headerLabel.text = "PROFILES"
+        headerLabel.font = UIFont.systemFont(ofSize: 13)
+        headerLabel.textColor = .secondaryLabel
+        footer.addSubview(headerLabel)
+        y += 26
+        
+        // Rounded container
+        let containerWidth = tableView.bounds.width - cellInset * 2
+        let container = UIView(frame: CGRect(x: cellInset, y: y, width: containerWidth, height: 100))
+        container.backgroundColor = .secondarySystemGroupedBackground
+        container.layer.cornerRadius = 10
+        container.clipsToBounds = true
+        footer.addSubview(container)
+        
+        // Enable Profiles row
+        let rowHeight: CGFloat = 44
+        let enableLabel = UILabel(frame: CGRect(x: 16, y: 0, width: containerWidth - 82, height: rowHeight))
+        enableLabel.text = "Enable Profiles"
+        enableLabel.font = UIFont(name: "Baskerville", size: 17) ?? .systemFont(ofSize: 17)
+        container.addSubview(enableLabel)
+        
+        profilesToggle = UISwitch()
+        profilesToggle.isOn = profilesEnabled
+        profilesToggle.addTarget(self, action: #selector(profilesToggled(_:)), for: .valueChanged)
+        profilesToggle.frame.origin = CGPoint(x: containerWidth - profilesToggle.frame.width - 16, y: (rowHeight - profilesToggle.frame.height) / 2)
+        container.addSubview(profilesToggle)
+        
+        // Separator
+        separatorView = UIView(frame: CGRect(x: 16, y: rowHeight, width: containerWidth - 16, height: 0.5))
+        separatorView.backgroundColor = .separator
+        container.addSubview(separatorView)
+        
+        // Manage Profiles row
+        manageRow = UIView(frame: CGRect(x: 0, y: rowHeight + 0.5, width: containerWidth, height: rowHeight))
+        
+        let manageLabel = UILabel(frame: CGRect(x: 16, y: 0, width: containerWidth - 50, height: rowHeight))
+        manageLabel.text = "Manage Profiles"
+        manageLabel.font = UIFont(name: "Baskerville", size: 17) ?? .systemFont(ofSize: 17)
+        manageLabel.textColor = UIColor(named: "BaptismsBlue") ?? .systemBlue
+        manageRow.addSubview(manageLabel)
+        
+        chevronView = UIImageView(image: UIImage(systemName: "chevron.right")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)))
+        chevronView.tintColor = .tertiaryLabel
+        chevronView.frame = CGRect(x: containerWidth - 30, y: (rowHeight - 16) / 2, width: 14, height: 16)
+        manageRow.addSubview(chevronView)
+        
+        let manageTap = UITapGestureRecognizer(target: self, action: #selector(manageProfilesTapped))
+        manageRow.addGestureRecognizer(manageTap)
+        container.addSubview(manageRow)
+        
+        // Subtitle
+        let subtitleY = y + container.frame.height + 8
+        subtitleLabel = UILabel(frame: CGRect(x: inset, y: subtitleY, width: tableView.bounds.width - inset * 2, height: 18))
+        subtitleLabel.text = "Track visits separately for family members."
+        subtitleLabel.font = UIFont.systemFont(ofSize: 13)
+        subtitleLabel.textColor = .secondaryLabel
+        footer.addSubview(subtitleLabel)
+        
+        updateProfilesFooterLayout(footer: footer, container: container)
+        tableView.tableFooterView = footer
+    }
+    
+    private func updateProfilesFooterLayout(footer: UIView? = nil, container: UIView? = nil) {
+        let footerView = footer ?? tableView.tableFooterView
+        guard let footerView = footerView else { return }
+        
+        let showManage = profilesEnabled
+        manageRow.isHidden = !showManage
+        separatorView.isHidden = !showManage
+        
+        let rowHeight: CGFloat = 44
+        let containerHeight: CGFloat = showManage ? rowHeight * 2 + 0.5 : rowHeight
+        
+        let containerView = container ?? footerView.subviews.first(where: { $0.layer.cornerRadius == 10 })
+        containerView?.frame.size.height = containerHeight
+        
+        let containerBottom = 28 + 26 + containerHeight
+        subtitleLabel.frame.origin.y = containerBottom + 8
+        
+        let totalHeight = containerBottom + 8 + 18 + 20
+        footerView.frame.size.height = totalHeight
+        
+        if footer == nil {
+            tableView.tableFooterView = footerView
+        }
+    }
+    
+    @objc private func manageProfilesTapped() {
+        let profileVC = ProfileManagementVC()
+        let nav = UINavigationController(rootViewController: profileVC)
+        present(nav, animated: true)
+    }
+    
+    @objc func profilesToggled(_ sender: UISwitch) {
+        profilesEnabled = sender.isOn
+        
+        if profilesEnabled {
+            ad.migrateToProfiles()
+            ad.loadGoalsFromActiveProfile()
+            
+            visitGoal.text = String(annualVisitGoal)
+            baptismGoal.text = String(annualBaptismGoal)
+            initiatoryGoal.text = String(annualInitiatoryGoal)
+            endowmentGoal.text = String(annualEndowmentGoal)
+            sealingGoal.text = String(annualSealingGoal)
+        }
+        
+        ad.needsVisitRefresh = true
+        updateProfilesFooterLayout()
     }
     
     func keyboardDone() {

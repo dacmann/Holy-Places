@@ -64,7 +64,13 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
         
         dateFormatter.dateStyle = .full
         dateFormatterFile.dateFormat = "yyyyMMdd"
-        fileName = "HolyPlacesVisits-\(dateFormatterFile.string(from: Date.init()))"
+        if profilesEnabled {
+            let profileName = ProfileManager.shared.activeProfileName()
+                .replacingOccurrences(of: " ", with: "_")
+            fileName = "HolyPlaces_\(profileName)_Visits-\(dateFormatterFile.string(from: Date.init()))"
+        } else {
+            fileName = "HolyPlacesVisits-\(dateFormatterFile.string(from: Date.init()))"
+        }
         
         // Set up photo export UI
         updateEstimatedSize()
@@ -90,8 +96,9 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             let context = getContext()
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
             
-            // Export includes ALL visits (no filtering applied)
-            // This matches the behavior of getVisits function
+            if profilesEnabled, let pid = activeProfileId {
+                fetchRequest.predicate = NSPredicate(format: "profileId == %@", pid)
+            }
             
             let searchResults = try context.fetch(fetchRequest)
             
@@ -193,15 +200,24 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
     func getVisits (type: String) {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         
+        // Filter by active profile
+        if profilesEnabled, let pid = activeProfileId {
+            fetchRequest.predicate = NSPredicate(format: "profileId == %@", pid)
+        }
+        
         // Sort by dateVisited
         let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
+        let profileLabel = profilesEnabled ? " (\(ProfileManager.shared.activeProfileName()))" : ""
+        
         if type == "txt" {
-            // Add title and date to visits string
-            visits = "My Holy Places Visits\n Exported on \(dateFormatter.string(from: Date.init()))\n"
+            visits = "My Holy Places Visits\(profileLabel)\n Exported on \(dateFormatter.string(from: Date.init()))\n"
         } else {
             visits = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(Date.init())</ExportDate>"
+            if profilesEnabled {
+                visits.append("<Profile>\(ProfileManager.shared.activeProfileName())</Profile>")
+            }
         }
         
         do {
@@ -478,6 +494,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
                     visit.shiftHrs = hoursWorked
                     visit.isFavorite = isFavorite
                     visit.picture = pictureData
+                    visit.profileId = activeProfileId
                     
                     // Count photos for import message
                     if pictureData != nil {

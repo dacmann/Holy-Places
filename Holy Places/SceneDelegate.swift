@@ -97,6 +97,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         ad.settings?.excludeNonOrdinanceVisits = excludeNonOrdinanceVisits
         ad.settings?.copyAddDays = copyAddDays
         ad.settings?.defaultCommentsText = defaultCommentsText
+        ad.settings?.profilesEnabled = profilesEnabled
+        
+        // Save goals to active profile
+        if profilesEnabled, let profileId = activeProfileId {
+            let context = ad.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Profile")
+            fetchRequest.predicate = NSPredicate(format: "profileId == %@", profileId)
+            if let profile = try? context.fetch(fetchRequest).first {
+                profile.setValue(Int16(annualVisitGoal), forKey: "annualVisitGoal")
+                profile.setValue(Int16(annualBaptismGoal), forKey: "annualBaptismGoal")
+                profile.setValue(Int16(annualInitiatoryGoal), forKey: "annualInitiatoryGoal")
+                profile.setValue(Int16(annualEndowmentGoal), forKey: "annualEndowmentGoal")
+                profile.setValue(Int16(annualSealingGoal), forKey: "annualSealingGoal")
+                profile.setValue(excludeNonOrdinanceVisits, forKey: "excludeNonOrdinanceVisits")
+            }
+        }
         
         ad.saveContext()
         

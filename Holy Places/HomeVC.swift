@@ -14,6 +14,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    private var profileButton: UIButton!
+    
     //MARK: - Outlets & Actions
     @IBOutlet weak var info: UIButton!
     @IBOutlet weak var goalTitle: UILabel!
@@ -87,10 +89,88 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             checkedForUpdate = Date()
         }
         
+        setupProfileButton()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: ProfileManager.profileDidChangeNotification, object: nil)
+    }
+    
+    private func setupProfileButton() {
+        profileButton = UIButton(type: .system)
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
+        profileButton.showsMenuAsPrimaryAction = true
+        profileButton.titleLabel?.font = UIFont(name: "Baskerville", size: 14) ?? .systemFont(ofSize: 14)
+        view.addSubview(profileButton)
+        
+        NSLayoutConstraint.activate([
+            profileButton.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -4),
+            profileButton.leadingAnchor.constraint(equalTo: info.leadingAnchor, constant: -2),
+            profileButton.heightAnchor.constraint(equalToConstant: 36)
+        ])
+    }
+    
+    private func updateProfileButton() {
+        profileButton.isHidden = !profilesEnabled
+        guard profilesEnabled else { return }
+        
+        let iconName = ProfileManager.shared.activeProfileIconName()
+        let name = ProfileManager.shared.activeProfileName()
+        
+        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        profileButton.setImage(UIImage(systemName: iconName, withConfiguration: config), for: .normal)
+        profileButton.setTitle(" \(name) ", for: .normal)
+        profileButton.tintColor = UIColor.home()
+        profileButton.setTitleColor(UIColor.home(), for: .normal)
+        
+        let allProfiles = ProfileManager.shared.allProfiles()
+        let actions = allProfiles.map { profile -> UIAction in
+            let pName = profile.value(forKey: "name") as? String ?? ""
+            let pIcon = profile.value(forKey: "iconName") as? String ?? "person.fill"
+            let pId = profile.value(forKey: "profileId") as? String ?? ""
+            let isActive = pId == activeProfileId
+            
+            return UIAction(
+                title: pName,
+                image: UIImage(systemName: pIcon),
+                state: isActive ? .on : .off
+            ) { _ in
+                ProfileManager.shared.setActiveProfile(profile)
+            }
+        }
+        
+        profileButton.menu = UIMenu(title: "Switch Profile", children: actions)
+    }
+    
+    @objc private func profileDidChange() {
+        updateProfileButton()
+        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if profilesEnabled {
+            goalTitle.text = "\(ProfileManager.shared.activeProfileName())'s \(currentYear) Goals"
+        } else {
+            goalTitle.text = "\(currentYear) Goal Progress"
+        }
+        let attributedString = NSMutableAttributedString(string: goalTitle.text!)
+        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
+        goalTitle.attributedText = attributedString
+        
+        if completed.count > 0 {
+            if let iconImage = UIImage(named: completed[0].iconName) {
+                achievementBtn.setImage(iconImage, for: .normal)
+            } else {
+                achievementBtn.setImage(UIImage(named: "ach12MT"), for: .normal)
+            }
+            achievementBtnView.isHidden = false
+        } else {
+            achievementBtnView.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        goalTitle.text = "\(currentYear) Goal Progress"
+        if profilesEnabled {
+            goalTitle.text = "\(ProfileManager.shared.activeProfileName())'s \(currentYear) Goals"
+        } else {
+            goalTitle.text = "\(currentYear) Goal Progress"
+        }
         let attributedString = NSMutableAttributedString(string: goalTitle.text!)
         attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(3.0), range: NSRange(location: 0, length: attributedString.length))
         goalTitle.attributedText = attributedString
@@ -239,6 +319,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             achievementBtnView.isHidden = true
         }
         
+        updateProfileButton()
+        
         // Home Screen Customizations
         appName.textColor = UIColor.home()
         wrapLabelWithOverlay(label: appName, backgroundColor: UIColor.home(), opacity: 0.0)
@@ -332,6 +414,20 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.3": """
+                New:
+                - Profiles: Track visits separately for family members — enable in Settings and switch profiles from the Home screen
+                
+                Improvements:
+                - Watch app updated with new images and improved background launch reliability
+                - Map marker sizes refined at various zoom levels
+                - Medium and small widget layouts adjusted for better readability
+                - Large widget now navigates directly to the featured visit
+                
+                Bug Fixes:
+                - Fixed an issue saving visit edits
+                - Fixed lag when selecting the Home tab
+                """,
             "5.2": """
                 Enjoy a more connected experience with widgets and improved reliability throughout the app.
 
