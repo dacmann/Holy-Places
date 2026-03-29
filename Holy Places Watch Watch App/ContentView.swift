@@ -98,6 +98,7 @@ struct ContentView: View {
                     .font(.system(size: countdownFontSize))
                     .foregroundColor(.white.opacity(0.8))
                     .padding(.bottom, 20)
+                    .focusable()
                     .focused($timerFocused)
                     .digitalCrownRotation(
                         $countdownFontSize,

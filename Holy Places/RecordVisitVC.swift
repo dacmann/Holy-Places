@@ -25,6 +25,10 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     var isFavorite = false
     let favoriteButton = UIButton(type: .system)
     
+    private var selectedProfileIds = Set<String>()
+    private var chipViews: [UIView] = []
+    private var profileChipsRow: UIStackView?
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var templeName: UILabel!
     @IBOutlet weak var sealings: UITextField!
@@ -66,61 +70,74 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         
         yearFormat.dateFormat = "yyyy"
         
-        //insert a new object in the Visit entity
-        guard let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as? Visit else {
-            print("Failed to create Visit entity")
-            return
-        }
-
-        //set the entity values with safe unwrapping
-        visit.holyPlace = templeName.text ?? ""
-        visit.baptisms = Int16(baptisms.text ?? "0") ?? 0
-        visit.confirmations = Int16(confirmations.text ?? "0") ?? 0
-        visit.initiatories = Int16(initiatories.text ?? "0") ?? 0
-        visit.endowments = Int16(endowments.text ?? "0") ?? 0
-        visit.sealings = Int16(sealings.text ?? "0") ?? 0
-        visit.comments = comments.text ?? ""
-        visit.dateVisited = dateOfVisit as Date?
-        
-        // Safe unwrapping for date
-        if let dateVisited = visit.dateVisited {
-            visit.year = yearFormat.string(from: dateVisited)
+        let holyPlace = templeName.text ?? ""
+        let baptismsVal = Int16(baptisms.text ?? "0") ?? 0
+        let confirmationsVal = Int16(confirmations.text ?? "0") ?? 0
+        let initiatoriesVal = Int16(initiatories.text ?? "0") ?? 0
+        let endowmentsVal = Int16(endowments.text ?? "0") ?? 0
+        let sealingsVal = Int16(sealings.text ?? "0") ?? 0
+        let userComments = comments.text ?? ""
+        let shiftHrsVal = Double(hoursWorked.text ?? "0") ?? 0.0
+        let yearVal: String
+        if let dov = dateOfVisit {
+            yearVal = yearFormat.string(from: dov)
         } else {
-            visit.year = yearFormat.string(from: Date())
+            yearVal = yearFormat.string(from: Date())
         }
         
-        visit.type = placeType
-        visit.shiftHrs = Double(hoursWorked.text ?? "0") ?? 0.0
-        visit.isFavorite = isFavorite
-        visit.profileId = activeProfileId
+        var imageData: Data?
         if pictureView.isHidden == false, let image = pictureView.image {
-            // create NSData from UIImage
-            guard let imageData = image.jpegData(compressionQuality: 1) else {
-                // handle failed conversion
+            guard let data = image.jpegData(compressionQuality: 1) else {
                 print("jpg error")
                 return
             }
-            visit.picture = imageData as Data
+            imageData = data
         }
         
-        //save the object
+        let profileIds: Set<String>
+        if profilesEnabled && !selectedProfileIds.isEmpty {
+            profileIds = selectedProfileIds
+        } else {
+            profileIds = [activeProfileId ?? ""]
+        }
+        
+        let commentsVal = commentsForSave(userNotes: userComments, profileIds: profileIds)
+        
+        for profileId in profileIds {
+            guard let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as? Visit else {
+                print("Failed to create Visit entity")
+                continue
+            }
+            visit.holyPlace = holyPlace
+            visit.baptisms = baptismsVal
+            visit.confirmations = confirmationsVal
+            visit.initiatories = initiatoriesVal
+            visit.endowments = endowmentsVal
+            visit.sealings = sealingsVal
+            visit.comments = commentsVal
+            visit.dateVisited = dateOfVisit as Date?
+            visit.year = yearVal
+            visit.type = placeType
+            visit.shiftHrs = shiftHrsVal
+            visit.isFavorite = isFavorite
+            visit.profileId = profileId
+            visit.picture = imageData
+        }
+        
         do {
             try context.save()
-            print("Saving Visit completed successfully")
+            print("Saving Visit(s) completed successfully for \(profileIds.count) profile(s)")
         } catch let error as NSError  {
             print("Could not save visit: \(error), \(error.userInfo)")
-            // Show user-friendly error message
             let alert = UIAlertController(title: "Save Error", message: "Failed to save visit. Please try again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
             return
         }
         
-        // Update visit count for goal progress in Widget
         ad.needsVisitRefresh = true
         ad.getVisits()
         
-        //_ = navigationController?.popViewController(animated: true)
         _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -193,6 +210,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         populateView()
         setDate()
         setupFavoriteButton()
+        setupProfileChips()
 
         // Disable the swipe to make sure you get your chance to save
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -293,6 +311,148 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         let imageName = isFavorite ? "star.fill" : "star"
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = isFavorite ? UIColor.darkTangerine() : .gray
+    }
+    
+    // MARK: - Profile Chips
+    
+    /// When profiles are enabled, appends `Visit Recorded for: <names>` after user notes (blank line separator),
+    /// unless the visit is recorded for the active profile only.
+    private func commentsForSave(userNotes: String, profileIds: Set<String>) -> String {
+        guard profilesEnabled else { return userNotes }
+        
+        if profileIds.count == 1, let onlyId = profileIds.first, onlyId == activeProfileId {
+            return userNotes
+        }
+        
+        let idSet = profileIds
+        let names = ProfileManager.shared.allProfiles()
+            .compactMap { profile -> String? in
+                guard let pid = profile.value(forKey: "profileId") as? String, idSet.contains(pid) else { return nil }
+                return profile.value(forKey: "name") as? String
+            }
+        let namesList = names.joined(separator: ", ")
+        let suffix = "Visit Recorded for: \(namesList)"
+        let trimmed = userNotes.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            return suffix
+        }
+        return trimmed + "\n\n" + suffix
+    }
+    
+    private func setupProfileChips() {
+        guard profilesEnabled, detailVisit == nil else { return }
+        
+        if let activeId = activeProfileId {
+            selectedProfileIds.insert(activeId)
+        }
+        
+        let allProfiles = ProfileManager.shared.allProfiles()
+        guard allProfiles.count > 1 else { return }
+        
+        guard let notesStack = comments.superview as? UIStackView,
+              let contentStack = notesStack.superview as? UIStackView else { return }
+        
+        guard let notesIndex = contentStack.arrangedSubviews.firstIndex(of: notesStack) else { return }
+        
+        let wrapper = UIStackView()
+        wrapper.axis = .vertical
+        wrapper.spacing = 6
+        wrapper.translatesAutoresizingMaskIntoConstraints = false
+        
+        let label = UILabel()
+        label.text = "Record for:"
+        label.font = UIFont(name: "Baskerville", size: 15) ?? .systemFont(ofSize: 15)
+        label.textColor = .secondaryLabel
+        wrapper.addArrangedSubview(label)
+        
+        let flowContainer = FlowLayoutView()
+        flowContainer.spacing = 6
+        flowContainer.rowSpacing = 6
+        flowContainer.translatesAutoresizingMaskIntoConstraints = false
+        wrapper.addArrangedSubview(flowContainer)
+        
+        let chipHeight: CGFloat = 32
+        
+        for profile in allProfiles {
+            let profileId = profile.value(forKey: "profileId") as? String ?? ""
+            let name = profile.value(forKey: "name") as? String ?? ""
+            let iconName = profile.value(forKey: "iconName") as? String ?? "person.fill"
+            
+            let chip = UIView()
+            chip.accessibilityIdentifier = profileId
+            chip.layer.cornerRadius = chipHeight / 2
+            chip.clipsToBounds = true
+            chip.translatesAutoresizingMaskIntoConstraints = false
+            chip.isUserInteractionEnabled = true
+            
+            let iconView = UIImageView()
+            iconView.translatesAutoresizingMaskIntoConstraints = false
+            iconView.contentMode = .scaleAspectFit
+            let iconConfig = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
+            iconView.image = UIImage(systemName: iconName, withConfiguration: iconConfig)
+            iconView.tag = 100
+            chip.addSubview(iconView)
+            
+            let nameLabel = UILabel()
+            nameLabel.translatesAutoresizingMaskIntoConstraints = false
+            nameLabel.text = name
+            nameLabel.font = UIFont(name: "Baskerville", size: 13) ?? .systemFont(ofSize: 13)
+            nameLabel.tag = 101
+            chip.addSubview(nameLabel)
+            
+            NSLayoutConstraint.activate([
+                chip.heightAnchor.constraint(equalToConstant: chipHeight),
+                iconView.leadingAnchor.constraint(equalTo: chip.leadingAnchor, constant: 8),
+                iconView.centerYAnchor.constraint(equalTo: chip.centerYAnchor),
+                iconView.widthAnchor.constraint(equalToConstant: 16),
+                iconView.heightAnchor.constraint(equalToConstant: 16),
+                nameLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: 4),
+                nameLabel.centerYAnchor.constraint(equalTo: chip.centerYAnchor),
+                nameLabel.trailingAnchor.constraint(equalTo: chip.trailingAnchor, constant: -10)
+            ])
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(profileChipTapped(_:)))
+            chip.addGestureRecognizer(tap)
+            
+            let isSelected = selectedProfileIds.contains(profileId)
+            applyChipStyle(chip, selected: isSelected)
+            
+            flowContainer.addArrangedSubview(chip)
+            chipViews.append(chip)
+        }
+        
+        contentStack.insertArrangedSubview(wrapper, at: notesIndex + 1)
+        profileChipsRow = wrapper
+    }
+    
+    @objc private func profileChipTapped(_ sender: UITapGestureRecognizer) {
+        guard let chip = sender.view,
+              let profileId = chip.accessibilityIdentifier else { return }
+        
+        if selectedProfileIds.contains(profileId) {
+            guard selectedProfileIds.count > 1 else { return }
+            selectedProfileIds.remove(profileId)
+            applyChipStyle(chip, selected: false)
+        } else {
+            selectedProfileIds.insert(profileId)
+            applyChipStyle(chip, selected: true)
+        }
+    }
+    
+    private func applyChipStyle(_ chip: UIView, selected: Bool) {
+        let accentColor = UIColor(named: "BaptismsBlue") ?? .systemBlue
+        let iconView = chip.viewWithTag(100) as? UIImageView
+        let nameLabel = chip.viewWithTag(101) as? UILabel
+        
+        if selected {
+            chip.backgroundColor = accentColor
+            iconView?.tintColor = .white
+            nameLabel?.textColor = .white
+        } else {
+            chip.backgroundColor = UIColor.systemGray5
+            iconView?.tintColor = .secondaryLabel
+            nameLabel?.textColor = .secondaryLabel
+        }
     }
     
     @objc func dismissKeyboard(){
@@ -638,6 +798,71 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         }
     }
 
+}
+
+// MARK: - Flow Layout View (wraps subviews into rows)
+
+class FlowLayoutView: UIView {
+    var spacing: CGFloat = 6
+    var rowSpacing: CGFloat = 6
+    
+    private var arrangedSubviews: [UIView] = []
+    
+    func addArrangedSubview(_ view: UIView) {
+        arrangedSubviews.append(view)
+        addSubview(view)
+    }
+    
+    private func fittingSize(for view: UIView) -> CGSize {
+        let target = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        return view.systemLayoutSizeFitting(target,
+                                            withHorizontalFittingPriority: .fittingSizeLevel,
+                                            verticalFittingPriority: .fittingSizeLevel)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        
+        for view in arrangedSubviews {
+            let size = fittingSize(for: view)
+            
+            if x + size.width > bounds.width && x > 0 {
+                x = 0
+                y += rowHeight + rowSpacing
+                rowHeight = 0
+            }
+            
+            view.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
+            x += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
+        }
+        
+        invalidateIntrinsicContentSize()
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        let maxWidth = bounds.width > 0 ? bounds.width : UIScreen.main.bounds.width - 32
+        
+        for view in arrangedSubviews {
+            let size = fittingSize(for: view)
+            if x + size.width > maxWidth && x > 0 {
+                x = 0
+                y += rowHeight + rowSpacing
+                rowHeight = 0
+            }
+            x += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
+        }
+        
+        return CGSize(width: UIView.noIntrinsicMetric, height: y + rowHeight)
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.

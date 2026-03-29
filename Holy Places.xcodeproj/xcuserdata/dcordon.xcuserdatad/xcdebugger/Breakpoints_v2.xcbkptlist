@@ -16,14 +16,12 @@
             moduleName = "">
             <Locations>
                <Location
-                  uuid = "36165968-08C0-4EA7-B04A-A88165C4796E - ba3ad5676a792f38"
+                  uuid = "36165968-08C0-4EA7-B04A-A88165C4796E - 304aafc9d4164c60"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "UIViewAlertForUnsatisfiableConstraints"
-                  moduleName = "UIKitCore"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
+                  usesParentBreakpointCondition = "Yes">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -56,8 +54,38 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "466"
             endingLineNumber = "466"
-            landmarkName = "prepare(for:sender:)"
+            landmarkName = "textFieldDidBeginEditing(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "90ADB21D-E9D6-4E5D-9E29-1D0F8DA71A7C - e8166bed8825bb1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Holy_Places.RecordVisitVC.textFieldDidBeginEditing(__C.UITextField) -&gt; ()"
+                  moduleName = "Holy Places.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dcordon/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Development/Holy%20Places/Holy%20Places/Holy%20Places/RecordVisitVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "467"
+                  endingLineNumber = "467">
+               </Location>
+               <Location
+                  uuid = "90ADB21D-E9D6-4E5D-9E29-1D0F8DA71A7C - ffdd182feea83ab4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Holy_Places.RecordVisitVC.textFieldDidBeginEditing(__C.UITextField) -&gt; ()"
+                  moduleName = "Holy Places.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dcordon/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Development/Holy%20Places/Holy%20Places/Holy%20Places/RecordVisitVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

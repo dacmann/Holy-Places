@@ -414,6 +414,14 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.4": """
+                What's new:
+                - Record a visit for multiple profiles at once; notes add a \"Visit Recorded for:\" line when the visit isn't only for your active profile
+                - Couple of bug fixes and improvements
+                
+                Version 5.3 recap:
+                - Profiles for family members, watch and widget updates, map marker tweaks, large-widget visit shortcut, and fixes for saving edits and Home tab lag
+                """,
             "5.3": """
                 New:
                 - Profiles: Track visits separately for family members — enable in Settings and switch profiles from the Home screen

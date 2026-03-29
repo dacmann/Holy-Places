@@ -23,6 +23,8 @@ class VisitDetailVC: UIViewController {
     @IBOutlet weak var commentHeight: NSLayoutConstraint!
     
     private let favoriteButton = UIButton(type: .system) // Add the favorite indicator
+    /// Tracks width so we re-measure comments after layout (width was 0 in early populateView calls).
+    private var lastCommentsLayoutWidth: CGFloat = 0
     
     //MARK:- CoreData functions
     func getContext () -> NSManagedObjectContext {
@@ -71,7 +73,19 @@ class VisitDetailVC: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeDown)
-
+        
+        comments.isEditable = false
+        comments.isSelectable = true
+        comments.textContainer.lineBreakMode = .byWordWrapping
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard detailVisit != nil else { return }
+        let w = view.bounds.width
+        guard w > 1, abs(w - lastCommentsLayoutWidth) > 0.5 else { return }
+        lastCommentsLayoutWidth = w
+        updateCommentsLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -238,8 +252,6 @@ class VisitDetailVC: UIViewController {
                         templeName.textColor = defaultColor
                     }
                 }
-//                comments.sizeToFit()
-                let commentSize = comments.text.lengthOfBytes(using: .macOSRoman)
                 // load image
                 if let imageData = detail.picture {
                     print("🔍 VisitDetailVC: Found picture data, size: \(imageData.count) bytes")
@@ -298,29 +310,55 @@ class VisitDetailVC: UIViewController {
                         pictureHeight.constant = 10
                     }
                 }
-                // Determine height restriction of comment text area
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    if commentSize > 400 {
-                        commentHeight.constant = 400
-                    } else if commentSize < 100 {
-                        commentHeight.constant = 50
-                    } else {
-                        commentHeight.constant = CGFloat(commentSize) * 0.5
-                    }
-                } else {
-                    if commentSize > 200 {
-                        commentHeight.constant = 200
-                    } else if commentSize < 50 {
-                        commentHeight.constant = 50
-                    } else if commentSize < 75 {
-                        commentHeight.constant = CGFloat(commentSize)
-                    } else {
-                        commentHeight.constant = CGFloat(commentSize) * 0.7
-                    }
-                }
-                view.setNeedsDisplay()
+                updateCommentsLayout()
             }
         }
+    }
+    
+    /// Sizes the comments area from rendered text (replaces byte-count heuristic that caused a short box and inner scrolling).
+    private func updateCommentsLayout() {
+        let text = comments.text ?? ""
+        let fittingWidth: CGFloat
+        if comments.bounds.width > 1 {
+            fittingWidth = comments.bounds.width
+        } else {
+            fittingWidth = max(view.bounds.width - 32, 200)
+        }
+        
+        let measured = measuredCommentHeight(for: text, fittingWidth: fittingWidth)
+        
+        let screenH = view.bounds.height > 1 ? view.bounds.height : UIScreen.main.bounds.height
+        let maxComment: CGFloat
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            maxComment = max(400, min(screenH * 0.55, 900))
+        } else {
+            maxComment = max(280, min(screenH * 0.55, 520))
+        }
+        
+        if measured > maxComment {
+            commentHeight.constant = maxComment
+            comments.isScrollEnabled = true
+        } else {
+            commentHeight.constant = measured
+            comments.isScrollEnabled = false
+        }
+    }
+    
+    private func measuredCommentHeight(for text: String, fittingWidth: CGFloat) -> CGFloat {
+        if text.isEmpty { return 50 }
+        let font = comments.font ?? UIFont(name: "Baskerville", size: 18) ?? .systemFont(ofSize: 18)
+        let horizontalInset = comments.textContainerInset.left + comments.textContainerInset.right
+        let linePad = comments.textContainer.lineFragmentPadding * 2
+        let textWidth = max(fittingWidth - horizontalInset - linePad, 1)
+        let rect = (text as NSString).boundingRect(
+            with: CGSize(width: textWidth, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        )
+        let verticalInset = comments.textContainerInset.top + comments.textContainerInset.bottom
+        let h = ceil(rect.height) + verticalInset + 4
+        return max(h, 50)
     }
     
     func getRangeOfSubString(subString: String, fromString: String) -> NSRange {
