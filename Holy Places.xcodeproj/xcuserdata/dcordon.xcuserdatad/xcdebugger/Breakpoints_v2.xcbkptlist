@@ -16,11 +16,12 @@
             moduleName = "">
             <Locations>
                <Location
-                  uuid = "36165968-08C0-4EA7-B04A-A88165C4796E - 304aafc9d4164c60"
+                  uuid = "36165968-08C0-4EA7-B04A-A88165C4796E - ba3ad5676a792f38"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "UIViewAlertForUnsatisfiableConstraints"
+                  moduleName = "UIKitCore"
                   usesParentBreakpointCondition = "Yes">
                </Location>
             </Locations>

@@ -37,6 +37,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     @IBOutlet weak var sortBy: UIBarButtonItem!
     @IBOutlet weak var filterBy: UIBarButtonItem!
     
+    // MARK: - Select / Copy-to-Profile Mode
+    private var isSelectMode = false
+    private var selectedVisitIds = Set<NSManagedObjectID>()
+    private var selectBarButton: UIBarButtonItem!
+    private var selectAllBarButton: UIBarButtonItem!
+    private var copyToProfileBarButton: UIBarButtonItem!
+    private var savedRightBarButtonItems: [UIBarButtonItem]?
+    private var savedLeftBarButtonItems: [UIBarButtonItem]?
+    
     // Sort options for the menu
     let sortOptions = ["Latest Date", "Oldest Date", "Place (A-Z)", "Place (Z-A)"]
     
@@ -414,6 +423,12 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
         // Observer for widget deep link to open specific visit
         NotificationCenter.default.addObserver(self, selector: #selector(openVisitFromWidget(_:)), name: NSNotification.Name("OpenVisitFromWidget"), object: nil)
+        
+        // Create Select button for copy-to-profile feature (icon placed left of Sort/Filter)
+        let selectImage = UIImage(named: "select")?.withRenderingMode(.alwaysTemplate)
+        selectBarButton = UIBarButtonItem(image: selectImage, style: .plain, target: self, action: #selector(enterSelectMode))
+        selectBarButton.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+        selectBarButton.accessibilityLabel = "Select visits"
     }
 
     deinit {
@@ -468,6 +483,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Update title with current sort option
         updateTitle()
+        
+        // Refresh Select button visibility based on profile state
+        updateSelectButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -658,7 +676,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         self.configureCell(cell, withVisit: visit)
         
-        cell.accessoryType = .disclosureIndicator
+        if isSelectMode {
+            cell.accessoryType = selectedVisitIds.contains(visit.objectID) ? .checkmark : .none
+        } else {
+            cell.accessoryType = .disclosureIndicator
+        }
         
         return cell
     }
@@ -673,6 +695,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     //MARK: Swipe Actions
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard !isSelectMode else { return nil }
         let delete = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
         //let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath after confirming action
@@ -748,6 +771,29 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard isSelectMode else { return }
+        let visit: Visit
+        if searchController.isActive {
+            guard indexPath.section < groupedFilteredVisits.count else { return }
+            visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
+        } else {
+            visit = fetchedResultsController.object(at: indexPath)
+        }
+        if selectedVisitIds.contains(visit.objectID) {
+            selectedVisitIds.remove(visit.objectID)
+        } else {
+            selectedVisitIds.insert(visit.objectID)
+        }
+        copyToProfileBarButton.isEnabled = !selectedVisitIds.isEmpty
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if isSelectMode && identifier == "visitDetail" { return false }
+        return true
+    }
+    
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
         cell.textLabel!.text = visit.holyPlace
         
@@ -1002,6 +1048,172 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
         guard let input = input else { return nil }
         return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+    }
+    
+    // MARK: - Copy to Profile
+    
+    private var canCopyToProfile: Bool {
+        return profilesEnabled && ProfileManager.shared.allProfiles().count >= 2
+    }
+    
+    private func updateSelectButton() {
+        guard !isSelectMode else { return }
+        var items = navigationItem.rightBarButtonItems ?? []
+        let alreadyPresent = items.contains(where: { $0 === selectBarButton })
+        if canCopyToProfile {
+            if !alreadyPresent {
+                items.append(selectBarButton)
+                navigationItem.rightBarButtonItems = items
+            }
+        } else {
+            if alreadyPresent {
+                items.removeAll(where: { $0 === selectBarButton })
+                navigationItem.rightBarButtonItems = items
+            }
+        }
+    }
+    
+    @objc private func enterSelectMode() {
+        isSelectMode = true
+        selectedVisitIds.removeAll()
+        
+        savedLeftBarButtonItems = navigationItem.leftBarButtonItems
+        savedRightBarButtonItems = navigationItem.rightBarButtonItems
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(exitSelectMode))
+        
+        let selectAllImage = UIImage(named: "select")?.withRenderingMode(.alwaysTemplate)
+        selectAllBarButton = UIBarButtonItem(image: selectAllImage, style: .plain, target: self, action: #selector(selectAllVisits))
+        selectAllBarButton.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+        selectAllBarButton.accessibilityLabel = "Select all"
+        
+        copyToProfileBarButton = UIBarButtonItem(title: "Copy to Profile\u{2026}", style: .plain, target: self, action: #selector(copySelectedToProfile))
+        copyToProfileBarButton.isEnabled = false
+        
+        navigationItem.leftBarButtonItems = [cancelButton]
+        navigationItem.rightBarButtonItems = [selectAllBarButton, copyToProfileBarButton]
+        
+        tableView.allowsMultipleSelection = true
+        tableView.reloadData()
+    }
+    
+    @objc func exitSelectMode() {
+        isSelectMode = false
+        selectedVisitIds.removeAll()
+        
+        navigationItem.leftBarButtonItems = savedLeftBarButtonItems
+        navigationItem.rightBarButtonItems = savedRightBarButtonItems
+        savedLeftBarButtonItems = nil
+        savedRightBarButtonItems = nil
+        
+        tableView.allowsMultipleSelection = false
+        tableView.reloadData()
+    }
+    
+    private func visibleVisits() -> [Visit] {
+        if searchController.isActive {
+            return filteredVisits
+        }
+        return fetchedResultsController.fetchedObjects ?? []
+    }
+    
+    @objc private func selectAllVisits() {
+        let visible = visibleVisits()
+        let allAlreadySelected = !visible.isEmpty && visible.allSatisfy { selectedVisitIds.contains($0.objectID) }
+        if allAlreadySelected {
+            visible.forEach { selectedVisitIds.remove($0.objectID) }
+        } else {
+            visible.forEach { selectedVisitIds.insert($0.objectID) }
+        }
+        copyToProfileBarButton.isEnabled = !selectedVisitIds.isEmpty
+        tableView.reloadData()
+    }
+    
+    @objc private func copySelectedToProfile() {
+        guard !selectedVisitIds.isEmpty else { return }
+        let context = fetchedResultsController.managedObjectContext
+        let visits = selectedVisitIds.compactMap { try? context.existingObject(with: $0) as? Visit }
+        guard !visits.isEmpty else { return }
+        showProfilePicker(for: visits)
+    }
+    
+    private func showProfilePicker(for visits: [Visit]) {
+        let visitWord = visits.count == 1 ? "this visit" : "\(visits.count) visits"
+        let alert = UIAlertController(
+            title: "Copy to Profile",
+            message: "Select a profile to copy \(visitWord) to:",
+            preferredStyle: .actionSheet
+        )
+        
+        let allProfiles = ProfileManager.shared.allProfiles()
+        let otherProfiles = allProfiles.filter { ($0.value(forKey: "profileId") as? String) != activeProfileId }
+        
+        for profile in otherProfiles {
+            guard let profileId = profile.value(forKey: "profileId") as? String,
+                  let name = profile.value(forKey: "name") as? String else { continue }
+            let iconName = profile.value(forKey: "iconName") as? String ?? "person.fill"
+            let action = UIAlertAction(title: name, style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                self.copyVisits(visits, toProfileId: profileId)
+                let inSelectMode = self.isSelectMode
+                if inSelectMode { self.exitSelectMode() }
+                self.showCopySuccessMessage(count: visits.count, profileName: name)
+            }
+            if let image = UIImage(systemName: iconName) {
+                action.setValue(image.withRenderingMode(.alwaysOriginal), forKey: "image")
+            }
+            alert.addAction(action)
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        if let popover = alert.popoverPresentationController {
+            popover.sourceView = view
+            popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    private func copyVisits(_ visits: [Visit], toProfileId: String) {
+        let context = fetchedResultsController.managedObjectContext
+        for source in visits {
+            let copy = Visit(context: context)
+            copy.holyPlace = source.holyPlace
+            copy.dateVisited = source.dateVisited
+            copy.year = source.year
+            copy.type = source.type
+            copy.profileId = toProfileId
+            copy.baptisms = source.baptisms
+            copy.confirmations = source.confirmations
+            copy.initiatories = source.initiatories
+            copy.endowments = source.endowments
+            copy.sealings = source.sealings
+            copy.shiftHrs = source.shiftHrs
+            copy.comments = source.comments
+            copy.picture = source.picture
+            copy.isFavorite = source.isFavorite
+        }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            print("Error saving copied visits: \(nserror)")
+        }
+        ad.needsVisitRefresh = true
+        ad.getVisits()
+    }
+    
+    private func showCopySuccessMessage(count: Int, profileName: String) {
+        let visitWord = count == 1 ? "visit" : "visits"
+        let alert = UIAlertController(
+            title: "Visits Copied",
+            message: "\(count) \(visitWord) copied to \(profileName).",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
 }

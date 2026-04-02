@@ -471,10 +471,10 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
                 }
             }
             
-            // Check for duplicate before saving
+            // Check for duplicate before saving (same place on same day)
             do {
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "dateVisited == %@ && holyPlace == %@ && comments == %@", visitDate as NSDate, holyPlace as String, comments as String)
+            fetchRequest.predicate = NSPredicate(format: "dateVisited == %@ && holyPlace == %@", visitDate as NSDate, holyPlace as String)
                 let searchResults = try getContext().fetch(fetchRequest)
                 if searchResults.count == 0 {
                     

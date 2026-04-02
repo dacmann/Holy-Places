@@ -52,6 +52,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     //MARK: - Standard Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Apply selected home background as early as possible to avoid launch-time flash.
+        refreshBackgroundImage()
+        
         // Do any additional setup after loading the view.
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy"
@@ -166,6 +169,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Set background image before the home screen renders to avoid visible swapping.
+        refreshBackgroundImage()
+        
         if profilesEnabled {
             goalTitle.text = "\(ProfileManager.shared.activeProfileName())'s \(currentYear) Goals"
         } else {
@@ -339,9 +345,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         settings.titleLabel?.textColor = UIColor.home()
         visitDate.textColor = UIColor.home()
 
-        // Refresh background image to ensure it reflects current settings
-        refreshBackgroundImage()
-
         if UIDevice.current.userInterfaceIdiom != .pad {
             AppUtility.lockOrientation(.portrait)
         }
@@ -414,6 +417,19 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.5": """
+                What's new:
+                - Copy visits to another profile using the new select mode on the Visits tab — search for visits, select all results, and copy them in one tap
+                - Visit import now treats matching place and date as duplicates, even when comments differ
+                
+                Version 5.4 recap:
+                - Record a visit for multiple profiles at once; notes add a \"Visit Recorded for:\" line when the visit isn't only for your active profile
+                
+                Version 5.3 recap:
+                - Profiles: Track visits separately for family members — enable in Settings and switch profiles from the Home screen
+                - Watch app updated with new images and improved background launch reliability
+                - Large widget now navigates directly to the featured visit
+                """,
             "5.4": """
                 What's new:
                 - Record a visit for multiple profiles at once; notes add a \"Visit Recorded for:\" line when the visit isn't only for your active profile
