@@ -14,6 +14,7 @@ import CoreData
 class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var display: [Achievement] = []
+    private var showingCompleted = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,13 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
 
         // Default to display the completed achievements
         display = completed
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Reload from globals so profile changes are reflected immediately
+        display = showingCompleted ? completed : notCompleted
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -109,6 +116,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         return cell
     }
     @IBAction func changeDisplay(_ sender: UISegmentedControl) {
+        showingCompleted = sender.selectedSegmentIndex != 1
         if sender.selectedSegmentIndex == 1 {
             display = notCompleted
         } else {

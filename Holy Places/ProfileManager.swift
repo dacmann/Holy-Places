@@ -202,6 +202,23 @@ class ProfileManager {
         return (try? context.count(for: fetchRequest)) ?? 0
     }
     
+    // MARK: - Effective Profile
+    
+    /// Returns the profile ID to use for visit filtering.
+    /// When profiles are enabled this is the active profile; when disabled it is always the default profile.
+    func effectiveProfileId() -> String? {
+        if profilesEnabled {
+            return activeProfileId
+        }
+        return defaultProfile()?.value(forKey: "profileId") as? String
+    }
+    
+    /// Returns an NSPredicate that filters visits to the effective profile.
+    func visitProfilePredicate() -> NSPredicate? {
+        guard let pid = effectiveProfileId() else { return nil }
+        return NSPredicate(format: "profileId == %@", pid)
+    }
+    
     // MARK: - Helpers
     
     private func saveContext() {

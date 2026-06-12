@@ -137,6 +137,7 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
                 homeVisitPicture = true
                 homeDefaultPicture = false
                 imageOptionSelected = 1
+                ad.needsVisitRefresh = true
             }
         default:
             if homeAlternatePicture == nil {
@@ -328,9 +329,24 @@ class SettingsTableVC: UITableViewController, UIImagePickerControllerDelegate, U
             initiatoryGoal.text = String(annualInitiatoryGoal)
             endowmentGoal.text = String(annualEndowmentGoal)
             sealingGoal.text = String(annualSealingGoal)
+        } else {
+            // Reset to default profile so visit and achievement data is scoped correctly
+            if let defaultId = ProfileManager.shared.defaultProfile()?.value(forKey: "profileId") as? String {
+                activeProfileId = defaultId
+                UserDefaults.standard.set(defaultId, forKey: "activeProfileId")
+            }
+            // Restore goals from Settings (not the previously active profile)
+            ad.loadGoalsFromSettings()
+            visitGoal.text = String(annualVisitGoal)
+            baptismGoal.text = String(annualBaptismGoal)
+            initiatoryGoal.text = String(annualInitiatoryGoal)
+            endowmentGoal.text = String(annualEndowmentGoal)
+            sealingGoal.text = String(annualSealingGoal)
         }
         
         ad.needsVisitRefresh = true
+        ad.getVisits()
+        NotificationCenter.default.post(name: ProfileManager.profileDidChangeNotification, object: nil)
         updateProfilesFooterLayout()
     }
     

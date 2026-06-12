@@ -100,10 +100,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
     }
     
     private func profilePredicate() -> NSPredicate? {
-        if profilesEnabled, let pid = activeProfileId {
-            return NSPredicate(format: "profileId == %@", pid)
-        }
-        return nil
+        return ProfileManager.shared.visitProfilePredicate()
     }
     
     private func combinedPredicate(_ typePredicate: NSPredicate) -> NSPredicate {

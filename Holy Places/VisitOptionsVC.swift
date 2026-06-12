@@ -96,9 +96,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             let context = getContext()
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
             
-            if profilesEnabled, let pid = activeProfileId {
-                fetchRequest.predicate = NSPredicate(format: "profileId == %@", pid)
-            }
+            fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
             
             let searchResults = try context.fetch(fetchRequest)
             
@@ -200,10 +198,8 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
     func getVisits (type: String) {
         let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
         
-        // Filter by active profile
-        if profilesEnabled, let pid = activeProfileId {
-            fetchRequest.predicate = NSPredicate(format: "profileId == %@", pid)
-        }
+        // Filter by effective profile
+        fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
         
         // Sort by dateVisited
         let sortDescriptor = NSSortDescriptor(key: "dateVisited", ascending: true)
@@ -494,7 +490,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
                     visit.shiftHrs = hoursWorked
                     visit.isFavorite = isFavorite
                     visit.picture = pictureData
-                    visit.profileId = activeProfileId
+                    visit.profileId = ProfileManager.shared.effectiveProfileId()
                     
                     // Count photos for import message
                     if pictureData != nil {

@@ -98,7 +98,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         if profilesEnabled && !selectedProfileIds.isEmpty {
             profileIds = selectedProfileIds
         } else {
-            profileIds = [activeProfileId ?? ""]
+            profileIds = [ProfileManager.shared.effectiveProfileId() ?? ""]
         }
         
         let commentsVal = commentsForSave(userNotes: userComments, profileIds: profileIds)

@@ -94,8 +94,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         processVisits: do {
             let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
             var predicates: [NSPredicate] = [NSPredicate(format: "holyPlace == %@", templeName)]
-            if profilesEnabled, let pid = activeProfileId {
-                predicates.append(NSPredicate(format: "profileId == %@", pid))
+            if let pp = ProfileManager.shared.visitProfilePredicate() {
+                predicates.append(pp)
             }
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
@@ -110,8 +110,8 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
             if !swiping {
                 // Check for the number of visits that have pictures
                 var picturePredicates: [NSPredicate] = [NSPredicate(format: "picture != nil && holyPlace == %@", templeName)]
-                if profilesEnabled, let pid = activeProfileId {
-                    picturePredicates.append(NSPredicate(format: "profileId == %@", pid))
+                if let pp = ProfileManager.shared.visitProfilePredicate() {
+                    picturePredicates.append(pp)
                 }
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: picturePredicates)
                 let pictureResults = try getContext().fetch(fetchRequest)

@@ -169,7 +169,10 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Set background image before the home screen renders to avoid visible swapping.
+        // Pick a new random visit photo each time the home tab is shown, then display it.
+        if homeVisitPicture {
+            ad.pickRandomHomeVisitPhoto()
+        }
         refreshBackgroundImage()
         
         if profilesEnabled {
@@ -311,6 +314,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         if ad.needsVisitRefresh {
             ad.getVisits()
+            refreshBackgroundImage()
         }
         goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
         

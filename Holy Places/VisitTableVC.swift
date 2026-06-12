@@ -895,8 +895,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Build profile predicate
         var predicates: [NSPredicate] = []
-        if profilesEnabled, let pid = activeProfileId {
-            predicates.append(NSPredicate(format: "profileId == %@", pid))
+        if let pp = ProfileManager.shared.visitProfilePredicate() {
+            predicates.append(pp)
         }
         
         // Filter the request

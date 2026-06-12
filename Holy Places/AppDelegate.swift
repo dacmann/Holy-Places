@@ -502,6 +502,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
     
+    func loadGoalsFromSettings() {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Settings")
+        fetchRequest.fetchLimit = 1
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let s = results.first {
+                annualVisitGoal = s.value(forKey: "annualVisitGoal") as? Int ?? 0
+                annualBaptismGoal = s.value(forKey: "annualBaptismGoal") as? Int ?? 0
+                annualInitiatoryGoal = s.value(forKey: "annualInitiatoryGoal") as? Int ?? 0
+                annualEndowmentGoal = s.value(forKey: "annualEndowmentGoal") as? Int ?? 0
+                annualSealingGoal = s.value(forKey: "annualSealingGoal") as? Int ?? 0
+                excludeNonOrdinanceVisits = s.value(forKey: "excludeNonOrdinanceVisits") as? Bool ?? false
+            }
+        } catch {
+            print("Error loading goals from settings: \(error)")
+        }
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -1263,6 +1282,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         return resizedImage.jpegData(compressionQuality: 0.6)
     }
     
+    func pickRandomHomeVisitPhoto() {
+        guard homeVisitPicture else { return }
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        var predicates: [NSPredicate] = [NSPredicate(format: "picture != nil")]
+        if let pp = ProfileManager.shared.visitProfilePredicate() {
+            predicates.append(pp)
+        }
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        guard let results = try? getContext().fetch(fetchRequest), !results.isEmpty else { return }
+        let pick = results[Int(arc4random_uniform(UInt32(results.count)))]
+        if let pictureData = pick.picture {
+            homeVisitPictureData = pictureData
+        }
+        if let visitDate = pick.dateVisited {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM dd, yyyy"
+            homeVisitDate = formatter.string(from: visitDate)
+        }
+    }
+
     func getVisits () {
         let context = getContext()
         var latestTempleVisited = ""
@@ -1299,12 +1338,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         distinctTemplesVisited.removeAll()
         
         // Build profile predicate for filtering
-        let profilePredicate: NSPredicate? = {
-            if profilesEnabled, let pid = activeProfileId {
-                return NSPredicate(format: "profileId == %@", pid)
-            }
-            return nil
-        }()
+        let profilePredicate: NSPredicate? = ProfileManager.shared.visitProfilePredicate()
         
         do {
             // Get All visits (filtered by profile)
@@ -1411,7 +1445,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 sharedDefaults?.removeObject(forKey: "activeProfileName")
             }
             
-            // get random visit picture
+            // Pick a random visit photo for the home screen
+            pickRandomHomeVisitPhoto()
+
+            // Fetch visit photos for widget (uses same profile predicate)
             if let pp = profilePredicate {
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                     NSPredicate(format: "picture != nil"), pp
@@ -1420,17 +1457,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 fetchRequest.predicate = NSPredicate(format: "picture != nil")
             }
             searchResults = try getContext().fetch(fetchRequest)
-            if searchResults.count > 0 {
-                let randomIndex = Int(arc4random_uniform(UInt32(searchResults.count)))
-                let visit = searchResults[randomIndex] as Visit
-                if let pictureData = visit.picture {
-                    homeVisitPictureData = pictureData
-                }
-                if let visitDate = visit.dateVisited {
-                    homeVisitDate = formatter.string(from: visitDate)
-                }
-            }
-            
+
             // NEW: Save widget image data on background thread to avoid UI lag
             // First, capture the data we need from Core Data (must be on main thread)
             var favoriteVisits: [(picture: Data, placeName: String, date: String, dateVisited: Date, visitObjectID: String)] = []
