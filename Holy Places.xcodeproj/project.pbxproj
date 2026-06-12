@@ -42,6 +42,7 @@
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 		9C132C682DE12C4D008C88DF /* StringArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */; };
+		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
 		9CD815562F26C7FD00E2B911 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */; };
 		9CD8155D2F2ABFCF00E2B911 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */; };
 		9CD8155F2F2ABFCF00E2B911 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */; };
@@ -143,6 +144,7 @@
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringArrayTransformer.swift; sourceTree = "<group>"; };
+		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9CD8155B2F2ABFCD00E2B911 /* Holy Places WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Holy Places WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -290,6 +292,7 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
+				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
 				9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */,
 				64A3CB771FA9029700D37E6A /* Holy Places.entitlements */,
 				644D965F1F69F77A00E9D502 /* Main.storyboard */,
@@ -537,6 +540,7 @@
 				64732F53216FA455003E0EBD /* AchievementsVC.swift in Sources */,
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
+				9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */,
 				64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */,
 				646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
