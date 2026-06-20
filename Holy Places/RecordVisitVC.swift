@@ -14,10 +14,16 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
     func DateChanged(data: Date) {
         dateOfVisit = data
         setDate()
+        // When the date crosses a name-change boundary, reflect the correct historical or current name
+        if let temple = resolvedTemple {
+            templeName.text = temple.effectiveName(for: data)
+        }
     }
 
     //MARK:- Variables & Outlets
     var dateOfVisit: Date?
+    /// The Temple whose name is currently being recorded or edited. Set on both new-visit and edit paths.
+    private var resolvedTemple: Temple?
     var placeType = String()
     var activeField: UITextField?
     //let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -642,6 +648,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
+            resolvedTemple = detail
             if let label = self.templeName {
                 label.text = detail.templeName
                 if detail.templeName == placeFromNotification {
@@ -707,6 +714,10 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
     func populateView() {
         // Update the user interface for the detail item.
         if let detail = self.detailVisit {
+            // Resolve the Temple so DateChanged() can apply historical name logic when editing
+            let currentHP = detail.holyPlace ?? ""
+            resolvedTemple = allPlaces.first { $0.templeName == currentHP }
+                ?? allPlaces.first { $0.nameChanges.contains { $0.oldName == currentHP } }
             if let label = self.templeName {
                 label.text = detail.holyPlace
                 dateOfVisit = detail.dateVisited as Date?

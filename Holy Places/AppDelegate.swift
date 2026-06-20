@@ -162,8 +162,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var monitoredRegions: Dictionary<String, NSDate> = [:]
     var newFileParsed = false
     var needsVisitRefresh = true
-    var oldNames: [String] = []
+    var parserNameChanges: [NameChange] = []
     var oldName = String()
+    var currentOldChangeDate: String? = nil
+    var currentOldImageURL = String()
     let regionEntryTimesKey = "regionEntryTimes"
     
     // MARK: - Region Entry Time Persistence
@@ -236,6 +238,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         notificationManager.delegate = self
         
         ValueTransformer.setValueTransformer(StringArrayTransformer(), forName: NSValueTransformerName("StringArrayTransformer"))
+        ValueTransformer.setValueTransformer(NameChangeArrayTransformer(), forName: NSValueTransformerName("NameChangeArrayTransformer"))
         
         // Configure tab bar appearance for iOS 15.6+
         let tabBarItemFont = UIFont(name: "Baskerville", size: 13) ?? UIFont.systemFont(ofSize: 13)
@@ -936,7 +939,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
             print("URL not defined properly")
             return
         }
@@ -964,7 +967,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
                     print("URL not defined properly")
                     return
                 }
@@ -1017,11 +1020,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             infoURL = String()
             templeSqFt = Int32(0)
             fhCode = String()
-            oldNames = []
+            parserNameChanges = []
         }
         
         if elementName == "oldName" {
             oldName = ""
+            currentOldChangeDate = attributeDict["changeDate"]
+            currentOldImageURL = attributeDict["oldImage"] ?? ""
         }
     }
     
@@ -1086,7 +1091,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         if elementName == "oldName" {
             let trimmed = oldName.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty {
-                oldNames.append(trimmed)
+                var changeDate: Date? = nil
+                if let ds = currentOldChangeDate {
+                    let fmt = ISO8601DateFormatter()
+                    fmt.formatOptions = [.withFullDate]
+                    changeDate = fmt.date(from: ds)
+                }
+                let imageURL = currentOldImageURL.isEmpty ? nil : currentOldImageURL
+                parserNameChanges.append(NameChange(oldName: trimmed, changeDate: changeDate,
+                                                    oldImageURL: imageURL, oldImageData: nil))
             }
         }
 
@@ -1143,7 +1156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 SqFt: templeSqFt,
                 FHCode: fhCode
             )
-            temple.oldNames = oldNames // ✅ pass collected old names
+            temple.nameChanges = parserNameChanges // ✅ pass collected name-change history
             
             allPlaces.append(temple)
             switch templeType {
@@ -1302,6 +1315,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         }
     }
 
+    /// Returns the canonical (current) name for a place given any name a visit may have been recorded under.
+    /// If `holyPlace` matches a historical name in any temple's `nameChanges`, the current `templeName` is returned.
+    /// This prevents old-name visits from being double-counted as separate places in summary/achievement logic.
+    func canonicalName(for holyPlace: String) -> String {
+        for temple in allPlaces {
+            if temple.templeName == holyPlace { return holyPlace }
+            for change in temple.nameChanges where change.oldName == holyPlace {
+                return temple.templeName
+            }
+        }
+        return holyPlace
+    }
+
     func getVisits () {
         let context = getContext()
         var latestTempleVisited = ""
@@ -1354,7 +1380,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     needsSave = true
                 }
                 if let placeName = visit.holyPlace {
-                    visits.append(placeName)
+                    // Normalize to current name so the map/list "visited" indicator is accurate
+                    // even when all recorded visits predate a rename.
+                    visits.append(canonicalName(for: placeName))
                 }
             }
             if needsSave {
@@ -1586,7 +1614,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             
             for visit in searchResults as [Visit] {
                 guard let visitDate = visit.dateVisited else { continue }
-                let placeName = visit.holyPlace ?? ""
+                let placeName = canonicalName(for: visit.holyPlace ?? "")
                 
                 sealingsTotal += Int(visit.sealings)
                 endowmentsTotal += Int(visit.endowments)
@@ -1789,7 +1817,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             searchResults = try getContext().fetch(fetchRequest)
             for site in searchResults as [Visit] {
                 guard let siteDate = site.dateVisited else { continue }
-                let siteName = site.holyPlace ?? ""
+                let siteName = canonicalName(for: site.holyPlace ?? "")
                 
                 if !distinctHistoricSitesVisited.contains(siteName) {
                     distinctHistoricSitesVisited.append(siteName)
@@ -1941,23 +1969,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 var searchResults = try context.fetch(fetchRequest)
 
                 if searchResults.isEmpty {
-                    // No match by name, try matching by old name
-                    for oldName in temple.oldNames {
-                        fetchRequest.predicate = NSPredicate(format: "name == %@", oldName)
+                    // No match by current name — try matching by any old name
+                    for change in temple.nameChanges {
+                        fetchRequest.predicate = NSPredicate(format: "name == %@", change.oldName)
                         let legacyMatches = try context.fetch(fetchRequest)
                         if let matchedPlace = legacyMatches.first {
                             print("⤴️ Name changed from \(matchedPlace.name ?? "?") to \(temple.templeName)")
                             matchedPlace.name = temple.templeName
                             matchedPlace.placeID = temple.templeId
 
-                            // ✅ Update visits using this old name
+                            // Rename visits that post-date this rename (pre-date visits keep the historical name)
                             let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
-                            visitFetch.predicate = NSPredicate(format: "holyPlace == %@", oldName)
+                            visitFetch.predicate = NSPredicate(format: "holyPlace == %@", change.oldName)
                             let matchedVisits = try context.fetch(visitFetch)
                             for visit in matchedVisits {
+                                if let cutoff = change.changeDate,
+                                   let dv = visit.dateVisited, dv < cutoff {
+                                    // Visit predates the rename — keep the historical name
+                                    continue
+                                }
                                 visit.holyPlace = temple.templeName
                                 renamedVisits = true
-                                print("🔁 Renamed visit from \(oldName) to \(temple.templeName)")
+                                print("🔁 Renamed visit from \(change.oldName) to \(temple.templeName)")
                             }
 
                             searchResults = [matchedPlace] // treat as found
@@ -1989,18 +2022,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         place.sqFt = temple.templeSqFt!
                         place.fhCode = temple.fhCode
                         place.setValue(Array(Set(temple.oldNames)), forKey: "oldNames")
-                        
-                        // ✅ Proactively rename visits using old names (even if Place already existed)
-                        for oldName in temple.oldNames {
-                            if oldName != temple.templeName {
-                                let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
-                                visitFetch.predicate = NSPredicate(format: "holyPlace == %@", oldName)
-                                let matchedVisits = try context.fetch(visitFetch)
-                                for visit in matchedVisits {
-                                    print("🔁 Proactively renamed visit from \(oldName) to \(temple.templeName)")
-                                    visit.holyPlace = temple.templeName
-                                    renamedVisits = true
+                        place.setValue(temple.nameChanges, forKey: "nameChanges")
+
+                        // Proactively rename visits using old names (even if Place already existed),
+                        // but only when the visit was recorded on or after the change date.
+                        for change in temple.nameChanges {
+                            if change.oldName == temple.templeName { continue }
+                            let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
+                            visitFetch.predicate = NSPredicate(format: "holyPlace == %@", change.oldName)
+                            let matchedVisits = try context.fetch(visitFetch)
+                            for visit in matchedVisits {
+                                if let cutoff = change.changeDate,
+                                   let dv = visit.dateVisited, dv < cutoff {
+                                    // Visit predates the rename — keep the historical name
+                                    continue
                                 }
+                                print("🔁 Proactively renamed visit from \(change.oldName) to \(temple.templeName)")
+                                visit.holyPlace = temple.templeName
+                                renamedVisits = true
                             }
                         }
                     }
@@ -2025,6 +2064,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     place.sqFt = temple.templeSqFt!
                     place.fhCode = temple.fhCode
                     place.setValue(Array(Set(temple.oldNames)), forKey: "oldNames")
+                    place.setValue(temple.nameChanges, forKey: "nameChanges")
                     print("Added \(temple.templeName)")
                 }
 
@@ -2196,7 +2236,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     SqFt: place.sqFt,
                     FHCode: place.fhCode
                 )
-                temple.oldNames = (place.oldNames as? [String]) ?? []
+                if let stored = place.value(forKey: "nameChanges") as? [NameChange], !stored.isEmpty {
+                    temple.nameChanges = stored
+                } else if let legacyNames = place.oldNames as? [String] {
+                    // Migrate legacy [String] oldNames to NameChange objects with no change date
+                    temple.nameChanges = legacyNames.map { NameChange(oldName: $0, changeDate: nil, oldImageURL: nil, oldImageData: nil) }
+                }
                 allPlaces.append(temple)
                 switch temple.templeType {
                 case "T":
@@ -2223,8 +2268,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         } catch {
             print("Error with request: \(error)")
         }
+        // Restore any visits that were previously renamed to the current name but whose
+        // date predates a change date (runs every launch; no-op when nothing needs fixing)
+        revertMisnamedVisits()
     }
     
+    /// Corrects visits that were bulk-renamed to a current place name before date-aware logic
+    /// was introduced. Runs every launch after allPlaces is loaded — safe to call repeatedly
+    /// because visits already at the correct historical name are not touched.
+    func revertMisnamedVisits() {
+        let context = getContext()
+        let visitFetch: NSFetchRequest<Visit> = Visit.fetchRequest()
+        var corrected = 0
+        do {
+            for temple in allPlaces {
+                let datedChanges = temple.nameChanges.filter { $0.changeDate != nil }
+                guard !datedChanges.isEmpty else { continue }
+                for change in datedChanges {
+                    guard let cutoff = change.changeDate else { continue }
+                    visitFetch.predicate = NSPredicate(format: "holyPlace == %@ AND dateVisited < %@",
+                                                       temple.templeName, cutoff as NSDate)
+                    for visit in try context.fetch(visitFetch) {
+                        guard let dv = visit.dateVisited else { continue }
+                        let correctName = temple.effectiveName(for: dv)
+                        guard correctName != temple.templeName else { continue }
+                        print("↩️ Restored: '\(temple.templeName)' → '\(correctName)' (visit \(dv))")
+                        visit.holyPlace = correctName
+                        corrected += 1
+                    }
+                }
+            }
+            if corrected > 0 {
+                try context.save()
+                needsVisitRefresh = true
+                print("↩️ Restored historical names for \(corrected) visit(s)")
+            }
+        } catch {
+            print("Error during historical name revert: \(error)")
+        }
+    }
+
     func downloadImage() {
         let context = getContext()
         
@@ -2273,6 +2356,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                         }
                     }
                     }.resume()
+            }
+
+            // Download old (historical) images for each name-change entry that has a URL but no cached data
+            for place in searchResults {
+                guard var changes = place.value(forKey: "nameChanges") as? [NameChange] else { continue }
+                for (index, change) in changes.enumerated() {
+                    guard let urlString = change.oldImageURL, !urlString.isEmpty,
+                          change.oldImageData == nil,
+                          let imageURL = URL(string: urlString) else { continue }
+                    URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
+                        guard
+                            let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                            let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                            let data = data, error == nil
+                        else { return }
+                        DispatchQueue.main.async {
+                            let fr: NSFetchRequest<Place> = Place.fetchRequest()
+                            fr.predicate = NSPredicate(format: "name == %@", place.name!)
+                            guard let results = try? context.fetch(fr),
+                                  let target = results.first,
+                                  var storedChanges = target.value(forKey: "nameChanges") as? [NameChange] else { return }
+                            if let i = storedChanges.firstIndex(where: { $0.oldName == change.oldName }) {
+                                storedChanges[i] = NameChange(
+                                    oldName: storedChanges[i].oldName,
+                                    changeDate: storedChanges[i].changeDate,
+                                    oldImageURL: storedChanges[i].oldImageURL,
+                                    oldImageData: data
+                                )
+                                target.setValue(storedChanges, forKey: "nameChanges")
+                                try? context.save()
+                                print("Saved old image for '\(change.oldName)' under \(place.name ?? "")")
+                            }
+                        }
+                    }.resume()
+                }
+                _ = changes  // suppress unused-variable warning
             }
         } catch {
             print("Error with request: \(error)")

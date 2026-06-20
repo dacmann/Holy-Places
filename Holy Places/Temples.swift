@@ -9,6 +9,19 @@
 import UIKit
 import CoreLocation
 
+// Represents a single name change event for a place, carrying the historical
+// name, the date the new name took effect, and an optional historical image URL.
+struct NameChange: Codable {
+    let oldName: String
+    /// The first day the new name applies. Visits dated before this date keep
+    /// the historical name. nil means the rename applies to all dates.
+    let changeDate: Date?
+    /// URL of the place image that was valid under the old name.
+    let oldImageURL: String?
+    /// Downloaded image data cached locally for offline display.
+    var oldImageData: Data?
+}
+
 class Temple: NSObject {
     
     var templeId = String()
@@ -33,8 +46,33 @@ class Temple: NSObject {
     var cllocation: CLLocation
     var distance : Double?
     var coordinate : CLLocationCoordinate2D
-    
-    var oldNames: [String] = []
+
+    /// Rich rename history with optional change dates and historical images.
+    var nameChanges: [NameChange] = []
+
+    /// Legacy flat list derived from nameChanges — kept so existing callers compile unchanged.
+    var oldNames: [String] {
+        return nameChanges.map { $0.oldName }
+    }
+
+    /// Returns the name this place was known by at the given visit date.
+    func effectiveName(for date: Date) -> String {
+        for change in nameChanges {
+            if let cutoff = change.changeDate, date < cutoff {
+                return change.oldName
+            }
+        }
+        return templeName
+    }
+
+    /// Returns the NameChange whose oldName matches visit.holyPlace AND whose
+    /// changeDate is after the visit date (meaning this visit should use the historical name/image).
+    func applicableNameChange(for holyPlace: String, visitDate: Date) -> NameChange? {
+        return nameChanges.first {
+            $0.oldName == holyPlace &&
+            ($0.changeDate.map { visitDate < $0 } ?? false)
+        }
+    }
 
     init(Id:String = "", Name:String!, Address:String!, Snippet:String!, CityState:String!, Country:String!, Phone:String!, Latitude:Double!, Longitude:Double!, Order:Int16, AnnouncedDate: Date?, PictureURL:String!, SiteURL:String!, Type:String!, ReaderView:Bool, InfoURL:String, SqFt:Int32, FHCode:String?) {
         templeId = Id

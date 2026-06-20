@@ -287,17 +287,11 @@ class VisitDetailVC: UIViewController {
                         pictureHeight.constant = 700
                     }
                 } else {
-                    // No visit photo - try to show place image as fallback
-                    let context = getContext()
-                    let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
-                    fetchRequest.predicate = NSPredicate(format: "name == %@", detail.holyPlace ?? "")
-                    
-                    if let placeResults = try? context.fetch(fetchRequest),
-                       let place = placeResults.first,
-                       let placeImageData = place.pictureData,
-                       let placeImage = UIImage(data: placeImageData as Data) {
-                        // Show place image
-                        pictureView.image = placeImage
+                    // No visit photo — try to show a place image as fallback.
+                    // For visits recorded under an old name (pre-rename), prefer the historical image.
+                    let fallbackImage = placeFallbackImage(for: detail)
+                    if let fallbackImage = fallbackImage {
+                        pictureView.image = fallbackImage
                         pictureView.isHidden = false
                         if UIDevice.current.userInterfaceIdiom == .pad {
                             pictureHeight.constant = 1400
@@ -315,6 +309,43 @@ class VisitDetailVC: UIViewController {
         }
     }
     
+    /// Returns the best fallback image for a visit that has no user-supplied photo.
+    ///
+    /// For visits recorded under an old place name (i.e. the visit date predates the rename),
+    /// the historical image stored in the matching `NameChange` is preferred. Otherwise the
+    /// current place image is used. Returns `nil` when no image is available.
+    private func placeFallbackImage(for visit: Visit) -> UIImage? {
+        guard let holyPlace = visit.holyPlace else { return nil }
+        let context = getContext()
+
+        // Step 1 — try direct match by current name (most visits)
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", holyPlace)
+        if let results = try? context.fetch(fetchRequest),
+           let place = results.first {
+            if let data = place.pictureData { return UIImage(data: data as Data) }
+            return nil
+        }
+
+        // Step 2 — holyPlace is a historical name; search all places for a matching NameChange
+        let allFetch: NSFetchRequest<Place> = Place.fetchRequest()
+        guard let allPlaces = try? context.fetch(allFetch) else { return nil }
+        for place in allPlaces {
+            guard let changes = place.value(forKey: "nameChanges") as? [NameChange] else { continue }
+            if let change = changes.first(where: { $0.oldName == holyPlace }) {
+                // Use the historical image when the visit predates the rename
+                if let cutoff = change.changeDate,
+                   let visitDate = visit.dateVisited, visitDate < cutoff,
+                   let oldData = change.oldImageData {
+                    return UIImage(data: oldData)
+                }
+                // Fall back to the current place image
+                if let data = place.pictureData { return UIImage(data: data as Data) }
+            }
+        }
+        return nil
+    }
+
     /// Sizes the comments area from rendered text (replaces byte-count heuristic that caused a short box and inner scrolling).
     private func updateCommentsLayout() {
         let text = comments.text ?? ""

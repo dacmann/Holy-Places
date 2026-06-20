@@ -332,28 +332,28 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             // get number of Unique Temples and Temples Under Construction visited
             fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@ OR type == %@", "T", "C"))
             searchResults = try getContext().fetch(fetchRequest)
-            var distinct = NSSet(array: searchResults.map { $0.holyPlace! })
+            var distinct = NSSet(array: searchResults.map { ad.canonicalName(for: $0.holyPlace!) })
             templesVisited.text = distinct.count.description
             visitCnt = searchResults.count
             
             // get number of Unique Temples visited
             fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "T"))
             searchResults = try getContext().fetch(fetchRequest)
-            distinct = NSSet(array: searchResults.map { $0.holyPlace! })
+            distinct = NSSet(array: searchResults.map { ad.canonicalName(for: $0.holyPlace!) })
             uniqueTempleTotal.text = distinct.count.description
             visitCnt = searchResults.count
 
             // get number of Unique Historical sites visited
             fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "H"))
             searchResults = try getContext().fetch(fetchRequest)
-            distinct = NSSet(array: searchResults.map { $0.holyPlace! })
+            distinct = NSSet(array: searchResults.map { ad.canonicalName(for: $0.holyPlace!) })
             historicalVisited.text = distinct.count.description
             visitCnt += searchResults.count
             
             // get number of Unique Visitors' Centers visited
             fetchRequest.predicate = combinedPredicate(NSPredicate(format: "type == %@", "V"))
             searchResults = try getContext().fetch(fetchRequest)
-            distinct = NSSet(array: searchResults.map { $0.holyPlace! })
+            distinct = NSSet(array: searchResults.map { ad.canonicalName(for: $0.holyPlace!) })
             visitorsCentersVisited.text = distinct.count.description
             visitCnt += searchResults.count
             
@@ -532,7 +532,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 } else {
                     attended += 1
                 }
-                uniqueTemplesYear1.insert(temple.holyPlace!) // Track unique temples
+                uniqueTemplesYear1.insert(ad.canonicalName(for: temple.holyPlace!)) // Track unique temples
 
             }
             if (yearVisited == year2) {
@@ -550,7 +550,7 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
                 } else {
                     attended2 += 1
                 }
-                uniqueTemplesYear2.insert(temple.holyPlace!) // Track unique temples
+                uniqueTemplesYear2.insert(ad.canonicalName(for: temple.holyPlace!)) // Track unique temples
             }
         }
         

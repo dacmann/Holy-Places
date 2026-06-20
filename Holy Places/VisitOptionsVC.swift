@@ -456,12 +456,17 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
         if elementName == "Visit" {
             let context = getContext()
             
-            // ✅ Check for old place names and update them
+            // Check for old place names and apply date-aware renaming
             if !allPlaces.contains(where: { $0.templeName == holyPlace }) {
                 for temple in allPlaces {
-                    if temple.oldNames.contains(holyPlace) {
-                        print("🛠 Imported visit renamed from \(holyPlace) to \(temple.templeName)")
-                        holyPlace = temple.templeName
+                    if let change = temple.nameChanges.first(where: { $0.oldName == holyPlace }) {
+                        if let cutoff = change.changeDate, visitDate < cutoff {
+                            // Visit predates the rename — preserve the historical name
+                            print("📅 Imported visit kept as '\(holyPlace)' (visit date predates rename to \(temple.templeName))")
+                        } else {
+                            print("🛠 Imported visit renamed from \(holyPlace) to \(temple.templeName)")
+                            holyPlace = temple.templeName
+                        }
                         break
                     }
                 }

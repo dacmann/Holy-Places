@@ -43,6 +43,7 @@
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 		9C132C682DE12C4D008C88DF /* StringArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
+		9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */; };
 		9CD815562F26C7FD00E2B911 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */; };
 		9CD8155D2F2ABFCF00E2B911 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */; };
 		9CD8155F2F2ABFCF00E2B911 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */; };
@@ -145,6 +146,7 @@
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringArrayTransformer.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeArrayTransformer.swift; sourceTree = "<group>"; };
 		9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9CD8155B2F2ABFCD00E2B911 /* Holy Places WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Holy Places WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -292,6 +294,7 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
+				9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */,
 				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
 				9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */,
 				64A3CB771FA9029700D37E6A /* Holy Places.entitlements */,
@@ -548,6 +551,7 @@
 				6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */,
 				64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */,
 				644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */,
+				9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */,
 				64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */,
 				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
 				64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */,
