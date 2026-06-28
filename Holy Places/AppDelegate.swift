@@ -249,16 +249,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: tabBarItemFont, NSAttributedString.Key.foregroundColor: UIColor.clear]
         tabBarItemAppearance.selected.titleTextAttributes = textAttributes
         
+        // Set layout appearances BEFORE assigning to UITabBar.appearance() —
+        // UIKit copies the object on assignment so changes made after are ignored.
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
         tabBarAppearance.backgroundColor = UIColor.systemBackground
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        
-        tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
         tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
+        tabBarAppearance.inlineLayoutAppearance = tabBarItemAppearance
         tabBarAppearance.compactInlineLayoutAppearance = tabBarItemAppearance
         
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         // Change the font and color for the navigation Bar text

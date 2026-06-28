@@ -70,6 +70,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var savedMapVisitedFilter = Int()
     private var postRebuildSizeTimer: Timer?
     var timelineCountBadge: UILabel?
+    private var savedTabBarStandardAppearance: UITabBarAppearance?
+    private var savedTabBarScrollEdgeAppearance: UITabBarAppearance?
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -78,15 +80,26 @@ class MapVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Extend the map edge-to-edge under the nav bar and tab bar
+        edgesForExtendedLayout = .all
+        extendedLayoutIncludesOpaqueBars = true
+        
         // Set background color to match system background for dark mode
         view.backgroundColor = UIColor.systemBackground
 
+        let navBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navBarAttrs: [NSAttributedString.Key: Any] = [.font: navBarFont]
+
         // Add Show Options button on right side of navigation bar
         let button = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(options(_:)))
+        button.setTitleTextAttributes(navBarAttrs, for: .normal)
+        button.setTitleTextAttributes(navBarAttrs, for: .highlighted)
         self.navigationItem.rightBarButtonItem = button
         
         // Add Timeline button on left side of navigation bar (always enabled)
         let tlButton = UIBarButtonItem(title: "Timeline", style: .plain, target: self, action: #selector(timelineButtonTapped(_:)))
+        tlButton.setTitleTextAttributes(navBarAttrs, for: .normal)
+        tlButton.setTitleTextAttributes(navBarAttrs, for: .highlighted)
         self.navigationItem.leftBarButtonItem = tlButton
         timelineBarButtonItem = tlButton
         
@@ -108,18 +121,28 @@ class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Timeline overlay setup
     
     func setupTimelineOverlay() {
+        // Shadow wrapper — clear background so the shadow renders against the blur inside
         let container = UIView()
-        container.backgroundColor = UIColor.systemBackground
+        container.backgroundColor = .clear
         container.translatesAutoresizingMaskIntoConstraints = false
         container.isHidden = true
+        container.layer.cornerRadius = 14
+        container.layer.cornerCurve = .continuous
+        container.layer.shadowColor = UIColor.black.cgColor
+        container.layer.shadowOpacity = 0.22
+        container.layer.shadowRadius = 8
+        container.layer.shadowOffset = CGSize(width: 0, height: 2)
         mapView.addSubview(container)
-        
-        // Bottom separator
-        let separator = UIView()
-        separator.backgroundColor = UIColor.separator
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(separator)
-        
+
+        // Frosted-glass background — added first so it sits behind buttons/slider
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+        blurView.layer.cornerRadius = 14
+        blurView.layer.cornerCurve = .continuous
+        blurView.clipsToBounds = true
+        blurView.alpha = 0.72
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(blurView)
+
         // Play/Pause button
         let playBtn = UIButton(type: .system)
         playBtn.setImage(UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
@@ -162,16 +185,16 @@ class MapVC: UIViewController, MKMapViewDelegate {
         container.addSubview(nextBtn)
         
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor),
-            container.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: mapView.trailingAnchor),
+            container.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 8),
+            container.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 12),
+            container.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -12),
             container.heightAnchor.constraint(equalToConstant: 56),
-            
-            separator.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            separator.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 0.5),
-            
+
+            blurView.topAnchor.constraint(equalTo: container.topAnchor),
+            blurView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            blurView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+
             playBtn.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
             playBtn.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             playBtn.widthAnchor.constraint(equalToConstant: 44),
@@ -212,7 +235,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         
         NSLayoutConstraint.activate([
             badge.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 8),
-            badge.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 12),
+            badge.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             badge.widthAnchor.constraint(equalToConstant: 52),
             badge.heightAnchor.constraint(equalToConstant: 52),
         ])
@@ -245,10 +268,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        // Re-render the thumb pill when the user switches light/dark mode
-        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle,
-           let endDate = timelineEndDate {
+        guard previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle else { return }
+        if let endDate = timelineEndDate {
             updateDateLabel(for: endDate)
+        }
+        if let badge = timelineCountBadge, let text = badge.text, let count = Int(text) {
+            updateCountBadge(count: count)
         }
     }
     
@@ -400,6 +425,25 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Transparent navigation bar so the map shows through
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.configureWithTransparentBackground()
+        navigationController?.navigationBar.standardAppearance = navAppearance
+        navigationController?.navigationBar.compactAppearance = navAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+
+        // Transparent tab bar so the map shows through (when tab bar is visible)
+        if !fromPlaceDetail {
+            // Save the current appearance so we can restore it exactly when leaving
+            savedTabBarStandardAppearance = tabBarController?.tabBar.standardAppearance
+            savedTabBarScrollEdgeAppearance = tabBarController?.tabBar.scrollEdgeAppearance
+
+            let tabAppearance = UITabBarAppearance()
+            tabAppearance.configureWithTransparentBackground()
+            tabBarController?.tabBar.standardAppearance = tabAppearance
+            tabBarController?.tabBar.scrollEdgeAppearance = tabAppearance
+        }
+
         if let navigationController = self.navigationController {
             if navigationController.viewControllers.first == self && !alreadyVisitedTab {
                 // First time accessing map tab
@@ -787,6 +831,22 @@ class MapVC: UIViewController, MKMapViewDelegate {
         mapZoomLevel = mapView.camera.altitude
         self.performSegue(withIdentifier: "viewMapOptions", sender: self)
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewMapOptions" {
+            if let mapOptionsVC = segue.destination as? MapOptionsVC {
+                mapOptionsVC.onDismiss = { [weak self] in
+                    self?.mapThePlaces()
+                }
+            }
+            if let sheet = segue.destination.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.preferredCornerRadius = 20
+            }
+        }
+    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
@@ -828,6 +888,17 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Shadow path must be updated after layout so the bounds are non-zero.
+        // Without this the clear-background container casts no shadow.
+        if let container = timelineContainerView, !container.bounds.isEmpty {
+            container.layer.shadowPath = UIBezierPath(
+                roundedRect: container.bounds, cornerRadius: 14
+            ).cgPath
+        }
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -836,6 +907,19 @@ class MapVC: UIViewController, MKMapViewDelegate {
         postRebuildSizeTimer?.invalidate()
         postRebuildSizeTimer = nil
         
+        // Restore default navigation bar appearance for other tabs
+        let defaultNavAppearance = UINavigationBarAppearance()
+        defaultNavAppearance.configureWithDefaultBackground()
+        navigationController?.navigationBar.standardAppearance = defaultNavAppearance
+        navigationController?.navigationBar.compactAppearance = defaultNavAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = defaultNavAppearance
+
+        // Restore the saved tab bar appearance (preserves Baskerville font set in AppDelegate)
+        if let saved = savedTabBarStandardAppearance {
+            tabBarController?.tabBar.standardAppearance = saved
+        }
+        tabBarController?.tabBar.scrollEdgeAppearance = savedTabBarScrollEdgeAppearance
+
         // Show tab bar when leaving map (in case it was hidden)
         tabBarController?.tabBar.isHidden = false
         

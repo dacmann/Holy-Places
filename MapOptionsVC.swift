@@ -11,7 +11,8 @@ import UIKit
 class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var filterChoices = ["Holy Places", "Active Temples", "Historical Sites", "Visitors' Centers", "Temples Under Construction", "Announced Temples", "All Temples" ]
-    
+    var onDismiss: (() -> Void)?
+
     @IBOutlet weak var filterPicker: UIPickerView!
     @IBOutlet weak var visitedFilter: UISegmentedControl!
     
@@ -81,9 +82,16 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     // MARK: - Navigation
 
-     @IBAction func done(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-     }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if isBeingDismissed {
+            onDismiss?()
+        }
+    }
+
+    @IBAction func done(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.

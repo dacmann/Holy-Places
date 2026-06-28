@@ -2530,13 +2530,13 @@
                             <constraint firstItem="IpT-qR-qTj" firstAttribute="top" secondItem="dOV-8W-jBv" secondAttribute="top" id="168-L7-Eav"/>
                             <constraint firstItem="IpT-qR-qTj" firstAttribute="leading" secondItem="dOV-8W-jBv" secondAttribute="leading" id="OJb-vw-ACe"/>
                             <constraint firstAttribute="trailing" secondItem="IpT-qR-qTj" secondAttribute="trailing" id="Qav-pE-ghl"/>
-                            <constraint firstItem="jwb-M1-QhA" firstAttribute="bottom" secondItem="IpT-qR-qTj" secondAttribute="bottom" id="ufb-lN-Zpz"/>
+                            <constraint firstItem="dOV-8W-jBv" firstAttribute="bottom" secondItem="IpT-qR-qTj" secondAttribute="bottom" id="ufb-lN-Zpz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bp7-Mi-jeo"/>
                     <connections>
                         <outlet property="mapView" destination="IpT-qR-qTj" id="MR3-kr-S9o"/>
-                        <segue destination="Rs3-1P-nLQ" kind="presentation" identifier="viewMapOptions" modalPresentationStyle="fullScreen" id="QHt-bp-WkA"/>
+                        <segue destination="Rs3-1P-nLQ" kind="presentation" identifier="viewMapOptions" id="QHt-bp-WkA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cis-Ja-ZQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
