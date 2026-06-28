@@ -42,6 +42,14 @@
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 		9C132C682DE12C4D008C88DF /* StringArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */; };
+		9C6ECC892FE859AF004386CD /* ShareQRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC862FE859AF004386CD /* ShareQRCodeView.swift */; };
+		9C6ECC8A2FE859AF004386CD /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */; };
+		9C6ECC8B2FE859AF004386CD /* AppShareLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC822FE859AF004386CD /* AppShareLinks.swift */; };
+		9C6ECC8C2FE859AF004386CD /* SharePDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC852FE859AF004386CD /* SharePDFView.swift */; };
+		9C6ECC8D2FE859AF004386CD /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC872FE859AF004386CD /* ShareVC.swift */; };
+		9C6ECC8E2FE859AF004386CD /* ShareActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC842FE859AF004386CD /* ShareActivityView.swift */; };
+		9C6ECC8F2FE859AF004386CD /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC882FE859AF004386CD /* ShareView.swift */; };
+		9C6ECC912FE85B06004386CD /* HolyPlacesPromo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9C6ECC902FE85B06004386CD /* HolyPlacesPromo.pdf */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
 		9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */; };
 		9CD815562F26C7FD00E2B911 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */; };
@@ -145,6 +153,14 @@
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringArrayTransformer.swift; sourceTree = "<group>"; };
+		9C6ECC822FE859AF004386CD /* AppShareLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShareLinks.swift; sourceTree = "<group>"; };
+		9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
+		9C6ECC842FE859AF004386CD /* ShareActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityView.swift; sourceTree = "<group>"; };
+		9C6ECC852FE859AF004386CD /* SharePDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePDFView.swift; sourceTree = "<group>"; };
+		9C6ECC862FE859AF004386CD /* ShareQRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareQRCodeView.swift; sourceTree = "<group>"; };
+		9C6ECC872FE859AF004386CD /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
+		9C6ECC882FE859AF004386CD /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		9C6ECC902FE85B06004386CD /* HolyPlacesPromo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HolyPlacesPromo.pdf; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeArrayTransformer.swift; sourceTree = "<group>"; };
 		9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -294,6 +310,14 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
+				9C6ECC902FE85B06004386CD /* HolyPlacesPromo.pdf */,
+				9C6ECC822FE859AF004386CD /* AppShareLinks.swift */,
+				9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */,
+				9C6ECC842FE859AF004386CD /* ShareActivityView.swift */,
+				9C6ECC852FE859AF004386CD /* SharePDFView.swift */,
+				9C6ECC862FE859AF004386CD /* ShareQRCodeView.swift */,
+				9C6ECC872FE859AF004386CD /* ShareVC.swift */,
+				9C6ECC882FE859AF004386CD /* ShareView.swift */,
 				9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */,
 				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
 				9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */,
@@ -493,6 +517,7 @@
 		64FDE6E91E21863A00951A58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				9C6ECC912FE85B06004386CD /* HolyPlacesPromo.pdf in Resources */,
 				644D96601F69F77A00E9D502 /* Main.storyboard in Resources */,
 				64B520FD1FD6FD6900E9B1EE /* Visits.gpx in Resources */,
 				64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */,
@@ -553,6 +578,13 @@
 				644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */,
 				9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */,
 				64DD9F621E3D2CA900A9EBE9 /* WebsiteVC.swift in Sources */,
+				9C6ECC892FE859AF004386CD /* ShareQRCodeView.swift in Sources */,
+				9C6ECC8A2FE859AF004386CD /* QRCodeGenerator.swift in Sources */,
+				9C6ECC8B2FE859AF004386CD /* AppShareLinks.swift in Sources */,
+				9C6ECC8C2FE859AF004386CD /* SharePDFView.swift in Sources */,
+				9C6ECC8D2FE859AF004386CD /* ShareVC.swift in Sources */,
+				9C6ECC8E2FE859AF004386CD /* ShareActivityView.swift in Sources */,
+				9C6ECC8F2FE859AF004386CD /* ShareView.swift in Sources */,
 				642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */,
 				64F7364B1E3AA84A00622CD5 /* InfoVC.swift in Sources */,
 				9CF3F7E52F662FE800B1AFFB /* ProfileManagementVC.swift in Sources */,

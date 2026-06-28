@@ -85,7 +85,7 @@ struct InfoView: View {
 
     private var greetingRow: some View {
         HStack(alignment: .top, spacing: 12) {
-            Text("Greetings!  Thanks for checking out my app. I love visiting holy places, so I created this app to help plan and track those visits. I hope you find it helpful as well.\n\n  - Derek")
+            Text("Greetings! Creating and maintaining this app is a labor of love. I hope it assists and motivates all who use it to frequently visit these Holy Places.\n\n  - Derek")
                 .font(.custom("Baskerville", size: 23))
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -105,13 +105,13 @@ struct InfoView: View {
                     }
                 }
                 .font(.custom("Baskerville", size: 20))
-                .foregroundColor(Color(red: 0, green: 0, blue: 0.502))
+                .foregroundColor(Color("BaptismsBlue"))
 
                 Button("FAQ") {
                     showFAQ = true
                 }
                 .font(.custom("Baskerville", size: 20))
-                .foregroundColor(Color(red: 0, green: 0, blue: 0.502))
+                .foregroundColor(Color("BaptismsBlue"))
             }
             .frame(width: 120)
         }
@@ -124,6 +124,7 @@ struct InfoView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)
+                    .darkBackgroundLogoGlow()
 
                 Text("The Holy Places logo, created by my daughter, features the Morning Star from the Nauvoo Temple's stained glass windows along with the Angel Moroni. It represents both the app's historical and temple aspects. One Climbs has a great article on the inverted five-pointed star's use on temples.")
                     .font(.custom("Baskerville", size: 20))
@@ -134,7 +135,7 @@ struct InfoView: View {
                 showFairMormon = true
             }
             .font(.custom("Baskerville", size: 20))
-            .foregroundColor(Color(red: 0, green: 0, blue: 0.502))
+            .foregroundColor(Color("BaptismsBlue"))
             .frame(maxWidth: .infinity)
         }
     }
@@ -147,8 +148,9 @@ struct InfoView: View {
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .frame(width: 70, height: 70)
+                    .darkBackgroundLogoGlow()
 
-                Text("A fun way to test your knowledge of temples and church history sites! Each game has 20 multiple choice questions drawn from 350+ sites — with a new picture, description, and choice combination every time.")
+                Text("See how well you know your stuff with my fun Holy Places Quiz Game app for iPhone, iPad and the Apple TV.")
                     .font(.custom("Baskerville", size: 20))
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -160,7 +162,7 @@ struct InfoView: View {
                 }
             }
             .font(.custom("Baskerville", size: 20))
-            .foregroundColor(Color(red: 0, green: 0, blue: 0.502))
+            .foregroundColor(Color("BaptismsBlue"))
             .frame(maxWidth: .infinity)
         }
     }
@@ -177,6 +179,29 @@ struct InfoView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top, 4)
         }
+    }
+}
+
+// MARK: - Logo glow (dark mode)
+
+struct DarkBackgroundLogoGlow: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        if colorScheme == .dark {
+            content
+                .shadow(color: .white.opacity(0.95), radius: 3)
+                .shadow(color: .white.opacity(0.55), radius: 8)
+                .shadow(color: .white.opacity(0.25), radius: 14)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func darkBackgroundLogoGlow() -> some View {
+        modifier(DarkBackgroundLogoGlow())
     }
 }
 

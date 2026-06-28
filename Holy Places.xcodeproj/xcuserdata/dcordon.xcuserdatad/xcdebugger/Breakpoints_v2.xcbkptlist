@@ -31,7 +31,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "998C35D0-D188-479D-B98B-1FB2BB347831"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Holy Places/VisitDetailVC.swift"
@@ -57,36 +57,6 @@
             endingLineNumber = "466"
             landmarkName = "textFieldDidBeginEditing(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "90ADB21D-E9D6-4E5D-9E29-1D0F8DA71A7C - e8166bed8825bb1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Holy_Places.RecordVisitVC.textFieldDidBeginEditing(__C.UITextField) -&gt; ()"
-                  moduleName = "Holy Places.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dcordon/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Development/Holy%20Places/Holy%20Places/Holy%20Places/RecordVisitVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "467"
-                  endingLineNumber = "467">
-               </Location>
-               <Location
-                  uuid = "90ADB21D-E9D6-4E5D-9E29-1D0F8DA71A7C - ffdd182feea83ab4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Holy_Places.RecordVisitVC.textFieldDidBeginEditing(__C.UITextField) -&gt; ()"
-                  moduleName = "Holy Places.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dcordon/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Development/Holy%20Places/Holy%20Places/Holy%20Places/RecordVisitVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "468"
-                  endingLineNumber = "468">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -117,7 +87,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "670"
             endingLineNumber = "670"
-            landmarkName = "refreshTemples()"
+            landmarkName = "locationManagerDidChangeAuthorization(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
