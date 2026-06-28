@@ -415,17 +415,12 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         let whatsNewContent: [String: String] = [
             "5.6": """
                 New:
-                - Timeline on the Map tab — tap Timeline to watch temples spread across the world year by year; use the slider or chevrons to step through dedication years, or tap Play for an animated journey from 1877 to today
-                - Date-aware historical names and images for places that have been renamed — older visits keep the name and picture from when you were there; editing a visit date updates the name when you cross a rename date
-                - Redesigned Share on the Home tab — send an App Store or Google Play link, display a QR code for either store, or view, print, and share a promotional PDF
+                - Map Timeline — tap Timeline on now full-screen map to watch temples spread across the world year by year, or tap Play for an animated journey from 1877 to today
+                - Historical names and images for renamed places — older visits keep the name and photo from when you were there
+                - Redesigned Share on the Home tab — App Store/Google Play links, QR codes, and a printable promo PDF
                 
                 Improvements:
-                - Info screen rebuilt in SwiftUI
-                - Info, Settings, and Achievements now open as adaptive sheets on iPad instead of full-screen modals
-                
-                Bug Fixes:
-                - Turning off Profiles only shows visits under the default profile
-                - Home screen visit photos now rotate to a new random visit each time you return to the Home tab
+                - Info screen rebuilt in SwiftUI; Info, Settings, Map filters, and Achievements now open as sheets on iPad
                 """,
             "5.5": """
                 What's new:

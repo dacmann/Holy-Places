@@ -116,6 +116,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         mapView.showsUserLocation = true
         
         setupTimelineOverlay()
+        registerAppearanceChangeHandler()
     }
     
     // MARK: - Timeline overlay setup
@@ -266,14 +267,14 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle else { return }
-        if let endDate = timelineEndDate {
-            updateDateLabel(for: endDate)
-        }
-        if let badge = timelineCountBadge, let text = badge.text, let count = Int(text) {
-            updateCountBadge(count: count)
+    private func registerAppearanceChangeHandler() {
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: MapVC, _: UITraitCollection) in
+            if let endDate = self.timelineEndDate {
+                self.updateDateLabel(for: endDate)
+            }
+            if let badge = self.timelineCountBadge, let text = badge.text, let count = Int(text) {
+                self.updateCountBadge(count: count)
+            }
         }
     }
     
@@ -583,7 +584,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 let currentNames = Set(mapPoints.compactMap { $0.name })
                 let desiredNames = Set(filteredPlaces.map { $0.templeName })
                 
-                let toRemove = mapPoints.filter { !(desiredNames.contains($0.name ?? "")) }
+                let toRemove = mapPoints.filter { !(desiredNames.contains($0.name)) }
                 if !toRemove.isEmpty {
                     let removeIds = Set(toRemove.map { ObjectIdentifier($0) })
                     mapPoints.removeAll { removeIds.contains(ObjectIdentifier($0)) }

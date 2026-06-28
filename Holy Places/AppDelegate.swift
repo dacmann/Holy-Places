@@ -2407,8 +2407,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 
             // Download old (historical) images for each name-change entry that has a URL but no cached data
             for place in searchResults {
-                guard var changes = place.value(forKey: "nameChanges") as? [NameChange] else { continue }
-                for (index, change) in changes.enumerated() {
+                guard let changes = place.value(forKey: "nameChanges") as? [NameChange] else { continue }
+                for (_, change) in changes.enumerated() {
                     guard let urlString = change.oldImageURL, !urlString.isEmpty,
                           change.oldImageData == nil,
                           let imageURL = URL(string: urlString) else { continue }
