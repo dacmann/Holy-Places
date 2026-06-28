@@ -36,16 +36,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     @IBOutlet weak var achievementButtonWidth: NSLayoutConstraint!
     
     @IBAction func shareHolyPlaces(_ sender: UIButton) {
-        // Button to share Holy Places app
-        let textToShare = "Holy Places of the Lord - Temples and Historic Sites by Derek Cordon"
-        
-        if let myWebsite = NSURL(string: "https://apps.apple.com/us/app/holy-places-of-the-lord/id1200184537") {
-            let objectsToShare = [textToShare, myWebsite] as [Any]
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            
-            activityVC.popoverPresentationController?.sourceView = sender
-            self.present(activityVC, animated: true, completion: nil)
-        }
+        let shareVC = ShareVC(sourceView: sender)
+        present(shareVC, animated: true)
     }
 
     
@@ -106,7 +98,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         NSLayoutConstraint.activate([
             profileButton.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -4),
-            profileButton.leadingAnchor.constraint(equalTo: info.leadingAnchor, constant: -2),
+            profileButton.leadingAnchor.constraint(equalTo: info.leadingAnchor, constant: 8),
             profileButton.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
@@ -421,6 +413,20 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.6": """
+                New:
+                - Timeline on the Map tab — tap Timeline to watch temples spread across the world year by year; use the slider or chevrons to step through dedication years, or tap Play for an animated journey from 1877 to today
+                - Date-aware historical names and images for places that have been renamed — older visits keep the name and picture from when you were there; editing a visit date updates the name when you cross a rename date
+                - Redesigned Share on the Home tab — send an App Store or Google Play link, display a QR code for either store, or view, print, and share a promotional PDF
+                
+                Improvements:
+                - Info screen rebuilt in SwiftUI
+                - Info, Settings, and Achievements now open as adaptive sheets on iPad instead of full-screen modals
+                
+                Bug Fixes:
+                - Turning off Profiles only shows visits under the default profile
+                - Home screen visit photos now rotate to a new random visit each time you return to the Home tab
+                """,
             "5.5": """
                 What's new:
                 - Copy visits to another profile using the new select mode on the Visits tab — search for visits, select all results, and copy them in one tap

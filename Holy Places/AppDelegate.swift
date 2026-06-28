@@ -939,7 +939,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //getPlaceVersion()
         
         // determine latest version from hpVersion.xml file  --- hpVersion-v3.4
-        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion-test.xml") else {
+        guard let versionURL = NSURL(string: "https://dacworld.net/holyplaces/hpVersion.xml") else {
             print("URL not defined properly")
             return
         }
@@ -967,7 +967,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             if parserVersion.parse() {
                 // Version is different: grab list of temples from HolyPlaces.xml file and parse the XML
                 versionChecked = true
-                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces-test.xml") else {
+                guard let myURL = NSURL(string: "https://dacworld.net/holyplaces/HolyPlaces.xml") else {
                     print("URL not defined properly")
                     return
                 }
@@ -1121,6 +1121,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 print("⚠️ Could not parse announced date for: \(templeName) — Snippet: \(templeSnippet)")
             }
 
+            // Extract Dedication Date from snippet (active temples only)
+            var dedicationDate: Date? = nil
+            if templeType == "T" {
+                let dedPattern = #"dedicated(?:\s+on)?\s+(\d{1,2})(?:[–\-]\d{1,2})?\s+([a-z]+)\s+(\d{4})"#
+                if let match = snippetLower.range(of: dedPattern, options: .regularExpression) {
+                    let matchStr = String(snippetLower[match])
+                    let dedFormatter = DateFormatter()
+                    dedFormatter.dateFormat = "d MMMM yyyy"
+                    dedFormatter.locale = Locale(identifier: "en_US_POSIX")
+                    // Extract day, month, year capture groups
+                    let capPattern = try? NSRegularExpression(pattern: dedPattern)
+                    let nsStr = matchStr as NSString
+                    if let capMatch = capPattern?.firstMatch(in: matchStr, range: NSRange(location: 0, length: nsStr.length)) {
+                        let day = nsStr.substring(with: capMatch.range(at: 1))
+                        let month = nsStr.substring(with: capMatch.range(at: 2))
+                        let year = nsStr.substring(with: capMatch.range(at: 3))
+                        dedicationDate = dedFormatter.date(from: "\(day) \(month.capitalized) \(year)")
+                    }
+                }
+                if dedicationDate == nil {
+                    print("⚠️ Could not parse dedication date for: \(templeName) — Snippet: \(templeSnippet)")
+                }
+            }
+
             // Determine Order
             let digits = CharacterSet.decimalDigits
             
@@ -1148,6 +1172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 Longitude: templeLongitude,
                 Order: Int16(number)!,
                 AnnouncedDate: announcedDate,
+                DedicationDate: dedicationDate,
                 PictureURL: templePictureURL,
                 SiteURL: templeSiteURL,
                 Type: templeType,
@@ -2216,6 +2241,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     print("⚠️ Could not parse announced date for: \(place.name ?? "?") — Snippet: \(place.snippet ?? "nil")")
                 }
 
+                // Extract Dedication Date from snippet (active temples only)
+                var dedicationDate: Date? = nil
+                if place.type == "T" {
+                    let dedPattern = #"dedicated(?:\s+on)?\s+(\d{1,2})(?:[–\-]\d{1,2})?\s+([a-z]+)\s+(\d{4})"#
+                    if let match = snippetLower.range(of: dedPattern, options: .regularExpression) {
+                        let matchStr = String(snippetLower[match])
+                        let dedFormatter = DateFormatter()
+                        dedFormatter.dateFormat = "d MMMM yyyy"
+                        dedFormatter.locale = Locale(identifier: "en_US_POSIX")
+                        let capPattern = try? NSRegularExpression(pattern: dedPattern)
+                        let nsStr = matchStr as NSString
+                        if let capMatch = capPattern?.firstMatch(in: matchStr, range: NSRange(location: 0, length: nsStr.length)) {
+                            let day = nsStr.substring(with: capMatch.range(at: 1))
+                            let month = nsStr.substring(with: capMatch.range(at: 2))
+                            let year = nsStr.substring(with: capMatch.range(at: 3))
+                            dedicationDate = dedFormatter.date(from: "\(day) \(month.capitalized) \(year)")
+                        }
+                    }
+                }
+
                 let temple = Temple(
                     Id: place.placeID ?? "",
                     Name: place.name,
@@ -2228,6 +2273,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                     Longitude: place.longitude,
                     Order: place.order,
                     AnnouncedDate: announcedDate,
+                    DedicationDate: dedicationDate,
                     PictureURL: place.pictureURL,
                     SiteURL: place.siteURL,
                     Type: place.type,

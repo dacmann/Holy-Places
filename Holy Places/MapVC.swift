@@ -36,7 +36,8 @@ class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        transform = .identity
+        // Don't reset transform — viewFor will call updateSize with the correct altitude,
+        // and resetting to .identity causes a visible full-size flash on reuse.
     }
 }
 
@@ -49,6 +50,27 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var alreadyVisitedTab = false
     var fromPlaceDetail = false
     
+    // MARK: - Timeline state
+    var timelineBarButtonItem: UIBarButtonItem?
+    var timelineContainerView: UIView?
+    var timelineSlider: UISlider?
+    var timelineDateLabel: UILabel?
+    var timelinePlayButton: UIButton?
+    var timelinePrevButton: UIButton?
+    var timelineNextButton: UIButton?
+    var isTimelineVisible = false
+    var timelineEndDate: Date?
+    var isTimelinePlaying = false
+    var timelineTimer: Timer?
+    var timelineMinDate: Date?
+    var timelineMaxDate: Date?
+    var sortedDedicationDates: [Date] = []
+    var sortedDedicationYears: [Int] = []
+    var savedMapFilterRow = Int()
+    var savedMapVisitedFilter = Int()
+    private var postRebuildSizeTimer: Timer?
+    var timelineCountBadge: UILabel?
+
     @IBOutlet weak var mapView: MKMapView!
     
     private var markerSizeDisplayLink: CADisplayLink?
@@ -63,6 +85,11 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let button = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(options(_:)))
         self.navigationItem.rightBarButtonItem = button
         
+        // Add Timeline button on left side of navigation bar (always enabled)
+        let tlButton = UIBarButtonItem(title: "Timeline", style: .plain, target: self, action: #selector(timelineButtonTapped(_:)))
+        self.navigationItem.leftBarButtonItem = tlButton
+        timelineBarButtonItem = tlButton
+        
         // Create Map or Aerial control
         let options = ["Standard", "Aerial"]
         let mapOptions = UISegmentedControl(items: options)
@@ -75,6 +102,301 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Show the user current location
         mapView.showsUserLocation = true
         
+        setupTimelineOverlay()
+    }
+    
+    // MARK: - Timeline overlay setup
+    
+    func setupTimelineOverlay() {
+        let container = UIView()
+        container.backgroundColor = UIColor.systemBackground
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.isHidden = true
+        mapView.addSubview(container)
+        
+        // Bottom separator
+        let separator = UIView()
+        separator.backgroundColor = UIColor.separator
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(separator)
+        
+        // Play/Pause button
+        let playBtn = UIButton(type: .system)
+        playBtn.setImage(UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        playBtn.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        playBtn.translatesAutoresizingMaskIntoConstraints = false
+        playBtn.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+        container.addSubview(playBtn)
+        
+        // Previous year button
+        let prevBtn = UIButton(type: .system)
+        prevBtn.setImage(UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        prevBtn.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        prevBtn.translatesAutoresizingMaskIntoConstraints = false
+        prevBtn.addTarget(self, action: #selector(prevYearTapped), for: .touchUpInside)
+        container.addSubview(prevBtn)
+        
+        // Slider
+        let slider = UISlider()
+        slider.minimumValue = 0
+        slider.maximumValue = 1
+        slider.value = 0
+        slider.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+        slider.addTarget(self, action: #selector(sliderTouchBegan(_:)), for: .touchDown)
+        // Set a placeholder thumb so UISlider knows the thumb dimensions before the
+        // timeline is first shown. All year thumbs are the same size (4 digits, same font),
+        // so this prevents the layout-offset jump on first reveal.
+        let placeholderThumb = makeThumbImage(year: 1877)
+        slider.setThumbImage(placeholderThumb, for: .normal)
+        slider.setThumbImage(placeholderThumb, for: .highlighted)
+        container.addSubview(slider)
+        
+        // Next year button
+        let nextBtn = UIButton(type: .system)
+        nextBtn.setImage(UIImage(systemName: "chevron.right", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        nextBtn.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        nextBtn.translatesAutoresizingMaskIntoConstraints = false
+        nextBtn.addTarget(self, action: #selector(nextYearTapped), for: .touchUpInside)
+        container.addSubview(nextBtn)
+        
+        NSLayoutConstraint.activate([
+            container.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor),
+            container.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: mapView.trailingAnchor),
+            container.heightAnchor.constraint(equalToConstant: 56),
+            
+            separator.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 0.5),
+            
+            playBtn.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            playBtn.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            playBtn.widthAnchor.constraint(equalToConstant: 44),
+            playBtn.heightAnchor.constraint(equalToConstant: 44),
+            
+            prevBtn.leadingAnchor.constraint(equalTo: playBtn.trailingAnchor, constant: 2),
+            prevBtn.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            prevBtn.widthAnchor.constraint(equalToConstant: 44),
+            prevBtn.heightAnchor.constraint(equalToConstant: 44),
+            
+            slider.leadingAnchor.constraint(equalTo: prevBtn.trailingAnchor, constant: 0),
+            slider.trailingAnchor.constraint(equalTo: nextBtn.leadingAnchor, constant: 0),
+            slider.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            
+            nextBtn.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -6),
+            nextBtn.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            nextBtn.widthAnchor.constraint(equalToConstant: 44),
+            nextBtn.heightAnchor.constraint(equalToConstant: 44),
+        ])
+        
+        timelineContainerView = container
+        timelineSlider = slider
+        timelinePlayButton = playBtn
+        timelinePrevButton = prevBtn
+        timelineNextButton = nextBtn
+        
+        // Count badge — circle below the left end of the timeline bar
+        let badge = UILabel()
+        badge.font = UIFont(name: "Baskerville", size: 22) ?? UIFont.boldSystemFont(ofSize: 22)
+        badge.textColor = .white
+        badge.textAlignment = .center
+        badge.translatesAutoresizingMaskIntoConstraints = false
+        badge.isHidden = true
+        badge.layer.cornerRadius = 26
+        badge.layer.masksToBounds = true
+        badge.backgroundColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        mapView.addSubview(badge)
+        
+        NSLayoutConstraint.activate([
+            badge.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 8),
+            badge.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 12),
+            badge.widthAnchor.constraint(equalToConstant: 52),
+            badge.heightAnchor.constraint(equalToConstant: 52),
+        ])
+        
+        timelineCountBadge = badge
+    }
+    
+    func makeThumbImage(year: Int) -> UIImage {
+        let text = "\(year)"
+        let font = UIFont(name: "Baskerville", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
+        let isDark = traitCollection.userInterfaceStyle == .dark
+        // Light mode: white text on blue pill; dark mode: dark navy text on lighter blue pill
+        let textColor: UIColor = isDark
+            ? UIColor(red: 0.05, green: 0.10, blue: 0.30, alpha: 1)
+            : UIColor(red: 0.92, green: 0.95, blue: 1.00, alpha: 1)
+        let attrs: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: textColor]
+        let textSize = (text as NSString).size(withAttributes: attrs)
+        let hPad: CGFloat = 12
+        let vPad: CGFloat = 7
+        let size = CGSize(width: textSize.width + hPad * 2, height: textSize.height + vPad * 2)
+        let fillColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { _ in
+            fillColor.setFill()
+            UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: size.height / 2).fill()
+            let textRect = CGRect(x: hPad, y: vPad, width: textSize.width, height: textSize.height)
+            (text as NSString).draw(in: textRect, withAttributes: attrs)
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Re-render the thumb pill when the user switches light/dark mode
+        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle,
+           let endDate = timelineEndDate {
+            updateDateLabel(for: endDate)
+        }
+    }
+    
+    func applyThumbImage(year: Int) {
+        let img = makeThumbImage(year: year)
+        timelineSlider?.setThumbImage(img, for: .normal)
+        timelineSlider?.setThumbImage(img, for: .highlighted)
+    }
+    
+    // MARK: - Timeline button state
+    
+    func updateTimelineButtonState() {
+        // Button is always available except when viewing a single place from detail
+        timelineBarButtonItem?.isEnabled = !fromPlaceDetail
+        if fromPlaceDetail {
+            hideTimeline()
+        }
+    }
+    
+    func precomputeTimelineDates() {
+        let dates = activeTemples.compactMap { $0.templeDedicationDate }.sorted()
+        guard !dates.isEmpty else { return }
+        sortedDedicationDates = dates
+        timelineMinDate = dates.first
+        timelineMaxDate = dates.last
+        // Build sorted unique years for threshold detection
+        var seen = Set<Int>()
+        sortedDedicationYears = dates.compactMap { d -> Int? in
+            let y = dedicationYear(from: d)
+            return seen.insert(y).inserted ? y : nil
+        }
+    }
+    
+    func dedicationYear(from date: Date) -> Int {
+        return Calendar.current.component(.year, from: date)
+    }
+    
+    func updateCountBadge(count: Int) {
+        let isDark = traitCollection.userInterfaceStyle == .dark
+        timelineCountBadge?.textColor = isDark
+            ? UIColor(red: 0.05, green: 0.10, blue: 0.30, alpha: 1)
+            : UIColor(red: 0.92, green: 0.95, blue: 1.00, alpha: 1)
+        timelineCountBadge?.backgroundColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
+        timelineCountBadge?.text = "\(count)"
+        timelineCountBadge?.isHidden = !isTimelineVisible
+    }
+    
+    @objc func timelineButtonTapped(_ sender: Any) {
+        if isTimelineVisible {
+            hideTimeline()
+        } else {
+            showTimeline()
+        }
+    }
+    
+    func showTimeline() {
+        // Save current filter state and switch to Active Temples / All scope
+        savedMapFilterRow = mapFilterRow
+        savedMapVisitedFilter = mapVisitedFilter
+        mapFilterRow = 1
+        mapVisitedFilter = 0
+        
+        precomputeTimelineDates()
+        guard let minDate = timelineMinDate, timelineMaxDate != nil else { return }
+        
+        isTimelineVisible = true
+        timelineEndDate = minDate
+        timelineSlider?.value = 0
+        timelineContainerView?.isHidden = false
+        updateDateLabel(for: minDate)
+        mapThePlaces()
+    }
+    
+    func hideTimeline() {
+        guard isTimelineVisible else { return }
+        stopTimelinePlayback()
+        isTimelineVisible = false
+        timelineEndDate = nil
+        timelineContainerView?.isHidden = true
+        timelineCountBadge?.isHidden = true
+        timelinePlayButton?.setImage(UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        // Revert to All Holy Places on dismiss
+        mapFilterRow = 0
+        mapVisitedFilter = 0
+        mapThePlaces()
+    }
+    
+    func updateDateLabel(for date: Date) {
+        applyThumbImage(year: dedicationYear(from: date))
+    }
+    
+    func dateForSliderValue(_ value: Float) -> Date? {
+        guard let minDate = timelineMinDate, let maxDate = timelineMaxDate else { return nil }
+        let minT = minDate.timeIntervalSince1970
+        let maxT = maxDate.timeIntervalSince1970
+        let t = minT + Double(value) * (maxT - minT)
+        return Date(timeIntervalSince1970: t)
+    }
+    
+    @objc func sliderTouchBegan(_ sender: UISlider) {
+        stopTimelinePlayback()
+    }
+    
+    @objc func sliderValueChanged(_ sender: UISlider) {
+        guard let date = dateForSliderValue(sender.value) else { return }
+        updateDateLabel(for: date)
+        let previousYear = timelineEndDate.map { dedicationYear(from: $0) }
+        let newYear = dedicationYear(from: date)
+        timelineEndDate = date
+        if previousYear != newYear {
+            mapThePlaces()
+        }
+    }
+    
+    func sliderValue(for date: Date) -> Float {
+        guard let minDate = timelineMinDate, let maxDate = timelineMaxDate else { return 0 }
+        let minT = minDate.timeIntervalSince1970
+        let maxT = maxDate.timeIntervalSince1970
+        guard maxT > minT else { return 0 }
+        return Float((date.timeIntervalSince1970 - minT) / (maxT - minT))
+    }
+    
+    @objc func prevYearTapped() {
+        stopTimelinePlayback()
+        guard let current = timelineEndDate else { return }
+        let currentYear = dedicationYear(from: current)
+        guard let prevYear = sortedDedicationYears.last(where: { $0 < currentYear }),
+              let targetDate = sortedDedicationDates.first(where: { dedicationYear(from: $0) == prevYear })
+        else { return }
+        let value = sliderValue(for: targetDate)
+        timelineSlider?.value = value
+        timelineEndDate = targetDate
+        updateDateLabel(for: targetDate)
+        mapThePlaces()
+    }
+    
+    @objc func nextYearTapped() {
+        stopTimelinePlayback()
+        guard let current = timelineEndDate else { return }
+        let currentYear = dedicationYear(from: current)
+        guard let nextYear = sortedDedicationYears.first(where: { $0 > currentYear }),
+              let targetDate = sortedDedicationDates.first(where: { dedicationYear(from: $0) == nextYear })
+        else { return }
+        let value = sliderValue(for: targetDate)
+        timelineSlider?.value = value
+        timelineEndDate = targetDate
+        updateDateLabel(for: targetDate)
+        mapThePlaces()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +436,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
             view.backgroundColor = UIColor.systemBackground
         }
         
+        updateTimelineButtonState()
+        
         if optionSelected {
             mapThePlaces()
         }
@@ -124,10 +448,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
             alreadyVisitedTab = true  // Set this AFTER configureView is called
         }
         
-        // Update marker sizes after view appears
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            self?.updateAllMarkerSizes()
-        }
+        // Keep updating marker sizes until MapKit finishes its internal layout
+        schedulePostRebuildSizeUpdates()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -197,28 +519,63 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
         
         // Filter the places by Visited filter
-        let filteredPlaces = mapPlaces.filter { place in
+        var filteredPlaces = mapPlaces.filter { place in
             let categoryMatch = (mapVisitedFilter == 0) || (mapVisitedFilter == 1 && visits.contains(place.templeName)) || (mapVisitedFilter == 2 && !(visits.contains(place.templeName)))
             return categoryMatch
         }
         
-        // If coming from place detail, don't rebuild all places - keep single selection
-        if !fromPlaceDetail {
-            mapView.removeAnnotations(mapPoints)
-            mapPoints.removeAll()                                                                                                                                                                                                   
-            for place in filteredPlaces {
-                mapPoints.append(MapPoint(title: (place.templeName), coordinate: CLLocationCoordinate2D(latitude: (place.cllocation.coordinate.latitude), longitude: (place.cllocation.coordinate.longitude)), type: (place.templeType)))
+        // Apply timeline filter: show temples dedicated in cutoff year or earlier
+        if isTimelineVisible, let cutoff = timelineEndDate {
+            let cutoffYear = dedicationYear(from: cutoff)
+            filteredPlaces = filteredPlaces.filter { place in
+                guard let d = place.templeDedicationDate else { return false }
+                return dedicationYear(from: d) <= cutoffYear
             }
-            mapView.addAnnotations(mapPoints)
-            // Clear any selected annotation when rebuilding all places
-            if let selectedAnnotation = mapView.selectedAnnotations.first {
-                mapView.deselectAnnotation(selectedAnnotation, animated: false)
+        }
+        
+        if !fromPlaceDetail {
+            if isTimelineVisible {
+                // Incremental update: only add/remove the diff so existing pins don't flash
+                let currentNames = Set(mapPoints.compactMap { $0.name })
+                let desiredNames = Set(filteredPlaces.map { $0.templeName })
+                
+                let toRemove = mapPoints.filter { !(desiredNames.contains($0.name ?? "")) }
+                if !toRemove.isEmpty {
+                    let removeIds = Set(toRemove.map { ObjectIdentifier($0) })
+                    mapPoints.removeAll { removeIds.contains(ObjectIdentifier($0)) }
+                    mapView.removeAnnotations(toRemove)
+                }
+                
+                let toAdd = filteredPlaces.filter { !currentNames.contains($0.templeName) }
+                if !toAdd.isEmpty {
+                    let newPoints = toAdd.map { place in
+                        MapPoint(title: place.templeName,
+                                 coordinate: CLLocationCoordinate2D(latitude: place.cllocation.coordinate.latitude,
+                                                                    longitude: place.cllocation.coordinate.longitude),
+                                 type: place.templeType)
+                    }
+                    mapPoints.append(contentsOf: newPoints)
+                    mapView.addAnnotations(newPoints)
+                }
+                updateCountBadge(count: filteredPlaces.count)
+            } else {
+                // Full rebuild for non-timeline mode
+                mapView.removeAnnotations(mapPoints)
+                mapPoints.removeAll()
+                for place in filteredPlaces {
+                    mapPoints.append(MapPoint(title: place.templeName,
+                                             coordinate: CLLocationCoordinate2D(latitude: place.cllocation.coordinate.latitude,
+                                                                                longitude: place.cllocation.coordinate.longitude),
+                                             type: place.templeType))
+                }
+                mapView.addAnnotations(mapPoints)
+                if let selectedAnnotation = mapView.selectedAnnotations.first {
+                    mapView.deselectAnnotation(selectedAnnotation, animated: false)
+                }
             }
             
-            // Force update marker sizes after annotations are added
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.updateAllMarkerSizes()
-            }
+            // Keep updating marker sizes until MapKit finishes its internal layout
+            schedulePostRebuildSizeUpdates()
         }
         
         // Only select annotation if coming from place detail
@@ -240,10 +597,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 mapView.selectAnnotation(mapPoints[found], animated: true)
             }
             
-            // Force update marker sizes after a brief delay to ensure they're rendered
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.updateAllMarkerSizes()
-            }
+            // Keep updating marker sizes until MapKit finishes its internal layout
+            schedulePostRebuildSizeUpdates()
         }
     }
 
@@ -297,6 +652,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         view.canShowCallout = true
         view.markerTintColor = pinColor(type: annotation.type)
         view.glyphImage = nil  // Use default glyph
+        view.animatesWhenAdded = false  // Prevent drop animation from overriding our transform
         annotation.title = " "
         
         // Set initial size based on current zoom level
@@ -306,6 +662,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
 
     // MARK: - Navigation
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        // Called synchronously after MapKit renders each batch of annotation views —
+        // the right moment to apply correct zoom-based sizing.
+        updateAllMarkerSizes()
+    }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let found = allPlaces.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
@@ -340,6 +702,19 @@ class MapVC: UIViewController, MKMapViewDelegate {
         markerSizeDisplayLink = nil
     }
     
+    func schedulePostRebuildSizeUpdates() {
+        postRebuildSizeTimer?.invalidate()
+        var ticks = 0
+        postRebuildSizeTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] timer in
+            self?.updateAllMarkerSizes()
+            ticks += 1
+            if ticks >= 30 { // 30 × 50ms = 1.5 seconds
+                timer.invalidate()
+                self?.postRebuildSizeTimer = nil
+            }
+        }
+    }
+    
     @objc func updateAllMarkerSizes() {
         // Update marker sizes based on current zoom level
         let currentAltitude = mapView.camera.altitude
@@ -352,6 +727,61 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
 
+    // MARK: - Timeline playback
+    
+    @objc func playButtonTapped(_ sender: UIButton) {
+        if isTimelinePlaying {
+            stopTimelinePlayback()
+        } else {
+            startTimelinePlayback()
+        }
+    }
+    
+    func startTimelinePlayback() {
+        guard let slider = timelineSlider, let _ = timelineMinDate, let _ = timelineMaxDate else { return }
+        // If at the end, reset to beginning
+        if slider.value >= 1.0 {
+            slider.value = 0
+            timelineEndDate = timelineMinDate
+            mapThePlaces()
+        }
+        isTimelinePlaying = true
+        timelinePlayButton?.setImage(UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        // Advance slider over ~20 seconds (50ms ticks = 400 ticks, step = 1/400 per tick)
+        let stepPerTick: Float = 1.0 / 400.0
+        timelineTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+            self?.advanceTimeline(step: stepPerTick)
+        }
+    }
+    
+    func stopTimelinePlayback() {
+        isTimelinePlaying = false
+        timelineTimer?.invalidate()
+        timelineTimer = nil
+        timelinePlayButton?.setImage(UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+    }
+    
+    func advanceTimeline(step: Float) {
+        guard let slider = timelineSlider else { return }
+        let newValue = min(slider.value + step, 1.0)
+        slider.value = newValue
+        guard let date = dateForSliderValue(newValue) else { return }
+        updateDateLabel(for: date)
+        
+        let previousYear = timelineEndDate.map { dedicationYear(from: $0) }
+        let newYear = dedicationYear(from: date)
+        timelineEndDate = date
+        
+        // Only rebuild annotations when entering a new year that has dedications
+        if previousYear != newYear && sortedDedicationYears.contains(newYear) {
+            mapThePlaces()
+        }
+        
+        if newValue >= 1.0 {
+            stopTimelinePlayback()
+        }
+    }
+    
     @objc func options(_ sender: Any) {
         optionSelected = true
         mapZoomLevel = mapView.camera.altitude
@@ -402,6 +832,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
         super.viewWillDisappear(animated)
         
         stopMarkerSizeUpdates()
+        stopTimelinePlayback()
+        postRebuildSizeTimer?.invalidate()
+        postRebuildSizeTimer = nil
         
         // Show tab bar when leaving map (in case it was hidden)
         tabBarController?.tabBar.isHidden = false
