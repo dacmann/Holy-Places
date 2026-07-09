@@ -236,7 +236,11 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         pictureScrollView.delegate = self
         // Only show map button if not coming from map
         if !fromMap {
+            let navBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+            let navBarAttrs: [NSAttributedString.Key: Any] = [.font: navBarFont]
             let button = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(goMap(_:)))
+            button.setTitleTextAttributes(navBarAttrs, for: .normal)
+            button.setTitleTextAttributes(navBarAttrs, for: .highlighted)
             self.navigationItem.rightBarButtonItem = button
         }
         originalPlace = (detailItem?.templeName)!
@@ -711,7 +715,12 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.pushViewController(controller, animated: true)
         
         // Change the back button on the Map VC to Back
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
+        let navBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navBarAttrs: [NSAttributedString.Key: Any] = [.font: navBarFont]
+        let backButton = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
+        backButton.setTitleTextAttributes(navBarAttrs, for: .normal)
+        backButton.setTitleTextAttributes(navBarAttrs, for: .highlighted)
+        navigationItem.backBarButtonItem = backButton
 
     }
     @IBAction func LaunchWebsite2(_ sender: UIButton) {

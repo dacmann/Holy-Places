@@ -61,6 +61,16 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var isTimelineVisible = false
     var timelineEndDate: Date?
     var isTimelinePlaying = false
+
+    // Hardcoded dedication dates for the two pre-St. George temples shown in the timeline
+    private let kirtlandDedicationDate: Date = {
+        var c = DateComponents(); c.year = 1836; c.month = 3; c.day = 27
+        return Calendar.current.date(from: c)!
+    }()
+    private let originalNauvooDedicationDate: Date = {
+        var c = DateComponents(); c.year = 1846; c.month = 5; c.day = 1
+        return Calendar.current.date(from: c)!
+    }()
     var timelineTimer: Timer?
     var timelineMinDate: Date?
     var timelineMaxDate: Date?
@@ -287,15 +297,21 @@ class MapVC: UIViewController, MKMapViewDelegate {
     // MARK: - Timeline button state
     
     func updateTimelineButtonState() {
-        // Button is always available except when viewing a single place from detail
-        timelineBarButtonItem?.isEnabled = !fromPlaceDetail
         if fromPlaceDetail {
+            // Hide the Timeline button so the nav controller's back button is visible
+            navigationItem.leftBarButtonItem = nil
             hideTimeline()
+        } else {
+            navigationItem.leftBarButtonItem = timelineBarButtonItem
+            timelineBarButtonItem?.isEnabled = true
         }
     }
     
     func precomputeTimelineDates() {
-        let dates = activeTemples.compactMap { $0.templeDedicationDate }.sorted()
+        var dates = activeTemples.compactMap { $0.templeDedicationDate }
+        dates.append(kirtlandDedicationDate)
+        dates.append(originalNauvooDedicationDate)
+        dates.sort()
         guard !dates.isEmpty else { return }
         sortedDedicationDates = dates
         timelineMinDate = dates.first
@@ -345,7 +361,13 @@ class MapVC: UIViewController, MKMapViewDelegate {
         timelineSlider?.value = 0
         timelineContainerView?.isHidden = false
         updateDateLabel(for: minDate)
-        mapThePlaces()
+        // Clear the existing pins before adding the first timeline pin so it
+        // pops in cleanly rather than being lost in a mass removal batch.
+        mapView.removeAnnotations(mapPoints)
+        mapPoints.removeAll()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.mapThePlaces()
+        }
     }
     
     func hideTimeline() {
@@ -576,13 +598,32 @@ class MapVC: UIViewController, MKMapViewDelegate {
                 guard let d = place.templeDedicationDate else { return false }
                 return dedicationYear(from: d) <= cutoffYear
             }
+
+            // Inject Kirtland Temple (historical, type "H") from its 1836 dedication date
+            if cutoffYear >= 1836,
+               let kirtland = historical.first(where: { $0.templeName.contains("Kirtland Temple") }),
+               !filteredPlaces.contains(where: { $0.templeName == kirtland.templeName }) {
+                filteredPlaces.append(kirtland)
+            }
+
+            // Inject original Nauvoo from its 1846 dedication date; once the modern
+            // temple's own dedication year is reached the normal filter already includes
+            // it, so the contains-check prevents a duplicate pin.
+            if cutoffYear >= 1846,
+               let nauvoo = activeTemples.first(where: { $0.templeName.contains("Nauvoo") }),
+               !filteredPlaces.contains(where: { $0.templeName == nauvoo.templeName }) {
+                filteredPlaces.append(nauvoo)
+            }
         }
         
         if !fromPlaceDetail {
             if isTimelineVisible {
-                // Incremental update: only add/remove the diff so existing pins don't flash
+                // Incremental update: only add/remove the diff so existing pins don't flash.
+                // Use effectiveName(for:) so pins display the name that was in use at the
+                // slider's date rather than the temple's current name.
+                let sliderDate = timelineEndDate ?? Date()
                 let currentNames = Set(mapPoints.compactMap { $0.name })
-                let desiredNames = Set(filteredPlaces.map { $0.templeName })
+                let desiredNames = Set(filteredPlaces.map { $0.effectiveName(for: sliderDate) })
                 
                 let toRemove = mapPoints.filter { !(desiredNames.contains($0.name)) }
                 if !toRemove.isEmpty {
@@ -591,10 +632,10 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     mapView.removeAnnotations(toRemove)
                 }
                 
-                let toAdd = filteredPlaces.filter { !currentNames.contains($0.templeName) }
+                let toAdd = filteredPlaces.filter { !currentNames.contains($0.effectiveName(for: sliderDate)) }
                 if !toAdd.isEmpty {
                     let newPoints = toAdd.map { place in
-                        MapPoint(title: place.templeName,
+                        MapPoint(title: place.effectiveName(for: sliderDate),
                                  coordinate: CLLocationCoordinate2D(latitude: place.cllocation.coordinate.latitude,
                                                                     longitude: place.cllocation.coordinate.longitude),
                                  type: place.templeType)
@@ -864,15 +905,22 @@ class MapVC: UIViewController, MKMapViewDelegate {
             // Switch Places tab data to current map data
 //            places = mapPlaces - Was causing crashes - Not sure why this was added to begin with
             placeFilterRow = mapFilterRow
-            // Find details for selected pin
+            // Find details for selected pin.
+            // Primary search uses mapPlaces; fall back to allPlaces so that pins
+            // injected from outside the active filter (e.g. Kirtland Temple in the
+            // timeline, which lives in `historical`) can still navigate to their detail.
             places = mapPlaces
-            if let found = places.firstIndex(where:{$0.templeLatitude == view.annotation?.coordinate.latitude}) {
+            let tapLat = view.annotation?.coordinate.latitude
+            var foundIdx = places.firstIndex(where: { $0.templeLatitude == tapLat })
+            if foundIdx == nil {
+                places = allPlaces
+                foundIdx = allPlaces.firstIndex(where: { $0.templeLatitude == tapLat })
+            }
+            if let found = foundIdx {
                 print(found)
                 let place = places[found]
                 selectedPlaceRow = found
-//                print(place.templeName)
                 placeName = place.templeName
-//                print(places[selectedPlaceRow].templeName)
                 if control == view.leftCalloutAccessoryView {
                     // Navigate directly to PlaceDetailVC from map
                     detailItem = place
@@ -908,12 +956,19 @@ class MapVC: UIViewController, MKMapViewDelegate {
         postRebuildSizeTimer?.invalidate()
         postRebuildSizeTimer = nil
         
-        // Restore default navigation bar appearance for other tabs
-        let defaultNavAppearance = UINavigationBarAppearance()
-        defaultNavAppearance.configureWithDefaultBackground()
-        navigationController?.navigationBar.standardAppearance = defaultNavAppearance
-        navigationController?.navigationBar.compactAppearance = defaultNavAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = defaultNavAppearance
+        // Restore the Baskerville nav bar appearance used throughout the rest of the app
+        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        let baptismsBlue = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+        let restoredNavAppearance = UINavigationBarAppearance()
+        restoredNavAppearance.configureWithOpaqueBackground()
+        restoredNavAppearance.buttonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
+        restoredNavAppearance.doneButtonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
+        restoredNavAppearance.backButtonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
+        restoredNavAppearance.titleTextAttributes = [.foregroundColor: baptismsBlue, .font: navbarFont]
+        navigationController?.navigationBar.standardAppearance = restoredNavAppearance
+        navigationController?.navigationBar.compactAppearance = restoredNavAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = restoredNavAppearance
 
         // Restore the saved tab bar appearance (preserves Baskerville font set in AppDelegate)
         if let saved = savedTabBarStandardAppearance {

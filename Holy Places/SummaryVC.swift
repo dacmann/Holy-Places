@@ -377,13 +377,13 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
             let itemResult = searchResults2.sorted { $0.value(forKey: "count") as! Int > $1.value(forKey: "count") as! Int }
             
             var counter = 0
-            var textColor = UIColor()
+            var textColor: UIColor = .label
             for place in itemResult {
                 let placeName = place.object(forKey: "holyPlace") as! String
                 let placeCount = String(format: "%@", place.object(forKey: "count") as! CVarArg)
                 
                 // Determine type
-                if let found = allPlaces.firstIndex(where:{$0.templeName == placeName}) {
+                if let found = allPlaces.firstIndex(where:{$0.templeName == ad.canonicalName(for: placeName)}) {
                     switch allPlaces[found].templeType {
                     case "T":
                         textColor = templeColor

@@ -804,6 +804,14 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         // Customize search bar and scope button fonts
         customizeSearchBarAppearance()
         
+        // Apply Baskerville font to the Options bar button
+        if let optionsButton = navigationItem.rightBarButtonItem {
+            let navBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+            let navBarAttrs: [NSAttributedString.Key: Any] = [.font: navBarFont]
+            optionsButton.setTitleTextAttributes(navBarAttrs, for: .normal)
+            optionsButton.setTitleTextAttributes(navBarAttrs, for: .highlighted)
+        }
+        
         // Observer for widget deep link to open specific place
         NotificationCenter.default.addObserver(self, selector: #selector(openPlaceFromWidget(_:)), name: NSNotification.Name("OpenPlaceFromWidget"), object: nil)
     }

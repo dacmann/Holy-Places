@@ -240,7 +240,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             }
         }
         if homeDefaultPicture {
-            // Set background image to Provo City Center temple
             backgroundImage.image = UIImage(imageLiteralResourceName: defaultImageName)
             visitDate.isHidden = true
         } else {
@@ -249,10 +248,16 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
                     backgroundImage.image = UIImage(data: imageData)
                     visitDate.text = homeVisitDate
                     visitDate.isHidden = false
+                } else {
+                    backgroundImage.image = UIImage(imageLiteralResourceName: defaultImageName)
+                    visitDate.isHidden = true
                 }
             } else {
                 if let imageData = homeAlternatePicture {
                     backgroundImage.image = UIImage(data: imageData)
+                    visitDate.isHidden = true
+                } else {
+                    backgroundImage.image = UIImage(imageLiteralResourceName: defaultImageName)
                     visitDate.isHidden = true
                 }
             }
@@ -413,6 +418,16 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Define "What's New" content for each version
         let whatsNewContent: [String: String] = [
+            "5.7": """
+                New:
+                - Map Timeline now starts from the very beginning — Kirtland Temple (1836) and the original Nauvoo Temple (1846) appear before St. George, the first modern active temple
+                - Temple pins show the name that was in use at the time as you move through the timeline
+                
+                Bug Fixes:
+                - Back button missing when opening the map from a place detail
+                - Home tab background image briefly flashed the default photo on launch when a custom image was set
+                - Summary tab crash when top places included a renamed temple
+                """,
             "5.6": """
                 New:
                 - Map Timeline — tap Timeline on now full-screen map to watch temples spread across the world year by year, or tap Play for an animated journey from 1877 to today
