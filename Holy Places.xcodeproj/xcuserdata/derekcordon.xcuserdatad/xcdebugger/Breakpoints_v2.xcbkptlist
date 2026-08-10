@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "786"
             endingLineNumber = "786"
-            landmarkName = "shouldNotify()"
+            landmarkName = "updateDistance(placesToUpdate:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -80,8 +80,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1009"
             endingLineNumber = "1009"
-            landmarkName = "AppDelegate"
-            landmarkType = "3">
+            landmarkName = "parser(_:didStartElement:namespaceURI:qualifiedName:attributes:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -96,8 +96,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "803"
             endingLineNumber = "803"
-            landmarkName = "shouldNotify()"
-            landmarkType = "7">
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -160,7 +160,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1312"
             endingLineNumber = "1312"
-            landmarkName = "getVisits()"
+            landmarkName = "compressImageForWidget(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -176,7 +176,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1314"
             endingLineNumber = "1314"
-            landmarkName = "getVisits()"
+            landmarkName = "compressImageForWidget(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
