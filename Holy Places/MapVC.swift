@@ -51,6 +51,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var fromPlaceDetail = false
     
     // MARK: - Timeline state
+    var filtersBarButtonItem: UIBarButtonItem?
     var timelineBarButtonItem: UIBarButtonItem?
     var timelineContainerView: UIView?
     var timelineSlider: UISlider?
@@ -80,6 +81,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     var savedMapVisitedFilter = Int()
     private var postRebuildSizeTimer: Timer?
     var timelineCountBadge: UILabel?
+    private var timelineCountBadgeWidthConstraint: NSLayoutConstraint?
     private var savedTabBarStandardAppearance: UITabBarAppearance?
     private var savedTabBarScrollEdgeAppearance: UITabBarAppearance?
 
@@ -104,6 +106,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         let button = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(options(_:)))
         button.setTitleTextAttributes(navBarAttrs, for: .normal)
         button.setTitleTextAttributes(navBarAttrs, for: .highlighted)
+        filtersBarButtonItem = button
         self.navigationItem.rightBarButtonItem = button
         
         // Add Timeline button on left side of navigation bar (always enabled)
@@ -232,23 +235,25 @@ class MapVC: UIViewController, MKMapViewDelegate {
         timelinePrevButton = prevBtn
         timelineNextButton = nextBtn
         
-        // Count badge — circle below the left end of the timeline bar
+        // Count badge — pill below the left end of the timeline bar (e.g. "5 - Expansion Era")
         let badge = UILabel()
-        badge.font = UIFont(name: "Baskerville", size: 22) ?? UIFont.boldSystemFont(ofSize: 22)
+        badge.font = UIFont(name: "Baskerville", size: 18) ?? UIFont.boldSystemFont(ofSize: 18)
         badge.textColor = .white
         badge.textAlignment = .center
         badge.translatesAutoresizingMaskIntoConstraints = false
         badge.isHidden = true
-        badge.layer.cornerRadius = 26
+        badge.layer.cornerRadius = 22
         badge.layer.masksToBounds = true
         badge.backgroundColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
         mapView.addSubview(badge)
         
+        let badgeWidth = badge.widthAnchor.constraint(equalToConstant: 44)
+        timelineCountBadgeWidthConstraint = badgeWidth
         NSLayoutConstraint.activate([
             badge.topAnchor.constraint(equalTo: container.bottomAnchor, constant: 8),
             badge.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            badge.widthAnchor.constraint(equalToConstant: 52),
-            badge.heightAnchor.constraint(equalToConstant: 52),
+            badgeWidth,
+            badge.heightAnchor.constraint(equalToConstant: 44),
         ])
         
         timelineCountBadge = badge
@@ -282,8 +287,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
             if let endDate = self.timelineEndDate {
                 self.updateDateLabel(for: endDate)
             }
-            if let badge = self.timelineCountBadge, let text = badge.text, let count = Int(text) {
-                self.updateCountBadge(count: count)
+            if self.isTimelineVisible {
+                self.updateCountBadge(count: mapPoints.count)
             }
         }
     }
@@ -298,11 +303,13 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     func updateTimelineButtonState() {
         if fromPlaceDetail {
-            // Hide the Timeline button so the nav controller's back button is visible
+            // Hide Timeline and Filters so the nav controller's back button is visible
             navigationItem.leftBarButtonItem = nil
+            navigationItem.rightBarButtonItem = nil
             hideTimeline()
         } else {
             navigationItem.leftBarButtonItem = timelineBarButtonItem
+            navigationItem.rightBarButtonItem = isTimelineVisible ? nil : filtersBarButtonItem
             timelineBarButtonItem?.isEnabled = true
         }
     }
@@ -328,13 +335,49 @@ class MapVC: UIViewController, MKMapViewDelegate {
         return Calendar.current.component(.year, from: date)
     }
     
+    /// Era names aligned with the dedication-date sections in the temple list.
+    /// Year ranges come from those section titles; gaps keep the preceding era.
+    func eraName(for year: Int) -> String? {
+        switch year {
+        case ..<1877:
+            return nil
+        case 1877..<1919:
+            return "Pioneer Era"
+        case 1919..<1964:
+            return "Expansion Era"
+        case 1964..<1983:
+            return "Strengthening Era"
+        case 1983..<1999:
+            return "Growth Era"
+        case 1999..<2003:
+            return "Explosive Era"
+        case 2003..<2019:
+            return "Hastening Era"
+        default:
+            return "Unparalleled Era"
+        }
+    }
+    
     func updateCountBadge(count: Int) {
         let isDark = traitCollection.userInterfaceStyle == .dark
         timelineCountBadge?.textColor = isDark
             ? UIColor(red: 0.05, green: 0.10, blue: 0.30, alpha: 1)
             : UIColor(red: 0.92, green: 0.95, blue: 1.00, alpha: 1)
         timelineCountBadge?.backgroundColor = UIColor(named: "BaptismsBlue") ?? UIColor.systemBlue
-        timelineCountBadge?.text = "\(count)"
+        
+        let year = timelineEndDate.map { dedicationYear(from: $0) }
+        let text: String
+        if let year, let era = eraName(for: year) {
+            text = "\(count) - \(era)"
+        } else {
+            text = "\(count)"
+        }
+        timelineCountBadge?.text = text
+        
+        let font = timelineCountBadge?.font ?? UIFont.boldSystemFont(ofSize: 18)
+        let textWidth = (text as NSString).size(withAttributes: [.font: font]).width
+        timelineCountBadgeWidthConstraint?.constant = max(44, textWidth + 28)
+        
         timelineCountBadge?.isHidden = !isTimelineVisible
     }
     
@@ -357,6 +400,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         guard let minDate = timelineMinDate, timelineMaxDate != nil else { return }
         
         isTimelineVisible = true
+        navigationItem.rightBarButtonItem = nil
         timelineEndDate = minDate
         timelineSlider?.value = 0
         timelineContainerView?.isHidden = false
@@ -378,6 +422,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
         timelineContainerView?.isHidden = true
         timelineCountBadge?.isHidden = true
         timelinePlayButton?.setImage(UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)), for: .normal)
+        if !fromPlaceDetail {
+            navigationItem.rightBarButtonItem = filtersBarButtonItem
+        }
         // Revert to All Holy Places on dismiss
         mapFilterRow = 0
         mapVisitedFilter = 0

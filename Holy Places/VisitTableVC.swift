@@ -686,11 +686,29 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
+        return !isSelectMode
+    }
+    
+    private func visit(at indexPath: IndexPath) -> Visit? {
         if searchController.isActive {
-            return false
+            guard indexPath.section < groupedFilteredVisits.count,
+                  indexPath.row < groupedFilteredVisits[indexPath.section].visits.count else {
+                return nil
+            }
+            return groupedFilteredVisits[indexPath.section].visits[indexPath.row]
         }
-        return true
+        return fetchedResultsController.object(at: indexPath)
+    }
+    
+    private func refreshAfterVisitChange() {
+        if searchController.isActive {
+            let scope = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex] ?? "All"
+            filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
+        } else {
+            tableView.reloadData()
+        }
+        ad.needsVisitRefresh = true
+        ad.getVisits()
     }
     
     //MARK: Swipe Actions
@@ -704,9 +722,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             }
             alert.addAction(cancelAction)
             let destroyAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+                guard let visit = self.visit(at: indexPath) else { return }
                 let context = self.fetchedResultsController.managedObjectContext
-                context.delete(self.fetchedResultsController.object(at: indexPath))
-                self.tableView.reloadData()
+                context.delete(visit)
                 do {
                     try context.save()
                 } catch {
@@ -714,8 +732,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                     fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
                 // Update visit count for goal progress in Widget
-                ad.needsVisitRefresh = true
-                ad.getVisits()
+                self.refreshAfterVisitChange()
             }
             alert.addAction(destroyAction)
             
@@ -725,7 +742,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         let new = UIContextualAction(style: .destructive, title: "New") {  (contextualAction, view, boolValue) in
             // new item at indexPath
-            let visit = self.fetchedResultsController.object(at: indexPath)
+            guard let visit = self.visit(at: indexPath) else { return }
             // find Place based on name of Visit
             if let found = allPlaces.first(where:{$0.templeName == visit.holyPlace!}) {
                 self.quickAddPlace  = found
@@ -736,7 +753,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         let copy = UIContextualAction(style: .destructive, title: "Copy") {  (contextualAction, view, boolValue) in
             // Copy item at indexPath
-            copyVisit = self.fetchedResultsController.object(at: indexPath)
+            guard let visit = self.visit(at: indexPath) else { return }
+            copyVisit = visit
             // find Place based on name of Visit
             if let found = allPlaces.first(where:{$0.templeName == copyVisit!.holyPlace!}) {
                 self.quickAddPlace  = found
@@ -753,8 +771,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            guard let visit = visit(at: indexPath) else { return }
             let context = self.fetchedResultsController.managedObjectContext
-            context.delete(self.fetchedResultsController.object(at: indexPath))
+            context.delete(visit)
             
             do {
                 try context.save()
@@ -765,8 +784,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
             // Update visit count for goal progress in Widget
-            ad.needsVisitRefresh = true
-            ad.getVisits()
+            refreshAfterVisitChange()
         }
     }
     
