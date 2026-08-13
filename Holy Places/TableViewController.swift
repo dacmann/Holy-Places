@@ -776,6 +776,10 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         tableView.sectionIndexColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
+        // Keep fixed row layout (title/subtitle/chevron) independent of accessibility text size
+        tableView.minimumContentSizeCategory = .large
+        tableView.maximumContentSizeCategory = .large
+        
         // Add Done button to search bar keyboard
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
@@ -920,7 +924,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         let temple = places[index]
         
-        cell.textLabel?.text = temple.templeName
+        let subtitle: String
         if nearestEnabled {
             // convert distance from meters to miles
             var distance = Int((temple.distance)! * 0.000621371).description
@@ -930,33 +934,33 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             } else {
                 distance.append(" mi. - ")
             }
-            cell.detailTextLabel?.text = " " + distance + temple.templeSnippet
+            subtitle = " " + distance + temple.templeSnippet
         } else if sortBySize {
             // include sq ft in label text
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let formattedNumber = numberFormatter.string(from: NSNumber(value:temple.templeSqFt!))
-            cell.detailTextLabel?.text = " \(formattedNumber ?? "") sq ft - \(temple.templeSnippet)"
+            subtitle = " \(formattedNumber ?? "") sq ft - \(temple.templeSnippet)"
         } else {
-            cell.detailTextLabel?.text = " " + temple.templeSnippet
+            subtitle = " " + temple.templeSnippet
         }
-        cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
-        cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
         
+        let titleColor: UIColor
         switch temple.templeType {
         case "T":
-            cell.textLabel?.textColor = templeColor
+            titleColor = templeColor
         case "H":
-            cell.textLabel?.textColor = historicalColor
+            titleColor = historicalColor
         case "A":
-            cell.textLabel?.textColor = announcedColor
+            titleColor = announcedColor
         case "C":
-            cell.textLabel?.textColor = constructionColor
+            titleColor = constructionColor
         case "V":
-            cell.textLabel?.textColor = visitorCenterColor
+            titleColor = visitorCenterColor
         default:
-            cell.textLabel?.textColor = defaultColor
+            titleColor = defaultColor
         }
+        cell.applyFixedSubtitleStyle(title: temple.templeName, subtitle: subtitle, titleColor: titleColor)
         
         cell.accessoryType = .disclosureIndicator
 
@@ -1050,4 +1054,34 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
 fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
 	guard let input = input else { return nil }
 	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+extension UITableViewCell {
+    /// Subtitle cells use UIListContentConfiguration, which scales fonts with Dynamic Type
+    /// even when textLabel.font is set to a fixed size. Pin layout and disable scaling.
+    func applyFixedSubtitleStyle(title: String, subtitle: String, titleColor: UIColor, subtitleColor: UIColor = .secondaryLabel, shrinkTitle: Bool = false) {
+        minimumContentSizeCategory = .large
+        maximumContentSizeCategory = .large
+        
+        var config = defaultContentConfiguration()
+        config.text = title
+        config.secondaryText = subtitle
+        config.textProperties.font = UIFont(name: "Baskerville", size: 18) ?? .systemFont(ofSize: 18)
+        config.secondaryTextProperties.font = UIFont(name: "Baskerville", size: 14) ?? .systemFont(ofSize: 14)
+        config.textProperties.color = titleColor
+        config.secondaryTextProperties.color = subtitleColor
+        config.textProperties.adjustsFontForContentSizeCategory = false
+        config.secondaryTextProperties.adjustsFontForContentSizeCategory = false
+        config.textProperties.numberOfLines = 1
+        config.secondaryTextProperties.numberOfLines = 1
+        // Match the original 50pt subtitle-cell layout so the snippet isn't clipped
+        config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5, leading: 16, bottom: 4, trailing: 8)
+        config.textToSecondaryTextVerticalPadding = 1
+        config.prefersSideBySideTextAndSecondaryText = false
+        if shrinkTitle {
+            config.textProperties.adjustsFontSizeToFitWidth = true
+            config.textProperties.minimumScaleFactor = 0.7
+        }
+        contentConfiguration = config
+    }
 }

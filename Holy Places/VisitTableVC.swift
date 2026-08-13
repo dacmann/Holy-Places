@@ -373,6 +373,10 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchBar.delegate = self
         searchController.delegate = self
         
+        // Keep fixed row layout (title/subtitle/chevron) independent of accessibility text size
+        tableView.minimumContentSizeCategory = .large
+        tableView.maximumContentSizeCategory = .large
+
         // Customize search bar and scope button fonts
         customizeSearchBarAppearance()
         
@@ -813,8 +817,6 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     func configureCell(_ cell: UITableViewCell, withVisit visit: Visit) {
-        cell.textLabel!.text = visit.holyPlace
-        
         var ordinances = " ~"
         
         // Determine Ordinances performed for summary
@@ -849,32 +851,37 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             ordinances.append( "   ⭐")
         }
         
+        let subtitle: String
         if let dateVisited = visit.dateVisited {
-            cell.detailTextLabel?.text = " " + formatter.string(from: dateVisited) + ordinances
+            subtitle = " " + formatter.string(from: dateVisited) + ordinances
         } else {
-            cell.detailTextLabel?.text = " (no date)" + ordinances
+            subtitle = " (no date)" + ordinances
         }
-        cell.textLabel?.font = UIFont(name: "Baskerville", size: 18)
-        cell.textLabel?.adjustsFontSizeToFitWidth = true
-        cell.textLabel?.minimumScaleFactor = 0.7
-        cell.detailTextLabel?.font = UIFont(name: "Baskerville", size: 14)
-        cell.detailTextLabel?.textColor = defaultColor
+        
+        var titleColor = defaultColor
         if let theType = visit.type {
             switch theType {
             case "T":
-                cell.textLabel?.textColor = templeColor
+                titleColor = templeColor
             case "H":
-                cell.textLabel?.textColor = historicalColor
+                titleColor = historicalColor
             case "A":
-                cell.textLabel?.textColor = announcedColor
+                titleColor = announcedColor
             case "C":
-                cell.textLabel?.textColor = constructionColor
+                titleColor = constructionColor
             case "V":
-                cell.textLabel?.textColor = visitorCenterColor
+                titleColor = visitorCenterColor
             default:
-                cell.textLabel?.textColor = defaultColor
+                titleColor = defaultColor
             }
         }
+        cell.applyFixedSubtitleStyle(
+            title: visit.holyPlace ?? "",
+            subtitle: subtitle,
+            titleColor: titleColor,
+            subtitleColor: defaultColor,
+            shrinkTitle: true
+        )
     }
     
     // MARK: - Fetched results controller
