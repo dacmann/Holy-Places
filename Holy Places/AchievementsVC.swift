@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SafariServices
 
 
 
@@ -22,6 +23,7 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
 
         // Default to display the completed achievements
         display = completed
+        tableView.tableHeaderView = makeCelebrationBoardHeader()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,8 +45,9 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         formatter.dateFormat = "MMMM dd, yyyy"
         let cell  = tableView.dequeueReusableCell(withIdentifier: "acell", for: indexPath) as! AchievementCell
         let row = indexPath.row
-        cell.cellTitle.text = display[row].name
-        switch display[row].iconName.suffix(1) {
+        let achievement = display[row]
+        cell.cellTitle.text = achievement.name
+        switch achievement.iconName.suffix(1) {
         case "B":
             cell.cellTitle.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
             cell.cellProgress.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
@@ -70,32 +73,32 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             cell.cellTitle.textColor = templeColor
             cell.cellProgress.tintColor = templeColor
         }
-        if let placeAchieved = display[row].placeAchieved {
-            cell.cellDetails.text = display[row].details
+        if let placeAchieved = achievement.placeAchieved {
+            cell.cellDetails.text = achievement.details
             cell.cellPlaceAchieved.text = "at \(placeAchieved)"
             cell.cellPlaceAchieved.isHidden = false
             cell.cellProgress.isHidden = true
-            switch display[row].iconName.suffix(1) {
+            switch achievement.iconName.suffix(1) {
             case "H":
                 cell.cellPlaceAchieved.textColor = historicalColor
             default:
                 cell.cellPlaceAchieved.textColor = templeColor
             }
         } else {
-            cell.cellDetails.text = "\(display[row].details) ~ \(display[row].remaining ?? 0) more"
+            cell.cellDetails.text = "\(achievement.details) ~ \(achievement.remaining ?? 0) more"
             cell.cellPlaceAchieved.text = ""
             cell.cellPlaceAchieved.isHidden = true
             cell.cellProgress.isHidden = false
-            cell.cellProgress.progress = display[row].progress!
+            cell.cellProgress.progress = achievement.progress!
         }
-        if let dateAchieved = display[row].achieved {
+        if let dateAchieved = achievement.achieved {
             cell.cellDateAchieved.text = "on \(formatter.string(from: dateAchieved))"
             cell.cellDateAchieved.isHidden = false
         } else {
             cell.cellDateAchieved.text = ""
             cell.cellDateAchieved.isHidden = true
         }
-        if let iconImage = UIImage(named: display[row].iconName) {
+        if let iconImage = UIImage(named: achievement.iconName) {
             // image exists
             cell.cellImage?.image = iconImage
         } else {
@@ -113,8 +116,50 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
             imageView.layer.masksToBounds = false
         }
 
+        cell.configureShareButton(show: achievement.achieved != nil)
+        cell.shareButton.tag = row
+        cell.shareButton.removeTarget(nil, action: nil, for: .allEvents)
+        cell.shareButton.addTarget(self, action: #selector(shareTapped(_:)), for: .touchUpInside)
+
         return cell
     }
+
+    @objc private func shareTapped(_ sender: UIButton) {
+        let row = sender.tag
+        guard row >= 0, row < display.count else { return }
+        let achievement = display[row]
+        handleAchievementShareAction(for: achievement, sourceView: sender)
+    }
+
+    private func makeCelebrationBoardHeader() -> UIView {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44))
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        var config = UIButton.Configuration.plain()
+        config.title = "View \(CelebrationBoardConfig.displayName)"
+        config.image = UIImage(systemName: "globe")
+        config.imagePadding = 6
+        config.baseForegroundColor = UIColor(named: "BaptismsBlue") ?? .systemBlue
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont(name: "Baskerville", size: 17)
+            return outgoing
+        }
+        button.configuration = config
+        button.addTarget(self, action: #selector(openCelebrationBoard), for: .touchUpInside)
+        header.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: header.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: header.centerYAnchor)
+        ])
+        return header
+    }
+
+    @objc private func openCelebrationBoard() {
+        let safari = SFSafariViewController(url: CelebrationBoardConfig.pageURL)
+        present(safari, animated: true)
+    }
+
     @IBAction func changeDisplay(_ sender: UISegmentedControl) {
         showingCompleted = sender.selectedSegmentIndex != 1
         if sender.selectedSegmentIndex == 1 {

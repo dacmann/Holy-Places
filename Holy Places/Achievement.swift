@@ -41,5 +41,30 @@ class AchievementCell: UITableViewCell {
     @IBOutlet weak var cellPlaceAchieved: UILabel!
     @IBOutlet weak var cellDateAchieved: UILabel!
     @IBOutlet weak var cellProgress: UIProgressView!
-    
+
+    private(set) lazy var shareButton: UIButton = {
+        let button = UIButton(type: .system)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)
+        button.setImage(UIImage(systemName: "square.and.arrow.up", withConfiguration: config), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityLabel = "Share achievement"
+        return button
+    }()
+
+    private var didInstallShareButton = false
+
+    func configureShareButton(show: Bool) {
+        if !didInstallShareButton {
+            contentView.addSubview(shareButton)
+            NSLayoutConstraint.activate([
+                shareButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+                shareButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                shareButton.widthAnchor.constraint(equalToConstant: 36),
+                shareButton.heightAnchor.constraint(equalToConstant: 36)
+            ])
+            didInstallShareButton = true
+        }
+        shareButton.isHidden = !show
+        shareButton.isEnabled = show
+    }
 }

@@ -142,9 +142,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         }
         
         ad.needsVisitRefresh = true
+        let previousIcons = snapshotCompletedAchievementIcons()
         ad.getVisits()
-        
-        _ = self.navigationController?.popToRootViewController(animated: true)
+        let unlocked = newlyUnlockedAchievements(since: previousIcons)
+        presentAchievementUnlocked(achievements: unlocked) { [weak self] in
+            _ = self?.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     @objc func saveEdit (_ sender: Any) {
@@ -202,10 +205,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         
         // Update visit count for goal progress in Widget
         ad.needsVisitRefresh = true
+        let previousIcons = snapshotCompletedAchievementIcons()
         ad.getVisits()
-        
-        _ = navigationController?.popViewController(animated: true)
-
+        let unlocked = newlyUnlockedAchievements(since: previousIcons)
+        presentAchievementUnlocked(achievements: unlocked) { [weak self] in
+            _ = self?.navigationController?.popViewController(animated: true)
+        }
     }
     
     //MARK:- Standard Functions

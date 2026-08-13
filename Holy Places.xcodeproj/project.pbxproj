@@ -50,6 +50,12 @@
 		9C6ECC8E2FE859AF004386CD /* ShareActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC842FE859AF004386CD /* ShareActivityView.swift */; };
 		9C6ECC8F2FE859AF004386CD /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC882FE859AF004386CD /* ShareView.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
+		9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */; };
+		9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */; };
+		9CB0A1052FEA000300C3B001 /* AchievementShareImageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */; };
+		9CB0A1072FEA000400C3B001 /* CelebrationBoardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1062FEA000400C3B001 /* CelebrationBoardClient.swift */; };
+		9CB0A1092FEA000500C3B001 /* AchievementUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1082FEA000500C3B001 /* AchievementUnlockedView.swift */; };
+		9CB0A10B2FEA000600C3B001 /* AchievementSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A10A2FEA000600C3B001 /* AchievementSharing.swift */; };
 		9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */; };
 		9CC490223029066100B30556 /* HolyPlacesPromo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9CC490213029066100B30556 /* HolyPlacesPromo.pdf */; };
 		9CD815562F26C7FD00E2B911 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */; };
@@ -147,6 +153,12 @@
 		9C6ECC872FE859AF004386CD /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
 		9C6ECC882FE859AF004386CD /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardConfig.swift; sourceTree = "<group>"; };
+		9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Achievement+CelebrationBoard.swift"; sourceTree = "<group>"; };
+		9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementShareImageRenderer.swift; sourceTree = "<group>"; };
+		9CB0A1062FEA000400C3B001 /* CelebrationBoardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardClient.swift; sourceTree = "<group>"; };
+		9CB0A1082FEA000500C3B001 /* AchievementUnlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementUnlockedView.swift; sourceTree = "<group>"; };
+		9CB0A10A2FEA000600C3B001 /* AchievementSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementSharing.swift; sourceTree = "<group>"; };
 		9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameChangeArrayTransformer.swift; sourceTree = "<group>"; };
 		9CC490213029066100B30556 /* HolyPlacesPromo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HolyPlacesPromo.pdf; sourceTree = "<group>"; };
 		9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -292,6 +304,12 @@
 				9C6ECC882FE859AF004386CD /* ShareView.swift */,
 				9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */,
 				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
+				9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */,
+				9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */,
+				9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */,
+				9CB0A1062FEA000400C3B001 /* CelebrationBoardClient.swift */,
+				9CB0A1082FEA000500C3B001 /* AchievementUnlockedView.swift */,
+				9CB0A10A2FEA000600C3B001 /* AchievementSharing.swift */,
 				9CD815552F26C7FD00E2B911 /* SceneDelegate.swift */,
 				64A3CB771FA9029700D37E6A /* Holy Places.entitlements */,
 				644D965F1F69F77A00E9D502 /* Main.storyboard */,
@@ -479,6 +497,12 @@
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */,
+				9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */,
+				9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */,
+				9CB0A1052FEA000300C3B001 /* AchievementShareImageRenderer.swift in Sources */,
+				9CB0A1072FEA000400C3B001 /* CelebrationBoardClient.swift in Sources */,
+				9CB0A1092FEA000500C3B001 /* AchievementUnlockedView.swift in Sources */,
+				9CB0A10B2FEA000600C3B001 /* AchievementSharing.swift in Sources */,
 				64EE3EB51ED487DB00B345C6 /* VisitImageVC.swift in Sources */,
 				646BCD801E8EE81800E8E839 /* RecordVisitVC.swift in Sources */,
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,

@@ -869,7 +869,7 @@
                                         <constraint firstItem="ucC-cQ-Ok7" firstAttribute="leading" secondItem="4nK-Yy-xMs" secondAttribute="trailing" constant="20" id="YME-gv-5Fq"/>
                                         <constraint firstItem="4nK-Yy-xMs" firstAttribute="leading" secondItem="xMU-A2-G8h" secondAttribute="leading" constant="10" id="eLC-gA-Yyf"/>
                                         <constraint firstAttribute="bottom" secondItem="4nK-Yy-xMs" secondAttribute="bottom" constant="5" id="ixq-6w-QVK"/>
-                                        <constraint firstAttribute="trailing" secondItem="ucC-cQ-Ok7" secondAttribute="trailing" constant="10" id="t62-vg-yr9"/>
+                                        <constraint firstAttribute="trailing" secondItem="ucC-cQ-Ok7" secondAttribute="trailing" constant="44" id="t62-vg-yr9"/>
                                         <constraint firstItem="ucC-cQ-Ok7" firstAttribute="top" secondItem="4nK-Yy-xMs" secondAttribute="top" id="yNR-os-v36"/>
                                     </constraints>
                                 </tableViewCellContentView>
