@@ -90,6 +90,7 @@ class VisitDetailVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        padContentBelowIncomingSearchBar()
         
         // Hide tab bar
         tabBarController?.tabBar.isHidden = true

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SendPlaceDelegate: AnyObject {
+    func placeChanged(temple: Temple)
+}
+
 class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UISearchBarDelegate, UITextFieldDelegate  {
 
     @IBOutlet weak var segmentedController: UISegmentedControl!
@@ -17,12 +21,19 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var closestPlaceSwitch: UISwitch!
     @IBOutlet weak var closestPlaceLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var headingLabel: UILabel?
     
     var pickerData = allTemples
     var placeNameSelected = 0
     var closest = UserDefaults.standard.bool(forKey: "addVisitClosestPlace")
     
     var filteredData: [Temple] = []
+    
+    /// When true, this screen returns a selected place instead of pushing Record Visit.
+    var isChangingPlace = false
+    weak var delegate: SendPlaceDelegate?
+    var currentPlaceName: String?
+    var currentPlaceType: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +44,9 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // Initialize picker data
         filteredData = pickerData
         
-        if closest {
+        if isChangingPlace {
+            configureForChangingPlace()
+        } else if closest {
             ad.DetermineClosest()
             filteredData.sort {
                 guard let distance1 = $0.distance, let distance2 = $1.distance else { return false }
@@ -63,10 +76,14 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         searchBar.delegate = self
         placeName.delegate = self  // Set the delegate
         placeName.returnKeyType = .done // Change Return key to "Done"
+        placeName.addTarget(self, action: #selector(placeEntered(_:)), for: .editingChanged)
         
         // Force UI update to reflect selection
         DispatchQueue.main.async {
             self.placeSelection.reloadAllComponents()
+            if self.isChangingPlace, !self.filteredData.isEmpty, self.placeNameSelected < self.filteredData.count {
+                self.placeSelection.selectRow(self.placeNameSelected, inComponent: 0, animated: false)
+            }
         }
 
     }
@@ -137,7 +154,9 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         case 3:
             placeName.isHidden = false
             placeSelection.isHidden = true
-            placeName.becomeFirstResponder()
+            if view.window != nil {
+                placeName.becomeFirstResponder()
+            }
             nextButton.isEnabled = false
             searchBar.isHidden = true
         default:
@@ -280,19 +299,77 @@ class NewVisitVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return true
     }
     
+    // MARK: - Change Place mode
+    
+    private func configureForChangingPlace() {
+        title = "Change Place"
+        headingLabel?.text = "Change Place"
+        nextButton.title = "Done"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPlaceChange))
+        
+        let name = currentPlaceName ?? ""
+        let match = allPlaces.first { $0.templeName == name }
+            ?? allPlaces.first { $0.nameChanges.contains { $0.oldName == name } }
+        let typeForSegment = match?.templeType ?? currentPlaceType ?? "O"
+        
+        switch typeForSegment {
+        case "H":
+            segmentedController.selectedSegmentIndex = 1
+        case "V":
+            segmentedController.selectedSegmentIndex = 2
+        case "O":
+            segmentedController.selectedSegmentIndex = 3
+        default:
+            segmentedController.selectedSegmentIndex = 0
+        }
+        typeSelection(segmentedController)
+        
+        if segmentedController.selectedSegmentIndex == 3 {
+            placeName.text = name
+            nextButton.isEnabled = !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        } else if let match = match, let idx = filteredData.firstIndex(where: { $0.templeName == match.templeName }) {
+            placeSelection.selectRow(idx, inComponent: 0, animated: false)
+            placeNameSelected = idx
+        }
+    }
+    
+    @objc private func cancelPlaceChange() {
+        dismiss(animated: true)
+    }
+    
+    private func selectedTemple() -> Temple? {
+        if segmentedController.selectedSegmentIndex == 3 {
+            let name = placeName.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            guard !name.isEmpty else { return nil }
+            return Temple(Name: name, Address: "", Snippet: "", CityState: "", Country: "", Phone: "", Latitude: 0.0, Longitude: 0.0, Order: 0, AnnouncedDate: nil, PictureURL: "", SiteURL: "", Type: "O", ReaderView: false, InfoURL: "", SqFt: 0, FHCode: "")
+        } else {
+            guard !filteredData.isEmpty, placeNameSelected < filteredData.count else { return nil }
+            return filteredData[placeNameSelected]
+        }
+    }
+    
+    private func confirmPlaceChange() {
+        guard let temple = selectedTemple() else { return }
+        delegate?.placeChanged(temple: temple)
+        dismiss(animated: true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "enterVisit" && isChangingPlace {
+            confirmPlaceChange()
+            return false
+        }
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let controller = (segue.destination as! RecordVisitVC)
         if segue.identifier == "enterVisit" {
             // Change the back button on the Record Visit VC to Cancel
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: nil, action: nil)
-            if segmentedController.selectedSegmentIndex == 3 {
-                let temple = Temple(Name: placeName.text!, Address: "", Snippet: "", CityState: "", Country: "", Phone: "", Latitude: 0.0, Longitude: 0.0, Order: 0, AnnouncedDate: nil, PictureURL: "", SiteURL: "", Type: "O", ReaderView: false, InfoURL: "", SqFt: 0, FHCode: "")
-                controller.detailItem = temple
-            } else {
-                let temple = filteredData[placeNameSelected]
+            if let temple = selectedTemple() {
                 controller.detailItem = temple
             }
-            
         }
     }
 }

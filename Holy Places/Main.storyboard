@@ -2903,7 +2903,7 @@
         <!--New VisitVC-->
         <scene sceneID="8AP-do-7T7">
             <objects>
-                <viewController id="HiP-YK-D1n" customClass="NewVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewVisitVC" id="HiP-YK-D1n" customClass="NewVisitVC" customModule="Holy_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Pe-lp-JaZ">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2998,6 +2998,7 @@
                     <connections>
                         <outlet property="closestPlaceLabel" destination="MbE-Li-Oa9" id="Ef0-uy-PGd"/>
                         <outlet property="closestPlaceSwitch" destination="LVy-Pr-gTx" id="MGV-jf-157"/>
+                        <outlet property="headingLabel" destination="6Ph-fb-mZj" id="hp-hd-lbl1"/>
                         <outlet property="nextButton" destination="s25-jb-if9" id="ySe-8F-W82"/>
                         <outlet property="placeName" destination="a5e-yh-6XZ" id="Hps-ve-xaz"/>
                         <outlet property="placeSelection" destination="iPR-6d-hrr" id="0sf-IR-I02"/>
@@ -3538,7 +3539,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="szC-4L-T83">
                                 <rect key="frame" x="20" y="188" width="400" height="651"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
+                                    <label opaque="NO" userInteractionEnabled="YES" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="templeName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kWV-xR-Fsf">
                                         <rect key="frame" x="0.0" y="0.0" width="400" height="30"/>
                                         <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="26"/>
                                         <nil key="textColor"/>

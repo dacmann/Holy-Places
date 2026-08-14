@@ -95,6 +95,36 @@ extension UIApplication {
     }
 }
 
+extension UIViewController {
+    /// Height of the list search bar that remains drawn over a pushed screen during the transition.
+    static func incomingSearchBarClearance(from searchBar: UISearchBar?) -> CGFloat {
+        guard let searchBar = searchBar else { return 56 }
+        return searchBar.bounds.height > 1 ? searchBar.bounds.height : 56
+    }
+    
+    /// Places and Visits keep a search bar in the nav bar. During a push that bar
+    /// stays on screen and covers the new screen's top (visit name/date, or the
+    /// place photo). Pad content below it until the transition finishes.
+    func padContentBelowIncomingSearchBar() {
+        guard let coordinator = transitionCoordinator,
+              coordinator.isAnimated,
+              let from = coordinator.viewController(forKey: .from) else { return }
+        let extra: CGFloat
+        if let searchBar = from.navigationItem.searchController?.searchBar {
+            extra = UIViewController.incomingSearchBarClearance(from: searchBar)
+        } else if from is VisitTableVC || from is TableViewController {
+            extra = 56
+        } else {
+            return
+        }
+        additionalSafeAreaInsets.top = extra
+        coordinator.animate(alongsideTransition: nil) { [weak self] context in
+            guard !context.isCancelled else { return }
+            self?.additionalSafeAreaInsets.top = 0
+        }
+    }
+}
+
 public extension NSLayoutConstraint {
     
     func changeMultiplier(multiplier: CGFloat) -> NSLayoutConstraint {

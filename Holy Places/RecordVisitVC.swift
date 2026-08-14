@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     func DateChanged(data: Date) {
         dateOfVisit = data
@@ -18,6 +18,15 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         if let temple = resolvedTemple {
             templeName.text = temple.effectiveName(for: data)
         }
+    }
+    
+    func placeChanged(temple: Temple) {
+        let previousType = placeType
+        resolvedTemple = temple
+        placeType = temple.templeType
+        let date = dateOfVisit ?? Date()
+        templeName.text = temple.effectiveName(for: date)
+        applyPlaceTypeAppearance(previousType: previousType)
     }
 
     //MARK:- Variables & Outlets
@@ -155,20 +164,23 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         
         yearFormat.dateFormat = "yyyy"
         
-        // save the updated values to the Visit object 
-        if detailVisit?.type == "T" {
-            templeView.isHidden = true
-            sealingsStepO.isHidden = true
-            endowmentsStepO.isHidden = true
-            initiatoriesStepO.isHidden = true
-            confirmationsStepO.isHidden = true
-            baptismsStepO.isHidden = true
+        detailVisit?.holyPlace = templeName.text
+        detailVisit?.type = placeType
+        
+        if placeType == "T" {
             detailVisit?.sealings = Int16(sealings.text ?? "0") ?? 0
             detailVisit?.endowments = Int16(endowments.text ?? "0") ?? 0
             detailVisit?.initiatories = Int16(initiatories.text ?? "0") ?? 0
             detailVisit?.confirmations = Int16(confirmations.text ?? "0") ?? 0
             detailVisit?.baptisms = Int16(baptisms.text ?? "0") ?? 0
             detailVisit?.shiftHrs = Double(hoursWorked.text ?? "0") ?? 0.0
+        } else {
+            detailVisit?.sealings = 0
+            detailVisit?.endowments = 0
+            detailVisit?.initiatories = 0
+            detailVisit?.confirmations = 0
+            detailVisit?.baptisms = 0
+            detailVisit?.shiftHrs = 0
         }
         detailVisit?.dateVisited = dateOfVisit as Date?
         if let dateVisited = detailVisit?.dateVisited {
@@ -222,12 +234,15 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         setDate()
         setupFavoriteButton()
         setupProfileChips()
+        setupPlaceNameTap()
 
         // Disable the swipe to make sure you get your chance to save
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // Add tap gesture recognizer to dismiss keyboard
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
         
         // Set text field delegates for auto-select behavior
@@ -322,6 +337,71 @@ class RecordVisitVC: UIViewController, SendDateDelegate, UIImagePickerController
         let imageName = isFavorite ? "star.fill" : "star"
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = isFavorite ? UIColor.darkTangerine() : .gray
+    }
+    
+    private func setupPlaceNameTap() {
+        templeName.isUserInteractionEnabled = true
+        templeName.accessibilityTraits.insert(.button)
+        templeName.accessibilityHint = "Changes the place for this visit"
+        let tap = UITapGestureRecognizer(target: self, action: #selector(changePlaceTapped))
+        templeName.addGestureRecognizer(tap)
+    }
+    
+    @objc private func changePlaceTapped() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let picker = storyboard.instantiateViewController(withIdentifier: "NewVisitVC") as? NewVisitVC else { return }
+        picker.isChangingPlace = true
+        picker.delegate = self
+        picker.currentPlaceName = templeName.text
+        picker.currentPlaceType = placeType
+        let nav = UINavigationController(rootViewController: picker)
+        present(nav, animated: true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view == templeName { return false }
+        return true
+    }
+    
+    private func applyPlaceTypeAppearance(previousType: String? = nil) {
+        switch placeType {
+        case "T":
+            templeName.textColor = templeColor
+        case "H":
+            templeName.textColor = historicalColor
+        case "C":
+            templeName.textColor = constructionColor
+        case "V":
+            templeName.textColor = visitorCenterColor
+        default:
+            templeName.textColor = defaultColor
+        }
+        
+        let isTemple = placeType == "T"
+        templeView.isHidden = !isTemple
+        if isTemple {
+            ordinanceWorkerSV.isHidden = !ordinanceWorker
+        } else {
+            ordinanceWorkerSV.isHidden = true
+            if previousType == "T" {
+                zeroOrdinanceFields()
+            }
+        }
+    }
+    
+    private func zeroOrdinanceFields() {
+        sealings.text = "0"
+        endowments.text = "0"
+        initiatories.text = "0"
+        confirmations.text = "0"
+        baptisms.text = "0"
+        hoursWorked.text = "0"
+        sealingsStepO.value = 0
+        endowmentsStepO.value = 0
+        initiatoriesStepO.value = 0
+        confirmationsStepO.value = 0
+        baptismsStepO.value = 0
+        hoursWorkedStepO.value = 0
     }
     
     // MARK: - Profile Chips
@@ -689,27 +769,10 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     comments.text = defaultCommentsText
                 }
                 placeType = detail.templeType
-                if detail.templeType != "T" {
-                    templeView.isHidden = true
-                }
                 self.title = "Record Visit"
                 
                 keyboardDone()
-                switch detail.templeType {
-                case "T":
-                    templeName.textColor = templeColor
-                case "H":
-                    templeName.textColor = historicalColor
-                case "C":
-                    templeName.textColor = constructionColor
-                case "V":
-                    templeName.textColor = visitorCenterColor
-                default:
-                    templeName.textColor = defaultColor
-                }
-                
-                // enable the Hours worked stack view when needed
-                ordinanceWorkerSV.isHidden = !ordinanceWorker
+                applyPlaceTypeAppearance()
                 
             }
         }
@@ -741,9 +804,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     pictureView.isHidden = false
                     addPictureBtn.setTitle("Remove Picture", for: UIControl.State.normal)
                 }
-                if detail.type != "T" {
-                    templeView.isHidden = true
-                } else {
+                placeType = detail.type ?? ""
+                if placeType == "T" {
                     hoursWorkedStepO.value = Double(hoursWorked.text ?? "0") ?? 0.0
                     sealingsStepO.value = Double(sealings.text ?? "0") ?? 0.0
                     endowmentsStepO.value = Double(endowments.text ?? "0") ?? 0.0
@@ -752,22 +814,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     baptismsStepO.value = Double(baptisms.text ?? "0") ?? 0.0
                 }
                 keyboardDone()
-                if let theType = detail.type {
-                    switch theType {
-                    case "T":
-                        templeName.textColor = templeColor
-                    case "H":
-                        templeName.textColor = historicalColor
-                    case "C":
-                        templeName.textColor = constructionColor
-                    case "V":
-                        templeName.textColor = visitorCenterColor
-                    default:
-                        templeName.textColor = defaultColor
-                    }
-                }
-                // enable the Hours worked stack view when needed
-                ordinanceWorkerSV.isHidden = !ordinanceWorker
+                applyPlaceTypeAppearance()
                 
             }
         }

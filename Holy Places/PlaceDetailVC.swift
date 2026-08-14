@@ -169,46 +169,45 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
                         }}
                     if images.count == self.visitImageCount {
                         // all pictures have been processed, go ahead and update the UI
-                        if let navigationController = self.navigationController {
-                            print(navigationController.viewControllers.description)
+                        self.UI {
                             // if we have moved on to another controller then don't bother updating the UI
-                            if navigationController.viewControllers.count == 2 && !self.webViewPresented {
-                                self.UI {
-                                    if let pictureView = self.pictureScrollView {
-                                        print("Add pictures to pictureScrollView")
-                                        // first reorder the images by date
-                                        let sortedImages = images.sorted(by: { $0.0 > $1.0 })
-                                        for (_, image) in sortedImages {
-                                            let imageView = UIImageView()
-                                            imageView.contentMode = .scaleAspectFit
-                                            imageView.image = image
-                                            let xPosition = pictureView.frame.width * CGFloat(imageCounter)
-                                            imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
-                                            pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
-                                            let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
-                                            imageView.addGestureRecognizer(tap)
-                                            imageView.isUserInteractionEnabled = true
-                                            imageView.tag = imageCounter + 1
-                                            self.imageCount += 1
-                                            imageCounter += 1
-                                            pictureView.addSubview(imageView)
-                                            // Don't load more than 20 Visit images
-                                            if self.imageCount == 21 {
-                                                break
-                                            }
-                                        }
-                                        self.pageControl.numberOfPages = imageCounter
-                                        self.pageControl.isHidden = false
-                                        self.view.bringSubviewToFront(self.pageControl)
-                                        self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
-                                        self.pageControl.currentPageIndicatorTintColor = UIColor(named: "BaptismsBlue")
-                                        self.picsLoading = false
-                                    } else {
-                                        print("Unable to access pictureScrollView")
+                            guard let navigationController = self.navigationController,
+                                  navigationController.viewControllers.count == 2,
+                                  !self.webViewPresented else {
+                                self.visitImageCount = 0
+                                return
+                            }
+                            if let pictureView = self.pictureScrollView {
+                                print("Add pictures to pictureScrollView")
+                                // first reorder the images by date
+                                let sortedImages = images.sorted(by: { $0.0 > $1.0 })
+                                for (_, image) in sortedImages {
+                                    let imageView = UIImageView()
+                                    imageView.contentMode = .scaleAspectFit
+                                    imageView.image = image
+                                    let xPosition = pictureView.frame.width * CGFloat(imageCounter)
+                                    imageView.frame = CGRect(x: xPosition, y: 0, width: pictureView.frame.width, height: pictureView.frame.height)
+                                    pictureView.contentSize.width = pictureView.frame.width * CGFloat(imageCounter + 1)
+                                    let tap = UITapGestureRecognizer(target: self, action: #selector(PlaceDetailVC.imageClicked))
+                                    imageView.addGestureRecognizer(tap)
+                                    imageView.isUserInteractionEnabled = true
+                                    imageView.tag = imageCounter + 1
+                                    self.imageCount += 1
+                                    imageCounter += 1
+                                    pictureView.addSubview(imageView)
+                                    // Don't load more than 20 Visit images
+                                    if self.imageCount == 21 {
+                                        break
                                     }
                                 }
+                                self.pageControl.numberOfPages = imageCounter
+                                self.pageControl.isHidden = false
+                                self.view.bringSubviewToFront(self.pageControl)
+                                self.pageControl.pageIndicatorTintColor = UIColor.aluminium()
+                                self.pageControl.currentPageIndicatorTintColor = UIColor(named: "BaptismsBlue")
+                                self.picsLoading = false
                             } else {
-                                self.visitImageCount = 0
+                                print("Unable to access pictureScrollView")
                             }
                         }
                     }
@@ -261,7 +260,6 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showNavigationOptions))
         address.addGestureRecognizer(tap)
         address.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
-        
     }
     
     @objc func showNavigationOptions() {
@@ -329,16 +327,19 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            pictureHeight.constant = view.frame.height * 0.60
-        } else {
-            pictureHeight.constant = view.frame.height * 0.40
-        }
-        setUpView()
+        super.viewWillAppear(animated)
+        padContentBelowIncomingSearchBar()
         
         // Hide tab bar for all instances of place detail
         tabBarController?.tabBar.isHidden = true
+        
+        let availableHeight = view.bounds.height > 1 ? view.bounds.height : UIScreen.main.bounds.height
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            pictureHeight.constant = availableHeight * 0.60
+        } else {
+            pictureHeight.constant = availableHeight * 0.40
+        }
+        setUpView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -430,18 +431,14 @@ class PlaceDetailVC: UIViewController, UIScrollViewDelegate {
     
     func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?
     {
-        if self.navigationController?.viewControllers.count == 2 && !self.webViewPresented {
-            UIGraphicsBeginImageContext( newSize )
-            image?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-            
-            if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
-                UIGraphicsEndImageContext()
-                return newImage
-            } else {
-                UIGraphicsEndImageContext()
-                return nil
-            }
+        UIGraphicsBeginImageContext( newSize )
+        image?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        
+        if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
+            UIGraphicsEndImageContext()
+            return newImage
         } else {
+            UIGraphicsEndImageContext()
             return nil
         }
     }

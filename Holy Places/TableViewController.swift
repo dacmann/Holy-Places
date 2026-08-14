@@ -693,6 +693,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Ensure custom scope control is always visible
         if customScopeControl == nil {
             setupCustomScopeControl()
@@ -709,6 +711,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         // save Place updates on main thread
         if ad.newFileParsed {
             ad.storePlaces()
@@ -1038,6 +1041,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             }
             let controller = (segue.destination as! PlaceDetailVC)
             controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
         }
         if segue.identifier == "showOptions" {
             let controller: OptionsVC = segue.destination as! OptionsVC

@@ -464,6 +464,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
             detailVC.detailVisit = visit
             detailVC.navigationItem.leftItemsSupplementBackButton = true
+            detailVC.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
 
             // Set up visitsInTable for swipe navigation (single visit)
             visitsInTable = [visit]
@@ -481,6 +482,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Reload the data
         _fetchedResultsController = nil
         self.tableView.reloadData()
@@ -493,6 +496,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         // save Place updates on main thread
         if ad.newFileParsed {
             ad.storePlaces()
@@ -1053,6 +1057,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 }
                 
                 controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
             }
         }
         if segue.identifier == "showVisitOptions" {
