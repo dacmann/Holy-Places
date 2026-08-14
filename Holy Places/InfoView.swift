@@ -19,11 +19,18 @@ struct InfoView: View {
     @State private var showFAQ = false
     @State private var showMail = false
     @State private var showMailUnavailableAlert = false
+    @State private var notesSheet: UpdateNotesContent?
+
+    private var appVersion: String {
+        (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? ""
+    }
+
+    private var dataVersion: String {
+        placeDataVersion ?? ""
+    }
 
     private var versionString: String {
-        let appVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? ""
-        let dataVersion = placeDataVersion ?? ""
-        return "Version: \(appVersion) | \(dataVersion)"
+        "Version: \(appVersion) | \(dataVersion)"
     }
 
     var body: some View {
@@ -78,6 +85,11 @@ struct InfoView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("The default Mail app is not configured on this device.")
+        }
+        .sheet(item: $notesSheet) { notes in
+            UpdateNotesSheet(notes: notes) {
+                notesSheet = nil
+            }
         }
     }
 
@@ -169,9 +181,22 @@ struct InfoView: View {
 
     private var footerSection: some View {
         VStack(spacing: 8) {
-            Text(versionString)
-                .font(.custom("Baskerville", size: 17))
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            HStack(spacing: 0) {
+                Text("Version: ")
+                Button(appVersion) {
+                    showAppNotes()
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(Color("BaptismsBlue"))
+                Text(" | ")
+                Button(dataVersion) {
+                    showDataNotes()
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(Color("BaptismsBlue"))
+            }
+            .font(.custom("Baskerville", size: 17))
+            .frame(maxWidth: .infinity, alignment: .trailing)
 
             Text("Holy Places of the Lord is an independent, unofficial app created by Derek S. Cordon. It is not affiliated with, sponsored by, or endorsed by The Church of Jesus Christ of Latter-day Saints.")
                 .font(.custom("Baskerville", size: 13))
@@ -179,6 +204,58 @@ struct InfoView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top, 4)
         }
+    }
+
+    private func showAppNotes() {
+        let fallback = "No update notes are available."
+        let message = WhatsNew.notes(for: appVersion) ?? fallback
+        notesSheet = UpdateNotesContent(
+            title: "What's New in Version \(appVersion)",
+            message: message
+        )
+    }
+
+    private func showDataNotes() {
+        let fallback = "No update notes are available."
+        let title = DataUpdateNotes.date.isEmpty ? "Data Update" : "\(DataUpdateNotes.date) Update"
+        let body = DataUpdateNotes.combinedMessage.trimmingCharacters(in: .whitespacesAndNewlines)
+        notesSheet = UpdateNotesContent(
+            title: title,
+            message: body.isEmpty ? fallback : DataUpdateNotes.combinedMessage
+        )
+    }
+}
+
+// MARK: - Update notes sheet
+
+struct UpdateNotesContent: Identifiable {
+    let id = UUID()
+    let title: String
+    let message: String
+}
+
+struct UpdateNotesSheet: View {
+    let notes: UpdateNotesContent
+    let onDismiss: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                Text(notes.message)
+                    .font(.custom("Baskerville", size: 16))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+            }
+            .navigationTitle(notes.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done", action: onDismiss)
+                        .font(.custom("Baskerville", size: 17))
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
     }
 }
 

@@ -49,6 +49,7 @@
 		9C6ECC8D2FE859AF004386CD /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC872FE859AF004386CD /* ShareVC.swift */; };
 		9C6ECC8E2FE859AF004386CD /* ShareActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC842FE859AF004386CD /* ShareActivityView.swift */; };
 		9C6ECC8F2FE859AF004386CD /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC882FE859AF004386CD /* ShareView.swift */; };
+		9C765542302F9C2A00C72E88 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C765541302F9C2A00C72E88 /* WhatsNew.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
 		9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */; };
 		9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */; };
@@ -152,6 +153,7 @@
 		9C6ECC862FE859AF004386CD /* ShareQRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareQRCodeView.swift; sourceTree = "<group>"; };
 		9C6ECC872FE859AF004386CD /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
 		9C6ECC882FE859AF004386CD /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		9C765541302F9C2A00C72E88 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardConfig.swift; sourceTree = "<group>"; };
 		9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Achievement+CelebrationBoard.swift"; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 		64FDE6ED1E21863A00951A58 /* Holy Places */ = {
 			isa = PBXGroup;
 			children = (
+				9C765541302F9C2A00C72E88 /* WhatsNew.swift */,
 				9CC490213029066100B30556 /* HolyPlacesPromo.pdf */,
 				9C6ECC822FE859AF004386CD /* AppShareLinks.swift */,
 				9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */,
@@ -508,6 +511,7 @@
 				64CAEBEF1E2198C000F7C605 /* TableViewController.swift in Sources */,
 				644243C71E2A6CB10097E924 /* HomeVC.swift in Sources */,
 				6460807B1E4B9A5D002CF985 /* VisitOptionsVC.swift in Sources */,
+				9C765542302F9C2A00C72E88 /* WhatsNew.swift in Sources */,
 				64CAEBF11E21B80900F7C605 /* Temples.swift in Sources */,
 				644243C51E298CA80097E924 /* VisitTableVC.swift in Sources */,
 				9CBA369D2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift in Sources */,

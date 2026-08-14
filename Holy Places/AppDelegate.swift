@@ -981,6 +981,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 parser.delegate = self
                 if parser.parse() {
                     self.newFileParsed = true
+                    DataUpdateNotes.saveCurrent()
                 } else {
                     print("Data parsing aborted")
                     let error = parser.parserError!
@@ -2200,6 +2201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 // Save updated places to CoreData
                 storePlaces()
                 savePlaceVersion()
+                DataUpdateNotes.saveCurrent()
             } else {
                 print("Data parsing aborted")
                 let error = parser.parserError!
