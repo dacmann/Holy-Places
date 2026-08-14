@@ -337,10 +337,11 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     /// Era names aligned with the dedication-date sections in the temple list.
     /// Year ranges come from those section titles; gaps keep the preceding era.
+    /// Pre-St. George temples (Kirtland, original Nauvoo) use Restoration Era.
     func eraName(for year: Int) -> String? {
         switch year {
         case ..<1877:
-            return nil
+            return "Restoration Era"
         case 1877..<1919:
             return "Pioneer Era"
         case 1919..<1964:

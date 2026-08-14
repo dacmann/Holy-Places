@@ -1,63 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Holy Places iOS App</title>
-    <link rel="stylesheet" href="./main.css">
-    <link rel="stylesheet" href="../960_12_col.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holy Places of the Lord</title>
+  <link rel="stylesheet" href="admin/static/bootstrap/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+  <style>
+    body, .btn, h1, h2, h3, h4, h5, h6, p, div, span, a, button, li {
+      font-family: 'Baskerville', 'Baskerville Old Face', 'Times New Roman', serif !important;
+    }
+    body {
+      background-color: #ffffff;
+      color: #2c2620;
+    }
+    a {
+      color: #005493;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #003d6b;
+      text-decoration: underline;
+    }
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+    .hero img {
+      height: 2.2em;
+      vertical-align: middle;
+      margin-left: 0.35rem;
+    }
+    .page-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .greeting {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .greeting-text {
+      flex: 1;
+      min-width: 0;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      color: #2c2620;
+    }
+    .profile-col {
+      width: 140px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .profile-photo {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 0.55rem;
+    }
+    .profile-col a {
+      display: block;
+      font-size: 1.2rem;
+      margin-top: 0.2rem;
+    }
+    .media-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .section-icon {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .section-icon.rounded {
+      border-radius: 10px;
+    }
+    .media-row p {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: #2c2620;
+    }
+    .section-link {
+      display: block;
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+    .disclaimer {
+      color: #666;
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+    .page-footer {
+      border-top: 1px solid #ddd;
+      margin-top: 0.5rem;
+      padding: 1.5rem 0 2rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .page-footer a {
+      color: #666;
+    }
+    .page-footer a:hover {
+      color: #952;
+    }
+    @media (max-width: 576px) {
+      .greeting {
+        flex-direction: column;
+        align-items: center;
+      }
+      .greeting-text {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header id="mainHeader" class="container_12">
-        <div class="grid_2 alpha">
-            <img src="./images/morningstarmoroni.png">
+  <div class="container py-4">
+    <div class="hero">
+      <h1>
+        Holy Places of the Lord
+        <img src="images/morningstarmoroni.png" alt="">
+      </h1>
+    </div>
+
+    <div class="page-card">
+      <div class="greeting">
+        <div class="greeting-text">
+          <p>Greetings! Creating and maintaining this app is a labor of love. I hope it assists and motivates all who use it to frequently visit these Holy Places.</p>
+          <p class="mb-0">&nbsp;&nbsp;- Derek</p>
         </div>
-        <div class="grid_10 omega" style="text-align: center">
-				<h1>Holy Places of the Lord</h1>
-                <p>Temples and Historical Sites</p>
+        <div class="profile-col">
+          <img class="profile-photo" src="images/profile-kirtland.jpeg" alt="Derek Cordon">
+          <a href="mailto:dacmann@icloud.com?subject=Holy%20Places%20App%20Feedback">Contact Me</a>
+          <a href="holyplacesfaq.html">FAQ</a>
         </div>
-        <div class="clear"></div>
-    </header>
-<main id="main" class="container_12">
-    <div class="grid_8 alpha">
-            <p>Greetings!  Thanks for checking out my apps.  I love to visit holy places and am excited to have these apps and I hope you find them helpful as well.  - Derek</p>
+      </div>
     </div>
-    <div class="grid_4 omega">
-        <img src="./images/profile.jpg">
+
+    <div class="page-card">
+      <div class="media-row">
+        <img class="section-icon" src="images/morningstarmoroni.png" alt="Holy Places logo">
+        <p>The Holy Places logo, created by my daughter, features the Morning Star from the Nauvoo Temple’s stained glass windows along with the Angel Moroni. It represents both the app’s historical and temple aspects. One Climbs has a great article on the inverted five-pointed star’s use on temples.</p>
+      </div>
+      <a class="section-link" href="http://oneclimbs.com/2011/11/21/restoring-the-pentagram-to-its-proper-place/">Article on Inverted Star</a>
     </div>
-    <div class="clear"></div>
-    <br />
-    <div class="grid_11 alpha>">
-            <p>The Holy Places logo, created by my teenage daughter, contains The Morning Star from the stained glass windows of the Nauvoo Temple.  Along with the iconic Angel Moroni, the logo represents both the Historical and Temple aspects of the Holy Places app.</p>
+
+    <div class="page-card">
+      <div class="media-row">
+        <img class="section-icon rounded" src="images/HPQuizLogo.png" alt="Holy Places Quiz Game logo">
+        <p>See how well you know your stuff with my fun Holy Places Quiz Game app for iPhone, iPad and the Apple TV.</p>
+      </div>
+      <a class="section-link" href="https://apps.apple.com/app/id1294022470">Holy Places Quiz Game</a>
     </div>
-    <div class="clear"></div>
-    <a href="./holyplacesfaq.html">Frequently Asked Questions</a>
-    <br /><br />
-    <div class="clear"></div>
-    <a href="http://oneclimbs.com/2011/11/21/restoring-the-pentagram-to-its-proper-place/">Restoring the pentagram to its proper place</a>
-    <br /><br />
-    <div class="clear"></div>
-    <div class="grid_2 alpha">
-        <img src="./images/HPQuizLogo.png">
+
+    <div class="page-card">
+      <p class="disclaimer">Holy Places of the Lord is an independent, unofficial app created by Derek S. Cordon. It is not affiliated with, sponsored by, or endorsed by The Church of Jesus Christ of Latter-day Saints.</p>
     </div>
-    <div class="grid_10 omega" style="text-align: center">
-            <h1>Holy Places Quiz Game</h1>
-            <p>Temples and Historical Sites</p>
-    </div>
-    <div class="clear"></div>
-    <div class="grid_11 alpha>">
-        <p>The Holy Places Quiz Game logo incorporates the eight-pointed star used extensively in the San Diego temple.  The below website contains a fascinating article regarding this star that is often referred to as the Seal of Melchizedek.</p>
-    </div>
-    <div class="clear"></div>
-    <a href="https://rsc.byu.edu/archived/volume-11-number-3-2010/seal-melchizedek-0">Article on the Eight-pointed Star</a>
-</main>
-<footer id="pageFooter">
-  <div class="rightCol">
-<!--    <p class="topLink"><a href="#mainHeader">return to top</a></p>-->
-    <p><a href="mailto:dacmann@icloud.com" title="Contact Me">dacmann@icloud.com</a></p>
+
+    <footer class="page-footer d-flex justify-content-between flex-wrap gap-2">
+      <span><small>All content &copy; 2026 Derek Cordon</small></span>
+      <a href="mailto:dacmann@icloud.com" title="Contact Me">dacmann@icloud.com</a>
+    </footer>
   </div>
-  <div class="leftCol">
-    <p><small>all content &copy;copyright 2019 Derek Cordon</small></p>
-  </div>
-</footer>
 </body>
 </html>

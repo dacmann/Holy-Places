@@ -1,73 +1,282 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Holy Places iOS App - FAQ</title>
-    <link rel="stylesheet" href="../holyplaces/main.css">
-    <link rel="stylesheet" href="../960_12_col.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holy Places of the Lord — FAQ</title>
+  <link rel="stylesheet" href="admin/static/bootstrap/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+  <style>
+    body, .btn, h1, h2, h3, h4, h5, h6, p, div, span, a, button, li, summary {
+      font-family: 'Baskerville', 'Baskerville Old Face', 'Times New Roman', serif !important;
+    }
+    body {
+      background-color: #ffffff;
+      color: #2c2620;
+    }
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+    .hero img {
+      height: 2.2em;
+      vertical-align: middle;
+      margin-left: 0.35rem;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 2.1rem;
+      font-weight: normal;
+      margin: 0.75rem auto 0;
+      line-height: 1.3;
+      padding: 0 1rem;
+    }
+    .section-title {
+      color: #7f7f7f;
+      font-weight: normal;
+      font-size: 1.35rem;
+      margin: 1.75rem 0 0.75rem;
+    }
+    .faq-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .faq-toolbar button {
+      background: none;
+      border: none;
+      color: #0d6efd;
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .faq-toolbar button:hover {
+      color: #0a58ca;
+    }
+    details.faq-item {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    details.faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.15rem;
+      font-size: 1.15rem;
+      line-height: 1.35;
+      color: #2c2620;
+    }
+    details.faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+    details.faq-item summary::after {
+      content: "";
+      flex-shrink: 0;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-right: 2px solid #7f7f7f;
+      border-bottom: 2px solid #7f7f7f;
+      transform: rotate(45deg);
+      transition: transform 0.15s ease;
+      margin-top: -0.2rem;
+    }
+    details.faq-item[open] summary {
+      border-bottom: 1px solid #eee;
+    }
+    details.faq-item[open] summary::after {
+      transform: rotate(-135deg);
+      margin-top: 0.2rem;
+    }
+    .faq-answer {
+      padding: 1rem 1.15rem 1.2rem;
+      color: #555;
+      line-height: 1.65;
+      font-size: 1.05rem;
+    }
+    .faq-answer p:last-child {
+      margin-bottom: 0;
+    }
+    .page-footer {
+      border-top: 1px solid #ddd;
+      margin-top: 2.5rem;
+      padding: 1.5rem 0 2rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .page-footer a {
+      color: #666;
+    }
+    .page-footer a:hover {
+      color: #952;
+    }
+  </style>
 </head>
 <body>
-    <header id="mainHeader" class="container_12">
-        <div class="grid_2 alpha">
-            <img src="images/morningstarmoroni.png">
-        </div>
-        <div class="grid_10 omega" style="text-align: center">
-				<h1>Holy Places</h1>
-                <p>Frequently Asked Questions</p>
-        </div>
-        <div class="clear"></div>
-    </header>
-    <main id="main" class="container_12">
-        <div class="grid_12 alpha">
-            <p><b>Q: How do I add a new visit?</b></p>
-            <p><b>A:</b> To add a new visit, navigate to the desired place from the Places tab to the Place Details page for the place you want to create a visit. From there you will see the “Record Visit“ button.  Once you have added a visit for a place, you can also swipe left on that visit to reveal shortcut options of Copy or New: Select ‘Copy’ to record a new visit with same details and it will automatically move out date of new visit a configurable number of days based on option in Settings; Select ‘New’ to quickly create new visit for same place with today's date. An alternate way to add a new visit (only on iOS for now) is by tapping the 'add' button at the top left of the Visits tab which also has the option to select 'Other' to add a visit to a custom holy place not included.</p>
-        </div>
-        
-        <div class="grid_12 alpha">
-            <p><b>Q: How do I record a visit from the past?</b></p>
-            <p><b>A:</b> When you are recording the visit you can tap on the date to change it. It will default to today’s date so you’ll need to change it for past visits. For those you’ve already entered you can go into that entry from the visits tab and select edit to change date.</p>
-        </div>
-                
-        <div class="grid_12 alpha">
-            <p><b>Q: How do I back-up my visits?  Where is the data stored?  Can it be synced to the cloud?</b></p>
-            <p><b>A:</b> The data is stored in the app’s database on your device. On iOS, this data can be backed up to iCloud if your device is set up for nightly iCloud backups. On Android, backup behavior depends on your device and Google account settings. If you get a new device and restore it from the same backup, your visit history will appear on the new device. However, if the app is deleted or you set up a new device without restoring from backup, your visits will be lost.</p>
+  <div class="container py-4">
+    <div class="hero">
+      <h1>
+        Holy Places of the Lord
+        <img src="images/morningstarmoroni.png" alt="">
+      </h1>
+      <p class="subtitle">Frequently Asked Questions</p>
+    </div>
 
-            <p>To help prevent data loss, the app includes its own backup and restore feature, available from the Export button at the top right on the Visits tab. You can export your visit data as an XML file, which can later be used to restore your visits. When you choose to back up, you’ll be prompted to save the file to your preferred cloud storage service (e.g., iCloud Drive, Google Drive, or similar) or locally on your device. To restore from a backup, tap Import Visits from XML and select the previously exported XML file from your chosen storage location.</p>
-        </div>
+    <div class="faq-toolbar">
+      <button type="button" id="expandAll">Expand all</button>
+      <button type="button" id="collapseAll">Collapse all</button>
+    </div>
 
-        <div class="grid_12 alpha">
-            <p><b>Q: How do I delete a visit?</b></p>
-            <p><b>A:</b> On the Visits tab you can swipe left on a visit to reveal a Delete button.  You can also delete all the visits entered at one time by deleting the app and reinstalling it.</p>
-        </div>
-        
-         <div class="grid_12 alpha">
-            <p><b>Q: How do I see all the places I have visited on the map?</b></p>
-            <p><b>A:</b> From the Map tab, you can click on the Filters button and filter the places to only those you have recorded visits to. This feature is only on iOS at this time.</p>
-        </div>
+    <h2 class="section-title">Recording visits</h2>
 
-        <div class="grid_12 alpha">
-            <p><b>Q: Is there a way to sync the app between devices?</b></p>
-            <p><b>A:</b> The visits entered into the App are stored locally on the device and will not sync automatically between other devices. However, you can export the entered visits as a XML file and import them into a different device. To prevent duplicates, the App will only import visits that don't already exist on the device. The export/import options are available from the Visit tab’s Export button in the upper right corner. I recommend exporting the visits on a regular basis as a back-up since they would be lost if the app was mistakenly deleted.</p>
-        </div>
+    <details class="faq-item">
+      <summary>How do I add a new visit?</summary>
+      <div class="faq-answer">
+        <p>Open the place from the Places tab, then tap <strong>Record Visit</strong> on the Place Details page.</p>
+        <p>After you have at least one visit for a place, swipe left on that visit for shortcuts:</p>
+        <ul>
+          <li><strong>Copy</strong> creates a new visit with the same details and moves the date forward by the number of days set in Settings.</li>
+          <li><strong>New</strong> creates a visit for the same place with today’s date.</li>
+        </ul>
+        <p>On iOS you can also tap the Add button on the Visits tab. Choose <strong>Other</strong> there to record a visit to a custom holy place that is not in the list.</p>
+      </div>
+    </details>
 
-        <div class="grid_12 alpha">
-            <p><b>Q: How do I track the time as a Temple Ordinance worker?</b></p>
-            <p><b>A:</b> From the Settings page (accessible from the Home tab), you can turn on the 'Enable Hours Worked Entry' option.  This will add an additional data entry element to the Record Visit page and also add a new reporting line to the Summary tab.</p>
-        </div>        
-        
-        <div class="grid_12 alpha">
-            <p><b>Q: Are there any plans to release the Holy Places app for the Android platform?</b></p>
-            <p><b>A:</b> After years of anticipation, I am thrilled to announce that I have personally taken on the development of an Android version and it was released to the Play Store at the end of August 2025.</p>
-        </div>
-    </main>
-<footer id="pageFooter">
-  <div class="rightCol">
-<!--    <p class="topLink"><a href="#mainHeader">return to top</a></p>-->
-    <p><a href="mailto:dacmann@icloud.com" title="Contact Me">dacmann@icloud.com</a></p>
+    <details class="faq-item">
+      <summary>How do I record a visit from the past?</summary>
+      <div class="faq-answer">
+        <p>When recording a visit, tap the date to change it. It defaults to today, so change it for past visits. To correct a visit you already entered, open it from the Visits tab and tap Edit.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I delete a visit?</summary>
+      <div class="faq-answer">
+        <p>On the Visits tab, swipe left on a visit and tap Delete. Deleting the app and reinstalling it will also remove all visits on that device, so export a backup first if you still want the data.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I track hours as a temple ordinance worker?</summary>
+      <div class="faq-answer">
+        <p>In Settings (from the Home tab), turn on <strong>Enable Hours Worked Entry</strong>. That adds an hours field on the Record Visit page and an hours-worked line on the Summary tab.</p>
+      </div>
+    </details>
+
+    <h2 class="section-title">Backup and devices</h2>
+
+    <details class="faq-item">
+      <summary>How do I back up my visits? Where is the data stored?</summary>
+      <div class="faq-answer">
+        <p>Visit data is stored in the app’s database on your device. On iOS it can also be included in nightly iCloud device backups if those are enabled. On Android, backup behavior depends on your device and Google account settings. Restoring a new device from the same backup should restore your visits. If the app is deleted, or you set up a new device without restoring from backup, the visits will be lost.</p>
+        <p>The most reliable protection is the app’s own export. On the Visits tab, tap <strong>Export</strong> (top right) and save an XML file to iCloud Drive, Google Drive, or your device. You can optionally include visit photos in the XML export. To restore, choose <strong>Import Visits from XML</strong> and select that file.</p>
+        <p>You can also export a text or CSV copy of your visits from the same screen. Those formats are useful for reading or spreadsheets, but XML is the format used to restore visits into the app.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Can I sync visits between devices?</summary>
+      <div class="faq-answer">
+        <p>Visits are stored locally and do not sync automatically. Export them as XML on one device and import that file on the other. Matching place and date are treated as duplicates and skipped, even if the comments differ. Export regularly as a backup in case the app is deleted.</p>
+      </div>
+    </details>
+
+    <h2 class="section-title">Profiles</h2>
+
+    <details class="faq-item">
+      <summary>How do I track visits for family members separately?</summary>
+      <div class="faq-answer">
+        <p>Turn on <strong>Enable Profiles</strong> in Settings, then use <strong>Manage Profiles</strong> to add family members (up to 10). Switch the active profile from the Home tab. Goals, summary totals, achievements, and exports follow the active profile.</p>
+        <p>When recording a visit, you can assign it to more than one profile at once. If it is not only for the active profile, a “Visit Recorded for:” line is added to the notes.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I copy visits to another profile?</summary>
+      <div class="faq-answer">
+        <p>With Profiles enabled and at least two profiles, tap the Select button on the Visits tab. Search or filter if you want a subset, select the visits (or Select All), then tap <strong>Copy to Profile…</strong>. This copies the visits; it does not move or delete them from the current profile.</p>
+      </div>
+    </details>
+
+    <h2 class="section-title">Map and more</h2>
+
+    <details class="faq-item">
+      <summary>How do I see only the places I have visited on the map?</summary>
+      <div class="faq-answer">
+        <p>On the Map tab, tap <strong>Filters</strong> and choose the Visited option. You can also filter by place type, such as active temples or historical sites.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What is Map Timeline?</summary>
+      <div class="faq-answer">
+        <p>Tap <strong>Timeline</strong> on the Map tab to watch temples appear across the world by dedicated year, from Kirtland (1836) and the original Nauvoo Temple (1846) through today. Tap Play for an animated journey. Pins show the name in use at that time.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do visit reminders work?</summary>
+      <div class="faq-answer">
+        <p>On iOS, Settings includes <strong>Enable Visit Notifications</strong> under Track Visit Reminder. After you spend time at a holy place, the app can remind you to record the visit. You must allow Location (Always) and Notifications. You can also set how many minutes to wait after the visit before the reminder appears, and optionally limit reminders to certain place types.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Does the app have widgets or an Apple Watch app?</summary>
+      <div class="faq-answer">
+        <p>Yes, on iOS:</p>
+        <ul>
+          <li><strong>Large widget:</strong> a featured visit photo (or place image), with the place name and date. Tapping it opens that visit.</li>
+          <li><strong>Medium widget:</strong> your latest achievement and current-year goal progress.</li>
+          <li><strong>Small widget:</strong> a daily inspirational quote.</li>
+        </ul>
+        <p>The Apple Watch app is a temple-session timer. Swipe down to adjust the minutes, swipe left or right to change the background image, and tap to reset the countdown.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What are Achievements and the Celebration Board?</summary>
+      <div class="faq-answer">
+        <p>Achievements track milestones such as temples visited or ordinances completed. Open them from the Home tab. Completed achievements can be shared as an image.</p>
+        <p>Higher-tier achievements can also be posted to the public <a href="celebrationboard.html">Celebration Board</a>, where others can see the milestone and the places included.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I share the app with someone?</summary>
+      <div class="faq-answer">
+        <p>On the Home tab, tap Share to send an App Store or Google Play link, show a QR code, or open a printable promotional PDF.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is there an Android version?</summary>
+      <div class="faq-answer">
+        <p>Yes. Holy Places of the Lord is on <a href="https://play.google.com/store/apps/details?id=net.dacworld.android.holyplacesofthelord">Google Play</a> as well as the <a href="https://apps.apple.com/us/app/holy-places-of-the-lord/id1200184537">App Store</a>. Widgets and the Apple Watch app are currently iOS-only.</p>
+      </div>
+    </details>
+
+    <footer class="page-footer d-flex justify-content-between flex-wrap gap-2">
+      <span><small>All content &copy; 2026 Derek Cordon</small></span>
+      <a href="mailto:dacmann@icloud.com" title="Contact Me">dacmann@icloud.com</a>
+    </footer>
   </div>
-  <div class="leftCol">
-    <p><small>all content &copy;copyright 2019 Derek Cordon</small></p>
-  </div>
-</footer>
+
+  <script>
+    const items = () => document.querySelectorAll('details.faq-item');
+    document.getElementById('expandAll').addEventListener('click', () => {
+      items().forEach(item => { item.open = true; });
+    });
+    document.getElementById('collapseAll').addEventListener('click', () => {
+      items().forEach(item => { item.open = false; });
+    });
+  </script>
 </body>
 </html>
