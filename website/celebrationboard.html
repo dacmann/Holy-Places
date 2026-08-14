@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celebration Board — Holy Places of the Lord</title>
+  <link rel="stylesheet" href="admin/static/bootstrap/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+  <style>
+    body, .btn, h1, h2, h3, h4, h5, h6, p, div, span, a, button, li {
+      font-family: 'Baskerville', 'Baskerville Old Face', 'Times New Roman', serif !important;
+    }
+    body {
+      background-color: #ffffff;
+      color: #2c2620;
+    }
+    .page-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+    .hero img {
+      height: 2.2em;
+      vertical-align: middle;
+      margin-left: 0.35rem;
+    }
+    .subtitle {
+      color: #666;
+      margin: 0.75rem auto 0;
+      line-height: 1.4;
+      padding: 0 1rem;
+    }
+    .achievement-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .achievement-icon {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 3px rgba(255,255,255,0.8));
+    }
+    .achievement-heading {
+      min-width: 0;
+    }
+    .achievement-title {
+      margin-bottom: 0.15rem;
+    }
+    .achievement-title.type-T { color: #000080; }
+    .achievement-title.type-H { color: #720000; }
+    .achievement-title.type-B { color: #005493; }
+    .achievement-title.type-I { color: #323200; }
+    .achievement-title.type-E { color: #ffa812; }
+    .achievement-title.type-S { color: #68478d; }
+    .achievement-title.type-W { color: #4c4c4c; }
+    .achievement-details {
+      color: #666;
+      font-size: 1.05rem;
+      margin-bottom: 0;
+    }
+    .entry-row {
+      border-top: 1px solid #eee;
+      padding: 0.75rem 0;
+    }
+    .entry-row:first-of-type {
+      border-top: none;
+    }
+    .entry-name-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.5rem;
+    }
+    .entry-name {
+      background: none;
+      border: none;
+      color: #0d6efd;
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 1.05rem;
+    }
+    .entry-name:hover {
+      color: #0a58ca;
+    }
+    .entry-location {
+      color: #666;
+      font-size: 1.05rem;
+    }
+    .entry-meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin-top: 0.15rem;
+    }
+    .entry-place.type-T,
+    .entry-place.type-B,
+    .entry-place.type-I,
+    .entry-place.type-E,
+    .entry-place.type-S,
+    .entry-place.type-W {
+      color: #000080;
+    }
+    .entry-place.type-H {
+      color: #720000;
+    }
+    .places-list {
+      margin-top: 0.5rem;
+      padding-left: 1.1rem;
+      color: #444;
+      columns: 2;
+      column-gap: 1.5rem;
+    }
+    @media (max-width: 576px) {
+      .places-list {
+        columns: 1;
+      }
+    }
+    .empty-state {
+      text-align: center;
+      color: #777;
+      padding: 2rem 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <div class="hero">
+      <h1>
+        Celebration Board
+        <img src="images/morningstarmoroni.png" alt="">
+      </h1>
+      <p class="subtitle">
+        Shared milestones from Holy Places of the Lord — tap a name to see the places included in that achievement.
+      </p>
+    </div>
+
+    <div id="status" class="empty-state">Loading…</div>
+    <div id="board"></div>
+  </div>
+
+  <script>
+    const apiUrl = 'api/celebrationboard.php';
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text == null ? '' : String(text);
+      return div.innerHTML;
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : ''));
+      if (isNaN(d.getTime())) return escapeHtml(iso);
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function fallbackDetails(entry) {
+      const n = entry.threshold;
+      switch (entry.achievementType) {
+        case 'T': return n ? ('Visit ' + n + ' different temples') : '';
+        case 'H': return n ? ('Visit ' + n + ' different historic sites') : '';
+        case 'B': return n ? ('Complete ' + n + ' Baptisms') : '';
+        case 'I': return n ? ('Complete ' + n + ' Initiatories') : '';
+        case 'E': return n ? ('Complete ' + n + ' Endowments') : '';
+        case 'S': return n ? ('Complete ' + n + ' Sealings') : '';
+        case 'W': return n ? ('Work ' + n + ' hours in the temple') : '';
+        default: return '';
+      }
+    }
+
+    function groupByAchievement(entries) {
+      const groups = {};
+      entries.forEach(entry => {
+        const key = entry.achievementName || 'Achievement';
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(entry);
+      });
+      return Object.keys(groups).sort((a, b) => a.localeCompare(b)).map(name => {
+        const list = groups[name].sort((a, b) => String(b.dateAchieved || '').localeCompare(String(a.dateAchieved || '')));
+        const first = list[0] || {};
+        const details = list.map(e => e.achievementDetails).find(d => d && String(d).trim())
+          || fallbackDetails(first);
+        return {
+          name,
+          details,
+          type: first.achievementType || '',
+          iconId: first.achievementId || '',
+          entries: list
+        };
+      });
+    }
+
+    function renderBoard(entries) {
+      const status = document.getElementById('status');
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+
+      if (!entries.length) {
+        status.textContent = 'No Celebration Board entries yet. Be the first to share a milestone from the app!';
+        status.classList.remove('d-none');
+        return;
+      }
+
+      status.classList.add('d-none');
+      const groups = groupByAchievement(entries);
+
+      groups.forEach(group => {
+        const card = document.createElement('div');
+        card.className = 'page-card';
+        const typeClass = group.type ? (' type-' + escapeHtml(group.type)) : '';
+        let html = '<div class="achievement-header">';
+        if (group.iconId) {
+          html += '<img class="achievement-icon" src="images/achievements/' + encodeURIComponent(group.iconId) + '.png" alt="" onerror="this.style.display=\'none\'">';
+        }
+        html += '<div class="achievement-heading">';
+        html += '<h2 class="h4 achievement-title' + typeClass + '">' + escapeHtml(group.name) + '</h2>';
+        if (group.details) {
+          html += '<p class="achievement-details">' + escapeHtml(group.details) + '</p>';
+        }
+        html += '</div></div>';
+        group.entries.forEach((entry) => {
+          const placesId = 'places-' + Math.random().toString(36).slice(2);
+          const places = Array.isArray(entry.places) ? entry.places : [];
+          const placeAchieved = (entry.placeAchieved && String(entry.placeAchieved).trim())
+            || (places.length ? places[places.length - 1] : '');
+          html += '<div class="entry-row">';
+          html += '<div class="entry-name-line">';
+          html += '<button type="button" class="entry-name" data-target="' + placesId + '">' + escapeHtml(entry.userName) + '</button>';
+          if (entry.location) {
+            html += '<span class="entry-location">· ' + escapeHtml(entry.location) + '</span>';
+          }
+          html += '</div>';
+          html += '<div class="entry-meta">';
+          if (placeAchieved) {
+            const placeType = entry.achievementType || group.type || 'T';
+            html += 'at <span class="entry-place type-' + escapeHtml(placeType) + '">' + escapeHtml(placeAchieved) + '</span>';
+          }
+          if (entry.dateAchieved) {
+            html += (placeAchieved ? ' ' : '') + 'on ' + formatDate(entry.dateAchieved);
+          }
+          html += '</div>';
+          html += '<ul class="places-list d-none" id="' + placesId + '">';
+          places.forEach(place => {
+            html += '<li>' + escapeHtml(place) + '</li>';
+          });
+          if (!places.length) {
+            html += '<li><em>No places listed</em></li>';
+          }
+          html += '</ul></div>';
+        });
+        card.innerHTML = html;
+        board.appendChild(card);
+      });
+
+      board.querySelectorAll('.entry-name').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const list = document.getElementById(btn.getAttribute('data-target'));
+          if (list) list.classList.toggle('d-none');
+        });
+      });
+    }
+
+    fetch(apiUrl)
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to load');
+        return r.json();
+      })
+      .then(data => renderBoard(data.entries || []))
+      .catch(() => {
+        document.getElementById('status').textContent = 'Unable to load the Celebration Board right now.';
+      });
+  </script>
+</body>
+</html>
