@@ -349,6 +349,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 //        self.navigationItem.leftBarButtonItem = self.editButtonItem
         
         formatter.dateFormat = "EEEE, MMMM dd, yyyy"
+        ad.syncVisitYears()
         
         // Setup sort menu
         setupSortMenu()
@@ -907,9 +908,15 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         switch sortOption {
         case 0: // Latest Date
-            sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: false)]
+            sortDescriptors = [
+                NSSortDescriptor(key: "year", ascending: false),
+                NSSortDescriptor(key: "dateVisited", ascending: false)
+            ]
         case 1: // Oldest Date
-            sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
+            sortDescriptors = [
+                NSSortDescriptor(key: "year", ascending: true),
+                NSSortDescriptor(key: "dateVisited", ascending: true)
+            ]
         case 2: // Place A-Z
             sortDescriptors = [NSSortDescriptor(key: "holyPlace", ascending: true)]
         case 3: // Place Z-A
@@ -1212,7 +1219,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             let copy = Visit(context: context)
             copy.holyPlace = source.holyPlace
             copy.dateVisited = source.dateVisited
-            copy.year = source.year
+            if let dateVisited = source.dateVisited {
+                copy.year = ad.calendarYearString(for: dateVisited)
+            } else {
+                copy.year = source.year
+            }
             copy.type = source.type
             copy.profileId = toProfileId
             copy.baptisms = source.baptisms

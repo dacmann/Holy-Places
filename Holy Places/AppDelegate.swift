@@ -282,6 +282,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         //Load any saved settings
         ad = UIApplication.shared.delegate as! AppDelegate
         
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "yyyy"
+        currentYear = yearFormatter.string(from: Date())
+        
         // Get version of saved data
         getPlaceVersion()
         
@@ -1356,6 +1360,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         return holyPlace
     }
 
+    /// Calendar year of a visit date, matching how dates are shown in the Visits list.
+    func calendarYearString(for date: Date) -> String {
+        String(Calendar.current.component(.year, from: date))
+    }
+
+    /// Keep Visit.year aligned with dateVisited so FRC year sections match the displayed date.
+    func syncVisitYears() {
+        let context = getContext()
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        guard let results = try? context.fetch(fetchRequest) else { return }
+        var needsSave = false
+        for visit in results {
+            guard let dateVisited = visit.dateVisited else { continue }
+            let year = calendarYearString(for: dateVisited)
+            if visit.year != year {
+                visit.year = year
+                needsSave = true
+            }
+        }
+        if needsSave {
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print("Could not save visit years \(error), \(error.userInfo)")
+            }
+        }
+    }
+
     func getVisits () {
         let context = getContext()
         var latestTempleVisited = ""
@@ -1374,6 +1406,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "yyyy"
+        currentYear = yearFormat.string(from: Date())
         let monthFormat = DateFormatter()
         monthFormat.dateFormat = "MM"
         
@@ -1390,6 +1423,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         initAchievements()
         distinctHistoricSitesVisited.removeAll()
         distinctTemplesVisited.removeAll()
+        syncVisitYears()
         
         // Build profile predicate for filtering
         let profilePredicate: NSPredicate? = ProfileManager.shared.visitProfilePredicate()
@@ -1397,27 +1431,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         do {
             // Get All visits (filtered by profile)
             visits.removeAll()
-            var needsSave = false
             if let pp = profilePredicate {
                 fetchRequest.predicate = pp
             }
             var searchResults = try context.fetch(fetchRequest)
             for visit in searchResults as [Visit] {
-                if visit.year == nil, let dateVisited = visit.dateVisited {
-                    visit.year = yearFormat.string(from: dateVisited)
-                    needsSave = true
-                }
                 if let placeName = visit.holyPlace {
                     // Normalize to current name so the map/list "visited" indicator is accurate
                     // even when all recorded visits predate a rename.
                     visits.append(canonicalName(for: placeName))
-                }
-            }
-            if needsSave {
-                do {
-                    try context.save()
-                } catch let error as NSError {
-                    print("Could not save \(error), \(error.userInfo)")
                 }
             }
             // get temple visits
@@ -1898,33 +1920,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 // Get type from last letter of string
                 let achType = ach.suffix(1)
                 // remove type letter and convert to Float
-                let achCnt = Float(ach.replacingOccurrences(of: achType, with: ""))
-                // Set progress level by dividing number achived by achievement number
-                switch achType {
-                case "T":
-                    achievement.progress = Float(distinctTemplesVisited.count)/achCnt!
-                    achievement.remaining = Int(achCnt!) - distinctTemplesVisited.count
-                case "H":
-                    achievement.progress = Float(distinctHistoricSitesVisited.count)/achCnt!
-                    achievement.remaining = Int(achCnt!) - distinctHistoricSitesVisited.count
-                case "B":
-                    achievement.progress = Float(baptismsTotal)/achCnt!
-                    achievement.remaining = Int(achCnt!) - baptismsTotal
-                case "I":
-                    achievement.progress = Float(initiatoriesTotal)/achCnt!
-                    achievement.remaining = Int(achCnt!) - initiatoriesTotal
-                case "E":
-                    achievement.progress = Float(endowmentsTotal)/achCnt!
-                    achievement.remaining = Int(achCnt!) - endowmentsTotal
-                case "S":
-                    achievement.progress = Float(sealingsTotal)/achCnt!
-                    achievement.remaining = Int(achCnt!) - sealingsTotal
-                case "W":
-                    achievement.progress = Float(shiftHoursTotal)/achCnt!
-                    achievement.remaining = Int(achCnt!) - Int(shiftHoursTotal)
-                default:
+                if let achCnt = Float(String(ach.dropLast())), achCnt > 0 {
+                    // Set progress level by dividing number achived by achievement number
+                    switch achType {
+                    case "T":
+                        achievement.progress = Float(distinctTemplesVisited.count)/achCnt
+                        achievement.remaining = Int(achCnt) - distinctTemplesVisited.count
+                    case "H":
+                        achievement.progress = Float(distinctHistoricSitesVisited.count)/achCnt
+                        achievement.remaining = Int(achCnt) - distinctHistoricSitesVisited.count
+                    case "B":
+                        achievement.progress = Float(baptismsTotal)/achCnt
+                        achievement.remaining = Int(achCnt) - baptismsTotal
+                    case "I":
+                        achievement.progress = Float(initiatoriesTotal)/achCnt
+                        achievement.remaining = Int(achCnt) - initiatoriesTotal
+                    case "E":
+                        achievement.progress = Float(endowmentsTotal)/achCnt
+                        achievement.remaining = Int(achCnt) - endowmentsTotal
+                    case "S":
+                        achievement.progress = Float(sealingsTotal)/achCnt
+                        achievement.remaining = Int(achCnt) - sealingsTotal
+                    case "W":
+                        achievement.progress = Float(shiftHoursTotal)/achCnt
+                        achievement.remaining = Int(achCnt) - Int(shiftHoursTotal)
+                    default:
+                        achievement.progress = 0
+                    }
+                } else {
                     // Temple Consistent
-                    if (currentYearMonths + 1 < Int(monthFormat.string(from: Date()))!) {
+                    let currentMonth = Int(monthFormat.string(from: Date())) ?? 1
+                    if (currentYearMonths + 1 < currentMonth) {
                         // Achievement failed for this year so remove it from Not Completed Progress
                         if let location = notCompleted.firstIndex(where:{$0.iconName == "ach12MT\(currentYear)"}) {
                             // Only update if not already achieved
@@ -1939,7 +1965,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             }
             // sort the achievements by date achieved, then by achievement level (higher first) when dates are equal
             completed.sort(by: {
-                let dateComparison = $0.achieved?.compare(($1.achieved)!)
+                guard let date0 = $0.achieved, let date1 = $1.achieved else { return false }
+                let dateComparison = date0.compare(date1)
                 if dateComparison == .orderedSame {
                     // Extract achievement number from iconName (e.g., "ach50B" -> 50)
                     let num0 = Int($0.iconName.replacingOccurrences(of: "ach", with: "").dropLast()) ?? 0
@@ -1949,7 +1976,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 return dateComparison == .orderedDescending
             })
             // sort the non-achievements by progress
-            notCompleted.sort(by: { Int($0.progress!*100) > Int($1.progress!*100) })
+            notCompleted.sort(by: { ($0.progress ?? 0) > ($1.progress ?? 0) })
             
             // Save achievement and quote widget data on background thread
             let achIconName = completed.first?.iconName ?? "ach10T"

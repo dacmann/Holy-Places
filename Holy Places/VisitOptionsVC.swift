@@ -39,13 +39,41 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
     var isFavorite = false
     var pictureData: Data?
     var pictureBase64String: String = ""
+    var currentText = ""
+    var visitDateIsValid = false
     let dateFormatter = DateFormatter()
     let dateFormatterFile = DateFormatter()
     var importCount = 0
     var duplicates = 0
     var photoImportCount = 0
+    var skippedInvalid = 0
     var fileName = String()
     var exportCount = 0
+    private var estimateGeneration = 0
+    
+    /// Locale-stable calendar date for XML (import/export). Independent of device language.
+    private let xmlDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let legacyFullDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
+    private let legacyEnglishFullDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateStyle = .full
+        formatter.timeStyle = .none
+        return formatter
+    }()
     
     //MARK: - Outlets
     @IBOutlet weak var doneButton: UIButton!
@@ -84,44 +112,51 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
     }
     
     func updateEstimatedSize() {
-        let estimatedSizeInBytes = calculateEstimatedFileSize()
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useMB, .useKB]
-        formatter.countStyle = .file
-        estimatedSize.text = "Estimated size: \(formatter.string(fromByteCount: estimatedSizeInBytes))"
+        estimateGeneration += 1
+        let generation = estimateGeneration
+        let includePhotoData = includePhotos.isOn
+        if includePhotoData {
+            estimatedSize.text = "Estimated size: calculating…"
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let bytes = self?.calculateEstimatedFileSize(includePhotos: includePhotoData) ?? 0
+            DispatchQueue.main.async {
+                guard let self, generation == self.estimateGeneration else { return }
+                let formatter = ByteCountFormatter()
+                formatter.allowedUnits = [.useBytes, .useKB, .useMB, .useGB]
+                formatter.countStyle = .file
+                self.estimatedSize.text = "Estimated size: \(formatter.string(fromByteCount: bytes))"
+            }
+        }
     }
     
-    func calculateEstimatedFileSize() -> Int64 {
-        do {
-            let context = getContext()
-            let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-            
-            fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
-            
-            let searchResults = try context.fetch(fetchRequest)
-            
-            // Base XML size (without photos)
-            var estimatedSize: Int64 = 1000 // Base XML structure
-            
-            for visit in searchResults {
-                // Add visit data size
-                estimatedSize += Int64(visit.holyPlace?.count ?? 0) * 2
-                estimatedSize += Int64(visit.comments?.count ?? 0) * 2
-                estimatedSize += 200 // Other fields
+    func calculateEstimatedFileSize(includePhotos: Bool) -> Int64 {
+        let context = ad.persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        return context.performAndWait {
+            do {
+                let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+                fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
+                let searchResults = try context.fetch(fetchRequest)
                 
-                // Add photo size if includePhotos is enabled
-                if includePhotos.isOn, let pictureData = visit.picture {
-                    // Base64 encoding increases size by ~33%
-                    let photoSize = Int64(pictureData.count) * 133 / 100
-                    estimatedSize += photoSize
+                var estimatedSize: Int64 = 1000
+                for visit in searchResults {
+                    estimatedSize += Int64(visit.holyPlace?.count ?? 0) * 2
+                    estimatedSize += Int64(visit.comments?.count ?? 0) * 2
+                    estimatedSize += 200
+                    
+                    if includePhotos, let pictureData = visit.picture {
+                        let jpegBytes = VisitPhotoCompression.encodedData(from: pictureData)?.count ?? pictureData.count
+                        // XML stores photos as base64 (4 bytes per 3) plus picture/CDATA tags
+                        estimatedSize += Int64((jpegBytes + 2) / 3 * 4) + 40
+                    }
                 }
+                return estimatedSize
+            } catch {
+                print("Error calculating file size: \(error)")
+                return 0
             }
-            
-            return estimatedSize
-            
-        } catch {
-            print("Error calculating file size: \(error)")
-            return 0
         }
     }
     
@@ -210,9 +245,10 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
         if type == "txt" {
             visits = "My Holy Places Visits\(profileLabel)\n Exported on \(dateFormatter.string(from: Date.init()))\n"
         } else {
-            visits = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(Date.init())</ExportDate>"
+            let exportStamp = ISO8601DateFormatter().string(from: Date())
+            visits = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(exportStamp)</ExportDate>"
             if profilesEnabled {
-                visits.append("<Profile>\(ProfileManager.shared.activeProfileName())</Profile>")
+                visits.append("<Profile>\(xmlEscape(ProfileManager.shared.activeProfileName()))</Profile>")
             }
         }
         
@@ -235,46 +271,37 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             
             //Loop through each
             for visit in searchResults as [Visit] {
+                guard let placeName = visit.holyPlace, let visited = visit.dateVisited else { continue }
+                let commentsText = visit.comments ?? ""
                 switch type {
                 case "txt":
-                    visits.append("\(visit.holyPlace!)\n")
-                    visits.append("\(dateFormatter.string(from: visit.dateVisited!))\n")
-                    visits.append(visit.comments!)
+                    visits.append("\(placeName)\n")
+                    visits.append("\(dateFormatter.string(from: visited))\n")
+                    visits.append(commentsText)
                     if visit.isFavorite {
                         visits.append("\n⭐️ Favorite Visit")
                     }
                 case "csv":
                     let dateFormatter2 = DateFormatter()
                     dateFormatter2.dateStyle = .short
-                    visits.append("\(visit.holyPlace!),\(visit.type!),\(dateFormatter2.string(from: visit.dateVisited!)),\"\(visit.comments!)\"")
+                    let escapedComments = commentsText.replacingOccurrences(of: "\"", with: "\"\"")
+                    visits.append("\(placeName),\(visit.type ?? ""),\(dateFormatter2.string(from: visited)),\"\(escapedComments)\"")
                 default: // xml
-                    visits.append("<Visit><holyPlace>\(visit.holyPlace!)</holyPlace>")
-                    visits.append("<type>\(visit.type!)</type>")
-                    visits.append("<dateVisited>\(dateFormatter.string(from: visit.dateVisited!))</dateVisited>")
-                    visits.append("<comments><![CDATA[\(visit.comments!)]]></comments>")
+                    visits.append("<Visit><holyPlace>\(xmlEscape(placeName))</holyPlace>")
+                    visits.append("<type>\(xmlEscape(visit.type ?? ""))</type>")
+                    visits.append("<dateVisited>\(xmlDateFormatter.string(from: visited))</dateVisited>")
+                    visits.append("<comments>\(xmlCDATA(commentsText))</comments>")
                     visits.append("<isFavorite>\(visit.isFavorite)</isFavorite>")
                     
                     // Add photo if includePhotos is enabled and photo exists
                     if includePhotos.isOn, let pictureData = visit.picture {
-                        print("🔍 Export: Found picture data, size: \(pictureData.count) bytes for visit: \(visit.holyPlace!)")
-                        print("🔍 Export: Picture data type: \(Swift.type(of: pictureData))")
-                        
-                        // Check first few bytes to see if it looks like valid image data
-                        let firstBytes = pictureData.prefix(10)
-                        print("🔍 Export: First 10 bytes: \(Array(firstBytes))")
-                        
-                        // Try to create UIImage to verify it's valid before encoding
-                        if let testImage = UIImage(data: pictureData) {
-                            print("🔍 Export: Picture data creates valid UIImage: \(testImage.size)")
+                        if let exportData = VisitPhotoCompression.encodedData(from: pictureData) {
+                            print("🔍 Export: Photo \(pictureData.count) → \(exportData.count) bytes for \(visit.holyPlace!)")
+                            visits.append("<picture><![CDATA[\(exportData.base64EncodedString())]]></picture>")
                         } else {
-                            print("❌ Export: Picture data does NOT create valid UIImage - skipping export")
+                            print("❌ Export: Picture data is not a valid image - omitting photo for \(visit.holyPlace!)")
                             visits.append("<picture></picture>")
-                            continue
                         }
-                        
-                        let base64String = pictureData.base64EncodedString()
-                        print("🔍 Export: Base64 encoded to \(base64String.count) characters")
-                        visits.append("<picture><![CDATA[\(base64String)]]></picture>")
                     } else {
                         visits.append("<picture></picture>")
                     }
@@ -347,17 +374,31 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
         importCount = 0
         duplicates = 0
         photoImportCount = 0
+        skippedInvalid = 0
         
-        guard let parser = XMLParser(contentsOf: url[0]) else {
-            print("Cannot Read Data")
+        let fileURL = url[0]
+        let accessing = fileURL.startAccessingSecurityScopedResource()
+        defer {
+            if accessing {
+                fileURL.stopAccessingSecurityScopedResource()
+            }
+        }
+        
+        guard let parser = XMLParser(contentsOf: fileURL) else {
+            let alert = UIAlertController(title: "Import Failure", message: "The selected file could not be read.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true)
             return
         }
         
         parser.delegate = self
         if parser.parse() {
-            let message = photoImportCount > 0 ? 
+            var message = photoImportCount > 0 ?
                 "Successfully imported \(importCount) visits with \(photoImportCount) photos; \(duplicates) duplicate visits skipped" :
                 "Successfully imported \(importCount) visits; \(duplicates) duplicate visits skipped"
+            if skippedInvalid > 0 {
+                message += "; \(skippedInvalid) visits skipped (missing place or date)"
+            }
             let alert = UIAlertController(title: "Import Completed", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
@@ -365,10 +406,13 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             ad.getVisits()
         } else {
             print("Data parsing aborted")
-            let error = parser.parserError!
-            print("Error Description:\(error.localizedDescription)")
-            print("Line number: \(parser.lineNumber)")
-            let alert = UIAlertController(title: "Import Failure", message: "The XML file selected isn't formatted properly", preferredStyle: .alert)
+            var detail = "The XML file selected isn't formatted properly."
+            if let error = parser.parserError {
+                print("Error Description:\(error.localizedDescription)")
+                print("Line number: \(parser.lineNumber)")
+                detail += " \(error.localizedDescription) (line \(parser.lineNumber))"
+            }
+            let alert = UIAlertController(title: "Import Failure", message: detail, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alert, animated: true)
         }
@@ -379,10 +423,12 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
         eName = elementName
+        currentText = ""
         if elementName == "Visit" {
             holyPlace = String()
             comments = String()
             visitDate = Date()
+            visitDateIsValid = false
             hoursWorked = Double()
             sealings = Int16()
             endowments = Int16()
@@ -396,64 +442,57 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
         }
     }
     
-    // foundCharacters of parser
+    // foundCharacters of parser — XMLParser may deliver an element's text in multiple chunks.
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if !string.isEmpty {
-            switch eName {
-            case "holyPlace": holyPlace = string
-            case "comments": comments = string
-            case "dateVisited":
-                if dateFormatter.date(from: string) == nil {
-                    parser.abortParsing()
-                    break
-                }
-                visitDate = dateFormatter.date(from: string)!
-            case "hoursWorked": hoursWorked = Double(string)!
-            case "sealings": sealings = Int16(string)!
-            case "endowments": endowments = Int16(string)!
-            case "initiatories": initiatories = Int16(string)!
-            case "confirmations": confirmations = Int16(string)!
-            case "baptisms": baptisms = Int16(string)!
-            case "type": type = string
-            case "isFavorite": isFavorite = string.lowercased() == "true"
-            case "picture": 
-                if !string.isEmpty {
-                    pictureBase64String += string
-                    print("🔍 Import: Accumulating Base64 data, current length: \(pictureBase64String.count) characters for visit: \(holyPlace)")
-                }
-            default: return
-            }
+        currentText += string
+        if eName == "picture" {
+            pictureBase64String += string
         }
     }
     
     // didEndElement of parser
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "picture" && !pictureBase64String.isEmpty {
-            // Process the accumulated Base64 string
-            print("🔍 Import: Processing complete Base64 string, length: \(pictureBase64String.count) characters for visit: \(holyPlace)")
-            print("🔍 Import: Base64 string starts with: \(String(pictureBase64String.prefix(50)))...")
-            
-            if let data = Data(base64Encoded: pictureBase64String) {
-                pictureData = data
-                print("🔍 Import: Successfully decoded Base64 to \(data.count) bytes")
-                
-                // Check if the decoded data looks like valid image data
-                let firstBytes = data.prefix(10)
-                print("🔍 Import: Decoded data first 10 bytes: \(Array(firstBytes))")
-                
-                // Try to create UIImage to verify it's valid
-                if let testImage = UIImage(data: data) {
-                    print("🔍 Import: Decoded data creates valid UIImage: \(testImage.size)")
-                } else {
-                    print("❌ Import: Decoded data does NOT create valid UIImage")
-                }
+        let value = currentText.trimmingCharacters(in: .whitespacesAndNewlines)
+        switch elementName {
+        case "holyPlace": holyPlace = value
+        case "comments": comments = currentText
+        case "dateVisited":
+            if let date = parseImportedVisitDate(value) {
+                visitDate = date
+                visitDateIsValid = true
             } else {
-                print("❌ Import: Failed to decode Base64 image data for visit: \(holyPlace)")
-                print("❌ Import: Base64 string might be malformed")
+                visitDateIsValid = false
+                print("Import: could not parse dateVisited '\(value)'")
             }
+        case "hoursWorked": hoursWorked = Double(value) ?? 0
+        case "sealings": sealings = Int16(value) ?? 0
+        case "endowments": endowments = Int16(value) ?? 0
+        case "initiatories": initiatories = Int16(value) ?? 0
+        case "confirmations": confirmations = Int16(value) ?? 0
+        case "baptisms": baptisms = Int16(value) ?? 0
+        case "type": type = value
+        case "isFavorite": isFavorite = value.lowercased() == "true"
+        case "picture":
+            let base64 = pictureBase64String.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !base64.isEmpty {
+                if let data = Data(base64Encoded: base64) {
+                    pictureData = VisitPhotoCompression.encodedData(from: data) ?? data
+                } else {
+                    print("Import: failed to decode Base64 image data for visit: \(holyPlace)")
+                }
+            }
+        default:
+            break
         }
+        currentText = ""
+        eName = ""
         
         if elementName == "Visit" {
+            if !visitDateIsValid || holyPlace.isEmpty {
+                skippedInvalid += 1
+                return
+            }
+            
             let context = getContext()
             
             // Check for old place names and apply date-aware renaming
@@ -491,6 +530,7 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
                     visit.sealings = sealings
                     visit.comments = comments
                     visit.dateVisited = visitDate
+                    visit.year = ad.calendarYearString(for: visitDate)
                     visit.type = type
                     visit.shiftHrs = hoursWorked
                     visit.isFavorite = isFavorite
@@ -542,6 +582,41 @@ class VisitOptionsVC: UIViewController, UIDocumentPickerDelegate, UINavigationCo
             }
             
         }
+    }
+
+    /// New backups use `yyyy-MM-dd`. Older files used DateFormatter `.full`
+    /// (e.g. "Sunday, October 19, 1980"), which is locale-dependent.
+    private func parseImportedVisitDate(_ string: String) -> Date? {
+        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        
+        if let date = xmlDateFormatter.date(from: trimmed) {
+            return Calendar.current.startOfDay(for: date)
+        }
+        // Same-device language as the original export
+        if let date = legacyFullDateFormatter.date(from: trimmed) {
+            return Calendar.current.startOfDay(for: date)
+        }
+        // English iPhone/iPad backups, even if this device's language differs
+        if let date = legacyEnglishFullDateFormatter.date(from: trimmed) {
+            return Calendar.current.startOfDay(for: date)
+        }
+        return nil
+    }
+    
+    private func xmlEscape(_ string: String) -> String {
+        var result = string
+        result = result.replacingOccurrences(of: "&", with: "&amp;")
+        result = result.replacingOccurrences(of: "<", with: "&lt;")
+        result = result.replacingOccurrences(of: ">", with: "&gt;")
+        result = result.replacingOccurrences(of: "\"", with: "&quot;")
+        result = result.replacingOccurrences(of: "'", with: "&apos;")
+        return result
+    }
+    
+    private func xmlCDATA(_ string: String) -> String {
+        let safe = string.replacingOccurrences(of: "]]>", with: "]]]]><![CDATA[>")
+        return "<![CDATA[\(safe)]]>"
     }
 
     //MARK: - Navigation

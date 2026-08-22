@@ -10,6 +10,19 @@ import Foundation
 
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
+        "5.8.1": """
+            New in 5.8:
+            - Share completed achievements as an image, and post eligible milestones to the public Celebration Board
+            - Change the place on an existing visit when editing
+            - Tap the version numbers on the Info screen to re-read app and data update messages
+            - Map Timeline now shows the temple era next to the count as you move through time
+            
+            Bug Fixes in 5.8.1:
+            - Visit XML export/import is more reliable — photos are compressed so large backups can import, and dates use a stable format that works across languages
+            - Saving a visit from a reminder or Home Screen quick action
+            - Visits grouped under the wrong year
+            - New profiles missing from the Home switcher until restart
+            """,
         "5.8": """
             New:
             - Share completed achievements as an image, and post eligible milestones to the public Celebration Board

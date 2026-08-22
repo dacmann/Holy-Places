@@ -197,16 +197,6 @@
 			path = "Holy Places Watch Watch App";
 			sourceTree = "<group>";
 		};
-		9CF268EF2DE4D04800B2062C /* Holy Places Watch Watch AppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Holy Places Watch Watch AppTests";
-			sourceTree = "<group>";
-		};
-		9CF268F92DE4D04800B2062C /* Holy Places Watch Watch AppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Holy Places Watch Watch AppUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,8 +265,6 @@
 				9CD815802F2AC56800E2B911 /* Holy Places WidgetsExtension.entitlements */,
 				64FDE6ED1E21863A00951A58 /* Holy Places */,
 				9CF268E12DE4D04500B2062C /* Holy Places Watch Watch App */,
-				9CF268EF2DE4D04800B2062C /* Holy Places Watch Watch AppTests */,
-				9CF268F92DE4D04800B2062C /* Holy Places Watch Watch AppUITests */,
 				9CD815602F2ABFCF00E2B911 /* Holy Places Widgets */,
 				64FDE6EC1E21863A00951A58 /* Products */,
 				6461BADF1E3BF7A200365698 /* Frameworks */,
@@ -702,7 +690,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -730,7 +718,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -767,7 +755,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.8.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
@@ -810,7 +798,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.8.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";

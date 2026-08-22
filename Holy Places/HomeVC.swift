@@ -191,6 +191,8 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             achievementButtonWidth.constant = size
         }
         achievementBtnView.layer.cornerRadius = 10
+
+        updateProfileButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

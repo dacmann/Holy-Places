@@ -10,9 +10,13 @@ import SwiftUI
 
 extension UIViewController {
 
-    /// Snapshot completed achievement icon names before calling `getVisits()`.
+    /// Snapshot completed achievement icon names before saving a visit.
+    /// Loads visits first when the app skipped Home (e.g. opened Record Visit from a notification).
     func snapshotCompletedAchievementIcons() -> Set<String> {
-        Set(completed.map { $0.iconName })
+        if ad.needsVisitRefresh {
+            ad.getVisits()
+        }
+        return Set(completed.map { $0.iconName })
     }
 
     /// Returns achievements unlocked since the snapshot (matched from current `completed`).

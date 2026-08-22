@@ -67,6 +67,7 @@ class ProfileManager {
         
         do {
             try context.save()
+            notifyProfilesChanged()
             return profile
         } catch {
             print("Error creating profile: \(error)")
@@ -78,11 +79,13 @@ class ProfileManager {
     func renameProfile(_ profile: NSManagedObject, to newName: String) {
         profile.setValue(newName, forKey: "name")
         saveContext()
+        notifyProfilesChanged()
     }
     
     func updateProfileIcon(_ profile: NSManagedObject, iconName: String) {
         profile.setValue(iconName, forKey: "iconName")
         saveContext()
+        notifyProfilesChanged()
     }
     
     func deleteProfile(_ profile: NSManagedObject) {
@@ -107,6 +110,8 @@ class ProfileManager {
                 if let defaultProfile = defaultProfile() {
                     setActiveProfile(defaultProfile)
                 }
+            } else {
+                notifyProfilesChanged()
             }
         } catch {
             print("Error deleting profile: \(error)")
@@ -229,5 +234,9 @@ class ProfileManager {
                 print("Error saving context: \(error)")
             }
         }
+    }
+
+    private func notifyProfilesChanged() {
+        NotificationCenter.default.post(name: ProfileManager.profileDidChangeNotification, object: nil)
     }
 }

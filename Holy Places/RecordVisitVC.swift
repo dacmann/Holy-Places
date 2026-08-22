@@ -81,6 +81,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
     }
     
     @objc func saveVisit (_ sender: Any) {
+        let previousIcons = snapshotCompletedAchievementIcons()
         let context = getContext()
         
         yearFormat.dateFormat = "yyyy"
@@ -95,14 +96,14 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         let shiftHrsVal = Double(hoursWorked.text ?? "0") ?? 0.0
         let yearVal: String
         if let dov = dateOfVisit {
-            yearVal = yearFormat.string(from: dov)
+            yearVal = ad.calendarYearString(for: dov)
         } else {
-            yearVal = yearFormat.string(from: Date())
+            yearVal = ad.calendarYearString(for: Date())
         }
         
         var imageData: Data?
         if pictureView.isHidden == false, let image = pictureView.image {
-            guard let data = image.jpegData(compressionQuality: 1) else {
+            guard let data = image.jpegDataForVisitStorage() else {
                 print("jpg error")
                 return
             }
@@ -151,7 +152,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         }
         
         ad.needsVisitRefresh = true
-        let previousIcons = snapshotCompletedAchievementIcons()
         ad.getVisits()
         let unlocked = newlyUnlockedAchievements(since: previousIcons)
         presentAchievementUnlocked(achievements: unlocked) { [weak self] in
@@ -160,6 +160,7 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
     }
     
     @objc func saveEdit (_ sender: Any) {
+        let previousIcons = snapshotCompletedAchievementIcons()
         let context = getContext()
         
         yearFormat.dateFormat = "yyyy"
@@ -184,20 +185,18 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         }
         detailVisit?.dateVisited = dateOfVisit as Date?
         if let dateVisited = detailVisit?.dateVisited {
-            detailVisit?.year = yearFormat.string(from: dateVisited)
+            detailVisit?.year = ad.calendarYearString(for: dateVisited)
         } else {
-            detailVisit?.year = yearFormat.string(from: Date())
+            detailVisit?.year = ad.calendarYearString(for: Date())
         }
         detailVisit?.comments = comments.text ?? ""
         detailVisit?.isFavorite = isFavorite
         if pictureView.isHidden == false, let image = pictureView.image {
-            // create NSData from UIImage
-            guard let imageData = image.jpegData(compressionQuality: 1) else {
-                // handle failed conversion
+            guard let imageData = image.jpegDataForVisitStorage() else {
                 print("jpg error")
                 return
             }
-            detailVisit?.picture = imageData as Data
+            detailVisit?.picture = imageData
         } else {
             detailVisit?.picture = nil
         }
@@ -217,7 +216,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         
         // Update visit count for goal progress in Widget
         ad.needsVisitRefresh = true
-        let previousIcons = snapshotCompletedAchievementIcons()
         ad.getVisits()
         let unlocked = newlyUnlockedAchievements(since: previousIcons)
         presentAchievementUnlocked(achievements: unlocked) { [weak self] in
@@ -681,50 +679,19 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
         pictureView.isHidden = false
         addPictureBtn.setTitle("Remove Picture", for: UIControl.State.normal)
-        var image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
-        print(image?.size as Any)
-//        let size = CGSize(width: (image?.size.width)! / 1.5, height: (image?.size.height)! / 1.5)
         
-        if image!.size.height > 2000 {
-            // reduce size of picture if it is very large
-            do {
-                if let smallImage = try self.imageWithImage(image: image!, scaledToSize: CGSize(width: image!.size.width/2, height: image!.size.height/2)) {
-                    print("reduced image to \(smallImage.size.height)")
-                    image = smallImage
-                } else {
-                    print("failed to reduce image")
-                }
-            } catch {
-                print("failed to reduce image - throw")
-            }
+        if let original = info[.originalImage] as? UIImage,
+           let compressed = original.jpegDataForVisitStorage(),
+           let displayImage = UIImage(data: compressed) {
+            pictureView.image = displayImage
+            print("Visit photo compressed to \(compressed.count) bytes, size \(displayImage.size)")
+        } else if let original = info[.originalImage] as? UIImage {
+            pictureView.image = original
         }
-    
-//        pictureView.image = image?.scale(toSize: size)
-        pictureView.image = image
-        print(pictureView.image?.size as Any)
-//        pictureView.sizeThatFits(size)
 
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    func imageWithImage(image:UIImage? ,scaledToSize newSize:CGSize) throws -> UIImage?
-    {
-        UIGraphicsBeginImageContext( newSize )
-        image?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        
-        if let newImage = UIGraphicsGetImageFromCurrentImageContext() {
-            UIGraphicsEndImageContext()
-            return newImage
-        } else {
-            UIGraphicsEndImageContext()
-            return nil
-        }
-
     }
 
 
@@ -926,14 +893,4 @@ class FlowLayoutView: UIView {
         
         return CGSize(width: UIView.noIntrinsicMetric, height: y + rowHeight)
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
 }

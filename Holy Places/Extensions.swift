@@ -65,6 +65,64 @@ extension UIImage {
         return newImage
     }
     
+    /// JPEG data sized for visit storage and XML backup (well under the 10 MB CDATA limit).
+    func jpegDataForVisitStorage() -> Data? {
+        VisitPhotoCompression.encodedData(from: self)
+    }
+    
+}
+
+/// Caps visit photos at 1920px on the long edge and ~1.5 MB so base64 XML stays far below
+/// libxml2's 10 MB CDATA limit. Always renders at scale 1.0 — `UIGraphicsBeginImageContext`
+/// uses the screen scale and can *increase* file size on @2x/@3x devices.
+enum VisitPhotoCompression {
+    static let maxDimension: CGFloat = 1920
+    static let maxBytes = 1_500_000
+    static let jpegQuality: CGFloat = 0.7
+    
+    static func encodedData(from image: UIImage) -> Data? {
+        jpegData(from: resized(image), maxBytes: maxBytes, startingQuality: jpegQuality)
+    }
+    
+    static func encodedData(from data: Data) -> Data? {
+        guard let image = UIImage(data: data) else { return nil }
+        let pixelLongest = max(image.size.width * image.scale, image.size.height * image.scale)
+        if data.count <= maxBytes, image.scale == 1, pixelLongest <= maxDimension {
+            return data
+        }
+        return encodedData(from: image)
+    }
+    
+    private static func resized(_ image: UIImage) -> UIImage {
+        let pixelSize = CGSize(width: image.size.width * image.scale, height: image.size.height * image.scale)
+        let longest = max(pixelSize.width, pixelSize.height)
+        let targetSize: CGSize
+        if longest > maxDimension {
+            let ratio = maxDimension / longest
+            targetSize = CGSize(width: pixelSize.width * ratio, height: pixelSize.height * ratio)
+        } else if image.scale == 1 {
+            return image
+        } else {
+            targetSize = pixelSize
+        }
+        
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1.0
+        let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+    
+    private static func jpegData(from image: UIImage, maxBytes: Int, startingQuality: CGFloat) -> Data? {
+        var quality = startingQuality
+        var data = image.jpegData(compressionQuality: quality)
+        while let current = data, current.count > maxBytes, quality > 0.4 {
+            quality -= 0.1
+            data = image.jpegData(compressionQuality: quality)
+        }
+        return data
+    }
 }
 
 // Utility to lock the orientation of the device when called
