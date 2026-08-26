@@ -78,16 +78,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             UIAction(title: "All Visits", handler: { [weak self] _ in
                 self?.updateFilterOption(0)
             }),
-            UIAction(title: "Active Temples", handler: { [weak self] _ in
+            UIAction(title: "Active Temples", image: placeTypeSymbolImage(for: "T", tint: templeColor), handler: { [weak self] _ in
                 self?.updateFilterOption(1)
             }),
-            UIAction(title: "Historical Sites", handler: { [weak self] _ in
+            UIAction(title: "Historical Sites", image: placeTypeSymbolImage(for: "H", tint: historicalColor), handler: { [weak self] _ in
                 self?.updateFilterOption(2)
             }),
-            UIAction(title: "Visitors' Centers", handler: { [weak self] _ in
+            UIAction(title: "Visitors' Centers", image: placeTypeSymbolImage(for: "V", tint: visitorCenterColor), handler: { [weak self] _ in
                 self?.updateFilterOption(3)
             }),
-            UIAction(title: "Temples Under Construction", handler: { [weak self] _ in
+            UIAction(title: "Temples Under Construction", image: placeTypeSymbolImage(for: "C", tint: constructionColor), handler: { [weak self] _ in
                 self?.updateFilterOption(4)
             }),
             UIAction(title: "Other", handler: { [weak self] _ in
@@ -239,7 +239,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         subtitleLabel.text = subtitle
         subtitleLabel.sizeToFit()
         
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width, 1), height: 30))
         titleView.addSubview(titleLabel)
         titleView.addSubview(subtitleLabel)
         
@@ -484,6 +484,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        setupFilterMenu()
         
         // Reload the data
         _fetchedResultsController = nil
@@ -885,7 +887,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             subtitle: subtitle,
             titleColor: titleColor,
             subtitleColor: defaultColor,
-            shrinkTitle: true
+            shrinkTitle: true,
+            image: placeTypeSymbolImage(for: visit.type),
+            imageTint: titleColor
         )
     }
     

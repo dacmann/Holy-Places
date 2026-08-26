@@ -71,6 +71,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Add notification observer to refresh background image when app becomes active
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(homeAppearanceDidChange), name: .homeAppearanceDidChange, object: nil)
         
         // download all place images if needed
         //ad.downloadImage()
@@ -85,6 +86,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
         setupProfileButton()
+        applyThemeColors()
         
         NotificationCenter.default.addObserver(self, selector: #selector(profileDidChange), name: ProfileManager.profileDidChangeNotification, object: nil)
     }
@@ -187,8 +189,10 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         if UIDevice.current.userInterfaceIdiom == .pad {
             achievementButtonWidth.constant = 100
         } else {
-            let size = view.frame.width * 0.20
-            achievementButtonWidth.constant = size
+            let size = view.bounds.width * 0.20
+            if size.isFinite, size > 0 {
+                achievementButtonWidth.constant = size
+            }
         }
         achievementBtnView.layer.cornerRadius = 10
 
@@ -196,15 +200,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
-        // set colors based on theme
-        theme = UserDefaults.standard.string(forKey: "themeSelected") ?? "3830"
-        templeColor = UIColor(named: "Temples"+theme) ?? UIColor.purple
-        historicalColor = UIColor(named: "Historical"+theme) ?? UIColor.orange
-        announcedColor = UIColor(named: "Announced"+theme) ?? UIColor.yellow
-        constructionColor = UIColor(named: "Construction"+theme) ?? UIColor.olive()
-        visitorCenterColor = UIColor(named: "VisitorCenters"+theme) ?? UIColor.yellow
-        
+        applyThemeColors()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -281,6 +277,33 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         // Refresh background image when app becomes active
         refreshBackgroundImage()
     }
+
+    @objc func homeAppearanceDidChange() {
+        refreshBackgroundImage()
+        applyHomeScreenColors()
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    func applyHomeScreenColors() {
+        appName.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: appName, backgroundColor: UIColor.home(), opacity: 0.0)
+        holyPlaces.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: holyPlaces, backgroundColor: UIColor.home(), opacity: 0.0)
+        reference.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: reference, backgroundColor: UIColor.home(), opacity: 0.0)
+        goalTitle.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: goalTitle, backgroundColor: UIColor.home())
+        goal.textColor = UIColor.home()
+        wrapLabelWithOverlay(label: goal, backgroundColor: UIColor.home())
+        info.tintColor = UIColor.home()
+        topLine.backgroundColor = UIColor.home()
+        bottomLine.backgroundColor = UIColor.home()
+        share.titleLabel?.textColor = UIColor.home()
+        settings.titleLabel?.textColor = UIColor.home()
+        visitDate.textColor = UIColor.home()
+        profileButton?.tintColor = UIColor.home()
+        profileButton?.setTitleColor(UIColor.home(), for: .normal)
+    }
     
     deinit {
         // Remove notification observer
@@ -329,24 +352,7 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         }
         
         updateProfileButton()
-        
-        // Home Screen Customizations
-        appName.textColor = UIColor.home()
-        wrapLabelWithOverlay(label: appName, backgroundColor: UIColor.home(), opacity: 0.0)
-        holyPlaces.textColor = UIColor.home()
-        wrapLabelWithOverlay(label: holyPlaces, backgroundColor: UIColor.home(), opacity: 0.0)
-        reference.textColor = UIColor.home()
-        wrapLabelWithOverlay(label: reference, backgroundColor: UIColor.home(), opacity: 0.0)
-        goalTitle.textColor = UIColor.home()
-        wrapLabelWithOverlay(label: goalTitle, backgroundColor: UIColor.home())
-        goal.textColor = UIColor.home()
-        wrapLabelWithOverlay(label: goal, backgroundColor: UIColor.home())
-        info.tintColor = UIColor.home()
-        topLine.backgroundColor = UIColor.home()
-        bottomLine.backgroundColor = UIColor.home()
-        share.titleLabel?.textColor = UIColor.home()
-        settings.titleLabel?.textColor = UIColor.home()
-        visitDate.textColor = UIColor.home()
+        applyHomeScreenColors()
 
         if UIDevice.current.userInterfaceIdiom != .pad {
             AppUtility.lockOrientation(.portrait)
@@ -375,6 +381,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     func wrapLabelWithOverlay(label: UILabel, backgroundColor: UIColor = .black, opacity: CGFloat = 0.05, cornerRadius: CGFloat = 8) {
         guard let superview = label.superview else { return }
+        superview.layoutIfNeeded()
+        guard label.bounds.width.isFinite, label.bounds.height.isFinite,
+              label.bounds.width >= 0, label.bounds.height >= 0 else { return }
 
         // Remove existing overlay if it exists
         superview.subviews
@@ -420,7 +429,6 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         
         // Get content for current version, or skip if none defined
         guard let message = WhatsNew.notes(for: currentVersion) else {
-            print("No 'What's New' content defined for version \(currentVersion)")
             return
         }
         

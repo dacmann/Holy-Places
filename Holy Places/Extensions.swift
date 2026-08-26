@@ -10,6 +10,7 @@ import UIKit
 
 extension Notification.Name {
     static let reload = Notification.Name("reload")
+    static let homeAppearanceDidChange = Notification.Name("homeAppearanceDidChange")
 }
 
 extension UIImageView {

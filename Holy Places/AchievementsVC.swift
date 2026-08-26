@@ -49,20 +49,20 @@ class AchievementsVC: UITableViewController, NSFetchedResultsControllerDelegate 
         cell.cellTitle.text = achievement.name
         switch achievement.iconName.suffix(1) {
         case "B":
-            cell.cellTitle.textColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
-            cell.cellProgress.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+            cell.cellTitle.textColor = baptismsColor
+            cell.cellProgress.tintColor = baptismsColor
         case "I":
-            cell.cellTitle.textColor = UIColor(named: "InitiatoriesOlive")!
-            cell.cellProgress.tintColor = UIColor(named: "InitiatoriesOlive")!
+            cell.cellTitle.textColor = initiatoriesColor
+            cell.cellProgress.tintColor = initiatoriesColor
         case "E":
-            cell.cellTitle.textColor = UIColor.darkTangerine()
-            cell.cellProgress.tintColor = UIColor.darkTangerine()
+            cell.cellTitle.textColor = endowmentsColor
+            cell.cellProgress.tintColor = endowmentsColor
         case "S":
-            cell.cellTitle.textColor = UIColor(named: "SealingsPurple")!
-            cell.cellProgress.tintColor = UIColor(named: "SealingsPurple")!
+            cell.cellTitle.textColor = sealingsColor
+            cell.cellProgress.tintColor = sealingsColor
         case "W":
-            cell.cellTitle.textColor = UIColor.iron()
-            cell.cellProgress.tintColor = UIColor.iron()
+            cell.cellTitle.textColor = hoursWorkedColor
+            cell.cellProgress.tintColor = hoursWorkedColor
         case "H":
             cell.cellTitle.textColor = historicalColor
             cell.cellProgress.tintColor = historicalColor

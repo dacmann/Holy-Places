@@ -126,13 +126,13 @@ struct AchievementUnlockedView: View {
 
     private var titleColor: Color {
         switch achievement.iconName.last {
-        case "B": return Color("BaptismsBlue")
-        case "I": return Color("InitiatoriesOlive")
-        case "E": return .orange
-        case "S": return Color("SealingsPurple")
-        case "W": return .gray
-        case "H": return Color(red: 0.45, green: 0, blue: 0)
-        default: return Color(red: 0, green: 0, blue: 0.5)
+        case "B": return Color(uiColor: baptismsColor)
+        case "I": return Color(uiColor: initiatoriesColor)
+        case "E": return Color(uiColor: endowmentsColor)
+        case "S": return Color(uiColor: sealingsColor)
+        case "W": return Color(uiColor: hoursWorkedColor)
+        case "H": return Color(uiColor: historicalColor)
+        default: return Color(uiColor: templeColor)
         }
     }
 

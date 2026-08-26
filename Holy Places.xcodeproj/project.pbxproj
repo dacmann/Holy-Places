@@ -50,6 +50,7 @@
 		9C6ECC8E2FE859AF004386CD /* ShareActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC842FE859AF004386CD /* ShareActivityView.swift */; };
 		9C6ECC8F2FE859AF004386CD /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC882FE859AF004386CD /* ShareView.swift */; };
 		9C765542302F9C2A00C72E88 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C765541302F9C2A00C72E88 /* WhatsNew.swift */; };
+		9C7E2A11302A8F0100D4E001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E2A10302A8F0100D4E001 /* SettingsView.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
 		9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */; };
 		9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */; };
@@ -154,6 +155,7 @@
 		9C6ECC872FE859AF004386CD /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
 		9C6ECC882FE859AF004386CD /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		9C765541302F9C2A00C72E88 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
+		9C7E2A10302A8F0100D4E001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardConfig.swift; sourceTree = "<group>"; };
 		9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Achievement+CelebrationBoard.swift"; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				9C6ECC872FE859AF004386CD /* ShareVC.swift */,
 				9C6ECC882FE859AF004386CD /* ShareView.swift */,
 				9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */,
+				9C7E2A10302A8F0100D4E001 /* SettingsView.swift */,
 				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
 				9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */,
 				9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */,
@@ -487,6 +490,7 @@
 				64732F53216FA455003E0EBD /* AchievementsVC.swift in Sources */,
 				64DD9F601E3C02BC00A9EBE9 /* CustomButton.swift in Sources */,
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
+				9C7E2A11302A8F0100D4E001 /* SettingsView.swift in Sources */,
 				9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */,
 				9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */,
 				9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */,
@@ -690,7 +694,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.8.1;
+				MARKETING_VERSION = 5.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -718,7 +722,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.8.1;
+				MARKETING_VERSION = 5.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -755,7 +759,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.8.1;
+				MARKETING_VERSION = 5.9;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
@@ -798,7 +802,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.8.1;
+				MARKETING_VERSION = 5.9;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";

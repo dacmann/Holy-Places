@@ -594,7 +594,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         subtitleLabel.text = subtitle
         subtitleLabel.sizeToFit()
         
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width, 1), height: 30))
         titleView.addSubview(titleLabel)
         titleView.addSubview(subtitleLabel)
         
@@ -963,7 +963,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         default:
             titleColor = defaultColor
         }
-        cell.applyFixedSubtitleStyle(title: temple.templeName, subtitle: subtitle, titleColor: titleColor)
+        cell.applyFixedSubtitleStyle(title: temple.templeName, subtitle: subtitle, titleColor: titleColor, image: placeTypeSymbolImage(for: temple.templeType), imageTint: titleColor)
         
         cell.accessoryType = .disclosureIndicator
 
@@ -1063,7 +1063,7 @@ fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [Stri
 extension UITableViewCell {
     /// Subtitle cells use UIListContentConfiguration, which scales fonts with Dynamic Type
     /// even when textLabel.font is set to a fixed size. Pin layout and disable scaling.
-    func applyFixedSubtitleStyle(title: String, subtitle: String, titleColor: UIColor, subtitleColor: UIColor = .secondaryLabel, shrinkTitle: Bool = false) {
+    func applyFixedSubtitleStyle(title: String, subtitle: String, titleColor: UIColor, subtitleColor: UIColor = .secondaryLabel, shrinkTitle: Bool = false, image: UIImage? = nil, imageTint: UIColor? = nil) {
         minimumContentSizeCategory = .large
         maximumContentSizeCategory = .large
         
@@ -1078,6 +1078,15 @@ extension UITableViewCell {
         config.secondaryTextProperties.adjustsFontForContentSizeCategory = false
         config.textProperties.numberOfLines = 1
         config.secondaryTextProperties.numberOfLines = 1
+        config.image = image
+        if let image = image {
+            config.imageProperties.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .medium)
+            if let imageTint = imageTint {
+                config.imageProperties.tintColor = imageTint
+            }
+        } else {
+            config.imageProperties.preferredSymbolConfiguration = nil
+        }
         // Match the original 50pt subtitle-cell layout so the snippet isn't clipped
         config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5, leading: 16, bottom: 4, trailing: 8)
         config.textToSecondaryTextVerticalPadding = 1

@@ -10,6 +10,12 @@ import Foundation
 
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
+        "5.9": """
+            New:
+            - Color Theme includes Mono — place names and ordinances in black or white for easier reading
+            - Optional type symbols on the Places and Visits lists, and in filter menus, so temples, construction, announced, historic sites, and visitors’ centers stay distinct
+            - Settings rebuilt in SwiftUI so options are easier to update
+            """,
         "5.8.1": """
             New in 5.8:
             - Share completed achievements as an image, and post eligible milestones to the public Celebration Board

@@ -64,24 +64,15 @@ class OptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource 
         if pickerView.tag == 1 {
             data = sortOptions[row]
         }
-        let title = NSAttributedString(string: data, attributes: [NSAttributedString.Key.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
-        label?.attributedText = title
-        label?.textAlignment = .center
-        
-        switch data {
-        case "Active Temples":
-            label?.textColor = templeColor
-        case "Historical Sites":
-            label?.textColor = historicalColor
-        case "Temples Under Construction":
-            label?.textColor = constructionColor
-        case "Announced Temples":
-            label?.textColor = announcedColor
-        case "Visitors' Centers":
-            label?.textColor = visitorCenterColor
-        default:
-            label?.textColor = defaultColor
+        let font = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        let color: UIColor
+        if pickerView.tag == 1 {
+            color = defaultColor
+        } else {
+            color = colorForPlaceTypeCode(placeTypeCode(forFilterTitle: data))
         }
+        label?.attributedText = attributedPlaceTypeFilterTitle(data, font: font, color: color)
+        label?.textAlignment = .center
         return label!
     }
     

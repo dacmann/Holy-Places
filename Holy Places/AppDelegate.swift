@@ -121,12 +121,122 @@ var defaultCommentsText = "Attended with..."
 var ad = AppDelegate()
 var theme = "3830"
 var themeChanged = false
+var showPlaceTypeSymbols = false
 var templeColor: UIColor = UIColor(named: "Temples"+theme) ?? UIColor.black
 var historicalColor: UIColor  = UIColor(named: "Historical"+theme) ?? UIColor.black
 var announcedColor: UIColor  = UIColor(named: "Announced"+theme) ?? UIColor.black
 var constructionColor: UIColor  = UIColor(named: "Construction"+theme) ?? UIColor.black
 var visitorCenterColor: UIColor  = UIColor(named: "VisitorCenters"+theme) ?? UIColor.black
 var defaultColor: UIColor  = UIColor(named: "DefaultText") ?? UIColor.black
+var baptismsColor: UIColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+var confirmationsColor: UIColor = UIColor.flame()
+var initiatoriesColor: UIColor = UIColor(named: "InitiatoriesOlive") ?? UIColor.systemGreen
+var endowmentsColor: UIColor = UIColor.darkTangerine()
+var sealingsColor: UIColor = UIColor(named: "SealingsPurple") ?? UIColor.purple
+var hoursWorkedColor: UIColor = UIColor.iron()
+
+func applyThemeColors() {
+    theme = UserDefaults.standard.string(forKey: "themeSelected") ?? theme
+    showPlaceTypeSymbols = UserDefaults.standard.bool(forKey: "showPlaceTypeSymbols")
+    defaultColor = UIColor(named: "DefaultText") ?? .label
+    if theme == "mono" {
+        templeColor = .label
+        historicalColor = .label
+        announcedColor = .label
+        constructionColor = .label
+        visitorCenterColor = .label
+        baptismsColor = .label
+        confirmationsColor = .label
+        initiatoriesColor = .label
+        endowmentsColor = .label
+        sealingsColor = .label
+        hoursWorkedColor = .label
+    } else {
+        templeColor = UIColor(named: "Temples"+theme) ?? UIColor.purple
+        historicalColor = UIColor(named: "Historical"+theme) ?? UIColor.orange
+        announcedColor = UIColor(named: "Announced"+theme) ?? UIColor.yellow
+        constructionColor = UIColor(named: "Construction"+theme) ?? UIColor.olive()
+        visitorCenterColor = UIColor(named: "VisitorCenters"+theme) ?? UIColor.yellow
+        baptismsColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+        confirmationsColor = UIColor.flame()
+        initiatoriesColor = UIColor(named: "InitiatoriesOlive") ?? UIColor.systemGreen
+        endowmentsColor = UIColor.darkTangerine()
+        sealingsColor = UIColor(named: "SealingsPurple") ?? UIColor.purple
+        hoursWorkedColor = UIColor.iron()
+    }
+}
+
+func mapPinTheme() -> String {
+    theme == "mono" ? "3830" : theme
+}
+
+func placeTypeSymbolName(for type: String?) -> String? {
+    switch type {
+    case "T": return "circle.fill"
+    case "C": return "square.fill"
+    case "A": return "triangle.fill"
+    case "H": return "star.fill"
+    case "V": return "diamond.fill"
+    default: return nil
+    }
+}
+
+func placeTypeSymbolImage(for type: String?, tint: UIColor? = nil) -> UIImage? {
+    guard showPlaceTypeSymbols, let name = placeTypeSymbolName(for: type) else { return nil }
+    let image = UIImage(systemName: name)
+    if let tint = tint, let image = image {
+        return image.withTintColor(tint, renderingMode: .alwaysOriginal)
+    }
+    return image
+}
+
+func placeTypeCode(forFilterTitle title: String) -> String? {
+    switch title {
+    case "Active Temples": return "T"
+    case "Historical Sites": return "H"
+    case "Visitors' Centers": return "V"
+    case "Temples Under Construction": return "C"
+    case "Announced Temples": return "A"
+    default: return nil
+    }
+}
+
+func colorForPlaceTypeCode(_ type: String?) -> UIColor {
+    switch type {
+    case "T": return templeColor
+    case "H": return historicalColor
+    case "V": return visitorCenterColor
+    case "C": return constructionColor
+    case "A": return announcedColor
+    default: return defaultColor
+    }
+}
+
+func attributedPlaceTypeFilterTitle(_ title: String, font: UIFont, color: UIColor) -> NSAttributedString {
+    let textAttributes: [NSAttributedString.Key: Any] = [
+        .font: font,
+        .foregroundColor: color
+    ]
+    guard showPlaceTypeSymbols,
+          let type = placeTypeCode(forFilterTitle: title),
+          let name = placeTypeSymbolName(for: type) else {
+        return NSAttributedString(string: title, attributes: textAttributes)
+    }
+    let config = UIImage.SymbolConfiguration(pointSize: font.pointSize * 0.75, weight: .medium)
+    guard let image = UIImage(systemName: name, withConfiguration: config)?
+        .withTintColor(color, renderingMode: .alwaysOriginal) else {
+        return NSAttributedString(string: title, attributes: textAttributes)
+    }
+    let attachment = NSTextAttachment()
+    attachment.image = image
+    let yOffset = (font.capHeight - image.size.height) / 2
+    attachment.bounds = CGRect(x: 0, y: yOffset, width: image.size.width, height: image.size.height)
+
+    let result = NSMutableAttributedString(attachment: attachment)
+    result.append(NSAttributedString(string: "  ", attributes: textAttributes))
+    result.append(NSAttributedString(string: title, attributes: textAttributes))
+    return result
+}
 
 @main
 //class AppDelegate: UIResponder, UIApplicationDelegate, SKPaymentTransactionObserver {
@@ -297,6 +407,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // refreshTemples()
         
         loadSettings()
+        applyThemeColors()
         
         // Restore persisted region entry times (in case app was terminated while user was inside a region)
         restoreRegionEntryTimes()
@@ -1345,6 +1456,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
             formatter.dateFormat = "MMMM dd, yyyy"
             homeVisitDate = formatter.string(from: visitDate)
         }
+    }
+
+    func hasVisitPictures() -> Bool {
+        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
+        var predicates: [NSPredicate] = [NSPredicate(format: "picture != nil")]
+        if let pp = ProfileManager.shared.visitProfilePredicate() {
+            predicates.append(pp)
+        }
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        fetchRequest.fetchLimit = 1
+        let count = (try? getContext().count(for: fetchRequest)) ?? 0
+        return count > 0
     }
 
     /// Returns the canonical (current) name for a place given any name a visit may have been recorded under.

@@ -75,12 +75,11 @@ struct SmallQuoteWidgetView: View {
                 Spacer(minLength: 0)
                 VStack(spacing: 8) {
                     HStack {
-                        Spacer()
-                            .frame(width: 50) // Space for icon (24+8) + gap before title
                         Text("Daily Quote")
                             .font(.custom("Baskerville-Bold", size: 16))
                             .foregroundColor(.white.opacity(0.9))
-                        Spacer()
+                            .padding(.leading, 50)
+                        Spacer(minLength: 0)
                     }
                     Text(quote.isEmpty ? "The temple is a place of peace." : quote)
                         .font(.custom("Baskerville", size: 15))

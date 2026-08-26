@@ -169,8 +169,61 @@ class SummaryVC: UIViewController, NSFetchedResultsControllerDelegate, XMLParser
         uniqueTemplesYr2.textColor = templeColor
         uniqueTempleTotal.textColor = templeColor
 
+        applyOrdinanceThemeColors()
+
         getTotals()
         nextQuote()
+    }
+
+    private func applyOrdinanceThemeColors() {
+        hoursWorked.textColor = hoursWorkedColor
+        hoursWorkedYr.textColor = hoursWorkedColor
+        hoursWorkedYr2.textColor = hoursWorkedColor
+        hoursWorkedTotal.textColor = hoursWorkedColor
+
+        sealingsPerformedYr.textColor = sealingsColor
+        sealingsPerformedYr2.textColor = sealingsColor
+        sealingsPerformedTotal.textColor = sealingsColor
+
+        endowmentsPerformedYr.textColor = endowmentsColor
+        endowmentsPerformedYr2.textColor = endowmentsColor
+        endowmentsPerformedTotal.textColor = endowmentsColor
+
+        initiatoriesPerformedYr.textColor = initiatoriesColor
+        initiatoriesPerformedYr2.textColor = initiatoriesColor
+        initiatoriesPerformedTotal.textColor = initiatoriesColor
+
+        confirmationsPerformedYr.textColor = confirmationsColor
+        confirmationsPerformedYr2.textColor = confirmationsColor
+        confirmationsPerformedTotal.textColor = confirmationsColor
+
+        baptismsPerformedYr.textColor = baptismsColor
+        baptismsPerformedYr2.textColor = baptismsColor
+        baptismsPerformedTotal.textColor = baptismsColor
+
+        applyOrdinanceNameColors(in: view)
+    }
+
+    private func applyOrdinanceNameColors(in view: UIView) {
+        if let label = view as? UILabel, let text = label.text {
+            switch text {
+            case "Sealings":
+                label.textColor = sealingsColor
+            case "Endowments":
+                label.textColor = endowmentsColor
+            case "Initiatories":
+                label.textColor = initiatoriesColor
+            case "Confirmations":
+                label.textColor = confirmationsColor
+            case "Baptisms":
+                label.textColor = baptismsColor
+            default:
+                break
+            }
+        }
+        for subview in view.subviews {
+            applyOrdinanceNameColors(in: subview)
+        }
     }
     
     override func viewWillLayoutSubviews() {

@@ -737,18 +737,18 @@ class MapVC: UIViewController, MKMapViewDelegate {
     }
 
     func pinColor(type:String) -> UIColor {
+        let pinTheme = mapPinTheme()
         switch type {
         case "T":
-            return templeColor
-            //return UIColor.purple
+            return UIColor(named: "Temples"+pinTheme) ?? templeColor
         case "H":
-            return historicalColor
+            return UIColor(named: "Historical"+pinTheme) ?? historicalColor
         case "A":
-            return announcedColor
+            return UIColor(named: "Announced"+pinTheme) ?? announcedColor
         case "C":
-            return constructionColor
+            return UIColor(named: "Construction"+pinTheme) ?? constructionColor
         case "V":
-            return visitorCenterColor
+            return UIColor(named: "VisitorCenters"+pinTheme) ?? visitorCenterColor
         default:
             return defaultColor
         }

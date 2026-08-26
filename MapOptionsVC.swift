@@ -39,25 +39,10 @@ class MapOptionsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             label = UILabel()
         }
         let data = filterChoices[row]
-
-        let title = NSAttributedString(string: data, attributes: [NSAttributedString.Key.font: UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)])
-        label?.attributedText = title
+        let font = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+        let color = colorForPlaceTypeCode(placeTypeCode(forFilterTitle: data))
+        label?.attributedText = attributedPlaceTypeFilterTitle(data, font: font, color: color)
         label?.textAlignment = .center
-        
-        switch data {
-        case "Active Temples":
-            label?.textColor = templeColor
-        case "Historical Sites":
-            label?.textColor = historicalColor
-        case "Visitors' Centers":
-            label?.textColor = visitorCenterColor
-        case "Temples Under Construction":
-            label?.textColor = constructionColor
-        case "Announced Temples":
-            label?.textColor = announcedColor
-        default:
-            label?.textColor = defaultColor
-        }
         return label!
     }
     

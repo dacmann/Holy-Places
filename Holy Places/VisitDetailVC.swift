@@ -218,22 +218,22 @@ class VisitDetailVC: UIViewController {
                 // color code the ordinance recorded
                 let attributedText = NSMutableAttributedString(string: ordinances)
                 if detail.sealings > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "SealingsPurple") ?? UIColor.purple], range: getRangeOfSubString(subString: sealings, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: sealingsColor], range: getRangeOfSubString(subString: sealings, fromString: ordinances))
                 }
                 if detail.endowments > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkTangerine()], range: getRangeOfSubString(subString: endowments, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: endowmentsColor], range: getRangeOfSubString(subString: endowments, fromString: ordinances))
                 }
                 if detail.initiatories > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "InitiatoriesOlive") ?? UIColor.systemGreen], range: getRangeOfSubString(subString: initiatories, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: initiatoriesColor], range: getRangeOfSubString(subString: initiatories, fromString: ordinances))
                 }
                 if detail.confirmations > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.flame()], range: getRangeOfSubString(subString: confirmations, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: confirmationsColor], range: getRangeOfSubString(subString: confirmations, fromString: ordinances))
                 }
                 if detail.baptisms > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "BaptismsBlue") ?? UIColor.blue], range: getRangeOfSubString(subString: baptisms, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: baptismsColor], range: getRangeOfSubString(subString: baptisms, fromString: ordinances))
                 }
                 if detail.shiftHrs > 0 {
-                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.iron()], range: getRangeOfSubString(subString: shiftHrs, fromString: ordinances))
+                    attributedText.addAttributes([NSAttributedString.Key.foregroundColor: hoursWorkedColor], range: getRangeOfSubString(subString: shiftHrs, fromString: ordinances))
                 }
 //                ordinancesPerformed.text = ordinances
                 ordinancesPerformed.attributedText = attributedText
