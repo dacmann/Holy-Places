@@ -694,6 +694,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        restoreListSearchBar(searchController)
         
         // Ensure custom scope control is always visible
         if customScopeControl == nil {
@@ -707,6 +708,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             optionsChanged = false
             themeChanged = false
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if navigationController?.topViewController !== self {
+            navigationItem.searchController = nil
         }
     }
     
@@ -759,6 +767,12 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        let back = UIBarButtonItem(title: "Places", style: .plain, target: nil, action: nil)
+        let navBarFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+        back.setTitleTextAttributes([.font: navBarFont], for: .normal)
+        back.setTitleTextAttributes([.font: navBarFont], for: .highlighted)
+        navigationItem.backBarButtonItem = back
         
         // Custom scope control will be added separately
         
@@ -1040,7 +1054,8 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
                 detailItem = allPlaces[selectedPlaceRow]
             }
             let controller = (segue.destination as! PlaceDetailVC)
-            controller.navigationItem.leftItemsSupplementBackButton = true
+            controller.hidesBottomBarWhenPushed = true
+            controller.navigationItem.leftItemsSupplementBackButton = false
             controller.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
         }
         if segue.identifier == "showOptions" {
@@ -1079,7 +1094,7 @@ extension UITableViewCell {
         config.textProperties.numberOfLines = 1
         config.secondaryTextProperties.numberOfLines = 1
         config.image = image
-        if let image = image {
+        if image != nil {
             config.imageProperties.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .medium)
             if let imageTint = imageTint {
                 config.imageProperties.tintColor = imageTint

@@ -91,9 +91,7 @@ class VisitDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         padContentBelowIncomingSearchBar()
-        
-        // Hide tab bar
-        tabBarController?.tabBar.isHidden = true
+        hideTabBarForDetailScreen()
         
         populateView()
         setDate()
@@ -102,8 +100,7 @@ class VisitDetailVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Show tab bar when leaving
-        tabBarController?.tabBar.isHidden = false
+        restoreTabBarIfLeavingDetail()
     }
     
     // MARK: - Setup Favorite Indicator
@@ -287,23 +284,20 @@ class VisitDetailVC: UIViewController {
                     } else {
                         pictureHeight.constant = 700
                     }
-                } else {
-                    // No visit photo — try to show a place image as fallback.
+                } else if showStockPlaceImageOnVisits, let fallbackImage = placeFallbackImage(for: detail) {
+                    // No visit photo — show the place image when that setting is on.
                     // For visits recorded under an old name (pre-rename), prefer the historical image.
-                    let fallbackImage = placeFallbackImage(for: detail)
-                    if let fallbackImage = fallbackImage {
-                        pictureView.image = fallbackImage
-                        pictureView.isHidden = false
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            pictureHeight.constant = 1400
-                        } else {
-                            pictureHeight.constant = 700
-                        }
+                    pictureView.image = fallbackImage
+                    pictureView.isHidden = false
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        pictureHeight.constant = 1400
                     } else {
-                        // No place image either - hide view
-                        pictureView.isHidden = true
-                        pictureHeight.constant = 10
+                        pictureHeight.constant = 700
                     }
+                } else {
+                    pictureView.image = nil
+                    pictureView.isHidden = true
+                    pictureHeight.constant = 10
                 }
                 updateCommentsLayout()
             }

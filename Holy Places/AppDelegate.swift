@@ -122,6 +122,10 @@ var ad = AppDelegate()
 var theme = "3830"
 var themeChanged = false
 var showPlaceTypeSymbols = false
+var showStockPlaceImageOnVisits: Bool {
+    get { UserDefaults.standard.object(forKey: "showStockPlaceImageOnVisits") as? Bool ?? true }
+    set { UserDefaults.standard.set(newValue, forKey: "showStockPlaceImageOnVisits") }
+}
 var templeColor: UIColor = UIColor(named: "Temples"+theme) ?? UIColor.black
 var historicalColor: UIColor  = UIColor(named: "Historical"+theme) ?? UIColor.black
 var announcedColor: UIColor  = UIColor(named: "Announced"+theme) ?? UIColor.black

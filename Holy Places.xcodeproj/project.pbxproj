@@ -52,6 +52,7 @@
 		9C765542302F9C2A00C72E88 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C765541302F9C2A00C72E88 /* WhatsNew.swift */; };
 		9C7E2A11302A8F0100D4E001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E2A10302A8F0100D4E001 /* SettingsView.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
+		9CE4A102303A010100D4E001 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4A101303A010100D4E001 /* PlaceDetailView.swift */; };
 		9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */; };
 		9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */; };
 		9CB0A1052FEA000300C3B001 /* AchievementShareImageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */; };
@@ -157,6 +158,7 @@
 		9C765541302F9C2A00C72E88 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		9C7E2A10302A8F0100D4E001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		9CE4A101303A010100D4E001 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
 		9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardConfig.swift; sourceTree = "<group>"; };
 		9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Achievement+CelebrationBoard.swift"; sourceTree = "<group>"; };
 		9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementShareImageRenderer.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				9CBA369C2FDF14F500F8AC95 /* NameChangeArrayTransformer.swift */,
 				9C7E2A10302A8F0100D4E001 /* SettingsView.swift */,
 				9CAE54982FDCB5AF00C8927C /* InfoView.swift */,
+				9CE4A101303A010100D4E001 /* PlaceDetailView.swift */,
 				9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */,
 				9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */,
 				9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */,
@@ -492,6 +495,7 @@
 				64F25D331E30FDDB009FDEF3 /* DateChangeVC.swift in Sources */,
 				9C7E2A11302A8F0100D4E001 /* SettingsView.swift in Sources */,
 				9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */,
+				9CE4A102303A010100D4E001 /* PlaceDetailView.swift in Sources */,
 				9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */,
 				9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */,
 				9CB0A1052FEA000300C3B001 /* AchievementShareImageRenderer.swift in Sources */,

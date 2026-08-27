@@ -259,15 +259,12 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Hide tab bar
-        tabBarController?.tabBar.isHidden = true
+        hideTabBarForDetailScreen()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Show tab bar when leaving
-        tabBarController?.tabBar.isHidden = false
+        restoreTabBarIfLeavingDetail()
         
         // Remove keyboard observers
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)

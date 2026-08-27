@@ -155,6 +155,76 @@ extension UIApplication {
 }
 
 extension UIViewController {
+    /// Hide or show the tab bar, including the iPadOS 18+ tab bar at the top of the screen.
+    func setAppTabBarHidden(_ hidden: Bool, animated: Bool = false) {
+        guard let tabBarController else { return }
+        if #available(iOS 18.0, *) {
+            tabBarController.setTabBarHidden(hidden, animated: animated)
+        } else {
+            tabBarController.tabBar.isHidden = hidden
+        }
+    }
+
+    /// Call from a pushed detail screen’s `viewWillAppear`.
+    func hideTabBarForDetailScreen() {
+        hidesBottomBarWhenPushed = true
+        setAppTabBarHidden(true)
+        hideCoveredListSearchBar()
+        navigationItem.searchController = nil
+        navigationItem.leftItemsSupplementBackButton = false
+        if navigationItem.leftBarButtonItem?.accessibilityIdentifier == "hp.padDetailBackButton" {
+            navigationItem.leftBarButtonItem = nil
+        }
+        navigationItem.hidesBackButton = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        if #available(iOS 16.0, *) {
+            navigationItem.style = .navigator
+        }
+        let refresh: () -> Void = { [weak self] in
+            self?.forceNavigationBarRefresh()
+        }
+        if let coordinator = transitionCoordinator {
+            coordinator.animate(alongsideTransition: nil) { _ in
+                refresh()
+            }
+        } else {
+            DispatchQueue.main.async(execute: refresh)
+        }
+    }
+
+    /// iPadOS 18 keeps the previous screen’s nav bar until a layout change (such as rotation).
+    /// Toggling visibility forces it to pick up this screen’s items immediately.
+    func forceNavigationBarRefresh() {
+        guard UIDevice.current.userInterfaceIdiom == .pad, let nav = navigationController else { return }
+        nav.setNavigationBarHidden(true, animated: false)
+        nav.setNavigationBarHidden(false, animated: false)
+        navigationItem.hidesBackButton = false
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+
+    /// Places/Visits pin their search bar in the nav bar; remove it while a detail screen is on top.
+    func hideCoveredListSearchBar() {
+        guard let nav = navigationController, nav.viewControllers.count > 1 else { return }
+        nav.viewControllers[nav.viewControllers.count - 2].navigationItem.searchController = nil
+    }
+
+    func restoreListSearchBar(_ searchController: UISearchController) {
+        if navigationItem.searchController == nil {
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
+    }
+
+    /// Call from a pushed detail screen’s `viewWillDisappear`.
+    /// Restores the tab bar only when popping back to a root tab screen, not when pushing another detail.
+    func restoreTabBarIfLeavingDetail() {
+        guard isMovingFromParent else { return }
+        if navigationController?.viewControllers.last?.hidesBottomBarWhenPushed == true {
+            return
+        }
+        setAppTabBarHidden(false)
+    }
+
     /// Height of the list search bar that remains drawn over a pushed screen during the transition.
     static func incomingSearchBarClearance(from searchBar: UISearchBar?) -> CGFloat {
         guard let searchBar = searchBar else { return 56 }
@@ -399,7 +469,12 @@ extension UIColor {
         return UIColor(red:255/255, green:0/255, blue:255/255, alpha:1.0)
     }
     class func iron() -> UIColor {
-        return UIColor(red:76/255, green:76/255, blue:76/255, alpha:1.0)
+        UIColor { traitCollection in
+            if traitCollection.userInterfaceStyle == .dark {
+                return UIColor(red: 179/255, green: 179/255, blue: 179/255, alpha: 1.0)
+            }
+            return UIColor(red: 76/255, green: 76/255, blue: 76/255, alpha: 1.0)
+        }
     }
     class func magnesium() -> UIColor {
         return UIColor(red:179/255, green:179/255, blue:179/255, alpha:1.0)

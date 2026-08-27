@@ -204,6 +204,10 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let nav = tabBarController.selectedViewController as? UINavigationController,
+           nav.viewControllers.count > 1 {
+            return false
+        }
         // Animate the transition between tabs
         guard let fromView = self.tabBarController?.selectedViewController?.view, let toView = viewController.view else {
             return false

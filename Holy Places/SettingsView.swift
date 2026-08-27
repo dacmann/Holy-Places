@@ -18,6 +18,7 @@ final class SettingsModel: ObservableObject {
     @Published var excludeNonOrdinance: Bool
     @Published var colorTheme: ColorThemeOption
     @Published var showTypeSymbols: Bool
+    @Published var showStockVisitImage: Bool
     @Published var notificationsEnabled: Bool
     @Published var notifyTemplesOnly: Bool
     @Published var minutesDelayText: String
@@ -39,6 +40,7 @@ final class SettingsModel: ObservableObject {
         excludeNonOrdinance = excludeNonOrdinanceVisits
         colorTheme = ColorThemeOption.from(theme: UserDefaults.standard.string(forKey: "themeSelected") ?? theme)
         showTypeSymbols = UserDefaults.standard.bool(forKey: "showPlaceTypeSymbols")
+        showStockVisitImage = showStockPlaceImageOnVisits
         notificationsEnabled = notificationEnabled
         notifyTemplesOnly = notificationFilter
         if notificationDelayInMinutes == 0 {
@@ -245,6 +247,7 @@ struct SettingsView: View {
             reminderSection
             homeScreenSection
             commentsSection
+            visitPhotosSection
             copyVisitSection
             ordinanceWorkerSection
             profilesSection
@@ -284,7 +287,7 @@ struct SettingsView: View {
             Toggle("Exclude Visits with No Ordinances", isOn: $model.excludeNonOrdinance)
                 .font(rowFont)
                 .listRowInsets(EdgeInsets(top: 8, leading: 36, bottom: 8, trailing: 16))
-                .onChange(of: model.excludeNonOrdinance) { newValue in
+                .onChange(of: model.excludeNonOrdinance) { _, newValue in
                     excludeNonOrdinanceVisits = newValue
                 }
             numberRow("Baptisms and/or Confirmations", text: $model.baptismGoalText, field: .baptismGoal)
@@ -307,12 +310,12 @@ struct SettingsView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .onChange(of: model.colorTheme) { newValue in
+            .onChange(of: model.colorTheme) { _, newValue in
                 model.applyColorTheme(newValue)
             }
             Toggle("Show Type Symbols", isOn: $model.showTypeSymbols)
                 .font(rowFont)
-                .onChange(of: model.showTypeSymbols) { newValue in
+                .onChange(of: model.showTypeSymbols) { _, newValue in
                     model.applyTypeSymbols(newValue)
                 }
         } header: {
@@ -326,13 +329,13 @@ struct SettingsView: View {
         Section {
             Toggle("Enable Visit Notifications", isOn: $model.notificationsEnabled)
                 .font(rowFont)
-                .onChange(of: model.notificationsEnabled) { newValue in
+                .onChange(of: model.notificationsEnabled) { _, newValue in
                     model.applyNotifications(newValue)
                 }
             Toggle("Only Notify for Temples", isOn: $model.notifyTemplesOnly)
                 .font(rowFont)
                 .disabled(!model.notificationsEnabled)
-                .onChange(of: model.notifyTemplesOnly) { newValue in
+                .onChange(of: model.notifyTemplesOnly) { _, newValue in
                     notificationFilter = newValue
                 }
             numberRow("Reminder Delay (in minutes)", text: $model.minutesDelayText, field: .minutesDelay)
@@ -352,7 +355,7 @@ struct SettingsView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .onChange(of: model.imageOption) { newValue in
+            .onChange(of: model.imageOption) { _, newValue in
                 if !model.selectImageOption(newValue) {
                     if homeDefaultPicture {
                         model.imageOption = .defaultImage
@@ -399,7 +402,7 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
                 .frame(maxWidth: 160)
             }
-            .onChange(of: model.homeTextColorIndex) { newValue in
+            .onChange(of: model.homeTextColorIndex) { _, newValue in
                 model.applyHomeTextColor(newValue)
             }
         } header: {
@@ -421,6 +424,20 @@ struct SettingsView: View {
         }
     }
 
+    private var visitPhotosSection: some View {
+        Section {
+            Toggle("Show Place Image if No Visit Photo", isOn: $model.showStockVisitImage)
+                .font(rowFont)
+                .onChange(of: model.showStockVisitImage) { _, newValue in
+                    showStockPlaceImageOnVisits = newValue
+                }
+        } header: {
+            Text("Visit Photos")
+        } footer: {
+            Text("When a visit has no photo attached, the place’s stock image is shown on the visit. Turn this off to only see photos you attached.")
+        }
+    }
+
     private var copyVisitSection: some View {
         Section {
             numberRow("Days to add for Copy Action", text: $model.addDaysText, field: .addDays)
@@ -435,7 +452,7 @@ struct SettingsView: View {
         Section {
             Toggle("Enable Hours Worked Entry", isOn: $model.hoursWorkedEnabled)
                 .font(rowFont)
-                .onChange(of: model.hoursWorkedEnabled) { newValue in
+                .onChange(of: model.hoursWorkedEnabled) { _, newValue in
                     ordinanceWorker = newValue
                 }
         } header: {
@@ -449,7 +466,7 @@ struct SettingsView: View {
         Section {
             Toggle("Enable Profiles", isOn: $model.profilesOn)
                 .font(rowFont)
-                .onChange(of: model.profilesOn) { newValue in
+                .onChange(of: model.profilesOn) { _, newValue in
                     model.applyProfilesEnabled(newValue)
                 }
             if model.profilesOn {
@@ -484,7 +501,7 @@ struct SettingsView: View {
                 .frame(width: 60)
                 .textFieldStyle(.roundedBorder)
                 .focused($focusedField, equals: field)
-                .onChange(of: focusedField) { newValue in
+                .onChange(of: focusedField) { _, newValue in
                     if newValue == field {
                         DispatchQueue.main.async {
                             UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)

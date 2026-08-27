@@ -464,7 +464,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
             detailVC.detailVisit = visit
-            detailVC.navigationItem.leftItemsSupplementBackButton = true
+            detailVC.navigationItem.leftItemsSupplementBackButton = false
             detailVC.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
 
             // Set up visitsInTable for swipe navigation (single visit)
@@ -484,6 +484,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        restoreListSearchBar(searchController)
 
         setupFilterMenu()
         
@@ -496,6 +497,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Refresh Select button visibility based on profile state
         updateSelectButton()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if navigationController?.topViewController !== self {
+            navigationItem.searchController = nil
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1067,7 +1075,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                     selectedVisitRow = visitsInTable.firstIndex(where:{$0.holyPlace == visit.holyPlace && $0.dateVisited == visit.dateVisited})!
                 }
                 
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.hidesBottomBarWhenPushed = true
+                controller.navigationItem.leftItemsSupplementBackButton = false
                 controller.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
             }
         }

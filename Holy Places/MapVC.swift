@@ -541,12 +541,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         
         // Handle coming from place detail
         if fromPlaceDetail {
-            tabBarController?.tabBar.isHidden = true
+            hideTabBarForDetailScreen()
             // Set background color to match system background for dark mode
             view.backgroundColor = UIColor.systemBackground
             mapZoomLevel = 2000  // Neighborhood level zoom
         } else {
-            tabBarController?.tabBar.isHidden = false
+            setAppTabBarHidden(false)
             // Reset to default background when tab bar is shown
             view.backgroundColor = UIColor.systemBackground
         }
@@ -978,6 +978,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     if let placeDetailVC = storyBoard.instantiateViewController(withIdentifier: "PlaceDetail") as? PlaceDetailVC {
                         placeDetailVC.fromMap = true
+                        placeDetailVC.hidesBottomBarWhenPushed = true
                         self.navigationController?.pushViewController(placeDetailVC, animated: true)
                     }
                 }
@@ -1024,9 +1025,12 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
         tabBarController?.tabBar.scrollEdgeAppearance = savedTabBarScrollEdgeAppearance
 
-        // Show tab bar when leaving map (in case it was hidden)
-        tabBarController?.tabBar.isHidden = false
-        
+        if fromPlaceDetail {
+            restoreTabBarIfLeavingDetail()
+        } else {
+            setAppTabBarHidden(false)
+        }
+
         // Reset the flag for next time
         fromPlaceDetail = false
     }
