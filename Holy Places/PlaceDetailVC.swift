@@ -176,11 +176,22 @@ class PlaceDetailVC: UIHostingController<PlaceDetailView> {
         let controller = storyBoard.instantiateViewController(withIdentifier: "MapVC") as! MapVC
         let coordinate = CLLocationCoordinate2D(latitude: (detailItem?.cllocation.coordinate.latitude)!, longitude: (detailItem?.cllocation.coordinate.longitude)!)
         mapPoint = MapPoint(title: (detailItem?.templeName)!, coordinate: coordinate, type: (detailItem?.templeType)!)
-        if !switchedPlaces {
-            mapPoints.removeAll()
+        mapPoints.removeAll()
+        if switchedPlaces {
+            for place in places {
+                mapPoints.append(MapPoint(
+                    title: place.templeName,
+                    coordinate: place.cllocation.coordinate,
+                    type: place.templeType
+                ))
+            }
+            if !mapPoints.contains(where: { $0.name == mapPoint.name }) {
+                mapPoints.append(mapPoint)
+            }
+        } else {
             mapPoints.append(mapPoint)
-            mapZoomLevel = 4000
         }
+        mapZoomLevel = 4000
         mapCenter = coordinate
         controller.fromPlaceDetail = true
         controller.hidesBottomBarWhenPushed = true
