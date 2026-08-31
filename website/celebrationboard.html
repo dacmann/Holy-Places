@@ -197,6 +197,8 @@
       }
     }
 
+    const typeOrder = { T: 0, H: 1, B: 2, I: 3, E: 4, S: 5, W: 6 };
+
     function groupByAchievement(entries) {
       const groups = {};
       entries.forEach(entry => {
@@ -204,7 +206,7 @@
         if (!groups[key]) groups[key] = [];
         groups[key].push(entry);
       });
-      return Object.keys(groups).sort((a, b) => a.localeCompare(b)).map(name => {
+      return Object.keys(groups).map(name => {
         const list = groups[name].sort((a, b) => String(b.dateAchieved || '').localeCompare(String(a.dateAchieved || '')));
         const first = list[0] || {};
         const details = list.map(e => e.achievementDetails).find(d => d && String(d).trim())
@@ -213,9 +215,16 @@
           name,
           details,
           type: first.achievementType || '',
+          threshold: Number(first.threshold) || 0,
           iconId: first.achievementId || '',
           entries: list
         };
+      }).sort((a, b) => {
+        const typeA = Object.prototype.hasOwnProperty.call(typeOrder, a.type) ? typeOrder[a.type] : 99;
+        const typeB = Object.prototype.hasOwnProperty.call(typeOrder, b.type) ? typeOrder[b.type] : 99;
+        if (typeA !== typeB) return typeA - typeB;
+        if (b.threshold !== a.threshold) return b.threshold - a.threshold;
+        return a.name.localeCompare(b.name);
       });
     }
 
