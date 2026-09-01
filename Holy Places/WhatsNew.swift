@@ -16,6 +16,7 @@ enum WhatsNew {
             - Optional type symbols on the Places and Visits lists, and in filter menus, so place types stay distinct when not in color
             - Settings, Place details, and the Summary tab rebuilt for a more reliable layout on every device size
             - Tap the visit count on a temple to see each ordinance type counted separately
+            - Visits tab scope buttons stay in the header so you don't have to enter the search bar to use them
             - Setting to hide the place’s stock image on visits that don’t have a photo attached
             """,
         "5.8.1": """
