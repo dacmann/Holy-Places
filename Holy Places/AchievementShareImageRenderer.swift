@@ -26,9 +26,7 @@ enum AchievementShareImageRenderer {
     }
 
     static func shareCaption(for achievement: Achievement) -> String {
-        """
-        I just unlocked \(achievement.name) — \(achievement.details). Holy Places of the Lord helped me record my visits and see this milestone come together. It’s a free app for keeping a personal history of temples and historic sites, available on the App Store and Google Play.
-        """
+        "I just unlocked \(achievement.name) — \(achievement.details) in the app Holy Places of the Lord"
     }
 
     static func render(achievement: Achievement) -> UIImage {

@@ -132,7 +132,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Reset data pull
         _fetchedResultsController = nil
-        if searchController.isActive {
+        if isShowingSearchResults {
             // Reset filtered results based on updated pull
             let sel = searchController.searchBar.selectedScopeButtonIndex
             searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
@@ -146,7 +146,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Reset data pull
         _fetchedResultsController = nil
-        if searchController.isActive {
+        if isShowingSearchResults {
             // Reset filtered results based on updated pull
             let sel = searchController.searchBar.selectedScopeButtonIndex
             searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
@@ -262,6 +262,16 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     let searchController = UISearchController(searchResultsController: nil)
     var filteredVisits = [Visit]()
     var groupedFilteredVisits: [(section: String, visits: [Visit])] = []
+    private var resumeSearchOnAppear = false
+    private var preservedSearchText: String?
+
+    private var hasSearchQuery: Bool {
+        !(searchController.searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var isShowingSearchResults: Bool {
+        searchController.isActive || hasSearchQuery
+    }
     
     func groupFilteredVisits() {
         groupedFilteredVisits.removeAll()
@@ -485,12 +495,20 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         restoreListSearchBar(searchController)
+        if resumeSearchOnAppear, let text = preservedSearchText {
+            searchController.searchBar.text = text
+        }
 
         setupFilterMenu()
         
         // Reload the data
         _fetchedResultsController = nil
         self.tableView.reloadData()
+        
+        if resumeSearchOnAppear {
+            let scope = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex] ?? "All"
+            filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
+        }
         
         // Update title with current sort option
         updateTitle()
@@ -502,12 +520,29 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController?.topViewController !== self {
+            let text = searchController.searchBar.text ?? ""
+            preservedSearchText = text
+            resumeSearchOnAppear = searchController.isActive || !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             navigationItem.searchController = nil
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if resumeSearchOnAppear {
+            let text = preservedSearchText ?? searchController.searchBar.text ?? ""
+            resumeSearchOnAppear = false
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.searchController.isActive = true
+                self.searchController.searchBar.text = text
+                let scope = self.searchController.searchBar.scopeButtonTitles?[self.searchController.searchBar.selectedScopeButtonIndex] ?? "All"
+                self.filterContentForSearchText(searchText: text, scope: scope)
+                self.searchController.searchBar.resignFirstResponder()
+            }
+        } else if searchController.isActive {
+            searchController.searchBar.resignFirstResponder()
+        }
         // save Place updates on main thread
         if ad.newFileParsed {
             ad.storePlaces()
@@ -560,7 +595,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         // Keep scope bar visible as long as search is active
-        if searchController.isActive {
+        if isShowingSearchResults {
             searchBar.showsScopeBar = true
             searchBar.sizeToFit()
         } else {
@@ -569,6 +604,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        preservedSearchText = nil
+        resumeSearchOnAppear = false
         searchBar.showsScopeBar = false
     }
     
@@ -612,7 +649,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if searchController.isActive {
+        if isShowingSearchResults {
             guard section < groupedFilteredVisits.count else { return nil }
             let group = groupedFilteredVisits[section]
             return "\(group.section) (\(group.visits.count))"
@@ -659,7 +696,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             tableView.backgroundView = containerView
             tableView.separatorStyle  = .none
         }
-        if searchController.isActive {
+        if isShowingSearchResults {
             return groupedFilteredVisits.count
         } else {
             return self.fetchedResultsController.sections?.count ?? 0
@@ -673,7 +710,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive {
+        if isShowingSearchResults {
             guard section < groupedFilteredVisits.count else { return 0 }
             return groupedFilteredVisits[section].visits.count
         } else {
@@ -686,7 +723,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath)
         var visit: Visit
         
-        if searchController.isActive {
+        if isShowingSearchResults {
             guard indexPath.section < groupedFilteredVisits.count else { return cell }
             visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
         } else {
@@ -709,7 +746,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     private func visit(at indexPath: IndexPath) -> Visit? {
-        if searchController.isActive {
+        if isShowingSearchResults {
             guard indexPath.section < groupedFilteredVisits.count,
                   indexPath.row < groupedFilteredVisits[indexPath.section].visits.count else {
                 return nil
@@ -720,7 +757,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     private func refreshAfterVisitChange() {
-        if searchController.isActive {
+        if isShowingSearchResults {
             let scope = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex] ?? "All"
             filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
         } else {
@@ -811,7 +848,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard isSelectMode else { return }
         let visit: Visit
-        if searchController.isActive {
+        if isShowingSearchResults {
             guard indexPath.section < groupedFilteredVisits.count else { return }
             visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
         } else {
@@ -988,7 +1025,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             sectionNameKeyPath = "year"
         }
         
-        if searchController.isActive {
+        if isShowingSearchResults {
             sectionNameKeyPath = nil
         }
         
@@ -1062,7 +1099,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Visits", style: .done, target: nil, action: nil)
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! VisitDetailVC)
-                if searchController.isActive {
+                if isShowingSearchResults {
                     guard indexPath.section < groupedFilteredVisits.count else { return }
                     let visit = groupedFilteredVisits[indexPath.section].visits[indexPath.row]
                     visitsInTable = filteredVisits
@@ -1161,7 +1198,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     private func visibleVisits() -> [Visit] {
-        if searchController.isActive {
+        if isShowingSearchResults {
             return filteredVisits
         }
         return fetchedResultsController.fetchedObjects ?? []

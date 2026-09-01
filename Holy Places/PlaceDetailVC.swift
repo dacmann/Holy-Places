@@ -13,6 +13,7 @@ import MapKit
 class PlaceDetailVC: UIHostingController<PlaceDetailView> {
 
     var fromMap = false
+    var swipePlaces: [Temple] = []
     private let model: PlaceDetailModel
     private var switchedPlaces = false
     private var originalPlace = ""
@@ -28,6 +29,9 @@ class PlaceDetailVC: UIHostingController<PlaceDetailView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if swipePlaces.isEmpty {
+            swipePlaces = places
+        }
         originalPlace = detailItem?.templeName ?? ""
         rootView = PlaceDetailView(model: model, actions: makeActions())
         configureChrome()
@@ -158,13 +162,13 @@ class PlaceDetailVC: UIHostingController<PlaceDetailView> {
         guard now - lastSwipeAt > 0.35 else { return }
         lastSwipeAt = now
         let next = selectedPlaceRow + delta
-        guard next >= 0, next < places.count else { return }
+        guard next >= 0, next < swipePlaces.count else { return }
         selectedPlaceRow = next
         showSwipedPlace()
     }
 
     private func showSwipedPlace() {
-        detailItem = places[selectedPlaceRow]
+        detailItem = swipePlaces[selectedPlaceRow]
         if originalPlace != detailItem?.templeName {
             switchedPlaces = true
         }
@@ -178,7 +182,7 @@ class PlaceDetailVC: UIHostingController<PlaceDetailView> {
         mapPoint = MapPoint(title: (detailItem?.templeName)!, coordinate: coordinate, type: (detailItem?.templeType)!)
         mapPoints.removeAll()
         if switchedPlaces {
-            for place in places {
+            for place in swipePlaces {
                 mapPoints.append(MapPoint(
                     title: place.templeName,
                     coordinate: place.cllocation.coordinate,

@@ -47,6 +47,8 @@ extension TableViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        preservedSearchText = nil
+        resumeSearchOnAppear = false
         // Customization will be handled by search controller delegate
     }
 }
@@ -120,6 +122,17 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     //MARK: - Search Controller Code
     let searchController = UISearchController(searchResultsController: nil)
     var filteredPlaces = [Temple]()
+    private var resumeSearchOnAppear = false
+    private var preservedSearchText: String?
+
+    private var hasSearchQuery: Bool {
+        !(searchController.searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    /// `isActive` is often false during a pop even when the query is still in the search bar.
+    private var isShowingSearchResults: Bool {
+        searchController.isActive || hasSearchQuery
+    }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // Reset places to full array
@@ -201,7 +214,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         
         // If search is active, apply search filtering to the scope-filtered results
-        if searchController.isActive {
+        if isShowingSearchResults {
             let searchText = searchController.searchBar.text ?? ""
             if !searchText.isEmpty {
                 // Split search text into individual terms for AND search
@@ -523,7 +536,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
 
         // If search bar is active use filteredPlaces instead
-        if searchController.isActive {
+        if isShowingSearchResults {
             places = filteredPlaces
         }
         
@@ -695,6 +708,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         restoreListSearchBar(searchController)
+        if resumeSearchOnAppear, let text = preservedSearchText {
+            searchController.searchBar.text = text
+        }
         
         // Ensure custom scope control is always visible
         if customScopeControl == nil {
@@ -709,17 +725,39 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             optionsChanged = false
             themeChanged = false
         }
+
+        if resumeSearchOnAppear {
+            let scope = customScopeControl?.titleForSegment(at: customScopeControl.selectedSegmentIndex) ?? "All"
+            filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController?.topViewController !== self {
+            let text = searchController.searchBar.text ?? ""
+            preservedSearchText = text
+            resumeSearchOnAppear = searchController.isActive || !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             navigationItem.searchController = nil
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if resumeSearchOnAppear {
+            let text = preservedSearchText ?? searchController.searchBar.text ?? ""
+            resumeSearchOnAppear = false
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.searchController.isActive = true
+                self.searchController.searchBar.text = text
+                let scope = self.customScopeControl?.titleForSegment(at: self.customScopeControl.selectedSegmentIndex) ?? "All"
+                self.filterContentForSearchText(searchText: text, scope: scope)
+                self.searchController.searchBar.resignFirstResponder()
+            }
+        } else if searchController.isActive {
+            searchController.searchBar.resignFirstResponder()
+        }
         // save Place updates on main thread
         if ad.newFileParsed {
             ad.storePlaces()
@@ -1054,6 +1092,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
                 detailItem = allPlaces[selectedPlaceRow]
             }
             let controller = (segue.destination as! PlaceDetailVC)
+            if randomPlace {
+                controller.swipePlaces = allPlaces
+            } else if isShowingSearchResults {
+                controller.swipePlaces = filteredPlaces
+            } else {
+                controller.swipePlaces = places
+            }
             controller.hidesBottomBarWhenPushed = true
             controller.navigationItem.leftItemsSupplementBackButton = false
             controller.additionalSafeAreaInsets.top = UIViewController.incomingSearchBarClearance(from: searchController.searchBar)
