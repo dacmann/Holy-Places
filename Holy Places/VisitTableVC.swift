@@ -581,12 +581,14 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if needsNavBarRefreshAfterPop {
-            setAppTabBarHidden(false)
-        }
         restoreListSearchBar(searchController)
         if resumeSearchOnAppear, let text = preservedSearchText {
             searchController.searchBar.text = text
+        }
+        if needsNavBarRefreshAfterPop, let coordinator = transitionCoordinator {
+            coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+                self?.forceListChromeRefresh()
+            }
         }
 
         setupFilterMenu()
@@ -624,10 +626,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         super.viewDidAppear(animated)
         if needsNavBarRefreshAfterPop {
             needsNavBarRefreshAfterPop = false
-            forceListChromeRefresh()
-            DispatchQueue.main.async { [weak self] in
-                self?.forceListChromeRefresh()
-            }
+            refreshListChromeAfterDetailPop()
         }
         if resumeSearchOnAppear {
             let text = preservedSearchText ?? searchController.searchBar.text ?? ""

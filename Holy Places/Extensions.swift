@@ -226,14 +226,32 @@ extension UIViewController {
     /// drops Map / Places from the detail screen and shows this list’s items.
     func forceListChromeRefresh() {
         guard UIDevice.current.userInterfaceIdiom == .pad,
-              navigationController?.viewControllers.count == 1 else { return }
+              navigationController?.viewControllers.count == 1,
+              navigationController?.topViewController === self else { return }
         if #available(iOS 16.0, *) {
             navigationItem.style = .navigator
         }
-        restoreIPadTabBar()
+        if #available(iOS 26.0, *) {
+            tabBarController?.tabBarMinimizeBehavior = .never
+        }
+        setAppTabBarHidden(false)
+        if #available(iOS 18.0, *) {
+            tabBarController?.setTabBarHidden(true, animated: false)
+            tabBarController?.setTabBarHidden(false, animated: false)
+        }
         forceNavigationBarRefresh()
         tabBarController?.view.setNeedsLayout()
         tabBarController?.view.layoutIfNeeded()
+    }
+
+    func refreshListChromeAfterDetailPop() {
+        forceListChromeRefresh()
+        DispatchQueue.main.async { [weak self] in
+            self?.forceListChromeRefresh()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            self?.forceListChromeRefresh()
+        }
     }
 
     /// iPadOS 18 hides the top tab bar when Search becomes active and often never
@@ -251,6 +269,7 @@ extension UIViewController {
     }
 
     /// Call from a list screen’s `viewDidLayoutSubviews` so a system hide during Search is undone.
+    /// Do not unhide the tab bar here — after a pop that would lock in Place Detail’s Map/Places items.
     func keepIPadListChromeVisible() {
         guard UIDevice.current.userInterfaceIdiom == .pad,
               view.window != nil,
@@ -258,11 +277,6 @@ extension UIViewController {
               navigationController?.topViewController === self else { return }
         if navigationController?.isNavigationBarHidden == true {
             navigationController?.setNavigationBarHidden(false, animated: false)
-        }
-        if #available(iOS 18.0, *) {
-            if tabBarController?.isTabBarHidden == true {
-                setAppTabBarHidden(false)
-            }
         }
     }
 
