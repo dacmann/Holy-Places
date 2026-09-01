@@ -181,7 +181,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         case "summary":
             // Open Summary tab
-            myTabBar.selectedIndex = 0
+            myTabBar.selectedIndex = 3
             if let nvc = myTabBar.selectedViewController as? UINavigationController {
                 nvc.popToRootViewController(animated: false)
             }

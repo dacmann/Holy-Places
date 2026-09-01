@@ -13,9 +13,9 @@ enum WhatsNew {
         "5.9": """
             New:
             - Color Theme includes Mono — place names and ordinances in black or white for easier reading
-            - Optional type symbols on the Places and Visits lists, and in filter menus, so temples, construction, announced, historic sites, and visitors’ centers stay distinct
-            - Settings rebuilt in SwiftUI so options are easier to update
-            - Place details rebuilt in SwiftUI — tap the visit count on a temple to see each ordinance type counted separately
+            - Optional type symbols on the Places and Visits lists, and in filter menus, so place types stay distinct when not in color
+            - Settings, Place details, and the Summary tab rebuilt for a more reliable layout on every device size
+            - Tap the visit count on a temple to see each ordinance type counted separately
             - Setting to hide the place’s stock image on visits that don’t have a photo attached
             """,
         "5.8.1": """
