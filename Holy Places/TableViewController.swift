@@ -124,6 +124,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     var filteredPlaces = [Temple]()
     private var resumeSearchOnAppear = false
     private var preservedSearchText: String?
+    private var needsNavBarRefreshAfterPop = false
 
     private var hasSearchQuery: Bool {
         !(searchController.searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -703,10 +704,14 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             }
             
         }
+        keepIPadListChromeVisible()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if needsNavBarRefreshAfterPop {
+            setAppTabBarHidden(false)
+        }
         restoreListSearchBar(searchController)
         if resumeSearchOnAppear, let text = preservedSearchText {
             searchController.searchBar.text = text
@@ -735,6 +740,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController?.topViewController !== self {
+            needsNavBarRefreshAfterPop = true
             let text = searchController.searchBar.text ?? ""
             preservedSearchText = text
             resumeSearchOnAppear = searchController.isActive || !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -744,6 +750,13 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if needsNavBarRefreshAfterPop {
+            needsNavBarRefreshAfterPop = false
+            forceListChromeRefresh()
+            DispatchQueue.main.async { [weak self] in
+                self?.forceListChromeRefresh()
+            }
+        }
         if resumeSearchOnAppear {
             let text = preservedSearchText ?? searchController.searchBar.text ?? ""
             resumeSearchOnAppear = false
@@ -925,18 +938,20 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     // MARK: - Search Controller Delegate Methods
     func willPresentSearchController(_ searchController: UISearchController) {
         customizeSearchBarAppearance()
+        scheduleIPadTabBarRestore()
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
         customizeSearchBarAppearance()
+        scheduleIPadTabBarRestore()
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        // No action needed
+        scheduleIPadTabBarRestore()
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
-        // No action needed
+        scheduleIPadTabBarRestore()
     }
     
     @objc func dismissKeyboard() {

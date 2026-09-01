@@ -160,6 +160,7 @@ extension UIViewController {
         guard let tabBarController else { return }
         if #available(iOS 18.0, *) {
             tabBarController.setTabBarHidden(hidden, animated: animated)
+            tabBarController.isTabBarHidden = hidden
         } else {
             tabBarController.tabBar.isHidden = hidden
         }
@@ -196,10 +197,83 @@ extension UIViewController {
     /// Toggling visibility forces it to pick up this screen’s items immediately.
     func forceNavigationBarRefresh() {
         guard UIDevice.current.userInterfaceIdiom == .pad, let nav = navigationController else { return }
+        let isRootList = nav.viewControllers.count == 1
+        if #available(iOS 16.0, *) {
+            // `.browser` left-aligns the title; keep the default navigator style so
+            // Places/Visits stay centered after popping from detail.
+            navigationItem.style = .navigator
+        }
         nav.setNavigationBarHidden(true, animated: false)
         nav.setNavigationBarHidden(false, animated: false)
         navigationItem.hidesBackButton = false
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        if isRootList {
+            // A leftover back-button slot shifts the custom titleView left.
+            navigationItem.leftItemsSupplementBackButton = false
+        } else {
+            navigationItem.leftItemsSupplementBackButton = false
+            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        }
+        if navigationItem.leftBarButtonItem?.accessibilityIdentifier == "hp.padDetailBackButton" {
+            navigationItem.leftBarButtonItem = nil
+        }
+        if isRootList, let titleView = navigationItem.titleView {
+            navigationItem.titleView = nil
+            navigationItem.titleView = titleView
+        }
+    }
+
+    /// After popping back to Places/Visits, bounce the iPadOS 18 tab/nav chrome so it
+    /// drops Map / Places from the detail screen and shows this list’s items.
+    func forceListChromeRefresh() {
+        guard UIDevice.current.userInterfaceIdiom == .pad,
+              navigationController?.viewControllers.count == 1 else { return }
+        if #available(iOS 16.0, *) {
+            navigationItem.style = .navigator
+        }
+        restoreIPadTabBar()
+        forceNavigationBarRefresh()
+        tabBarController?.view.setNeedsLayout()
+        tabBarController?.view.layoutIfNeeded()
+    }
+
+    /// iPadOS 18 hides the top tab bar when Search becomes active and often never
+    /// shows it again until a layout change (rotation or a swipe from the top).
+    func restoreIPadTabBar() {
+        guard UIDevice.current.userInterfaceIdiom == .pad,
+              navigationController?.viewControllers.count == 1 else { return }
+        if #available(iOS 26.0, *) {
+            tabBarController?.tabBarMinimizeBehavior = .never
+        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        setAppTabBarHidden(false)
+        tabBarController?.view.setNeedsLayout()
+        tabBarController?.view.layoutIfNeeded()
+    }
+
+    /// Call from a list screen’s `viewDidLayoutSubviews` so a system hide during Search is undone.
+    func keepIPadListChromeVisible() {
+        guard UIDevice.current.userInterfaceIdiom == .pad,
+              view.window != nil,
+              navigationController?.viewControllers.count == 1,
+              navigationController?.topViewController === self else { return }
+        if navigationController?.isNavigationBarHidden == true {
+            navigationController?.setNavigationBarHidden(false, animated: false)
+        }
+        if #available(iOS 18.0, *) {
+            if tabBarController?.isTabBarHidden == true {
+                setAppTabBarHidden(false)
+            }
+        }
+    }
+
+    func scheduleIPadTabBarRestore() {
+        restoreIPadTabBar()
+        DispatchQueue.main.async { [weak self] in
+            self?.restoreIPadTabBar()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.restoreIPadTabBar()
+        }
     }
 
     /// Places/Visits pin their search bar in the nav bar; remove it while a detail screen is on top.
@@ -220,6 +294,11 @@ extension UIViewController {
     func restoreTabBarIfLeavingDetail() {
         guard isMovingFromParent else { return }
         if navigationController?.viewControllers.last?.hidesBottomBarWhenPushed == true {
+            return
+        }
+        // On iPad the combined tab/nav bar would keep this detail’s items (Map / Places)
+        // if we show it while this screen is still top. The list restores chrome after the pop.
+        if UIDevice.current.userInterfaceIdiom == .pad {
             return
         }
         setAppTabBarHidden(false)

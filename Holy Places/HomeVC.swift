@@ -68,6 +68,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
         self.view.addGestureRecognizer(swipeLeft)
         
         self.tabBarController?.delegate = self
+        if #available(iOS 26.0, *) {
+            tabBarController?.tabBarMinimizeBehavior = .never
+        }
         
         // Add notification observer to refresh background image when app becomes active
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)

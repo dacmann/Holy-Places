@@ -12,15 +12,16 @@ import StoreKit
 
 extension VisitTableVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let searchBar = searchController.searchBar
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        applyCurrentFilters()
     }
 }
 
 extension VisitTableVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+        if let control = customScopeControl, selectedScope < control.numberOfSegments {
+            control.selectedSegmentIndex = selectedScope
+        }
+        applyCurrentFilters()
     }
 }
 
@@ -133,9 +134,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reset data pull
         _fetchedResultsController = nil
         if isShowingSearchResults {
-            // Reset filtered results based on updated pull
-            let sel = searchController.searchBar.selectedScopeButtonIndex
-            searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
+            applyCurrentFilters()
         }
         self.tableView.reloadData()
     }
@@ -147,9 +146,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Reset data pull
         _fetchedResultsController = nil
         if isShowingSearchResults {
-            // Reset filtered results based on updated pull
-            let sel = searchController.searchBar.selectedScopeButtonIndex
-            searchBar(searchController.searchBar, selectedScopeButtonIndexDidChange: sel)
+            applyCurrentFilters()
         }
         self.tableView.reloadData()
     }
@@ -180,13 +177,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         // Set subtitle based on sort method
         subTitle = sortOptions[sortOption]
         
-        // Check if there are search terms to determine which count to use
-        let searchText = searchController.searchBar.text ?? ""
-        let searchTerms = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-            .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
-        
-        let count = !searchTerms.isEmpty ? filteredVisits.count : getVisitCount()
+        let count = isShowingSearchResults ? filteredVisits.count : getVisitCount()
         
         // Determine color based on filter
         let titleColor: UIColor
@@ -264,13 +255,22 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     var groupedFilteredVisits: [(section: String, visits: [Visit])] = []
     private var resumeSearchOnAppear = false
     private var preservedSearchText: String?
+    private var needsNavBarRefreshAfterPop = false
+    var customScopeControl: UISegmentedControl!
+    var scopeView: UIView?
+    var separatorLine: UIView?
 
     private var hasSearchQuery: Bool {
         !(searchController.searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
+    private var currentScope: String {
+        guard let control = customScopeControl, control.selectedSegmentIndex >= 0 else { return "All" }
+        return control.titleForSegment(at: control.selectedSegmentIndex) ?? "All"
+    }
+
     private var isShowingSearchResults: Bool {
-        searchController.isActive || hasSearchQuery
+        searchController.isActive || hasSearchQuery || currentScope != "All"
     }
     
     func groupFilteredVisits() {
@@ -324,7 +324,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         
         // Search on Place name, comments, and date with AND logic
         filteredVisits = allVisits!.filter { visit in
-            let categoryMatch = (scope == "All") || (scope == "B" && visit.baptisms > 0) || (scope == "C" && visit.confirmations > 0) || (scope == "I" && visit.initiatories > 0) || (scope == "E" && visit.endowments > 0) || (scope == "S" && visit.sealings > 0 || scope == "⭐️" && visit.isFavorite)
+            let categoryMatch = (scope == "All")
+                || (scope == "B" && visit.baptisms > 0)
+                || (scope == "C" && visit.confirmations > 0)
+                || (scope == "I" && visit.initiatories > 0)
+                || (scope == "E" && visit.endowments > 0)
+                || (scope == "S" && visit.sealings > 0)
+                || (scope == "⭐️" && visit.isFavorite)
             
             guard categoryMatch else { return false }
             guard !searchTerms.isEmpty else { return true }
@@ -346,6 +352,45 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         updateTitle()
         
         tableView.reloadData()
+    }
+
+    func applyCurrentFilters() {
+        filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: currentScope)
+    }
+
+    func setupCustomScopeControl() {
+        customScopeControl = UISegmentedControl(items: ["All", "B", "C", "I", "E", "S", "⭐️"])
+        customScopeControl.selectedSegmentIndex = 0
+        customScopeControl.backgroundColor = UIColor.systemBackground
+        customScopeControl.selectedSegmentTintColor = UIColor(named: "BaptismsBlueBtn")
+        customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.white, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .selected)
+        customScopeControl.setTitleTextAttributes([.foregroundColor: UIColor.label, .font: UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)], for: .normal)
+        customScopeControl.apportionsSegmentWidthsByContent = true
+        customScopeControl.addTarget(self, action: #selector(scopeControlChanged), for: .valueChanged)
+        customScopeControl.translatesAutoresizingMaskIntoConstraints = false
+
+        scopeView = UIView()
+        scopeView!.backgroundColor = UIColor.systemBackground
+        scopeView!.translatesAutoresizingMaskIntoConstraints = false
+        scopeView!.isUserInteractionEnabled = true
+        scopeView!.addSubview(customScopeControl)
+
+        separatorLine = UIView()
+        separatorLine!.backgroundColor = UIColor.separator
+        separatorLine!.translatesAutoresizingMaskIntoConstraints = false
+        scopeView!.addSubview(separatorLine!)
+
+        NSLayoutConstraint.activate([
+            scopeView!.heightAnchor.constraint(equalToConstant: 44)
+        ])
+
+        tableView.contentInset.top = 44
+        tableView.verticalScrollIndicatorInsets.top = 44
+    }
+
+    @objc func scopeControlChanged() {
+        searchController.searchBar.selectedScopeButtonIndex = customScopeControl.selectedSegmentIndex
+        applyCurrentFilters()
     }
     
     func getContext () -> NSManagedObjectContext {
@@ -383,6 +428,8 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchBar.scopeButtonTitles = ["All", "B", "C", "I", "E", "S", "⭐️"]
         searchController.searchBar.delegate = self
         searchController.delegate = self
+        searchController.searchBar.showsScopeBar = false
+        setupCustomScopeControl()
         
         // Keep fixed row layout (title/subtitle/chevron) independent of accessibility text size
         tableView.minimumContentSizeCategory = .large
@@ -492,22 +539,67 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchBar.resignFirstResponder()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let scopeView = scopeView, scopeView.superview == nil {
+            view.addSubview(scopeView)
+            NSLayoutConstraint.activate([
+                scopeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                scopeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scopeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                scopeView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            ])
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+        }
+
+        if let scopeView = scopeView, scopeView.superview != nil {
+            view.bringSubviewToFront(scopeView)
+        }
+
+        if let scopeView = scopeView, let customScopeControl = customScopeControl, let separatorLine = separatorLine, scopeView.superview != nil, customScopeControl.superview == scopeView {
+            let hasConstraints = customScopeControl.constraints.contains { $0.firstAttribute == .centerX }
+            if !hasConstraints {
+                NSLayoutConstraint.activate([
+                    customScopeControl.centerXAnchor.constraint(equalTo: scopeView.centerXAnchor),
+                    customScopeControl.centerYAnchor.constraint(equalTo: scopeView.centerYAnchor),
+                    customScopeControl.widthAnchor.constraint(equalTo: scopeView.widthAnchor, multiplier: 0.94),
+                    customScopeControl.heightAnchor.constraint(equalToConstant: 36),
+                    separatorLine.leadingAnchor.constraint(equalTo: scopeView.leadingAnchor),
+                    separatorLine.trailingAnchor.constraint(equalTo: scopeView.trailingAnchor),
+                    separatorLine.bottomAnchor.constraint(equalTo: scopeView.bottomAnchor),
+                    separatorLine.heightAnchor.constraint(equalToConstant: 0.5)
+                ])
+                scopeView.setNeedsLayout()
+                scopeView.layoutIfNeeded()
+            }
+        }
+
+        keepIPadListChromeVisible()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if needsNavBarRefreshAfterPop {
+            setAppTabBarHidden(false)
+        }
         restoreListSearchBar(searchController)
         if resumeSearchOnAppear, let text = preservedSearchText {
             searchController.searchBar.text = text
         }
 
         setupFilterMenu()
+        if customScopeControl == nil {
+            setupCustomScopeControl()
+        }
         
         // Reload the data
         _fetchedResultsController = nil
-        self.tableView.reloadData()
-        
-        if resumeSearchOnAppear {
-            let scope = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex] ?? "All"
-            filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
+        if isShowingSearchResults {
+            applyCurrentFilters()
+        } else {
+            self.tableView.reloadData()
         }
         
         // Update title with current sort option
@@ -520,6 +612,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController?.topViewController !== self {
+            needsNavBarRefreshAfterPop = true
             let text = searchController.searchBar.text ?? ""
             preservedSearchText = text
             resumeSearchOnAppear = searchController.isActive || !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -529,6 +622,13 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if needsNavBarRefreshAfterPop {
+            needsNavBarRefreshAfterPop = false
+            forceListChromeRefresh()
+            DispatchQueue.main.async { [weak self] in
+                self?.forceListChromeRefresh()
+            }
+        }
         if resumeSearchOnAppear {
             let text = preservedSearchText ?? searchController.searchBar.text ?? ""
             resumeSearchOnAppear = false
@@ -536,8 +636,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
                 guard let self else { return }
                 self.searchController.isActive = true
                 self.searchController.searchBar.text = text
-                let scope = self.searchController.searchBar.scopeButtonTitles?[self.searchController.searchBar.selectedScopeButtonIndex] ?? "All"
-                self.filterContentForSearchText(searchText: text, scope: scope)
+                self.applyCurrentFilters()
                 self.searchController.searchBar.resignFirstResponder()
             }
         } else if searchController.isActive {
@@ -588,44 +687,37 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsScopeBar = true
-        searchBar.sizeToFit()
         customizeSearchBarAppearance()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        // Keep scope bar visible as long as search is active
-        if isShowingSearchResults {
-            searchBar.showsScopeBar = true
-            searchBar.sizeToFit()
-        } else {
-            searchBar.showsScopeBar = false
-        }
+        customizeSearchBarAppearance()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         preservedSearchText = nil
         resumeSearchOnAppear = false
-        searchBar.showsScopeBar = false
+        applyCurrentFilters()
     }
     
     // MARK: - Search Controller Delegate Methods
     func willPresentSearchController(_ searchController: UISearchController) {
-        searchController.searchBar.showsScopeBar = true
         customizeSearchBarAppearance()
+        scheduleIPadTabBarRestore()
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
-        searchController.searchBar.showsScopeBar = true
         customizeSearchBarAppearance()
+        scheduleIPadTabBarRestore()
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        searchController.searchBar.showsScopeBar = false
+        scheduleIPadTabBarRestore()
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
-        searchController.searchBar.showsScopeBar = false
+        applyCurrentFilters()
+        scheduleIPadTabBarRestore()
     }
 
     func insertNewObject(_ sender: Any) {
@@ -758,8 +850,7 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     
     private func refreshAfterVisitChange() {
         if isShowingSearchResults {
-            let scope = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex] ?? "All"
-            filterContentForSearchText(searchText: searchController.searchBar.text ?? "", scope: scope)
+            applyCurrentFilters()
         } else {
             tableView.reloadData()
         }
