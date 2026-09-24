@@ -70,6 +70,70 @@ extension UIImage {
     func jpegDataForVisitStorage() -> Data? {
         VisitPhotoCompression.encodedData(from: self)
     }
+
+    /// Complementary letterbox color sampled from the image, darkened so the photo stays
+    /// the focus when Crop to fill is off. Matches Android `ColorUtils.complementaryFillColor`.
+    func complementaryFillColor() -> UIColor {
+        let sampleSize = 32
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = false
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: sampleSize, height: sampleSize), format: format)
+        let sampled = renderer.image { _ in
+            draw(in: CGRect(x: 0, y: 0, width: sampleSize, height: sampleSize))
+        }
+        guard let cgImage = sampled.cgImage else { return .black }
+
+        let width = cgImage.width
+        let height = cgImage.height
+        guard width > 0, height > 0 else { return .black }
+
+        let bytesPerPixel = 4
+        let bytesPerRow = bytesPerPixel * width
+        var rawData = [UInt8](repeating: 0, count: height * bytesPerRow)
+        guard let context = CGContext(
+            data: &rawData,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: bytesPerRow,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return .black }
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+
+        var red: Int64 = 0
+        var green: Int64 = 0
+        var blue: Int64 = 0
+        var count: Int64 = 0
+        let pixelCount = width * height
+        for i in 0..<pixelCount {
+            let offset = i * bytesPerPixel
+            if rawData[offset + 3] >= 32 {
+                red += Int64(rawData[offset])
+                green += Int64(rawData[offset + 1])
+                blue += Int64(rawData[offset + 2])
+                count += 1
+            }
+        }
+        guard count > 0 else { return .black }
+
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        UIColor(
+            red: CGFloat(red / count) / 255,
+            green: CGFloat(green / count) / 255,
+            blue: CGFloat(blue / count) / 255,
+            alpha: 1
+        ).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+
+        hue = (hue + 0.5).truncatingRemainder(dividingBy: 1)
+        saturation = min(max(saturation * 0.55 + 0.25, 0.2), 0.7)
+        brightness = min(max(brightness * 0.45 + 0.15, 0.18), 0.45)
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+    }
     
 }
 

@@ -1006,15 +1006,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         postRebuildSizeTimer = nil
         
         // Restore the Baskerville nav bar appearance used throughout the rest of the app
-        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
-        let baptismsBlue = UIColor(named: "BaptismsBlue") ?? UIColor.blue
-        let restoredNavAppearance = UINavigationBarAppearance()
-        restoredNavAppearance.configureWithOpaqueBackground()
-        restoredNavAppearance.buttonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
-        restoredNavAppearance.doneButtonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
-        restoredNavAppearance.backButtonAppearance.normal.titleTextAttributes = [.font: barbuttonFont, .foregroundColor: baptismsBlue]
-        restoredNavAppearance.titleTextAttributes = [.foregroundColor: baptismsBlue, .font: navbarFont]
+        let restoredNavAppearance = holyPlacesNavigationBarAppearance()
         navigationController?.navigationBar.standardAppearance = restoredNavAppearance
         navigationController?.navigationBar.compactAppearance = restoredNavAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = restoredNavAppearance

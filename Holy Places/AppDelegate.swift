@@ -126,6 +126,10 @@ var showStockPlaceImageOnVisits: Bool {
     get { UserDefaults.standard.object(forKey: "showStockPlaceImageOnVisits") as? Bool ?? true }
     set { UserDefaults.standard.set(newValue, forKey: "showStockPlaceImageOnVisits") }
 }
+var homeImageCropToFill: Bool {
+    get { UserDefaults.standard.object(forKey: "homeImageCropToFill") as? Bool ?? true }
+    set { UserDefaults.standard.set(newValue, forKey: "homeImageCropToFill") }
+}
 var templeColor: UIColor = UIColor(named: "Temples"+theme) ?? UIColor.black
 var historicalColor: UIColor  = UIColor(named: "Historical"+theme) ?? UIColor.black
 var announcedColor: UIColor  = UIColor(named: "Announced"+theme) ?? UIColor.black
@@ -240,6 +244,37 @@ func attributedPlaceTypeFilterTitle(_ title: String, font: UIFont, color: UIColo
     result.append(NSAttributedString(string: "  ", attributes: textAttributes))
     result.append(NSAttributedString(string: title, attributes: textAttributes))
     return result
+}
+
+/// Shared navigation bar styling. Prominent actions (Save, Done) keep Liquid Glass
+/// label colors on iOS 26+; a forced foreground color draws dark text on the blue capsule in day mode.
+func holyPlacesNavigationBarAppearance() -> UINavigationBarAppearance {
+    let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
+    let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
+    let baptismsBlue = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+    let plainAttributes: [NSAttributedString.Key: Any] = [
+        .font: barbuttonFont,
+        .foregroundColor: baptismsBlue
+    ]
+
+    let style = UINavigationBarAppearance()
+    style.configureWithOpaqueBackground()
+    style.buttonAppearance.normal.titleTextAttributes = plainAttributes
+    style.backButtonAppearance.normal.titleTextAttributes = plainAttributes
+    style.titleTextAttributes = [
+        .foregroundColor: baptismsBlue,
+        .font: navbarFont
+    ]
+
+    if #available(iOS 26.0, *) {
+        let prominent = UIBarButtonItemAppearance(style: .prominent)
+        prominent.normal.titleTextAttributes = [.font: barbuttonFont]
+        style.prominentButtonAppearance = prominent
+    } else {
+        style.doneButtonAppearance.normal.titleTextAttributes = plainAttributes
+    }
+
+    return style
 }
 
 @main
@@ -377,18 +412,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UITabBar.appearance().tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         // Change the font and color for the navigation Bar text
-        let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
-        let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
-
-        let style = UINavigationBarAppearance()
-        style.configureWithOpaqueBackground()
-        style.buttonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-        style.doneButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-        style.backButtonAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: barbuttonFont, NSAttributedString.Key.foregroundColor:UIColor(named: "BaptismsBlue")!]
-        style.titleTextAttributes = [
-            .foregroundColor : UIColor(named: "BaptismsBlue")!, // Navigation bar title color
-            .font : navbarFont // Navigation bar title font
-        ]
+        let style = holyPlacesNavigationBarAppearance()
         UINavigationBar.appearance().standardAppearance = style
         UINavigationBar.appearance().compactAppearance = style
         UINavigationBar.appearance().scrollEdgeAppearance = style

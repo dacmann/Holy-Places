@@ -42,6 +42,7 @@
 		64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F71E21863A00951A58 /* Assets.xcassets */; };
 		64FDE6FB1E21863A00951A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64FDE6F91E21863A00951A58 /* LaunchScreen.storyboard */; };
 		9C132C682DE12C4D008C88DF /* StringArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */; };
+		9C5A0001303B010100D4E001 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5A0000303B010100D4E001 /* SummaryView.swift */; };
 		9C6ECC892FE859AF004386CD /* ShareQRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC862FE859AF004386CD /* ShareQRCodeView.swift */; };
 		9C6ECC8A2FE859AF004386CD /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */; };
 		9C6ECC8B2FE859AF004386CD /* AppShareLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ECC822FE859AF004386CD /* AppShareLinks.swift */; };
@@ -52,8 +53,6 @@
 		9C765542302F9C2A00C72E88 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C765541302F9C2A00C72E88 /* WhatsNew.swift */; };
 		9C7E2A11302A8F0100D4E001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E2A10302A8F0100D4E001 /* SettingsView.swift */; };
 		9CAE54992FDCB5AF00C8927C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE54982FDCB5AF00C8927C /* InfoView.swift */; };
-		9CE4A102303A010100D4E001 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4A101303A010100D4E001 /* PlaceDetailView.swift */; };
-		9C5A0001303B010100D4E001 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5A0000303B010100D4E001 /* SummaryView.swift */; };
 		9CB0A1012FEA000100C3B001 /* CelebrationBoardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */; };
 		9CB0A1032FEA000200C3B001 /* Achievement+CelebrationBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */; };
 		9CB0A1052FEA000300C3B001 /* AchievementShareImageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */; };
@@ -66,6 +65,7 @@
 		9CD8155D2F2ABFCF00E2B911 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */; };
 		9CD8155F2F2ABFCF00E2B911 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */; };
 		9CD815702F2ABFD000E2B911 /* Holy Places WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9CD8155B2F2ABFCD00E2B911 /* Holy Places WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9CE4A102303A010100D4E001 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4A101303A010100D4E001 /* PlaceDetailView.swift */; };
 		9CF269002DE4D04800B2062C /* Holy Places Watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9CF3F7E52F662FE800B1AFFB /* ProfileManagementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF3F7E32F662FE800B1AFFB /* ProfileManagementVC.swift */; };
 		9CF3F7E62F662FE800B1AFFB /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF3F7E42F662FE800B1AFFB /* ProfileManager.swift */; };
@@ -149,6 +149,7 @@
 		64FDE6F71E21863A00951A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FDE6FC1E21863A00951A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C132C672DE12C32008C88DF /* StringArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringArrayTransformer.swift; sourceTree = "<group>"; };
+		9C5A0000303B010100D4E001 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		9C6ECC822FE859AF004386CD /* AppShareLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShareLinks.swift; sourceTree = "<group>"; };
 		9C6ECC832FE859AF004386CD /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		9C6ECC842FE859AF004386CD /* ShareActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityView.swift; sourceTree = "<group>"; };
@@ -159,8 +160,6 @@
 		9C765541302F9C2A00C72E88 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		9C7E2A10302A8F0100D4E001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9CAE54982FDCB5AF00C8927C /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
-		9CE4A101303A010100D4E001 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
-		9C5A0000303B010100D4E001 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		9CB0A1002FEA000100C3B001 /* CelebrationBoardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationBoardConfig.swift; sourceTree = "<group>"; };
 		9CB0A1022FEA000200C3B001 /* Achievement+CelebrationBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Achievement+CelebrationBoard.swift"; sourceTree = "<group>"; };
 		9CB0A1042FEA000300C3B001 /* AchievementShareImageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementShareImageRenderer.swift; sourceTree = "<group>"; };
@@ -174,6 +173,7 @@
 		9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9CD815802F2AC56800E2B911 /* Holy Places WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places WidgetsExtension.entitlements"; sourceTree = "<group>"; };
+		9CE4A101303A010100D4E001 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
 		9CF268E02DE4D04500B2062C /* Holy Places Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holy Places Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CF3F7E32F662FE800B1AFFB /* ProfileManagementVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManagementVC.swift; sourceTree = "<group>"; };
 		9CF3F7E42F662FE800B1AFFB /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2640;
 				ORGANIZATIONNAME = "Derek Cordon";
 				TargetAttributes = {
 					64FDE6EA1E21863A00951A58 = {
@@ -573,6 +573,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -624,6 +625,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -633,6 +635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -677,6 +680,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -702,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.9;
+				MARKETING_VERSION = 6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -730,7 +734,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.9;
+				MARKETING_VERSION = 6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -767,7 +771,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.9;
+				MARKETING_VERSION = 6.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
@@ -810,7 +814,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.9;
+				MARKETING_VERSION = 6.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.dacworld.Holy-Places.Holy-Places-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";

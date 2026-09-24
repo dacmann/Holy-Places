@@ -267,6 +267,18 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
                 }
             }
         }
+        applyHomeImageCropMode()
+    }
+
+    private func applyHomeImageCropMode() {
+        backgroundImage.clipsToBounds = true
+        if homeImageCropToFill {
+            backgroundImage.contentMode = .scaleAspectFill
+            backgroundImage.backgroundColor = .black
+        } else {
+            backgroundImage.contentMode = .scaleAspectFit
+            backgroundImage.backgroundColor = backgroundImage.image?.complementaryFillColor() ?? .black
+        }
     }
     
     func refreshBackgroundImage() {

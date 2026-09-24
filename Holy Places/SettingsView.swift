@@ -23,6 +23,7 @@ final class SettingsModel: ObservableObject {
     @Published var notifyTemplesOnly: Bool
     @Published var minutesDelayText: String
     @Published var imageOption: HomeImageOption
+    @Published var cropToFill: Bool
     @Published var homeTextColorIndex: Int
     @Published var commentsText: String
     @Published var addDaysText: String
@@ -54,6 +55,7 @@ final class SettingsModel: ObservableObject {
         } else {
             imageOption = .specificImage
         }
+        cropToFill = homeImageCropToFill
         homeTextColorIndex = Int(homeTextColor)
         commentsText = defaultCommentsText
         addDaysText = String(copyAddDays)
@@ -153,6 +155,12 @@ final class SettingsModel: ObservableObject {
     func applyHomeTextColor(_ index: Int) {
         homeTextColorIndex = index
         homeTextColor = Int16(index)
+        notifyHomeAppearanceChanged()
+    }
+
+    func applyCropToFill(_ enabled: Bool) {
+        cropToFill = enabled
+        homeImageCropToFill = enabled
         notifyHomeAppearanceChanged()
     }
 
@@ -391,6 +399,12 @@ struct SettingsView: View {
             }
             .listRowInsets(EdgeInsets())
 
+            Toggle("Crop to fill", isOn: $model.cropToFill)
+                .font(rowFont)
+                .onChange(of: model.cropToFill) { _, newValue in
+                    model.applyCropToFill(newValue)
+                }
+
             HStack {
                 Text("Text Color")
                     .font(rowFont)
@@ -408,7 +422,7 @@ struct SettingsView: View {
         } header: {
             Text("Customize Home Screen")
         } footer: {
-            Text("Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.")
+            Text("Select from the available background image options.  The Random Image option will select from the images you have attached to the visits.  To use a specific image, import the image using the above button.\n\nWhen Crop to fill is off, the whole photo is shown and a complementary color fills the remaining area.")
         }
     }
 

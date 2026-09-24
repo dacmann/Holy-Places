@@ -10,6 +10,10 @@ import Foundation
 
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
+        "6.0": """
+            New:
+            - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
+            """,
         "5.9": """
             New:
             - Color Theme includes Mono — place names and ordinances in black or white for easier reading
