@@ -19,7 +19,6 @@ enum WhatsNew {
             
             Bug Fixes:
             - Home screen goal progress updates as soon as you change goals in Settings
-            - Navigate offers Google Maps and Waze again when those apps are installed
             """,
         "5.9": """
             New:
