@@ -2499,6 +2499,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Restore any visits that were previously renamed to the current name but whose
         // date predates a change date (runs every launch; no-op when nothing needs fixing)
         revertMisnamedVisits()
+        if #available(iOS 27.0, *) {
+            Task { await HolyPlacesSpotlightIndexer.reindexAll() }
+        }
     }
     
     /// Corrects visits that were bulk-renamed to a current place name before date-aware logic

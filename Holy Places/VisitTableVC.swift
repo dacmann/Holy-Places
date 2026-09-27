@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import StoreKit
+import AppIntents
 
 extension VisitTableVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -421,6 +422,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         searchController.searchBar.tintColor = UIColor(named: "BaptismsBlue") ?? UIColor.blue
         
         definesPresentationContext = true
+        if #available(iOS 27.0, *) {
+            tableView.appIntentsDataSource = self
+        }
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         extendedLayoutIncludesOpaqueBars = true
@@ -822,7 +826,11 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         
         self.configureCell(cell, withVisit: visit)
-        
+
+        if #available(iOS 27.0, *) {
+            cell.appEntityIdentifier = VisitEntity.identifier(for: visit)
+        }
+
         if isSelectMode {
             cell.accessoryType = selectedVisitIds.contains(visit.objectID) ? .checkmark : .none
         } else {
@@ -1163,6 +1171,30 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
     }
     
     //MARK: - Navigation
+    func showSiriSearch(_ term: String) {
+        preservedSearchText = term
+        if isViewLoaded {
+            resumeSearchOnAppear = false
+            searchController.searchBar.text = term
+            searchController.isActive = true
+            applyCurrentFilters()
+            searchController.searchBar.resignFirstResponder()
+        } else {
+            resumeSearchOnAppear = true
+        }
+    }
+
+    func openVisit(objectURI: String) {
+        guard let url = URL(string: objectURI),
+              let objectID = ad.persistentContainer.persistentStoreCoordinator.managedObjectID(forURIRepresentation: url),
+              let visit = try? getContext().existingObject(with: objectID) as? Visit else { return }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let controller = storyboard.instantiateViewController(withIdentifier: "VisitDetailVC") as? VisitDetailVC else { return }
+        controller.detailVisit = visit
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func quickAddVisit(shortcutIdentifier: ShortcutIdentifier) -> Bool {
         if shortcutIdentifier == .RecordVisit {
             quickAddPlace = quickLaunchItem
@@ -1384,6 +1416,9 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         }
         ad.needsVisitRefresh = true
         ad.getVisits()
+        if #available(iOS 27.0, *) {
+            Task { try? await HolyPlacesSpotlightIndexer.reindexVisits() }
+        }
     }
     
     private func showCopySuccessMessage(count: Int, profileName: String) {
@@ -1397,4 +1432,20 @@ class VisitTableVC: UITableViewController, SendVisitOptionsDelegate, NSFetchedRe
         present(alert, animated: true)
     }
 
+}
+
+@available(iOS 27.0, *)
+extension VisitTableVC: UITableViewAppIntentsDataSource {
+    func tableView(_ tableView: UITableView, appEntityIdentifierForRowAt indexPath: IndexPath) -> EntityIdentifier? {
+        let visit: Visit
+        if isShowingSearchResults {
+            guard indexPath.section < groupedFilteredVisits.count else { return nil }
+            let rows = groupedFilteredVisits[indexPath.section].visits
+            guard indexPath.row < rows.count else { return nil }
+            visit = rows[indexPath.row]
+        } else {
+            visit = fetchedResultsController.object(at: indexPath)
+        }
+        return VisitEntity.identifier(for: visit)
+    }
 }

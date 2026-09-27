@@ -298,9 +298,22 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
     }
 
     @objc func homeAppearanceDidChange() {
+        refreshGoalDisplay()
         refreshBackgroundImage()
         applyHomeScreenColors()
         setNeedsStatusBarAppearanceUpdate()
+    }
+
+    /// Rebuilds goal progress after Settings (or another sheet) changes goals.
+    /// A sheet dismissal does not call `viewDidAppear`, so the home labels would otherwise stay stale.
+    @discardableResult
+    private func refreshGoalDisplay() -> Bool {
+        let refreshed = ad.needsVisitRefresh
+        if refreshed {
+            ad.getVisits()
+        }
+        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
+        return refreshed
     }
 
     func applyHomeScreenColors() {
@@ -353,11 +366,9 @@ class HomeVC: UIViewController, XMLParserDelegate, UITabBarControllerDelegate {
             self.present(alert, animated: true)
         }
         
-        if ad.needsVisitRefresh {
-            ad.getVisits()
+        if refreshGoalDisplay() {
             refreshBackgroundImage()
         }
-        goal.text = goalProgress.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if completed.count > 0 {
             if let iconImage = UIImage(named: completed[0].iconName) {

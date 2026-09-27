@@ -816,7 +816,7 @@
                             <barButtonItem title="Sort" image="sort" id="9Xf-EQ-F2d">
                                 <color key="tintColor" name="BaptismsBlue"/>
                             </barButtonItem>
-                            <barButtonItem title="Add" image="add" id="f0N-u9-qXd">
+                            <barButtonItem title="Add" image="addVisit" id="f0N-u9-qXd">
                                 <color key="tintColor" name="BaptismsBlue"/>
                                 <connections>
                                     <segue destination="HiP-YK-D1n" kind="show" id="x4n-nN-iU0"/>
@@ -1801,7 +1801,7 @@
     <color key="tintColor" red="0.001327166334" green="0.32755678890000001" blue="0.57669931649999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="ach10T" width="100" height="100"/>
-        <image name="add" width="25" height="25"/>
+        <image name="addVisit" width="25" height="25"/>
         <image name="export" width="25" height="25"/>
         <image name="filter" width="25" height="25"/>
         <image name="journal" width="25" height="25"/>

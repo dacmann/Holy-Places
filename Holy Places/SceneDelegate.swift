@@ -20,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(siriRouteRequested), name: SiriNavigation.didRequestRoute, object: nil)
+
         // Handle Quick Action if app was launched from one
         if let shortcutItem = connectionOptions.shortcutItem {
             handleShortcutItem(shortcutItem)
@@ -41,8 +43,48 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        applyPendingSiriRoute()
+    }
+
+    @objc private func siriRouteRequested() {
+        applyPendingSiriRoute()
+    }
+
+    private func applyPendingSiriRoute() {
+        guard let route = SiriNavigation.shared.consumeIfWindowIsReady(window?.rootViewController != nil) else { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.perform(route)
+        }
+    }
+
+    private func perform(_ route: SiriRoute) {
+        guard let tabBar = window?.rootViewController as? UITabBarController else { return }
+        switch route {
+        case .openPlace(let id):
+            showPlaces(in: tabBar) { $0.openPlace(templeId: id) }
+        case .searchPlaces(let term):
+            showPlaces(in: tabBar) { $0.showSiriSearch(term) }
+        case .openVisit(let uri):
+            showVisits(in: tabBar) { $0.openVisit(objectURI: uri) }
+        case .searchVisits(let term):
+            showVisits(in: tabBar) { $0.showSiriSearch(term) }
+        }
+    }
+
+    private func showPlaces(in tabBar: UITabBarController, action: (TableViewController) -> Void) {
+        tabBar.selectedIndex = 1
+        guard let navigation = tabBar.selectedViewController as? UINavigationController,
+              let places = navigation.viewControllers.first as? TableViewController else { return }
+        navigation.popToRootViewController(animated: false)
+        action(places)
+    }
+
+    private func showVisits(in tabBar: UITabBarController, action: (VisitTableVC) -> Void) {
+        tabBar.selectedIndex = 2
+        guard let navigation = tabBar.selectedViewController as? UINavigationController,
+              let visits = navigation.viewControllers.first as? VisitTableVC else { return }
+        navigation.popToRootViewController(animated: false)
+        action(visits)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

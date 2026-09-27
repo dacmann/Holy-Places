@@ -56,6 +56,12 @@ class Temple: NSObject {
         return nameChanges.map { $0.oldName }
     }
 
+    /// Text used by the Places list and Siri search. Includes historical names.
+    var listSearchText: String {
+        ([templeName, templeCityState, templeCountry, templeSnippet, fhCode ?? ""] + oldNames)
+            .joined(separator: " ")
+    }
+
     /// Returns the name this place was known by at the given visit date.
     func effectiveName(for date: Date) -> String {
         for change in nameChanges {

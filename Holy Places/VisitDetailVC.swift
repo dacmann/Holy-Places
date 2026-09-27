@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AppIntents
 
 class VisitDetailVC: UIViewController {
     
@@ -95,6 +96,16 @@ class VisitDetailVC: UIViewController {
         
         populateView()
         setDate()
+        applySiriVisitAnnotation()
+    }
+
+    private func applySiriVisitAnnotation() {
+        guard #available(iOS 27.0, *) else { return }
+        if let visit = detailVisit {
+            view.appEntityIdentifier = VisitEntity.identifier(for: visit)
+        } else {
+            view.appEntityIdentifier = nil
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

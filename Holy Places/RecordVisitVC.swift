@@ -82,9 +82,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
     
     @objc func saveVisit (_ sender: Any) {
         let previousIcons = snapshotCompletedAchievementIcons()
-        let context = getContext()
-        
-        yearFormat.dateFormat = "yyyy"
         
         let holyPlace = templeName.text ?? ""
         let baptismsVal = Int16(baptisms.text ?? "0") ?? 0
@@ -94,12 +91,6 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         let sealingsVal = Int16(sealings.text ?? "0") ?? 0
         let userComments = comments.text ?? ""
         let shiftHrsVal = Double(hoursWorked.text ?? "0") ?? 0.0
-        let yearVal: String
-        if let dov = dateOfVisit {
-            yearVal = ad.calendarYearString(for: dov)
-        } else {
-            yearVal = ad.calendarYearString(for: Date())
-        }
         
         var imageData: Data?
         if pictureView.isHidden == false, let image = pictureView.image {
@@ -118,41 +109,44 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         }
         
         let commentsVal = commentsForSave(userNotes: userComments, profileIds: profileIds)
-        
-        for profileId in profileIds {
-            guard let visit = NSEntityDescription.insertNewObject(forEntityName: "Visit", into: context) as? Visit else {
-                print("Failed to create Visit entity")
-                continue
-            }
-            visit.holyPlace = holyPlace
-            visit.baptisms = baptismsVal
-            visit.confirmations = confirmationsVal
-            visit.initiatories = initiatoriesVal
-            visit.endowments = endowmentsVal
-            visit.sealings = sealingsVal
-            visit.comments = commentsVal
-            visit.dateVisited = dateOfVisit as Date?
-            visit.year = yearVal
-            visit.type = placeType
-            visit.shiftHrs = shiftHrsVal
-            visit.isFavorite = isFavorite
-            visit.profileId = profileId
-            visit.picture = imageData
-        }
+        let record = VisitRecord(
+            holyPlace: holyPlace,
+            placeType: placeType,
+            date: dateOfVisit,
+            baptisms: baptismsVal,
+            confirmations: confirmationsVal,
+            initiatories: initiatoriesVal,
+            endowments: endowmentsVal,
+            sealings: sealingsVal,
+            comments: commentsVal,
+            shiftHours: shiftHrsVal,
+            isFavorite: isFavorite,
+            imageData: imageData,
+            profileIds: profileIds
+        )
         
         do {
-            try context.save()
+            try VisitStore.record(record)
             print("Saving Visit(s) completed successfully for \(profileIds.count) profile(s)")
-        } catch let error as NSError  {
-            print("Could not save visit: \(error), \(error.userInfo)")
+        } catch {
+            print("Could not save visit: \(error)")
             let alert = UIAlertController(title: "Save Error", message: "Failed to save visit. Please try again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
             return
         }
         
-        ad.needsVisitRefresh = true
-        ad.getVisits()
+        VisitDonation.donateRecordedVisit(
+            holyPlace: holyPlace,
+            date: dateOfVisit ?? Date(),
+            profileId: profileIds.first,
+            baptisms: Int(baptismsVal),
+            confirmations: Int(confirmationsVal),
+            initiatories: Int(initiatoriesVal),
+            endowments: Int(endowmentsVal),
+            sealings: Int(sealingsVal),
+            notes: commentsVal
+        )
         let unlocked = newlyUnlockedAchievements(since: previousIcons)
         presentAchievementUnlocked(achievements: unlocked) { [weak self] in
             _ = self?.navigationController?.popToRootViewController(animated: true)
@@ -217,6 +211,9 @@ class RecordVisitVC: UIViewController, SendDateDelegate, SendPlaceDelegate, UIIm
         // Update visit count for goal progress in Widget
         ad.needsVisitRefresh = true
         ad.getVisits()
+        if #available(iOS 27.0, *) {
+            Task { try? await HolyPlacesSpotlightIndexer.reindexVisits() }
+        }
         let unlocked = newlyUnlockedAchievements(since: previousIcons)
         presentAchievementUnlocked(achievements: unlocked) { [weak self] in
             _ = self?.navigationController?.popViewController(animated: true)

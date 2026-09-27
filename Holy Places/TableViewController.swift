@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import CoreData
+import AppIntents
 
 extension TableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -167,7 +168,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
             guard !searchTerms.isEmpty else { return true }
             
             // Create searchable text from all relevant fields
-            let searchableText = "\(place.templeName) \(place.templeCityState) \(place.templeCountry) \(place.templeSnippet) \(place.fhCode ?? "")".lowercased()
+            let searchableText = place.listSearchText.lowercased()
             
             // AND search: all terms must be found in the searchable text
             return searchTerms.allSatisfy { term in
@@ -225,7 +226,7 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
                 
                 places = places.filter { place in
                     // Create searchable text from all relevant fields
-                    let searchableText = "\(place.templeName) \(place.templeCityState) \(place.templeCountry) \(place.templeSnippet) \(place.fhCode ?? "")".lowercased()
+                    let searchableText = place.listSearchText.lowercased()
                     
                     // AND search: all terms must be found in the searchable text
                     return searchTerms.allSatisfy { term in
@@ -885,6 +886,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         
         // Observer for widget deep link to open specific place
         NotificationCenter.default.addObserver(self, selector: #selector(openPlaceFromWidget(_:)), name: NSNotification.Name("OpenPlaceFromWidget"), object: nil)
+        if #available(iOS 27.0, *) {
+            tableView.appIntentsDataSource = self
+        }
     }
     
     deinit {
@@ -1032,6 +1036,9 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         cell.applyFixedSubtitleStyle(title: temple.templeName, subtitle: subtitle, titleColor: titleColor, image: placeTypeSymbolImage(for: temple.templeType), imageTint: titleColor)
         
         cell.accessoryType = .disclosureIndicator
+        if #available(iOS 27.0, *) {
+            cell.appEntityIdentifier = PlaceEntity.identifier(for: temple)
+        }
 
         return cell
     }
@@ -1075,6 +1082,37 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
     
     // MARK: - Navigation
     
+    func showSiriSearch(_ term: String) {
+        preservedSearchText = term
+        if isViewLoaded {
+            resumeSearchOnAppear = false
+            searchController.searchBar.text = term
+            searchController.isActive = true
+            let scopeIndex = customScopeControl?.selectedSegmentIndex ?? 0
+            let scope = customScopeControl?.titleForSegment(at: max(scopeIndex, 0)) ?? "All"
+            filterContentForSearchText(searchText: term, scope: scope)
+            searchController.searchBar.resignFirstResponder()
+        } else {
+            resumeSearchOnAppear = true
+        }
+    }
+
+    func openPlace(templeId: String) {
+        guard let index = allPlaces.firstIndex(where: { temple in
+            let trimmed = temple.templeId.trimmingCharacters(in: .whitespacesAndNewlines)
+            let stableID = trimmed.isEmpty ? temple.templeName : trimmed
+            return stableID == templeId
+        }) else { return }
+        let place = allPlaces[index]
+        detailItem = place
+        selectedPlaceRow = index
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let controller = storyboard.instantiateViewController(withIdentifier: "PlaceDetail") as? PlaceDetailVC else { return }
+        controller.swipePlaces = allPlaces
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func openForPlace(shortcutIdentifier: ShortcutIdentifier) -> Bool {
 //        SortOptions(row: placeSortRow)
         updateView()
@@ -1126,6 +1164,20 @@ class TableViewController: UITableViewController, SendOptionsDelegate, UISearchC
         }
     }
 
+}
+
+@available(iOS 27.0, *)
+extension TableViewController: UITableViewAppIntentsDataSource {
+    func tableView(_ tableView: UITableView, appEntityIdentifierForRowAt indexPath: IndexPath) -> EntityIdentifier? {
+        let index: Int
+        if nearestEnabled {
+            index = indexPath.row
+        } else {
+            index = sections[indexPath.section].index + indexPath.row
+        }
+        guard places.indices.contains(index) else { return nil }
+        return PlaceEntity.identifier(for: places[index])
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.

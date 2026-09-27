@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AppIntents
 import CoreData
 import UIKit
 
@@ -345,6 +346,7 @@ struct PlaceDetailView: View {
         .onChange(of: model.place?.templeName) {
             showOrdinancePopup = false
         }
+        .modifier(SiriPlaceAnnotation(place: model.place))
     }
 
     private var placeSwipeGesture: some Gesture {
@@ -670,6 +672,32 @@ struct PlaceDetailView: View {
             }
             .font(bodyFont)
             .foregroundColor(Color(uiColor: color))
+        }
+    }
+
+    private struct SiriPlaceAnnotation: ViewModifier {
+        var place: Temple?
+
+        func body(content: Content) -> some View {
+            if #available(iOS 27.0, *) {
+                SiriAnnotatedPlace(place: place, content: content)
+            } else {
+                content
+            }
+        }
+    }
+
+    @available(iOS 27.0, *)
+    private struct SiriAnnotatedPlace<Content: View>: View {
+        var place: Temple?
+        var content: Content
+
+        var body: some View {
+            if let place {
+                content.appEntityIdentifier(PlaceEntity.identifier(for: place))
+            } else {
+                content
+            }
         }
     }
 
