@@ -10,8 +10,9 @@ import Foundation
 
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
-        "6.1": """
+        "6.0": """
             New:
+            - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
             - Siri on iOS 27 can record a visit, get directions, report goal progress, and tell you how many places you have visited
             - For an active temple, Siri asks which ordinances you did and whether to add notes
             - Ask Siri to search or open a place or visit
@@ -19,10 +20,6 @@ enum WhatsNew {
             Bug Fixes:
             - Home screen goal progress updates as soon as you change goals in Settings
             - Navigate offers Google Maps and Waze again when those apps are installed
-            """,
-        "6.0": """
-            New:
-            - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
             """,
         "5.9": """
             New:
