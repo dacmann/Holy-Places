@@ -12,19 +12,11 @@ enum WhatsNew {
     static let notesByVersion: [String: String] = [
         "6.0": """
             New:
-            - iPad and the foldable iPhone show Places and Visits side by side, with the list next to the place or visit
-            - Map place names show when you zoom in closer than a country, and only when they don't overlap. Tap a pin to see the name, then tap the name to open the place
-            - A place's map shows the name beside the pin
+            - Home, Places, Visits, and the map are now SwiftUI, so the layout fits iPhone, iPad, and the foldable iPhone — with the list beside the detail when the screen is wide enough
+            - Siri on iOS 27 lets you record a visit, get directions, check your goal, and open a place or visit by asking. For an active temple, Siri can ask which ordinances you did and whether to add notes
             - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
-            - Siri on iOS 27 can record a visit, get directions, report goal progress, and tell you how many places you have visited
-            - For an active temple, Siri asks which ordinances you did and whether to add notes
-            - Ask Siri to search or open a place or visit
-            
-            Improvements:
-            - Search, Places scope buttons, and the Location screen use Baskerville
             
             Bug Fixes:
-            - Alphabetical and Nearest on the Places list no longer leave an empty gap
             - Home screen goal progress updates as soon as you change goals in Settings
             """,
         "5.9": """
