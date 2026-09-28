@@ -63,8 +63,10 @@ class SettingsTableVC: UIHostingController<SettingsView>, UIAdaptivePresentation
     }
 
     private func presentProfiles() {
-        let profileVC = ProfileManagementVC()
-        let nav = UINavigationController(rootViewController: profileVC)
+        let host = UIHostingController(rootView: ProfilesScreen { [weak self] in
+            self?.dismiss(animated: true)
+        })
+        let nav = UINavigationController(rootViewController: host)
         present(nav, animated: true)
     }
 }

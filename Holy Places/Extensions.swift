@@ -6,7 +6,82 @@
 //  Copyright © 2017 Derek Cordon. All rights reserved.
 //
 
+import SwiftUI
 import UIKit
+
+struct HolyPlacesSearchFontFix: UIViewRepresentable {
+    func makeUIView(context: Context) -> SearchFontAnchor {
+        SearchFontAnchor()
+    }
+
+    func updateUIView(_ uiView: SearchFontAnchor, context: Context) {
+        uiView.apply()
+    }
+
+    final class SearchFontAnchor: UIView {
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            apply()
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            apply()
+        }
+
+        func apply() {
+            let font = UIFont(name: "Baskerville", size: 16) ?? .systemFont(ofSize: 16)
+            var responder: UIResponder? = self
+            while let next = responder?.next {
+                if let controller = next as? UIViewController {
+                    if let navigationView = controller.navigationController?.view {
+                        styleSearchFields(in: navigationView, font: font)
+                    }
+                    styleSearchFields(in: controller.view, font: font)
+                    return
+                }
+                responder = next
+            }
+        }
+
+        private func styleSearchFields(in view: UIView, font: UIFont) {
+            if let field = view as? UITextField, isSearchField(field) {
+                if field.font?.fontName != font.fontName || field.font?.pointSize != font.pointSize {
+                    var attributes = field.defaultTextAttributes
+                    attributes[.font] = font
+                    field.defaultTextAttributes = attributes
+                    field.font = font
+                }
+                if let placeholder = field.placeholder, !placeholder.isEmpty {
+                    let current = field.attributedPlaceholder?.attribute(.font, at: 0, effectiveRange: nil) as? UIFont
+                    if current?.fontName != font.fontName || current?.pointSize != font.pointSize {
+                        let color = (field.attributedPlaceholder?.attribute(.foregroundColor, at: 0, effectiveRange: nil) as? UIColor) ?? .placeholderText
+                        field.attributedPlaceholder = NSAttributedString(
+                            string: placeholder,
+                            attributes: [.font: font, .foregroundColor: color]
+                        )
+                    }
+                }
+            }
+            for subview in view.subviews {
+                styleSearchFields(in: subview, font: font)
+            }
+        }
+
+        private func isSearchField(_ field: UITextField) -> Bool {
+            if field is UISearchTextField { return true }
+            var view: UIView? = field
+            while let current = view {
+                if current is UISearchBar { return true }
+                if String(describing: type(of: current)).localizedCaseInsensitiveContains("search") {
+                    return true
+                }
+                view = current.superview
+            }
+            return false
+        }
+    }
+}
 
 extension Notification.Name {
     static let reload = Notification.Name("reload")
@@ -398,8 +473,6 @@ extension UIViewController {
         let extra: CGFloat
         if let searchBar = from.navigationItem.searchController?.searchBar {
             extra = UIViewController.incomingSearchBarClearance(from: searchBar)
-        } else if from is VisitTableVC || from is TableViewController {
-            extra = 56
         } else {
             return
         }

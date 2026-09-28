@@ -248,6 +248,21 @@ func attributedPlaceTypeFilterTitle(_ title: String, font: UIFont, color: UIColo
 
 /// Shared navigation bar styling. Prominent actions (Save, Done) keep Liquid Glass
 /// label colors on iOS 26+; a forced foreground color draws dark text on the blue capsule in day mode.
+func applyHolyPlacesSearchFont() {
+    let font = UIFont(name: "Baskerville", size: 16) ?? UIFont.systemFont(ofSize: 16)
+    let blue = UIColor(named: "BaptismsBlue") ?? UIColor.blue
+    let attributes: [NSAttributedString.Key: Any] = [.font: font]
+    UISearchTextField.appearance().font = font
+    UISearchTextField.appearance().defaultTextAttributes = attributes
+    let searchText = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+    searchText.font = font
+    searchText.defaultTextAttributes = attributes
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([
+        .font: font,
+        .foregroundColor: blue
+    ], for: .normal)
+}
+
 func holyPlacesNavigationBarAppearance() -> UINavigationBarAppearance {
     let barbuttonFont = UIFont(name: "Baskerville", size: 17) ?? UIFont.systemFont(ofSize: 17)
     let navbarFont = UIFont(name: "Baskerville", size: 20) ?? UIFont.systemFont(ofSize: 20)
@@ -416,6 +431,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         UINavigationBar.appearance().standardAppearance = style
         UINavigationBar.appearance().compactAppearance = style
         UINavigationBar.appearance().scrollEdgeAppearance = style
+        applyHolyPlacesSearchFont()
         
         //Load any saved settings
         ad = UIApplication.shared.delegate as! AppDelegate
@@ -1024,45 +1040,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         // Get the window from the active scene
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first,
-              let myTabBar = window.rootViewController as? UITabBarController else {
+              window.rootViewController is UITabBarController else {
             return false
         }
         
         switch shortcutIdentifier {
         case .ShowNearest:
-            placeSortRow = 1
-            placeFilterRow = 0
-            locationSpecific = false
-            myTabBar.selectedIndex = 1
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? TableViewController else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            vc.nearestEnabled = true
-            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.showNearestPlaces()
+            return true
         case .OpenRandomPlace:
-            myTabBar.selectedIndex = 1
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? TableViewController else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.openRandomPlace()
+            return true
         case .RecordVisit, .Reminder:
-            myTabBar.selectedIndex = 2
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? VisitTableVC else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            return vc.quickAddVisit(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.quickAddVisit()
+            return true
         case .NavigateTo:
             // Open and show coordinate
             let latitude = quickLaunchItem?.coordinate.latitude

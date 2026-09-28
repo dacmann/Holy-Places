@@ -15,6 +15,12 @@ class SummaryVC: UIHostingController<SummaryView> {
 
     private let model: SummaryModel
 
+    init() {
+        let model = SummaryModel()
+        self.model = model
+        super.init(rootView: SummaryView(model: model, onAchievements: {}))
+    }
+
     required init?(coder: NSCoder) {
         let model = SummaryModel()
         self.model = model
@@ -82,8 +88,10 @@ class SummaryVC: UIHostingController<SummaryView> {
     }
 
     private func presentAchievements() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "AchievementsNav")
-        present(controller, animated: true)
+        let host = UIHostingController(rootView: AchievementsScreen { [weak self] in
+            self?.dismiss(animated: true)
+        })
+        let navigation = UINavigationController(rootViewController: host)
+        present(navigation, animated: true)
     }
 }

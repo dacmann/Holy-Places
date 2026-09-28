@@ -312,7 +312,10 @@ final class PlaceDetailModel: ObservableObject {
 struct PlaceDetailView: View {
     @ObservedObject var model: PlaceDetailModel
     var actions: PlaceDetailActions
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var showOrdinancePopup = false
+
+    private var isRegularWidth: Bool { horizontalSizeClass == .regular }
 
     private let baptismsBlue = Color("BaptismsBlue")
     private let titleFont = Font.custom("Baskerville", size: 22)
@@ -359,12 +362,11 @@ struct PlaceDetailView: View {
     }
 
     private func photoHeight(in geo: GeometryProxy) -> CGFloat {
-        let isPad = UIDevice.current.userInterfaceIdiom == .pad
         let isLandscape = geo.size.width > geo.size.height
-        if isPad && isLandscape {
+        if isRegularWidth && isLandscape {
             return geo.size.height * 0.70
         }
-        return geo.size.height * (isPad ? 0.50 : 0.38)
+        return geo.size.height * (isRegularWidth ? 0.50 : 0.38)
     }
 
     private var photoPager: some View {
@@ -435,15 +437,14 @@ struct PlaceDetailView: View {
 
     private var nameSection: some View {
         GeometryReader { geo in
-            let isPad = UIDevice.current.userInterfaceIdiom == .pad
             let nameText = model.place?.templeName ?? ""
             let nameWidth = max(geo.size.width - 16, 1)
             let nameLayout = Self.nameFontLayout(
                 text: nameText,
                 fontName: "Baskerville",
                 width: nameWidth,
-                maxSize: isPad ? 48 : 38,
-                minSize: isPad ? 34 : 28
+                maxSize: isRegularWidth ? 48 : 38,
+                minSize: isRegularWidth ? 34 : 28
             )
             let ordinalHeight: CGFloat = (model.ordinalText?.isEmpty == false) ? 24 : 0
             let snippetWidth = max(geo.size.width - 32, 1)
@@ -455,7 +456,7 @@ struct PlaceDetailView: View {
                     fontName: "Baskerville",
                     width: snippetWidth,
                     height: snippetHeight,
-                    maxSize: isPad ? 30 : 24,
+                    maxSize: isRegularWidth ? 30 : 24,
                     minSize: 16
                 )
 

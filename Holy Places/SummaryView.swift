@@ -321,7 +321,7 @@ struct SummaryView: View {
     private func quoteHeader(regularWidth: Bool, landscape: Bool) -> some View {
         let height: CGFloat
         if landscape {
-            height = UIDevice.current.userInterfaceIdiom == .pad ? 132 : 100
+            height = horizontalSizeClass == .regular ? 132 : 100
         } else {
             height = regularWidth ? 200 : 132
         }

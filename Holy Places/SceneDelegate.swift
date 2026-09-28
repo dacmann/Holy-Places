@@ -18,8 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
-        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: windowScene)
+        let tabs = HolyPlacesTabBarController()
+        window.rootViewController = tabs
+        self.window = window
+        window.makeKeyAndVisible()
+        AppRouter.shared.tabBar = tabs
+
         NotificationCenter.default.addObserver(self, selector: #selector(siriRouteRequested), name: SiriNavigation.didRequestRoute, object: nil)
 
         // Handle Quick Action if app was launched from one
@@ -58,33 +64,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func perform(_ route: SiriRoute) {
-        guard let tabBar = window?.rootViewController as? UITabBarController else { return }
         switch route {
         case .openPlace(let id):
-            showPlaces(in: tabBar) { $0.openPlace(templeId: id) }
+            AppRouter.shared.openPlace(id: id)
         case .searchPlaces(let term):
-            showPlaces(in: tabBar) { $0.showSiriSearch(term) }
+            AppRouter.shared.searchPlaces(term)
         case .openVisit(let uri):
-            showVisits(in: tabBar) { $0.openVisit(objectURI: uri) }
+            AppRouter.shared.openVisit(objectURI: uri)
         case .searchVisits(let term):
-            showVisits(in: tabBar) { $0.showSiriSearch(term) }
+            AppRouter.shared.searchVisits(term)
         }
-    }
-
-    private func showPlaces(in tabBar: UITabBarController, action: (TableViewController) -> Void) {
-        tabBar.selectedIndex = 1
-        guard let navigation = tabBar.selectedViewController as? UINavigationController,
-              let places = navigation.viewControllers.first as? TableViewController else { return }
-        navigation.popToRootViewController(animated: false)
-        action(places)
-    }
-
-    private func showVisits(in tabBar: UITabBarController, action: (VisitTableVC) -> Void) {
-        tabBar.selectedIndex = 2
-        guard let navigation = tabBar.selectedViewController as? UINavigationController,
-              let visits = navigation.viewControllers.first as? VisitTableVC else { return }
-        navigation.popToRootViewController(animated: false)
-        action(visits)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -173,63 +162,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func handleWidgetURL(_ url: URL) {
-        guard let myTabBar = self.window?.rootViewController as? UITabBarController else {
-            return
-        }
-        
-        // Handle widget deep links based on URL path
         switch url.host {
         case "place":
-            // Open Places tab and navigate to specific place
-            if let placeName = url.pathComponents.last?.removingPercentEncoding, !placeName.isEmpty {
-                myTabBar.selectedIndex = 1  // Places tab
-                if let nvc = myTabBar.selectedViewController as? UINavigationController {
-                    nvc.popToRootViewController(animated: false)
-                    // Small delay to ensure navigation is complete before posting notification
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        NotificationCenter.default.post(name: NSNotification.Name("OpenPlaceFromWidget"), object: placeName)
-                    }
-                }
+            if let placeName = url.pathComponents.last?.removingPercentEncoding, !placeName.isEmpty, placeName != "/" {
+                AppRouter.shared.openPlace(named: placeName)
             } else {
-                myTabBar.selectedIndex = 1
+                AppRouter.shared.select(.places)
             }
         case "visit":
-            // Open Visits tab and navigate to specific visit (from large widget photo tap)
-            // Use query param - object ID contains slashes so pathComponents would truncate it
             let objectIDString = URLComponents(url: url, resolvingAgainstBaseURL: false)?
                 .queryItems?.first(where: { $0.name == "id" })?.value?.removingPercentEncoding ?? ""
             if !objectIDString.isEmpty {
-                myTabBar.selectedIndex = 2  // Visits tab
-                if let nvc = myTabBar.selectedViewController as? UINavigationController {
-                    nvc.popToRootViewController(animated: false)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        NotificationCenter.default.post(name: NSNotification.Name("OpenVisitFromWidget"), object: objectIDString)
-                    }
-                }
+                AppRouter.shared.openVisit(objectURI: objectIDString)
             } else {
-                myTabBar.selectedIndex = 2
+                AppRouter.shared.showVisits()
             }
         case "visits":
-            // Open Visits tab
-            myTabBar.selectedIndex = 2
-            if let nvc = myTabBar.selectedViewController as? UINavigationController {
-                nvc.popToRootViewController(animated: false)
-            }
+            AppRouter.shared.showVisits()
         case "goals":
-            // Open Settings/Goals - navigate to settings tab
-            myTabBar.selectedIndex = 4  // Assuming Settings is the 5th tab
-            if let nvc = myTabBar.selectedViewController as? UINavigationController {
-                nvc.popToRootViewController(animated: false)
-            }
+            AppRouter.shared.select(.home)
         case "summary":
-            // Open Summary tab
-            myTabBar.selectedIndex = 3
-            if let nvc = myTabBar.selectedViewController as? UINavigationController {
-                nvc.popToRootViewController(animated: false)
-            }
+            AppRouter.shared.select(.summary)
         default:
-            // Default: just open the app (Home tab)
-            myTabBar.selectedIndex = 0
+            AppRouter.shared.select(.home)
         }
     }
     
@@ -249,45 +204,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func selectTabBarItemFor(shortcutIdentifier: ShortcutIdentifier) -> Bool {
-        guard let myTabBar = self.window?.rootViewController as? UITabBarController else {
-            return false
-        }
-        
+        guard window?.rootViewController != nil else { return false }
+
         switch shortcutIdentifier {
         case .ShowNearest:
-            placeSortRow = 1
-            placeFilterRow = 0
-            locationSpecific = false
-            myTabBar.selectedIndex = 1
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? TableViewController else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            vc.nearestEnabled = true
-            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.showNearestPlaces()
+            return true
         case .OpenRandomPlace:
-            myTabBar.selectedIndex = 1
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? TableViewController else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            return vc.openForPlace(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.openRandomPlace()
+            return true
         case .RecordVisit, .Reminder:
-            myTabBar.selectedIndex = 2
-            guard let nvc = myTabBar.selectedViewController as? UINavigationController else {
-                return false
-            }
-            guard let vc = nvc.viewControllers.first as? VisitTableVC else {
-                return false
-            }
-            nvc.popToRootViewController(animated: false)
-            return vc.quickAddVisit(shortcutIdentifier: shortcutIdentifier)
+            AppRouter.shared.quickAddVisit()
+            return true
         case .NavigateTo:
             // Open and show coordinate
             let latitude = quickLaunchItem?.coordinate.latitude
