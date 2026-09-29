@@ -19,6 +19,8 @@ struct HolyPlacesSearchFontFix: UIViewRepresentable {
     }
 
     final class SearchFontAnchor: UIView {
+        private var pendingApply = false
+
         override func didMoveToWindow() {
             super.didMoveToWindow()
             apply()
@@ -27,20 +29,33 @@ struct HolyPlacesSearchFontFix: UIViewRepresentable {
         override func layoutSubviews() {
             super.layoutSubviews()
             apply()
+            guard !pendingApply else { return }
+            pendingApply = true
+            DispatchQueue.main.async { [weak self] in
+                self?.pendingApply = false
+                self?.apply()
+            }
         }
 
         func apply() {
             let font = UIFont(name: "Baskerville", size: 16) ?? .systemFont(ofSize: 16)
             var responder: UIResponder? = self
+            var roots: [UIView] = []
             while let next = responder?.next {
                 if let controller = next as? UIViewController {
                     if let navigationView = controller.navigationController?.view {
-                        styleSearchFields(in: navigationView, font: font)
+                        roots.append(navigationView)
                     }
-                    styleSearchFields(in: controller.view, font: font)
-                    return
+                    if let view = controller.view {
+                        roots.append(view)
+                    }
+                } else if let window = next as? UIWindow {
+                    roots.append(window)
                 }
                 responder = next
+            }
+            for root in roots {
+                styleSearchFields(in: root, font: font)
             }
         }
 

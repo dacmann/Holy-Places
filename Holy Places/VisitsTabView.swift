@@ -502,6 +502,12 @@ struct VisitsTabView: View {
             .listStyle(.plain)
         }
         .environment(\.defaultMinListRowHeight, 50)
+        .searchable(
+            text: $model.searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: Text("Search")
+        )
+        .background(HolyPlacesSearchFontFix())
         .overlay {
             if model.showEmptyState {
                 Text(emptyVisitsMessage)
@@ -514,12 +520,6 @@ struct VisitsTabView: View {
         .safeAreaInset(edge: .top, spacing: 0) {
             scopeBar
         }
-        .searchable(
-            text: $model.searchText,
-            placement: .navigationBarDrawer(displayMode: .always),
-            prompt: Text("Search")
-        )
-        .background(HolyPlacesSearchFontFix())
         .navigationTitle(model.titleName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { listToolbar }
@@ -694,10 +694,11 @@ struct VisitsTabView: View {
                     .tint(.blue)
                 Button("Copy") { copyVisitRow(visit) }
                     .tint(Color(uiColor: .moss()))
-                Button("Delete", role: .destructive) {
+                Button("Delete") {
                     pendingDelete = visit.objectID
                     enqueue(.delete)
                 }
+                .tint(Color(uiColor: .darkRed()))
             }
         }
     }
@@ -1008,6 +1009,11 @@ struct VisitsTabView: View {
         }
         if let uri = route.objectURI {
             openURI(uri)
+        } else if let placeId = route.recordPlaceId,
+                  let temple = allPlaces.first(where: { stablePlaceID($0) == placeId }) {
+            request(.record(temple, nil, nil, false))
+        } else if route.compose {
+            request(.add)
         } else if route.quickAdd {
             beginQuickAdd()
         }

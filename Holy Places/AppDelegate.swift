@@ -2492,6 +2492,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         revertMisnamedVisits()
         if #available(iOS 27.0, *) {
             Task { await HolyPlacesSpotlightIndexer.reindexAll() }
+            // Siri caches the place names it will accept in a spoken phrase, so it has to be
+            // told whenever the catalog changes or new temples stay unspeakable.
+            HolyPlacesShortcuts.updateAppShortcutParameters()
         }
     }
     

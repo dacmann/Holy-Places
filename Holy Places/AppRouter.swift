@@ -29,6 +29,8 @@ struct VisitsRoute: Equatable {
     var objectURI: String?
     var search: String?
     var quickAdd = false
+    var recordPlaceId: String?
+    var compose = false
     var token = UUID()
 }
 
@@ -91,6 +93,15 @@ final class AppRouter: ObservableObject {
     func quickAddVisit() {
         select(.visits)
         visitsRoute = VisitsRoute(quickAdd: true)
+    }
+
+    func recordVisit(placeId: String?) {
+        select(.visits)
+        if let placeId {
+            visitsRoute = VisitsRoute(recordPlaceId: placeId)
+        } else {
+            visitsRoute = VisitsRoute(compose: true)
+        }
     }
 
     func showVisits() {

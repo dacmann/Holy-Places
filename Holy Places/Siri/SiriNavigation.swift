@@ -13,6 +13,7 @@ enum SiriRoute {
     case openVisit(uri: String)
     case searchPlaces(String)
     case searchVisits(String)
+    case recordVisit(placeId: String?)
 }
 
 final class SiriNavigation {

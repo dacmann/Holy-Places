@@ -20,9 +20,29 @@ struct PlaceEntity: AppEntity, IndexedEntity {
     var name: String
     var city: String
     var country: String
+    var typeCode: String
     var typeName: String
     var historicalNames: String
     var snippet: String
+
+    /// Names a person might say, so Spotlight can resolve "Rome temple" to "Rome Italy Temple".
+    private var spokenAliases: [String] {
+        var aliases = historicalNames
+            .split(separator: "\n")
+            .map(String.init)
+            .filter { !$0.isEmpty }
+        aliases.append(name)
+        if name.hasSuffix(" Temple") {
+            let shortName = String(name.dropLast(" Temple".count))
+            aliases.append(shortName)
+            aliases.append("\(shortName) Temple")
+        }
+        if !city.isEmpty {
+            aliases.append(city)
+        }
+        var seen = Set<String>()
+        return aliases.filter { seen.insert($0.lowercased()).inserted }
+    }
 
     var displayRepresentation: DisplayRepresentation {
         let subtitle = [city, country].filter { !$0.isEmpty }.joined(separator: ", ")
@@ -38,12 +58,10 @@ struct PlaceEntity: AppEntity, IndexedEntity {
         attributes.contentDescription = snippet
         attributes.city = city
         attributes.country = country
-        let names = historicalNames
-            .split(separator: "\n")
-            .map(String.init)
-            .filter { !$0.isEmpty }
-        if !names.isEmpty {
-            attributes.keywords = names
+        let aliases = spokenAliases
+        if !aliases.isEmpty {
+            attributes.keywords = aliases
+            attributes.alternateNames = aliases
         }
         return attributes
     }
@@ -53,6 +71,7 @@ struct PlaceEntity: AppEntity, IndexedEntity {
         name = temple.templeName
         city = temple.templeCityState
         country = temple.templeCountry
+        typeCode = temple.templeType
         typeName = PlaceEntity.typeName(for: temple.templeType)
         historicalNames = temple.oldNames.joined(separator: "\n")
         snippet = temple.templeSnippet
@@ -81,6 +100,13 @@ struct PlaceEntity: AppEntity, IndexedEntity {
             return "Visitors' Center"
         default:
             return "Holy Place"
+        }
+    }
+
+    @MainActor
+    static func ensureCatalogLoaded() {
+        if allPlaces.isEmpty {
+            ad.getPlaces()
         }
     }
 
@@ -116,13 +142,33 @@ struct PlaceEntity: AppEntity, IndexedEntity {
 
     @MainActor
     static func matching(_ string: String) -> [PlaceEntity] {
-        let terms = searchTerms(in: string)
-        let temples = allPlaces.filter { temple in
-            guard !terms.isEmpty else { return true }
+        let terms = significantTerms(in: stringByRemovingSpokenDate(string))
+        guard !terms.isEmpty else { return [] }
+        let phrase = terms.joined(separator: " ")
+        var bestScore = 0
+        var best: [PlaceEntity] = []
+        for temple in allPlaces {
+            let name = temple.templeName.lowercased()
             let haystack = temple.listSearchText.lowercased()
-            return terms.allSatisfy { haystack.contains($0.lowercased()) }
+            guard terms.allSatisfy({ haystack.contains($0) }) else { continue }
+            let score: Int
+            if name.contains(phrase) {
+                score = 3
+            } else if terms.allSatisfy({ name.contains($0) }) {
+                score = 2
+            } else {
+                score = 1
+            }
+            if score < bestScore { continue }
+            let entity = PlaceEntity(temple: temple)
+            if score > bestScore {
+                bestScore = score
+                best = [entity]
+            } else {
+                best.append(entity)
+            }
         }
-        return temples.map { PlaceEntity(temple: $0) }
+        return best.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
 
     static func searchTerms(in string: String) -> [String] {
@@ -130,25 +176,81 @@ struct PlaceEntity: AppEntity, IndexedEntity {
             .components(separatedBy: .whitespaces)
             .filter { !$0.isEmpty }
     }
+
+    /// Words that should not block a place match, plus "temple" when a more specific word remains.
+    static func significantTerms(in string: String) -> [String] {
+        let terms = searchTerms(in: string).compactMap { term -> String? in
+            let cleaned = term.lowercased().trimmingCharacters(in: .punctuationCharacters)
+            guard !cleaned.isEmpty, !fillerWords.contains(cleaned) else { return nil }
+            return cleaned
+        }
+        let specific = terms.filter { !commandWords.contains($0) && !dateWords.contains($0) && Int($0) == nil }
+        return specific.isEmpty ? terms : specific
+    }
+
+    /// Pulls a spoken date out of a place phrase such as "Rome temple on September 1" and remembers it for the visit.
+    @MainActor
+    static func stringByRemovingSpokenDate(_ text: String) -> String {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue) else { return text }
+        let range = NSRange(text.startIndex..., in: text)
+        guard let match = detector.matches(in: text, options: [], range: range).first(where: { result in
+            guard result.date != nil, let swiftRange = Range(result.range, in: text) else { return false }
+            return looksLikeSpokenDate(String(text[swiftRange]))
+        }), let detected = match.date, let swiftRange = Range(match.range, in: text) else { return text }
+        capturedSpokenDate = (detected, Date())
+        var stripped = text
+        stripped.removeSubrange(swiftRange)
+        return stripped
+    }
+
+    @MainActor
+    static func consumeCapturedSpokenDate() -> Date? {
+        defer { capturedSpokenDate = nil }
+        guard let capturedSpokenDate, Date().timeIntervalSince(capturedSpokenDate.at) < 30 else { return nil }
+        return capturedSpokenDate.value
+    }
+
+    private static func looksLikeSpokenDate(_ snippet: String) -> Bool {
+        let text = snippet.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard text.count >= 3 else { return false }
+        if text.contains(where: \.isLetter) { return true }
+        return text.contains("/") || text.contains("-")
+    }
+
+    @MainActor private static var capturedSpokenDate: (value: Date, at: Date)?
+
+    private static let fillerWords: Set<String> = ["a", "an", "the", "to", "at", "in", "my", "of", "for", "me", "please", "on"]
+    private static let commandWords: Set<String> = [
+        "add", "record", "log", "visit", "visits", "temple", "temples", "holy", "place", "places"
+    ]
+    private static let dateWords: Set<String> = [
+        "yesterday", "today", "tomorrow", "last", "next", "this", "ago", "dated",
+        "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+        "january", "february", "march", "april", "may", "june", "july", "august",
+        "september", "october", "november", "december"
+    ]
 }
 
 @available(iOS 27.0, *)
 struct PlaceEntityQuery: EntityStringQuery, IndexedEntityQuery {
     func entities(for identifiers: [PlaceEntity.ID]) async throws -> [PlaceEntity] {
         await MainActor.run {
-            identifiers.compactMap { PlaceEntity.find($0) }
+            PlaceEntity.ensureCatalogLoaded()
+            return identifiers.compactMap { PlaceEntity.find($0) }
         }
     }
 
     func entities(matching string: String) async throws -> [PlaceEntity] {
         await MainActor.run {
-            PlaceEntity.matching(string)
+            PlaceEntity.ensureCatalogLoaded()
+            return PlaceEntity.matching(string)
         }
     }
 
     func suggestedEntities() async throws -> [PlaceEntity] {
         await MainActor.run {
-            PlaceEntity.all()
+            PlaceEntity.ensureCatalogLoaded()
+            return PlaceEntity.all()
         }
     }
 

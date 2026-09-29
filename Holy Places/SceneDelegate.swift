@@ -73,6 +73,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             AppRouter.shared.openVisit(objectURI: uri)
         case .searchVisits(let term):
             AppRouter.shared.searchVisits(term)
+        case .recordVisit(let placeId):
+            AppRouter.shared.recordVisit(placeId: placeId)
         }
     }
 
