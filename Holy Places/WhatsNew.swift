@@ -15,6 +15,7 @@ enum WhatsNew {
             - Home, Places, Visits, and the map are now SwiftUI, so the layout fits iPhone, iPad, and the foldable iPhone — with the list beside the detail when the screen is wide enough
             - Siri on iOS 27 lets you record a visit, get directions, check your goal, and open a place or visit by asking. For an active temple, Siri can ask which ordinances you did and whether to add notes
             - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
+            - When importing visits, you can replace the notes on visits you already have so edits made on another device come across
             
             Bug Fixes:
             - Home screen goal progress updates as soon as you change goals in Settings

@@ -517,7 +517,7 @@ struct VisitsTabView: View {
         .searchable(
             text: $model.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: Text("Search").font(.custom("Baskerville", size: 16))
+            prompt: Text("Search")
         )
         .background(HolyPlacesSearchFontFix())
         .navigationTitle(model.titleName)
@@ -1380,6 +1380,11 @@ private struct VisitOptionsSheet: View {
                     Button("Import Visits from XML") { showImporter = true }
                         .font(.custom("Baskerville", size: 19))
                         .frame(height: 50)
+                    Toggle(isOn: $controller.overwriteComments) {
+                        Text("Overwrite comments on existing visits")
+                            .font(.custom("Baskerville", size: 18))
+                    }
+                    .tint(Color("BaptismsBlue"))
                     Button {
                         dismiss()
                     } label: {
@@ -1464,6 +1469,7 @@ private struct VisitExportPresenter: UIViewControllerRepresentable {
 
 final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate {
     @Published var includePhotos = true
+    @Published var overwriteComments = false
     @Published var estimatedSize = "Estimated size: calculating…"
     @Published var statusMessage = "Export / Import Visits"
     @Published var statusUsesPlaceColor = false
@@ -1495,6 +1501,7 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
     private var duplicates = 0
     private var photoImportCount = 0
     private var skippedInvalid = 0
+    private var commentsUpdated = 0
     private var onChanged: (() -> Void)?
 
     private let displayDateFormatter: DateFormatter = {
@@ -1579,6 +1586,7 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
         duplicates = 0
         photoImportCount = 0
         skippedInvalid = 0
+        commentsUpdated = 0
         let accessing = url.startAccessingSecurityScopedResource()
         defer {
             if accessing { url.stopAccessingSecurityScopedResource() }
@@ -1592,6 +1600,9 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
             var message = photoImportCount > 0
                 ? "Successfully imported \(importCount) visits with \(photoImportCount) photos; \(duplicates) duplicate visits skipped"
                 : "Successfully imported \(importCount) visits; \(duplicates) duplicate visits skipped"
+            if commentsUpdated > 0 {
+                message += "; \(commentsUpdated) comments updated"
+            }
             if skippedInvalid > 0 {
                 message += "; \(skippedInvalid) visits skipped (missing place or date)"
             }
@@ -1876,17 +1887,27 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
                 importCount += 1
             } else {
                 let existingVisit = searchResults[0]
-                if existingVisit.picture == nil && pictureData != nil {
+                var commentsChanged = false
+                if overwriteComments && (existingVisit.comments ?? "") != comments {
+                    existingVisit.comments = comments
+                    commentsChanged = true
+                    commentsUpdated += 1
+                }
+                let addedPhoto = existingVisit.picture == nil && pictureData != nil
+                if addedPhoto {
                     print("🔍 Import: Updating existing visit with photo for: \(holyPlace)")
                     existingVisit.picture = pictureData
                     photoImportCount += 1
+                }
+                if commentsChanged || addedPhoto {
                     do {
                         try context.save()
-                        print("🔍 Import: Successfully updated existing visit with photo data, size: \(pictureData!.count) bytes for visit: \(holyPlace)")
                     } catch let error as NSError {
                         print("Could not save updated visit \(error), \(error.userInfo)")
                     }
-                    importCount += 1
+                    if addedPhoto {
+                        importCount += 1
+                    }
                 } else {
                     duplicates += 1
                 }

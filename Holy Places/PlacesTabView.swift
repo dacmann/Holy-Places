@@ -398,7 +398,7 @@ struct PlacesTabView: View {
         .searchable(
             text: $model.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: Text("Search").font(.custom("Baskerville", size: 16))
+            prompt: Text("Search")
         )
         .background(HolyPlacesSearchFontFix())
         .onChange(of: model.searchText) { _, _ in model.reload() }
