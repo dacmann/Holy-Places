@@ -5,6 +5,8 @@
 //  Copyright © 2026 Derek Cordon. All rights reserved.
 //
 
+import CoreData
+import ImageIO
 import MapKit
 import Network
 import SwiftUI
@@ -14,12 +16,190 @@ final class CalloutNameButton: UIButton {
     var fittedSize = CGSize(width: 44, height: 30)
 
     override var intrinsicContentSize: CGSize { fittedSize }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let titleLabel else { return }
+        titleLabel.numberOfLines = 2
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.textAlignment = .center
+        let inset = bounds.insetBy(dx: 4, dy: 2)
+        titleLabel.preferredMaxLayoutWidth = inset.width
+        titleLabel.frame = inset
+    }
+}
+
+final class CalloutThumbnailView: UIImageView {
+    var placeName = ""
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentMode = .scaleAspectFill
+        clipsToBounds = true
+        layer.cornerRadius = 6
+        isUserInteractionEnabled = false
+        backgroundColor = .secondarySystemFill
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}
+
+/// A bubble sized to its contents. MapKit's callout keeps a title row and clips a taller photo.
+final class PlaceCalloutBubble: UIView {
+    private let shape = CAShapeLayer()
+    private let tailHeight: CGFloat = 8
+    private var restingFrames: [ObjectIdentifier: CGRect] = [:]
+    private var tailX: CGFloat = 0
+    private var tailPointsUp = false
+
+    init(thumbnail: UIView, name: UIView, directions: UIView, contentSize: CGSize) {
+        let padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        let tail: CGFloat = 8
+        let size = CGSize(
+            width: contentSize.width + padding.left + padding.right,
+            height: contentSize.height + padding.top + padding.bottom + tail
+        )
+        super.init(frame: CGRect(origin: .zero, size: size))
+        tailX = size.width / 2
+        backgroundColor = .clear
+        shape.shadowColor = UIColor.black.cgColor
+        shape.shadowOpacity = 0.22
+        shape.shadowRadius = 5
+        shape.shadowOffset = CGSize(width: 0, height: 2)
+        layer.addSublayer(shape)
+
+        thumbnail.frame.origin = CGPoint(
+            x: padding.left,
+            y: padding.top + (contentSize.height - thumbnail.bounds.height) / 2
+        )
+        name.frame.origin = CGPoint(
+            x: thumbnail.frame.maxX + 8,
+            y: padding.top + (contentSize.height - name.bounds.height) / 2
+        )
+        directions.frame.origin = CGPoint(
+            x: name.frame.maxX + 8,
+            y: padding.top + (contentSize.height - directions.bounds.height) / 2
+        )
+        for view in [thumbnail, name, directions] {
+            restingFrames[ObjectIdentifier(view)] = view.frame
+            addSubview(view)
+        }
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (bubble: PlaceCalloutBubble, _) in
+            bubble.updateFill()
+        }
+        updateFill()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func setTail(x: CGFloat, pointsUp: Bool) {
+        let clamped = min(max(x, 18), max(18, bounds.width - 18))
+        guard abs(tailX - clamped) > 0.5 || tailPointsUp != pointsUp else { return }
+        tailX = clamped
+        tailPointsUp = pointsUp
+        let shift: CGFloat = pointsUp ? tailHeight : 0
+        for subview in subviews {
+            guard let resting = restingFrames[ObjectIdentifier(subview)] else { continue }
+            subview.frame.origin.y = resting.origin.y + shift
+        }
+        setNeedsLayout()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let bodyY: CGFloat = tailPointsUp ? tailHeight : 0
+        let body = CGRect(x: 0, y: bodyY, width: bounds.width, height: bounds.height - tailHeight)
+        let path = UIBezierPath(roundedRect: body, cornerRadius: 10)
+        let baseY: CGFloat = tailPointsUp ? body.minY + 0.5 : body.maxY - 0.5
+        let tipY: CGFloat = tailPointsUp ? 0 : bounds.maxY
+        path.move(to: CGPoint(x: tailX - 7, y: baseY))
+        path.addLine(to: CGPoint(x: tailX, y: tipY))
+        path.addLine(to: CGPoint(x: tailX + 7, y: baseY))
+        path.close()
+        shape.frame = bounds
+        shape.path = path.cgPath
+        shape.shadowPath = path.cgPath
+    }
+
+    private func updateFill() {
+        shape.fillColor = UIColor.systemBackground.cgColor
+    }
 }
 
 final class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
     var minScale: CGFloat = 0.2
     var maxScale: CGFloat = 1.0
     var currentScale: CGFloat = 1
+    private(set) var placeCallout: PlaceCalloutBubble?
+    var isShowingPlaceCallout: Bool { placeCallout != nil }
+
+    func showPlaceCallout(_ bubble: PlaceCalloutBubble) {
+        placeCallout?.removeFromSuperview()
+        placeCallout = bubble
+        clipsToBounds = false
+        addSubview(bubble)
+        layoutPlaceCallout()
+        titleVisibility = .hidden
+        superview?.bringSubviewToFront(self)
+    }
+
+    /// Shifts the bubble so it stays on screen, and keeps the tail aimed at the pin.
+    func layoutPlaceCallout() {
+        guard let bubble = placeCallout, let mapView = mapAncestor, mapView.bounds.width > 1 else { return }
+        let size = bubble.bounds.size
+        let margin: CGFloat = 8
+        let pin = convert(CGPoint(x: bounds.midX, y: bounds.midY), to: mapView)
+        let minX = mapView.safeAreaInsets.left + margin
+        let maxX = mapView.bounds.width - mapView.safeAreaInsets.right - margin - size.width
+        let originX = min(max(pin.x - size.width / 2, minX), max(minX, maxX))
+
+        let topLimit = mapView.safeAreaInsets.top + margin
+        let bottomLimit = mapView.bounds.height - mapView.safeAreaInsets.bottom - margin - size.height
+        let aboveY = pin.y - size.height - 18
+        let pointsUp = aboveY < topLimit
+        var originY = pointsUp ? pin.y + 20 : aboveY
+        originY = min(max(originY, topLimit), max(topLimit, bottomLimit))
+
+        let origin = mapView.convert(CGPoint(x: originX, y: originY), to: self)
+        let next = CGRect(origin: origin, size: size)
+        if bubble.frame.integral != next.integral {
+            bubble.frame = next
+        }
+        let pinX = convert(CGPoint(x: bounds.midX, y: bounds.midY), to: bubble).x
+        bubble.setTail(x: pinX, pointsUp: pointsUp)
+    }
+
+    private var mapAncestor: MKMapView? {
+        var view: UIView? = self
+        while let current = view {
+            if let map = current as? MKMapView { return map }
+            view = current.superview
+        }
+        return nil
+    }
+
+    func hidePlaceCallout() {
+        placeCallout?.removeFromSuperview()
+        placeCallout = nil
+    }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if super.point(inside: point, with: event) { return true }
+        guard let placeCallout else { return false }
+        return placeCallout.point(inside: convert(point, to: placeCallout), with: event)
+    }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let placeCallout {
+            let hit = placeCallout.hitTest(convert(point, to: placeCallout), with: event)
+            if hit != nil { return hit }
+        }
+        return super.hitTest(point, with: event)
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         if let point = annotation as? MapPoint {
@@ -32,6 +212,8 @@ final class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
             if canShowCallout {
                 titleVisibility = .hidden
             }
+        } else {
+            hidePlaceCallout()
         }
     }
 
@@ -52,6 +234,7 @@ final class ResizableMarkerAnnotationView: MKMarkerAnnotationView {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        hidePlaceCallout()
     }
 }
 
@@ -221,6 +404,18 @@ struct MapTabView: View {
         NavigationStack {
             mapColumn
         }
+        .confirmationDialog("Navigate to Holy Place", isPresented: mapNavigationPresented, titleVisibility: .visible) {
+            Button("Apple Maps", action: openAppleMaps)
+            if googleMapsAvailable {
+                Button("Google Maps", action: openGoogleMaps)
+            }
+            if wazeAvailable {
+                Button("Waze", action: openWaze)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Choose an app")
+        }
         .sheet(isPresented: placeSheetPresented) {
             NavigationStack {
                 secondaryColumn
@@ -299,6 +494,7 @@ struct MapTabView: View {
                 focusCenter: nil,
                 focusZoom: nil,
                 onSelect: handleSelect,
+                onNavigate: presentNavigation(for:),
                 onBasemapFallback: { basemapUnavailable = $0 }
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -401,6 +597,13 @@ struct MapTabView: View {
             openRecordVisit: beginRecordVisit,
             openNavigationOptions: presentNavigation,
             swipePlace: { _ in }
+        )
+    }
+
+    private var mapNavigationPresented: Binding<Bool> {
+        Binding(
+            get: { showNavigation && detailModel.place == nil },
+            set: { if !$0 { showNavigation = false } }
         )
     }
 
@@ -514,6 +717,10 @@ struct MapTabView: View {
 
     private func presentNavigation() {
         guard let place = detailModel.place else { return }
+        presentNavigation(for: place)
+    }
+
+    private func presentNavigation(for place: Temple) {
         navigationPlace = place
         if let url = URL(string: "comgooglemaps://") {
             googleMapsAvailable = UIApplication.shared.canOpenURL(url)
@@ -1114,6 +1321,7 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
     var focusCenter: CLLocationCoordinate2D?
     var focusZoom: CLLocationDistance?
     var onSelect: ((Temple) -> Void)?
+    var onNavigate: ((Temple) -> Void)? = nil
     var onBasemapFallback: (Bool) -> Void
 
     func makeUIViewController(context: Context) -> HolyPlacesMapController {
@@ -1122,6 +1330,7 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: HolyPlacesMapController, context: Context) {
         controller.onSelectPlace = onSelect
+        controller.onNavigate = onNavigate
         controller.onBasemapFallback = onBasemapFallback
         controller.mapStyle = mapStyle
         controller.filterRow = filterRow
@@ -1145,6 +1354,8 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
 private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate {
     let mapView = MKMapView()
     var onSelectPlace: ((Temple) -> Void)?
+    var onNavigate: ((Temple) -> Void)?
+    private var keptCalloutName: String?
     var mapStyle = 0
     var filterRow = 0
     var visitedFilter = 0
@@ -1157,6 +1368,11 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
 
     private var annotations: [MapPoint] = []
     private var displayedPlaces: [Temple] = []
+    private var thumbnailCache: [String: UIImage] = [:]
+    private var thumbnailLoads = Set<String>()
+    private static let calloutNameMaxWidth: CGFloat = 160
+    private static let calloutThumbnailSize = CGSize(width: 72, height: 54)
+    private static let calloutThumbnailSpacing: CGFloat = 8
     private var adjustingSelection = false
     private var didSetBrowseRegion = false
     private var didSetFocusRegion = false
@@ -1231,11 +1447,15 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         super.viewDidLayoutSubviews()
         installBrowseRegionIfNeeded()
         installFocusRegionIfNeeded()
+        for annotation in mapView.annotations {
+            (mapView.view(for: annotation) as? ResizableMarkerAnnotationView)?.layoutPlaceCallout()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateAllMarkerSizes()
+        restoreKeptCallout()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1358,15 +1578,14 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         let year = timelineMode ? timelineDate.map(dedicationYear(from:)) : nil
         let places = templesForMap(filterRow: filterRow, visitedFilter: visitedFilter, timelineYear: year)
         displayedPlaces = places
+        let keptName = (mapView.selectedAnnotations.first as? MapPoint).flatMap { temple(for: $0)?.templeName } ?? keptCalloutName
         if incremental, timelineMode, let date = timelineDate {
             applyIncremental(places: places, date: date)
         } else {
+            adjustingSelection = true
             replaceAll(places.map { mapPoint(for: $0, on: nil) })
-            if let selected = mapView.selectedAnnotations.first {
-                adjustingSelection = true
-                mapView.deselectAnnotation(selected, animated: false)
-                adjustingSelection = false
-            }
+            adjustingSelection = false
+            selectKeptCallout(named: keptName)
         }
         schedulePostRebuildSizeUpdates()
     }
@@ -1407,6 +1626,10 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     }
 
     private func syncSelection() {
+        if selectedName == nil {
+            restoreKeptCallout()
+            return
+        }
         let current = mapView.selectedAnnotations.first as? MapPoint
         let currentName = current.flatMap { temple(for: $0)?.templeName }
         if currentName == selectedName { return }
@@ -1414,12 +1637,39 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         if let current {
             mapView.deselectAnnotation(current, animated: false)
         }
-        if let selectedName,
-           let temple = (displayedPlaces + allPlaces).first(where: { $0.templeName == selectedName }),
+        if let temple = (displayedPlaces + allPlaces).first(where: { $0.templeName == selectedName }),
            let point = annotations.first(where: { coordinatesMatch($0.coordinate, temple.cllocation.coordinate) }) {
             mapView.selectAnnotation(point, animated: false)
         }
         adjustingSelection = false
+    }
+
+    private func selectKeptCallout(named name: String?) {
+        guard let name,
+              let temple = (displayedPlaces + allPlaces).first(where: { $0.templeName == name }),
+              let point = annotations.first(where: { coordinatesMatch($0.coordinate, temple.cllocation.coordinate) })
+        else { return }
+        keptCalloutName = name
+        let selected = mapView.selectedAnnotations.first as? MapPoint
+        let alreadySelected = selected.map { coordinatesMatch($0.coordinate, point.coordinate) } ?? false
+        if !alreadySelected {
+            adjustingSelection = true
+            mapView.selectAnnotation(point, animated: false)
+            adjustingSelection = false
+        }
+        showKeptCallout(for: point, temple: temple)
+    }
+
+    private func restoreKeptCallout() {
+        guard focusPlaces == nil else { return }
+        selectKeptCallout(named: keptCalloutName)
+    }
+
+    private func showKeptCallout(for point: MapPoint, temple: Temple) {
+        guard shouldShowThumbnail(for: temple),
+              let marker = mapView.view(for: point) as? ResizableMarkerAnnotationView,
+              !marker.isShowingPlaceCallout else { return }
+        marker.showPlaceCallout(placeCallout(for: point, temple: temple, color: mapMarkerColor(type: point.type)))
     }
 
     private func temple(for point: MapPoint) -> Temple? {
@@ -1427,6 +1677,187 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
             return match
         }
         return allPlaces.first(where: { coordinatesMatch(point.coordinate, $0.cllocation.coordinate) })
+    }
+
+    private func calloutNameButton(title: String, color: UIColor) -> CalloutNameButton {
+        let font = UIFont(name: "Baskerville", size: 20) ?? .systemFont(ofSize: 20)
+        let button = CalloutNameButton(type: .custom)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(color, for: .normal)
+        button.titleLabel?.font = font
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        let measured = (title as NSString).boundingRect(
+            with: CGSize(width: Self.calloutNameMaxWidth, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        )
+        let textWidth = min(Self.calloutNameMaxWidth, ceil(measured.width))
+        let twoLineHeight = ceil(font.lineHeight * 2)
+        let textHeight = min(ceil(measured.height), twoLineHeight)
+        button.fittedSize = CGSize(width: textWidth + 8, height: max(30, textHeight + 4))
+        button.frame = CGRect(origin: .zero, size: button.fittedSize)
+        return button
+    }
+
+    private func directionsButton() -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setTitle("⤴️", for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
+        return button
+    }
+
+    private func placeCallout(for point: MapPoint, temple: Temple, color: UIColor) -> PlaceCalloutBubble {
+        let nameButton = calloutNameButton(title: point.name, color: color)
+        nameButton.addTarget(self, action: #selector(calloutNameTapped), for: .touchUpInside)
+
+        let thumb = CalloutThumbnailView(frame: CGRect(origin: .zero, size: Self.calloutThumbnailSize))
+        thumb.placeName = temple.templeName
+        thumb.image = thumbnailCache[temple.templeName]
+        thumb.isUserInteractionEnabled = true
+        thumb.isAccessibilityElement = true
+        thumb.accessibilityLabel = point.name
+        thumb.accessibilityTraits = .button
+        thumb.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(calloutNameTapped)))
+
+        let directions = directionsButton()
+        directions.addTarget(self, action: #selector(calloutDirectionsTapped), for: .touchUpInside)
+
+        let contentSize = CGSize(
+            width: Self.calloutThumbnailSize.width
+                + Self.calloutThumbnailSpacing
+                + nameButton.fittedSize.width
+                + Self.calloutThumbnailSpacing
+                + directions.bounds.width,
+            height: max(nameButton.fittedSize.height, Self.calloutThumbnailSize.height, directions.bounds.height)
+        )
+        let bubble = PlaceCalloutBubble(
+            thumbnail: thumb,
+            name: nameButton,
+            directions: directions,
+            contentSize: contentSize
+        )
+        if thumb.image == nil {
+            beginThumbnailLoad(for: temple)
+        }
+        return bubble
+    }
+
+    @objc private func calloutDirectionsTapped() {
+        guard let point = mapView.selectedAnnotations.first as? MapPoint else { return }
+        presentNavigate(for: point)
+    }
+
+    @objc private func calloutNameTapped() {
+        guard let point = mapView.selectedAnnotations.first as? MapPoint,
+              let temple = temple(for: point) else { return }
+        onSelectPlace?(temple)
+    }
+
+    private func shouldShowThumbnail(for temple: Temple) -> Bool {
+        if thumbnailCache[temple.templeName] != nil { return true }
+        if !temple.templePictureURL.isEmpty, URL(string: temple.templePictureURL) != nil {
+            return true
+        }
+        return storedPictureExists(named: temple.templeName)
+    }
+
+    private func storedPictureExists(named name: String) -> Bool {
+        let request: NSFetchRequest<Place> = Place.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@ AND pictureData != nil", name)
+        request.fetchLimit = 1
+        let context = ad.persistentContainer.viewContext
+        return ((try? context.count(for: request)) ?? 0) > 0
+    }
+
+    private func beginThumbnailLoad(for temple: Temple) {
+        let name = temple.templeName
+        let urlString = temple.templePictureURL
+        guard thumbnailCache[name] == nil, !thumbnailLoads.contains(name) else { return }
+        thumbnailLoads.insert(name)
+        ad.persistentContainer.performBackgroundTask { [weak self] context in
+            let request: NSFetchRequest<Place> = Place.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "name == %@", name)
+            let data = (try? context.fetch(request))?.first?.pictureData
+            if let data, let image = Self.thumbnailImage(from: data) {
+                DispatchQueue.main.async {
+                    self?.finishThumbnailLoad(image, named: name)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                self?.downloadThumbnail(named: name, urlString: urlString)
+            }
+        }
+    }
+
+    private func downloadThumbnail(named name: String, urlString: String) {
+        guard thumbnailCache[name] == nil,
+              let url = URL(string: urlString), !urlString.isEmpty else {
+            thumbnailLoads.remove(name)
+            return
+        }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard
+                let http = response as? HTTPURLResponse, http.statusCode == 200,
+                let mime = response?.mimeType, mime.hasPrefix("image"),
+                let data, error == nil,
+                let image = Self.thumbnailImage(from: data)
+            else {
+                DispatchQueue.main.async { self?.thumbnailLoads.remove(name) }
+                return
+            }
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.savePictureData(data, named: name)
+                self.finishThumbnailLoad(image, named: name)
+            }
+        }.resume()
+    }
+
+    private func savePictureData(_ data: Data, named name: String) {
+        let request: NSFetchRequest<Place> = Place.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        request.fetchLimit = 1
+        let context = ad.persistentContainer.viewContext
+        guard let stored = (try? context.fetch(request))?.first else { return }
+        stored.pictureData = data
+        try? context.save()
+    }
+
+    private func finishThumbnailLoad(_ image: UIImage, named name: String) {
+        thumbnailLoads.remove(name)
+        thumbnailCache[name] = image
+        for annotation in mapView.annotations {
+            guard let marker = mapView.view(for: annotation) else { continue }
+            let containers = [
+                marker.leftCalloutAccessoryView,
+                marker.detailCalloutAccessoryView,
+                (marker as? ResizableMarkerAnnotationView)?.placeCallout
+            ].compactMap { $0 }
+            for container in containers {
+                for subview in container.subviews {
+                    guard let thumb = subview as? CalloutThumbnailView, thumb.placeName == name else { continue }
+                    thumb.image = image
+                }
+            }
+        }
+    }
+
+    private static func thumbnailImage(from data: Data) -> UIImage? {
+        let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else { return nil }
+        let options = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: 160,
+            kCGImageSourceShouldCacheImmediately: true
+        ] as CFDictionary
+        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options) else { return nil }
+        return UIImage(cgImage: cgImage)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -1446,37 +1877,22 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         marker.rightCalloutAccessoryView = nil
 
         let showsCallout = focusPlaces == nil
-        marker.canShowCallout = showsCallout
-        point.title = (marker.isSelected && showsCallout) ? "\u{200b}" : point.name
+        let showsThumbnail = showsCallout && temple(for: point).map(shouldShowThumbnail) == true
+        marker.canShowCallout = showsCallout && !showsThumbnail
+        point.title = (marker.isSelected && marker.canShowCallout) ? "\u{200b}" : point.name
         marker.titleVisibility = .hidden
-        if showsCallout {
-            let nameFont = UIFont(name: "Baskerville", size: 20) ?? .systemFont(ofSize: 20)
-            let maxNameWidth = min(280, max(200, mapView.bounds.width - 80))
-            let nameButton = CalloutNameButton(type: .custom)
-            nameButton.setTitle(point.name, for: .normal)
-            nameButton.setTitleColor(nameColor, for: .normal)
-            nameButton.titleLabel?.font = nameFont
-            nameButton.titleLabel?.numberOfLines = 2
-            nameButton.titleLabel?.lineBreakMode = .byWordWrapping
-            nameButton.titleLabel?.textAlignment = .center
-            nameButton.isUserInteractionEnabled = true
-            let fitted = (point.name as NSString).boundingRect(
-                with: CGSize(width: maxNameWidth, height: 64),
-                options: [.usesLineFragmentOrigin, .usesFontLeading],
-                attributes: [.font: nameFont],
-                context: nil
-            )
-            nameButton.fittedSize = CGSize(
-                width: min(maxNameWidth, ceil(fitted.width) + 8),
-                height: max(30, ceil(fitted.height) + 4)
-            )
-            nameButton.frame = CGRect(origin: .zero, size: nameButton.fittedSize)
-            marker.leftCalloutAccessoryView = nameButton
-
-            let right = UIButton(type: .custom)
-            right.setTitle("⤴️", for: .normal)
-            right.frame = CGRect(x: 0, y: 0, width: 24, height: 30)
-            marker.rightCalloutAccessoryView = right
+        if showsThumbnail, let temple = temple(for: point) {
+            if marker.isSelected {
+                marker.showPlaceCallout(placeCallout(for: point, temple: temple, color: nameColor))
+            } else {
+                marker.hidePlaceCallout()
+            }
+        } else if showsCallout {
+            marker.hidePlaceCallout()
+            marker.leftCalloutAccessoryView = calloutNameButton(title: point.name, color: nameColor)
+            marker.rightCalloutAccessoryView = directionsButton()
+        } else {
+            marker.hidePlaceCallout()
         }
 
         marker.isEnabled = true
@@ -1492,6 +1908,9 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        if !adjustingSelection, mapView.selectedAnnotations.isEmpty, selectedName == nil {
+            keptCalloutName = nil
+        }
         if let point = view.annotation as? MapPoint, !view.canShowCallout {
             point.title = point.name
         }
@@ -1499,6 +1918,15 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let marker = view as? ResizableMarkerAnnotationView,
+           let point = view.annotation as? MapPoint,
+           focusPlaces == nil,
+           let temple = temple(for: point),
+           shouldShowThumbnail(for: temple) {
+            keptCalloutName = temple.templeName
+            marker.showPlaceCallout(placeCallout(for: point, temple: temple, color: mapMarkerColor(type: point.type)))
+            return
+        }
         collapsePlainCalloutTitle(in: mapView)
         DispatchQueue.main.async { [weak self] in
             self?.collapsePlainCalloutTitle(in: mapView)
@@ -1532,13 +1960,15 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let point = view.annotation as? MapPoint else { return }
         if control == view.rightCalloutAccessoryView {
-            let placemark = MKPlacemark(coordinate: point.coordinate)
-            let item = MKMapItem(placemark: placemark)
-            item.name = temple(for: point)?.templeName ?? point.name
-            item.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+            presentNavigate(for: point)
         } else if let temple = temple(for: point) {
             onSelectPlace?(temple)
         }
+    }
+
+    private func presentNavigate(for point: MapPoint) {
+        guard let temple = temple(for: point) else { return }
+        onNavigate?(temple)
     }
 
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
@@ -1714,6 +2144,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         for annotation in mapView.annotations.compactMap({ $0 as? MapPoint }) {
             if let marker = mapView.view(for: annotation) as? ResizableMarkerAnnotationView {
                 marker.updateSize(for: altitude)
+                marker.layoutPlaceCallout()
             }
         }
         updateLabelVisibility()
@@ -1772,7 +2203,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
                 height: 36 * scale
             )
             let onScreen = balloon.intersects(visible)
-            if marker.isSelected && marker.canShowCallout {
+            if marker.isSelected && (marker.canShowCallout || marker.isShowingPlaceCallout) {
                 if onScreen {
                     balloons.append((ObjectIdentifier(marker), balloon))
                 }
