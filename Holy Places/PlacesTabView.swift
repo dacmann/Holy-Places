@@ -529,16 +529,16 @@ struct PlacesTabView: View {
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(place.templeName)
-                    .font(.custom("Baskerville", size: 18))
+                    .font(.custom("Baskerville", size: 20))
                     .foregroundStyle(color)
                     .lineLimit(1)
                 Text(subtitle)
-                    .font(.custom("Baskerville", size: 14))
+                    .font(.custom("Baskerville", size: 16))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
         }
-        .frame(minHeight: 44)
+        .frame(minHeight: 48)
     }
 
     private func rowSubtitle(_ place: Temple) -> String {

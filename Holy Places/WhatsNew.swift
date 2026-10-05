@@ -19,6 +19,7 @@ enum WhatsNew {
             
             Bug Fixes:
             - Home screen goal progress updates as soon as you change goals in Settings
+            - Map shows continent outlines when service is low or unavailable, until the full map imagery loads
             """,
         "5.9": """
             New:

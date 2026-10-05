@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import Network
 import SwiftUI
 import UIKit
 
@@ -205,6 +206,7 @@ struct MapTabView: View {
     @State private var timelineStopToken = 0
     @State private var revision = 0
     @State private var hasAppeared = false
+    @State private var basemapUnavailable = false
 
     @State private var showFilters = false
     @State private var viewerPhoto: MapPhoto?
@@ -296,13 +298,20 @@ struct MapTabView: View {
                 focusPlaces: nil,
                 focusCenter: nil,
                 focusZoom: nil,
-                onSelect: handleSelect
+                onSelect: handleSelect,
+                onBasemapFallback: { basemapUnavailable = $0 }
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
 
             if timelineVisible, timelineDate != nil {
                 timelineChrome
+            }
+
+            if basemapUnavailable {
+                BasemapFallbackCaption()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .allowsHitTesting(false)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -547,22 +556,31 @@ struct MapFocusCover: View {
     var onDismiss: () -> Void
 
     @State private var mapStyle = 0
+    @State private var basemapUnavailable = false
 
     var body: some View {
         NavigationStack {
-            HolyPlacesMapRepresentable(
-                mapStyle: mapStyle,
-                filterRow: 0,
-                visitedFilter: 0,
-                timelineDate: nil,
-                revision: 0,
-                selectedName: nil,
-                focusPlaces: places,
-                focusCenter: center,
-                focusZoom: zoom,
-                onSelect: nil
-            )
-            .ignoresSafeArea()
+            ZStack(alignment: .bottom) {
+                HolyPlacesMapRepresentable(
+                    mapStyle: mapStyle,
+                    filterRow: 0,
+                    visitedFilter: 0,
+                    timelineDate: nil,
+                    revision: 0,
+                    selectedName: nil,
+                    focusPlaces: places,
+                    focusCenter: center,
+                    focusZoom: zoom,
+                    onSelect: nil,
+                    onBasemapFallback: { basemapUnavailable = $0 }
+                )
+                .ignoresSafeArea()
+
+                if basemapUnavailable {
+                    BasemapFallbackCaption()
+                        .allowsHitTesting(false)
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -576,6 +594,18 @@ struct MapFocusCover: View {
             }
             .toolbarBackground(.hidden, for: .navigationBar)
         }
+    }
+}
+
+private struct BasemapFallbackCaption: View {
+    var body: some View {
+        Text("Map detail isn’t available right now")
+            .font(.custom("Baskerville", size: 16))
+            .foregroundStyle(.primary)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(.ultraThinMaterial, in: Capsule())
+            .padding(.bottom, 10)
     }
 }
 
@@ -1084,6 +1114,7 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
     var focusCenter: CLLocationCoordinate2D?
     var focusZoom: CLLocationDistance?
     var onSelect: ((Temple) -> Void)?
+    var onBasemapFallback: (Bool) -> Void
 
     func makeUIViewController(context: Context) -> HolyPlacesMapController {
         HolyPlacesMapController()
@@ -1091,6 +1122,7 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: HolyPlacesMapController, context: Context) {
         controller.onSelectPlace = onSelect
+        controller.onBasemapFallback = onBasemapFallback
         controller.mapStyle = mapStyle
         controller.filterRow = filterRow
         controller.visitedFilter = visitedFilter
@@ -1101,6 +1133,12 @@ private struct HolyPlacesMapRepresentable: UIViewControllerRepresentable {
         controller.focusCenter = focusCenter
         controller.focusZoom = focusZoom
         controller.apply()
+        if controller.isShowingBasemapFallback {
+            DispatchQueue.main.async {
+                guard controller.isShowingBasemapFallback else { return }
+                onBasemapFallback(true)
+            }
+        }
     }
 }
 
@@ -1132,11 +1170,29 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     private var postRebuildTimer: Timer?
     private var markerLink: CADisplayLink?
     private let markerProxy = MarkerProxy()
+    var onBasemapFallback: ((Bool) -> Void)?
+
+    private let pathMonitor = NWPathMonitor()
+    private let pathQueue = DispatchQueue(label: "holyplaces.map-path")
+    private var pathUsable = true
+    private var fallbackOverlay: CoastlineTileOverlay?
+    private var fallbackVisible = false
+    private var watchGeneration = 0
+    private var loadWatchTimer: Timer?
+    private var retryTimer: Timer?
+    private var hasFinishedRegion = false
+    private var finishedRegion = MKCoordinateRegion()
+    private var finishedMapType: MKMapType = .standard
+
+    var isShowingBasemapFallback: Bool { fallbackVisible }
 
     deinit {
         markerLink?.invalidate()
         postRebuildTimer?.invalidate()
         timelineWork?.cancel()
+        pathMonitor.cancel()
+        loadWatchTimer?.invalidate()
+        retryTimer?.invalidate()
     }
 
     override func viewDidLoad() {
@@ -1153,6 +1209,22 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         markerProxy.owner = self
+        pathMonitor.pathUpdateHandler = { [weak self] path in
+            let usable = path.status == .satisfied
+            DispatchQueue.main.async {
+                self?.applyPathUsable(usable)
+            }
+        }
+        pathMonitor.start(queue: pathQueue)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (controller: HolyPlacesMapController, previous: UITraitCollection) in
+            guard previous.userInterfaceStyle != controller.traitCollection.userInterfaceStyle else { return }
+            guard controller.fallbackVisible else { return }
+            if let overlay = controller.fallbackOverlay {
+                controller.mapView.removeOverlay(overlay)
+                controller.fallbackOverlay = nil
+            }
+            controller.showFallback()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -1177,6 +1249,12 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         let type: MKMapType = mapStyle == 1 ? .satellite : .standard
         if mapView.mapType != type {
             mapView.mapType = type
+            hasFinishedRegion = false
+            if fallbackVisible && pathUsable {
+                retryAppleBasemap()
+            } else {
+                scheduleBasemapWatch()
+            }
         }
         if let focusPlaces, let focusCenter, let focusZoom {
             applyFocus(places: focusPlaces, center: focusCenter, zoom: focusZoom)
@@ -1473,6 +1551,137 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
             self?.updateAllMarkerSizes()
         }
+        scheduleBasemapWatch()
+    }
+
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        hasFinishedRegion = true
+        finishedRegion = mapView.region
+        finishedMapType = mapView.mapType
+        loadWatchTimer?.invalidate()
+        loadWatchTimer = nil
+        hideFallback()
+    }
+
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
+        // A later tile request can fail while an earlier one is still pending.
+        // The load watch, not this callback, decides when the coastline appears.
+        _ = error
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let tiles = overlay as? MKTileOverlay {
+            return MKTileOverlayRenderer(tileOverlay: tiles)
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
+
+    private func applyPathUsable(_ usable: Bool) {
+        let becameUsable = usable && !pathUsable
+        pathUsable = usable
+        if !usable {
+            retryTimer?.invalidate()
+            retryTimer = nil
+            scheduleBasemapWatch()
+            return
+        }
+        if becameUsable, fallbackVisible {
+            retryAppleBasemap()
+        }
+    }
+
+    private func scheduleBasemapWatch() {
+        loadWatchTimer?.invalidate()
+        loadWatchTimer = nil
+        if regionMatchesLoadedMap() {
+            hideFallback()
+            return
+        }
+        if !pathUsable {
+            showFallback()
+            return
+        }
+        if fallbackVisible {
+            return
+        }
+        watchGeneration += 1
+        let generation = watchGeneration
+        let timer = Timer(timeInterval: 2.5, repeats: false) { [weak self] _ in
+            guard let self, self.watchGeneration == generation else { return }
+            guard !self.regionMatchesLoadedMap() else { return }
+            self.showFallback()
+        }
+        loadWatchTimer = timer
+        RunLoop.main.add(timer, forMode: .common)
+    }
+
+    private func regionMatchesLoadedMap() -> Bool {
+        guard hasFinishedRegion, finishedMapType == mapView.mapType else { return false }
+        let current = mapView.region
+        let span = max(finishedRegion.span.latitudeDelta, finishedRegion.span.longitudeDelta, 0.000_1)
+        let centerLimit = max(span * 0.02, 0.000_1)
+        let spanLimit = max(span * 0.05, 0.000_1)
+        let latitudeDelta = abs(current.center.latitude - finishedRegion.center.latitude)
+        let longitudeDelta = abs(current.center.longitude - finishedRegion.center.longitude)
+        let latitudeSpanDelta = abs(current.span.latitudeDelta - finishedRegion.span.latitudeDelta)
+        let longitudeSpanDelta = abs(current.span.longitudeDelta - finishedRegion.span.longitudeDelta)
+        return latitudeDelta < centerLimit
+            && longitudeDelta < centerLimit
+            && latitudeSpanDelta < spanLimit
+            && longitudeSpanDelta < spanLimit
+    }
+
+    private func showFallback() {
+        loadWatchTimer?.invalidate()
+        loadWatchTimer = nil
+        let dark = traitCollection.userInterfaceStyle == .dark
+        if fallbackOverlay?.isDark != dark {
+            if let overlay = fallbackOverlay {
+                mapView.removeOverlay(overlay)
+            }
+            let overlay = CoastlineTileOverlay(isDark: dark)
+            fallbackOverlay = overlay
+            mapView.addOverlay(overlay)
+        }
+        if !fallbackVisible {
+            fallbackVisible = true
+            onBasemapFallback?(true)
+        }
+        scheduleBasemapRetryIfNeeded()
+    }
+
+    private func hideFallback() {
+        retryTimer?.invalidate()
+        retryTimer = nil
+        if let overlay = fallbackOverlay {
+            mapView.removeOverlay(overlay)
+            fallbackOverlay = nil
+        }
+        guard fallbackVisible else { return }
+        fallbackVisible = false
+        onBasemapFallback?(false)
+    }
+
+    private func scheduleBasemapRetryIfNeeded() {
+        guard pathUsable, fallbackVisible, retryTimer == nil else { return }
+        let timer = Timer(timeInterval: 15, repeats: true) { [weak self] _ in
+            self?.retryAppleBasemap()
+        }
+        retryTimer = timer
+        RunLoop.main.add(timer, forMode: .common)
+    }
+
+    private func retryAppleBasemap() {
+        guard pathUsable else { return }
+        let generation = watchGeneration
+        hideFallback()
+        let region = mapView.region
+        if region.span.latitudeDelta > 0, region.span.longitudeDelta > 0 {
+            mapView.setRegion(region, animated: false)
+        }
+        if watchGeneration == generation {
+            scheduleBasemapWatch()
+        }
     }
 
     private func startMarkerSizeUpdates() {
@@ -1634,5 +1843,254 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         @objc func tick() {
             owner?.updateAllMarkerSizes()
         }
+    }
+}
+
+/// Natural Earth 1:110m coastline, public domain. Drawn locally when Apple’s tiles do not arrive.
+private final class CoastlineTileOverlay: MKTileOverlay {
+    let isDark: Bool
+    private let cache = NSCache<NSString, NSData>()
+
+    init(isDark: Bool) {
+        self.isDark = isDark
+        super.init(urlTemplate: nil)
+        canReplaceMapContent = true
+        tileSize = CGSize(width: 256, height: 256)
+        minimumZ = 0
+        maximumZ = 22
+        cache.countLimit = 180
+    }
+
+    override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
+        let key = "\(path.z)/\(path.x)/\(path.y)/\(isDark ? 1 : 0)/\(path.contentScaleFactor)" as NSString
+        if let cached = cache.object(forKey: key) {
+            result(cached as Data, nil)
+            return
+        }
+        let data = renderTile(at: path)
+        if let data {
+            cache.setObject(data as NSData, forKey: key)
+        }
+        result(data, nil)
+    }
+
+    private func renderTile(at path: MKTileOverlayPath) -> Data? {
+        let tileRect = mapRect(for: path)
+        guard tileRect.size.width > 0, tileRect.size.height > 0 else { return nil }
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = max(path.contentScaleFactor, 1)
+        format.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 256, height: 256), format: format)
+        let fill = isDark
+            ? UIColor(red: 0.10, green: 0.12, blue: 0.15, alpha: 1)
+            : UIColor(red: 0.89, green: 0.93, blue: 0.95, alpha: 1)
+        let stroke = isDark
+            ? UIColor(red: 0.78, green: 0.82, blue: 0.86, alpha: 1)
+            : UIColor(red: 0.28, green: 0.36, blue: 0.42, alpha: 1)
+        let image = renderer.image { _ in
+            fill.setFill()
+            UIBezierPath(rect: CGRect(x: 0, y: 0, width: 256, height: 256)).fill()
+            let line = UIBezierPath()
+            line.lineWidth = 1.25
+            line.lineJoinStyle = .round
+            line.lineCapStyle = .round
+            for segment in CoastlineChart.shared.segments(intersecting: tileRect) {
+                line.move(to: point(segment.a, in: tileRect))
+                line.addLine(to: point(segment.b, in: tileRect))
+            }
+            stroke.setStroke()
+            line.stroke()
+        }
+        return image.pngData()
+    }
+
+    private func point(_ mapPoint: MKMapPoint, in tileRect: MKMapRect) -> CGPoint {
+        CGPoint(
+            x: (mapPoint.x - tileRect.origin.x) / tileRect.size.width * 256,
+            y: (mapPoint.y - tileRect.origin.y) / tileRect.size.height * 256
+        )
+    }
+
+    /// Web Mercator tile rect. Tile y grows south, matching `MKMapRect`.
+    private func mapRect(for path: MKTileOverlayPath) -> MKMapRect {
+        let world = MKMapRect.world
+        let span = min(max(path.z, 0), 29)
+        let tiles = Double(1 << span)
+        let width = world.size.width / tiles
+        let height = world.size.height / tiles
+        return MKMapRect(
+            x: world.origin.x + Double(path.x) * width,
+            y: world.origin.y + Double(path.y) * height,
+            width: width,
+            height: height
+        )
+    }
+}
+
+private struct CoastSegment {
+    let id: Int
+    let a: MKMapPoint
+    let b: MKMapPoint
+}
+
+private final class CoastlineChart {
+    static let shared = CoastlineChart()
+
+    private let bucketCount = 32
+    private var buckets: [[CoastSegment]]
+
+    private init() {
+        buckets = Array(repeating: [], count: bucketCount * bucketCount)
+        load()
+    }
+
+    func segments(intersecting rect: MKMapRect) -> [CoastSegment] {
+        let world = MKMapRect.world
+        guard world.size.width > 0, world.size.height > 0 else { return [] }
+        let minColumn = column(forX: rect.minX, world: world)
+        let maxColumn = column(forX: rect.maxX, world: world)
+        let minRow = row(forY: rect.minY, world: world)
+        let maxRow = row(forY: rect.maxY, world: world)
+        var seen = Set<Int>()
+        var result: [CoastSegment] = []
+        for rowIndex in minRow...maxRow {
+            for columnIndex in minColumn...maxColumn {
+                for segment in buckets[rowIndex * bucketCount + columnIndex] {
+                    guard seen.insert(segment.id).inserted, intersects(segment, rect) else { continue }
+                    result.append(segment)
+                }
+            }
+        }
+        return result
+    }
+
+    private func load() {
+        guard let url = Bundle.main.url(forResource: "ne_110m_coastline", withExtension: "geojson"),
+              let data = try? Data(contentsOf: url),
+              let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let features = object["features"] as? [[String: Any]] else { return }
+        var nextID = 0
+        for feature in features {
+            guard let geometry = feature["geometry"] as? [String: Any] else { continue }
+            for line in lines(from: geometry) where line.count >= 2 {
+                for index in 1..<line.count {
+                    append(from: line[index - 1], to: line[index], nextID: &nextID)
+                }
+            }
+        }
+    }
+
+    private func lines(from geometry: [String: Any]) -> [[[Double]]] {
+        guard let type = geometry["type"] as? String else { return [] }
+        switch type {
+        case "LineString":
+            return [coordinateLine(geometry["coordinates"])]
+        case "MultiLineString":
+            guard let parts = geometry["coordinates"] as? [Any] else { return [] }
+            return parts.map { coordinateLine($0) }
+        default:
+            return []
+        }
+    }
+
+    private func coordinateLine(_ value: Any?) -> [[Double]] {
+        guard let pairs = value as? [Any] else { return [] }
+        return pairs.compactMap { pair in
+            guard let pair = pair as? [Any], pair.count >= 2,
+                  let longitude = doubleValue(pair[0]),
+                  let latitude = doubleValue(pair[1]) else { return nil }
+            return [longitude, latitude]
+        }
+    }
+
+    private func doubleValue(_ value: Any) -> Double? {
+        (value as? NSNumber)?.doubleValue
+    }
+
+    private func append(from start: [Double], to end: [Double], nextID: inout Int) {
+        let startLongitude = normalize(start[0])
+        let endLongitude = normalize(end[0])
+        let startLatitude = start[1]
+        let endLatitude = end[1]
+        if abs(startLongitude - endLongitude) <= 180 {
+            add(startLongitude, startLatitude, endLongitude, endLatitude, nextID: &nextID)
+            return
+        }
+        let startEdge: Double = startLongitude >= 0 ? 180 : -180
+        let endEdge: Double = endLongitude >= 0 ? 180 : -180
+        let startDistance = abs(startEdge - startLongitude)
+        let endDistance = abs(endEdge - endLongitude)
+        let total = startDistance + endDistance
+        let fraction = total > 0 ? startDistance / total : 0
+        let latitude = startLatitude + (endLatitude - startLatitude) * fraction
+        add(startLongitude, startLatitude, startEdge, latitude, nextID: &nextID)
+        add(endEdge, latitude, endLongitude, endLatitude, nextID: &nextID)
+    }
+
+    private func add(
+        _ startLongitude: Double,
+        _ startLatitude: Double,
+        _ endLongitude: Double,
+        _ endLatitude: Double,
+        nextID: inout Int
+    ) {
+        let start = mapPoint(latitude: startLatitude, longitude: startLongitude)
+        let end = mapPoint(latitude: endLatitude, longitude: endLongitude)
+        guard start.x != end.x || start.y != end.y else { return }
+        let segment = CoastSegment(id: nextID, a: start, b: end)
+        nextID += 1
+        insert(segment)
+    }
+
+    private func mapPoint(latitude: Double, longitude: Double) -> MKMapPoint {
+        let limit = 85.05112878
+        let clamped = min(limit, max(-limit, latitude))
+        return MKMapPoint(CLLocationCoordinate2D(latitude: clamped, longitude: longitude))
+    }
+
+    private func normalize(_ longitude: Double) -> Double {
+        guard longitude.isFinite else { return 0 }
+        var value = longitude
+        while value > 180 { value -= 360 }
+        while value < -180 { value += 360 }
+        return value
+    }
+
+    private func insert(_ segment: CoastSegment) {
+        let world = MKMapRect.world
+        guard world.size.width > 0, world.size.height > 0 else { return }
+        let minColumn = column(forX: min(segment.a.x, segment.b.x), world: world)
+        let maxColumn = column(forX: max(segment.a.x, segment.b.x), world: world)
+        let minRow = row(forY: min(segment.a.y, segment.b.y), world: world)
+        let maxRow = row(forY: max(segment.a.y, segment.b.y), world: world)
+        for rowIndex in minRow...maxRow {
+            for columnIndex in minColumn...maxColumn {
+                buckets[rowIndex * bucketCount + columnIndex].append(segment)
+            }
+        }
+    }
+
+    private func intersects(_ segment: CoastSegment, _ rect: MKMapRect) -> Bool {
+        let minX = min(segment.a.x, segment.b.x)
+        let maxX = max(segment.a.x, segment.b.x)
+        let minY = min(segment.a.y, segment.b.y)
+        let maxY = max(segment.a.y, segment.b.y)
+        let bounds = MKMapRect(
+            x: minX,
+            y: minY,
+            width: max(maxX - minX, 1),
+            height: max(maxY - minY, 1)
+        )
+        return rect.intersects(bounds)
+    }
+
+    private func column(forX x: Double, world: MKMapRect) -> Int {
+        let ratio = (x - world.origin.x) / world.size.width
+        return min(bucketCount - 1, max(0, Int(ratio * Double(bucketCount))))
+    }
+
+    private func row(forY y: Double, world: MKMapRect) -> Int {
+        let ratio = (y - world.origin.y) / world.size.height
+        return min(bucketCount - 1, max(0, Int(ratio * Double(bucketCount))))
     }
 }

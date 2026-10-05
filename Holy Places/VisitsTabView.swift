@@ -717,12 +717,12 @@ struct VisitsTabView: View {
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(visit.holyPlace ?? "")
-                    .font(.custom("Baskerville", size: 18))
+                    .font(.custom("Baskerville", size: 20))
                     .foregroundStyle(Color(uiColor: titleColor))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 Text(visitSubtitle(visit))
-                    .font(.custom("Baskerville", size: 14))
+                    .font(.custom("Baskerville", size: 16))
                     .foregroundStyle(Color(uiColor: defaultColor))
                     .lineLimit(1)
             }

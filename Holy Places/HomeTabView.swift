@@ -250,7 +250,7 @@ struct HomeTabView: View {
                 .tracking(3)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
-                .modifier(HomeLabelStyle(color: tint, lightText: light, scrim: true))
+                .modifier(HomeLabelStyle(color: tint, lightText: light, scrim: false))
                 .background(alignment: .top) {
                     tint.frame(height: 1).offset(y: -3)
                 }
@@ -261,7 +261,7 @@ struct HomeTabView: View {
                 .font(.custom("Baskerville", size: 22))
                 .multilineTextAlignment(.center)
                 .lineLimit(5)
-                .modifier(HomeLabelStyle(color: tint, lightText: light, scrim: true))
+                .modifier(HomeLabelStyle(color: tint, lightText: light, scrim: false))
                 .padding(.top, 2)
         }
         .frame(maxWidth: .infinity)

@@ -576,6 +576,11 @@ public extension UIDevice {
         case "iPhone18,4": return "iPhone Air"
         case "iPhone18,5": return "iPhone 17e"
 
+        // iPhone 18 Series
+        case "iPhone19,2": return "iPhone 18 Pro"
+        case "iPhone19,3", "iPhone19,7": return "iPhone 18 Pro Max"
+        case "iPhone19,4": return "iPhone Duo"
+
         // iPad (iOS 15+ supported)
         case "iPad6,11", "iPad6,12": return "iPad 5th Gen"
         case "iPad7,5", "iPad7,6": return "iPad 6th Gen"

@@ -15,6 +15,7 @@
 		9CE0B1062F28000100A1C106 /* RecordVisitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */; };
 		9CE0B1072F28000100A1C107 /* PhotoViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */; };
 		9CE0B1082F28000100A1C108 /* MapTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0082F28000100A1C008 /* MapTabView.swift */; };
+		9CE0C2012F28000100A1C201 /* ne_110m_coastline.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */; };
 		9CE0B1092F28000100A1C109 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0092F28000100A1C009 /* HomeTabView.swift */; };
 		9CE0B10A2F28000100A1C10A /* AchievementsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */; };
 		9CE0B10B2F28000100A1C10B /* ProfilesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */; };
@@ -116,6 +117,7 @@
 		9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVisitForm.swift; sourceTree = "<group>"; };
 		9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerView.swift; sourceTree = "<group>"; };
 		9CE0B0082F28000100A1C008 /* MapTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabView.swift; sourceTree = "<group>"; };
+		9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ne_110m_coastline.geojson; sourceTree = "<group>"; };
 		9CE0B0092F28000100A1C009 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsScreen.swift; sourceTree = "<group>"; };
 		9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesScreen.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */,
 				9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */,
 				9CE0B0082F28000100A1C008 /* MapTabView.swift */,
+				9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */,
 				9CE0B0092F28000100A1C009 /* HomeTabView.swift */,
 				9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */,
 				9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */,
@@ -461,6 +464,7 @@
 				643B59CE2139B99300C71A3B /* SummaryQuotes.xml in Resources */,
 				64FDE6F81E21863A00951A58 /* Assets.xcassets in Resources */,
 				64F810B92029513D00B435BA /* HolyPlaces.xml in Resources */,
+				9CE0C2012F28000100A1C201 /* ne_110m_coastline.geojson in Resources */,
 			);
 		};
 		9CD815592F2ABFCD00E2B911 /* Resources */ = {
