@@ -240,6 +240,8 @@ struct SettingsView: View {
     var onManageProfiles: () -> Void
 
     @State private var showImagePicker = false
+    @State private var padField: SettingsField?
+    @State private var padReplaces = false
     @FocusState private var focusedField: SettingsField?
 
     private let rowFont = Font.custom("Baskerville", size: 18)
@@ -249,6 +251,18 @@ struct SettingsView: View {
 """
 
     var body: some View {
+        ScrollViewReader { proxy in
+            settingsForm
+                .onChange(of: padField) { _, field in
+                    guard let field else { return }
+                    withAnimation {
+                        proxy.scrollTo(field, anchor: .center)
+                    }
+                }
+        }
+    }
+
+    private var settingsForm: some View {
         Form {
             goalsSection
             colorThemeSection
@@ -261,6 +275,23 @@ struct SettingsView: View {
             profilesSection
         }
         .tint(Color("BaptismsBlue"))
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if padField != nil {
+                GoalNumberPad(
+                    onDigit: insertPadDigit,
+                    onDelete: deletePadDigit,
+                    onDone: { padField = nil }
+                )
+                .frame(maxWidth: 320)
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 8)
+            }
+        }
+        .onChange(of: focusedField) { _, newValue in
+            if newValue != nil {
+                padField = nil
+            }
+        }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
@@ -394,8 +425,8 @@ struct SettingsView: View {
                     showImagePicker = true
                 }
                 .font(.custom("Baskerville", size: 20))
-                .foregroundColor(model.homeTextColorIndex == 0 ? .white : .black)
-                .shadow(color: .black.opacity(0.35), radius: 2, x: 0, y: 1)
+                .foregroundColor(model.alternateImageData == nil ? Color("BaptismsBlue") : (model.homeTextColorIndex == 0 ? .white : .black))
+                .shadow(color: .black.opacity(model.alternateImageData == nil ? 0 : 0.35), radius: 2, x: 0, y: 1)
             }
             .listRowInsets(EdgeInsets())
 
@@ -508,21 +539,150 @@ struct SettingsView: View {
             Text(title)
                 .font(rowFont)
             Spacer()
-            TextField("0", text: text)
-                .keyboardType(.numberPad)
-                .multilineTextAlignment(.center)
-                .font(rowFont)
-                .frame(width: 60)
-                .textFieldStyle(.roundedBorder)
-                .focused($focusedField, equals: field)
-                .onChange(of: focusedField) { _, newValue in
-                    if newValue == field {
-                        DispatchQueue.main.async {
-                            UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
-                        }
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                ipadNumberField(text: text, field: field)
+            } else {
+                iphoneNumberField(text: text, field: field)
+            }
+        }
+        .id(field)
+    }
+
+    private func iphoneNumberField(text: Binding<String>, field: SettingsField) -> some View {
+        TextField("0", text: text)
+            .keyboardType(.numberPad)
+            .onChange(of: text.wrappedValue) { _, newValue in
+                let digits = newValue.filter(\.isNumber)
+                if digits != newValue {
+                    text.wrappedValue = digits
+                }
+            }
+            .multilineTextAlignment(.center)
+            .font(rowFont)
+            .frame(width: 60)
+            .textFieldStyle(.roundedBorder)
+            .focused($focusedField, equals: field)
+            .onChange(of: focusedField) { _, newValue in
+                if newValue == field {
+                    DispatchQueue.main.async {
+                        UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
                     }
                 }
+            }
+    }
+
+    private func ipadNumberField(text: Binding<String>, field: SettingsField) -> some View {
+        let selected = padField == field
+        let shown = text.wrappedValue.isEmpty ? "0" : text.wrappedValue
+        return Button {
+            showPad(field)
+        } label: {
+            Text(shown)
+                .font(rowFont)
+                .foregroundStyle(text.wrappedValue.isEmpty ? Color.secondary : Color.primary)
+                .frame(width: 60, height: 32)
+                .background(Color(UIColor.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(selected ? Color("BaptismsBlue") : Color(UIColor.separator), lineWidth: selected ? 1.5 : 0.5)
+                }
         }
+        .buttonStyle(.plain)
+        .accessibilityLabel(shown)
+    }
+
+    private func showPad(_ field: SettingsField) {
+        focusedField = nil
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        if padField != field {
+            padReplaces = true
+        }
+        padField = field
+    }
+
+    private func numericText(for field: SettingsField) -> Binding<String>? {
+        switch field {
+        case .visitGoal: return $model.visitGoalText
+        case .baptismGoal: return $model.baptismGoalText
+        case .initiatoryGoal: return $model.initiatoryGoalText
+        case .endowmentGoal: return $model.endowmentGoalText
+        case .sealingGoal: return $model.sealingGoalText
+        case .minutesDelay: return $model.minutesDelayText
+        case .addDays: return $model.addDaysText
+        case .comments: return nil
+        }
+    }
+
+    private func insertPadDigit(_ digit: String) {
+        guard let padField, let text = numericText(for: padField) else { return }
+        if padReplaces || text.wrappedValue.isEmpty {
+            text.wrappedValue = digit
+            padReplaces = false
+        } else {
+            text.wrappedValue.append(digit)
+        }
+    }
+
+    private func deletePadDigit() {
+        guard let padField, let text = numericText(for: padField) else { return }
+        if padReplaces {
+            text.wrappedValue = ""
+            padReplaces = false
+            return
+        }
+        if !text.wrappedValue.isEmpty {
+            text.wrappedValue.removeLast()
+        }
+    }
+}
+
+private struct GoalNumberPad: View {
+    var onDigit: (String) -> Void
+    var onDelete: () -> Void
+    var onDone: () -> Void
+
+    private let keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    var body: some View {
+        VStack(spacing: 8) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 8) {
+                ForEach(keys, id: \.self) { key in
+                    padKey(key) { onDigit(key) }
+                }
+                Color.clear
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .accessibilityHidden(true)
+                padKey("0") { onDigit("0") }
+                Button(action: onDelete) {
+                    Image(systemName: "delete.left")
+                        .font(.system(size: 20))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .background(Color(UIColor.secondarySystemFill))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Delete")
+            }
+            Button("Done", action: onDone)
+                .font(.custom("Baskerville", size: 17))
+                .foregroundStyle(Color("BaptismsBlue"))
+                .frame(maxWidth: .infinity, minHeight: 36)
+        }
+        .padding(12)
+        .background(.bar, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal, 16)
+    }
+
+    private func padKey(_ title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.custom("Baskerville", size: 22))
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(Color(UIColor.secondarySystemFill))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(.plain)
     }
 }
 
