@@ -28,8 +28,8 @@ struct HomeTabView: View {
         GeometryReader { geo in
             let landscape = geo.size.width > geo.size.height
             let regular = horizontalSizeClass == .regular
-            let image = homeBackgroundImage(landscape: landscape, regularWidth: regular)
-            let crop = cropToFill
+            let image = homeBackgroundImage
+            let crop = homeDefaultPicture || cropToFill
             let tint = homeTint
             let light = homeTextIsLight
             let achievementSide: CGFloat = regular ? 100 : max(geo.size.width * 0.20, 1)
@@ -91,13 +91,15 @@ struct HomeTabView: View {
             }
             .frame(width: geo.size.width, height: geo.size.height)
             .background {
-                ZStack {
-                    Color(uiColor: crop ? .black : image.complementaryFillColor())
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: crop ? .fill : .fit)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .clipped()
+                GeometryReader { full in
+                    ZStack {
+                        Color(uiColor: crop ? .black : image.complementaryFillColor())
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: crop ? .fill : .fit)
+                            .frame(width: full.size.width, height: full.size.height, alignment: .center)
+                            .clipped()
+                    }
                 }
                 .ignoresSafeArea()
             }
@@ -362,17 +364,9 @@ struct HomeTabView: View {
         return message
     }
 
-    private func homeBackgroundImage(landscape: Bool, regularWidth: Bool) -> UIImage {
+    private var homeBackgroundImage: UIImage {
         _ = revision
-        let defaultName: String
-        if landscape {
-            defaultName = "PCCL"
-        } else if regularWidth {
-            defaultName = "PCCW"
-        } else {
-            defaultName = "PCC"
-        }
-        let fallback = UIImage(named: defaultName) ?? UIImage()
+        let fallback = UIImage(named: "pcc2026") ?? UIImage()
         if homeDefaultPicture {
             return fallback
         }
