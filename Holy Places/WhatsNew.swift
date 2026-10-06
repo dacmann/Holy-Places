@@ -11,16 +11,29 @@ import Foundation
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
         "6.0": """
-            New:
-            - Home, Places, Visits, and the map are now SwiftUI, so the layout fits iPhone, iPad, and the foldable iPhone Duo with the list beside the detail when the screen is wide enough
-            - Siri on iOS 27 lets you record a visit, get directions, check your goal, and open a place or visit by asking. For an active temple Siri asks which ordinances you did, and for any place it asks whether to add notes
-            - Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
-            - Tap a map pin to see the place photo next to its name. Tap the photo or the name to open the place, or the arrow for the same Apple Maps, Google Maps, and Waze choices as the place screen.
+            This is the biggest update to Holy Places yet. Home, Places, Visits, the map, Record Visit, visit details, Achievements, and Profiles have all been rebuilt from the ground up, and with iOS 27 you can record visits and more just by asking Siri.
+
+            Made for every screen:
+            - iPhone, iPad, and the foldable iPhone Duo each get a layout that fits, with the list beside the detail whenever the screen is wide enough
+            - Larger, easier-to-read text in the Places and Visits lists
+
+            Ask Siri (iOS 27):
+            - Record a visit by saying something like \"Record a visit to the Columbia South Carolina Temple in Holy Places.\" For an active temple Siri asks which ordinances you did, and for any place it asks whether to add notes
+            - Get directions to the nearest holy place
+            - Check your progress on this year's goals and how many temples you've visited
+            - Open a place or visit, or search places and visit notes
+
+            Map:
+            - Tap a map pin to see the place photo next to its name. Tap the photo or the name to open the place, or the arrow for the same navigation choices as the place screen.
+            - Place names appear as you zoom in, without covering each other or the pins
+            - Continent outlines keep places visible when service is low or unavailable, until the full map imagery loads
+
+            Also new:
+            - A new default Home photo, and a Crop to fill setting for the Home background — turn it off to show the whole photo with a complementary color in the remaining area
             - When importing visits, you can replace the notes on visits you already have so edits made on another device come across
-            
+
             Bug Fixes:
             - Home screen goal progress updates as soon as you change goals in Settings
-            - Map shows continent outlines when service is low or unavailable, until the full map imagery loads
             """,
         "5.9": """
             New:
