@@ -39,11 +39,13 @@ struct SharePDFView: View {
                         Button("Print") {
                             printPDF()
                         }
+                        .font(.custom("Baskerville", size: 17))
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Share") {
                             showShareSheet = true
                         }
+                        .font(.custom("Baskerville", size: 17))
                     }
                 }
             }

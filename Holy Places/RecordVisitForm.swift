@@ -146,6 +146,7 @@ struct RecordVisitForm: View {
         .navigationTitle(model.existingVisit == nil ? "Record Visit" : "Edit Visit")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .hideTabBarWhenCompact()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel", action: onCancel)

@@ -91,7 +91,7 @@ class SummaryVC: UIHostingController<SummaryView> {
         let host = UIHostingController(rootView: AchievementsScreen { [weak self] in
             self?.dismiss(animated: true)
         })
-        let navigation = UINavigationController(rootViewController: host)
-        present(navigation, animated: true)
+        host.modalPresentationStyle = .pageSheet
+        present(host, animated: true)
     }
 }

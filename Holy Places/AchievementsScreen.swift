@@ -51,9 +51,6 @@ struct AchievementsScreen: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Done", action: onDismiss)
-                }
-                ToolbarItem(placement: .topBarTrailing) {
                     Picker("Display", selection: $showCompleted) {
                         Text("🏆").tag(true)
                         Text("〜").tag(false)
@@ -61,6 +58,10 @@ struct AchievementsScreen: View {
                     .pickerStyle(.segmented)
                     .frame(width: 108)
                     .accessibilityLabel("Completed or in progress")
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done", action: onDismiss)
+                        .font(.custom("Baskerville", size: 17))
                 }
             }
         }

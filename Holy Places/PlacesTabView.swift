@@ -403,11 +403,19 @@ struct PlacesTabView: View {
         .background(HolyPlacesSearchFontFix())
         .onChange(of: model.searchText) { _, _ in model.reload() }
         .safeAreaInset(edge: .top, spacing: 0) {
-            PlaceScopeSegments(scope: $model.scope)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 6)
-                .background(Color(uiColor: .systemBackground))
-                .onChange(of: model.scope) { _, _ in model.reload() }
+            VStack(spacing: 0) {
+                ScopeChoiceButtons(
+                    titles: placeScopes,
+                    selection: placeScopes.firstIndex(of: model.scope) ?? 0
+                ) { index in
+                    model.scope = placeScopes[index]
+                }
+                .padding(.horizontal, 12)
+                .frame(height: 43)
+                Divider()
+            }
+            .background(Color(uiColor: .systemBackground))
+            .onChange(of: model.scope) { _, _ in model.reload() }
         }
         .navigationTitle(model.title)
         .navigationBarTitleDisplayMode(.inline)
@@ -702,6 +710,63 @@ private struct ColoredFilterPicker: UIViewRepresentable {
     }
 }
 
+private struct BaskervilleWheelPicker: UIViewRepresentable {
+    var titles: [String]
+    @Binding var selection: Int
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    func makeUIView(context: Context) -> UIPickerView {
+        let picker = UIPickerView()
+        picker.dataSource = context.coordinator
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIView(_ picker: UIPickerView, context: Context) {
+        context.coordinator.parent = self
+        if context.coordinator.appliedTitles != titles {
+            context.coordinator.appliedTitles = titles
+            picker.reloadAllComponents()
+        }
+        let row = min(max(selection, 0), max(titles.count - 1, 0))
+        if !titles.isEmpty, picker.selectedRow(inComponent: 0) != row {
+            picker.selectRow(row, inComponent: 0, animated: false)
+        }
+    }
+
+    final class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
+        var parent: BaskervilleWheelPicker
+        var appliedTitles: [String] = []
+
+        init(_ parent: BaskervilleWheelPicker) {
+            self.parent = parent
+        }
+
+        func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            parent.titles.count
+        }
+
+        func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat { 36 }
+
+        func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+            let label = (view as? UILabel) ?? UILabel()
+            label.textAlignment = .center
+            label.font = UIFont(name: "Baskerville", size: 20) ?? .systemFont(ofSize: 20)
+            label.text = parent.titles[row]
+            return label
+        }
+
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            parent.selection = row
+        }
+    }
+}
+
 private struct PlaceOptionsSheet: View {
     var onDone: (Int, Int) -> Void
     @Environment(\.dismiss) private var dismiss
@@ -728,23 +793,26 @@ private struct PlaceOptionsSheet: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                Text("Filter")
-                    .font(.custom("Baskerville", size: 17))
-                ColoredFilterPicker(titles: filters, selection: $filter)
-                    .frame(height: 180)
-                    .onChange(of: filter) { _, _ in
-                        if sort >= sorts.count { sort = 0 }
-                    }
-                Text("Sort")
-                    .font(.custom("Baskerville", size: 17))
-                Picker("Sort", selection: $sort) {
-                    ForEach(sorts.indices, id: \.self) { index in
-                        Text(sorts[index]).tag(index)
-                    }
+            ScrollView {
+                VStack(spacing: 8) {
+                    Text("Filter")
+                        .font(.custom("Baskerville", size: 22))
+                    ColoredFilterPicker(titles: filters, selection: $filter)
+                        .frame(height: 180)
+                        .pickerBorder()
+                        .onChange(of: filter) { _, _ in
+                            if sort >= sorts.count { sort = 0 }
+                        }
+                    Text("Sort")
+                        .font(.custom("Baskerville", size: 22))
+                        .padding(.top, 8)
+                    BaskervilleWheelPicker(titles: sorts, selection: $sort)
+                        .frame(height: 180)
+                        .pickerBorder()
                 }
-                .pickerStyle(.wheel)
+                .padding(.top, 16)
             }
+            .scrollBounceBehavior(.basedOnSize)
             .navigationTitle("Options")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -757,46 +825,10 @@ private struct PlaceOptionsSheet: View {
                 }
             }
         }
-        .presentationDetents([.medium, .large])
     }
 }
 
-private struct PlaceScopeSegments: UIViewRepresentable {
-    @Binding var scope: String
-    private static let titles = ["All", "Visited", "Not Visited"]
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(scope: $scope)
-    }
-
-    func makeUIView(context: Context) -> UISegmentedControl {
-        let control = UISegmentedControl(items: Self.titles)
-        control.selectedSegmentIndex = Self.titles.firstIndex(of: scope) ?? 0
-        let font = UIFont(name: "Baskerville", size: 16) ?? .systemFont(ofSize: 16)
-        control.setTitleTextAttributes([.font: font], for: .normal)
-        control.setTitleTextAttributes([.font: font], for: .selected)
-        control.addTarget(context.coordinator, action: #selector(Coordinator.changed(_:)), for: .valueChanged)
-        return control
-    }
-
-    func updateUIView(_ control: UISegmentedControl, context: Context) {
-        context.coordinator.scope = $scope
-        let index = Self.titles.firstIndex(of: scope) ?? 0
-        if control.selectedSegmentIndex != index {
-            control.selectedSegmentIndex = index
-        }
-    }
-
-    final class Coordinator: NSObject {
-        var scope: Binding<String>
-        init(scope: Binding<String>) { self.scope = scope }
-
-        @objc func changed(_ sender: UISegmentedControl) {
-            guard PlaceScopeSegments.titles.indices.contains(sender.selectedSegmentIndex) else { return }
-            scope.wrappedValue = PlaceScopeSegments.titles[sender.selectedSegmentIndex]
-        }
-    }
-}
+private let placeScopes = ["All", "Visited", "Not Visited"]
 
 private struct PlaceBoolSegments: UIViewRepresentable {
     var titles: [String]
@@ -834,9 +866,58 @@ private struct PlaceBoolSegments: UIViewRepresentable {
     }
 }
 
+/// Baskerville field with the system clear button while the text is being edited.
+private struct ClearableBaskervilleField: UIViewRepresentable {
+    var placeholder: String
+    @Binding var text: String
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(text: $text)
+    }
+
+    func makeUIView(context: Context) -> UITextField {
+        let field = UITextField()
+        let font = UIFont(name: "Baskerville", size: 17) ?? .systemFont(ofSize: 17)
+        field.font = font
+        field.text = text
+        field.clearButtonMode = .whileEditing
+        field.autocorrectionType = .no
+        field.borderStyle = .none
+        field.backgroundColor = .clear
+        field.attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [.font: font, .foregroundColor: UIColor.placeholderText]
+        )
+        field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        field.addTarget(context.coordinator, action: #selector(Coordinator.changed(_:)), for: .editingChanged)
+        return field
+    }
+
+    func updateUIView(_ field: UITextField, context: Context) {
+        context.coordinator.text = $text
+        if field.text != text {
+            field.text = text
+        }
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextField, context: Context) -> CGSize? {
+        CGSize(width: proposal.width ?? uiView.intrinsicContentSize.width, height: 22)
+    }
+
+    final class Coordinator: NSObject {
+        var text: Binding<String>
+        init(text: Binding<String>) { self.text = text }
+
+        @objc func changed(_ sender: UITextField) {
+            text.wrappedValue = sender.text ?? ""
+        }
+    }
+}
+
 private struct AltLocationSheet: View {
     var onDone: () -> Void
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var currentLocation = CurrentLocationLookup()
     @State private var street = altLocStreet
     @State private var city = altLocCity
     @State private var state = altLocState
@@ -851,19 +932,21 @@ private struct AltLocationSheet: View {
                     titles: ["Current", "Alternate"],
                     isOn: $useAlternate
                 )
-                .disabled(coordAltLocation == nil && !useAlternate)
-                TextField("Street", text: $street)
-                    .font(.custom("Baskerville", size: 17))
-                TextField("City", text: $city)
-                    .font(.custom("Baskerville", size: 17))
-                TextField("State", text: $state)
-                    .font(.custom("Baskerville", size: 17))
-                TextField("Postal code", text: $postal)
-                    .font(.custom("Baskerville", size: 17))
-                Button("Validate") { validate() }
-                    .font(.custom("Baskerville", size: 17))
-                Text(result)
-                    .font(.custom("Baskerville", size: 15))
+                if useAlternate {
+                    ClearableBaskervilleField(placeholder: "Street", text: $street)
+                    ClearableBaskervilleField(placeholder: "City", text: $city)
+                    ClearableBaskervilleField(placeholder: "State", text: $state)
+                    ClearableBaskervilleField(placeholder: "Postal code", text: $postal)
+                    Button("Validate") { validate() }
+                        .font(.custom("Baskerville", size: 17))
+                    if !result.isEmpty {
+                        Text(result)
+                            .font(.custom("Baskerville", size: 15))
+                    }
+                } else {
+                    Text(currentLocation.detail)
+                        .font(.custom("Baskerville", size: 17))
+                }
             }
             .navigationTitle("Location")
             .navigationBarTitleDisplayMode(.inline)
@@ -879,10 +962,9 @@ private struct AltLocationSheet: View {
                 }
             }
         }
-        .onAppear {
-            if let coordinate = coordAltLocation?.coordinate {
-                result = "latitude: \(coordinate.latitude)\nlongitude: \(coordinate.longitude)"
-            }
+        .onAppear { currentLocation.refresh() }
+        .onChange(of: useAlternate) { _, alternate in
+            if !alternate { currentLocation.refresh() }
         }
     }
 
@@ -907,6 +989,65 @@ private struct AltLocationSheet: View {
             locationSpecific = true
             let coordinate = location.coordinate
             result = "Coordinates found! Press Done to see what is nearest.\n\nlatitude: \(coordinate.latitude)\nlongitude: \(coordinate.longitude)"
+        }
+    }
+}
+
+/// Looks up the device location and the city, state, and country for those coordinates.
+private final class CurrentLocationLookup: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var detail = "Looking up your location…"
+    private let manager = CLLocationManager()
+    private var didRequest = false
+
+    func refresh() {
+        let status = ad.locationManager.authorizationStatus
+        if status == .denied || status == .restricted {
+            detail = "Location access is turned off."
+            return
+        }
+        if let location = ad.locationManager.location {
+            show(location)
+            return
+        }
+        if let location = ad.coordinateOfUser,
+           status == .authorizedAlways || status == .authorizedWhenInUse {
+            show(location)
+            return
+        }
+        detail = "Looking up your location…"
+        guard !didRequest else { return }
+        didRequest = true
+        manager.delegate = self
+        manager.requestLocation()
+    }
+
+    private func show(_ location: CLLocation) {
+        let coordinate = location.coordinate
+        let coordinates = String(format: "Latitude: %.5f\nLongitude: %.5f", coordinate.latitude, coordinate.longitude)
+        detail = coordinates
+        CLGeocoder().reverseGeocodeLocation(location) { [weak self] placemarks, _ in
+            let mark = placemarks?.first
+            let place = [mark?.locality, mark?.administrativeArea, mark?.country]
+                .compactMap { $0 }
+                .filter { !$0.isEmpty }
+                .joined(separator: ", ")
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.detail = place.isEmpty ? coordinates : "\(coordinates)\n\(place)"
+            }
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        DispatchQueue.main.async { self.show(location) }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.async {
+            if self.detail == "Looking up your location…" {
+                self.detail = "Current location isn’t available."
+            }
         }
     }
 }

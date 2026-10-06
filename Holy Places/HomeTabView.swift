@@ -609,11 +609,16 @@ private struct SettingsScreenHost: UIViewControllerRepresentable {
         context.coordinator.model = model
         let host = UIHostingController(rootView: SettingsContainer(model: model))
         host.navigationItem.title = "Settings"
-        host.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
+        let done = UIBarButtonItem(
+            title: "Done",
+            style: .plain,
             target: context.coordinator,
             action: #selector(Coordinator.doneTapped)
         )
+        let font = UIFont(name: "Baskerville", size: 17) ?? .systemFont(ofSize: 17)
+        done.setTitleTextAttributes([.font: font], for: .normal)
+        done.setTitleTextAttributes([.font: font], for: .highlighted)
+        host.navigationItem.rightBarButtonItem = done
         let navigation = UINavigationController(rootViewController: host)
         navigation.navigationBar.prefersLargeTitles = false
         context.coordinator.navigationController = navigation

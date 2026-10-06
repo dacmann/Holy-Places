@@ -527,27 +527,13 @@ struct VisitsTabView: View {
 
     private var scopeBar: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 2) {
-                ForEach(visitScopes, id: \.self) { scope in
-                    Button {
-                        model.scope = scope
-                        model.applyFilters()
-                    } label: {
-                        Text(scope)
-                            .font(.custom("Baskerville", size: 16))
-                            .foregroundStyle(model.scope == scope ? Color.white : Color.primary)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 32)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(model.scope == scope ? Color("BaptismsBlueBtn") : Color.clear)
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(scopeAccessibility(scope))
-                }
+            ScopeChoiceButtons(
+                titles: visitScopes,
+                selection: visitScopes.firstIndex(of: model.scope) ?? 0,
+                accessibilityLabel: scopeAccessibility
+            ) { index in
+                model.scope = visitScopes[index]
+                model.applyFilters()
             }
             .padding(.horizontal, 12)
             .frame(height: 43)
@@ -1251,6 +1237,7 @@ private struct AddVisitPlacePicker: View {
         .navigationTitle("Add New Visit")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .hideTabBarWhenCompact()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel", action: onCancel)
@@ -1391,23 +1378,18 @@ private struct VisitOptionsSheet: View {
                             .font(.custom("Baskerville", size: 18))
                     }
                     .tint(Color("BaptismsBlue"))
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("Done")
-                            .font(.custom("Baskerville", size: 24))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 40)
-                            .background(Color(red: 0, green: 0.250980407, blue: 0.501960814))
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                    }
-                    .buttonStyle(.plain)
                 }
                 .padding(24)
             }
             .background(Color(uiColor: .tertiarySystemBackground))
+            .navigationTitle("Export / Import")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                        .font(.custom("Baskerville", size: 17))
+                }
+            }
             .background(VisitExportPresenter(share: controller.share))
             .fileImporter(isPresented: $showImporter, allowedContentTypes: [.xml], allowsMultipleSelection: false) { result in
                 switch result {

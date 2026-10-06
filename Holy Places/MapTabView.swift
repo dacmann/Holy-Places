@@ -868,34 +868,32 @@ private struct MapFiltersSheet: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Show On Map")
-                .font(.custom("Baskerville", size: 22))
-            MapFilterWheel(selection: $row)
-                .frame(maxWidth: 320)
-                .frame(height: 216)
-            BaskervilleSegments(
-                titles: ["All", "Visited", "Not Visited"],
-                selection: $visited,
-                tint: UIColor(named: "BaptismsBlue")
-            )
-            .frame(maxWidth: 280)
-            .frame(height: 32)
-            Button(action: finish) {
-                Text("Done")
-                    .font(.custom("Baskerville", size: 24))
-                    .foregroundStyle(.white)
-                    .frame(width: 300, height: 40)
-                    .background(
-                        Color(red: 0, green: 0.250980407, blue: 0.501960814),
-                        in: RoundedRectangle(cornerRadius: 6)
-                    )
+        NavigationStack {
+            VStack(spacing: 20) {
+                Text("Show On Map")
+                    .font(.custom("Baskerville", size: 22))
+                MapFilterWheel(selection: $row)
+                    .frame(maxWidth: 320)
+                    .frame(height: 216)
+                    .pickerBorder()
+                ScopeChoiceButtons(
+                    titles: ["All", "Visited", "Not Visited"],
+                    selection: visited
+                ) { visited = $0 }
+                .padding(.horizontal, 12)
             }
-            .buttonStyle(.plain)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(uiColor: .tertiarySystemBackground))
+            .navigationTitle("Filters")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done", action: finish)
+                        .font(.custom("Baskerville", size: 17))
+                }
+            }
+            .onDisappear(perform: applyIfNeeded)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .tertiarySystemBackground))
-        .onDisappear(perform: applyIfNeeded)
     }
 
     private func finish() {
@@ -1399,6 +1397,9 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     private var hasFinishedRegion = false
     private var finishedRegion = MKCoordinateRegion()
     private var finishedMapType: MKMapType = .standard
+    /// Apple's tiles have loaded for the current style. Later zooms often skip
+    /// `mapViewDidFinishLoadingMap` when the tiles are already cached.
+    private var didLoadBasemap = false
 
     var isShowingBasemapFallback: Bool { fallbackVisible }
 
@@ -1470,6 +1471,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         if mapView.mapType != type {
             mapView.mapType = type
             hasFinishedRegion = false
+            didLoadBasemap = false
             if fallbackVisible && pathUsable {
                 retryAppleBasemap()
             } else {
@@ -1985,6 +1987,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     }
 
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        didLoadBasemap = true
         hasFinishedRegion = true
         finishedRegion = mapView.region
         finishedMapType = mapView.mapType
@@ -2023,6 +2026,10 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     private func scheduleBasemapWatch() {
         loadWatchTimer?.invalidate()
         loadWatchTimer = nil
+        if pathUsable, didLoadBasemap {
+            hideFallback()
+            return
+        }
         if regionMatchesLoadedMap() {
             hideFallback()
             return
@@ -2038,7 +2045,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
         let generation = watchGeneration
         let timer = Timer(timeInterval: 2.5, repeats: false) { [weak self] _ in
             guard let self, self.watchGeneration == generation else { return }
-            guard !self.regionMatchesLoadedMap() else { return }
+            guard !self.didLoadBasemap, !self.regionMatchesLoadedMap() else { return }
             self.showFallback()
         }
         loadWatchTimer = timer

@@ -96,6 +96,7 @@ struct VisitDetailScreen: View {
         .background(Color(uiColor: .systemBackground))
         .navigationTitle("Visit Details")
         .navigationBarTitleDisplayMode(.inline)
+        .hideTabBarWhenCompact()
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Visit Details")

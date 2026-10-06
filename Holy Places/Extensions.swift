@@ -308,6 +308,372 @@ extension UIApplication {
     }
 }
 
+extension View {
+    /// Hides the bottom tab bar on iPhone once a place or visit detail is showing.
+    /// On iPad the list stays on screen, so the tab bar stays visible.
+    func hideTabBarWhenCompact() -> some View {
+        modifier(CompactTabBarHider())
+    }
+
+    /// Thin separator around a wheel picker, inset from the sheet edges.
+    func pickerBorder() -> some View {
+        padding(.horizontal, 20)
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(Color(uiColor: .separator), lineWidth: 1)
+                    .padding(.horizontal, 20)
+                    .allowsHitTesting(false)
+            }
+    }
+}
+
+/// All / Visited / Not Visited style choices, matching the Visits list:
+/// selected text is white on BaptismsBlueBtn, and the others stay plain.
+struct ScopeChoiceButtons: View {
+    let titles: [String]
+    var selection: Int
+    var accessibilityLabel: ((String) -> String)? = nil
+    var onSelect: (Int) -> Void
+
+    var body: some View {
+        HStack(spacing: 2) {
+            ForEach(titles.indices, id: \.self) { index in
+                let title = titles[index]
+                let selected = selection == index
+                Button {
+                    onSelect(index)
+                } label: {
+                    Text(title)
+                        .font(.custom("Baskerville", size: 16))
+                        .foregroundStyle(selected ? Color.white : Color.primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 32)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(selected ? Color("BaptismsBlueBtn") : Color.clear)
+                        )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(accessibilityLabel?(title) ?? title)
+            }
+        }
+    }
+}
+
+private struct CompactTabBarHider: ViewModifier {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    func body(content: Content) -> some View {
+        content
+            .toolbar(horizontalSizeClass == .compact ? .hidden : .automatic, for: .tabBar)
+            .background {
+                CompactTabBarBridge(hidden: horizontalSizeClass == .compact)
+            }
+    }
+}
+
+/// Posted before a navigation controller actually pops, so the tab bar can be
+/// shown before the back-button animation starts. A swipe already does this
+/// from the gesture; the back button does not.
+private enum HolyPlacesNavigationPop {
+    static let willPop = Notification.Name("hp.navigationWillPop")
+    private static var installed = false
+
+    static func install() {
+        guard !installed else { return }
+        installed = true
+        replace(#selector(UINavigationController.popViewController(animated:))) { original, selector in
+            let block: @convention(block) (UINavigationController, Bool) -> UIViewController? = { nav, animated in
+                NotificationCenter.default.post(name: willPop, object: nav)
+                let function = unsafeBitCast(original, to: (@convention(c) (AnyObject, Selector, Bool) -> UIViewController?).self)
+                return function(nav, selector, animated)
+            }
+            return imp_implementationWithBlock(block)
+        }
+        replace(#selector(UINavigationController.setViewControllers(_:animated:))) { original, selector in
+            let block: @convention(block) (UINavigationController, NSArray, Bool) -> Void = { nav, controllers, animated in
+                let next = controllers.compactMap { $0 as? UIViewController }
+                if animated, next.count < nav.viewControllers.count {
+                    NotificationCenter.default.post(name: willPop, object: nav, userInfo: ["remaining": next])
+                }
+                let function = unsafeBitCast(original, to: (@convention(c) (AnyObject, Selector, NSArray, Bool) -> Void).self)
+                function(nav, selector, controllers, animated)
+            }
+            return imp_implementationWithBlock(block)
+        }
+    }
+
+    private static func replace(_ selector: Selector, implementation: (IMP, Selector) -> IMP) {
+        guard let method = class_getInstanceMethod(UINavigationController.self, selector) else { return }
+        let original = method_getImplementation(method)
+        method_setImplementation(method, implementation(original, selector))
+    }
+}
+
+/// The Places and Visits screens own the tab bar, so a SwiftUI toolbar preference
+/// does not hide it. This bridge hides that bar only while the detail is on screen
+/// and shows it again as soon as the detail starts leaving.
+private struct CompactTabBarBridge: UIViewControllerRepresentable {
+    var hidden: Bool
+
+    func makeUIViewController(context: Context) -> BridgeController {
+        BridgeController()
+    }
+
+    func updateUIViewController(_ controller: BridgeController, context: Context) {
+        controller.wantsHidden = hidden
+        controller.apply()
+    }
+
+    static func dismantleUIViewController(_ controller: BridgeController, coordinator: ()) {
+        controller.leave()
+    }
+
+    final class BridgeController: UIViewController {
+        var wantsHidden = false
+        /// Set when this detail is going back to the list, so layout during the
+        /// slide does not hide the bar again.
+        private var leaving = false
+        private weak var tabs: UITabBarController?
+        private var isApplying = false
+        private weak var popGesture: UIGestureRecognizer?
+        private static let active = NSHashTable<BridgeController>.weakObjects()
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            view.isUserInteractionEnabled = false
+            view.backgroundColor = .clear
+            HolyPlacesNavigationPop.install()
+            Self.active.add(self)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(navigationWillPop(_:)),
+                name: HolyPlacesNavigationPop.willPop,
+                object: nil
+            )
+        }
+
+        deinit {
+            NotificationCenter.default.removeObserver(self)
+            Self.active.remove(self)
+        }
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            leaving = false
+            attachPopGesture()
+            apply()
+        }
+
+        override func viewDidAppear(_ animated: Bool) {
+            super.viewDidAppear(animated)
+            attachPopGesture()
+        }
+
+        override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            guard wantsHidden, isPoppingOrDismissing else { return }
+            beginLeaving()
+        }
+
+        override func viewDidDisappear(_ animated: Bool) {
+            super.viewDidDisappear(animated)
+            // A sheet over the detail also disappears this controller, but its view
+            // stays in the window. Only a real pop takes the view out of the window.
+            guard view.window == nil else { return }
+            leaving = true
+            reveal(animated: false)
+            DispatchQueue.main.async { [weak self] in
+                self?.reveal(animated: false)
+            }
+        }
+
+        override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+            apply()
+        }
+
+        func leave() {
+            wantsHidden = false
+            leaving = true
+            detachPopGesture()
+            reveal(animated: false)
+            // The pop animation can hide the bar again as it finishes.
+            DispatchQueue.main.async { [weak self] in
+                self?.reveal(animated: false)
+            }
+        }
+
+        func apply() {
+            guard !isApplying else { return }
+            isApplying = true
+            defer { isApplying = false }
+            guard let tabs = resolvedTabs() else { return }
+            let compact = tabs.traitCollection.horizontalSizeClass == .compact
+            let shouldHide = wantsHidden && isOnScreen && !leaving && compact
+            setTabBar(hidden: shouldHide, on: tabs)
+        }
+
+        private func reveal(animated: Bool) {
+            beginLeaving()
+            guard animated, let tabs = resolvedTabs() else { return }
+            let coordinator = transitionCoordinator ?? ancestorTransitionCoordinator()
+            coordinator?.animate(alongsideTransition: { _ in
+                self.setTabBar(hidden: false, on: tabs)
+            }, completion: { context in
+                // A cancelled swipe keeps the detail up; viewWillAppear hides the bar.
+                if !context.isCancelled {
+                    self.setTabBar(hidden: false, on: tabs)
+                }
+            })
+        }
+
+        /// Shows the bar before a pop animation starts and keeps later layouts from hiding it.
+        private func beginLeaving() {
+            leaving = true
+            guard let tabs = resolvedTabs() else { return }
+            UIView.performWithoutAnimation {
+                setTabBar(hidden: false, on: tabs)
+            }
+        }
+
+        @objc private func navigationWillPop(_ note: Notification) {
+            guard wantsHidden, let nav = note.object as? UINavigationController else { return }
+            let remaining = note.userInfo?["remaining"] as? [UIViewController] ?? Array(nav.viewControllers.dropLast())
+            let bridges = Self.active.allObjects.filter(\.wantsHidden)
+            let staying = bridges.filter { bridge in
+                remaining.contains { bridge.isContained(in: $0) }
+            }
+            // A place detail still on the stack should keep the bar hidden.
+            guard staying.isEmpty else { return }
+            let popping = bridges.contains { bridge in
+                bridge.isOnScreen && !remaining.contains { bridge.isContained(in: $0) }
+            }
+            guard popping else { return }
+            beginLeaving()
+        }
+
+        private func isContained(in controller: UIViewController?) -> Bool {
+            guard let controller, let root = viewIfLoaded else { return false }
+            return root.isDescendant(of: controller.view)
+        }
+
+        @objc private func popGestureChanged(_ gesture: UIGestureRecognizer) {
+            switch gesture.state {
+            case .began:
+                beginLeaving()
+            case .cancelled, .failed:
+                guard wantsHidden, isOnScreen else { return }
+                leaving = false
+                apply()
+            default:
+                break
+            }
+        }
+
+        private func attachPopGesture() {
+            guard let gesture = enclosingNavigationController()?.interactivePopGestureRecognizer else { return }
+            if popGesture !== gesture {
+                detachPopGesture()
+                gesture.addTarget(self, action: #selector(popGestureChanged))
+                popGesture = gesture
+            }
+        }
+
+        private func detachPopGesture() {
+            if let popGesture {
+                popGesture.removeTarget(self, action: #selector(popGestureChanged))
+            }
+            popGesture = nil
+        }
+
+        private func setTabBar(hidden: Bool, on tabs: UITabBarController) {
+            let alreadyHidden: Bool
+            if #available(iOS 18.0, *) {
+                alreadyHidden = tabs.isTabBarHidden
+            } else {
+                alreadyHidden = tabs.tabBar.isHidden
+            }
+            if alreadyHidden == hidden {
+                if hidden || tabs.tabBar.alpha > 0.99 { return }
+            }
+            if #available(iOS 18.0, *) {
+                tabs.setTabBarHidden(hidden, animated: false)
+                tabs.isTabBarHidden = hidden
+            } else {
+                tabs.tabBar.isHidden = hidden
+            }
+            if !hidden {
+                tabs.tabBar.alpha = 1
+            }
+        }
+
+        private var isPoppingOrDismissing: Bool {
+            var controller: UIViewController? = self
+            while let current = controller {
+                if current.isMovingFromParent || current.isBeingDismissed { return true }
+                controller = current.parent
+            }
+            return false
+        }
+
+        private var isOnScreen: Bool {
+            guard let window = view.window, view.bounds.width > 1, view.bounds.height > 1 else { return false }
+            let frame = view.convert(view.bounds, to: window)
+            return frame.intersects(window.bounds)
+        }
+
+        private func resolvedTabs() -> UITabBarController? {
+            if let found = nearestTabBarController() {
+                tabs = found
+            }
+            return tabs
+        }
+
+        private func ancestorTransitionCoordinator() -> UIViewControllerTransitionCoordinator? {
+            var controller: UIViewController? = self
+            while let current = controller {
+                if let coordinator = current.transitionCoordinator ?? current.navigationController?.transitionCoordinator {
+                    return coordinator
+                }
+                controller = current.parent
+            }
+            return nil
+        }
+
+        private func enclosingNavigationController() -> UINavigationController? {
+            var controller: UIViewController? = self
+            while let current = controller {
+                if let nav = current.navigationController { return nav }
+                controller = current.parent
+            }
+            var responder: UIResponder? = view
+            while let next = responder?.next {
+                if let nav = next as? UINavigationController { return nav }
+                responder = next
+            }
+            return nil
+        }
+
+        private func nearestTabBarController() -> UITabBarController? {
+            if let tabBarController { return tabBarController }
+            var responder: UIResponder? = self
+            while let next = responder?.next {
+                if let controller = next as? UIViewController, let tabs = controller.tabBarController {
+                    return tabs
+                }
+                if let tabs = next as? UITabBarController {
+                    return tabs
+                }
+                responder = next
+            }
+            return nil
+        }
+    }
+}
+
 extension UIViewController {
     /// Hide or show the tab bar, including the iPadOS 18+ tab bar at the top of the screen.
     func setAppTabBarHidden(_ hidden: Bool, animated: Bool = false) {

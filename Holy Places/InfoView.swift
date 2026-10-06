@@ -51,11 +51,9 @@ struct InfoView: View {
             .navigationTitle("Holy Places of the Lord")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: onDismiss) {
-                        Image(systemName: "checkmark")
-                            .fontWeight(.semibold)
-                    }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done", action: onDismiss)
+                        .font(.custom("Baskerville", size: 17))
                 }
             }
         }
