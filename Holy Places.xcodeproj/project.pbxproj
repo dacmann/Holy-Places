@@ -7,19 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9CE0B1012F28000100A1C101 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0012F28000100A1C001 /* AppRouter.swift */; };
-		9CE0B1022F28000100A1C102 /* AdaptiveSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0022F28000100A1C002 /* AdaptiveSplit.swift */; };
-		9CE0B1032F28000100A1C103 /* PlacesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0032F28000100A1C003 /* PlacesTabView.swift */; };
-		9CE0B1042F28000100A1C104 /* VisitsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0042F28000100A1C004 /* VisitsTabView.swift */; };
-		9CE0B1052F28000100A1C105 /* VisitDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0052F28000100A1C005 /* VisitDetailScreen.swift */; };
-		9CE0B1062F28000100A1C106 /* RecordVisitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */; };
-		9CE0B1072F28000100A1C107 /* PhotoViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */; };
-		9CE0B1082F28000100A1C108 /* MapTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0082F28000100A1C008 /* MapTabView.swift */; };
-		9CE0C2012F28000100A1C201 /* ne_110m_coastline.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */; };
-		9CE0B1092F28000100A1C109 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0092F28000100A1C009 /* HomeTabView.swift */; };
-		9CE0B10A2F28000100A1C10A /* AchievementsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */; };
-		9CE0B10B2F28000100A1C10B /* ProfilesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */; };
-		9CE0B10C2F28000100A1C10C /* HolyPlacesTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00C2F28000100A1C00C /* HolyPlacesTabBarController.swift */; };
 		642B345B1E27CDB700A56C77 /* HolyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 642B34591E27CDB700A56C77 /* HolyData.xcdatamodeld */; };
 		642B345D1E2818C200A56C77 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B345C1E2818C200A56C77 /* Extensions.swift */; };
 		643B59CE2139B99300C71A3B /* SummaryQuotes.xml in Resources */ = {isa = PBXBuildFile; fileRef = 643B59CD2139B99300C71A3B /* SummaryQuotes.xml */; };
@@ -61,6 +48,19 @@
 		9CD8155D2F2ABFCF00E2B911 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */; };
 		9CD8155F2F2ABFCF00E2B911 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */; };
 		9CD815702F2ABFD000E2B911 /* Holy Places WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9CD8155B2F2ABFCD00E2B911 /* Holy Places WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9CE0B1012F28000100A1C101 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0012F28000100A1C001 /* AppRouter.swift */; };
+		9CE0B1022F28000100A1C102 /* AdaptiveSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0022F28000100A1C002 /* AdaptiveSplit.swift */; };
+		9CE0B1032F28000100A1C103 /* PlacesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0032F28000100A1C003 /* PlacesTabView.swift */; };
+		9CE0B1042F28000100A1C104 /* VisitsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0042F28000100A1C004 /* VisitsTabView.swift */; };
+		9CE0B1052F28000100A1C105 /* VisitDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0052F28000100A1C005 /* VisitDetailScreen.swift */; };
+		9CE0B1062F28000100A1C106 /* RecordVisitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */; };
+		9CE0B1072F28000100A1C107 /* PhotoViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */; };
+		9CE0B1082F28000100A1C108 /* MapTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0082F28000100A1C008 /* MapTabView.swift */; };
+		9CE0B1092F28000100A1C109 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B0092F28000100A1C009 /* HomeTabView.swift */; };
+		9CE0B10A2F28000100A1C10A /* AchievementsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */; };
+		9CE0B10B2F28000100A1C10B /* ProfilesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */; };
+		9CE0B10C2F28000100A1C10C /* HolyPlacesTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0B00C2F28000100A1C00C /* HolyPlacesTabBarController.swift */; };
+		9CE0C2012F28000100A1C201 /* ne_110m_coastline.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */; };
 		9CE1A0112F27001000A1B011 /* VisitStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE1A0102F27001000A1B010 /* VisitStore.swift */; };
 		9CE1A0132F27001000A1B013 /* SiriEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE1A0122F27001000A1B012 /* SiriEntities.swift */; };
 		9CE1A0152F27001000A1B015 /* SiriIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE1A0142F27001000A1B014 /* SiriIntents.swift */; };
@@ -109,19 +109,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9CE0B0012F28000100A1C001 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
-		9CE0B0022F28000100A1C002 /* AdaptiveSplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSplit.swift; sourceTree = "<group>"; };
-		9CE0B0032F28000100A1C003 /* PlacesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTabView.swift; sourceTree = "<group>"; };
-		9CE0B0042F28000100A1C004 /* VisitsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsTabView.swift; sourceTree = "<group>"; };
-		9CE0B0052F28000100A1C005 /* VisitDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailScreen.swift; sourceTree = "<group>"; };
-		9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVisitForm.swift; sourceTree = "<group>"; };
-		9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerView.swift; sourceTree = "<group>"; };
-		9CE0B0082F28000100A1C008 /* MapTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabView.swift; sourceTree = "<group>"; };
-		9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ne_110m_coastline.geojson; sourceTree = "<group>"; };
-		9CE0B0092F28000100A1C009 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
-		9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsScreen.swift; sourceTree = "<group>"; };
-		9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesScreen.swift; sourceTree = "<group>"; };
-		9CE0B00C2F28000100A1C00C /* HolyPlacesTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyPlacesTabBarController.swift; sourceTree = "<group>"; };
 		642B345A1E27CDB700A56C77 /* HolyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolyData.xcdatamodel; sourceTree = "<group>"; };
 		642B345C1E2818C200A56C77 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		643B59CD2139B99300C71A3B /* SummaryQuotes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SummaryQuotes.xml; sourceTree = "<group>"; };
@@ -167,6 +154,19 @@
 		9CD8155C2F2ABFCE00E2B911 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9CD8155E2F2ABFCF00E2B911 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9CD815802F2AC56800E2B911 /* Holy Places WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holy Places WidgetsExtension.entitlements"; sourceTree = "<group>"; };
+		9CE0B0012F28000100A1C001 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		9CE0B0022F28000100A1C002 /* AdaptiveSplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSplit.swift; sourceTree = "<group>"; };
+		9CE0B0032F28000100A1C003 /* PlacesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTabView.swift; sourceTree = "<group>"; };
+		9CE0B0042F28000100A1C004 /* VisitsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsTabView.swift; sourceTree = "<group>"; };
+		9CE0B0052F28000100A1C005 /* VisitDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailScreen.swift; sourceTree = "<group>"; };
+		9CE0B0062F28000100A1C006 /* RecordVisitForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVisitForm.swift; sourceTree = "<group>"; };
+		9CE0B0072F28000100A1C007 /* PhotoViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerView.swift; sourceTree = "<group>"; };
+		9CE0B0082F28000100A1C008 /* MapTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabView.swift; sourceTree = "<group>"; };
+		9CE0B0092F28000100A1C009 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
+		9CE0B00A2F28000100A1C00A /* AchievementsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsScreen.swift; sourceTree = "<group>"; };
+		9CE0B00B2F28000100A1C00B /* ProfilesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesScreen.swift; sourceTree = "<group>"; };
+		9CE0B00C2F28000100A1C00C /* HolyPlacesTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolyPlacesTabBarController.swift; sourceTree = "<group>"; };
+		9CE0C1012F28000100A1C101 /* ne_110m_coastline.geojson */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ne_110m_coastline.geojson; sourceTree = "<group>"; };
 		9CE1A0102F27001000A1B010 /* VisitStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitStore.swift; sourceTree = "<group>"; };
 		9CE1A0122F27001000A1B012 /* SiriEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriEntities.swift; sourceTree = "<group>"; };
 		9CE1A0142F27001000A1B014 /* SiriIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriIntents.swift; sourceTree = "<group>"; };

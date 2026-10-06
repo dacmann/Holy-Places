@@ -9,13 +9,15 @@ import SwiftUI
 import UIKit
 
 final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDelegate {
+    private weak var departed: UIViewController?
+
     init() {
         super.init(nibName: nil, bundle: nil)
         let router = AppRouter.shared
         viewControllers = [
             homeController(),
-            host(PlacesTabView().environmentObject(router), title: "Places", image: "starOfMelchizedek"),
-            host(VisitsTabView().environmentObject(router), title: "Visits", image: "journal"),
+            splitHost(PlacesTabView().environmentObject(router), title: "Places", image: "starOfMelchizedek"),
+            splitHost(VisitsTabView().environmentObject(router), title: "Visits", image: "journal"),
             summaryController(),
             host(MapTabView(), title: "Map", image: "map")
         ]
@@ -34,8 +36,36 @@ final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDe
         guard let fromView = selectedViewController?.view, let toView = viewController.view, fromView != toView else {
             return true
         }
+        departed = selectedViewController
+        // The first iPad visit to Places or Visits opens behind a cover, so a crossfade would not be seen.
+        if UIDevice.current.userInterfaceIdiom == .pad,
+           let split = viewController as? SplitTabPreparing, !split.hasAppeared {
+            return true
+        }
         UIView.transition(from: fromView, to: toView, duration: 0.3, options: [.transitionCrossDissolve], completion: nil)
         return true
+    }
+
+    /// Leaves `controller` for the tab the user came from, then opens it again the way a tap does.
+    func reopen(_ controller: UIViewController, completion: @escaping () -> Void) {
+        var other = departed
+        if other === controller || other?.isViewLoaded != true {
+            other = viewControllers?.first { $0 !== controller && $0.isViewLoaded }
+        }
+        guard selectedViewController === controller, presentedViewController == nil, let other else {
+            completion()
+            return
+        }
+        UIView.performWithoutAnimation {
+            selectedViewController = other
+            view.layoutIfNeeded()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if self.tabBarController(self, shouldSelect: controller) {
+                self.selectedViewController = controller
+            }
+            completion()
+        }
     }
 
     private func homeController() -> UIViewController {
@@ -46,6 +76,12 @@ final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDe
 
     private func host<Content: View>(_ root: Content, title: String, image: String) -> UIViewController {
         let controller = UIHostingController(rootView: root)
+        controller.tabBarItem = UITabBarItem(title: title, image: UIImage(named: image), selectedImage: nil)
+        return controller
+    }
+
+    private func splitHost<Content: View>(_ root: Content, title: String, image: String) -> UIViewController {
+        let controller = SplitTabHostingController(rootView: root)
         controller.tabBarItem = UITabBarItem(title: title, image: UIImage(named: image), selectedImage: nil)
         return controller
     }
@@ -88,5 +124,78 @@ final class HomeHostingController: UIHostingController<HomeTabView> {
             || abs(additionalSafeAreaInsets.bottom - extra.bottom) > 0.5 {
             additionalSafeAreaInsets = extra
         }
+    }
+}
+
+protocol SplitTabPreparing: AnyObject {
+    var hasAppeared: Bool { get }
+}
+
+/// iPadOS gives Places and Visits a taller top safe area on their first appearance than on
+/// any later one, which pushes both columns down from the top tab bar. The first visit
+/// therefore leaves the tab and opens it again behind a snapshot of the screen the user came from.
+final class SplitTabHostingController<Content: View>: UIHostingController<Content>, SplitTabPreparing {
+    private(set) var hasAppeared = false
+    private var cover: UIView?
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !hasAppeared, UIDevice.current.userInterfaceIdiom == .pad {
+            coverScreen()
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard !hasAppeared else { return }
+        hasAppeared = true
+        guard UIDevice.current.userInterfaceIdiom == .pad,
+              let tabs = tabBarController as? HolyPlacesTabBarController else {
+            uncoverScreen()
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.reopenWhenClear(tabs)
+        }
+    }
+
+    /// Switching tabs under an alert or sheet could interrupt it, so the round trip waits for it to close.
+    private func reopenWhenClear(_ tabs: HolyPlacesTabBarController) {
+        guard tabs.selectedViewController === self else {
+            uncoverScreen()
+            return
+        }
+        guard tabs.presentedViewController == nil else {
+            uncoverScreen()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.reopenWhenClear(tabs)
+            }
+            return
+        }
+        coverScreen()
+        tabs.reopen(self) { [weak self] in
+            self?.uncoverScreen()
+        }
+    }
+
+    private func coverScreen() {
+        guard cover == nil, let window = tabBarController?.view.window,
+              let snapshot = window.snapshotView(afterScreenUpdates: false) else { return }
+        snapshot.frame = window.bounds
+        window.addSubview(snapshot)
+        cover = snapshot
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak snapshot] in
+            snapshot?.removeFromSuperview()
+        }
+    }
+
+    private func uncoverScreen() {
+        guard let cover else { return }
+        self.cover = nil
+        UIView.animate(withDuration: 0.15, animations: {
+            cover.alpha = 0
+        }, completion: { _ in
+            cover.removeFromSuperview()
+        })
     }
 }

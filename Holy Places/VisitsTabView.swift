@@ -483,6 +483,7 @@ struct VisitsTabView: View {
                             listedVisit(visit)
                                 .tag(VisitListSelection.visit(uri))
                                 .id(uri)
+                                .listRowBackground(Color(uiColor: selection == .visit(uri) ? .systemGray4 : .systemBackground))
                                 .onAppear { visibleVisitURIs.insert(uri) }
                                 .onDisappear { visibleVisitURIs.remove(uri) }
                                 .selectionDisabled(model.isSelectMode)
@@ -500,6 +501,8 @@ struct VisitsTabView: View {
                 proxy.scrollTo(uri, anchor: .center)
             }
             .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Color(uiColor: .systemBackground))
         }
         .environment(\.defaultMinListRowHeight, 50)
         .searchable(
@@ -522,6 +525,9 @@ struct VisitsTabView: View {
         }
         .navigationTitle(model.titleName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
+        .frame(maxWidth: .infinity)
         .toolbar { listToolbar }
     }
 

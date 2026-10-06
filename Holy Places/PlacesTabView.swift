@@ -391,6 +391,8 @@ struct PlacesTabView: View {
                 proxy.scrollTo(id, anchor: .center)
             }
             .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Color(uiColor: .systemBackground))
             .environment(\.defaultMinListHeaderHeight, 0)
             .contentMargins(.top, 0, for: .scrollContent)
         }
@@ -419,6 +421,9 @@ struct PlacesTabView: View {
         }
         .navigationTitle(model.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
+        .frame(maxWidth: .infinity)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack(spacing: 0) {
@@ -518,6 +523,7 @@ struct PlacesTabView: View {
             placeRow(place)
                 .tag(place.listID)
                 .id(place.listID)
+                .listRowBackground(Color(uiColor: selectedID == place.listID ? .systemGray4 : .systemBackground))
                 .onAppear { visiblePlaceIDs.insert(place.listID) }
                 .onDisappear { visiblePlaceIDs.remove(place.listID) }
         }
