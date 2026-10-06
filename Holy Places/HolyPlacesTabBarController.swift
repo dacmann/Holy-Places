@@ -10,6 +10,8 @@ import UIKit
 
 final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDelegate {
     private weak var departed: UIViewController?
+    /// True while Places or Visits is opened out of sight ahead of its first visit.
+    private(set) var isPreparingFirstVisit = false
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -33,17 +35,40 @@ final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDe
     }
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        prepareFirstVisit(to: viewController)
         guard let fromView = selectedViewController?.view, let toView = viewController.view, fromView != toView else {
             return true
         }
         departed = selectedViewController
-        // The first iPad visit to Places or Visits opens behind a cover, so a crossfade would not be seen.
-        if UIDevice.current.userInterfaceIdiom == .pad,
-           let split = viewController as? SplitTabPreparing, !split.hasAppeared {
-            return true
-        }
         UIView.transition(from: fromView, to: toView, duration: 0.3, options: [.transitionCrossDissolve], completion: nil)
         return true
+    }
+
+    /// Switches tabs from code, preparing Places or Visits the same way a tap does.
+    func show(tabAt index: Int) {
+        if let controllers = viewControllers, controllers.indices.contains(index) {
+            prepareFirstVisit(to: controllers[index])
+        }
+        selectedIndex = index
+    }
+
+    /// iPadOS gives Places and Visits a taller top safe area on their first appearance than on
+    /// any later one. Opening the tab and returning to the current one before the screen redraws
+    /// makes the visit the user sees the tab's second appearance.
+    private func prepareFirstVisit(to controller: UIViewController) {
+        guard UIDevice.current.userInterfaceIdiom == .pad, !isPreparingFirstVisit,
+              let tab = controller as? FirstVisitPreparing, !tab.isPrepared,
+              let current = selectedViewController, current !== controller else { return }
+        tab.isPrepared = true
+        isPreparingFirstVisit = true
+        UIView.performWithoutAnimation {
+            selectedViewController = controller
+            view.layoutIfNeeded()
+            controller.view.layoutIfNeeded()
+            selectedViewController = current
+            view.layoutIfNeeded()
+        }
+        isPreparingFirstVisit = false
     }
 
     /// Leaves `controller` for the tab the user came from, then opens it again the way a tap does.
@@ -127,36 +152,41 @@ final class HomeHostingController: UIHostingController<HomeTabView> {
     }
 }
 
-protocol SplitTabPreparing: AnyObject {
-    var hasAppeared: Bool { get }
+protocol FirstVisitPreparing: AnyObject {
+    var isPrepared: Bool { get set }
 }
 
-/// iPadOS gives Places and Visits a taller top safe area on their first appearance than on
-/// any later one, which pushes both columns down from the top tab bar. The first visit
-/// therefore leaves the tab and opens it again behind a snapshot of the screen the user came from.
-final class SplitTabHostingController<Content: View>: UIHostingController<Content>, SplitTabPreparing {
-    private(set) var hasAppeared = false
+/// Hosts Places or Visits. If an appearance still has the taller top inset of a first
+/// appearance, which pushes both columns down from the top tab bar, the tab leaves and
+/// opens again behind a snapshot of the screen the user came from.
+final class SplitTabHostingController<Content: View>: UIHostingController<Content>, FirstVisitPreparing {
+    var isPrepared = false
+    private var didReopen = false
     private var cover: UIView?
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if !hasAppeared, UIDevice.current.userInterfaceIdiom == .pad {
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        if needsReopen {
             coverScreen()
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard !hasAppeared else { return }
-        hasAppeared = true
-        guard UIDevice.current.userInterfaceIdiom == .pad,
-              let tabs = tabBarController as? HolyPlacesTabBarController else {
-            uncoverScreen()
-            return
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+        guard !didReopen, cover != nil || needsReopen,
+              let tabs = tabBarController as? HolyPlacesTabBarController else { return }
+        didReopen = true
+        coverScreen()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
             self?.reopenWhenClear(tabs)
         }
+    }
+
+    private var needsReopen: Bool {
+        guard !didReopen, UIDevice.current.userInterfaceIdiom == .pad,
+              let tabs = tabBarController as? HolyPlacesTabBarController, !tabs.isPreparingFirstVisit,
+              let window = view.window else { return false }
+        return view.safeAreaInsets.top - window.safeAreaInsets.top > 20
     }
 
     /// Switching tabs under an alert or sheet could interrupt it, so the round trip waits for it to close.

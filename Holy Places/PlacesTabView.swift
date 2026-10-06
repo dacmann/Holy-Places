@@ -287,6 +287,7 @@ final class PlacesListModel: ObservableObject {
 
 struct PlacesTabView: View {
     @EnvironmentObject private var router: AppRouter
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @StateObject private var model = PlacesListModel()
     @StateObject private var detailModel = PlaceDetailModel()
     @State private var selectedID: String?
@@ -352,6 +353,8 @@ struct PlacesTabView: View {
                 select(id, force: true)
             } else if let name = route.placeName, let place = model.place(named: name) {
                 select(place.listID, force: true)
+            } else if route.search != nil || route.nearest {
+                selectFirstPlace(replacingSelection: true)
             }
             router.placesRoute = nil
         }
@@ -365,6 +368,7 @@ struct PlacesTabView: View {
                 optionsChanged = false
                 themeChanged = false
             }
+            selectFirstPlace()
         }
     }
 
@@ -580,6 +584,15 @@ struct PlacesTabView: View {
         case "V": return visitorCenterColor
         default: return defaultColor
         }
+    }
+
+    /// Only on iPad with both columns showing. In a collapsed split, a selection would open
+    /// the detail over the list.
+    private func selectFirstPlace(replacingSelection: Bool = false) {
+        guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
+              replacingSelection || selectedID == nil, recordModel == nil,
+              let first = model.displayedPlaces.first else { return }
+        select(first.listID, force: false)
     }
 
     private func select(_ id: String?, force: Bool) {

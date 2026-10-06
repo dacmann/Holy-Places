@@ -43,13 +43,13 @@ func stablePlaceID(_ temple: Temple) -> String {
 final class AppRouter: ObservableObject {
     static let shared = AppRouter()
 
-    weak var tabBar: UITabBarController?
+    weak var tabBar: HolyPlacesTabBarController?
 
     @Published var placesRoute: PlacesRoute?
     @Published var visitsRoute: VisitsRoute?
 
     func select(_ tab: AppTab) {
-        tabBar?.selectedIndex = tab.rawValue
+        tabBar?.show(tabAt: tab.rawValue)
     }
 
     func openPlace(id: String) {

@@ -356,6 +356,7 @@ final class VisitsListModel: NSObject, ObservableObject, NSFetchedResultsControl
 
 struct VisitsTabView: View {
     @EnvironmentObject var router: AppRouter
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @StateObject private var model = VisitsListModel()
 
     @State private var selection: VisitListSelection?
@@ -466,6 +467,7 @@ struct VisitsTabView: View {
             requestReviewIfNeeded()
             storeParsedPlacesIfNeeded()
             consumeRoute()
+            selectFirstVisit()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("OpenVisitFromWidget"))) { note in
             guard let uri = note.object as? String else { return }
@@ -1008,7 +1010,18 @@ struct VisitsTabView: View {
             request(.add)
         } else if route.quickAdd {
             beginQuickAdd()
+        } else if route.search != nil {
+            selectFirstVisit(replacingSelection: true)
         }
+    }
+
+    /// Only on iPad with both columns showing. In a collapsed split, a selection would open
+    /// the detail over the list.
+    private func selectFirstVisit(replacingSelection: Bool = false) {
+        guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
+              replacingSelection || selection == nil, recordModel == nil, !showPlacePicker, !model.isSelectMode,
+              let first = model.visibleVisits().first else { return }
+        request(.selection(.visit(first.objectID.uriRepresentation().absoluteString)))
     }
 
     private func beginQuickAdd() {
@@ -1037,7 +1050,7 @@ struct VisitsTabView: View {
     }
 
     private func offerChangesIfNeeded() {
-        guard !changesDate.isEmpty else { return }
+        guard !changesDate.isEmpty, !changesNoticePending else { return }
         var changesMsg = changesMsg1
         if changesMsg2 != "" {
             changesMsg.append("\n\n")
@@ -1048,6 +1061,14 @@ struct VisitsTabView: View {
             changesMsg.append(changesMsg3)
         }
         enqueue(.changes(changesDate + " Update", changesMsg))
+    }
+
+    private var changesNoticePending: Bool {
+        if noticeShown, case .changes? = notice { return true }
+        return noticeQueue.contains { queued in
+            if case .changes = queued { return true }
+            return false
+        }
     }
 
     private func requestReviewIfNeeded() {
