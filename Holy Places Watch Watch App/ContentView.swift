@@ -8,6 +8,7 @@ import UserNotifications
 private enum WatchStorageKeys {
     static let sessionStartTime = "HolyPlacesWatch_sessionStartTime"
     static let sessionDurationSeconds = "HolyPlacesWatch_sessionDurationSeconds"
+    static let pausedRemainingSeconds = "HolyPlacesWatch_pausedRemainingSeconds"
 }
 
 struct ContentView: View {
@@ -16,16 +17,19 @@ struct ContentView: View {
     @FocusState private var timerFocused: Bool
     @State private var showIntro = false
     @State private var dontShowAgain = false
-    @State private var showSwipeHint = true
-    @State private var countdown: Int = 600 // display value, derived from Date-based model
+    @State private var countdown: Int = {
+        let minutes = UserDefaults.standard.integer(forKey: "selectedMinutes")
+        return (minutes == 0 ? 10 : minutes) * 60
+    }()
     @State private var timer: Timer?
     @State private var isTapping = false
+    @State private var isRunning = false
     @State private var hapticTimer: Timer?
     private let selectedMinutesKey = "selectedMinutes"
     @State private var selectedMinutes = UserDefaults.standard.integer(forKey: "selectedMinutes") == 0
         ? 10 : UserDefaults.standard.integer(forKey: "selectedMinutes")
 
-    @State private var showPicker = false
+    @State private var showPicker = true
     @State private var backgroundIndex = UserDefaults.standard.integer(forKey: "backgroundIndex")
     let backgrounds = ["celestial", "tree_of_life_garden", "mountain_of_the_lord"]
     @State private var countdownFontSize: CGFloat = 16
@@ -39,59 +43,9 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 8) {
-                // Fixed height container to avoid layout thrashing
-                ZStack {
-                    if showPicker {
-                        HStack(spacing: 20) {
-                            Button(action: {
-                                adjustMinutes(-1)
-                            }) {
-                                Image(systemName: "minus.circle")
-                                    .font(.caption2)
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.5).onEnded { _ in
-                                    adjustMinutes(-5)
-                                }
-                            )
+                timerControls
+                    .padding(.top, showPicker ? 8 : 28)
 
-                            Text("\(selectedMinutes) min")
-                                .font(.caption2)
-                                .foregroundColor(.white)
-
-                            Button(action: {
-                                adjustMinutes(1)
-                            }) {
-                                Image(systemName: "plus.circle")
-                                    .font(.caption2)
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.5).onEnded { _ in
-                                    adjustMinutes(5)
-                                }
-                            )
-
-                        }
-                        .padding()
-                        .padding(.top, 40)
-                        .background(Color.black.opacity(0.5))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    } else if showSwipeHint {
-                        Text("Swipe down to adjust timer\nSwipe left/right to change image")
-                            .font(.caption2)
-                            .foregroundColor(.white.opacity(0.4))
-                            .padding(.top, 44)
-                            .frame(maxWidth: .infinity)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(nil)
-                            .multilineTextAlignment(.center)
-                            .transition(.opacity)
-                    }
-                }
-                .frame(height: 60)
-                
                 Spacer()
                 
                 Text(timerText())
@@ -115,7 +69,9 @@ struct ContentView: View {
             }
             .padding()
         }
-        
+        .background {
+            doubleTapResetButton
+        }
         .onAppear {
             performInitialSetup()
             RuntimeManager.shared.start()
@@ -168,6 +124,88 @@ struct ContentView: View {
         )
 
     }
+
+    private var timerControls: some View {
+        Group {
+            if showPicker {
+                VStack(spacing: 4) {
+                    HStack(spacing: 16) {
+                        Button(action: {
+                            adjustMinutes(-1)
+                        }) {
+                            Image(systemName: "minus.circle")
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                                adjustMinutes(-5)
+                            }
+                        )
+
+                        Text("\(selectedMinutes) min")
+                            .font(.caption2)
+                            .foregroundColor(.white)
+
+                        Button(action: {
+                            adjustMinutes(1)
+                        }) {
+                            Image(systemName: "plus.circle")
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                                adjustMinutes(5)
+                            }
+                        )
+                    }
+
+                    HStack(spacing: 6) {
+                        Image(systemName: "chevron.up.chevron.down")
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.55))
+                            .accessibilityLabel("Swipe up or down to show or hide timer controls")
+
+                        Button(isRunning ? "Stop" : "Start") {
+                            toggleStartStop()
+                        }
+                        .font(.caption2)
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .tint(.white)
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .background(Color.black.opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else {
+                Image(systemName: "chevron.down")
+                    .font(.caption2)
+                    .foregroundColor(.white.opacity(0.45))
+                    .accessibilityLabel("Swipe down to show timer controls")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var doubleTapResetButton: some View {
+        if #available(watchOS 11.0, *) {
+            Button {
+                if isTapping {
+                    resetCountdown()
+                }
+            } label: {
+                Color.clear
+                    .frame(width: 1, height: 1)
+            }
+            .buttonStyle(.plain)
+            .handGestureShortcut(.primaryAction, isEnabled: isTapping)
+            .accessibilityLabel("Reset timer")
+            .accessibilityHidden(!isTapping)
+        }
+    }
     
     func performInitialSetup() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
@@ -182,11 +220,6 @@ struct ContentView: View {
         if !UserDefaults.standard.bool(forKey: "hasSeenIntro") {
             showIntro = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            withAnimation {
-                showSwipeHint = false
-            }
-        }
     }
 
     func adjustMinutes(_ delta: Int) {
@@ -195,7 +228,13 @@ struct ContentView: View {
             selectedMinutes = newValue
             WKInterfaceDevice.current().play(.click)
             UserDefaults.standard.set(selectedMinutes, forKey: selectedMinutesKey)
-            resetCountdown()
+            if isRunning {
+                resetCountdown()
+            } else {
+                clearPausedRemaining()
+                clearRunningSession()
+                countdown = selectedMinutes * 60
+            }
         }
     }
     
@@ -219,29 +258,77 @@ struct ContentView: View {
             let remaining = max(0, storedDuration - elapsed)
             if remaining > 0 {
                 stopTimers()
+                clearPausedRemaining()
                 countdown = remaining
+                isRunning = true
                 startDisplayTimer()
                 return
             }
             // Session expired - enter tapping state (haptics until user taps), don't reset
             stopTimers()
+            clearPausedRemaining()
             countdown = 0
             startTapping()
             return
         }
-        startCountdown()
+
+        stopTimers()
+        isRunning = false
+        let paused = defaults.integer(forKey: WatchStorageKeys.pausedRemainingSeconds)
+        countdown = paused > 0 ? paused : selectedMinutes * 60
     }
 
-    func startCountdown() {
+    func toggleStartStop() {
+        if isRunning {
+            pauseCountdown()
+        } else {
+            let paused = UserDefaults.standard.integer(forKey: WatchStorageKeys.pausedRemainingSeconds)
+            let duration = paused > 0 ? paused : selectedMinutes * 60
+            startCountdown(duration: duration)
+        }
+        timerFocused = true
+        DispatchQueue.main.async {
+            timerFocused = true
+        }
+    }
+
+    func startCountdown(duration: Int) {
+        clearPausedRemaining()
         WKInterfaceDevice.current().play(.start)
         stopTimers()
         stopTapping()
-        let duration = selectedMinutes * 60
         let startTime = Date()
         UserDefaults.standard.set(startTime.timeIntervalSince1970, forKey: WatchStorageKeys.sessionStartTime)
         UserDefaults.standard.set(duration, forKey: WatchStorageKeys.sessionDurationSeconds)
         countdown = duration
+        isRunning = true
         startDisplayTimer()
+    }
+
+    func pauseCountdown() {
+        let expired = isTapping || countdown <= 0
+        let remaining = expired ? 0 : currentRemaining()
+        stopTimers()
+        stopTapping()
+        clearRunningSession()
+        isRunning = false
+        if expired || remaining <= 0 {
+            clearPausedRemaining()
+            countdown = selectedMinutes * 60
+        } else {
+            countdown = remaining
+            UserDefaults.standard.set(remaining, forKey: WatchStorageKeys.pausedRemainingSeconds)
+        }
+    }
+
+    func currentRemaining() -> Int {
+        let defaults = UserDefaults.standard
+        let storedStart = defaults.double(forKey: WatchStorageKeys.sessionStartTime)
+        let storedDuration = defaults.integer(forKey: WatchStorageKeys.sessionDurationSeconds)
+        guard storedStart > 0, storedDuration > 0 else { return countdown }
+        let startTime = Date(timeIntervalSince1970: storedStart)
+        let elapsed = Int(Date().timeIntervalSince(startTime))
+        return max(0, storedDuration - elapsed)
     }
 
     func startDisplayTimer() {
@@ -263,14 +350,24 @@ struct ContentView: View {
     }
 
     func resetCountdown() {
+        clearPausedRemaining()
+        clearRunningSession()
+        stopTapping()
+        startCountdown(duration: selectedMinutes * 60)
+    }
+
+    func clearRunningSession() {
         UserDefaults.standard.removeObject(forKey: WatchStorageKeys.sessionStartTime)
         UserDefaults.standard.removeObject(forKey: WatchStorageKeys.sessionDurationSeconds)
-        stopTapping()
-        startCountdown()
+    }
+
+    func clearPausedRemaining() {
+        UserDefaults.standard.removeObject(forKey: WatchStorageKeys.pausedRemainingSeconds)
     }
     
     func startTapping() {
         isTapping = true
+        isRunning = true
         timer?.invalidate()
         timer = nil
         hapticTimer?.invalidate()
@@ -319,7 +416,7 @@ private struct InnerIntroViewContent: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
 
-            Text("Gently reminds you to stay alert while serving in the temple. Swipe down to change the interval, swipe sideways to change the background, turn the Digital Crown to adjust the timer font, and tap the screen to reset the expired timer.")
+            Text("Gently reminds you to stay alert while serving in the temple. Swipe down for the duration and Start/Stop controls, swipe sideways to change the background, and turn the Digital Crown to adjust the timer font. Double Tap to reset an expired timer. On watches that cannot Double Tap, tap the screen instead.")
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal)
