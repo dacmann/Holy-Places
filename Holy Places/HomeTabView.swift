@@ -493,17 +493,17 @@ private struct WhatsNewPopup: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text("What's New in Version \(version)")
-                    .font(.custom("Baskerville-Bold", size: 20))
+                    .font(.title3.weight(.semibold))
                     .foregroundStyle(Color(uiColor: .label))
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                 Text(message)
-                    .font(.custom("Baskerville", size: 16))
+                    .font(.body)
                     .foregroundStyle(Color(uiColor: .label))
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Button("OK", action: dismiss)
-                    .font(.custom("Baskerville", size: 18))
+                    .font(.body)
                     .foregroundStyle(Color("BaptismsBlue"))
                     .frame(maxWidth: .infinity)
             }

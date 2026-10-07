@@ -240,16 +240,21 @@ struct UpdateNotesSheet: View {
         NavigationStack {
             ScrollView {
                 Text(notes.message)
-                    .font(.custom("Baskerville", size: 16))
+                    .font(.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
             }
-            .navigationTitle(notes.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(notes.title)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.center)
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done", action: onDismiss)
-                        .font(.custom("Baskerville", size: 17))
+                        .font(.body)
                 }
             }
         }

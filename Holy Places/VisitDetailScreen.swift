@@ -27,73 +27,71 @@ struct VisitDetailScreen: View {
         GeometryReader { geo in
             let photoMax = geo.size.height * (isRegularWidth ? 0.65 : 0.50)
             let commentText = visit.comments ?? ""
-            ZStack(alignment: .topTrailing) {
-                VStack(spacing: 10) {
-                    Text(visit.holyPlace ?? "")
-                        .font(.custom("Baskerville", size: nameSize))
-                        .foregroundStyle(Color(uiColor: nameColor))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .frame(maxWidth: .infinity)
-                        .padding(.trailing, visit.isFavorite ? 44 : 0)
+            VStack(spacing: 10) {
+                Text(visit.holyPlace ?? "")
+                    .font(.custom("Baskerville", size: nameSize))
+                    .foregroundStyle(Color(uiColor: nameColor))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .frame(maxWidth: .infinity)
 
-                    Text(dateText)
-                        .font(.custom("Baskerville", size: dateSize))
-                        .foregroundStyle(Color(uiColor: .label))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                        .frame(maxWidth: .infinity)
-
-                    Rectangle()
-                        .fill(Color(white: 0.33))
-                        .frame(height: 1)
-                        .padding(.horizontal, -1)
-
-                    if !ordinanceItems.isEmpty {
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
-                            ForEach(ordinanceItems) { item in
-                                Text(item.text)
-                                    .font(.custom("Baskerville", size: ordinanceSize))
-                                    .foregroundStyle(Color(uiColor: item.color))
-                                    .multilineTextAlignment(.center)
-                                    .frame(maxWidth: .infinity)
-                            }
+                Text(dateText)
+                    .font(.custom("Baskerville", size: dateSize))
+                    .foregroundStyle(Color(uiColor: .label))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, visit.isFavorite ? 44 : 0)
+                    .overlay(alignment: .trailing) {
+                        if visit.isFavorite {
+                            Image(systemName: "star.fill")
+                                .font(.system(size: 22))
+                                .foregroundStyle(Color(uiColor: .darkTangerine()))
+                                .frame(width: 40, height: 40)
+                                .accessibilityLabel("Favorite")
                         }
                     }
 
-                    ScrollView {
-                        Text(commentText)
-                            .font(.custom("Baskerville", size: 18))
-                            .foregroundStyle(Color(uiColor: .label))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .textSelection(.enabled)
-                    }
-                    .frame(maxHeight: .infinity)
+                Rectangle()
+                    .fill(Color(white: 0.33))
+                    .frame(height: 1)
+                    .padding(.horizontal, -1)
 
-                    if let image = displayImage {
-                        visitPhoto(image, height: photoMax)
+                if !ordinanceItems.isEmpty {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
+                        ForEach(ordinanceItems) { item in
+                            Text(item.text)
+                                .font(.custom("Baskerville", size: ordinanceSize))
+                                .foregroundStyle(Color(uiColor: item.color))
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity)
+                        }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
 
-                if visit.isFavorite {
-                    Image(systemName: "star.fill")
-                        .font(.system(size: 22))
-                        .foregroundStyle(Color(uiColor: .darkTangerine()))
-                        .frame(width: 40, height: 40)
-                        .padding(.top, 4)
-                        .padding(.trailing, 10)
-                        .accessibilityLabel("Favorite")
+                ScrollView {
+                    Text(commentText)
+                        .font(.custom("Baskerville", size: 18))
+                        .foregroundStyle(Color(uiColor: .label))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .textSelection(.enabled)
+                }
+                .frame(maxHeight: .infinity)
+
+                if let image = displayImage {
+                    visitPhoto(image, height: photoMax)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
             .contentShape(Rectangle())
             .simultaneousGesture(swipeGesture)
         }
         .background(Color(uiColor: .systemBackground))
+        .ignoresSafeArea(.keyboard)
         .navigationTitle("Visit Details")
         .navigationBarTitleDisplayMode(.inline)
         .hideTabBarWhenCompact()

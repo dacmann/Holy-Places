@@ -504,7 +504,7 @@ struct VisitsTabView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            .background(Color(uiColor: .systemBackground))
+            .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [.horizontal, .bottom])
         }
         .environment(\.defaultMinListRowHeight, 50)
         .searchable(
@@ -513,6 +513,13 @@ struct VisitsTabView: View {
             prompt: Text("Search")
         )
         .background(HolyPlacesSearchFontFix())
+        .background {
+            CenteredColumnTitle(
+                title: "\(model.titleName) (\(model.displayedCount))",
+                subtitle: model.sortSubtitle,
+                titleColor: model.titleUIColor
+            )
+        }
         .overlay {
             if model.showEmptyState {
                 Text(emptyVisitsMessage)
@@ -525,8 +532,9 @@ struct VisitsTabView: View {
         .safeAreaInset(edge: .top, spacing: 0) {
             scopeBar
         }
-        .navigationTitle(model.titleName)
+        .navigationTitle(UIDevice.current.userInterfaceIdiom == .pad ? "" : model.titleName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarRole(.navigationStack)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
         .frame(maxWidth: .infinity)
@@ -547,23 +555,28 @@ struct VisitsTabView: View {
             .frame(height: 43)
             Divider()
         }
-        .background(Color(uiColor: .systemBackground))
+        .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [])
     }
 
     @ToolbarContentBuilder
     private var listToolbar: some ToolbarContent {
-        ToolbarItem(placement: .principal) {
-            VStack(spacing: 0) {
-                Text("\(model.titleName) (\(model.displayedCount))")
-                    .font(.custom("Baskerville", size: 19))
-                    .foregroundStyle(Color(uiColor: model.titleUIColor))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                Text(model.sortSubtitle)
-                    .font(.custom("Baskerville", size: 15))
-                    .foregroundStyle(Color.gray)
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 0) {
+                    Text("\(model.titleName) (\(model.displayedCount))")
+                        .font(.custom("Baskerville", size: 19))
+                        .foregroundStyle(Color(uiColor: model.titleUIColor))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                    Text(model.sortSubtitle)
+                        .font(.custom("Baskerville", size: 15))
+                        .foregroundStyle(Color.gray)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+                .multilineTextAlignment(.center)
+                .accessibilityElement(children: .combine)
             }
-            .accessibilityElement(children: .combine)
         }
         if model.isSelectMode {
             ToolbarItem(placement: .topBarLeading) {

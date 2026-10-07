@@ -297,6 +297,9 @@ struct PlacesTabView: View {
     @State private var showDiscard = false
     @State private var showOptions = false
     @State private var showAltLocation = false
+    /// Set when Nearest is chosen or the location changes, so the next location
+    /// refresh can select the place that ends up first.
+    @State private var nearestSelectionDeadline: Date?
     @State private var photo: IdentifiedImage?
     @State private var safariURL: URL?
     @State private var showNavigation = false
@@ -318,12 +321,21 @@ struct PlacesTabView: View {
         }
         .sheet(isPresented: $showOptions) {
             PlaceOptionsSheet { filter, sort in
+                let changed = filter != placeFilterRow || sort != placeSortRow
                 model.applyOptions(filter: filter, sort: sort)
+                if changed {
+                    selectFirstPlace(replacingSelection: true)
+                    if sort == 1 {
+                        nearestSelectionDeadline = Date().addingTimeInterval(3)
+                    }
+                }
             }
         }
         .sheet(isPresented: $showAltLocation) {
             AltLocationSheet {
                 model.reload()
+                selectFirstPlace(replacingSelection: true)
+                nearestSelectionDeadline = Date().addingTimeInterval(3)
             }
         }
         .sheet(item: $safariURL) { url in
@@ -359,7 +371,12 @@ struct PlacesTabView: View {
             router.placesRoute = nil
         }
         .onReceive(NotificationCenter.default.publisher(for: .reload)) { _ in
-            if model.nearestEnabled { model.reload() }
+            guard model.nearestEnabled else { return }
+            model.reload()
+            if let deadline = nearestSelectionDeadline, Date() < deadline {
+                nearestSelectionDeadline = nil
+                selectFirstPlace(replacingSelection: true)
+            }
         }
         .onAppear {
             applyHolyPlacesSearchFont()
@@ -396,7 +413,7 @@ struct PlacesTabView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            .background(Color(uiColor: .systemBackground))
+            .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [.horizontal, .bottom])
             .environment(\.defaultMinListHeaderHeight, 0)
             .contentMargins(.top, 0, for: .scrollContent)
         }
@@ -407,6 +424,13 @@ struct PlacesTabView: View {
             prompt: Text("Search")
         )
         .background(HolyPlacesSearchFontFix())
+        .background {
+            CenteredColumnTitle(
+                title: model.title,
+                subtitle: model.subtitle,
+                titleColor: UIColor(model.titleColor)
+            )
+        }
         .onChange(of: model.searchText) { _, _ in model.reload() }
         .safeAreaInset(edge: .top, spacing: 0) {
             VStack(spacing: 0) {
@@ -420,23 +444,31 @@ struct PlacesTabView: View {
                 .frame(height: 43)
                 Divider()
             }
-            .background(Color(uiColor: .systemBackground))
+            .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [])
             .onChange(of: model.scope) { _, _ in model.reload() }
         }
-        .navigationTitle(model.title)
+        .navigationTitle(UIDevice.current.userInterfaceIdiom == .pad ? "" : model.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarRole(.navigationStack)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
         .frame(maxWidth: .infinity)
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                VStack(spacing: 0) {
-                    Text(model.title)
-                        .font(.custom("Baskerville", size: 19))
-                        .foregroundStyle(model.titleColor)
-                    Text(model.subtitle)
-                        .font(.custom("Baskerville", size: 15))
-                        .foregroundStyle(.gray)
+            if UIDevice.current.userInterfaceIdiom != .pad {
+                ToolbarItem(placement: .principal) {
+                    VStack(spacing: 0) {
+                        Text(model.title)
+                            .font(.custom("Baskerville", size: 19))
+                            .foregroundStyle(model.titleColor)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                        Text(model.subtitle)
+                            .font(.custom("Baskerville", size: 15))
+                            .foregroundStyle(.gray)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
+                    .multilineTextAlignment(.center)
                 }
             }
             ToolbarItem(placement: .topBarLeading) {
@@ -474,7 +506,13 @@ struct PlacesTabView: View {
             })
         } else if selectedID != nil {
             PlaceDetailView(model: detailModel, actions: detailActions)
+                .navigationTitle("Place Details")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Place Details")
+                            .font(.custom("Baskerville", size: 20))
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Map") { openMap() }
                             .font(.custom("Baskerville", size: 17))
@@ -590,9 +628,8 @@ struct PlacesTabView: View {
     /// the detail over the list.
     private func selectFirstPlace(replacingSelection: Bool = false) {
         guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
-              replacingSelection || selectedID == nil, recordModel == nil,
-              let first = model.displayedPlaces.first else { return }
-        select(first.listID, force: false)
+              replacingSelection || selectedID == nil, recordModel == nil else { return }
+        select(model.displayedPlaces.first?.listID, force: false)
     }
 
     private func select(_ id: String?, force: Bool) {

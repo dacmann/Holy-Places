@@ -346,6 +346,7 @@ struct PlaceDetailView: View {
             }
         }
         .background(Color(uiColor: .systemBackground))
+        .ignoresSafeArea(.keyboard)
         .hideTabBarWhenCompact()
         .onChange(of: model.place?.templeName) {
             showOrdinancePopup = false

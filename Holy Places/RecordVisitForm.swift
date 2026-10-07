@@ -266,19 +266,6 @@ struct RecordVisitForm: View {
         }
         .buttonStyle(.plain)
         .accessibilityHint("Changes the place for this visit")
-        .overlay(alignment: .trailing) {
-            Button {
-                isFavorite.toggle()
-                markDirty()
-            } label: {
-                Image(systemName: isFavorite ? "star.fill" : "star")
-                    .font(.system(size: 22))
-                    .foregroundStyle(isFavorite ? Color(uiColor: UIColor.darkTangerine()) : Color.gray)
-                    .frame(width: 40, height: 40)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(isFavorite ? "Favorite" : "Mark as Favorite")
-        }
     }
 
     private var placeNameColor: Color {
@@ -299,10 +286,26 @@ struct RecordVisitForm: View {
             Text(formattedVisitDate(visitDate))
                 .font(dateFont)
                 .foregroundStyle(Color("BaptismsBlue"))
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 6)
+                .padding(.horizontal, 44)
         }
         .buttonStyle(.plain)
+        .overlay(alignment: .trailing) {
+            Button {
+                isFavorite.toggle()
+                markDirty()
+            } label: {
+                Image(systemName: isFavorite ? "star.fill" : "star")
+                    .font(.system(size: 22))
+                    .foregroundStyle(isFavorite ? Color(uiColor: UIColor.darkTangerine()) : Color.gray)
+                    .frame(width: 40, height: 40)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(isFavorite ? "Favorite" : "Mark as Favorite")
+        }
     }
 
     private var notesSection: some View {
