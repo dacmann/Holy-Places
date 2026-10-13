@@ -113,6 +113,9 @@ struct HomeTabView: View {
             .allowsHitTesting(false)
         }
         .onAppear { handleAppear() }
+        .onReceive(NotificationCenter.default.publisher(for: .placeCatalogDidUpdate)) { _ in
+            presentStartupMessages()
+        }
         .onReceive(NotificationCenter.default.publisher(for: .homeAppearanceDidChange)) { _ in
             refreshAfterAppearanceChange()
         }
@@ -336,9 +339,10 @@ struct HomeTabView: View {
     }
 
     private func presentStartupMessages() {
-        if !changesDate.isEmpty {
+        if AppRouter.shared.isSelected(.home), !changesDate.isEmpty {
             changesAlertTitle = changesDate + " Message"
             changesAlertMessage = combinedChangesMessage()
+            changesDate = ""
             showChangesAlert = true
         }
 

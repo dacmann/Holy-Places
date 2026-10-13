@@ -325,6 +325,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
     var visitElapsedTime: TimeInterval?
     var monitoredRegions: Dictionary<String, NSDate> = [:]
     var newFileParsed = false
+    /// Bumps after a remote catalog is saved so screens created at launch can drop stale place objects.
+    var placeCatalogGeneration = 0
     var needsVisitRefresh = true
     var parserNameChanges: [NameChange] = []
     var oldName = String()
@@ -1116,6 +1118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
                 if parser.parse() {
                     self.newFileParsed = true
                     DataUpdateNotes.saveCurrent()
+                    self.applyParsedPlaceUpdate()
                 } else {
                     print("Data parsing aborted")
                     let error = parser.parserError!
@@ -2153,6 +2156,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
         needsVisitRefresh = false
     }
     
+    /// Saves a parsed remote catalog on the main thread, including photo replacement.
+    /// Home can announce the update before any other tab appears; waiting for Visits,
+    /// Map, or Summary left the previous photos on screen and showed the message twice.
+    func applyParsedPlaceUpdate() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [self] in
+                self.applyParsedPlaceUpdate()
+            }
+            return
+        }
+        guard newFileParsed else { return }
+        newFileParsed = false
+        storePlaces()
+        savePlaceVersion()
+        checkedForUpdate = Date()
+        placeCatalogGeneration += 1
+        NotificationCenter.default.post(name: .placeCatalogDidUpdate, object: nil)
+    }
+
     // Save the Place data in CoreData
     func storePlaces () {
         let context = getContext()

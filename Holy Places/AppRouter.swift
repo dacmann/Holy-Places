@@ -52,6 +52,11 @@ final class AppRouter: ObservableObject {
         tabBar?.show(tabAt: tab.rawValue)
     }
 
+    func isSelected(_ tab: AppTab) -> Bool {
+        let selected = tabBar?.selectedIndex ?? AppTab.home.rawValue
+        return selected == tab.rawValue
+    }
+
     func openPlace(id: String) {
         select(.places)
         placesRoute = PlacesRoute(templeId: id)

@@ -36,6 +36,11 @@ final class PlacesListModel: ObservableObject {
     private var sortByDedicationDate = false
     private var sortBySize = false
     private var sortByAnnouncedDate = false
+    private var loadedCatalogGeneration = 0
+
+    var needsCatalogReload: Bool {
+        loadedCatalogGeneration != ad.placeCatalogGeneration
+    }
 
     init() {
         applySortRow(placeSortRow)
@@ -101,6 +106,7 @@ final class PlacesListModel: ObservableObject {
         sections = makeSections(from: list)
         updateTitle(count: list.count)
         nearestEnabled = sortByCurrentLocation
+        loadedCatalogGeneration = ad.placeCatalogGeneration
     }
 
     private var sortByCurrentLocation: Bool { placeSortRow == 1 }
@@ -378,12 +384,19 @@ struct PlacesTabView: View {
                 selectFirstPlace(replacingSelection: true)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .placeCatalogDidUpdate)) { _ in
+            reloadFromCatalog()
+        }
         .onAppear {
             applyHolyPlacesSearchFont()
-            if optionsChanged || themeChanged {
+            if optionsChanged || themeChanged || model.needsCatalogReload {
+                let catalogChanged = model.needsCatalogReload
                 model.reload()
                 optionsChanged = false
                 themeChanged = false
+                if catalogChanged, selectedID != nil {
+                    applySelection(selectedID)
+                }
             }
             selectFirstPlace()
         }
@@ -626,6 +639,13 @@ struct PlacesTabView: View {
 
     /// Only on iPad with both columns showing. In a collapsed split, a selection would open
     /// the detail over the list.
+    private func reloadFromCatalog() {
+        model.reload()
+        if selectedID != nil {
+            applySelection(selectedID)
+        }
+    }
+
     private func selectFirstPlace(replacingSelection: Bool = false) {
         guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
               replacingSelection || selectedID == nil, recordModel == nil else { return }

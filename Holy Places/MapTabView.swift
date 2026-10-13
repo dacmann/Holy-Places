@@ -469,13 +469,15 @@ struct MapTabView: View {
             }
         }
         .alert(updateNotice?.title ?? "Update", isPresented: updatePresented) {
-            Button("OK", role: .cancel) {
-                changesDate = ""
-            }
+            Button("OK", role: .cancel) {}
         } message: {
             Text(updateNotice?.message ?? "")
         }
         .onAppear(perform: handleAppear)
+        .onReceive(NotificationCenter.default.publisher(for: .placeCatalogDidUpdate)) { _ in
+            revision += 1
+            presentDataUpdateIfNeeded()
+        }
         .onDisappear {
             timelineStopToken += 1
         }
@@ -635,12 +637,12 @@ struct MapTabView: View {
             revision += 1
         }
         hasAppeared = true
-        if ad.newFileParsed {
-            ad.storePlaces()
-            ad.savePlaceVersion()
-            checkedForUpdate = Date()
-            ad.newFileParsed = false
-        }
+        ad.applyParsedPlaceUpdate()
+        presentDataUpdateIfNeeded()
+    }
+
+    private func presentDataUpdateIfNeeded() {
+        guard AppRouter.shared.isSelected(.map) else { return }
         guard updateNotice == nil, !changesDate.isEmpty else { return }
         var message = changesMsg1
         if !changesMsg2.isEmpty {
@@ -649,7 +651,9 @@ struct MapTabView: View {
         if !changesMsg3.isEmpty {
             message += "\n\n" + changesMsg3
         }
-        updateNotice = MapUpdateNotice(title: changesDate + " Update", message: message)
+        let title = changesDate + " Update"
+        changesDate = ""
+        updateNotice = MapUpdateNotice(title: title, message: message)
     }
 
     private func toggleTimeline() {
@@ -1367,6 +1371,7 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     private var annotations: [MapPoint] = []
     private var displayedPlaces: [Temple] = []
     private var thumbnailCache: [String: UIImage] = [:]
+    private var loadedCatalogGeneration = -1
     private var thumbnailLoads = Set<String>()
     private static let calloutNameMaxWidth: CGFloat = 160
     private static let calloutThumbnailSize = CGSize(width: 72, height: 54)
@@ -1467,6 +1472,11 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
     }
 
     func apply() {
+        if loadedCatalogGeneration != ad.placeCatalogGeneration {
+            loadedCatalogGeneration = ad.placeCatalogGeneration
+            thumbnailCache.removeAll()
+            thumbnailLoads.removeAll()
+        }
         let type: MKMapType = mapStyle == 1 ? .satellite : .standard
         if mapView.mapType != type {
             mapView.mapType = type
@@ -1783,15 +1793,16 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
             let request: NSFetchRequest<Place> = Place.fetchRequest()
             request.fetchLimit = 1
             request.predicate = NSPredicate(format: "name == %@", name)
-            let data = (try? context.fetch(request))?.first?.pictureData
-            if let data, let image = Self.thumbnailImage(from: data) {
+            let stored = (try? context.fetch(request))?.first
+            if let data = stored?.pictureData, let image = Self.thumbnailImage(from: data) {
                 DispatchQueue.main.async {
                     self?.finishThumbnailLoad(image, named: name)
                 }
                 return
             }
+            let resolvedURL = (stored?.pictureURL?.isEmpty == false) ? stored?.pictureURL ?? urlString : urlString
             DispatchQueue.main.async {
-                self?.downloadThumbnail(named: name, urlString: urlString)
+                self?.downloadThumbnail(named: name, urlString: resolvedURL)
             }
         }
     }
@@ -1814,18 +1825,19 @@ private final class HolyPlacesMapController: UIViewController, MKMapViewDelegate
             }
             DispatchQueue.main.async {
                 guard let self else { return }
-                self.savePictureData(data, named: name)
+                self.savePictureData(data, named: name, urlString: urlString)
                 self.finishThumbnailLoad(image, named: name)
             }
         }.resume()
     }
 
-    private func savePictureData(_ data: Data, named name: String) {
+    private func savePictureData(_ data: Data, named name: String, urlString: String) {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name)
         request.fetchLimit = 1
         let context = ad.persistentContainer.viewContext
         guard let stored = (try? context.fetch(request))?.first else { return }
+        guard stored.pictureURL == urlString else { return }
         stored.pictureData = data
         try? context.save()
     }

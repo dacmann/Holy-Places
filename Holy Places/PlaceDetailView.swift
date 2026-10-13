@@ -184,7 +184,8 @@ final class PlaceDetailModel: ObservableObject {
     }
 
     private func downloadStockImage(for place: Temple, token: UUID, forceVisitPhotos: Bool) {
-        guard let url = URL(string: place.templePictureURL), !place.templePictureURL.isEmpty else {
+        let urlString = currentPictureURL(for: place)
+        guard let url = URL(string: urlString), !urlString.isEmpty else {
             imagesLoaded = true
             loadVisitPhotos(for: place, token: token, startingWithStock: false, force: forceVisitPhotos)
             return
@@ -206,7 +207,7 @@ final class PlaceDetailModel: ObservableObject {
             }
             DispatchQueue.main.async {
                 guard token == self.loadToken else { return }
-                self.saveStockImage(data, for: place)
+                self.saveStockImage(data, urlString: urlString, named: place.templeName)
                 self.images = [image]
                 self.imagesLoaded = true
                 self.loadVisitPhotos(for: place, token: token, startingWithStock: true, force: forceVisitPhotos)
@@ -214,12 +215,25 @@ final class PlaceDetailModel: ObservableObject {
         }.resume()
     }
 
-    private func saveStockImage(_ data: Data, for place: Temple) {
+    /// Core Data is updated as soon as the catalog is saved. A place object still held by a
+    /// list can keep the previous photo URL, so downloads follow the stored URL.
+    private func currentPictureURL(for place: Temple) -> String {
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", place.templeName)
+        request.fetchLimit = 1
+        if let storedURL = (try? context().fetch(request))?.first?.pictureURL, !storedURL.isEmpty {
+            return storedURL
+        }
+        return place.templePictureURL
+    }
+
+    private func saveStockImage(_ data: Data, urlString: String, named name: String) {
+        let request: NSFetchRequest<Place> = Place.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        request.fetchLimit = 1
         do {
             let results = try context().fetch(request)
-            if let stored = results.first {
+            if let stored = results.first, stored.pictureURL == urlString {
                 stored.pictureData = data
                 try context().save()
             }

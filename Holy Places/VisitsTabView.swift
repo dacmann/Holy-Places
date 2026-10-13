@@ -469,6 +469,9 @@ struct VisitsTabView: View {
             consumeRoute()
             selectFirstVisit()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .placeCatalogDidUpdate)) { _ in
+            offerChangesIfNeeded()
+        }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("OpenVisitFromWidget"))) { note in
             guard let uri = note.object as? String else { return }
             openURI(uri)
@@ -1063,6 +1066,7 @@ struct VisitsTabView: View {
     }
 
     private func offerChangesIfNeeded() {
+        guard AppRouter.shared.isSelected(.visits) else { return }
         guard !changesDate.isEmpty, !changesNoticePending else { return }
         var changesMsg = changesMsg1
         if changesMsg2 != "" {
@@ -1073,7 +1077,9 @@ struct VisitsTabView: View {
             changesMsg.append("\n\n")
             changesMsg.append(changesMsg3)
         }
-        enqueue(.changes(changesDate + " Update", changesMsg))
+        let title = changesDate + " Update"
+        changesDate = ""
+        enqueue(.changes(title, changesMsg))
     }
 
     private var changesNoticePending: Bool {
@@ -1097,12 +1103,7 @@ struct VisitsTabView: View {
     }
 
     private func storeParsedPlacesIfNeeded() {
-        if ad.newFileParsed {
-            ad.storePlaces()
-            ad.savePlaceVersion()
-            checkedForUpdate = Date()
-            ad.newFileParsed = false
-        }
+        ad.applyParsedPlaceUpdate()
     }
 
     private func enqueue(_ notice: VisitsNotice) {

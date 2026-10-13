@@ -101,6 +101,8 @@ struct HolyPlacesSearchFontFix: UIViewRepresentable {
 extension Notification.Name {
     static let reload = Notification.Name("reload")
     static let homeAppearanceDidChange = Notification.Name("homeAppearanceDidChange")
+    /// Posted after a remote place-catalog update has been saved, including replaced photos.
+    static let placeCatalogDidUpdate = Notification.Name("placeCatalogDidUpdate")
 }
 
 extension UIImageView {
