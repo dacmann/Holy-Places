@@ -25,7 +25,7 @@ struct VisitDetailScreen: View {
 
     var body: some View {
         GeometryReader { geo in
-            let photoMax = geo.size.height * (isRegularWidth ? 0.65 : 0.50)
+            let photoMax = geo.size.height * (isRegularWidth ? 0.82 : 0.68)
             let commentText = visit.comments ?? ""
             VStack(spacing: 10) {
                 Text(visit.holyPlace ?? "")
@@ -82,6 +82,7 @@ struct VisitDetailScreen: View {
 
                 if let image = displayImage {
                     visitPhoto(image, height: photoMax)
+                        .layoutPriority(1)
                 }
             }
             .padding(.horizontal, 16)
@@ -175,6 +176,7 @@ struct VisitDetailScreen: View {
         Image(uiImage: image)
             .resizable()
             .scaledToFit()
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .frame(maxWidth: .infinity)
             .frame(height: height)
             .contentShape(Rectangle())

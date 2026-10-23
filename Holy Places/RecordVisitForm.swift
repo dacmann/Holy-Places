@@ -318,8 +318,6 @@ struct RecordVisitForm: View {
                 .frame(minHeight: 180)
                 .scrollContentBackground(.hidden)
                 .padding(4)
-                .background(Color(uiColor: .secondarySystemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
 
@@ -931,25 +929,30 @@ private struct VisitDateSheet: View {
     var onDone: () -> Void
 
     var body: some View {
-        VStack(spacing: 16) {
-            DatePicker("Visit Date", selection: $date, displayedComponents: .date)
-                .datePickerStyle(.graphical)
-                .labelsHidden()
-                .tint(Color("BaptismsBlue"))
-            Button(action: onDone) {
-                Text("Done")
-                    .font(.custom("Baskerville", size: 24))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: 300)
-                    .frame(height: 40)
-                    .background(Color(red: 0, green: 0.250980407, blue: 0.501960814))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+        ScrollView {
+            VStack(spacing: 16) {
+                DatePicker("Visit Date", selection: $date, displayedComponents: .date)
+                    .datePickerStyle(.graphical)
+                    .labelsHidden()
+                    .tint(Color("BaptismsBlue"))
+                    // A short Duo sheet otherwise compresses the calendar and clips the month above it.
+                    .fixedSize(horizontal: false, vertical: true)
+                Button(action: onDone) {
+                    Text("Done")
+                        .font(.custom("Baskerville", size: 24))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: 300)
+                        .frame(height: 40)
+                        .background(Color(red: 0, green: 0.250980407, blue: 0.501960814))
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
-            Spacer(minLength: 0)
+            .padding(.horizontal)
+            .padding(.top, 12)
+            .padding(.bottom)
+            .frame(maxWidth: .infinity)
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(uiColor: .tertiarySystemBackground))
         .presentationDetents([.medium, .large])
     }

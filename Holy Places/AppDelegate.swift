@@ -130,6 +130,33 @@ var homeImageCropToFill: Bool {
     get { UserDefaults.standard.object(forKey: "homeImageCropToFill") as? Bool ?? true }
     set { UserDefaults.standard.set(newValue, forKey: "homeImageCropToFill") }
 }
+var compactLists: Bool {
+    get { UserDefaults.standard.bool(forKey: ListDensity.storageKey) }
+    set { UserDefaults.standard.set(newValue, forKey: ListDensity.storageKey) }
+}
+
+enum ListDensity {
+    static let storageKey = "compactLists"
+    static let compactRowInsetVertical: CGFloat = 3
+    static let compactRowPadding: CGFloat = 4
+    static let compactSectionSpacing: CGFloat = 4
+
+    static func titleSize(_ compact: Bool) -> CGFloat { compact ? 17 : 20 }
+    static func subtitleSize(_ compact: Bool) -> CGFloat { compact ? 13 : 16 }
+    static let headerSize: CGFloat = 22
+    static func rowMinHeight(_ compact: Bool) -> CGFloat { compact ? 36 : 44 }
+    static func symbolSize(_ compact: Bool) -> CGFloat { compact ? 13 : 16 }
+
+    static func achievementNameSize(_ compact: Bool) -> CGFloat { compact ? 17 : 20 }
+    static func achievementDetailSize(_ compact: Bool) -> CGFloat { compact ? 13 : 16 }
+    static func achievementMetaSize(_ compact: Bool) -> CGFloat { compact ? 14 : 17 }
+    static func achievementBadgeSize(_ compact: Bool, hasPlace: Bool) -> CGFloat {
+        hasPlace ? (compact ? 68 : 90) : (compact ? 44 : 55)
+    }
+    static func achievementRowMinHeight(_ compact: Bool, hasPlace: Bool) -> CGFloat {
+        hasPlace ? (compact ? 76 : 100) : (compact ? 52 : 65)
+    }
+}
 var templeColor: UIColor = UIColor(named: "Temples"+theme) ?? UIColor.black
 var historicalColor: UIColor  = UIColor(named: "Historical"+theme) ?? UIColor.black
 var announcedColor: UIColor  = UIColor(named: "Announced"+theme) ?? UIColor.black

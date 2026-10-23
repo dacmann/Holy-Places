@@ -293,7 +293,9 @@ final class PlacesListModel: ObservableObject {
 
 struct PlacesTabView: View {
     @EnvironmentObject private var router: AppRouter
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @State private var showsBothColumns = UIDevice.current.userInterfaceIdiom == .pad
+    /// Set while choosing the first row for an open fold, so that selection does not push.
+    @State private var suppressCollapsedPush = false
     @StateObject private var model = PlacesListModel()
     @StateObject private var detailModel = PlaceDetailModel()
     @State private var selectedID: String?
@@ -310,12 +312,23 @@ struct PlacesTabView: View {
     @State private var safariURL: URL?
     @State private var showNavigation = false
     @State private var mapFocus: MapFocusItem?
+    @AppStorage(ListDensity.storageKey) private var compactLists = false
 
     var body: some View {
-        AdaptiveSplit(widenSidebar: true) {
-            list
+        AdaptiveSplit(widenSidebar: true, showsBothColumns: $showsBothColumns) {
+            list.hingeDetailNavigation(
+                showsBothColumns: $showsBothColumns,
+                hasDetail: selectedID != nil || recordModel != nil,
+                suppressPush: $suppressCollapsedPush,
+                onDismiss: dismissCollapsedDetail
+            ) {
+                detail
+            }
         } detail: {
             detail
+        }
+        .onChange(of: showsBothColumns) { _, visible in
+            if visible { selectFirstPlace() }
         }
         .fullScreenCover(item: $photo) { item in
             PhotoViewerView(image: item.image) { photo = nil }
@@ -413,7 +426,7 @@ struct PlacesTabView: View {
                             placeRows(section.places)
                         } header: {
                             Text(section.title)
-                                .font(.custom("Baskerville", size: 22))
+                                .font(.custom("Baskerville", size: ListDensity.headerSize))
                                 .foregroundStyle(Color("BaptismsBlue"))
                                 .textCase(nil)
                         }
@@ -425,12 +438,13 @@ struct PlacesTabView: View {
                 proxy.scrollTo(id, anchor: .center)
             }
             .listStyle(.plain)
+            .compactListSectionSpacing(compactLists)
             .scrollContentBackground(.hidden)
             .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [.horizontal, .bottom])
             .environment(\.defaultMinListHeaderHeight, 0)
             .contentMargins(.top, 0, for: .scrollContent)
         }
-        .environment(\.defaultMinListRowHeight, 50)
+        .environment(\.defaultMinListRowHeight, ListDensity.rowMinHeight(compactLists))
         .searchable(
             text: $model.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
@@ -441,7 +455,8 @@ struct PlacesTabView: View {
             CenteredColumnTitle(
                 title: model.title,
                 subtitle: model.subtitle,
-                titleColor: UIColor(model.titleColor)
+                titleColor: UIColor(model.titleColor),
+                active: showsBothColumns
             )
         }
         .onChange(of: model.searchText) { _, _ in model.reload() }
@@ -460,14 +475,14 @@ struct PlacesTabView: View {
             .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [])
             .onChange(of: model.scope) { _, _ in model.reload() }
         }
-        .navigationTitle(UIDevice.current.userInterfaceIdiom == .pad ? "" : model.title)
+        .navigationTitle(showsBothColumns ? "" : model.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.navigationStack)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
         .frame(maxWidth: .infinity)
         .toolbar {
-            if UIDevice.current.userInterfaceIdiom != .pad {
+            if !showsBothColumns {
                 ToolbarItem(placement: .principal) {
                     VStack(spacing: 0) {
                         Text(model.title)
@@ -579,6 +594,7 @@ struct PlacesTabView: View {
                 .tag(place.listID)
                 .id(place.listID)
                 .listRowBackground(Color(uiColor: selectedID == place.listID ? .systemGray4 : .systemBackground))
+                .compactListRowInsets(compactLists)
                 .onAppear { visiblePlaceIDs.insert(place.listID) }
                 .onDisappear { visiblePlaceIDs.remove(place.listID) }
         }
@@ -593,21 +609,22 @@ struct PlacesTabView: View {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 16, height: 16)
+                    .frame(width: ListDensity.symbolSize(compactLists), height: ListDensity.symbolSize(compactLists))
                     .foregroundStyle(color)
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(place.templeName)
-                    .font(.custom("Baskerville", size: 20))
+                    .font(.custom("Baskerville", size: ListDensity.titleSize(compactLists)))
                     .foregroundStyle(color)
                     .lineLimit(1)
                 Text(subtitle)
-                    .font(.custom("Baskerville", size: 16))
+                    .font(.custom("Baskerville", size: ListDensity.subtitleSize(compactLists)))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
         }
-        .frame(minHeight: 48)
+        .frame(minHeight: ListDensity.rowMinHeight(compactLists))
+        .padding(.vertical, compactLists ? ListDensity.compactRowPadding : 0)
     }
 
     private func rowSubtitle(_ place: Temple) -> String {
@@ -637,8 +654,6 @@ struct PlacesTabView: View {
         }
     }
 
-    /// Only on iPad with both columns showing. In a collapsed split, a selection would open
-    /// the detail over the list.
     private func reloadFromCatalog() {
         model.reload()
         if selectedID != nil {
@@ -646,10 +661,14 @@ struct PlacesTabView: View {
         }
     }
 
+    /// Selects the first place only while the list and detail are both on screen.
+    /// In a collapsed split, a selection would open the detail over the list.
     private func selectFirstPlace(replacingSelection: Bool = false) {
-        guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
+        guard showsBothColumns,
               replacingSelection || selectedID == nil, recordModel == nil else { return }
+        suppressCollapsedPush = true
         select(model.displayedPlaces.first?.listID, force: false)
+        DispatchQueue.main.async { suppressCollapsedPush = false }
     }
 
     private func select(_ id: String?, force: Bool) {
@@ -689,6 +708,18 @@ struct PlacesTabView: View {
         let next = index + delta
         guard list.indices.contains(next) else { return }
         select(list[next].listID, force: false)
+    }
+
+    /// The pushed detail was closed. A dirty form stays up until the user decides.
+    private func dismissCollapsedDetail() -> Bool {
+        if recordModel?.isDirty == true {
+            pendingID = nil
+            showDiscard = true
+            return false
+        }
+        recordModel = nil
+        applySelection(nil)
+        return true
     }
 
     private func openMap() {

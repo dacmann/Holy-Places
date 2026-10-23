@@ -18,6 +18,7 @@ final class SettingsModel: ObservableObject {
     @Published var excludeNonOrdinance: Bool
     @Published var colorTheme: ColorThemeOption
     @Published var showTypeSymbols: Bool
+    @Published var compactLists: Bool
     @Published var showStockVisitImage: Bool
     @Published var notificationsEnabled: Bool
     @Published var notifyTemplesOnly: Bool
@@ -41,6 +42,7 @@ final class SettingsModel: ObservableObject {
         excludeNonOrdinance = excludeNonOrdinanceVisits
         colorTheme = ColorThemeOption.from(theme: UserDefaults.standard.string(forKey: "themeSelected") ?? theme)
         showTypeSymbols = UserDefaults.standard.bool(forKey: "showPlaceTypeSymbols")
+        compactLists = UserDefaults.standard.bool(forKey: ListDensity.storageKey)
         showStockVisitImage = showStockPlaceImageOnVisits
         notificationsEnabled = notificationEnabled
         notifyTemplesOnly = notificationFilter
@@ -99,6 +101,10 @@ final class SettingsModel: ObservableObject {
         showPlaceTypeSymbols = enabled
         UserDefaults.standard.set(enabled, forKey: "showPlaceTypeSymbols")
         themeChanged = true
+    }
+
+    func applyCompactLists(_ enabled: Bool) {
+        UserDefaults.standard.set(enabled, forKey: ListDensity.storageKey)
     }
 
     func applyNotifications(_ enabled: Bool) {
@@ -266,6 +272,7 @@ struct SettingsView: View {
         Form {
             goalsSection
             colorThemeSection
+            listsSection
             reminderSection
             homeScreenSection
             commentsSection
@@ -361,6 +368,20 @@ struct SettingsView: View {
             Text("Color Theme")
         } footer: {
             Text("Choose which color theme to use for the different types of places. Original color scheme was red for temples and green for historic sites. Mono uses black (light mode) or white (dark mode) for place names and ordinances; map pins keep the Purple / Orange colors. Turn on Show Type Symbols to mark each place type on the Places and Visits lists and in filter menus.")
+        }
+    }
+
+    private var listsSection: some View {
+        Section {
+            Toggle("Compact Lists", isOn: $model.compactLists)
+                .font(rowFont)
+                .onChange(of: model.compactLists) { _, newValue in
+                    model.applyCompactLists(newValue)
+                }
+        } header: {
+            Text("Lists")
+        } footer: {
+            Text("Use tighter text and less space between rows on the Places, Visits, and Achievements lists.")
         }
     }
 

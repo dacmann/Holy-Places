@@ -118,35 +118,49 @@ final class HolyPlacesTabBarController: UITabBarController, UITabBarControllerDe
     }
 }
 
-/// Keeps Home’s title and buttons clear of the iPad top tab bar and the home indicator.
-/// The photo still draws full-bleed because Home ignores the safe area only on its background.
+/// Keeps Home’s title and buttons clear of the tab bar, status bar, and home indicator.
+/// A horizontal bar insets the top or bottom. A vertical bar, as on iPhone Duo, insets
+/// the side only. The photo still draws full-bleed because Home ignores the safe area
+/// only on its background.
 final class HomeHostingController: UIHostingController<HomeTabView> {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard let window = view.window else { return }
         let viewInWindow = view.convert(view.bounds, to: window)
         var neededTop: CGFloat = 0
+        var neededLeading: CGFloat = 0
         var neededBottom: CGFloat = 0
+        var neededTrailing: CGFloat = 0
         if let tabBar = tabBarController?.tabBar, !tabBar.isHidden, tabBar.alpha > 0.01 {
             let tab = tabBar.convert(tabBar.bounds, to: window)
-            if tab.midY < window.bounds.midY {
-                neededTop = max(0, tab.maxY - viewInWindow.minY)
+            if tab.width > tab.height {
+                if tab.midY < window.bounds.midY {
+                    neededTop = max(0, tab.maxY - viewInWindow.minY)
+                } else {
+                    neededBottom = max(0, viewInWindow.maxY - tab.minY)
+                }
+            } else if tab.midX < window.bounds.midX {
+                neededLeading = max(0, tab.maxX - viewInWindow.minX)
             } else {
-                neededBottom = max(0, viewInWindow.maxY - tab.minY)
+                neededTrailing = max(0, viewInWindow.maxX - tab.minX)
             }
         }
         neededTop = max(neededTop, window.safeAreaInsets.top - viewInWindow.minY)
         neededBottom = max(neededBottom, viewInWindow.maxY - (window.bounds.height - window.safeAreaInsets.bottom))
         let systemTop = view.safeAreaInsets.top - additionalSafeAreaInsets.top
+        let systemLeading = view.safeAreaInsets.left - additionalSafeAreaInsets.left
         let systemBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
+        let systemTrailing = view.safeAreaInsets.right - additionalSafeAreaInsets.right
         let extra = UIEdgeInsets(
             top: max(0, neededTop - systemTop),
-            left: 0,
+            left: max(0, neededLeading - systemLeading),
             bottom: max(0, neededBottom - systemBottom),
-            right: 0
+            right: max(0, neededTrailing - systemTrailing)
         )
         if abs(additionalSafeAreaInsets.top - extra.top) > 0.5
-            || abs(additionalSafeAreaInsets.bottom - extra.bottom) > 0.5 {
+            || abs(additionalSafeAreaInsets.left - extra.left) > 0.5
+            || abs(additionalSafeAreaInsets.bottom - extra.bottom) > 0.5
+            || abs(additionalSafeAreaInsets.right - extra.right) > 0.5 {
             additionalSafeAreaInsets = extra
         }
     }

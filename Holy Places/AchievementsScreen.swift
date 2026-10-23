@@ -15,6 +15,7 @@ struct AchievementsScreen: View {
     @State private var rows: [Achievement] = completed
     @State private var hasAnyCompleted = !completed.isEmpty
     @State private var showCelebrationBoard = false
+    @AppStorage(ListDensity.storageKey) private var compactLists = false
 
     var body: some View {
         NavigationStack {
@@ -34,11 +35,13 @@ struct AchievementsScreen: View {
 
                 Section {
                     ForEach(Array(rows.enumerated()), id: \.offset) { _, achievement in
-                        AchievementRow(achievement: achievement)
+                        AchievementRow(achievement: achievement, compact: compactLists)
+                            .compactListRowInsets(compactLists)
                     }
                 }
             }
             .listStyle(.plain)
+            .compactListSectionSpacing(compactLists)
             .overlay {
                 if rows.isEmpty && !hasAnyCompleted {
                     Text("No Achievements Yet 😕")
@@ -86,11 +89,13 @@ struct AchievementsScreen: View {
 
 private struct AchievementRow: View {
     let achievement: Achievement
+    var compact: Bool
 
     @State private var shareToken = 0
 
     var body: some View {
-        let imageSide: CGFloat = achievement.placeAchieved == nil ? 55 : 90
+        let hasPlace = achievement.placeAchieved != nil
+        let imageSide = ListDensity.achievementBadgeSize(compact, hasPlace: hasPlace)
         let titleColor = achievementColor(for: achievement.iconName)
         HStack(alignment: .center, spacing: 12) {
             Image(uiImage: UIImage(named: achievement.iconName) ?? UIImage(named: "ach12MT") ?? UIImage())
@@ -101,17 +106,17 @@ private struct AchievementRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(achievement.name)
-                    .font(.custom("Baskerville", size: 20))
+                    .font(.custom("Baskerville", size: ListDensity.achievementNameSize(compact)))
                     .foregroundStyle(titleColor)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                 Text(detailText)
-                    .font(.custom("Baskerville", size: 16))
+                    .font(.custom("Baskerville", size: ListDensity.achievementDetailSize(compact)))
                     .lineLimit(2)
                     .minimumScaleFactor(0.5)
                 if let place = achievement.placeAchieved {
                     Text("at \(place)")
-                        .font(.custom("Baskerville", size: 17))
+                        .font(.custom("Baskerville", size: ListDensity.achievementMetaSize(compact)))
                         .foregroundStyle(placeColor)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
@@ -123,7 +128,7 @@ private struct AchievementRow: View {
                 }
                 if let date = achievement.achieved {
                     Text("on \(Self.dateText(date))")
-                        .font(.custom("Baskerville", size: 17))
+                        .font(.custom("Baskerville", size: ListDensity.achievementMetaSize(compact)))
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                 }
@@ -146,7 +151,7 @@ private struct AchievementRow: View {
                 }
             }
         }
-        .frame(minHeight: achievement.placeAchieved == nil ? 65 : 100)
+        .frame(minHeight: ListDensity.achievementRowMinHeight(compact, hasPlace: achievement.placeAchieved != nil))
     }
 
     private var detailText: String {

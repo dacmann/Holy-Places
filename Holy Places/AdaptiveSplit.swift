@@ -8,21 +8,37 @@
 import SwiftUI
 import UIKit
 
-/// Two-pane container for Places, Visits, and Map.
+/// Whether Places and Visits should follow the iPhone Duo hinge.
 ///
-/// iOS 27.1's `ArrangementView` is the hinge-aware split, but it is not in the
-/// iOS 27.0 SDK this project builds with, so a reference would not compile.
-/// `NavigationSplitView` is the system split on iOS 17.6 through 27.0 and is
-/// what this container uses. When a future SDK exposes `ArrangementView`, the
-/// `iOS 27.1` branch below is the place to host it inside one `NavigationStack`
-/// without nesting another navigation container.
+/// iPad keeps `NavigationSplitView`. Its column width, divider, and first-visit
+/// layout are built on that controller. iPhone and iPhone Duo on iOS 27.1 use
+/// `ArrangementView`, which places the divider on the fold.
+enum ListSplit {
+    static var usesHingeArrangement: Bool {
+        if #available(iOS 27.1, *) {
+            return UIDevice.current.userInterfaceIdiom != .pad
+        }
+        return false
+    }
+}
+
+/// Two-pane container for Places and Visits.
+///
+/// `showsBothColumns` is true only while the detail column is on screen.
+/// A folded phone and a collapsed split leave it false, so a list selection
+/// pushes the detail instead of opening it beside the list.
 struct AdaptiveSplit<Primary: View, Secondary: View>: View {
     var widenSidebar = false
+    @Binding var showsBothColumns: Bool
     @ViewBuilder var primary: () -> Primary
     @ViewBuilder var detail: () -> Secondary
+    @State private var listWidth: CGFloat = 0
+    @State private var arrangementWidth: CGFloat = 0
+    @State private var reportedSideBySide: Bool?
+    @State private var confirmToken = 0
 
     var body: some View {
-        if #available(iOS 27.1, *) {
+        if ListSplit.usesHingeArrangement {
             hingeSplit
         } else {
             classicSplit
@@ -33,6 +49,7 @@ struct AdaptiveSplit<Primary: View, Secondary: View>: View {
         NavigationSplitView {
             primary()
                 .background {
+                    SplitColumnReporter(showsBothColumns: $showsBothColumns)
                     SidebarSeparator()
                     if widenSidebar {
                         SidebarWidthEnforcer()
@@ -46,7 +63,228 @@ struct AdaptiveSplit<Primary: View, Secondary: View>: View {
 
     @ViewBuilder
     private var hingeSplit: some View {
-        classicSplit
+        if #available(iOS 27.1, *) {
+            ArrangementView {
+                NavigationStack {
+                    primary()
+                        .background {
+                            GeometryReader { geo in
+                                Color.clear.preference(key: ListColumnWidthKey.self, value: geo.size.width)
+                            }
+                        }
+                }
+            } secondary: {
+                NavigationStack {
+                    detail()
+                }
+            }
+            .arrangementViewStyle(.split.axes(.horizontal))
+            .background {
+                GeometryReader { geo in
+                    Color.clear.preference(key: ArrangementWidthKey.self, value: geo.size.width)
+                }
+            }
+            .onPreferenceChange(ListColumnWidthKey.self) { listWidth = $0 }
+            .onPreferenceChange(ArrangementWidthKey.self) { arrangementWidth = $0 }
+            .onChange(of: listWidth) { _, _ in noteFold() }
+            .onChange(of: arrangementWidth) { _, _ in noteFold() }
+            .task(id: confirmToken) {
+                guard confirmToken > 0, let sideBySide = reportedSideBySide else { return }
+                // The first layout can look split for a moment. Wait before selecting
+                // a row, so opening a folded tab does not launch the first place.
+                if sideBySide {
+                    try? await Task.sleep(nanoseconds: 250_000_000)
+                    guard !Task.isCancelled else { return }
+                }
+                if showsBothColumns != sideBySide {
+                    showsBothColumns = sideBySide
+                }
+            }
+        }
+    }
+
+    /// Folded, the list fills the arrangement. Unfolded, the detail column takes the rest.
+    private func noteFold() {
+        guard listWidth > 1, arrangementWidth > 1 else { return }
+        let sideBySide = arrangementWidth - listWidth > 80
+        guard reportedSideBySide != sideBySide else { return }
+        reportedSideBySide = sideBySide
+        confirmToken += 1
+    }
+}
+
+private struct ListColumnWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+private struct ArrangementWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+extension View {
+    /// Pushes the detail when the arrangement is showing only the list.
+    /// The push waits until the arrangement has reported, so opening the tab
+    /// does not flash the detail over a split that is still settling.
+    @ViewBuilder
+    func hingeDetailNavigation<Destination: View>(
+        showsBothColumns: Binding<Bool>,
+        hasDetail: Bool,
+        suppressPush: Binding<Bool>,
+        onDismiss: @escaping () -> Bool,
+        @ViewBuilder destination: @escaping () -> Destination
+    ) -> some View {
+        if #available(iOS 27.1, *), ListSplit.usesHingeArrangement {
+            modifier(HingeDetailModifier(
+                showsBothColumns: showsBothColumns,
+                hasDetail: hasDetail,
+                suppressPush: suppressPush,
+                onDismiss: onDismiss,
+                destination: destination
+            ))
+        } else {
+            self
+        }
+    }
+}
+
+@available(iOS 27.1, *)
+private struct HingeDetailModifier<Destination: View>: ViewModifier {
+    @Binding var showsBothColumns: Bool
+    var hasDetail: Bool
+    @Binding var suppressPush: Bool
+    var onDismiss: () -> Bool
+    @ViewBuilder var destination: () -> Destination
+    @State private var pushed = false
+
+    func body(content: Content) -> some View {
+        content
+            .navigationDestination(isPresented: $pushed) {
+                destination()
+            }
+            .onChange(of: showsBothColumns) { _, sideBySide in
+                if !sideBySide, hasDetail, !suppressPush {
+                    pushed = true
+                } else {
+                    syncPush()
+                }
+            }
+            .onChange(of: hasDetail) { wasDetail, isDetail in
+                let suppressed = suppressPush
+                suppressPush = false
+                // A tap, Add, or Record opens over the folded list. The first-row
+                // selection used beside an open fold does not.
+                if isDetail, !wasDetail, !showsBothColumns, !suppressed {
+                    pushed = true
+                } else {
+                    syncPush()
+                }
+            }
+            .onChange(of: pushed) { _, isPushed in
+                guard !isPushed, !showsBothColumns, hasDetail else { return }
+                if !onDismiss() {
+                    pushed = true
+                }
+            }
+    }
+
+    private func syncPush() {
+        if showsBothColumns || !hasDetail {
+            if pushed {
+                pushed = false
+            }
+        }
+    }
+}
+
+/// Publishes whether an arrangement is showing two columns. Summary uses this so
+/// Most Visited stays on the right of an open fold and joins the single column when folded.
+struct ArrangementSideBySideReader: View {
+    @Binding var showsBothColumns: Bool
+
+    var body: some View {
+        if #available(iOS 27.1, *) {
+            SplitColumnReporter(showsBothColumns: $showsBothColumns)
+                .allowsHitTesting(false)
+        }
+    }
+}
+
+/// Reports whether the detail column is visible beside the list.
+private struct SplitColumnReporter: UIViewRepresentable {
+    @Binding var showsBothColumns: Bool
+    var onReport: ((Bool) -> Void)? = nil
+
+    func makeUIView(context: Context) -> Reporter {
+        Reporter()
+    }
+
+    func updateUIView(_ uiView: Reporter, context: Context) {
+        uiView.onChange = { visible in
+            onReport?(visible)
+            if showsBothColumns != visible {
+                showsBothColumns = visible
+            }
+        }
+        uiView.report()
+    }
+
+    final class Reporter: UIView {
+        var onChange: (Bool) -> Void = { _ in }
+        private var last: Bool?
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            report()
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            report()
+        }
+
+        func report() {
+            guard let visible = columnsAreSideBySide(), visible != last else { return }
+            last = visible
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.columnsAreSideBySide() == visible else { return }
+                self.onChange(visible)
+            }
+        }
+
+        private func columnsAreSideBySide() -> Bool? {
+            if #available(iOS 27.1, *), let arrangement = enclosingArrangementViewController {
+                return arrangementIsSideBySide(arrangement)
+            }
+            if let split = enclosingSplitViewController {
+                if split.isCollapsed { return false }
+                let width = split.viewController(for: .secondary)?.view.bounds.width ?? 0
+                return width > 1 ? true : nil
+            }
+            return nil
+        }
+
+        /// Side by side only when the detail column is actually on screen.
+        /// A hidden column can still report a width, which kept folded taps from pushing.
+        @available(iOS 27.1, *)
+        private func arrangementIsSideBySide(_ arrangement: UIArrangementViewController) -> Bool? {
+            let container = arrangement.view.bounds
+            guard container.width > 1, container.height > 1 else { return nil }
+            if let secondary = arrangement.state(for: .secondary),
+               secondary.isHidden || !secondary.splitAxis.contains(.horizontal) {
+                return false
+            }
+            guard let secondaryView = arrangement.viewController(for: .secondary)?.viewIfLoaded,
+                  !secondaryView.isHidden else { return false }
+            let frame = secondaryView.convert(secondaryView.bounds, to: arrangement.view)
+            let visible = frame.intersection(container)
+            return visible.width > 80 && visible.height > 80
+        }
     }
 }
 
@@ -57,6 +295,19 @@ private extension UIView {
             if let split = next as? UISplitViewController { return split }
             if let controller = next as? UIViewController, let split = controller.splitViewController {
                 return split
+            }
+            responder = next
+        }
+        return nil
+    }
+
+    @available(iOS 27.1, *)
+    var enclosingArrangementViewController: UIArrangementViewController? {
+        var responder: UIResponder? = self
+        while let next = responder?.next {
+            if let arrangement = next as? UIArrangementViewController { return arrangement }
+            if let controller = next as? UIViewController, let arrangement = controller.arrangementViewController {
+                return arrangement
             }
             responder = next
         }
@@ -255,12 +506,14 @@ struct CenteredColumnTitle: UIViewRepresentable {
     var title: String
     var subtitle: String
     var titleColor: UIColor
+    var active: Bool
 
     func makeUIView(context: Context) -> Anchor {
         Anchor()
     }
 
     func updateUIView(_ uiView: Anchor, context: Context) {
+        uiView.active = active
         uiView.title = title
         uiView.subtitle = subtitle
         uiView.titleColor = titleColor
@@ -268,6 +521,7 @@ struct CenteredColumnTitle: UIViewRepresentable {
     }
 
     final class Anchor: UIView {
+        var active = false
         var title = ""
         var subtitle = ""
         var titleColor: UIColor = .label
@@ -319,7 +573,11 @@ struct CenteredColumnTitle: UIViewRepresentable {
         }
 
         private func apply() {
-            guard !positioning, UIDevice.current.userInterfaceIdiom == .pad else { return }
+            guard active else {
+                panel.removeFromSuperview()
+                return
+            }
+            guard !positioning else { return }
             guard let bar = nearestNavigationBar, bar.bounds.width > 1 else { return }
             positioning = true
             defer { positioning = false }

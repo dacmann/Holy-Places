@@ -356,7 +356,9 @@ final class VisitsListModel: NSObject, ObservableObject, NSFetchedResultsControl
 
 struct VisitsTabView: View {
     @EnvironmentObject var router: AppRouter
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @State private var showsBothColumns = UIDevice.current.userInterfaceIdiom == .pad
+    /// Set while choosing the first row for an open fold, so that selection does not push.
+    @State private var suppressCollapsedPush = false
     @StateObject private var model = VisitsListModel()
 
     @State private var selection: VisitListSelection?
@@ -377,6 +379,7 @@ struct VisitsTabView: View {
     @State private var noticeQueue: [VisitsNotice] = []
     @State private var notice: VisitsNotice?
     @State private var noticeShown = false
+    @AppStorage(ListDensity.storageKey) private var compactLists = false
 
     private enum PendingAction {
         case selection(VisitListSelection?)
@@ -394,10 +397,20 @@ struct VisitsTabView: View {
     }
 
     var body: some View {
-        AdaptiveSplit(widenSidebar: true) {
-            listColumn
+        AdaptiveSplit(widenSidebar: true, showsBothColumns: $showsBothColumns) {
+            listColumn.hingeDetailNavigation(
+                showsBothColumns: $showsBothColumns,
+                hasDetail: recordModel != nil || showPlacePicker || selectedVisitURI != nil,
+                suppressPush: $suppressCollapsedPush,
+                onDismiss: dismissCollapsedDetail
+            ) {
+                detailColumn
+            }
         } detail: {
             detailColumn
+        }
+        .onChange(of: showsBothColumns) { _, visible in
+            if visible { selectFirstVisit() }
         }
         .tint(Color("BaptismsBlue"))
         .fullScreenCover(item: $presentedPhoto) { item in
@@ -489,13 +502,14 @@ struct VisitsTabView: View {
                                 .tag(VisitListSelection.visit(uri))
                                 .id(uri)
                                 .listRowBackground(Color(uiColor: selection == .visit(uri) ? .systemGray4 : .systemBackground))
+                                .compactListRowInsets(compactLists)
                                 .onAppear { visibleVisitURIs.insert(uri) }
                                 .onDisappear { visibleVisitURIs.remove(uri) }
                                 .selectionDisabled(model.isSelectMode)
                         }
                     } header: {
                         Text("\(section.title) (\(section.visits.count))")
-                            .font(.custom("Baskerville", size: 22))
+                            .font(.custom("Baskerville", size: ListDensity.headerSize))
                             .foregroundStyle(Color("BaptismsBlue"))
                             .textCase(nil)
                     }
@@ -506,10 +520,11 @@ struct VisitsTabView: View {
                 proxy.scrollTo(uri, anchor: .center)
             }
             .listStyle(.plain)
+            .compactListSectionSpacing(compactLists)
             .scrollContentBackground(.hidden)
             .background(Color(uiColor: .systemBackground), ignoresSafeAreaEdges: [.horizontal, .bottom])
         }
-        .environment(\.defaultMinListRowHeight, 50)
+        .environment(\.defaultMinListRowHeight, ListDensity.rowMinHeight(compactLists))
         .searchable(
             text: $model.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
@@ -520,7 +535,8 @@ struct VisitsTabView: View {
             CenteredColumnTitle(
                 title: "\(model.titleName) (\(model.displayedCount))",
                 subtitle: model.sortSubtitle,
-                titleColor: model.titleUIColor
+                titleColor: model.titleUIColor,
+                active: showsBothColumns
             )
         }
         .overlay {
@@ -535,7 +551,7 @@ struct VisitsTabView: View {
         .safeAreaInset(edge: .top, spacing: 0) {
             scopeBar
         }
-        .navigationTitle(UIDevice.current.userInterfaceIdiom == .pad ? "" : model.titleName)
+        .navigationTitle(showsBothColumns ? "" : model.titleName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.navigationStack)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -563,7 +579,7 @@ struct VisitsTabView: View {
 
     @ToolbarContentBuilder
     private var listToolbar: some ToolbarContent {
-        if UIDevice.current.userInterfaceIdiom != .pad {
+        if !showsBothColumns {
             ToolbarItem(placement: .principal) {
                 VStack(spacing: 0) {
                     Text("\(model.titleName) (\(model.displayedCount))")
@@ -722,17 +738,17 @@ struct VisitsTabView: View {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 13, height: 13)
+                    .frame(width: ListDensity.symbolSize(compactLists), height: ListDensity.symbolSize(compactLists))
                     .foregroundStyle(Color(uiColor: titleColor))
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(visit.holyPlace ?? "")
-                    .font(.custom("Baskerville", size: 20))
+                    .font(.custom("Baskerville", size: ListDensity.titleSize(compactLists)))
                     .foregroundStyle(Color(uiColor: titleColor))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 Text(visitSubtitle(visit))
-                    .font(.custom("Baskerville", size: 16))
+                    .font(.custom("Baskerville", size: ListDensity.subtitleSize(compactLists)))
                     .foregroundStyle(Color(uiColor: defaultColor))
                     .lineLimit(1)
             }
@@ -748,7 +764,8 @@ struct VisitsTabView: View {
                     .foregroundStyle(.tertiary)
             }
         }
-        .frame(minHeight: 50)
+        .frame(minHeight: ListDensity.rowMinHeight(compactLists))
+        .padding(.vertical, compactLists ? ListDensity.compactRowPadding : 0)
         .contentShape(Rectangle())
         .modifier(SiriVisitAnnotation(visit: visit))
     }
@@ -1031,13 +1048,28 @@ struct VisitsTabView: View {
         }
     }
 
-    /// Only on iPad with both columns showing. In a collapsed split, a selection would open
-    /// the detail over the list.
+    /// Selects the first visit only while the list and detail are both on screen.
+    /// In a collapsed split, a selection would open the detail over the list.
     private func selectFirstVisit(replacingSelection: Bool = false) {
-        guard UIDevice.current.userInterfaceIdiom == .pad, horizontalSizeClass == .regular,
+        guard showsBothColumns,
               replacingSelection || selection == nil, recordModel == nil, !showPlacePicker, !model.isSelectMode,
               let first = model.visibleVisits().first else { return }
+        suppressCollapsedPush = true
         request(.selection(.visit(first.objectID.uriRepresentation().absoluteString)))
+        DispatchQueue.main.async { suppressCollapsedPush = false }
+    }
+
+    /// The pushed detail was closed. A dirty form stays up until the user decides.
+    private func dismissCollapsedDetail() -> Bool {
+        if recordModel?.isDirty == true {
+            pending = .selection(nil)
+            enqueue(.discard)
+            return false
+        }
+        recordModel = nil
+        showPlacePicker = false
+        setSelection(nil)
+        return true
     }
 
     private func beginQuickAdd() {
@@ -1193,6 +1225,7 @@ private struct AddVisitPlacePicker: View {
     @State private var selectedName: String?
     @State private var closest = UserDefaults.standard.bool(forKey: "addVisitClosestPlace")
     @State private var allowClosest = !UserDefaults.standard.bool(forKey: "locationNotAllowed")
+    @AppStorage(ListDensity.storageKey) private var compactLists = false
 
     private var sourcePlaces: [Temple] {
         switch segment {
@@ -1253,7 +1286,7 @@ private struct AddVisitPlacePicker: View {
                     } label: {
                         HStack {
                             Text(place.templeName)
-                                .font(.custom("Baskerville", size: 20))
+                                .font(.custom("Baskerville", size: ListDensity.titleSize(compactLists)))
                                 .foregroundStyle(Color(uiColor: color(for: place)))
                             Spacer()
                             if selectedName == place.templeName {
@@ -1261,10 +1294,14 @@ private struct AddVisitPlacePicker: View {
                                     .foregroundStyle(Color("BaptismsBlue"))
                             }
                         }
+                        .frame(minHeight: ListDensity.rowMinHeight(compactLists))
+                        .padding(.vertical, compactLists ? ListDensity.compactRowPadding : 0)
                     }
                     .buttonStyle(.plain)
+                    .compactListRowInsets(compactLists)
                 }
                 .listStyle(.plain)
+                .environment(\.defaultMinListRowHeight, ListDensity.rowMinHeight(compactLists))
             }
             if allowClosest && segment != 3 {
                 Toggle(isOn: $closest) {

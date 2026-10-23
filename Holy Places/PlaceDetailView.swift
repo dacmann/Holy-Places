@@ -329,7 +329,11 @@ struct PlaceDetailView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var showOrdinancePopup = false
 
-    private var isRegularWidth: Bool { horizontalSizeClass == .regular }
+    /// iPad keeps the larger type. An unfolded Duo reports a regular size class too,
+    /// but each side of the fold is only as wide as a phone, so it uses the smaller sizes.
+    private var isRegularWidth: Bool {
+        horizontalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .pad
+    }
 
     private let baptismsBlue = Color("BaptismsBlue")
     private let titleFont = Font.custom("Baskerville", size: 22)
@@ -459,12 +463,15 @@ struct PlaceDetailView: View {
                 text: nameText,
                 fontName: "Baskerville",
                 width: nameWidth,
-                maxSize: isRegularWidth ? 48 : 38,
-                minSize: isRegularWidth ? 34 : 28
+                maxSize: isRegularWidth ? 40 : 30,
+                minSize: isRegularWidth ? 26 : 20
             )
             let ordinalHeight: CGFloat = (model.ordinalText?.isEmpty == false) ? 24 : 0
-            let snippetWidth = max(geo.size.width - 32, 1)
-            let snippetHeight = max(geo.size.height - nameLayout.height - ordinalHeight - 16, 20)
+            // Compact phones, including the smaller Pro, need a tighter fit box so the snippet scales down and leaves space around the text.
+            let snippetWidthInset: CGFloat = isRegularWidth ? 32 : 64
+            let snippetHeightInset: CGFloat = isRegularWidth ? 16 : 48
+            let snippetWidth = max(geo.size.width - snippetWidthInset, 1)
+            let snippetHeight = max(geo.size.height - nameLayout.height - ordinalHeight - snippetHeightInset, 20)
             let snippetSize = model.snippetText.isEmpty
                 ? 17
                 : Self.fontSizeToFitRect(
@@ -472,7 +479,7 @@ struct PlaceDetailView: View {
                     fontName: "Baskerville",
                     width: snippetWidth,
                     height: snippetHeight,
-                    maxSize: isRegularWidth ? 30 : 24,
+                    maxSize: isRegularWidth ? 26 : 22,
                     minSize: 16
                 )
 
@@ -495,7 +502,7 @@ struct PlaceDetailView: View {
                         .font(.custom("Baskerville", size: snippetSize))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .padding(.horizontal, 12)
+                        .padding(.horizontal, isRegularWidth ? 12 : 24)
                 } else {
                     Spacer(minLength: 0)
                 }

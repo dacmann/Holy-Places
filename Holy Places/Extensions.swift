@@ -1173,3 +1173,23 @@ extension UIColor {
         return UIColor(red:226/255, green:88/255, blue:34/255, alpha:1.0)
     }
 }
+
+extension View {
+    @ViewBuilder
+    func compactListSectionSpacing(_ compact: Bool) -> some View {
+        if compact {
+            listSectionSpacing(ListDensity.compactSectionSpacing)
+        } else {
+            self
+        }
+    }
+
+    func compactListRowInsets(_ compact: Bool) -> some View {
+        listRowInsets(compact ? EdgeInsets(
+            top: ListDensity.compactRowInsetVertical,
+            leading: 16,
+            bottom: ListDensity.compactRowInsetVertical,
+            trailing: 16
+        ) : nil)
+    }
+}

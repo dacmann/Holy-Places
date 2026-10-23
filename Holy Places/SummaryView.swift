@@ -283,50 +283,129 @@ struct SummaryView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    /// iPad keeps the larger type. An unfolded Duo reports a regular size class too,
+    /// but each side of the fold is only as wide as a phone, so it uses the smaller sizes.
+    private var isRegularWidth: Bool {
+        horizontalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .pad
+    }
+
     private let baptismsBlue = Color("BaptismsBlue")
 
     var body: some View {
         GeometryReader { geo in
             let landscape = geo.size.width > geo.size.height
-            let regularWidth = horizontalSizeClass == .regular
+            let regularWidth = isRegularWidth
             VStack(spacing: 0) {
                 quoteHeader(regularWidth: regularWidth, landscape: landscape)
-                ScrollView {
-                    VStack(spacing: 28) {
-                        Button("Tap for Achievements", action: onAchievements)
-                            .font(.custom("Baskerville", size: regularWidth ? 22 : 19))
-                            .foregroundColor(baptismsBlue)
-                            .buttonStyle(.plain)
-                            .padding(.top, 8)
-
-                        if landscape {
-                            HStack(alignment: .top, spacing: 56) {
-                                statsGrid(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: false)
-                                    .frame(maxWidth: geo.size.width * 0.48, alignment: .leading)
-                                statsGrid(regularWidth: regularWidth, showHolyPlaces: false, showTempleVisits: false, showMostVisited: true)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        } else {
-                            statsGrid(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: true)
-                        }
+                if ListSplit.usesHingeArrangement {
+                    achievementsButton(regularWidth: regularWidth)
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 28)
+                    hingeSummary(regularWidth: regularWidth)
+                } else {
+                    ScrollView {
+                        summaryStack(regularWidth: regularWidth, landscape: landscape, width: geo.size.width)
                     }
-                    .padding(.horizontal, regularWidth ? 28 : 16)
-                    .padding(.bottom, 24)
                 }
             }
             .background(Color(uiColor: .systemBackground))
         }
     }
 
+    @ViewBuilder
+    private func hingeSummary(regularWidth: Bool) -> some View {
+        if #available(iOS 27.1, *) {
+            ArrangementView {
+                SummaryPrimaryColumn(
+                    sideBySide: {
+                        summaryScroll(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: false)
+                    },
+                    combined: {
+                        summaryScroll(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: true)
+                    }
+                )
+            } secondary: {
+                summaryScroll(regularWidth: regularWidth, showHolyPlaces: false, showTempleVisits: false, showMostVisited: true)
+            }
+            .arrangementViewStyle(.split.axes(.horizontal))
+        }
+    }
+
+    private func summaryScroll(regularWidth: Bool, showHolyPlaces: Bool, showTempleVisits: Bool, showMostVisited: Bool) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                statsGrid(
+                    regularWidth: regularWidth,
+                    showHolyPlaces: showHolyPlaces,
+                    showTempleVisits: showTempleVisits,
+                    showMostVisited: showMostVisited
+                )
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 24)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func achievementsButton(regularWidth: Bool) -> some View {
+        Button("Tap for Achievements", action: onAchievements)
+            .font(.custom("Baskerville", size: regularWidth ? 22 : 19))
+            .foregroundColor(baptismsBlue)
+            .buttonStyle(.plain)
+            .padding(.top, 8)
+    }
+
+    @ViewBuilder
+    private func summaryStack(regularWidth: Bool, landscape: Bool, width: CGFloat) -> some View {
+        VStack(spacing: 28) {
+            achievementsButton(regularWidth: regularWidth)
+            if landscape {
+                HStack(alignment: .top, spacing: 56) {
+                    statsGrid(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: false)
+                        .frame(maxWidth: width * 0.48, alignment: .leading)
+                    statsGrid(regularWidth: regularWidth, showHolyPlaces: false, showTempleVisits: false, showMostVisited: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            } else {
+                statsGrid(regularWidth: regularWidth, showHolyPlaces: true, showTempleVisits: true, showMostVisited: true)
+            }
+        }
+        .padding(.horizontal, regularWidth ? 28 : 16)
+        .padding(.bottom, 24)
+    }
+
+/// The system arrangement puts Holy Places and Temple Visits on the left of the
+/// fold and Most Visited on the right. A folded phone shows every section in one column.
+@available(iOS 27.1, *)
+private struct SummaryPrimaryColumn<SideBySide: View, Combined: View>: View {
+    @ViewBuilder var sideBySide: () -> SideBySide
+    @ViewBuilder var combined: () -> Combined
+    /// Start beside the fold. Otherwise the left column includes Most Visited until
+    /// the arrangement reports, and Top 12 appears on both sides.
+    @State private var showsBothColumns = true
+
+    var body: some View {
+        Group {
+            if showsBothColumns {
+                sideBySide()
+            } else {
+                combined()
+            }
+        }
+        .background {
+            ArrangementSideBySideReader(showsBothColumns: $showsBothColumns)
+        }
+    }
+}
+
     private func quoteHeader(regularWidth: Bool, landscape: Bool) -> some View {
         let height: CGFloat
         if landscape {
-            height = horizontalSizeClass == .regular ? 132 : 100
+            height = regularWidth ? 132 : 100
         } else {
             height = regularWidth ? 200 : 132
         }
         return ZStack(alignment: .bottomTrailing) {
-            baptismsBlue.opacity(0.85)
             Text(model.quote)
                 .font(.custom("Baskerville", size: regularWidth ? 33 : 20))
                 .foregroundColor(.white)
@@ -343,7 +422,12 @@ struct SummaryView: View {
                 .padding(.trailing, 10)
                 .padding(.bottom, 5)
         }
+        .frame(maxWidth: .infinity)
         .frame(height: height)
+        .background {
+            baptismsBlue.opacity(0.85)
+                .ignoresSafeArea(edges: .horizontal)
+        }
     }
 
     @ViewBuilder
