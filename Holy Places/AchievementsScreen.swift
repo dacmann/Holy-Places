@@ -11,8 +11,8 @@ import UIKit
 struct AchievementsScreen: View {
     var onDismiss: () -> Void
 
-    @State private var showCompleted = true
-    @State private var rows: [Achievement] = completed
+    @State private var showCompleted = !completed.isEmpty
+    @State private var rows: [Achievement] = completed.isEmpty ? notCompleted : completed
     @State private var hasAnyCompleted = !completed.isEmpty
     @State private var showCelebrationBoard = false
     @AppStorage(ListDensity.storageKey) private var compactLists = false

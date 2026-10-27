@@ -54,11 +54,6 @@ struct VisitDetailScreen: View {
                         }
                     }
 
-                Rectangle()
-                    .fill(Color(white: 0.33))
-                    .frame(height: 1)
-                    .padding(.horizontal, -1)
-
                 if !ordinanceItems.isEmpty {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
                         ForEach(ordinanceItems) { item in
@@ -95,6 +90,7 @@ struct VisitDetailScreen: View {
         .ignoresSafeArea(.keyboard)
         .navigationTitle("Visit Details")
         .navigationBarTitleDisplayMode(.inline)
+        .hideNavigationBarSeparator()
         .hideTabBarWhenCompact()
         .toolbar {
             ToolbarItem(placement: .principal) {

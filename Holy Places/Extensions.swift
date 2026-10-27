@@ -317,6 +317,11 @@ extension View {
         modifier(CompactTabBarHider())
     }
 
+    /// Removes the hairline under Place Details and Visit Details.
+    func hideNavigationBarSeparator() -> some View {
+        background { NavigationBarSeparatorHider() }
+    }
+
     /// Thin separator around a wheel picker, inset from the sheet edges.
     func pickerBorder() -> some View {
         padding(.horizontal, 20)
@@ -360,6 +365,42 @@ struct ScopeChoiceButtons: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(accessibilityLabel?(title) ?? title)
             }
+        }
+    }
+}
+
+private struct NavigationBarSeparatorHider: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        view.backgroundColor = .clear
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        uiView.clearNavigationBarSeparator(attempts: 8)
+    }
+}
+
+private extension UIView {
+    func clearNavigationBarSeparator(attempts: Int) {
+        var responder: UIResponder? = self
+        while let next = responder?.next {
+            if let navigation = next as? UINavigationController {
+                let appearance = navigation.navigationBar.standardAppearance.copy()
+                appearance.shadowColor = .clear
+                appearance.shadowImage = UIImage()
+                navigation.navigationBar.standardAppearance = appearance
+                navigation.navigationBar.scrollEdgeAppearance = appearance
+                navigation.navigationBar.compactAppearance = appearance
+                navigation.navigationBar.compactScrollEdgeAppearance = appearance
+                return
+            }
+            responder = next
+        }
+        guard attempts > 0 else { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.clearNavigationBarSeparator(attempts: attempts - 1)
         }
     }
 }
@@ -981,6 +1022,13 @@ public extension UIDevice {
         default:
             return identifier
         }
+    }
+
+    /// The foldable iPhone. The simulator reports a generic machine name, so the
+    /// simulated model identifier is checked as well.
+    var isDuo: Bool {
+        if modelName == "iPhone Duo" { return true }
+        return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] == "iPhone19,4"
     }
 }
 

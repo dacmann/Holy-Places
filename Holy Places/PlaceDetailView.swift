@@ -347,13 +347,14 @@ struct PlaceDetailView: View {
                     photoPager
                         .frame(maxWidth: .infinity)
                         .frame(height: photoHeight(in: geo))
-                        .clipped()
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
                     metaRow
                         .padding(.top, 8)
                     nameSection
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     detailsAndActions
-                        .padding(.bottom, 8)
+                        .padding(.bottom, UIDevice.current.isDuo ? 0 : 8)
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
                 .contentShape(Rectangle())
@@ -365,7 +366,9 @@ struct PlaceDetailView: View {
         }
         .background(Color(uiColor: .systemBackground))
         .ignoresSafeArea(.keyboard)
+        .hideNavigationBarSeparator()
         .hideTabBarWhenCompact()
+        .modifier(DuoDetailBottomInset())
         .onChange(of: model.place?.templeName) {
             showOrdinancePopup = false
         }
@@ -404,6 +407,7 @@ struct PlaceDetailView: View {
                         Image(uiImage: model.images[index])
                             .resizable()
                             .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .tag(index)
                             .onTapGesture {
@@ -699,7 +703,21 @@ struct PlaceDetailView: View {
         }
     }
 
-    private struct SiriPlaceAnnotation: ViewModifier {
+    /// The Duo screen is shorter and square at the bottom, so the phone's home-indicator
+    /// gap leaves the address and buttons sitting too high. Let them use that space.
+    private struct DuoDetailBottomInset: ViewModifier {
+        func body(content: Content) -> some View {
+            if UIDevice.current.isDuo {
+                content
+                    .contentMargins(.bottom, 0)
+                    .ignoresSafeArea(.container, edges: .bottom)
+            } else {
+                content
+            }
+        }
+    }
+
+private struct SiriPlaceAnnotation: ViewModifier {
         var place: Temple?
 
         func body(content: Content) -> some View {

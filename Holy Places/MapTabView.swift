@@ -538,7 +538,7 @@ struct MapTabView: View {
                 mapVisitedFilter = visited
                 revision += 1
             }
-            .presentationDetents([.medium, .large])
+            .presentationDetents(UIDevice.current.isDuo ? [.large] : [.medium, .large])
             .presentationDragIndicator(.visible)
             .presentationCornerRadius(20)
         }

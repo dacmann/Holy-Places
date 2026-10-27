@@ -555,7 +555,7 @@ struct VisitsTabView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarRole(.navigationStack)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
+        .toolbarBackground(Color(uiColor: ListHeaderColor.matchingScreen), for: .navigationBar)
         .frame(maxWidth: .infinity)
         .toolbar { listToolbar }
     }

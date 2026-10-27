@@ -48,6 +48,7 @@ struct AdaptiveSplit<Primary: View, Secondary: View>: View {
     private var classicSplit: some View {
         NavigationSplitView {
             primary()
+                .modifier(SidebarColumnBackground())
                 .background {
                     SplitColumnReporter(showsBothColumns: $showsBothColumns)
                     SidebarSeparator()
@@ -315,8 +316,28 @@ private extension UIView {
     }
 }
 
-/// iPadOS 26 draws the sidebar as a card with no divider, so the list and the
-/// detail beside it read as one surface. This draws a line on the card's trailing edge.
+/// Dark mode draws the iPad sidebar one step above the screen, which turns
+/// `systemBackground` gray. The list itself stays the base screen color.
+enum ListHeaderColor {
+    static let matchingScreen = UIColor { traits in
+        let base = traits.modifyingTraits { $0.userInterfaceLevel = .base }
+        return UIColor.systemBackground.resolvedColor(with: base)
+    }
+}
+
+/// The split column's own plate is the gray behind the Places and Visits header.
+private struct SidebarColumnBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 18.0, *) {
+            content.containerBackground(Color(uiColor: ListHeaderColor.matchingScreen), for: .navigationSplitView)
+        } else {
+            content
+        }
+    }
+}
+
+/// Keeps the iPad list header on top of the list, drops the sidebar edge line,
+/// and paints that header the same black (or white) as the rest of the screen.
 private struct SidebarSeparator: UIViewRepresentable {
     func makeUIView(context: Context) -> Installer {
         Installer()
@@ -324,6 +345,9 @@ private struct SidebarSeparator: UIViewRepresentable {
 
     func updateUIView(_ uiView: Installer, context: Context) {
         uiView.setNeedsLayout()
+        DispatchQueue.main.async { [weak uiView] in
+            uiView?.place()
+        }
     }
 
     final class Installer: UIView {
@@ -339,45 +363,103 @@ private struct SidebarSeparator: UIViewRepresentable {
             place()
         }
 
-        private func place() {
+        fileprivate func place() {
             guard UIDevice.current.userInterfaceIdiom == .pad,
                   let split = enclosingSplitViewController,
                   let primary = split.viewController(for: .primary) else { return }
+            // `.none` drops the gray plate but draws the column divider again.
+            // The sidebar style has no divider; the header color is painted separately.
+            split.primaryBackgroundStyle = .sidebar
             let column: UIView = (primary.navigationController ?? primary).view
+            column.subviews
+                .filter { $0.accessibilityIdentifier == Self.identifier }
+                .forEach { $0.removeFromSuperview() }
+            hideColumnDivider(of: split, beside: column)
+            guard let bar = column.subviews.compactMap({ $0 as? UINavigationBar }).first
+                    ?? nearestNavigationBar else { return }
+            bar.subviews
+                .filter { $0.accessibilityIdentifier == Self.fillIdentifier }
+                .forEach { $0.removeFromSuperview() }
             // The sidebar list is inserted above the navigation bar and covers the
             // title between the header buttons. Keep the bar on top of that list.
-            if let bar = column.subviews.first(where: { $0 is UINavigationBar }) as? UINavigationBar {
-                if column.subviews.last(where: { $0.accessibilityIdentifier != Self.identifier }) !== bar {
-                    column.bringSubviewToFront(bar)
+            if column.subviews.last !== bar, bar.superview === column {
+                column.bringSubviewToFront(bar)
+            }
+            paintHeader(bar)
+        }
+
+        /// Recolors the bar behind the title, search field, and header buttons.
+        /// The buttons and search field stay in the bar; only its fill changes.
+        private func paintHeader(_ bar: UINavigationBar) {
+            let appearance = bar.standardAppearance.copy()
+            let titleAttributes = appearance.titleTextAttributes
+            let largeTitleAttributes = appearance.largeTitleTextAttributes
+            let buttonAppearance = appearance.buttonAppearance
+            let backAppearance = appearance.backButtonAppearance
+            let doneAppearance = appearance.doneButtonAppearance
+            let prominentAppearance: UIBarButtonItemAppearance? = if #available(iOS 26.0, *) {
+                appearance.prominentButtonAppearance
+            } else {
+                nil
+            }
+            let shadowColor = appearance.shadowColor
+            let shadowImage = appearance.shadowImage
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = titleAttributes
+            appearance.largeTitleTextAttributes = largeTitleAttributes
+            appearance.buttonAppearance = buttonAppearance
+            appearance.backButtonAppearance = backAppearance
+            appearance.doneButtonAppearance = doneAppearance
+            if #available(iOS 26.0, *), let prominentAppearance {
+                appearance.prominentButtonAppearance = prominentAppearance
+            }
+            appearance.backgroundColor = ListHeaderColor.matchingScreen
+            appearance.backgroundEffect = nil
+            appearance.backgroundImage = nil
+            appearance.shadowColor = shadowColor
+            appearance.shadowImage = shadowImage
+            bar.standardAppearance = appearance
+            bar.scrollEdgeAppearance = appearance
+            bar.compactAppearance = appearance
+            bar.compactScrollEdgeAppearance = appearance
+            for item in bar.items ?? [] {
+                item.standardAppearance = appearance
+                item.scrollEdgeAppearance = appearance
+                item.compactAppearance = appearance
+                item.compactScrollEdgeAppearance = appearance
+            }
+        }
+
+        /// Hides the system divider on the trailing edge of the list column.
+        private func hideColumnDivider(of split: UISplitViewController, beside column: UIView) {
+            let edge = column.convert(CGPoint(x: column.bounds.maxX, y: column.bounds.midY), to: split.view)
+            func walk(_ view: UIView) {
+                let name = String(describing: type(of: view))
+                let frame = view.convert(view.bounds, to: split.view)
+                let verticalLine = frame.width > 0 && frame.width <= 2 && frame.height > 40
+                let onEdge = abs(frame.midX - edge.x) < 4
+                let isDivider = name.contains("Separator") || name.contains("Divider") || name.contains("Border")
+                if verticalLine, onEdge, isDivider {
+                    view.isHidden = true
+                    view.alpha = 0
                 }
+                view.subviews.forEach(walk)
             }
-            guard #available(iOS 26.0, *) else { return }
-            let line = column.subviews.first { $0.accessibilityIdentifier == Self.identifier } ?? addLine(to: column)
-            let top = headerTop(in: column)
-            line.frame = CGRect(x: column.bounds.width - 1, y: top, width: 1, height: max(0, column.bounds.height - top))
-            line.isHidden = split.isCollapsed
-            column.bringSubviewToFront(line)
+            walk(split.view)
         }
 
-        /// Top of the title row, below the screen edge and above the search bar.
-        private func headerTop(in column: UIView) -> CGFloat {
-            guard let bar = column.subviews.compactMap({ $0 as? UINavigationBar }).first else {
-                return column.safeAreaInsets.top
+        private var nearestNavigationBar: UINavigationBar? {
+            var responder: UIResponder? = self
+            while let next = responder?.next {
+                if let navigation = next as? UINavigationController {
+                    return navigation.navigationBar
+                }
+                responder = next
             }
-            let barFrame = bar.convert(bar.bounds, to: column)
-            return max(0, barFrame.minY + bar.safeAreaInsets.top)
+            return nil
         }
 
-        private func addLine(to column: UIView) -> UIView {
-            let line = UIView()
-            line.accessibilityIdentifier = Self.identifier
-            line.backgroundColor = .opaqueSeparator
-            line.isUserInteractionEnabled = false
-            line.autoresizingMask = [.flexibleLeftMargin, .flexibleHeight]
-            line.layer.zPosition = 4
-            column.addSubview(line)
-            return line
-        }
+        private static let fillIdentifier = "HolyPlaces.listHeaderFill"
     }
 }
 

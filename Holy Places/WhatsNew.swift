@@ -10,6 +10,14 @@ import Foundation
 
 enum WhatsNew {
     static let notesByVersion: [String: String] = [
+        "6.1": """
+            iPhone Duo now has a layout of its own. Unfolded, the list and detail sit on either side of the fold. Folded, it behaves like a regular iPhone.
+
+            Also:
+            - Compact Lists in Settings tightens the text and row spacing on Places, Visits, and Achievements
+            - Reduced the size of the font on the Place Details screen and rounded the corners of the place photo
+            - Achievements opens on In Progress until you have earned one
+            """,
         "6.0": """
             This is the biggest update to Holy Places yet. Home, Places, Visits, the map, Record Visit, visit details, Achievements, and Profiles have all been rebuilt from the ground up, and with iOS 27 you can record visits and more just by asking Siri.
 
