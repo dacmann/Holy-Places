@@ -93,7 +93,14 @@ struct RecordVisitIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let place = try await resolvedPlace()
         let capturedDate = await MainActor.run { PlaceEntity.consumeCapturedSpokenDate() }
-        let visitDate = date ?? capturedDate ?? Date()
+        let visitDate: Date
+        if let date {
+            visitDate = date
+        } else if let capturedDate {
+            visitDate = capturedDate
+        } else {
+            visitDate = try await $date.requestValue("When did you visit? Say today, or a date like September 1.")
+        }
         let counts = try await resolvedOrdinanceCounts(isActiveTemple: place.typeCode == "T")
         let providedNotes: String?
         if notes == nil {
@@ -618,8 +625,10 @@ struct SearchHolyPlacesIntent: AppIntent {
             let spoken = VisitPhrase.placeText(from: term)
             await MainActor.run {
                 PlaceEntity.ensureCatalogLoaded()
-                let placeId = spoken.isEmpty ? nil : PlaceEntity.matching(spoken).first?.id
-                SiriNavigation.shared.request(.recordVisit(placeId: placeId))
+                let parsed = PlaceEntity.removingSpokenDate(from: spoken)
+                let placeWords = parsed.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                let placeId = placeWords.isEmpty ? nil : PlaceEntity.matching(placeWords).first?.id
+                SiriNavigation.shared.request(.recordVisit(placeId: placeId, date: parsed.date))
             }
             return .result()
         }
@@ -642,10 +651,9 @@ struct HolyPlacesShortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: RecordVisitIntent(),
             phrases: [
-                "Add a visit to \(\.$place) in \(.applicationName)",
                 "Record a visit to \(\.$place) in \(.applicationName)",
-                "Add a temple visit to \(\.$place) in \(.applicationName)",
-                "Record a temple visit to \(\.$place) in \(.applicationName)"
+                "Add a visit to \(\.$place) in \(.applicationName)",
+                "Record a visit in \(.applicationName)"
             ],
             shortTitle: "Record Visit",
             systemImageName: "square.and.pencil"

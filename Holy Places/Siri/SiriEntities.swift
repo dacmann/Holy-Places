@@ -45,11 +45,14 @@ struct PlaceEntity: AppEntity, IndexedEntity {
     }
 
     var displayRepresentation: DisplayRepresentation {
+        let synonyms = spokenAliases
+            .filter { $0.caseInsensitiveCompare(name) != .orderedSame }
+            .map { LocalizedStringResource(stringLiteral: $0) }
         let subtitle = [city, country].filter { !$0.isEmpty }.joined(separator: ", ")
         if subtitle.isEmpty {
-            return DisplayRepresentation(title: "\(name)")
+            return DisplayRepresentation(title: "\(name)", synonyms: synonyms)
         }
-        return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)")
+        return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)", synonyms: synonyms)
     }
 
     var attributeSet: CSSearchableItemAttributeSet {
@@ -188,19 +191,28 @@ struct PlaceEntity: AppEntity, IndexedEntity {
         return specific.isEmpty ? terms : specific
     }
 
-    /// Pulls a spoken date out of a place phrase such as "Rome temple on September 1" and remembers it for the visit.
+    /// Pulls a spoken date out of a place phrase such as "Rome temple on September 1".
+    /// A month and day with no year that lands in the future is treated as last year, since the visit has already happened.
     @MainActor
-    static func stringByRemovingSpokenDate(_ text: String) -> String {
-        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue) else { return text }
+    static func removingSpokenDate(from text: String) -> (text: String, date: Date?) {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue) else { return (text, nil) }
         let range = NSRange(text.startIndex..., in: text)
         guard let match = detector.matches(in: text, options: [], range: range).first(where: { result in
             guard result.date != nil, let swiftRange = Range(result.range, in: text) else { return false }
             return looksLikeSpokenDate(String(text[swiftRange]))
-        }), let detected = match.date, let swiftRange = Range(match.range, in: text) else { return text }
-        capturedSpokenDate = (detected, Date())
+        }), let detected = match.date, let swiftRange = Range(match.range, in: text) else { return (text, nil) }
+        let spoken = String(text[swiftRange])
+        let adjusted = visitDate(detected, spoken: spoken)
+        capturedSpokenDate = (adjusted, Date())
         var stripped = text
         stripped.removeSubrange(swiftRange)
-        return stripped
+        return (stripped, adjusted)
+    }
+
+    /// Pulls a spoken date out of a place phrase and remembers it for the visit.
+    @MainActor
+    static func stringByRemovingSpokenDate(_ text: String) -> String {
+        removingSpokenDate(from: text).text
     }
 
     @MainActor
@@ -208,6 +220,19 @@ struct PlaceEntity: AppEntity, IndexedEntity {
         defer { capturedSpokenDate = nil }
         guard let capturedSpokenDate, Date().timeIntervalSince(capturedSpokenDate.at) < 30 else { return nil }
         return capturedSpokenDate.value
+    }
+
+    /// Keeps an explicit year, "next", or "tomorrow". A bare month and day that the detector places in the future is last year's date.
+    private static func visitDate(_ detected: Date, spoken snippet: String) -> Date {
+        let text = snippet.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let namesAYear = text.range(of: #"\b(?:19|20)\d{2}\b"#, options: .regularExpression) != nil
+        let namesTheFuture = text.contains("next") || text.contains("tomorrow")
+        guard !namesAYear, !namesTheFuture else { return detected }
+        let calendar = Calendar.current
+        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: Date())),
+              detected >= tomorrow,
+              let lastYear = calendar.date(byAdding: .year, value: -1, to: detected) else { return detected }
+        return lastYear
     }
 
     private static func looksLikeSpokenDate(_ snippet: String) -> Bool {

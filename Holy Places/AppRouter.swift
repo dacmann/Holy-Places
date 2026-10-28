@@ -30,6 +30,7 @@ struct VisitsRoute: Equatable {
     var search: String?
     var quickAdd = false
     var recordPlaceId: String?
+    var recordDate: Date?
     var compose = false
     var token = UUID()
 }
@@ -100,12 +101,12 @@ final class AppRouter: ObservableObject {
         visitsRoute = VisitsRoute(quickAdd: true)
     }
 
-    func recordVisit(placeId: String?) {
+    func recordVisit(placeId: String?, date: Date? = nil) {
         select(.visits)
         if let placeId {
-            visitsRoute = VisitsRoute(recordPlaceId: placeId)
+            visitsRoute = VisitsRoute(recordPlaceId: placeId, recordDate: date)
         } else {
-            visitsRoute = VisitsRoute(compose: true)
+            visitsRoute = VisitsRoute(recordDate: date, compose: true)
         }
     }
 

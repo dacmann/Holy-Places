@@ -13,9 +13,11 @@ final class RecordVisitModel: ObservableObject {
     @Published var place: Temple
     @Published var isDirty = false
     var existingVisit: Visit?
-    init(place: Temple, existingVisit: Visit? = nil) {
+    var initialDate: Date?
+    init(place: Temple, existingVisit: Visit? = nil, initialDate: Date? = nil) {
         self.place = place
         self.existingVisit = existingVisit
+        self.initialDate = initialDate
     }
 }
 
@@ -783,11 +785,11 @@ private struct VisitFormSeed {
         if let visit = model.existingVisit {
             return editSeed(visit: visit, fallback: model.place)
         }
-        return newSeed(place: model.place)
+        return newSeed(place: model.place, initialDate: model.initialDate)
     }
 
-    private static func newSeed(place: Temple) -> VisitFormSeed {
-        var visitDate = Date()
+    private static func newSeed(place: Temple, initialDate: Date? = nil) -> VisitFormSeed {
+        var visitDate = initialDate ?? Date()
         var comments = defaultCommentsText
         var hoursText = "0"
         var hoursValue = 0.0

@@ -383,7 +383,7 @@ struct VisitsTabView: View {
 
     private enum PendingAction {
         case selection(VisitListSelection?)
-        case record(Temple, Visit?, Visit?, Bool)
+        case record(Temple, Visit?, Visit?, Bool, Date?)
         case add
     }
 
@@ -782,14 +782,14 @@ struct VisitsTabView: View {
             AddVisitPlacePicker(
                 onCancel: cancelPicker,
                 onNext: { temple in
-                    openRecord(place: temple, existing: nil, copying: nil)
+                    openRecord(place: temple, existing: nil, copying: nil, initialDate: nil)
                 }
             )
         } else if let uri = selectedVisitURI, let visit = model.visit(uri: uri) {
             VisitDetailScreen(
                 visit: visit,
                 onEdit: {
-                    request(.record(temple(for: visit), visit, nil, false))
+                    request(.record(temple(for: visit), visit, nil, false, nil))
                 },
                 onPhoto: { image in
                     presentedPhoto = PresentedPhoto(image: image)
@@ -890,12 +890,12 @@ struct VisitsTabView: View {
             if model.isSelectMode { model.exitSelect() }
             setSelection(value)
             applySelection(value)
-        case .record(let place, let existing, let copying, let fromNotification):
+        case .record(let place, let existing, let copying, let fromNotification, let initialDate):
             if fromNotification {
                 placeFromNotification = place.templeName
                 dateFromNotification = notificationData?.value(forKey: "dateVisited") as? Date
             }
-            openRecord(place: place, existing: existing, copying: copying)
+            openRecord(place: place, existing: existing, copying: copying, initialDate: initialDate)
         case .add:
             if case .visit(let uri) = selection {
                 anchorURI = uri
@@ -906,7 +906,7 @@ struct VisitsTabView: View {
         }
     }
 
-    private func openRecord(place: Temple, existing: Visit?, copying: Visit?) {
+    private func openRecord(place: Temple, existing: Visit?, copying: Visit?, initialDate: Date?) {
         if let existing {
             anchorURI = existing.objectID.uriRepresentation().absoluteString
         } else if case .visit(let uri) = selection {
@@ -916,7 +916,7 @@ struct VisitsTabView: View {
             copyVisit = copying
         }
         showPlacePicker = false
-        recordModel = RecordVisitModel(place: place, existingVisit: existing)
+        recordModel = RecordVisitModel(place: place, existingVisit: existing, initialDate: initialDate)
         setSelection(.compose)
     }
 
@@ -997,13 +997,13 @@ struct VisitsTabView: View {
     private func newVisit(from visit: Visit) {
         guard let name = visit.holyPlace,
               let found = allPlaces.first(where: { $0.templeName == name }) else { return }
-        request(.record(found, nil, nil, false))
+        request(.record(found, nil, nil, false, nil))
     }
 
     private func copyVisitRow(_ visit: Visit) {
         guard let name = visit.holyPlace,
               let found = allPlaces.first(where: { $0.templeName == name }) else { return }
-        request(.record(found, nil, visit, false))
+        request(.record(found, nil, visit, false, nil))
     }
 
     private func beginCopy() {
@@ -1038,7 +1038,7 @@ struct VisitsTabView: View {
             openURI(uri)
         } else if let placeId = route.recordPlaceId,
                   let temple = allPlaces.first(where: { stablePlaceID($0) == placeId }) {
-            request(.record(temple, nil, nil, false))
+            request(.record(temple, nil, nil, false, route.recordDate))
         } else if route.compose {
             request(.add)
         } else if route.quickAdd {
@@ -1076,9 +1076,9 @@ struct VisitsTabView: View {
         if let data = notificationData, data.value(forKey: "place") != nil {
             guard let placeName = data.value(forKey: "place") as? String,
                   let found = allPlaces.first(where: { $0.templeName == placeName }) else { return }
-            request(.record(found, nil, nil, true))
+            request(.record(found, nil, nil, true, nil))
         } else if let item = quickLaunchItem {
-            request(.record(item, nil, nil, false))
+            request(.record(item, nil, nil, false, nil))
         }
     }
 
@@ -1494,7 +1494,12 @@ private struct VisitOptionsSheet: View {
     private var alertShown: Binding<Bool> {
         Binding(
             get: { controller.alertTitle != nil },
-            set: { if !$0 { controller.alertTitle = nil } }
+            set: { isPresented in
+                guard !isPresented, controller.alertTitle != nil else { return }
+                DispatchQueue.main.async {
+                    controller.alertTitle = nil
+                }
+            }
         )
     }
 
@@ -1543,10 +1548,15 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
     @Published var alertTitle: String?
     @Published var alertMessage = ""
 
+    private struct WrittenExport {
+        let url: URL
+        let visitCount: Int
+        let photoCount: Int
+    }
+
     private var fileName = ""
     private var estimateGeneration = 0
-    private var exportText = ""
-    private var exportCount = 0
+    private var isExporting = false
     private var eName = ""
     private var holyPlace = ""
     private var comments = ""
@@ -1569,13 +1579,6 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
     private var skippedInvalid = 0
     private var commentsUpdated = 0
     private var onChanged: (() -> Void)?
-
-    private let displayDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        formatter.timeStyle = .none
-        return formatter
-    }()
 
     private let fileDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -1615,11 +1618,12 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
         estimateGeneration += 1
         let generation = estimateGeneration
         let includePhotoData = includePhotos
+        let predicate = ProfileManager.shared.visitProfilePredicate()
         if includePhotoData {
             estimatedSize = "Estimated size: calculating…"
         }
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            let bytes = self?.calculateEstimatedFileSize(includePhotos: includePhotoData) ?? 0
+            let bytes = self?.calculateEstimatedFileSize(includePhotos: includePhotoData, predicate: predicate) ?? 0
             DispatchQueue.main.async {
                 guard let self, generation == self.estimateGeneration else { return }
                 let formatter = ByteCountFormatter()
@@ -1631,19 +1635,56 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
     }
 
     func export(type: String) {
+        guard !isExporting else { return }
+        isExporting = true
         refreshFileName()
-        exportText = ""
-        buildExport(type: type)
-        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent("\(fileName).\(type)")
-        do {
-            try exportText.write(toFile: filePath, atomically: true, encoding: .utf8)
-            if type == "xml" {
-                UserDefaults.standard.set(Date(), forKey: "backupDate")
+        let exportFileName = fileName
+        let predicate = ProfileManager.shared.visitProfilePredicate()
+        let profileName = ProfileManager.shared.activeProfileName()
+        let includePhotoData = includePhotos
+        let profilesOn = profilesEnabled
+        statusMessage = "Exporting…"
+        statusUsesPlaceColor = false
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            do {
+                guard let written = try self?.writeExportFile(
+                    type: type,
+                    fileName: exportFileName,
+                    predicate: predicate,
+                    profileName: profileName,
+                    profilesOn: profilesOn,
+                    includePhotos: includePhotoData
+                ) else { return }
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.finishExport(type: type, written: written, includePhotos: includePhotoData)
+                }
+            } catch {
+                print("Error with export: \(error)")
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    self.isExporting = false
+                    self.statusMessage = "Export / Import Visits"
+                    self.statusUsesPlaceColor = false
+                }
             }
-            share = ExportShare(url: URL(fileURLWithPath: filePath))
-        } catch {
-            print("Error with export: \(error)")
         }
+    }
+
+    private func finishExport(type: String, written: WrittenExport, includePhotos: Bool) {
+        isExporting = false
+        if type == "xml" {
+            UserDefaults.standard.set(Date(), forKey: "backupDate")
+        }
+        if type == "xml" && includePhotos {
+            statusMessage = "Exported \(written.visitCount) visits with \(written.photoCount) photos to \(type) file."
+        } else {
+            statusMessage = "Exported \(written.visitCount) visits to \(type) file."
+        }
+        statusUsesPlaceColor = true
+        ad.needsVisitRefresh = true
+        ad.getVisits()
+        share = ExportShare(url: written.url)
     }
 
     func importFile(_ url: URL, onChanged: @escaping () -> Void) {
@@ -1771,22 +1812,28 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
         }
     }
 
-    private func calculateEstimatedFileSize(includePhotos: Bool) -> Int64 {
+    private func calculateEstimatedFileSize(includePhotos: Bool, predicate: NSPredicate?) -> Int64 {
         let context = ad.persistentContainer.newBackgroundContext()
         context.automaticallyMergesChangesFromParent = true
         return context.performAndWait {
             do {
-                let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-                fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
-                let searchResults = try context.fetch(fetchRequest)
+                let fetchRequest = NSFetchRequest<NSManagedObjectID>(entityName: "Visit")
+                fetchRequest.predicate = predicate
+                fetchRequest.resultType = .managedObjectIDResultType
+                let objectIDs = try context.fetch(fetchRequest)
                 var estimated: Int64 = 1000
-                for visit in searchResults {
-                    estimated += Int64(visit.holyPlace?.count ?? 0) * 2
-                    estimated += Int64(visit.comments?.count ?? 0) * 2
-                    estimated += 200
-                    if includePhotos, let pictureData = visit.picture {
-                        let jpegBytes = VisitPhotoCompression.encodedData(from: pictureData)?.count ?? pictureData.count
-                        estimated += Int64((jpegBytes + 2) / 3 * 4) + 40
+                for objectID in objectIDs {
+                    autoreleasepool {
+                        guard let object = try? context.existingObject(with: objectID) else { return }
+                        defer { context.refresh(object, mergeChanges: false) }
+                        guard let visit = object as? Visit else { return }
+                        estimated += Int64(visit.holyPlace?.count ?? 0) * 2
+                        estimated += Int64(visit.comments?.count ?? 0) * 2
+                        estimated += 200
+                        if includePhotos, let pictureData = visit.picture {
+                            let jpegBytes = min(pictureData.count, VisitPhotoCompression.maxBytes)
+                            estimated += Int64((jpegBytes + 2) / 3 * 4) + 40
+                        }
                     }
                 }
                 return estimated
@@ -1797,109 +1844,147 @@ final class VisitBackupController: NSObject, ObservableObject, XMLParserDelegate
         }
     }
 
-    private func buildExport(type: String) {
-        let fetchRequest: NSFetchRequest<Visit> = Visit.fetchRequest()
-        fetchRequest.predicate = ProfileManager.shared.visitProfilePredicate()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
-        let profileLabel = profilesEnabled ? " (\(ProfileManager.shared.activeProfileName()))" : ""
-        if type == "txt" {
-            exportText = "My Holy Places Visits\(profileLabel)\n Exported on \(displayDateFormatter.string(from: Date()))\n"
-        } else {
-            let exportStamp = ISO8601DateFormatter().string(from: Date())
-            exportText = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(exportStamp)</ExportDate>"
-            if profilesEnabled {
-                exportText.append("<Profile>\(xmlEscape(ProfileManager.shared.activeProfileName()))</Profile>")
+    private func writeExportFile(
+        type: String,
+        fileName: String,
+        predicate: NSPredicate?,
+        profileName: String,
+        profilesOn: Bool,
+        includePhotos: Bool
+    ) throws -> WrittenExport {
+        let filePath = (NSTemporaryDirectory() as NSString).appendingPathComponent("\(fileName).\(type)")
+        guard FileManager.default.createFile(atPath: filePath, contents: nil) else {
+            throw CocoaError(.fileWriteUnknown)
+        }
+        let url = URL(fileURLWithPath: filePath)
+        let handle = try FileHandle(forWritingTo: url)
+        var succeeded = false
+        defer {
+            try? handle.close()
+            if !succeeded {
+                try? FileManager.default.removeItem(at: url)
             }
         }
-        do {
-            let searchResults = try ad.persistentContainer.viewContext.fetch(fetchRequest)
-            exportCount = searchResults.count
-            switch type {
-            case "txt":
-                exportText.append(" Total Number of Visits: \(exportCount)\n\n")
-            case "csv":
-                exportText = "holyPlace,type,dateVisited,comments,hoursWorked,sealings,endowments,initiatories,confirmations,baptisms,isFavorite\n"
-            default:
-                exportText.append("<TotalVisits>\(searchResults.count)</TotalVisits><Visits>")
+
+        let context = ad.persistentContainer.newBackgroundContext()
+        let counts = try context.performAndWait { () throws -> (visitCount: Int, photoCount: Int) in
+            let displayDates = DateFormatter()
+            displayDates.dateStyle = .full
+            displayDates.timeStyle = .none
+            let csvDates = DateFormatter()
+            csvDates.dateStyle = .short
+            let xmlDates = DateFormatter()
+            xmlDates.locale = Locale(identifier: "en_US_POSIX")
+            xmlDates.calendar = Calendar(identifier: .gregorian)
+            xmlDates.dateFormat = "yyyy-MM-dd"
+
+            let fetchRequest = NSFetchRequest<NSManagedObjectID>(entityName: "Visit")
+            fetchRequest.predicate = predicate
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateVisited", ascending: true)]
+            fetchRequest.resultType = .managedObjectIDResultType
+            let objectIDs = try context.fetch(fetchRequest)
+            let visitCount = objectIDs.count
+            var photoCount = 0
+
+            func write(_ string: String) throws {
+                guard let data = string.data(using: .utf8) else { return }
+                try handle.write(contentsOf: data)
             }
-            for visit in searchResults {
-                guard let placeName = visit.holyPlace, let visited = visit.dateVisited else { continue }
-                let commentsText = visit.comments ?? ""
-                switch type {
-                case "txt":
-                    exportText.append("\(placeName)\n")
-                    exportText.append("\(displayDateFormatter.string(from: visited))\n")
-                    exportText.append(commentsText)
-                    if visit.isFavorite {
-                        exportText.append("\n⭐️ Favorite Visit")
-                    }
-                case "csv":
-                    let dateFormatter2 = DateFormatter()
-                    dateFormatter2.dateStyle = .short
-                    let escapedComments = commentsText.replacingOccurrences(of: "\"", with: "\"\"")
-                    exportText.append("\(placeName),\(visit.type ?? ""),\(dateFormatter2.string(from: visited)),\"\(escapedComments)\"")
-                default:
-                    exportText.append("<Visit><holyPlace>\(xmlEscape(placeName))</holyPlace>")
-                    exportText.append("<type>\(xmlEscape(visit.type ?? ""))</type>")
-                    exportText.append("<dateVisited>\(xmlDateFormatter.string(from: visited))</dateVisited>")
-                    exportText.append("<comments>\(xmlCDATA(commentsText))</comments>")
-                    exportText.append("<isFavorite>\(visit.isFavorite)</isFavorite>")
-                    if includePhotos, let pictureData = visit.picture {
-                        if let exportData = VisitPhotoCompression.encodedData(from: pictureData) {
-                            print("🔍 Export: Photo \(pictureData.count) → \(exportData.count) bytes for \(visit.holyPlace!)")
-                            exportText.append("<picture><![CDATA[\(exportData.base64EncodedString())]]></picture>")
-                        } else {
-                            print("❌ Export: Picture data is not a valid image - omitting photo for \(visit.holyPlace!)")
-                            exportText.append("<picture></picture>")
-                        }
-                    } else {
-                        exportText.append("<picture></picture>")
-                    }
+
+            let profileLabel = profilesOn ? " (\(profileName))" : ""
+            if type == "txt" {
+                try write("My Holy Places Visits\(profileLabel)\n Exported on \(displayDates.string(from: Date()))\n")
+                try write(" Total Number of Visits: \(visitCount)\n\n")
+            } else if type == "csv" {
+                try write("holyPlace,type,dateVisited,comments,hoursWorked,sealings,endowments,initiatories,confirmations,baptisms,isFavorite\n")
+            } else {
+                let exportStamp = ISO8601DateFormatter().string(from: Date())
+                var header = "<?xml version=\"1.0\" encoding=\"utf-8\"?><Document><ExportDate>\(exportStamp)</ExportDate>"
+                if profilesOn {
+                    header += "<Profile>\(xmlEscape(profileName))</Profile>"
                 }
-                if visit.type == "T" {
+                header += "<TotalVisits>\(visitCount)</TotalVisits><Visits>"
+                try write(header)
+            }
+
+            for objectID in objectIDs {
+                try autoreleasepool {
+                    let object = try context.existingObject(with: objectID)
+                    defer { context.refresh(object, mergeChanges: false) }
+                    guard let visit = object as? Visit else { return }
+                    guard let placeName = visit.holyPlace, let visited = visit.dateVisited else { return }
+                    let commentsText = visit.comments ?? ""
+                    var chunk = ""
                     switch type {
                     case "txt":
-                        if visit.shiftHrs > 0 { exportText.append("\n Hours Worked: \(visit.shiftHrs)") }
-                        if visit.sealings > 0 { exportText.append("\n Sealings: \(visit.sealings)") }
-                        if visit.endowments > 0 { exportText.append("\n Endowments: \(visit.endowments)") }
-                        if visit.initiatories > 0 { exportText.append("\n Initiatories: \(visit.initiatories)") }
-                        if visit.confirmations > 0 { exportText.append("\n Confirmations: \(visit.confirmations)") }
-                        if visit.baptisms > 0 { exportText.append("\n Baptisms: \(visit.baptisms)") }
+                        chunk += "\(placeName)\n"
+                        chunk += "\(displayDates.string(from: visited))\n"
+                        chunk += commentsText
+                        if visit.isFavorite {
+                            chunk += "\n⭐️ Favorite Visit"
+                        }
                     case "csv":
-                        exportText.append(",\(visit.shiftHrs),\(visit.sealings),\(visit.endowments),\(visit.initiatories),\(visit.confirmations),\(visit.baptisms)")
+                        let escapedComments = commentsText.replacingOccurrences(of: "\"", with: "\"\"")
+                        chunk += "\(placeName),\(visit.type ?? ""),\(csvDates.string(from: visited)),\"\(escapedComments)\""
                     default:
-                        exportText.append("<hoursWorked>\(visit.shiftHrs)</hoursWorked>")
-                        exportText.append("<sealings>\(visit.sealings)</sealings>")
-                        exportText.append("<endowments>\(visit.endowments)</endowments>")
-                        exportText.append("<initiatories>\(visit.initiatories)</initiatories>")
-                        exportText.append("<confirmations>\(visit.confirmations)</confirmations>")
-                        exportText.append("<baptisms>\(visit.baptisms)</baptisms>")
+                        chunk += "<Visit><holyPlace>\(xmlEscape(placeName))</holyPlace>"
+                        chunk += "<type>\(xmlEscape(visit.type ?? ""))</type>"
+                        chunk += "<dateVisited>\(xmlDates.string(from: visited))</dateVisited>"
+                        chunk += "<comments>\(xmlCDATA(commentsText))</comments>"
+                        chunk += "<isFavorite>\(visit.isFavorite)</isFavorite>"
+                        if includePhotos, let pictureData = visit.picture {
+                            photoCount += 1
+                            if let exportData = VisitPhotoCompression.encodedData(from: pictureData) {
+                                print("🔍 Export: Photo \(pictureData.count) → \(exportData.count) bytes for \(placeName)")
+                                chunk += "<picture><![CDATA[\(exportData.base64EncodedString())]]></picture>"
+                            } else {
+                                print("❌ Export: Picture data is not a valid image - omitting photo for \(placeName)")
+                                chunk += "<picture></picture>"
+                            }
+                        } else {
+                            chunk += "<picture></picture>"
+                        }
                     }
-                }
-                switch type {
-                case "txt":
-                    exportText.append("\n\n")
-                case "csv":
-                    exportText.append(",\(visit.isFavorite)\n")
-                default:
-                    exportText.append("</Visit>")
+                    if visit.type == "T" {
+                        switch type {
+                        case "txt":
+                            if visit.shiftHrs > 0 { chunk += "\n Hours Worked: \(visit.shiftHrs)" }
+                            if visit.sealings > 0 { chunk += "\n Sealings: \(visit.sealings)" }
+                            if visit.endowments > 0 { chunk += "\n Endowments: \(visit.endowments)" }
+                            if visit.initiatories > 0 { chunk += "\n Initiatories: \(visit.initiatories)" }
+                            if visit.confirmations > 0 { chunk += "\n Confirmations: \(visit.confirmations)" }
+                            if visit.baptisms > 0 { chunk += "\n Baptisms: \(visit.baptisms)" }
+                        case "csv":
+                            chunk += ",\(visit.shiftHrs),\(visit.sealings),\(visit.endowments),\(visit.initiatories),\(visit.confirmations),\(visit.baptisms)"
+                        default:
+                            chunk += "<hoursWorked>\(visit.shiftHrs)</hoursWorked>"
+                            chunk += "<sealings>\(visit.sealings)</sealings>"
+                            chunk += "<endowments>\(visit.endowments)</endowments>"
+                            chunk += "<initiatories>\(visit.initiatories)</initiatories>"
+                            chunk += "<confirmations>\(visit.confirmations)</confirmations>"
+                            chunk += "<baptisms>\(visit.baptisms)</baptisms>"
+                        }
+                    }
+                    switch type {
+                    case "txt":
+                        chunk += "\n\n"
+                    case "csv":
+                        chunk += ",\(visit.isFavorite)\n"
+                    default:
+                        chunk += "</Visit>"
+                    }
+                    try write(chunk)
                 }
             }
+
             if type == "xml" {
-                exportText.append("</Visits></Document>")
+                try write("</Visits></Document>")
             }
-            if type == "xml" && includePhotos {
-                let photoCount = searchResults.filter { $0.picture != nil }.count
-                statusMessage = "Exported \(exportCount) visits with \(photoCount) photos to \(type) file."
-            } else {
-                statusMessage = "Exported \(exportCount) visits to \(type) file."
-            }
-            statusUsesPlaceColor = true
-            ad.needsVisitRefresh = true
-            ad.getVisits()
-        } catch {
-            print("Error with request: \(error)")
+            return (visitCount, photoCount)
         }
+
+        succeeded = true
+        return WrittenExport(url: url, visitCount: counts.visitCount, photoCount: counts.photoCount)
     }
 
     private func saveImportedVisit() {

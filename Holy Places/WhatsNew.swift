@@ -17,6 +17,10 @@ enum WhatsNew {
             - Compact Lists in Settings tightens the text and row spacing on Places, Visits, and Achievements
             - Reduced the size of the font on the Place Details screen and rounded the corners of the place photo
             - Achievements opens on In Progress until you have earned one
+            - Siri accepts a shorter place name, and asks when you visited so a past date can be recorded
+
+            Bug Fixes:
+            - Export no longer crashes when many visits have photos attached
             """,
         "6.0": """
             This is the biggest update to Holy Places yet. Home, Places, Visits, the map, Record Visit, visit details, Achievements, and Profiles have all been rebuilt from the ground up, and with iOS 27 you can record visits and more just by asking Siri.

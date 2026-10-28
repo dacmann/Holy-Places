@@ -502,9 +502,13 @@ struct MapTabView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
 
-            if timelineVisible, timelineDate != nil {
-                timelineChrome
+            VStack(alignment: .leading, spacing: 8) {
+                mapControls
+                if timelineVisible, timelineDate != nil {
+                    timelineChrome
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             if basemapUnavailable {
                 BasemapFallbackCaption()
@@ -512,24 +516,8 @@ struct MapTabView: View {
                     .allowsHitTesting(false)
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Timeline", action: toggleTimeline)
-                    .font(.custom("Baskerville", size: 17))
-            }
-            ToolbarItem(placement: .principal) {
-                BaskervilleSegments(titles: ["Standard", "Aerial"], selection: $mapStyle, tint: nil)
-                    .frame(width: 200, height: 32)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                if !timelineVisible {
-                    Button("Filters") { showFilters = true }
-                        .font(.custom("Baskerville", size: 17))
-                }
-            }
-        }
-        .toolbarBackground(.hidden, for: .navigationBar)
+        .navigationBarHidden(true)
+        .clearMapHeader()
         .sheet(isPresented: $showFilters) {
             MapFiltersSheet(filterRow: filterRow, visitedFilter: visitedFilter) { row, visited in
                 filterRow = row
@@ -542,6 +530,23 @@ struct MapTabView: View {
             .presentationDragIndicator(.visible)
             .presentationCornerRadius(20)
         }
+    }
+
+    private var mapControls: some View {
+        ZStack {
+            BaskervilleSegments(titles: ["Standard", "Aerial"], selection: $mapStyle, tint: nil)
+                .frame(width: 200, height: 32)
+            HStack {
+                MapGlassButton(title: "Timeline", action: toggleTimeline)
+                Spacer()
+                if !timelineVisible {
+                    MapGlassButton(title: "Filters") { showFilters = true }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
     }
 
     private var timelineChrome: some View {
@@ -560,7 +565,6 @@ struct MapTabView: View {
                 year: year
             )
         }
-        .padding(.top, 8)
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -792,18 +796,254 @@ struct MapFocusCover: View {
                         .allowsHitTesting(false)
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close", action: onDismiss)
-                        .font(.custom("Baskerville", size: 17))
-                }
-                ToolbarItem(placement: .principal) {
+            .overlay(alignment: .top) {
+                ZStack {
                     BaskervilleSegments(titles: ["Standard", "Aerial"], selection: $mapStyle, tint: nil)
                         .frame(width: 200, height: 32)
+                    HStack {
+                        MapGlassButton(title: "Close", action: onDismiss)
+                        Spacer()
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+            }
+            .navigationBarHidden(true)
+            .clearMapHeader()
+        }
+    }
+}
+
+private extension View {
+    /// The map draws under the header. Keep the buttons and drop the blur behind them.
+    func clearMapHeader() -> some View {
+        modifier(MapHeaderClearer())
+    }
+}
+
+private struct MapGlassButton: View {
+    let title: String
+    let action: () -> Void
+
+    var body: some View {
+        if #available(iOS 26.0, *) {
+            Button(title, action: action)
+                .font(.custom("Baskerville", size: 17))
+                .buttonStyle(.glass)
+        } else {
+            Button(title, action: action)
+                .font(.custom("Baskerville", size: 17))
+        }
+    }
+}
+
+private struct MapHeaderClearer: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .scrollEdgeEffectHidden(true, for: .top)
+                .background { MapNavigationBarClearer() }
+        } else {
+            content.background { MapNavigationBarClearer() }
+        }
+    }
+}
+
+private struct MapNavigationBarClearer: UIViewRepresentable {
+    func makeUIView(context: Context) -> Anchor {
+        Anchor()
+    }
+
+    func updateUIView(_ uiView: Anchor, context: Context) {
+        uiView.strip()
+    }
+
+    final class Anchor: UIView {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            isUserInteractionEnabled = false
+            backgroundColor = .clear
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            strip()
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            strip()
+        }
+
+        func strip() {
+            guard let navigation = enclosingNavigationController else { return }
+            navigation.setNavigationBarHidden(true, animated: false)
+            removeHeaderBlur(from: navigation)
+        }
+
+        /// The full-width frost is the scroll pocket behind the top bars. The corner
+        /// buttons and the tab pill sit in front of it and stay visible.
+        private func removeHeaderBlur(from navigation: UINavigationController) {
+            let root = navigation.view.window ?? navigation.view!
+            guard root.bounds.width > 1 else { return }
+            let windows: [UIView] = navigation.view.window?.windowScene?.windows ?? [root]
+            for window in windows {
+                hideScrollPockets(in: window, root: root)
+                if #available(iOS 26.0, *) {
+                    hideScrollEdgeEffects(in: window)
                 }
             }
-            .toolbarBackground(.hidden, for: .navigationBar)
+            let navBottom = navigation.navigationBar.convert(navigation.navigationBar.bounds, to: root).maxY
+            let tabBottom = navigation.tabBarController?.tabBar.convert(
+                navigation.tabBarController?.tabBar.bounds ?? .zero, to: root
+            ).maxY ?? 0
+            let headerBottom = max(navBottom, tabBottom, 120) + 72
+            hideWidePlates(in: root, headerBottom: headerBottom)
+        }
+
+        /// Hides only the wide frost. Narrow pocket views draw the corner button titles.
+        private func hideScrollPockets(in view: UIView, root: UIView) {
+            let described = String(describing: type(of: view))
+            if described.contains("MKMap") || described.contains("MapView") || view is UIControl { return }
+            let name = described + " " + NSStringFromClass(type(of: view))
+            if isScrollPocket(name) {
+                let frame = view.convert(view.bounds, to: root)
+                let wide = frame.width > root.bounds.width * 0.65
+                let atTop = frame.minY < 280
+                if wide, atTop, !containsMap(view) {
+                    fadeBackdropLayers(of: view)
+                    if !containsTabBar(view) {
+                        hidePlate(view)
+                        return
+                    }
+                }
+            }
+            for subview in view.subviews {
+                hideScrollPockets(in: subview, root: root)
+            }
+        }
+
+        private func fadeBackdropLayers(of view: UIView) {
+            for layer in view.layer.sublayers ?? [] {
+                let name = String(describing: type(of: layer))
+                if name.contains("Backdrop") || name.contains("Pocket") {
+                    layer.opacity = 0
+                }
+            }
+        }
+
+        private func isScrollPocket(_ name: String) -> Bool {
+            name.contains("ScrollPocket") || name.contains("PocketBlur") || name.contains("PocketMask")
+                || name.contains("TopCurtain") || name.contains("Backdrop")
+        }
+
+        private func hideScrollEdgeEffects(in view: UIView) {
+            guard #available(iOS 26.0, *) else { return }
+            if let scroll = view as? UIScrollView {
+                scroll.topEdgeEffect.isHidden = true
+            }
+            let name = String(describing: type(of: view))
+            if name.contains("MKMap") || name.contains("MapView") { return }
+            for subview in view.subviews {
+                hideScrollEdgeEffects(in: subview)
+            }
+        }
+
+        private func hideWidePlates(in root: UIView, headerBottom: CGFloat) {
+            func walk(_ view: UIView) {
+                let name = String(describing: type(of: view))
+                if name.contains("MKMap") || name.contains("MapView") { return }
+                let frame = view.convert(view.bounds, to: root)
+                let wide = frame.width > root.bounds.width * 0.7
+                let inBand = frame.minY < 160 && frame.height > 8 && frame.height < 360 && frame.maxY < headerBottom + 48
+                let keepsControls = name.contains("Content") || name.contains("Button") || view is UINavigationBar || view is UITabBar
+                if wide, inBand, view !== root, !keepsControls, looksLikeBlur(view) {
+                    if containsControl(view) {
+                        stripBackdrop(view)
+                    } else {
+                        hidePlate(view)
+                    }
+                }
+                view.subviews.forEach(walk)
+            }
+            walk(root)
+        }
+
+        private func looksLikeBlur(_ view: UIView) -> Bool {
+            let name = String(describing: type(of: view))
+            if name.contains("ScrollEdge") || name.contains("BarBackground") || name.contains("Backdrop")
+                || name.contains("Blur") || name.contains("Glass") || name.contains("Material") {
+                return true
+            }
+            if view is UIVisualEffectView { return true }
+            let layerName = String(describing: type(of: view.layer))
+            if layerName.contains("Backdrop") || layerName.contains("Blur") { return true }
+            for layer in view.layer.sublayers ?? [] {
+                let subName = String(describing: type(of: layer))
+                if subName.contains("Backdrop") || subName.contains("Blur") { return true }
+            }
+            return false
+        }
+
+        private func stripBackdrop(_ view: UIView) {
+            if let effectView = view as? UIVisualEffectView {
+                effectView.effect = nil
+                effectView.backgroundColor = .clear
+            }
+            for subview in view.subviews where subview !== (view as? UIVisualEffectView)?.contentView && !containsControl(subview) {
+                let name = String(describing: type(of: subview))
+                if name.contains("Backdrop") || name.contains("ScrollEdge") || name.contains("BarBackground")
+                    || name.contains("Blur") || name.contains("Glass") || name.contains("Filter") {
+                    subview.alpha = 0
+                    subview.isUserInteractionEnabled = false
+                }
+            }
+        }
+
+        private func containsTabBar(_ view: UIView) -> Bool {
+            if view is UITabBar { return true }
+            let name = String(describing: type(of: view))
+            if name.contains("MKMap") || name.contains("MapView") { return false }
+            for subview in view.subviews where containsTabBar(subview) { return true }
+            return false
+        }
+
+        private func containsMap(_ view: UIView) -> Bool {
+            let name = String(describing: type(of: view))
+            if name.contains("MKMap") || name.contains("MapView") { return true }
+            for subview in view.subviews where containsMap(subview) { return true }
+            return false
+        }
+
+        private func containsControl(_ view: UIView) -> Bool {
+            if view is UIControl || view is UILabel { return true }
+            let name = String(describing: type(of: view))
+            if name.contains("MKMap") || name.contains("MapView") { return false }
+            for subview in view.subviews where containsControl(subview) { return true }
+            return false
+        }
+
+        private func hidePlate(_ view: UIView) {
+            if let effectView = view as? UIVisualEffectView {
+                effectView.effect = nil
+                effectView.backgroundColor = .clear
+            }
+            view.alpha = 0
+            view.isUserInteractionEnabled = false
+        }
+
+        private var enclosingNavigationController: UINavigationController? {
+            var responder: UIResponder? = self
+            while let next = responder?.next {
+                if let navigation = next as? UINavigationController { return navigation }
+                responder = next
+            }
+            return nil
         }
     }
 }
@@ -977,8 +1217,9 @@ private struct BaskervilleSegments: UIViewRepresentable {
     func makeUIView(context: Context) -> UISegmentedControl {
         let control = UISegmentedControl(items: titles)
         control.selectedSegmentIndex = selection
-        let font = UIFont(name: "Baskerville", size: 14) ?? .systemFont(ofSize: 14)
+        let font = UIFont(name: "Baskerville", size: 17) ?? .systemFont(ofSize: 17)
         control.setTitleTextAttributes([.font: font], for: .normal)
+        control.setTitleTextAttributes([.font: font], for: .selected)
         if let tint {
             control.selectedSegmentTintColor = tint
         }
